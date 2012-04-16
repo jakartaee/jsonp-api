@@ -40,6 +40,8 @@
 
 package javax.json;
 
+import org.glassfish.json.JsonWriterImpl;
+
 import java.io.Closeable;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -62,7 +64,7 @@ import java.io.Writer;
  */
 public class JsonWriter implements /*Auto*/Closeable {
 
-    private final Writer writer;
+    private final JsonWriterImpl impl;
 
     /**
      * Creates a JSON writer which can be used to write a JSON
@@ -71,7 +73,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param writer to which JSON object or array is written
      */
     public JsonWriter(Writer writer) {
-        this.writer = writer;
+        impl = new JsonWriterImpl(writer);
     }
 
     /**
@@ -84,6 +86,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      *     method is already called
      */
     public void writeArray(JsonArray value) {
+        impl.writeArray(value);
     }
 
     /**
@@ -96,6 +99,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      *     method is already called
      */
     public void writeObject(JsonObject value) {
+        impl.writeObject(value);
     }
 
     /**
@@ -104,6 +108,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      */
     @Override
     public void close() {
+        impl.close();
     }
 
     private void test() throws Exception {

@@ -38,80 +38,26 @@
  * holder.
  */
 
-package javax.json;
+package org.glassfish.json;
 
-import org.glassfish.json.JsonReaderImpl;
-
-import java.io.Closeable;
 import java.io.Reader;
-import java.io.StringReader;
+import javax.json.JsonValue;
 
 /**
- * A JSON reader.
- *
- * <p>
- * This reader reads a JSON object or array from the stream. For example:
- *
- * <code>
- * <pre>
- * An empty JSON array can be created as follows:
- *
- * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
- * JsonValue value = jsonReader.readObject();
- * jsonReader.close();
- * </pre>
- * </code>
- *
  * @author Jitendra Kotamraju
  */
-public class JsonReader implements /*Auto*/Closeable {
+public class JsonReaderImpl {
+    private final Reader reader;
 
-    private final JsonReaderImpl impl;
-
-    /**
-     * Creates a JSON reader from a character stream
-     *
-     * @param reader a reader from which JSON is to be read
-     * @return a JSON reader
-     */
-    public JsonReader(Reader reader) {
-        impl = new JsonReaderImpl(reader);
+    public JsonReaderImpl(Reader reader) {
+        this.reader = reader;
     }
 
-    /**
-     * Returns a JSON array or object that is represented in
-     * the character stream. This method needs to be called
-     * only once for a reader instance.
-     *
-     * @return a {@link JsonArray} or {@code JsonObject}
-     * @throws JsonException if a JsonObject or JsonArray cannot
-     *     be created due to i/o error or incorrect representation
-     * @throws IllegalStateException if this method or close method is
-     *     already called
-     */
     public JsonValue readObject() {
-        return impl.readObject();
+        return null;
     }
 
-    /**
-     * Closes this reader and frees any resources associated with the
-     * reader. This doesn't close the underlying input source.
-     */
-    @Override
     public void close() {
-        impl.close();
-    }
 
-    private void test() {
-        JsonReader jsonReader = new JsonReader(new StringReader("[]"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
     }
-
-    private void test1() {
-        JsonReader jsonReader = new JsonReader(new StringReader("{}"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
-    }
-
 }

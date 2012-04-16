@@ -38,80 +38,44 @@
  * holder.
  */
 
-package javax.json;
+package org.glassfish.json;
 
-import org.glassfish.json.JsonReaderImpl;
-
-import java.io.Closeable;
+import javax.json.JsonArray;
+import javax.json.JsonNumber;
+import javax.json.JsonObject;
+import javax.json.stream.JsonParser;
 import java.io.Reader;
-import java.io.StringReader;
+import java.util.Iterator;
 
 /**
- * A JSON reader.
- *
- * <p>
- * This reader reads a JSON object or array from the stream. For example:
- *
- * <code>
- * <pre>
- * An empty JSON array can be created as follows:
- *
- * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
- * JsonValue value = jsonReader.readObject();
- * jsonReader.close();
- * </pre>
- * </code>
- *
  * @author Jitendra Kotamraju
  */
-public class JsonReader implements /*Auto*/Closeable {
-
-    private final JsonReaderImpl impl;
-
-    /**
-     * Creates a JSON reader from a character stream
-     *
-     * @param reader a reader from which JSON is to be read
-     * @return a JSON reader
-     */
-    public JsonReader(Reader reader) {
-        impl = new JsonReaderImpl(reader);
+public class JsonParserImpl {
+    public JsonParserImpl(Reader reader) {
     }
 
-    /**
-     * Returns a JSON array or object that is represented in
-     * the character stream. This method needs to be called
-     * only once for a reader instance.
-     *
-     * @return a {@link JsonArray} or {@code JsonObject}
-     * @throws JsonException if a JsonObject or JsonArray cannot
-     *     be created due to i/o error or incorrect representation
-     * @throws IllegalStateException if this method or close method is
-     *     already called
-     */
-    public JsonValue readObject() {
-        return impl.readObject();
+    public JsonParserImpl(JsonArray array) {
     }
 
-    /**
-     * Closes this reader and frees any resources associated with the
-     * reader. This doesn't close the underlying input source.
-     */
-    @Override
+    public JsonParserImpl(JsonObject object) {
+    }
+
+    public String getString() {
+        return null;
+    }
+
+    public JsonNumber.JsonNumberType getNumberType() {
+        return null;
+    }
+
+    public JsonNumber getNumber() {
+        return null;
+    }
+
+    public Iterator<JsonParser.Event> iterator() {
+        return null;
+    }
+
     public void close() {
-        impl.close();
     }
-
-    private void test() {
-        JsonReader jsonReader = new JsonReader(new StringReader("[]"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
-    }
-
-    private void test1() {
-        JsonReader jsonReader = new JsonReader(new StringReader("{}"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
-    }
-
 }

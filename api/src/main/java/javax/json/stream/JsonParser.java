@@ -40,6 +40,9 @@
 
 package javax.json.stream;
 
+import org.glassfish.json.JsonObjectImpl;
+import org.glassfish.json.JsonParserImpl;
+
 import javax.json.JsonArray;
 import javax.json.JsonBuilder;
 import javax.json.JsonNumber;
@@ -114,6 +117,7 @@ import java.util.Iterator;
  * @author Jitendra Kotamraju
  */
 public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable {
+    private final JsonParserImpl impl;
 
     /**
      * Event for parser state while parsing the JSON
@@ -176,7 +180,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @param reader a i/o reader from which JSON is to be read
      */
     public JsonParser(Reader reader) {
-
+        impl = new JsonParserImpl(reader);
     }
 
     /**
@@ -185,6 +189,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @param array a JSON array
      */
     public JsonParser(JsonArray array) {
+        impl = new JsonParserImpl(array);
     }
 
     /**
@@ -193,6 +198,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @param object a JSON object
      */
     public JsonParser(JsonObject object) {
+        impl = new JsonParserImpl(object);
     }
 
     /**
@@ -204,7 +210,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      *      KEY_NAME or VALUE_STRING
      */
     public String getString() {
-        return null;
+        return impl.getString();
     }
 
     /**
@@ -216,7 +222,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      *      VALUE_NUMBER
      */
     public JsonNumber.JsonNumberType getNumberType() {
-        return null;
+        return impl.getNumberType();
     }
 
     /**
@@ -231,12 +237,12 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      *      VALUE_NUMBER
      */
     public JsonNumber getNumber() {
-        return null;
+        return impl.getNumber();
     }
 
     @Override
     public Iterator<Event> iterator() {
-        return null;
+        return impl.iterator();
     }
 
     /**
@@ -245,6 +251,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      */
     @Override
     public void close() {
+        impl.close();
     }
 
     private void test() throws Exception {

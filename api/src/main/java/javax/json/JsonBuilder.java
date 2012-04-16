@@ -40,6 +40,8 @@
 
 package javax.json;
 
+import org.glassfish.json.JsonBuilderImpl;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -95,6 +97,8 @@ import java.util.Set;
  */
 public class JsonBuilder {
 
+    private final JsonBuilderImpl impl;
+
     /**
      * Build task that gives the result of the build process
      */
@@ -107,13 +111,17 @@ public class JsonBuilder {
         public T build();
     }
 
+    public JsonBuilder() {
+        impl = new JsonBuilderImpl();
+    }
+
     /**
      * Start building a JSON object
      *
      * @return an object builder
      */
     public JsonObjectBuilder<JsonBuildable<JsonObject>> beginObject() {
-        return null;
+        return impl.beginObject();
     }
 
     /**
@@ -122,7 +130,7 @@ public class JsonBuilder {
      * @return an array builder
      */
     public JsonArrayBuilder<JsonBuildable<JsonArray>> beginArray() {
-        return null;
+        return impl.beginArray();
     }
 
     private void testObject() {
