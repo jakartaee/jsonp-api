@@ -49,6 +49,26 @@ import java.math.BigInteger;
  */
 public final class JsonNumberImpl implements JsonNumber {
 
+    public JsonNumberImpl(int value) {
+
+    }
+
+    public JsonNumberImpl(long value) {
+
+    }
+
+    public JsonNumberImpl(BigInteger value) {
+
+    }
+
+    public JsonNumberImpl(double value) {
+
+    }
+
+    public JsonNumberImpl(BigDecimal value) {
+
+    }
+
     @Override
     public JsonNumberType getNumberType() {
         return null;

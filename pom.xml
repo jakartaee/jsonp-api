@@ -98,5 +98,6 @@
     </build>
     <modules>
         <module>api</module>
+        <module>tests</module>
     </modules>
 </project>

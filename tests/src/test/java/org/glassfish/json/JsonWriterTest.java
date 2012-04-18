@@ -40,45 +40,37 @@
 
 package org.glassfish.json;
 
+import javax.json.JsonWriter;
+import javax.json.JsonBuilder;
+import java.io.StringWriter;
 
-import javax.json.JsonArray;
-import javax.json.JsonException;
-import javax.json.JsonValue;
-import java.util.*;
+import junit.framework.TestCase;
 
 /**
- *  
  * @author Jitendra Kotamraju
  */
-public final class JsonArrayImpl implements JsonArray {
-    final List<JsonValue> valueList;
-
-    JsonArrayImpl() {
-        this.valueList = new ArrayList<JsonValue>();
+public class JsonWriterTest extends TestCase {
+    public JsonWriterTest(String testName) {
+        super(testName);
     }
 
-    @Override
-    public Iterator<JsonValue> iterator() {
-        return valueList.iterator();
+    public void testObject() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter.writeObject(new JsonBuilder().beginObject().endObject().build());
+        jsonWriter.close();
+        writer.close();
+        
+        assertEquals("{}", writer.toString());
     }
 
-    @Override
-    public List<JsonValue> getValues() {
-        return valueList;
-    }
+    public void testArray() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter.writeArray(new JsonBuilder().beginArray().endArray().build());
+        jsonWriter.close();
+        writer.close();
 
-    @Override
-    public JsonValue getValue(int index) {
-        return valueList.get(index);
-    }
-
-    @Override
-    public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-        return null;
-    }
-
-    @Override
-    public JsonValueType getValueType() {
-        return JsonValueType.ARRAY;
+        assertEquals("[]", writer.toString());
     }
 }

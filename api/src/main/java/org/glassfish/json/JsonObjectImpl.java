@@ -40,37 +40,35 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
  * @author Jitendra Kotamraju
  */
 public final class JsonObjectImpl implements JsonObject {
-    private final Map<String, JsonValue> nameValueMap = new LinkedHashMap<String, JsonValue>();
+    final Map<String, JsonValue> valueMap = new LinkedHashMap<String, JsonValue>();
 
+    @Override
     public JsonValue getValue(String name) {
-        return nameValueMap.get(name);
+        return valueMap.get(name);
     }
 
     @Override
     public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-        return null;
+        return (T)valueMap.get(name);
     }
 
+    @Override
     public Set<String> getNames() {
-        return nameValueMap.keySet();
+        return valueMap.keySet();
     }
 
     @Override
     public Map<String, JsonValue> getValues() {
-        return null;
+        return Collections.unmodifiableMap(valueMap);
     }
     
     @Override

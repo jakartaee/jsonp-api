@@ -41,16 +41,212 @@
 package org.glassfish.json;
 
 import javax.json.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
  */
 public class JsonBuilderImpl {
+    
     public JsonObjectBuilder<JsonBuilder.JsonBuildable<JsonObject>> beginObject() {
-        return null;
+        final JsonObjectImpl objectImpl = new JsonObjectImpl();
+        JsonBuilder.JsonBuildable<JsonObject> enclosing = new JsonBuilder.JsonBuildable<JsonObject>() {
+            @Override
+            public JsonObject build() {
+                return objectImpl;
+            }
+        };
+        return new JsonObjectBuilderImpl<JsonBuilder.JsonBuildable<JsonObject>>(enclosing, objectImpl.valueMap);
     }
 
     public JsonArrayBuilder<JsonBuilder.JsonBuildable<JsonArray>> beginArray() {
-        return null;
+        final JsonArrayImpl arrayImpl = new JsonArrayImpl();                
+        JsonBuilder.JsonBuildable<JsonArray> enclosing = new JsonBuilder.JsonBuildable<JsonArray>() {
+            @Override
+            public JsonArray build() {
+                return arrayImpl;
+            }
+        };
+        return new JsonArrayBuilderImpl<JsonBuilder.JsonBuildable<JsonArray>>(enclosing, arrayImpl.valueList);
+    }
+
+    private static class JsonObjectBuilderImpl<T> implements JsonObjectBuilder<T> {
+        private final T enclosing;
+        private Map<String, JsonValue> valueMap;
+        
+        JsonObjectBuilderImpl(T enclosing, Map<String, JsonValue> valueMap) {
+            this.enclosing = enclosing;
+            this.valueMap = valueMap;
+        }
+
+        @Override
+        public T endObject() {
+            return enclosing;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, JsonValue value) {
+            valueMap.put(name, value);
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, String value) {
+            valueMap.put(name, new JsonStringImpl(value));
+            return this;  
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, BigInteger value) {
+            valueMap.put(name, new JsonNumberImpl(value));
+            return this;
+
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, BigDecimal value) {
+            valueMap.put(name, new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, int value) {
+            valueMap.put(name, new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, long value) {
+            valueMap.put(name, new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, double value) {
+            valueMap.put(name, new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> add(String name, boolean value) {
+            valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<T> addArray(String name, Iterable<JsonValue> values) {
+            return null;  
+        }
+
+        @Override
+        public JsonObjectBuilder<T> addNull(String name) {
+            valueMap.put(name, JsonValue.NULL);
+            return this;
+        }
+
+        @Override
+        public JsonObjectBuilder<JsonObjectBuilder<T>> beginObject(String name) {
+            JsonObjectImpl child = new JsonObjectImpl();
+            valueMap.put(name, child);
+            return new JsonObjectBuilderImpl<JsonObjectBuilder<T>>(this, child.valueMap);
+        }
+
+        @Override
+        public JsonArrayBuilder<JsonObjectBuilder<T>> beginArray(String name) {
+            JsonArrayImpl child = new JsonArrayImpl();
+            valueMap.put(name, child);
+            return new JsonArrayBuilderImpl<JsonObjectBuilder<T>>(this, child.valueList);
+        }
+    }
+
+    static class JsonArrayBuilderImpl<T> implements JsonArrayBuilder<T> {
+        private final T enclosing;
+        private final List<JsonValue> valueList;
+        
+        JsonArrayBuilderImpl(T enclosing, List<JsonValue> valueList) {
+            this.enclosing = enclosing;
+            this.valueList = valueList;
+        }
+
+        @Override
+        public T endArray() {
+            return enclosing;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(JsonValue value) {
+            valueList.add(value);
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(String value) {
+            valueList.add(new JsonStringImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(BigDecimal value) {
+            valueList.add(new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(BigInteger value) {
+            valueList.add(new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(int value) {
+            valueList.add(new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(long value) {
+            valueList.add(new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(double value) {
+            valueList.add(new JsonNumberImpl(value));
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> add(boolean value) {
+            valueList.add(value ? JsonValue.TRUE : JsonValue.FALSE);
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> addNull() {
+            valueList.add(JsonValue.NULL);
+            return this;
+        }
+
+        @Override
+        public JsonArrayBuilder<T> addArray(Iterable<JsonValue> values) {
+            return null;
+        }
+
+        @Override
+        public JsonObjectBuilder<JsonArrayBuilder<T>> beginObject() {
+            JsonObjectImpl child = new JsonObjectImpl();
+            valueList.add(child);
+            return new JsonObjectBuilderImpl<JsonArrayBuilder<T>>(this, child.valueMap);
+        }
+
+        @Override
+        public JsonArrayBuilder<JsonArrayBuilder<T>> beginArray() {
+            JsonArrayImpl child = new JsonArrayImpl();
+            valueList.add(child);
+            return new JsonArrayBuilderImpl<JsonArrayBuilder<T>>(this, child.valueList);
+        }
     }
 }

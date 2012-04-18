@@ -40,9 +40,10 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
+import javax.json.*;
+import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -55,11 +56,104 @@ public class JsonWriterImpl {
     }
 
     public void writeArray(JsonArray array) {
+        try{
+            writeArrayIoe(array);
+        } catch (IOException ioe) {
+            throw new JsonException(ioe);
+        }
     }
 
     public void writeObject(JsonObject object) {
+        try {
+            writeObjectIoe(object);
+        } catch (IOException ioe) {
+            throw new JsonException(ioe);
+        }
     }
 
     public void close() {
+    }
+    
+    private void writeComma(boolean first) throws IOException {
+        if (!first) {
+            writer.write(',');
+        }
+    }
+
+    private void writeArrayIoe(JsonArray array) throws IOException {
+        boolean first = true;
+        writer.write('[');
+        for(JsonValue value : array) {
+            writeComma(first);
+            switch (value.getValueType()) {
+                case ARRAY:
+                    writeArrayIoe((JsonArray) value);
+                    break;
+                case OBJECT:
+                    writeObjectIoe((JsonObject) value);
+                    break;
+                case STRING:
+                    writer.write('"');
+                    writer.write(((JsonString)value).getValue());
+                    writer.write('"');
+                    break;
+                case NUMBER:
+                    writer.write(value.toString());
+                    break;
+                case TRUE:
+                    writer.write("true");
+                    break;
+                case FALSE:
+                    writer.write("false");
+                    break;
+                case NULL:
+                    writer.write("null");
+                    break;
+            }
+            first = false;
+        }
+        writer.write(']');
+
+    }
+
+    private void writeObjectIoe(JsonObject object) throws IOException {
+        boolean first = true;
+        writer.write('{');
+        for(Map.Entry<String, JsonValue> entry : object.getValues().entrySet()) {
+            String name = entry.getKey();
+            JsonValue value = entry.getValue();
+            writeComma(first);
+            writer.write('"');
+            writer.write(name);
+            writer.write('"');
+            writer.write(':');
+            switch (value.getValueType()) {
+                case ARRAY:
+                    writeArrayIoe((JsonArray) value);
+                    break;
+                case OBJECT:
+                    writeObjectIoe((JsonObject) value);
+                    break;
+                case STRING:
+                    writer.write('"');
+                    writer.write(((JsonString)value).getValue());
+                    writer.write('"');
+                    break;
+                case NUMBER:
+                    writer.write(value.toString());
+                    break;
+                case TRUE:
+                    writer.write("true");
+                    break;
+                case FALSE:
+                    writer.write("false");
+                    break;
+                case NULL:
+                    writer.write("null");
+                    break;
+            }
+            first = false;
+        }
+        writer.write('}');
     }
 }
