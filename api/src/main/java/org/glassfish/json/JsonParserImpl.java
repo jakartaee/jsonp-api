@@ -41,27 +41,44 @@
 package org.glassfish.json;
 
 import javax.json.JsonArray;
+import javax.json.JsonException;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParser;
+import java.io.IOException;
 import java.io.Reader;
-import java.util.Iterator;
+import java.util.*;
+
+import org.glassfish.json.JsonTokenizer.JsonToken;
 
 /**
+ * JSON parser using a state machine.
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonParserImpl {
+
+    private State currentState = State.START_DOCUMENT;
+    private State enclosingState = State.START_DOCUMENT;
+
+    private final Deque<State> stack = new ArrayDeque<State>();
+    private final JsonTokenizer tokenizer;
+    private int depth = 0;
+
     public JsonParserImpl(Reader reader) {
+        tokenizer = new JsonTokenizer(reader);
     }
 
     public JsonParserImpl(JsonArray array) {
+        tokenizer = null;
     }
 
     public JsonParserImpl(JsonObject object) {
+        tokenizer = null;
     }
 
     public String getString() {
-        return null;
+        return tokenizer.getValue();
     }
 
     public JsonNumber.JsonNumberType getNumberType() {
@@ -69,13 +86,270 @@ public class JsonParserImpl {
     }
 
     public JsonNumber getNumber() {
-        return null;
+        return new JsonNumberImpl(tokenizer.getValue());
     }
 
     public Iterator<JsonParser.Event> iterator() {
-        return null;
+        return new StateIterator();
+    }
+
+    private class StateIterator implements  Iterator<JsonParser.Event> {
+        JsonToken token;
+
+        @Override
+        public boolean hasNext() {
+            if (token == JsonToken.EOF) {
+                return false;
+            }
+            return !(depth == 0 && (currentState == State.END_OBJECT || currentState == State.END_ARRAY));
+        }
+
+        @Override
+        public JsonParser.Event next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            while (true) {
+                try {
+                    token = tokenizer.nextToken();
+                    State nextState = currentState.getTransition(token, enclosingState);
+                    if (nextState == null) {
+                        throw new JsonException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
+                    }
+                    if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
+                        stack.addFirst(currentState);
+                    }
+                    currentState = nextState;
+                } catch(IOException ioe) {
+                    throw new JsonException(ioe);
+                }
+
+                switch (currentState) {
+                    case START_DOCUMENT:
+                        continue;
+                    case START_OBJECT:
+                        depth++;
+                        return JsonParser.Event.START_OBJECT;
+                    case KEY:
+                        return JsonParser.Event.KEY_NAME;
+                    case COLON:
+                        continue;
+                    case OBJECT_STRING:
+                        return JsonParser.Event.VALUE_STRING;
+                    case OBJECT_NUMBER:
+                        return JsonParser.Event.VALUE_NUMBER;
+                    case OBJECT_TRUE:
+                        return JsonParser.Event.VALUE_TRUE;
+                    case OBJECT_FALSE:
+                        return JsonParser.Event.VALUE_FALSE;
+                    case OBJECT_NULL:
+                        return JsonParser.Event.VALUE_NULL;
+                    case OBJECT_COMMA:
+                        continue;
+                    case END_OBJECT:
+                        depth--;
+                        enclosingState = stack.removeFirst();
+                        return JsonParser.Event.END_OBJECT;
+                    case START_ARRAY:
+                        depth++;
+                        return JsonParser.Event.START_ARRAY;
+                    case ARRAY_STRING:
+                        return JsonParser.Event.VALUE_STRING;
+                    case ARRAY_NUMBER:
+                        return JsonParser.Event.VALUE_NUMBER;
+                    case ARRAY_TRUE:
+                        return JsonParser.Event.VALUE_TRUE;
+                    case ARRAY_FALSE:
+                        return JsonParser.Event.VALUE_FALSE;
+                    case ARRAY_NULL:
+                        return JsonParser.Event.VALUE_NULL;
+                    case ARRAY_COMMA:
+                        continue;
+                    case END_ARRAY:
+                        depth--;
+                        enclosingState = stack.removeFirst();
+                        return JsonParser.Event.END_ARRAY;
+                    case END_DOCUMENT:
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 
     public void close() {
     }
+
+    private enum State {
+        START_DOCUMENT,
+
+        START_OBJECT,
+        KEY,
+        COLON,
+        OBJECT_STRING,
+        OBJECT_NUMBER,
+        OBJECT_TRUE,
+        OBJECT_FALSE,
+        OBJECT_NULL,
+        OBJECT_COMMA,
+        END_OBJECT {
+            @Override
+            State getTransition(JsonToken token, State enclosingState) {
+                if (token == JsonToken.COMMA) {
+                    return enclosingState == State.COLON ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+                } else {
+                    return transitions.get(token);
+                }
+            }
+        },
+
+        START_ARRAY,
+        ARRAY_STRING,
+        ARRAY_NUMBER,
+        ARRAY_TRUE,
+        ARRAY_FALSE,
+        ARRAY_NULL,
+        ARRAY_COMMA,
+        END_ARRAY {
+            @Override
+            State getTransition(JsonToken token, State enclosingState) {
+                if (token == JsonToken.COMMA) {
+                    return enclosingState == State.COLON ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+                } else {
+                    return transitions.get(token);
+                }
+            }            
+        },
+
+        END_DOCUMENT;
+        
+        static {
+            START_DOCUMENT.transition(JsonToken.CURLYOPEN, START_OBJECT);
+            START_DOCUMENT.transition(JsonToken.SQUAREOPEN, START_ARRAY);
+            
+            START_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            START_OBJECT.transition(JsonToken.STRING, KEY);
+            
+            KEY.transition(JsonToken.COLON, COLON);
+            
+            COLON.transition(JsonToken.STRING, OBJECT_STRING);
+            COLON.transition(JsonToken.NUMBER, OBJECT_NUMBER);
+            COLON.transition(JsonToken.TRUE, OBJECT_TRUE);
+            COLON.transition(JsonToken.FALSE, OBJECT_FALSE);
+            COLON.transition(JsonToken.NULL, OBJECT_NULL);
+            COLON.transition(JsonToken.CURLYOPEN, START_OBJECT);
+            COLON.transition(JsonToken.SQUAREOPEN, START_ARRAY);
+            
+            OBJECT_STRING.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            OBJECT_STRING.transition(JsonToken.COMMA, OBJECT_COMMA);
+
+            OBJECT_NUMBER.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            OBJECT_NUMBER.transition(JsonToken.COMMA, OBJECT_COMMA);
+
+            OBJECT_TRUE.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            OBJECT_TRUE.transition(JsonToken.COMMA, OBJECT_COMMA);
+
+            OBJECT_FALSE.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            OBJECT_FALSE.transition(JsonToken.COMMA, OBJECT_COMMA);
+
+            OBJECT_NULL.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            OBJECT_NULL.transition(JsonToken.COMMA, OBJECT_COMMA);
+            
+            OBJECT_COMMA.transition(JsonToken.STRING, KEY);
+            
+            END_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            END_OBJECT.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+            // Need an enclosing scope to determine the next state
+            // END_OBJECT.transition(JsonToken.COMMA, OBJECT_COMMA or ARRAY_COMMA );
+            END_OBJECT.transition(JsonToken.EOF, END_DOCUMENT);
+            
+            START_ARRAY.transition(JsonToken.STRING, ARRAY_STRING);
+            START_ARRAY.transition(JsonToken.NUMBER, ARRAY_NUMBER);
+            START_ARRAY.transition(JsonToken.TRUE, ARRAY_TRUE);
+            START_ARRAY.transition(JsonToken.FALSE, ARRAY_FALSE);
+            START_ARRAY.transition(JsonToken.NULL, ARRAY_NULL);
+            START_ARRAY.transition(JsonToken.CURLYOPEN, START_OBJECT);
+            START_ARRAY.transition(JsonToken.SQUAREOPEN, START_ARRAY);
+            START_ARRAY.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+            
+            ARRAY_STRING.transition(JsonToken.COMMA, ARRAY_COMMA);
+            ARRAY_STRING.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+
+            ARRAY_NUMBER.transition(JsonToken.COMMA, ARRAY_COMMA);
+            ARRAY_NUMBER.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+
+            ARRAY_TRUE.transition(JsonToken.COMMA, ARRAY_COMMA);
+            ARRAY_TRUE.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+
+            ARRAY_FALSE.transition(JsonToken.COMMA, ARRAY_COMMA);
+            ARRAY_FALSE.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+
+            ARRAY_NULL.transition(JsonToken.COMMA, ARRAY_COMMA);
+            ARRAY_NULL.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+
+            ARRAY_COMMA.transition(JsonToken.STRING, ARRAY_STRING);
+            ARRAY_COMMA.transition(JsonToken.NUMBER, ARRAY_NUMBER);
+            ARRAY_COMMA.transition(JsonToken.TRUE, ARRAY_TRUE);
+            ARRAY_COMMA.transition(JsonToken.FALSE, ARRAY_FALSE);
+            ARRAY_COMMA.transition(JsonToken.NULL, ARRAY_NULL);
+            ARRAY_COMMA.transition(JsonToken.CURLYOPEN, START_OBJECT);
+            ARRAY_COMMA.transition(JsonToken.SQUAREOPEN, START_ARRAY);
+
+            END_ARRAY.transition(JsonToken.CURLYCLOSE, END_OBJECT);
+            END_ARRAY.transition(JsonToken.SQUARECLOSE, END_ARRAY);
+            // Need an enclosing scope to determine the next state
+            //END_ARRAY.transition(JsonToken.COMMA, OBJECT_COMMA or ARRAY_COMMA);
+            END_ARRAY.transition(JsonToken.EOF, END_DOCUMENT);
+        }
+        
+        final EnumMap<JsonToken, State> transitions
+                = new EnumMap<JsonToken, State>(JsonToken.class);
+        
+        private void transition(JsonToken token, State state) {
+            transitions.put(token, state);
+        }
+
+        State getTransition(JsonToken token, State enclosingState) {
+            return transitions.get(token);
+        }
+    } 
+    
+    void parse() {
+        JsonToken token;
+
+        while(true) {
+            try {
+                token = tokenizer.nextToken();
+                System.out.println("Token="+token);
+                if (token == JsonToken.STRING) {
+                    System.out.println("value=" + tokenizer.getValue());
+                }
+                if (token == JsonToken.EOF) {
+                    break;
+                }
+            } catch(IOException ioe) {
+                throw new JsonException(ioe);
+            }
+            
+            State enclosingState = State.START_DOCUMENT;
+            if (currentState == State.END_OBJECT || currentState == State.END_ARRAY) {
+                enclosingState = stack.removeFirst();
+            }
+            
+            State nextState = currentState.getTransition(token, enclosingState);
+            
+            if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
+                stack.addFirst(currentState);
+            }
+            currentState = nextState;
+
+            System.out.println("Current State="+currentState);
+
+        }
+    } 
+    
 }

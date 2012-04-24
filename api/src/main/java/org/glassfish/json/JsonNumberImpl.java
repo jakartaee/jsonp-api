@@ -48,6 +48,11 @@ import java.math.BigInteger;
  * @author Jitendra Kotamraju
  */
 public final class JsonNumberImpl implements JsonNumber {
+    BigDecimal bigDecimal;
+
+    public JsonNumberImpl(String value) {
+        bigDecimal = new BigDecimal(value);
+    }
 
     public JsonNumberImpl(int value) {
 
@@ -76,46 +81,46 @@ public final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public int getIntValue() {
-        return 0;
+        return bigDecimal.intValue();
     }
 
     @Override
     public int getIntValueExact() {
-        return 0;
+        return bigDecimal.intValueExact();
     }
 
     @Override
     public long getLongValue() {
-        return 0;
+        return bigDecimal.longValue();
     }
 
     @Override
     public long getLongValueExact() {
-        return 0;
+        return bigDecimal.longValueExact();
     }
 
     @Override
     public BigInteger getBigIntegerValue() {
-        return null;
+        return bigDecimal.toBigInteger();
     }
 
     @Override
     public BigInteger getBigIntegerValueExact() {
-        return null;
+        return bigDecimal.toBigIntegerExact();
     }
 
     @Override
     public double getDoubleValue() {
-        return 0;
+        return bigDecimal.doubleValue();
     }
 
     @Override
     public BigDecimal getBigDecimalValue() {
-        return null;
+        return bigDecimal;
     }
 
     @Override
     public JsonValueType getValueType() {
-        return null;
+        return JsonValueType.NUMBER;
     }
 }

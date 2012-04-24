@@ -62,20 +62,19 @@ public class JsonParserTest extends TestCase {
     public void testParser() {
     }
     
-    public void xtestReader() {
+    public void testReader() {
         JsonParser reader = new JsonParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
         reader.close();
-        assertEquals("abc", reader.getClass().getName());
     }
 
-    public void xtestEmptyArray() {
+    public void testEmptyArray() {
         JsonParser reader = new JsonParser(new StringReader("[]"));
         for(Event e : reader) {
         }
         reader.close();
     }
 
-    public void xtestEmptyArray1() {
+    public void testEmptyArray1() {
         JsonParser reader = new JsonParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(true, it.hasNext());
@@ -96,7 +95,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestEmptyArray2() {
+    public void testEmptyArray2() {
         JsonParser reader = new JsonParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_ARRAY, it.next());
@@ -109,7 +108,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestEmptyArray3() {
+    public void testEmptyArray3() {
         JsonParser reader = new JsonParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_ARRAY, it.next());
@@ -123,14 +122,14 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestEmptyObject() {
+    public void testEmptyObject() {
         JsonParser reader = new JsonParser(new StringReader("{}"));
         for(Event e : reader) {
         }
         reader.close();
     }
 
-    public void xtestEmptyObject1() {
+    public void testEmptyObject1() {
         JsonParser reader = new JsonParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(true, it.hasNext());
@@ -151,7 +150,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestEmptyObject2() {
+    public void testEmptyObject2() {
         JsonParser reader = new JsonParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_OBJECT, it.next());
@@ -164,7 +163,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestEmptyObject3() {
+    public void testEmptyObject3() {
         JsonParser reader = new JsonParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_OBJECT, it.next());
@@ -178,7 +177,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
-    public void xtestWikiReaderIterator() throws Exception {
+    public void testWikiReaderIterator() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
         JsonParser reader = new JsonParser(wikiReader);
         for(Event e : reader) {
@@ -188,22 +187,22 @@ public class JsonParserTest extends TestCase {
     }
     
     
-    public void xtestWikiReader() throws Exception {
+    public void testWikiReader() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
         JsonParser reader = new JsonParser(wikiReader);
-        xtestWikiReader(reader);
+        testWikiReader(reader);
         reader.close();
         wikiReader.close();
     }
 
-    static void xtestWikiReader(JsonParser reader) {
+    static void testWikiReader(JsonParser reader) {
         Iterator<Event> it = reader.iterator();
 
         Event event = it.next();
         assertEquals(Event.START_OBJECT, event);
 
-        xtestObjectStringValue(reader, it, "firstName", "John");
-        xtestObjectStringValue(reader, it, "lastName", "Smith");
+        testObjectStringValue(reader, it, "firstName", "John");
+        testObjectStringValue(reader, it, "lastName", "Smith");
 
         event = it.next();
         assertEquals(Event.KEY_NAME, event);
@@ -221,10 +220,10 @@ public class JsonParserTest extends TestCase {
         assertEquals(Event.START_OBJECT, event);
 
 
-        xtestObjectStringValue(reader, it, "streetAddress", "21 2nd Street");
-        xtestObjectStringValue(reader, it, "city", "New York");
-        xtestObjectStringValue(reader, it, "state", "NY");
-        xtestObjectStringValue(reader, it, "postalCode", "10021");
+        testObjectStringValue(reader, it, "streetAddress", "21 2nd Street");
+        testObjectStringValue(reader, it, "city", "New York");
+        testObjectStringValue(reader, it, "state", "NY");
+        testObjectStringValue(reader, it, "postalCode", "10021");
 
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
@@ -237,15 +236,15 @@ public class JsonParserTest extends TestCase {
         assertEquals(Event.START_ARRAY, event);
         event = it.next();
         assertEquals(Event.START_OBJECT, event);
-        xtestObjectStringValue(reader, it, "type", "home");
-        xtestObjectStringValue(reader, it, "number", "212 555-1234");
+        testObjectStringValue(reader, it, "type", "home");
+        testObjectStringValue(reader, it, "number", "212 555-1234");
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
 
         event = it.next();
         assertEquals(Event.START_OBJECT, event);
-        xtestObjectStringValue(reader, it, "type", "fax");
-        xtestObjectStringValue(reader, it, "number", "646 555-4567");
+        testObjectStringValue(reader, it, "type", "fax");
+        testObjectStringValue(reader, it, "number", "646 555-4567");
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
         event = it.next();
@@ -255,7 +254,7 @@ public class JsonParserTest extends TestCase {
         assertEquals(Event.END_OBJECT, event);
     }
 
-    static void xtestObjectStringValue(JsonParser reader, Iterator<Event> it, String name, String value) {
+    static void testObjectStringValue(JsonParser reader, Iterator<Event> it, String name, String value) {
         Event event = it.next();
         assertEquals(Event.KEY_NAME, event);
         assertEquals(name, reader.getString());
