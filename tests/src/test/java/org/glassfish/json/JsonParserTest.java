@@ -59,8 +59,13 @@ public class JsonParserTest extends TestCase {
         super(testName);
     }
 
-    public void testParser() {
-    }
+//    TODO need to fix impl for this to work
+//
+//    public void testParser() {
+//        JsonParser parser = new JsonParser(new StringReader(""));
+//        assertFalse(parser.iterator().hasNext());
+//        parser.close();
+//    }
     
     public void testReader() {
         JsonParser reader = new JsonParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
