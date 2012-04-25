@@ -41,7 +41,12 @@
 package org.glassfish.json;
 
 import java.io.Reader;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilder;
+import javax.json.JsonNumber;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
 
 /**
  * @author Jitendra Kotamraju
@@ -54,10 +59,80 @@ public class JsonReaderImpl {
     }
 
     public JsonValue readObject() {
-        return null;
+        JsonParser parser = new JsonParser(reader);
+        Object builder = new JsonBuilder();
+        String key = null;
+        for(JsonParser.Event e : parser) {
+            switch (e) {
+                case START_ARRAY:
+                    if (builder instanceof JsonBuilder) {
+                        builder =  ((JsonBuilder)builder).beginArray();
+                    } else if (builder instanceof JsonArrayBuilder) {
+                        builder = ((JsonArrayBuilder)builder).beginArray();
+                    } else {
+                        builder = ((JsonObjectBuilder)builder).beginArray(key);
+                    }
+                    break;
+                case START_OBJECT:
+                    if (builder instanceof JsonBuilder) {
+                        builder =  ((JsonBuilder)builder).beginObject();
+                    } else if (builder instanceof JsonArrayBuilder) {
+                        builder = ((JsonArrayBuilder)builder).beginObject();
+                    } else {
+                        builder = ((JsonObjectBuilder)builder).beginObject(key);
+                    }
+                    break;
+                case KEY_NAME:
+                    key = parser.getString();
+                    break;
+                case VALUE_STRING:
+                    String  string = parser.getString();
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(string);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, string);
+                    }
+                    break;
+                case VALUE_NUMBER:
+                    JsonNumber number = parser.getNumber();
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(number);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, number);
+                    }
+                    break;
+                case VALUE_TRUE:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(true);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, true);
+                    }
+                    break;
+                case VALUE_FALSE:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(false);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, false);
+                    }
+                    break;
+                case VALUE_NULL:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).addNull();
+                    } else {
+                        ((JsonObjectBuilder)builder).addNull(key);
+                    }
+                    break;
+                case END_OBJECT:
+                    builder = ((JsonObjectBuilder)builder).endObject();
+                    break;
+                case END_ARRAY:
+                    builder = ((JsonArrayBuilder)builder).endArray();
+                    break;
+            }
+        }
+        return ((JsonBuilder.JsonBuildable)builder).build();
     }
 
     public void close() {
-
     }
 }

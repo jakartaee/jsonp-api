@@ -74,7 +74,7 @@ public final class JsonArrayImpl implements JsonArray {
 
     @Override
     public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-        return null;
+        return (T)valueList.get(index);
     }
 
     @Override
