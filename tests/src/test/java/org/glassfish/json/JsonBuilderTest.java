@@ -42,12 +42,15 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.*;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import javax.json.JsonArray;
+import javax.json.JsonBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import java.util.List;
 
 /**
+ * {@link JsonBuilder} Tests
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonBuilderTest extends TestCase {
@@ -62,7 +65,6 @@ public class JsonBuilderTest extends TestCase {
         .build();
 
         JsonObjectTest.testEmpty(empty);
-
     }
 
     public void testEmptyArray() throws Exception {

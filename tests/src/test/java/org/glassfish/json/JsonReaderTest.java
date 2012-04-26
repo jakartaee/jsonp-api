@@ -42,11 +42,8 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.JsonArray;
-import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.JsonString;
 import javax.json.JsonValue;
 import java.io.InputStreamReader;
 import java.io.Reader;

@@ -105,7 +105,7 @@ public class JsonGeneratorImpl implements Closeable {
 
         @Override
         public JsonObjectBuilder<T> add(String name, String value) {
-            writeValue(name, value);
+            writeString(name, value);
             return this;
         }
 
@@ -177,6 +177,21 @@ public class JsonGeneratorImpl implements Closeable {
                 writer.write('"');
                 writer.write(':');
                 writer.write(value);
+            } catch(IOException ioe) {
+                throw new JsonException(ioe);
+            }
+        }
+
+        private void writeString(String name, String value) {
+            try {
+                writeComma();
+                writer.write('"');
+                writer.write(name);
+                writer.write('"');
+                writer.write(':');
+                writer.write('"');
+                writer.write(value);
+                writer.write('"');
             } catch(IOException ioe) {
                 throw new JsonException(ioe);
             }

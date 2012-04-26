@@ -42,12 +42,15 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.JsonBuilder;
-import javax.json.JsonWriter;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.stream.JsonGenerator;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 /**
+ * {@link JsonGenerator} tests
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonGeneratorTest extends TestCase {
@@ -82,7 +85,10 @@ public class JsonGeneratorTest extends TestCase {
             .endObject();
         generator.close();
         writer.close();
-        System.out.println("JSON string="+writer.toString());
+
+        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonObject person = (JsonObject)reader.readObject();
+        JsonObjectTest.testPerson(person);
     }
 
     public void testArray() throws Exception {

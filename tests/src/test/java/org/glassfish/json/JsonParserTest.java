@@ -72,6 +72,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
+    @SuppressWarnings("unused")
     public void testEmptyArray() {
         JsonParser reader = new JsonParser(new StringReader("[]"));
         for(Event e : reader) {
@@ -127,6 +128,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
+    @SuppressWarnings("unused")
     public void testEmptyObject() {
         JsonParser reader = new JsonParser(new StringReader("{}"));
         for(Event e : reader) {
@@ -182,6 +184,7 @@ public class JsonParserTest extends TestCase {
         reader.close();
     }
 
+    @SuppressWarnings("unused")
     public void testWikiReaderIterator() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
         JsonParser reader = new JsonParser(wikiReader);
