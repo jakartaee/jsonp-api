@@ -67,30 +67,8 @@ public class JsonReaderTest extends TestCase {
         wikiReader.close();
 
         assertTrue(value instanceof JsonObject);
-        
         JsonObject person = (JsonObject)value;
-        assertEquals(5, person.getNames().size());
-        assertEquals("John", person.getValue("firstName", JsonString.class).getValue());
-        assertEquals("Smith", person.getValue("lastName", JsonString.class).getValue());
-        assertEquals(25, person.getValue("age", JsonNumber.class).getIntValue());
-
-        JsonObject address = person.getValue("address", JsonObject.class);
-        assertEquals(4, address.getNames().size());
-        assertEquals("21 2nd Street", address.getValue("streetAddress", JsonString.class).getValue());
-        assertEquals("New York", address.getValue("city", JsonString.class).getValue());
-        assertEquals("NY", address.getValue("state", JsonString.class).getValue());
-        assertEquals("10021", address.getValue("postalCode", JsonString.class).getValue());
-
-        JsonArray phoneNumber = person.getValue("phoneNumber", JsonArray.class);
-        JsonObject home = phoneNumber.getValue(0, JsonObject.class);
-        assertEquals(2, home.getNames().size());
-        assertEquals("home", home.getValue("type", JsonString.class).getValue());
-        assertEquals("212 555-1234", home.getValue("number", JsonString.class).getValue());
-
-        JsonObject fax = phoneNumber.getValue(1, JsonObject.class);
-        assertEquals(2, fax.getNames().size());
-        assertEquals("fax", fax.getValue("type", JsonString.class).getValue());
-        assertEquals("646 555-4567", fax.getValue("number", JsonString.class).getValue());
+        JsonObjectTest.testPerson(person);
     }
 
 }

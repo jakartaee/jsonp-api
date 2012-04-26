@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,87 +40,67 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonNumber;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import junit.framework.TestCase;
+
+import javax.json.*;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.List;
 
 /**
  * @author Jitendra Kotamraju
  */
-public final class JsonNumberImpl implements JsonNumber {
-    BigDecimal bigDecimal;
-
-    public JsonNumberImpl(String value) {
-        bigDecimal = new BigDecimal(value);
+public class JsonBuilderTest extends TestCase {
+    public JsonBuilderTest(String testName) {
+        super(testName);
     }
 
-    public JsonNumberImpl(int value) {
-        bigDecimal = new BigDecimal(value);
+    public void testEmptyObject() throws Exception {
+        JsonObject empty = new JsonBuilder()
+            .beginObject()
+            .endObject()
+        .build();
+
+        JsonObjectTest.testEmpty(empty);
+
     }
 
-    public JsonNumberImpl(long value) {
-        bigDecimal = new BigDecimal(value);
+    public void testEmptyArray() throws Exception {
+        JsonArray empty = new JsonBuilder()
+            .beginArray()
+            .endArray()
+        .build();
+
+        List<JsonValue> list = empty.getValues();
+        assertTrue(list.isEmpty());
     }
 
-    public JsonNumberImpl(BigInteger value) {
-        bigDecimal = new BigDecimal(value);
+    public void testObject() throws Exception {
+        JsonObject person = new JsonBuilder()
+            .beginObject()
+                .add("firstName", "John")
+                .add("lastName", "Smith")
+                .add("age", 25)
+                .beginObject("address")
+                    .add("streetAddress", "21 2nd Street")
+                    .add("city", "New York")
+                    .add("state", "NY")
+                    .add("postalCode", "10021")
+                .endObject()
+                .beginArray("phoneNumber")
+                    .beginObject()
+                        .add("type", "home")
+                        .add("number", "212 555-1234")
+                    .endObject()
+                    .beginObject()
+                        .add("type", "fax")
+                        .add("number", "646 555-4567")
+                    .endObject()
+                .endArray()
+            .endObject()
+        .build();
+
+        JsonObjectTest.testPerson(person);
     }
 
-    public JsonNumberImpl(double value) {
-        bigDecimal = new BigDecimal(value);
-    }
-
-    public JsonNumberImpl(BigDecimal value) {
-        this.bigDecimal = value;
-    }
-
-    @Override
-    public JsonNumberType getNumberType() {
-        return null;
-    }
-
-    @Override
-    public int getIntValue() {
-        return bigDecimal.intValue();
-    }
-
-    @Override
-    public int getIntValueExact() {
-        return bigDecimal.intValueExact();
-    }
-
-    @Override
-    public long getLongValue() {
-        return bigDecimal.longValue();
-    }
-
-    @Override
-    public long getLongValueExact() {
-        return bigDecimal.longValueExact();
-    }
-
-    @Override
-    public BigInteger getBigIntegerValue() {
-        return bigDecimal.toBigInteger();
-    }
-
-    @Override
-    public BigInteger getBigIntegerValueExact() {
-        return bigDecimal.toBigIntegerExact();
-    }
-
-    @Override
-    public double getDoubleValue() {
-        return bigDecimal.doubleValue();
-    }
-
-    @Override
-    public BigDecimal getBigDecimalValue() {
-        return bigDecimal;
-    }
-
-    @Override
-    public JsonValueType getValueType() {
-        return JsonValueType.NUMBER;
-    }
 }

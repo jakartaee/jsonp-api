@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,87 +40,47 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonNumber;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import junit.framework.TestCase;
+
+import javax.json.*;
 
 /**
  * @author Jitendra Kotamraju
  */
-public final class JsonNumberImpl implements JsonNumber {
-    BigDecimal bigDecimal;
-
-    public JsonNumberImpl(String value) {
-        bigDecimal = new BigDecimal(value);
+public class JsonObjectTest extends TestCase {
+    public JsonObjectTest(String testName) {
+        super(testName);
+    }
+    
+    public void test() {
     }
 
-    public JsonNumberImpl(int value) {
-        bigDecimal = new BigDecimal(value);
+    static void testPerson(JsonObject person) {
+        assertEquals(5, person.getNames().size());
+        assertEquals("John", person.getValue("firstName", JsonString.class).getValue());
+        assertEquals("Smith", person.getValue("lastName", JsonString.class).getValue());
+        assertEquals(25, person.getValue("age", JsonNumber.class).getIntValue());
+
+        JsonObject address = person.getValue("address", JsonObject.class);
+        assertEquals(4, address.getNames().size());
+        assertEquals("21 2nd Street", address.getValue("streetAddress", JsonString.class).getValue());
+        assertEquals("New York", address.getValue("city", JsonString.class).getValue());
+        assertEquals("NY", address.getValue("state", JsonString.class).getValue());
+        assertEquals("10021", address.getValue("postalCode", JsonString.class).getValue());
+
+        JsonArray phoneNumber = person.getValue("phoneNumber", JsonArray.class);
+        JsonObject home = phoneNumber.getValue(0, JsonObject.class);
+        assertEquals(2, home.getNames().size());
+        assertEquals("home", home.getValue("type", JsonString.class).getValue());
+        assertEquals("212 555-1234", home.getValue("number", JsonString.class).getValue());
+
+        JsonObject fax = phoneNumber.getValue(1, JsonObject.class);
+        assertEquals(2, fax.getNames().size());
+        assertEquals("fax", fax.getValue("type", JsonString.class).getValue());
+        assertEquals("646 555-4567", fax.getValue("number", JsonString.class).getValue());
     }
 
-    public JsonNumberImpl(long value) {
-        bigDecimal = new BigDecimal(value);
-    }
-
-    public JsonNumberImpl(BigInteger value) {
-        bigDecimal = new BigDecimal(value);
-    }
-
-    public JsonNumberImpl(double value) {
-        bigDecimal = new BigDecimal(value);
-    }
-
-    public JsonNumberImpl(BigDecimal value) {
-        this.bigDecimal = value;
-    }
-
-    @Override
-    public JsonNumberType getNumberType() {
-        return null;
-    }
-
-    @Override
-    public int getIntValue() {
-        return bigDecimal.intValue();
-    }
-
-    @Override
-    public int getIntValueExact() {
-        return bigDecimal.intValueExact();
-    }
-
-    @Override
-    public long getLongValue() {
-        return bigDecimal.longValue();
-    }
-
-    @Override
-    public long getLongValueExact() {
-        return bigDecimal.longValueExact();
-    }
-
-    @Override
-    public BigInteger getBigIntegerValue() {
-        return bigDecimal.toBigInteger();
-    }
-
-    @Override
-    public BigInteger getBigIntegerValueExact() {
-        return bigDecimal.toBigIntegerExact();
-    }
-
-    @Override
-    public double getDoubleValue() {
-        return bigDecimal.doubleValue();
-    }
-
-    @Override
-    public BigDecimal getBigDecimalValue() {
-        return bigDecimal;
-    }
-
-    @Override
-    public JsonValueType getValueType() {
-        return JsonValueType.NUMBER;
+    static void testEmpty(JsonObject empty) {
+        assertTrue(empty.getNames().isEmpty());
     }
 }
