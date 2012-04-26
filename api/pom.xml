@@ -54,7 +54,7 @@
     </parent>
 
     <groupId>javax.json</groupId>
-    <artifactId>jsonp-api</artifactId>
+    <artifactId>jsonp-ri</artifactId>
     <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Java API for Processing JSON (JSON-P)</name>
@@ -124,6 +124,7 @@
 <br>Copyright &copy; 2012 Oracle and/or its affiliates. All rights reserved.
 </font>]]>
                     </bottom>
+                    <excludePackageNames>org.glassfish.*</excludePackageNames>
                 </configuration>
 
                 <executions>
