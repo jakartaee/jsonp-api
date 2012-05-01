@@ -78,7 +78,13 @@ public class JsonBuilderTest extends TestCase {
     }
 
     public void testObject() throws Exception {
-        JsonObject person = new JsonBuilder()
+        JsonObject person = buildPerson();
+        JsonObjectTest.testPerson(person);
+    }
+
+
+    static JsonObject buildPerson() {
+        return new JsonBuilder()
             .beginObject()
                 .add("firstName", "John")
                 .add("lastName", "Smith")
@@ -101,8 +107,6 @@ public class JsonBuilderTest extends TestCase {
                 .endArray()
             .endObject()
         .build();
-
-        JsonObjectTest.testPerson(person);
     }
 
 }

@@ -61,4 +61,18 @@ public final class JsonStringImpl implements JsonString {
     public JsonValueType getValueType() {
         return JsonValueType.STRING;
     }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonStringImpl)) {
+            return false;
+        }
+        JsonStringImpl other = (JsonStringImpl)obj;
+        return value.equals(other.value);
+    }
 }

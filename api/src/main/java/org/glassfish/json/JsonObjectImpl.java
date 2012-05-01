@@ -58,7 +58,7 @@ public final class JsonObjectImpl implements JsonObject {
 
     @Override
     public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-        return (T)valueMap.get(name);
+        return clazz.cast(valueMap.get(name));
     }
 
     @Override
@@ -74,5 +74,19 @@ public final class JsonObjectImpl implements JsonObject {
     @Override
     public JsonValueType getValueType() {
         return JsonValueType.OBJECT;
+    }
+
+    @Override
+    public int hashCode() {
+        return valueMap.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonObjectImpl)) {
+            return false;
+        }
+        JsonObjectImpl other = (JsonObjectImpl)obj;
+        return valueMap.equals(other.valueMap);
     }
 }

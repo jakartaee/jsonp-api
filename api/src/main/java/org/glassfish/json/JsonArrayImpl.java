@@ -42,7 +42,6 @@ package org.glassfish.json;
 
 
 import javax.json.JsonArray;
-import javax.json.JsonException;
 import javax.json.JsonValue;
 import java.util.*;
 
@@ -74,11 +73,25 @@ public final class JsonArrayImpl implements JsonArray {
 
     @Override
     public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-        return (T)valueList.get(index);
+        return clazz.cast(valueList.get(index));
     }
 
     @Override
     public JsonValueType getValueType() {
         return JsonValueType.ARRAY;
+    }
+
+    @Override
+    public int hashCode() {
+        return valueList.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonArrayImpl)) {
+            return false;
+        }
+        JsonArrayImpl other = (JsonArrayImpl)obj;
+        return valueList.equals(other.valueList);
     }
 }

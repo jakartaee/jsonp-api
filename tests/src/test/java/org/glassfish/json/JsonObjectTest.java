@@ -55,6 +55,27 @@ public class JsonObjectTest extends TestCase {
     public void test() {
     }
 
+    public void testEmptyObjectEquals() throws Exception {
+        JsonObject empty1 = new JsonBuilder()
+                .beginObject()
+                .endObject()
+                .build();
+
+        JsonObject empty2 = new JsonBuilder()
+                .beginObject()
+                .endObject()
+                .build();
+
+        assertEquals(empty1, empty2);
+    }
+
+    public void testPersonObjectEquals() throws Exception {
+        JsonObject person1 = JsonBuilderTest.buildPerson();
+        JsonObject person2 = JsonReaderTest.readPerson();
+
+        assertEquals(person1, person2);
+    }
+
     static void testPerson(JsonObject person) {
         assertEquals(5, person.getNames().size());
         assertEquals("John", person.getValue("firstName", JsonString.class).getValue());

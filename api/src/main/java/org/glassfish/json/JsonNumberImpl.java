@@ -123,4 +123,18 @@ public final class JsonNumberImpl implements JsonNumber {
     public JsonValueType getValueType() {
         return JsonValueType.NUMBER;
     }
+
+    @Override
+    public int hashCode() {
+        return bigDecimal.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonNumberImpl)) {
+            return false;
+        }
+        JsonNumberImpl other = (JsonNumberImpl)obj;
+        return bigDecimal.equals(other.bigDecimal);
+    }
 }

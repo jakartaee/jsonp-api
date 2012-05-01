@@ -57,15 +57,19 @@ public class JsonReaderTest extends TestCase {
     }
 
     public void testObject() throws Exception {
-        Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
+        JsonObject person = readPerson();
+        JsonObjectTest.testPerson(person);
+    }
+
+    static JsonObject readPerson() throws Exception {
+        Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = new JsonReader(wikiReader);
         JsonValue value = reader.readObject();
         reader.close();
         wikiReader.close();
 
         assertTrue(value instanceof JsonObject);
-        JsonObject person = (JsonObject)value;
-        JsonObjectTest.testPerson(person);
+        return (JsonObject)value;
     }
 
 }
