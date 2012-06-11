@@ -123,7 +123,6 @@ import java.util.List;
  *
  * @author Jitendra Kotamraju
  */
-// TODO Should we extend with List<JsonValue> ??
 public interface JsonArray extends JsonValue, Iterable<JsonValue> {
 
     /**
@@ -132,6 +131,15 @@ public interface JsonArray extends JsonValue, Iterable<JsonValue> {
      * @return a list of array values
      */
     public List<JsonValue> getValues();
+
+    /**
+     * Returns the number of values in this JSON array.  If this array contains
+     * more than <tt>Integer.MAX_VALUE</tt> values, returns
+     * <tt>Integer.MAX_VALUE</tt>.
+     *
+     * @return the number of values in this JSON array
+     */
+    public int size();
 
     /**
      * Returns the value at the specified position in this JSON array values.
@@ -151,8 +159,5 @@ public interface JsonArray extends JsonValue, Iterable<JsonValue> {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public <T extends JsonValue> T getValue(int index, Class<T> clazz);
-
-    // TODO String getValue(int index) ??
-    // TODO int getValue(int index) ??
 
 }
