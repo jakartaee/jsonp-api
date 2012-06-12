@@ -50,6 +50,7 @@ import java.util.*;
  */
 public final class JsonObjectImpl implements JsonObject {
     final Map<String, JsonValue> valueMap = new LinkedHashMap<String, JsonValue>();
+    private final Map<String, JsonValue> unmodifiableValueMap = Collections.unmodifiableMap(valueMap);
 
     @Override
     public JsonValue getValue(String name) {
@@ -68,7 +69,7 @@ public final class JsonObjectImpl implements JsonObject {
 
     @Override
     public Map<String, JsonValue> getValues() {
-        return Collections.unmodifiableMap(valueMap);
+        return unmodifiableValueMap;
     }
     
     @Override

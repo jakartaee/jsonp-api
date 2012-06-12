@@ -50,11 +50,8 @@ import java.util.*;
  * @author Jitendra Kotamraju
  */
 public final class JsonArrayImpl implements JsonArray {
-    final List<JsonValue> valueList;
-
-    JsonArrayImpl() {
-        this.valueList = new ArrayList<JsonValue>();
-    }
+    final List<JsonValue> valueList = new ArrayList<JsonValue>();
+    private final List<JsonValue> unmodifiableValueList = Collections.unmodifiableList(valueList);
 
     @Override
     public Iterator<JsonValue> iterator() {
@@ -63,7 +60,12 @@ public final class JsonArrayImpl implements JsonArray {
 
     @Override
     public List<JsonValue> getValues() {
-        return valueList;
+        return unmodifiableValueList;
+    }
+
+    @Override
+    public int size() {
+        return valueList.size();
     }
 
     @Override
