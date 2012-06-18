@@ -147,11 +147,6 @@ public class JsonGeneratorImpl implements Closeable {
         }
 
         @Override
-        public JsonObjectBuilder<T> addArray(String name, Iterable<JsonValue> values) {
-            return null;
-        }
-
-        @Override
         public JsonObjectBuilder<T> addNull(String name) {
             writeValue(name, "null");
             return this;
@@ -280,11 +275,6 @@ public class JsonGeneratorImpl implements Closeable {
         public JsonArrayBuilder<T> addNull() {
             writeValue("null");
             return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> addArray(Iterable<JsonValue> values) {
-            return null;
         }
 
         @Override

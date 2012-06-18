@@ -177,20 +177,6 @@ public interface JsonObjectBuilder<T> {
     public JsonObjectBuilder<T> add(String name, boolean value);
 
     /**
-     * Associates the specified JSON array values with the specified name/key
-     * in the JSON object that is being built.
-     *
-     * @param name name/key with which the specified value is to be associated
-     * @param values value to be associated with the specified name/key
-     * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
-     * is called
-     */
-    public JsonObjectBuilder<T> addArray(String name, Iterable<JsonValue> values);
-
-    /**
      *
      * @return this object builder
      *

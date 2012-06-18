@@ -162,17 +162,6 @@ public interface JsonArrayBuilder<T> {
     public JsonArrayBuilder<T> addNull();
 
     /**
-     * Adds the specified values as a JSON array to the array
-     * that is being built.
-     *
-     * @param values JSON array values
-     * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
-     * called.
-     */
-    public JsonArrayBuilder<T> addArray(Iterable<JsonValue> values);
-
-    /**
      * Returns a JSON array builder to build a new object value
      *
      * @return an array builder
