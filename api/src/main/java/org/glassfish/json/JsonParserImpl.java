@@ -82,7 +82,7 @@ public class JsonParserImpl {
     }
 
     public JsonNumber.JsonNumberType getNumberType() {
-        return null;
+        return new JsonNumberImpl(tokenizer.getValue()).getNumberType();
     }
 
     public JsonNumber getNumber() {

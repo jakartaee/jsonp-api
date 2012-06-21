@@ -42,10 +42,7 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.JsonArray;
-import javax.json.JsonBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import javax.json.*;
 import java.util.List;
 
 /**
@@ -82,6 +79,14 @@ public class JsonBuilderTest extends TestCase {
         JsonObjectTest.testPerson(person);
     }
 
+    public void testNumber() throws Exception {
+        JsonObject person = buildPerson();
+        JsonNumber number = person.getValue("age", JsonNumber.class);
+        assertEquals(25, number.getIntValueExact());
+        assertEquals(25, number.getIntValue());
+        assertEquals(JsonNumber.JsonNumberType.INT, number.getNumberType());
+        JsonObjectTest.testPerson(person);
+    }
 
     static JsonObject buildPerson() {
         return new JsonBuilder()

@@ -76,7 +76,31 @@ public final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public JsonNumberType getNumberType() {
-        return null;
+        // TODO more efficient impl
+        try {
+            bigDecimal.intValueExact();
+            return JsonNumberType.INT;
+        } catch (Exception e) {
+            // ignore
+        }
+        try {
+            bigDecimal.longValueExact();
+            return JsonNumberType.LONG;
+        } catch (Exception e) {
+            // ignore
+        }
+        try {
+            bigDecimal.toBigIntegerExact();
+            return JsonNumberType.BIG_INTEGER;
+        } catch (Exception e) {
+            // ignore
+        }
+        if( bigDecimal.subtract(new BigDecimal(bigDecimal.doubleValue())).compareTo(BigDecimal.ZERO) != 0) {
+            // conversion was not exact
+            return JsonNumberType.BIG_DECIMAL;
+        } else {
+            return JsonNumberType.DOUBLE;
+        }
     }
 
     @Override
