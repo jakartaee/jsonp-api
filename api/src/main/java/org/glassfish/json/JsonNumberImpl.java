@@ -137,4 +137,9 @@ public final class JsonNumberImpl implements JsonNumber {
         JsonNumberImpl other = (JsonNumberImpl)obj;
         return bigDecimal.equals(other.bigDecimal);
     }
+
+    @Override
+    public String toString() {
+        return bigDecimal.toString();
+    }
 }
