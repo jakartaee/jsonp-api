@@ -83,4 +83,14 @@ public class JsonWriterTest extends TestCase {
 
         assertEquals("[10]", writer.toString());
     }
+
+    public void testDoubleNumber() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter.writeArray(new JsonBuilder().beginArray().add(10.5).endArray().build());
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("[10.5]", writer.toString());
+    }
 }
