@@ -90,6 +90,7 @@ public class JsonObjectTest extends TestCase {
         assertEquals("10021", address.getValue("postalCode", JsonString.class).getValue());
 
         JsonArray phoneNumber = person.getValue("phoneNumber", JsonArray.class);
+        assertEquals(2, phoneNumber.size());
         JsonObject home = phoneNumber.getValue(0, JsonObject.class);
         assertEquals(2, home.getNames().size());
         assertEquals("home", home.getValue("type", JsonString.class).getValue());

@@ -83,7 +83,7 @@ public class JsonWriterImpl {
     private void writeArrayIoe(JsonArray array) throws IOException {
         boolean first = true;
         writer.write('[');
-        for(JsonValue value : array) {
+        for(JsonValue value : array.getValues()) {
             writeComma(first);
             switch (value.getValueType()) {
                 case ARRAY:

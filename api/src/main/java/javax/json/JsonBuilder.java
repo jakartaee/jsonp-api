@@ -176,7 +176,7 @@ public class JsonBuilder {
         .build();
         
         java.util.List<JsonValue> values = array.getValues();
-        for(JsonValue value : array) {
+        for(JsonValue value : array.getValues()) {
             switch (value.getValueType()) {
                 case ARRAY:
                     JsonArray childArray = (JsonArray)value; 

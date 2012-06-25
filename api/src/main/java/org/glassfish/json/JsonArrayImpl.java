@@ -54,11 +54,6 @@ public final class JsonArrayImpl implements JsonArray {
     private final List<JsonValue> unmodifiableValueList = Collections.unmodifiableList(valueList);
 
     @Override
-    public Iterator<JsonValue> iterator() {
-        return valueList.iterator();
-    }
-
-    @Override
     public List<JsonValue> getValues() {
         return unmodifiableValueList;
     }

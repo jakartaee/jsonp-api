@@ -123,7 +123,7 @@ import java.util.List;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonArray extends JsonValue, Iterable<JsonValue> {
+public interface JsonArray extends JsonValue {
 
     /**
      * Returns an unmodifiable list of this JSON array values
