@@ -67,7 +67,9 @@ public final class JsonNumberImpl implements JsonNumber {
     }
 
     public JsonNumberImpl(double value) {
-        bigDecimal = new BigDecimal(value);
+        //bigDecimal = new BigDecimal(value);
+        // This is the preferred way to convert double to BigDecimal
+        bigDecimal = BigDecimal.valueOf(value);
     }
 
     public JsonNumberImpl(BigDecimal value) {
