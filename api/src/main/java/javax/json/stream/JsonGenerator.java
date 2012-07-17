@@ -40,8 +40,6 @@
 
 package javax.json.stream;
 
-import org.glassfish.json.JsonGeneratorImpl;
-
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.Closeable;

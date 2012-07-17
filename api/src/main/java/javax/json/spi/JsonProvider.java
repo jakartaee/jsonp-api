@@ -40,15 +40,12 @@
 
 package javax.json.spi;
 
-import org.glassfish.json.JsonProviderImpl;
-
 import javax.json.JsonArray;
 import javax.json.JsonConfiguration;
+import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
@@ -60,6 +57,13 @@ import java.util.ServiceLoader;
  * @author Jitendra Kotamraju
  */
 public abstract class JsonProvider {
+
+    /**
+     * A constant representing the name of the default
+     * {@code JsonProvider} implementation class.
+     */
+    private static final String DEFAULT_PROVIDER
+            = "org.glassfish.json.JsonProviderImpl";
 
     protected JsonProvider() {
     }
@@ -91,7 +95,21 @@ public abstract class JsonProvider {
         if (it.hasNext()) {
             return it.next();
         }
-        return new JsonProviderImpl();
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Class<?> clazz = (classLoader == null)
+                ? Class.forName(DEFAULT_PROVIDER)
+                : classLoader.loadClass(DEFAULT_PROVIDER);
+            return (JsonProvider)clazz.newInstance();
+        } catch (ClassNotFoundException x) {
+            throw new JsonException(
+                    "Provider " + DEFAULT_PROVIDER + " not found", x);
+        } catch (Exception x) {
+            throw new JsonException(
+                    "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
+                    x);
+        }
     }
 
     public abstract JsonParser createParser(Reader reader);

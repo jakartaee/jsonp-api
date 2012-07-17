@@ -54,46 +54,15 @@
     </parent>
 
     <groupId>javax.json</groupId>
-    <artifactId>jsonp-ri</artifactId>
-    <packaging>bundle</packaging>
+    <artifactId>javax.json-api</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Java API for Processing JSON (JSON-P)</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
 
-    <scm>
-        <connection>scm:git://java.net/json-processing-spec~git/api</connection>
-        <developerConnection>scm:git:ssh://jitu@git.java.net/json-processing-spec~git/api</developerConnection>
-        <url>http://java.net/projects/json-processing-spec/sources/git/show/api</url>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>
-                Dual license consisting of the CDDL v1.1 and GPL v2
-            </name>
-            <url>https://glassfish.java.net/public/CDDL+GPL_1_1.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>jitu</id>
-            <name>Jitendra Kotamraju</name>
-            <url>http://weblogs.java.net/blog/jitu</url>
-            <organization>Oracle</organization>
-        </developer>
-    </developers>
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -136,41 +105,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Export-Package>
-                            javax.json.*;version=${project.version}
-                        </Export-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-<!--
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-release-plugin</artifactId>
-                            <configuration>
-                                <mavenExecutorId>forked-path</mavenExecutorId>
-                                <useReleaseProfile>false</useReleaseProfile>
-                                <arguments>${release.arguments}</arguments>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
--->
 </project>
