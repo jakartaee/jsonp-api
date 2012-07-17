@@ -45,6 +45,7 @@ import org.glassfish.json.JsonGeneratorImpl;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.Closeable;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -56,7 +57,7 @@ import java.io.Writer;
  *
  * <code>
  * <pre>
- * JsonGenerator generator = JsonGenerator.create(...);
+ * JsonGenerator generator = ...;
  * generator
  *     .beginObject()
  *         .add("firstName", "John")
@@ -101,86 +102,27 @@ import java.io.Writer;
  *
  * @author Jitendra Kotamraju
  */
-public class JsonGenerator implements /*Auto*/Closeable {
-
-    private final JsonGeneratorImpl impl;
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified i/o writer.
-     *
-     * @param writer to which JSON is written
-     */
-    public JsonGenerator(Writer writer) {
-        impl = new JsonGeneratorImpl(writer);
-    }
+public interface JsonGenerator extends /*Auto*/Closeable {
 
     /**
      * Starts writing of a JSON object in a streaming fashion.
      *
      * @return an object builder
      */
-    public JsonObjectBuilder<Closeable> beginObject() {
-        return impl.beginObject();
-    }
+    public JsonObjectBuilder<Closeable> beginObject();
 
     /**
      * Starts writing of a JSON array in a streaming fashion.
      *
      * @return an array builder
      */
-    public JsonArrayBuilder<Closeable> beginArray() {
-        return impl.beginArray();
-    }
+    public JsonArrayBuilder<Closeable> beginArray();
 
     /**
      * Closes this generator and frees any resources associated with the
      * generator. This doesn't close the underlying output source.
      */
     @Override
-    public void close() {
-        impl.close();
-    }
-
-    private void test() {
-        JsonGenerator generator = new JsonGenerator(new StringWriter());
-        generator
-            .beginObject()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .beginObject("address")
-                    .add("streetAddress", "21 2nd Street")
-                    .add("city", "New York")
-                    .add("state", "NY")
-                    .add("postalCode", "10021")
-                .endObject()
-                .beginArray("phoneNumber")
-                    .beginObject()
-                        .add("type", "home")
-                        .add("number", "212 555-1234")
-                    .endObject()
-                    .beginObject()
-                        .add("type", "fax")
-                        .add("number", "646 555-4567")
-                    .endObject()
-                .endArray()
-            .endObject();
-        generator.close();
-
-        generator = new JsonGenerator(new StringWriter());
-        generator
-            .beginArray()
-                .beginObject()
-                    .add("type", "home")
-                    .add("number", "212 555-1234")
-                .endObject()
-                .beginObject()
-                    .add("type", "fax")
-                    .add("number", "646 555-4567")
-                .endObject()
-            .endArray();
-        generator.close();
-    }
+    public void close();
 
 }

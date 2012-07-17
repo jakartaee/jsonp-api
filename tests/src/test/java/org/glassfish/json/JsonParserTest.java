@@ -42,6 +42,7 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
+import javax.json.Json;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.InputStreamReader;
@@ -68,20 +69,20 @@ public class JsonParserTest extends TestCase {
 //    }
     
     public void testReader() {
-        JsonParser reader = new JsonParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
+        JsonParser reader = Json.createParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
         reader.close();
     }
 
     @SuppressWarnings("unused")
     public void testEmptyArray() {
-        JsonParser reader = new JsonParser(new StringReader("[]"));
+        JsonParser reader = Json.createParser(new StringReader("[]"));
         for(Event e : reader) {
         }
         reader.close();
     }
 
     public void testEmptyArray1() {
-        JsonParser reader = new JsonParser(new StringReader("[]"));
+        JsonParser reader = Json.createParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(true, it.hasNext());
         assertEquals(true, it.hasNext());
@@ -102,7 +103,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArray2() {
-        JsonParser reader = new JsonParser(new StringReader("[]"));
+        JsonParser reader = Json.createParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_ARRAY, it.next());
         assertEquals(Event.END_ARRAY, it.next());
@@ -115,7 +116,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArray3() {
-        JsonParser reader = new JsonParser(new StringReader("[]"));
+        JsonParser reader = Json.createParser(new StringReader("[]"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_ARRAY, it.next());
         assertEquals(Event.END_ARRAY, it.next());
@@ -130,14 +131,14 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("unused")
     public void testEmptyObject() {
-        JsonParser reader = new JsonParser(new StringReader("{}"));
+        JsonParser reader = Json.createParser(new StringReader("{}"));
         for(Event e : reader) {
         }
         reader.close();
     }
 
     public void testEmptyObject1() {
-        JsonParser reader = new JsonParser(new StringReader("{}"));
+        JsonParser reader = Json.createParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(true, it.hasNext());
         assertEquals(true, it.hasNext());
@@ -158,7 +159,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObject2() {
-        JsonParser reader = new JsonParser(new StringReader("{}"));
+        JsonParser reader = Json.createParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_OBJECT, it.next());
         assertEquals(Event.END_OBJECT, it.next());
@@ -171,7 +172,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObject3() {
-        JsonParser reader = new JsonParser(new StringReader("{}"));
+        JsonParser reader = Json.createParser(new StringReader("{}"));
         Iterator<Event> it = reader.iterator();
         assertEquals(Event.START_OBJECT, it.next());
         assertEquals(Event.END_OBJECT, it.next());
@@ -187,7 +188,7 @@ public class JsonParserTest extends TestCase {
     @SuppressWarnings("unused")
     public void testWikiReaderIterator() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser reader = new JsonParser(wikiReader);
+        JsonParser reader = Json.createParser(wikiReader);
         for(Event e : reader) {
         }
         reader.close();
@@ -197,7 +198,7 @@ public class JsonParserTest extends TestCase {
     
     public void testWikiReader() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser reader = new JsonParser(wikiReader);
+        JsonParser reader = Json.createParser(wikiReader);
         testWikiReader(reader);
         reader.close();
         wikiReader.close();

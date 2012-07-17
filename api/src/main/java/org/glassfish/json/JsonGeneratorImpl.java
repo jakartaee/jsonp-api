@@ -41,20 +41,39 @@
 package org.glassfish.json;
 
 import javax.json.*;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.Writer;
+import javax.json.stream.JsonGenerator;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
  * @author Jitendra Kotamraju
  */
-public class JsonGeneratorImpl implements Closeable {
+public class JsonGeneratorImpl implements JsonGenerator {
     private final Writer writer;
     
     public JsonGeneratorImpl(Writer writer) {
         this.writer = writer;
+    }
+
+    public JsonGeneratorImpl(Writer writer, JsonConfiguration config) {
+        this.writer = writer;
+    }
+
+    public JsonGeneratorImpl(OutputStream out, String encoding) {
+        try {
+            this.writer = new OutputStreamWriter(out, encoding);
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
+    }
+
+    public JsonGeneratorImpl(OutputStream out, String encoding, JsonConfiguration config) {
+        try {
+            this.writer = new OutputStreamWriter(out, encoding);
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
     }
 
     public JsonObjectBuilder<Closeable> beginObject() {

@@ -41,11 +41,7 @@
 package org.glassfish.json;
 
 import java.io.Reader;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonBuilder;
-import javax.json.JsonNumber;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
+import javax.json.*;
 import javax.json.stream.JsonParser;
 
 /**
@@ -59,7 +55,7 @@ public class JsonReaderImpl {
     }
 
     public JsonValue readObject() {
-        JsonParser parser = new JsonParser(reader);
+        JsonParser parser = Json.createParser(reader);
         Object builder = new JsonBuilder();
         String key = null;
         for(JsonParser.Event e : parser) {

@@ -40,18 +40,12 @@
 
 package javax.json.stream;
 
-import org.glassfish.json.JsonObjectImpl;
-import org.glassfish.json.JsonParserImpl;
-
 import javax.json.JsonArray;
-import javax.json.JsonBuilder;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import java.io.Closeable;
 import java.io.Reader;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Iterator;
 
 /**
@@ -116,8 +110,7 @@ import java.util.Iterator;
  *
  * @author Jitendra Kotamraju
  */
-public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable {
-    private final JsonParserImpl impl;
+public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeable {
 
     /**
      * Event for parser state while parsing the JSON
@@ -174,32 +167,6 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
         END_ARRAY
     }
 
-    /**
-     * Creates a JSON parser from a character stream
-     *
-     * @param reader a i/o reader from which JSON is to be read
-     */
-    public JsonParser(Reader reader) {
-        impl = new JsonParserImpl(reader);
-    }
-
-    /**
-     * Creates a JSON parser from a JSON array
-     *
-     * @param array a JSON array
-     */
-    public JsonParser(JsonArray array) {
-        impl = new JsonParserImpl(array);
-    }
-
-    /**
-     * Creates a JSON parser from a JSON object
-     *
-     * @param object a JSON object
-     */
-    public JsonParser(JsonObject object) {
-        impl = new JsonParserImpl(object);
-    }
 
     /**
      * Returns name when the parser state is {@link Event#KEY_NAME} or
@@ -209,9 +176,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @throws IllegalStateException when the parser state is not
      *      KEY_NAME or VALUE_STRING
      */
-    public String getString() {
-        return impl.getString();
-    }
+    public String getString();
 
     /**
      * Returns number type and this method can only be called when the parser
@@ -221,9 +186,7 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public JsonNumber.JsonNumberType getNumberType() {
-        return impl.getNumberType();
-    }
+    public JsonNumber.JsonNumberType getNumberType();
 
     /**
      * Returns a number and this method can only be called when the parser
@@ -236,49 +199,33 @@ public class JsonParser implements Iterable<JsonParser.Event>, /*Auto*/Closeable
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public JsonNumber getNumber() {
-        return impl.getNumber();
-    }
+    public JsonNumber getNumber();
+
+    /**
+     * getJsonValue(JsonObject.class) is valid in START_OBJECT state,
+     * moves cursor to END_OBJECT
+     *
+     * getJsonValue(JsonArray.class) is valid in START_ARRAY state
+     * moves cursor to END_ARRAY
+     *
+     * getJsonValue(JsonString.class) is valid in VALUE_STRING state
+     *
+     * getJsonValue(JsonNumber.class) is valid in VALUE_NUMBER state
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T extends JsonValue> T getJsonValue(Class<T> clazz);
 
     @Override
-    public Iterator<Event> iterator() {
-        return impl.iterator();
-    }
+    public Iterator<Event> iterator();
 
     /**
      * Closes this parser and frees any resources associated with the
      * parser. This doesn't close the underlying input source.
      */
     @Override
-    public void close() {
-        impl.close();
-    }
-
-    private void test() throws Exception {
-        Reader reader = new StringReader("{}");
-        JsonParser parser = new JsonParser(reader);
-        for(Event event : parser) {
-        }
-        parser.close();
-        reader.close();
-    }
-
-    private void test1() throws Exception {
-        JsonObject object = new JsonBuilder().beginObject().endObject().build();
-        JsonParser parser = new JsonParser(object);
-        Iterator<Event> it = parser.iterator();
-        Event event = it.next(); // START_OBJECT
-        event = it.next();       // END_OBJECT
-        parser.close();
-    }
-
-    private void test2() throws Exception {
-        JsonArray array = new JsonBuilder().beginArray().endArray().build();
-        JsonParser parser = new JsonParser(array);
-        Iterator<Event> it = parser.iterator();
-        Event event = it.next(); // START_ARRAY
-        event = it.next();       // END_ARRAY
-        parser.close();
-    }
+    public void close();
 
 }

@@ -41,8 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.JsonException;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 /**
  * JSON Tokenizer
@@ -63,6 +62,17 @@ final class JsonTokenizer {
     }
 
     JsonTokenizer(Reader reader) {
+        this.reader = new DirectReader(reader);
+    }
+
+    JsonTokenizer(InputStream in) {
+        Reader reader;
+        try {
+            // TODO BOM and auto detection of encoding
+            reader = new InputStreamReader(in, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
         this.reader = new DirectReader(reader);
     }
 

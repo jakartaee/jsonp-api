@@ -44,6 +44,7 @@ import junit.framework.TestCase;
 
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -60,7 +61,7 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testObject() throws Exception {
         StringWriter writer = new StringWriter();
-        JsonGenerator generator = new JsonGenerator(writer);
+        JsonGenerator generator = Json.createGenerator(writer);
         generator
             .beginObject()
                 .add("firstName", "John")
@@ -92,7 +93,7 @@ public class JsonGeneratorTest extends TestCase {
     }
 
     public void testArray() throws Exception {
-        JsonGenerator generator = new JsonGenerator(new StringWriter());
+        JsonGenerator generator = Json.createGenerator(new StringWriter());
         generator
             .beginArray()
                 .beginObject()
