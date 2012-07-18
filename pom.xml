@@ -93,6 +93,26 @@
         </developer>
     </developers>
 
+    <properties>
+        <jsonp.version>1.0-SNAPSHOT</jsonp.version>
+        <jsonp.spec.version>1.0-SNAPSHOT</jsonp.spec.version>
+        <!-- defaults that are overridden in child modules -->
+        <jsonp.extensionName>
+            ${project.groupId}.${project.artifactId}
+        </jsonp.extensionName>
+        <jsonp.bundle.symbolicName>
+            ${project.groupId}.${project.artifactId}
+        </jsonp.bundle.symbolicName>
+        <jsonp.packages.export>
+            javax.json.*; version=${jsonp.spec.version}
+        </jsonp.packages.export>
+        <jsonp.packages.import>
+        </jsonp.packages.import>
+        <jsonp.packages.private>
+            org.glassfish.json.*
+        </jsonp.packages.private>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -102,6 +122,34 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                </configuration>
+            </plugin>
+            <!--
+              This plugin is reponsible for packaging artifacts
+              as OSGi bundles.  Please refer to
+              http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+              for more information about how to use this plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${jsonp.bundle.symbolicName}
+                        </Bundle-SymbolicName>
+                        <Export-Package>
+                            ${jsonp.packages.export}
+                        </Export-Package>
+                        <Import-Package>
+                            ${jsonp.packages.import}
+                        </Import-Package>
+                        <Private-Package>
+                            ${jsonp.packages.private}
+                        </Private-Package>
+                    </instructions>
                 </configuration>
             </plugin>
         </plugins>

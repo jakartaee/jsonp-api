@@ -55,11 +55,17 @@
 
     <groupId>javax.json</groupId>
     <artifactId>javax.json-api</artifactId>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>JSON-P API jar</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
+
+    <properties>
+        <jsonp.bundle.symbolicName>
+            javax.json-api
+        </jsonp.bundle.symbolicName>
+    </properties>
 
     <build>
         <plugins>
