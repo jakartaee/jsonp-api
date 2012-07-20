@@ -45,6 +45,7 @@ import javax.json.stream.JsonGenerator;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -119,6 +120,57 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
         @Override
         public JsonObjectBuilder<T> add(String name, JsonValue value) {
+            switch (value.getValueType()) {
+                case ARRAY:
+                    JsonArray array = (JsonArray)value;
+                    JsonArrayBuilder<JsonObjectBuilder<T>> arrayBuilder = beginArray(name);
+                    for(JsonValue child: array.getValues()) {
+                        arrayBuilder.add(child);
+                    }
+                    arrayBuilder.endArray();
+                    break;
+                case OBJECT:
+                    JsonObject object = (JsonObject)value;
+                    JsonObjectBuilder<JsonObjectBuilder<T>> objectBuilder = beginObject(name);
+                    for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
+                        objectBuilder.add(member.getKey(), member.getValue());
+                    }
+                    objectBuilder.endObject();
+                    break;
+                case STRING:
+                    JsonString str = (JsonString)value;
+                    add(name, str.getValue());
+                    break;
+                case NUMBER:
+                    JsonNumber number = (JsonNumber)value;
+                    switch (number.getNumberType()) {
+                        case INT:
+                            add(name, number.getIntValue());
+                            break;
+                        case LONG:
+                            add(name, number.getLongValue());
+                            break;
+                        case BIG_INTEGER:
+                            add(name, number.getBigIntegerValue());
+                            break;
+                        case DOUBLE:
+                            add(name, number.getDoubleValue());
+                            break;
+                        case BIG_DECIMAL:
+                            add(name, number.getBigDecimalValue());
+                            break;
+                    }
+                    break;
+                case TRUE:
+                    add(name, true);
+                    break;
+                case FALSE:
+                    add(name, false);
+                    break;
+                case NULL:
+                    addNull(name);
+                    break;
+            }
             return this;
         }
 
@@ -245,7 +297,58 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
         @Override
         public JsonArrayBuilder<T> add(JsonValue value) {
-            throw new JsonException("TODO");
+            switch (value.getValueType()) {
+                case ARRAY:
+                    JsonArray array = (JsonArray)value;
+                    JsonArrayBuilder<JsonArrayBuilder<T>> arrayBuilder = beginArray();
+                    for(JsonValue child: array.getValues()) {
+                        arrayBuilder.add(child);
+                    }
+                    arrayBuilder.endArray();
+                    break;
+                case OBJECT:
+                    JsonObject object = (JsonObject)value;
+                    JsonObjectBuilder<JsonArrayBuilder<T>> objectBuilder = beginObject();
+                    for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
+                        objectBuilder.add(member.getKey(), member.getValue());
+                    }
+                    objectBuilder.endObject();
+                    break;
+                case STRING:
+                    JsonString str = (JsonString)value;
+                    add(str.getValue());
+                    break;
+                case NUMBER:
+                    JsonNumber number = (JsonNumber)value;
+                    switch (number.getNumberType()) {
+                        case INT:
+                            add(number.getIntValue());
+                            break;
+                        case LONG:
+                            add(number.getLongValue());
+                            break;
+                        case BIG_INTEGER:
+                            add(number.getBigIntegerValue());
+                            break;
+                        case DOUBLE:
+                            add(number.getDoubleValue());
+                            break;
+                        case BIG_DECIMAL:
+                            add(number.getBigDecimalValue());
+                            break;
+                    }
+                    break;
+                case TRUE:
+                    add(true);
+                    break;
+                case FALSE:
+                    add(false);
+                    break;
+                case NULL:
+                    addNull();
+                    break;
+            }
+            return this;
         }
 
         @Override

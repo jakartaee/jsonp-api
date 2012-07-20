@@ -114,4 +114,30 @@ public class JsonBuilderTest extends TestCase {
         .build();
     }
 
+    static JsonObject buildAddress() {
+        return new JsonBuilder()
+            .beginObject()
+                .add("streetAddress", "21 2nd Street")
+                .add("city", "New York")
+                .add("state", "NY")
+                .add("postalCode", "10021")
+            .endObject()
+        .build();
+    }
+
+    static JsonArray buildPhone() {
+        return new JsonBuilder()
+            .beginArray()
+                .beginObject()
+                    .add("type", "home")
+                    .add("number", "212 555-1234")
+                .endObject()
+                .beginObject()
+                    .add("type", "fax")
+                    .add("number", "646 555-4567")
+                .endObject()
+            .endArray()
+        .build();
+    }
+
 }

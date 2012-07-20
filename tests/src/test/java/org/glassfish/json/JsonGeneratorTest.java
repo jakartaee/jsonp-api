@@ -107,4 +107,25 @@ public class JsonGeneratorTest extends TestCase {
             .endArray();
         generator.close();
     }
+
+    // tests JsonGenerator when JsonValue is used for generation
+    public void testJsonValue() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator
+            .beginObject()
+                .add("firstName", "John")
+                .add("lastName", "Smith")
+                .add("age", 25)
+                .add("address", JsonBuilderTest.buildAddress())
+                .add("phoneNumber", JsonBuilderTest.buildPhone())
+            .endObject();
+        generator.close();
+        writer.close();
+
+        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonObject person = (JsonObject)reader.readObject();
+        JsonObjectTest.testPerson(person);
+    }
+
 }
