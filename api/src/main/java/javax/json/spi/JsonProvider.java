@@ -45,7 +45,9 @@ import javax.json.JsonConfiguration;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
@@ -128,6 +130,11 @@ public abstract class JsonProvider {
 
     public abstract JsonParser createParser(JsonObject object, JsonConfiguration config);
 
+    public abstract JsonParserFactory createParserFactory();
+
+    public abstract JsonParserFactory createParserFactory(JsonConfiguration config);
+
+
 
     public abstract JsonGenerator createGenerator(Writer writer);
 
@@ -136,5 +143,9 @@ public abstract class JsonProvider {
 //    public abstract JsonGenerator createGenerator(OutputStream out, String encoding);
 //
 //    public abstract JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config);
+
+    public abstract JsonGeneratorFactory createGeneratorFactory();
+
+    public abstract JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config);
 
 }
