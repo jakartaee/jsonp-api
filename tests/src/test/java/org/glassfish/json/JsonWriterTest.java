@@ -93,4 +93,14 @@ public class JsonWriterTest extends TestCase {
 
         assertEquals("[10.5]", writer.toString());
     }
+
+    public void testArrayString() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter.writeArray(new JsonBuilder().beginArray().add("string").endArray().build());
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("[\"string\"]", writer.toString());
+    }
 }

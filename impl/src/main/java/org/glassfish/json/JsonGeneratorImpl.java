@@ -353,7 +353,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
         @Override
         public JsonArrayBuilder<T> add(String value) {
-            writeValue(value);
+            writeString(value);
             return this;
         }
 
@@ -430,5 +430,17 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 throw new JsonException(ioe);
             }
         }
+
+        private void writeString(String value) {
+            try {
+                writeComma();
+                writer.write('"');
+                writer.write(value);
+                writer.write('"');
+            } catch(IOException ioe) {
+                throw new JsonException(ioe);
+            }
+        }
+
     }
 }

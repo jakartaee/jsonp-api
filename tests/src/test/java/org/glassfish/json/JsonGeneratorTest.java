@@ -128,4 +128,14 @@ public class JsonGeneratorTest extends TestCase {
         JsonObjectTest.testPerson(person);
     }
 
+    public void testArrayString() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.beginArray().add("string").endArray();
+        generator.close();
+        writer.close();
+
+        assertEquals("[\"string\"]", writer.toString());
+    }
+
 }
