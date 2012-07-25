@@ -43,6 +43,7 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 
 import javax.json.Json;
+import javax.json.JsonBuilder;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.InputStreamReader;
@@ -59,31 +60,46 @@ public class JsonParserTest extends TestCase {
     public JsonParserTest(String testName) {
         super(testName);
     }
-
-//    TODO need to fix impl for this to work
-//
-//    public void testParser() {
-//        JsonParser parser = new JsonParser(new StringReader(""));
-//        assertFalse(parser.iterator().hasNext());
-//        parser.close();
-//    }
     
     public void testReader() {
         JsonParser reader = Json.createParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
         reader.close();
     }
 
-    @SuppressWarnings("unused")
-    public void testEmptyArray() {
-        JsonParser reader = Json.createParser(new StringReader("[]"));
-        for(Event e : reader) {
-        }
-        reader.close();
+
+    public void testEmptyArrayReader() {
+        JsonParser parser = Json.createParser(new StringReader("[]"));
+        testEmptyArray(parser);
+        parser.close();
     }
 
-    public void testEmptyArray1() {
-        JsonParser reader = Json.createParser(new StringReader("[]"));
-        Iterator<Event> it = reader.iterator();
+    public void testEmptyArrayStructure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    static void testEmptyArray(JsonParser parser) {
+        for(Event e : parser) {
+        }
+    }
+
+
+    public void testEmptyArrayReaderIterator() {
+        JsonParser parser = Json.createParser(new StringReader("[]"));
+        testEmptyArrayIterator(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStructureIterator() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        testEmptyArrayIterator(parser);
+        parser.close();
+    }
+
+    static void testEmptyArrayIterator(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(true, it.hasNext());
         assertEquals(true, it.hasNext());
         assertEquals(Event.START_ARRAY, it.next());
@@ -99,12 +115,24 @@ public class JsonParserTest extends TestCase {
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
-        reader.close();
     }
 
-    public void testEmptyArray2() {
-        JsonParser reader = Json.createParser(new StringReader("[]"));
-        Iterator<Event> it = reader.iterator();
+
+
+    public void testEmptyArrayIterator2Reader() {
+        JsonParser parser = Json.createParser(new StringReader("[]"));
+        testEmptyArrayIterator2(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayIterator2Structure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        testEmptyArrayIterator2(parser);
+        parser.close();
+    }
+
+    static void testEmptyArrayIterator2(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(Event.START_ARRAY, it.next());
         assertEquals(Event.END_ARRAY, it.next());
         try {
@@ -112,12 +140,23 @@ public class JsonParserTest extends TestCase {
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
-        reader.close();
     }
 
-    public void testEmptyArray3() {
-        JsonParser reader = Json.createParser(new StringReader("[]"));
-        Iterator<Event> it = reader.iterator();
+
+    public void testEmptyArrayIterator3Reader() {
+        JsonParser parser = Json.createParser(new StringReader("[]"));
+        testEmptyArrayIterator3(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayIterator3Structure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        testEmptyArrayIterator3(parser);
+        parser.close();
+    }
+
+    static void testEmptyArrayIterator3(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(Event.START_ARRAY, it.next());
         assertEquals(Event.END_ARRAY, it.next());
         assertEquals(false, it.hasNext());
@@ -126,20 +165,44 @@ public class JsonParserTest extends TestCase {
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
-        reader.close();
     }
 
-    @SuppressWarnings("unused")
-    public void testEmptyObject() {
-        JsonParser reader = Json.createParser(new StringReader("{}"));
-        for(Event e : reader) {
+
+
+    public void testEmptyObjectReader() {
+        JsonParser parser = Json.createParser(new StringReader("{}"));
+        testEmptyObject(parser);
+        parser.close();
+    }
+
+    public void testEmptyObjectStructure() {
+        JsonParser parser = Json.createParser(new StringReader("{}"));
+        testEmptyObject(parser);
+        parser.close();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    static void testEmptyObject(JsonParser parser) {
+        for(Event e : parser) {
         }
-        reader.close();
     }
 
-    public void testEmptyObject1() {
-        JsonParser reader = Json.createParser(new StringReader("{}"));
-        Iterator<Event> it = reader.iterator();
+
+
+    public void testEmptyObjectIteratorReader() {
+        JsonParser parser = Json.createParser(new StringReader("{}"));
+        testEmptyObjectIterator(parser);
+        parser.close();
+    }
+
+    public void testEmptyObjectIteratorStructure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        testEmptyObjectIterator(parser);
+        parser.close();
+    }
+
+    static void testEmptyObjectIterator(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(true, it.hasNext());
         assertEquals(true, it.hasNext());
         assertEquals(Event.START_OBJECT, it.next());
@@ -155,12 +218,22 @@ public class JsonParserTest extends TestCase {
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
-        reader.close();
     }
 
-    public void testEmptyObject2() {
-        JsonParser reader = Json.createParser(new StringReader("{}"));
-        Iterator<Event> it = reader.iterator();
+
+    public void testEmptyObjectIterator2Reader() {
+        JsonParser parser = Json.createParser(new StringReader("{}"));
+        testEmptyObjectIterator2(parser);
+        parser.close();
+    }
+    public void testEmptyObjectIterator2Structure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        testEmptyObjectIterator2(parser);
+        parser.close();
+    }
+
+    static void testEmptyObjectIterator2(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(Event.START_OBJECT, it.next());
         assertEquals(Event.END_OBJECT, it.next());
         try {
@@ -168,12 +241,23 @@ public class JsonParserTest extends TestCase {
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
-        reader.close();
     }
 
-    public void testEmptyObject3() {
-        JsonParser reader = Json.createParser(new StringReader("{}"));
-        Iterator<Event> it = reader.iterator();
+
+    public void testEmptyObjectIterator3Reader() {
+        JsonParser parser = Json.createParser(new StringReader("{}"));
+        testEmptyObjectIterator3(parser);
+        parser.close();
+    }
+
+    public void testEmptyObjectIterator3Structure() {
+        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        testEmptyObjectIterator3(parser);
+        parser.close();
+    }
+
+    static void testEmptyObjectIterator3(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
         assertEquals(Event.START_OBJECT, it.next());
         assertEquals(Event.END_OBJECT, it.next());
         assertEquals(false, it.hasNext());
@@ -181,85 +265,98 @@ public class JsonParserTest extends TestCase {
             it.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
+            // expected
         }
-        reader.close();
     }
 
-    @SuppressWarnings("unused")
-    public void testWikiReaderIterator() throws Exception {
+
+
+    public void testWikiIteratorReader() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser reader = Json.createParser(wikiReader);
-        for(Event e : reader) {
-        }
-        reader.close();
+        JsonParser parser = Json.createParser(wikiReader);
+        testWikiIterator(parser);
+        parser.close();
         wikiReader.close();
     }
+
+    public void testWikiIteratorStructure() throws Exception {
+        JsonParser parser = Json.createParser(JsonBuilderTest.buildPerson());
+        testWikiIterator(parser);
+        parser.close();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    static void testWikiIterator(JsonParser parser) throws Exception {
+        for(Event e : parser) {
+        }
+    }
+
     
     
     public void testWikiReader() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser reader = Json.createParser(wikiReader);
-        testWikiReader(reader);
-        reader.close();
+        JsonParser parser = Json.createParser(wikiReader);
+        testWiki(parser);
+        parser.close();
         wikiReader.close();
     }
 
-    public void testWikiObjectParser() throws Exception {
-        JsonParser reader = Json.createParser(JsonBuilderTest.buildPerson());
-        testWikiReader(reader);
-        reader.close();
+    public void testWikiStructure() throws Exception {
+        JsonParser parser = Json.createParser(JsonBuilderTest.buildPerson());
+        testWiki(parser);
+        parser.close();
     }
 
-    static void testWikiReader(JsonParser reader) {
-        Iterator<Event> it = reader.iterator();
+    static void testWiki(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
 
         Event event = it.next();
         assertEquals(Event.START_OBJECT, event);
 
-        testObjectStringValue(reader, it, "firstName", "John");
-        testObjectStringValue(reader, it, "lastName", "Smith");
+        testObjectStringValue(parser, it, "firstName", "John");
+        testObjectStringValue(parser, it, "lastName", "Smith");
 
         event = it.next();
         assertEquals(Event.KEY_NAME, event);
-        assertEquals("age", reader.getString());
+        assertEquals("age", parser.getString());
 
         event = it.next();
         assertEquals(Event.VALUE_NUMBER, event);
-        assertEquals(25, reader.getNumber().getIntValue());
+        assertEquals(25, parser.getNumber().getIntValue());
 
         event = it.next();
         assertEquals(Event.KEY_NAME, event);
-        assertEquals("address", reader.getString());
+        assertEquals("address", parser.getString());
 
         event = it.next();
         assertEquals(Event.START_OBJECT, event);
 
 
-        testObjectStringValue(reader, it, "streetAddress", "21 2nd Street");
-        testObjectStringValue(reader, it, "city", "New York");
-        testObjectStringValue(reader, it, "state", "NY");
-        testObjectStringValue(reader, it, "postalCode", "10021");
+        testObjectStringValue(parser, it, "streetAddress", "21 2nd Street");
+        testObjectStringValue(parser, it, "city", "New York");
+        testObjectStringValue(parser, it, "state", "NY");
+        testObjectStringValue(parser, it, "postalCode", "10021");
 
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
 
         event = it.next();
         assertEquals(Event.KEY_NAME, event);
-        assertEquals("phoneNumber", reader.getString());
+        assertEquals("phoneNumber", parser.getString());
 
         event = it.next();
         assertEquals(Event.START_ARRAY, event);
         event = it.next();
         assertEquals(Event.START_OBJECT, event);
-        testObjectStringValue(reader, it, "type", "home");
-        testObjectStringValue(reader, it, "number", "212 555-1234");
+        testObjectStringValue(parser, it, "type", "home");
+        testObjectStringValue(parser, it, "number", "212 555-1234");
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
 
         event = it.next();
         assertEquals(Event.START_OBJECT, event);
-        testObjectStringValue(reader, it, "type", "fax");
-        testObjectStringValue(reader, it, "number", "646 555-4567");
+        testObjectStringValue(parser, it, "type", "fax");
+        testObjectStringValue(parser, it, "number", "646 555-4567");
         event = it.next();
         assertEquals(Event.END_OBJECT, event);
         event = it.next();
@@ -277,6 +374,39 @@ public class JsonParserTest extends TestCase {
         event = it.next();
         assertEquals(Event.VALUE_STRING, event);
         assertEquals(value, reader.getString());
+    }
+
+    public void testNestedArrayReader() {
+        JsonParser parser = Json.createParser(new StringReader("[[],[[]]]"));
+        testNestedArray(parser);
+        parser.close();
+    }
+
+    public void testNestedArrayStructure() {
+        JsonParser parser = Json.createParser(new JsonBuilder()
+                .beginArray()
+                    .beginArray().endArray()
+                    .beginArray()
+                        .beginArray().endArray()
+                    .endArray()
+                .endArray()
+                .build());
+        testNestedArray(parser);
+        parser.close();
+    }
+
+    static void testNestedArray(JsonParser parser) {
+        Iterator<Event> it = parser.iterator();
+        assertEquals(Event.START_ARRAY, it.next());
+        assertEquals(Event.START_ARRAY, it.next());
+        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(Event.START_ARRAY, it.next());
+        assertEquals(Event.START_ARRAY, it.next());
+        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(false, it.hasNext());
+        assertEquals(false, it.hasNext());
     }
 
 }
