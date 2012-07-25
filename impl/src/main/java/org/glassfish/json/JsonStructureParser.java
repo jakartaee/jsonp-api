@@ -45,7 +45,7 @@ import javax.json.stream.JsonParser;
 import java.util.*;
 
 /**
- * JSON Tokenizer
+ * JSONParser implementation on top of JsonArray/JsonObject
  *
  * @author Jitendra Kotamraju
  */
@@ -66,12 +66,12 @@ class JsonStructureParser implements JsonParser {
     @Override
     public String getString() {
         if (current instanceof ArrayScope) {
-            return ((JsonString)(((ArrayScope)current).value)).getValue();
+            return ((JsonString)current.getJsonValue()).getValue();
         } else {
             if (state == Event.KEY_NAME)
                 return ((ObjectScope)current).key;
             else
-                return ((JsonString)(((ObjectScope)current).value)).getValue();
+                return ((JsonString)current.getJsonValue()).getValue();
         }
     }
 
@@ -82,10 +82,7 @@ class JsonStructureParser implements JsonParser {
 
     @Override
     public JsonNumber getNumber() {
-        JsonValue value = (current instanceof ArrayScope)
-            ? ((ArrayScope)current).value
-            : ((ObjectScope)current).value;
-        return (JsonNumber)value;
+        return (JsonNumber)current.getJsonValue();
     }
 
     @Override
@@ -99,11 +96,7 @@ class JsonStructureParser implements JsonParser {
 
             @Override
             public boolean hasNext() {
-                if ((state == Event.END_OBJECT || state == Event.END_ARRAY) && scopeStack.isEmpty()) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !((state == Event.END_OBJECT || state == Event.END_ARRAY) && scopeStack.isEmpty());
             }
 
             @Override
@@ -130,88 +123,38 @@ class JsonStructureParser implements JsonParser {
                 }
 
                 if (current instanceof ArrayScope) {
-                    switch (state) {
-                        case START_ARRAY:
-                        case VALUE_STRING:
-                        case VALUE_NUMBER:
-                        case VALUE_TRUE:
-                        case VALUE_FALSE:
-                        case VALUE_NULL:
-                        case END_ARRAY:
-                        case END_OBJECT:
-                            if (((ArrayScope)current).hasNext()) {
-                                ((ArrayScope)current).next();
-                                state = getState(((ArrayScope)current).value);
-                                if (state == Event.START_ARRAY) {
-                                    scopeStack.push(current);
-                                    current = new ArrayScope((JsonArray)((ArrayScope)current).value);
-                                } else if (state == Event.START_OBJECT) {
-                                    scopeStack.push(current);
-                                    current = new ObjectScope((JsonObject)((ArrayScope)current).value);
-                                }
-                            } else {
-                                state = Event.END_ARRAY;
-                            }
-                            break;
+                    if (current.hasNext()) {
+                        current.next();
+                        state = getState(current.getJsonValue());
+                        if (state == Event.START_ARRAY) {
+                            scopeStack.push(current);
+                            current = new ArrayScope((JsonArray)current.getJsonValue());
+                        } else if (state == Event.START_OBJECT) {
+                            scopeStack.push(current);
+                            current = new ObjectScope((JsonObject)current.getJsonValue());
+                        }
+                    } else {
+                        state = Event.END_ARRAY;
                     }
                 } else {
-                    switch (state) {
-                        case END_OBJECT:
-                        case END_ARRAY:
-                        case START_OBJECT:
-                            if (((ObjectScope)current).hasNext()) {
-                                ((ObjectScope)current).next();
-                                state = Event.KEY_NAME;
-                            } else {
-                                state = Event.END_OBJECT;
-                            }
-                            break;
-                        case KEY_NAME:
-                            state = getState(((ObjectScope)current).value);
-                            if (state == Event.START_ARRAY) {
-                                scopeStack.push(current);
-                                current = new ArrayScope((JsonArray)((ObjectScope)current).value);
-                            } else if (state == Event.START_OBJECT) {
-                                scopeStack.push(current);
-                                current = new ObjectScope((JsonObject)((ObjectScope)current).value);
-                            }
-                            break;
-                        case VALUE_STRING:
-                        case VALUE_NUMBER:
-                        case VALUE_TRUE:
-                        case VALUE_FALSE:
-                        case VALUE_NULL:
-                            if (((ObjectScope)current).hasNext()) {
-                                ((ObjectScope)current).next();
-                                state = Event.KEY_NAME;
-                            } else {
-                                state = Event.END_OBJECT;
-                            }
-                            break;
+                    // ObjectScope
+                    if (state == Event.KEY_NAME) {
+                        state = getState(current.getJsonValue());
+                        if (state == Event.START_ARRAY) {
+                            scopeStack.push(current);
+                            current = new ArrayScope((JsonArray)current.getJsonValue());
+                        } else if (state == Event.START_OBJECT) {
+                            scopeStack.push(current);
+                            current = new ObjectScope((JsonObject)current.getJsonValue());
+                        }
+                    } else {
+                        if (current.hasNext()) {
+                            current.next();
+                            state = Event.KEY_NAME;
+                        } else {
+                            state = Event.END_OBJECT;
+                        }
                     }
-                }
-            }
-
-
-
-            private Event getState(JsonValue value) {
-                switch (value.getValueType()) {
-                    case ARRAY:
-                        return Event.START_ARRAY;
-                    case OBJECT:
-                        return Event.START_OBJECT;
-                    case STRING:
-                        return Event.VALUE_STRING;
-                    case NUMBER:
-                        return Event.VALUE_NUMBER;
-                    case TRUE:
-                        return Event.VALUE_TRUE;
-                    case FALSE:
-                        return Event.VALUE_FALSE;
-                    case NULL:
-                        return Event.VALUE_NULL;
-                    default:
-                        throw new JsonException("Unknown value type="+value.getValueType());
                 }
             }
 
@@ -223,13 +166,34 @@ class JsonStructureParser implements JsonParser {
         // no-op
     }
 
-    static class Scope {
-
+    private static Event getState(JsonValue value) {
+        switch (value.getValueType()) {
+            case ARRAY:
+                return Event.START_ARRAY;
+            case OBJECT:
+                return Event.START_OBJECT;
+            case STRING:
+                return Event.VALUE_STRING;
+            case NUMBER:
+                return Event.VALUE_NUMBER;
+            case TRUE:
+                return Event.VALUE_TRUE;
+            case FALSE:
+                return Event.VALUE_FALSE;
+            case NULL:
+                return Event.VALUE_NULL;
+            default:
+                throw new JsonException("Unknown value type="+value.getValueType());
+        }
     }
 
-    static class ArrayScope extends Scope implements Iterator<JsonValue> {
+    private static interface Scope extends Iterator {
+        JsonValue getJsonValue();
+    }
+
+    private static class ArrayScope implements Scope {
         private final Iterator<JsonValue> it;
-        JsonValue value;
+        private JsonValue value;
 
         ArrayScope(JsonArray array) {
             this.it = array.getValues().iterator();
@@ -249,12 +213,17 @@ class JsonStructureParser implements JsonParser {
         public void remove() {
             throw new UnsupportedOperationException();
         }
+
+        @Override
+        public JsonValue getJsonValue() {
+            return value;
+        }
     }
 
-    static class ObjectScope extends Scope implements Iterator<Map.Entry<String, JsonValue>> {
+    private static class ObjectScope implements Scope {
         private final Iterator<Map.Entry<String, JsonValue>> it;
-        JsonValue value;
-        String key;
+        private JsonValue value;
+        private String key;
 
         ObjectScope(JsonObject object) {
             this.it = object.getValues().entrySet().iterator();
@@ -276,6 +245,11 @@ class JsonStructureParser implements JsonParser {
         @Override
         public void remove() {
             throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public JsonValue getJsonValue() {
+            return value;
         }
     }
 
