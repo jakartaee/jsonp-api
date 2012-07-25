@@ -31,11 +31,11 @@ public class JsonParserFactoryImpl implements JsonParserFactory {
 
     @Override
     public JsonParser createParser(JsonArray array) {
-        return new JsonParserImpl(array);
+        return new JsonStructureParser(array);
     }
 
     @Override
     public JsonParser createParser(JsonObject object) {
-        return new JsonParserImpl(object);
+        return new JsonStructureParser(object);
     }
 }

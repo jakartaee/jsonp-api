@@ -58,22 +58,22 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(JsonArray array) {
-        return new JsonParserImpl(array);
+        return new JsonStructureParser(array);
     }
 
     @Override
     public JsonParser createParser(JsonArray array, JsonConfiguration config) {
-        return new JsonParserImpl(array, config);
+        return new JsonStructureParser(array);
     }
 
     @Override
     public JsonParser createParser(JsonObject object) {
-        return new JsonParserImpl(object);
+        return new JsonStructureParser(object);
     }
 
     @Override
     public JsonParser createParser(JsonObject object, JsonConfiguration config) {
-        return new JsonParserImpl(object, config);
+        return new JsonStructureParser(object);
     }
 
     @Override

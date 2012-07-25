@@ -77,22 +77,6 @@ public class JsonParserImpl implements JsonParser {
         tokenizer = new JsonTokenizer(in);
     }
 
-    public JsonParserImpl(JsonArray array) {
-        tokenizer = null;
-    }
-
-    public JsonParserImpl(JsonArray array, JsonConfiguration config) {
-        tokenizer = null;
-    }
-
-    public JsonParserImpl(JsonObject object) {
-        tokenizer = null;
-    }
-
-    public JsonParserImpl(JsonObject object, JsonConfiguration config) {
-        tokenizer = null;
-    }
-
     public String getString() {
         return tokenizer.getValue();
     }

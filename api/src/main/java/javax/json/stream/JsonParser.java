@@ -218,9 +218,6 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
      */
     public <T extends JsonValue> T getJsonValue(Class<T> clazz);
 
-    @Override
-    public Iterator<Event> iterator();
-
     /**
      * Closes this parser and frees any resources associated with the
      * parser. This doesn't close the underlying input source.

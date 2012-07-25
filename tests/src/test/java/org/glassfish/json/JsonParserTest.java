@@ -204,6 +204,12 @@ public class JsonParserTest extends TestCase {
         wikiReader.close();
     }
 
+    public void testWikiObjectParser() throws Exception {
+        JsonParser reader = Json.createParser(JsonBuilderTest.buildPerson());
+        testWikiReader(reader);
+        reader.close();
+    }
+
     static void testWikiReader(JsonParser reader) {
         Iterator<Event> it = reader.iterator();
 
