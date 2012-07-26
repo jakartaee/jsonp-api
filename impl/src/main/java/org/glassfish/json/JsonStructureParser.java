@@ -45,7 +45,7 @@ import javax.json.stream.JsonParser;
 import java.util.*;
 
 /**
- * JSONParser implementation on top of JsonArray/JsonObject
+ * {@link JsonParser} implementation on top of JsonArray/JsonObject
  *
  * @author Jitendra Kotamraju
  */
@@ -65,24 +65,32 @@ class JsonStructureParser implements JsonParser {
 
     @Override
     public String getString() {
-        if (current instanceof ArrayScope) {
+        if (state == Event.KEY_NAME) {
+            return ((ObjectScope)current).key;
+        } else if (state == Event.VALUE_STRING) {
             return ((JsonString)current.getJsonValue()).getValue();
-        } else {
-            if (state == Event.KEY_NAME)
-                return ((ObjectScope)current).key;
-            else
-                return ((JsonString)current.getJsonValue()).getValue();
         }
+        throw new IllegalStateException("JsonParser#getString() can only be called in"
+                + " KEY_NAME or VALUE_STRING states, not in "+state);
     }
 
     @Override
     public JsonNumber.JsonNumberType getNumberType() {
-        return getNumber().getNumberType();
+        if (state == Event.VALUE_NUMBER) {
+            return getNumber().getNumberType();
+        }
+        throw new IllegalStateException("JsonParser#getNumberType() can only be called in"
+                + " VALUE_NUMBER state, not in "+state);
     }
 
     @Override
     public JsonNumber getNumber() {
-        return (JsonNumber)current.getJsonValue();
+        if (state == Event.VALUE_NUMBER) {
+            return (JsonNumber)current.getJsonValue();
+        }
+        throw new IllegalStateException("JsonParser#getNumber() can only be called in"
+                + " VALUE_NUMBER state, not in "+state);
+
     }
 
     @Override
@@ -104,11 +112,7 @@ class JsonStructureParser implements JsonParser {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (state == null) {
-                    state = current instanceof ArrayScope ? Event.START_ARRAY : Event.START_OBJECT;
-                } else {
-                    transition();
-                }
+                transition();
                 return state;
             }
 
@@ -118,41 +122,38 @@ class JsonStructureParser implements JsonParser {
             }
 
             private void transition() {
-                if (state == Event.END_OBJECT || state == Event.END_ARRAY) {
-                    current = scopeStack.pop();
-                }
-
-                if (current instanceof ArrayScope) {
-                    if (current.hasNext()) {
-                        current.next();
-                        state = getState(current.getJsonValue());
-                        if (state == Event.START_ARRAY) {
-                            scopeStack.push(current);
-                            current = new ArrayScope((JsonArray)current.getJsonValue());
-                        } else if (state == Event.START_OBJECT) {
-                            scopeStack.push(current);
-                            current = new ObjectScope((JsonObject)current.getJsonValue());
-                        }
-                    } else {
-                        state = Event.END_ARRAY;
-                    }
+                if (state == null) {
+                    state = current instanceof ArrayScope ? Event.START_ARRAY : Event.START_OBJECT;
                 } else {
-                    // ObjectScope
-                    if (state == Event.KEY_NAME) {
-                        state = getState(current.getJsonValue());
-                        if (state == Event.START_ARRAY) {
-                            scopeStack.push(current);
-                            current = new ArrayScope((JsonArray)current.getJsonValue());
-                        } else if (state == Event.START_OBJECT) {
-                            scopeStack.push(current);
-                            current = new ObjectScope((JsonObject)current.getJsonValue());
-                        }
-                    } else {
+                    if (state == Event.END_OBJECT || state == Event.END_ARRAY) {
+                        current = scopeStack.pop();
+                    }
+                    if (current instanceof ArrayScope) {
                         if (current.hasNext()) {
                             current.next();
-                            state = Event.KEY_NAME;
+                            state = getState(current.getJsonValue());
+                            if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
+                                scopeStack.push(current);
+                                current = Scope.createScope(current.getJsonValue());
+                            }
                         } else {
-                            state = Event.END_OBJECT;
+                            state = Event.END_ARRAY;
+                        }
+                    } else {
+                        // ObjectScope
+                        if (state == Event.KEY_NAME) {
+                            state = getState(current.getJsonValue());
+                            if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
+                                scopeStack.push(current);
+                                current = Scope.createScope(current.getJsonValue());
+                            }
+                        } else {
+                            if (current.hasNext()) {
+                                current.next();
+                                state = Event.KEY_NAME;
+                            } else {
+                                state = Event.END_OBJECT;
+                            }
                         }
                     }
                 }
@@ -187,11 +188,20 @@ class JsonStructureParser implements JsonParser {
         }
     }
 
-    private static interface Scope extends Iterator {
-        JsonValue getJsonValue();
+    private static abstract class Scope implements Iterator {
+        abstract JsonValue getJsonValue();
+
+        static Scope createScope(JsonValue value) {
+            if (value instanceof JsonArray) {
+                return new ArrayScope((JsonArray)value);
+            } else if (value instanceof JsonObject) {
+                return new ObjectScope((JsonObject)value);
+            }
+            throw new JsonException("Cannot be called for value="+value);
+        }
     }
 
-    private static class ArrayScope implements Scope {
+    private static class ArrayScope extends Scope {
         private final Iterator<JsonValue> it;
         private JsonValue value;
 
@@ -206,7 +216,8 @@ class JsonStructureParser implements JsonParser {
 
         @Override
         public JsonValue next() {
-            return value=it.next();
+            value = it.next();
+            return value;
         }
 
         @Override
@@ -215,12 +226,13 @@ class JsonStructureParser implements JsonParser {
         }
 
         @Override
-        public JsonValue getJsonValue() {
+        JsonValue getJsonValue() {
             return value;
         }
+
     }
 
-    private static class ObjectScope implements Scope {
+    private static class ObjectScope extends Scope {
         private final Iterator<Map.Entry<String, JsonValue>> it;
         private JsonValue value;
         private String key;
@@ -248,9 +260,10 @@ class JsonStructureParser implements JsonParser {
         }
 
         @Override
-        public JsonValue getJsonValue() {
+        JsonValue getJsonValue() {
             return value;
         }
+
     }
 
 }
