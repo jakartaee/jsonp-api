@@ -238,9 +238,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
         private void writeValue(String name, String value) {
             try {
                 writeComma();
-                writer.write('"');
-                writer.write(name);
-                writer.write('"');
+                writeEscapedString(writer, name);
                 writer.write(':');
                 writer.write(value);
             } catch(IOException ioe) {
@@ -251,13 +249,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
         private void writeString(String name, String value) {
             try {
                 writeComma();
-                writer.write('"');
-                writer.write(name);
-                writer.write('"');
+                writeEscapedString(writer, name);
                 writer.write(':');
-                writer.write('"');
-                writer.write(value);
-                writer.write('"');
+                writeEscapedString(writer, value);
             } catch(IOException ioe) {
                 throw new JsonException(ioe);
             }
@@ -434,13 +428,48 @@ public class JsonGeneratorImpl implements JsonGenerator {
         private void writeString(String value) {
             try {
                 writeComma();
-                writer.write('"');
-                writer.write(value);
-                writer.write('"');
+                writeEscapedString(writer, value);
             } catch(IOException ioe) {
                 throw new JsonException(ioe);
             }
         }
 
+    }
+
+    static void writeEscapedString(Writer w, String string) throws IOException {
+        w.write('"');
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            switch (c) {
+                case '"':
+                case '\\':
+                    w.write('\\');
+                    w.write(c);
+                    break;
+                case '\b':
+                    w.write("\\b");
+                    break;
+                case '\f':
+                    w.write("\\f");
+                    break;
+                case '\n':
+                    w.write("\\n");
+                    break;
+                case '\r':
+                    w.write("\\r");
+                    break;
+                case '\t':
+                    w.write("\\t");
+                    break;
+                default:
+                    if (c < ' ' || (c >= '\u0080' && c < '\u00a0') || (c >= '\u2000' && c < '\u2100')) {
+                        String hex = "000" + Integer.toHexString(c);
+                        w.write("\\u" + hex.substring(hex.length() - 4));
+                    } else {
+                        w.write(c);
+                    }
+            }
+        }
+        w.write('"');
     }
 }

@@ -138,4 +138,14 @@ public class JsonGeneratorTest extends TestCase {
         assertEquals("[\"string\"]", writer.toString());
     }
 
+    public void testEscapedString() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.beginArray().add("\u0000").endArray();
+        generator.close();
+        writer.close();
+
+        assertEquals("[\"\\u0000\"]", writer.toString());
+    }
+
 }

@@ -41,23 +41,31 @@
 package org.glassfish.json;
 
 import javax.json.*;
+import javax.json.stream.JsonGenerator;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
 /**
+ * A {@code JsonWriter} implementation using {@code JsonGenerator}
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonWriterImpl {
-    private final Writer writer;
+    private final JsonGenerator generator;
 
     public JsonWriterImpl(Writer writer) {
-        this.writer = writer;
+        generator = Json.createGenerator(writer);
     }
 
     public void writeArray(JsonArray array) {
-        try{
-            writeArrayIoe(array);
+        try {
+            JsonArrayBuilder<Closeable> builder = generator.beginArray();
+            for(JsonValue value : array.getValues()) {
+                builder.add(value);
+            }
+            builder.endArray().close();
         } catch (IOException ioe) {
             throw new JsonException(ioe);
         }
@@ -65,95 +73,18 @@ public class JsonWriterImpl {
 
     public void writeObject(JsonObject object) {
         try {
-            writeObjectIoe(object);
+            JsonObjectBuilder<Closeable> builder = generator.beginObject();
+            for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
+                builder.add(e.getKey(), e.getValue());
+            }
+            builder.endObject().close();
         } catch (IOException ioe) {
             throw new JsonException(ioe);
         }
     }
 
     public void close() {
-    }
-    
-    private void writeComma(boolean first) throws IOException {
-        if (!first) {
-            writer.write(',');
-        }
+        generator.close();
     }
 
-    private void writeArrayIoe(JsonArray array) throws IOException {
-        boolean first = true;
-        writer.write('[');
-        for(JsonValue value : array.getValues()) {
-            writeComma(first);
-            switch (value.getValueType()) {
-                case ARRAY:
-                    writeArrayIoe((JsonArray) value);
-                    break;
-                case OBJECT:
-                    writeObjectIoe((JsonObject) value);
-                    break;
-                case STRING:
-                    writer.write('"');
-                    writer.write(((JsonString)value).getValue());
-                    writer.write('"');
-                    break;
-                case NUMBER:
-                    writer.write(value.toString());
-                    break;
-                case TRUE:
-                    writer.write("true");
-                    break;
-                case FALSE:
-                    writer.write("false");
-                    break;
-                case NULL:
-                    writer.write("null");
-                    break;
-            }
-            first = false;
-        }
-        writer.write(']');
-
-    }
-
-    private void writeObjectIoe(JsonObject object) throws IOException {
-        boolean first = true;
-        writer.write('{');
-        for(Map.Entry<String, JsonValue> entry : object.getValues().entrySet()) {
-            String name = entry.getKey();
-            JsonValue value = entry.getValue();
-            writeComma(first);
-            writer.write('"');
-            writer.write(name);
-            writer.write('"');
-            writer.write(':');
-            switch (value.getValueType()) {
-                case ARRAY:
-                    writeArrayIoe((JsonArray) value);
-                    break;
-                case OBJECT:
-                    writeObjectIoe((JsonObject) value);
-                    break;
-                case STRING:
-                    writer.write('"');
-                    writer.write(((JsonString)value).getValue());
-                    writer.write('"');
-                    break;
-                case NUMBER:
-                    writer.write(value.toString());
-                    break;
-                case TRUE:
-                    writer.write("true");
-                    break;
-                case FALSE:
-                    writer.write("false");
-                    break;
-                case NULL:
-                    writer.write("null");
-                    break;
-            }
-            first = false;
-        }
-        writer.write('}');
-    }
 }
