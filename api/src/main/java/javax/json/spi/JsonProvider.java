@@ -48,6 +48,8 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
@@ -118,9 +120,13 @@ public abstract class JsonProvider {
 
     public abstract JsonParser createParser(Reader reader, JsonConfiguration config);
 
-//    public abstract JsonParser createParser(InputStream in);
-//
-//    public abstract JsonParser createParser(InputStream in, JsonConfiguration config);
+    public abstract JsonParser createParser(InputStream in);
+
+    public abstract JsonParser createParser(InputStream in, String encoding);
+
+    public abstract JsonParser createParser(InputStream in, JsonConfiguration config);
+
+    public abstract JsonParser createParser(InputStream in, String encoding, JsonConfiguration config);
 
     public abstract JsonParser createParser(JsonArray array);
 
@@ -140,9 +146,13 @@ public abstract class JsonProvider {
 
     public abstract JsonGenerator createGenerator(Writer writer, JsonConfiguration config);
 
-//    public abstract JsonGenerator createGenerator(OutputStream out, String encoding);
-//
-//    public abstract JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config);
+    public abstract JsonGenerator createGenerator(OutputStream out);
+
+    public abstract JsonGenerator createGenerator(OutputStream out, JsonConfiguration config);
+
+    public abstract JsonGenerator createGenerator(OutputStream out, String encoding);
+
+    public abstract JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config);
 
     public abstract JsonGeneratorFactory createGeneratorFactory();
 

@@ -52,18 +52,36 @@ import java.util.Map;
  */
 public class JsonGeneratorImpl implements JsonGenerator {
     private final Writer writer;
+    private final JsonConfiguration config;
     
     public JsonGeneratorImpl(Writer writer) {
         this.writer = writer;
+        this.config = null;
     }
 
     public JsonGeneratorImpl(Writer writer, JsonConfiguration config) {
         this.writer = writer;
+        this.config = config;
+    }
+
+    public JsonGeneratorImpl(OutputStream out) {
+        this.writer = new OutputStreamWriter(out);
+        this.config = null;
+    }
+
+    public JsonGeneratorImpl(OutputStream out, JsonConfiguration config) {
+        try {
+            this.writer = new OutputStreamWriter(out, "UTF-8");
+            this.config = config;
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
     }
 
     public JsonGeneratorImpl(OutputStream out, String encoding) {
         try {
             this.writer = new OutputStreamWriter(out, encoding);
+            this.config = null;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
         }
@@ -72,6 +90,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGeneratorImpl(OutputStream out, String encoding, JsonConfiguration config) {
         try {
             this.writer = new OutputStreamWriter(out, encoding);
+            this.config = config;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
         }

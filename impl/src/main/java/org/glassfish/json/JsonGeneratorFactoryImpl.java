@@ -31,6 +31,11 @@ public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
     }
 
     @Override
+    public JsonGenerator createGenerator(OutputStream out) {
+        return new JsonGeneratorImpl(out);
+    }
+
+    @Override
     public JsonGenerator createGenerator(OutputStream out, String encoding) {
         return new JsonGeneratorImpl(out, encoding);
     }

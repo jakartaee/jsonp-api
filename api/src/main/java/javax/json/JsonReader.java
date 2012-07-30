@@ -43,6 +43,7 @@ package javax.json;
 import org.glassfish.json.JsonReaderImpl;
 
 import java.io.Closeable;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -76,6 +77,22 @@ public class JsonReader implements /*Auto*/Closeable {
      */
     public JsonReader(Reader reader) {
         impl = new JsonReaderImpl(reader);
+    }
+
+    public JsonReader(Reader reader, JsonConfiguration config) {
+        impl = new JsonReaderImpl(reader, config);
+    }
+
+    public JsonReader(InputStream in) {
+        impl = new JsonReaderImpl(in);
+    }
+
+    public JsonReader(InputStream in, String encoding) {
+        impl = new JsonReaderImpl(in, encoding);
+    }
+
+    public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
+        impl = new JsonReaderImpl(in, encoding, config);
     }
 
     /**

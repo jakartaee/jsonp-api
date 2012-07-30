@@ -60,6 +60,8 @@ public interface JsonParserFactory {
 
     public JsonParser createParser(InputStream in);
 
+    public JsonParser createParser(InputStream in, String encoding);
+
     public JsonParser createParser(JsonObject obj);
 
     public JsonParser createParser(JsonArray array);

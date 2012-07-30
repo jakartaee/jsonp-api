@@ -40,6 +40,7 @@
 
 package org.glassfish.json;
 
+import java.io.InputStream;
 import java.io.Reader;
 import javax.json.*;
 import javax.json.stream.JsonParser;
@@ -48,14 +49,30 @@ import javax.json.stream.JsonParser;
  * @author Jitendra Kotamraju
  */
 public class JsonReaderImpl {
-    private final Reader reader;
+    private final JsonParser parser;
 
     public JsonReaderImpl(Reader reader) {
-        this.reader = reader;
+        parser = Json.createParser(reader);
     }
 
+    public JsonReaderImpl(Reader reader, JsonConfiguration config) {
+        parser = Json.createParser(reader, config);
+    }
+
+    public JsonReaderImpl(InputStream in) {
+        parser = Json.createParser(in);
+    }
+
+    public JsonReaderImpl(InputStream in, String encoding) {
+        parser = Json.createParser(in, encoding);
+    }
+
+    public JsonReaderImpl(InputStream in, String encoding, JsonConfiguration config) {
+        parser = Json.createParser(in, encoding, config);
+    }
+
+
     public JsonValue readObject() {
-        JsonParser parser = Json.createParser(reader);
         Object builder = new JsonBuilder();
         String key = null;
         for(JsonParser.Event e : parser) {
@@ -130,5 +147,6 @@ public class JsonReaderImpl {
     }
 
     public void close() {
+        parser.close();
     }
 }

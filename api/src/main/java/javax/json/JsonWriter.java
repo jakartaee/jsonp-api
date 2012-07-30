@@ -43,6 +43,7 @@ package javax.json;
 import org.glassfish.json.JsonWriterImpl;
 
 import java.io.Closeable;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -74,6 +75,26 @@ public class JsonWriter implements /*Auto*/Closeable {
      */
     public JsonWriter(Writer writer) {
         impl = new JsonWriterImpl(writer);
+    }
+
+    public JsonWriter(Writer writer, JsonConfiguration config) {
+        impl = new JsonWriterImpl(writer, config);
+    }
+
+    public JsonWriter(OutputStream out) {
+        impl = new JsonWriterImpl(out);
+    }
+
+    public JsonWriter(OutputStream out, JsonConfiguration config) {
+        impl = new JsonWriterImpl(out, config);
+    }
+
+    public JsonWriter(OutputStream out, String encoding) {
+        impl = new JsonWriterImpl(out, encoding);
+    }
+
+    public JsonWriter(OutputStream out, String encoding, JsonConfiguration config) {
+        impl = new JsonWriterImpl(out, encoding, config);
     }
 
     /**

@@ -61,13 +61,21 @@ public class Json {
         return JsonProvider.provider().createParser(reader, config);
     }
 
-//    public static JsonParser createParser(InputStream in) {
-//        return JsonProvider.provider().createParser(in);
-//    }
-//
-//    public static JsonParser createParser(InputStream in, JsonConfiguration config) {
-//        return JsonProvider.provider().createParser(in, config);
-//    }
+    public static JsonParser createParser(InputStream in) {
+        return JsonProvider.provider().createParser(in);
+    }
+
+    public static JsonParser createParser(InputStream in, String encoding) {
+        return JsonProvider.provider().createParser(in, encoding);
+    }
+
+    public static JsonParser createParser(InputStream in, JsonConfiguration config) {
+        return JsonProvider.provider().createParser(in, config);
+    }
+
+    public static JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
+        return JsonProvider.provider().createParser(in, encoding, config);
+    }
 
     public static JsonParser createParser(JsonObject obj) {
         return JsonProvider.provider().createParser(obj);
@@ -94,13 +102,21 @@ public class Json {
         return JsonProvider.provider().createGenerator(writer, config);
     }
 
-//    public static JsonGenerator createGenerator(OutputStream out, String encoding) {
-//        return JsonProvider.provider().createGenerator(out, encoding);
-//    }
-//
-//    public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
-//        return JsonProvider.provider().createGenerator(out, encoding, config);
-//    }
+    public static JsonGenerator createGenerator(OutputStream out) {
+        return JsonProvider.provider().createGenerator(out);
+    }
+
+    public static JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
+        return JsonProvider.provider().createGenerator(out, config);
+    }
+
+    public static JsonGenerator createGenerator(OutputStream out, String encoding) {
+        return JsonProvider.provider().createGenerator(out, encoding);
+    }
+
+    public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
+        return JsonProvider.provider().createGenerator(out, encoding, config);
+    }
 
     public static JsonParserFactory createParserFactory() {
         return JsonProvider.provider().createParserFactory();

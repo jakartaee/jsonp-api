@@ -8,6 +8,8 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import javax.json.spi.JsonProvider;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -26,15 +28,25 @@ public class JsonProviderImpl extends JsonProvider {
         return new JsonGeneratorImpl(writer, config);
     }
 
-//    @Override
-//    public JsonGenerator createGenerator(OutputStream out, String encoding) {
-//        return new JsonGeneratorImpl(out, encoding);
-//    }
-//
-//    @Override
-//    public JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
-//        return new JsonGeneratorImpl(out, encoding, config);
-//    }
+    @Override
+    public JsonGenerator createGenerator(OutputStream out) {
+        return new JsonGeneratorImpl(out);
+    }
+
+    @Override
+    public JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
+        return new JsonGeneratorImpl(out, config);
+    }
+
+    @Override
+    public JsonGenerator createGenerator(OutputStream out, String encoding) {
+        return new JsonGeneratorImpl(out, encoding);
+    }
+
+    @Override
+    public JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
+        return new JsonGeneratorImpl(out, encoding, config);
+    }
 
     @Override
     public JsonParser createParser(Reader reader) {
@@ -46,15 +58,25 @@ public class JsonProviderImpl extends JsonProvider {
         return new JsonParserImpl(reader, config);
     }
 
-//    @Override
-//    public JsonParser createParser(InputStream in) {
-//        return new JsonParserImpl(in);
-//    }
-//
-//    @Override
-//    public JsonParser createParser(InputStream in, JsonConfiguration config) {
-//        return new JsonParserImpl(in, config);
-//    }
+    @Override
+    public JsonParser createParser(InputStream in) {
+        return new JsonParserImpl(in);
+    }
+
+    @Override
+    public JsonParser createParser(InputStream in, String encoding) {
+        return new JsonParserImpl(in, encoding);
+    }
+
+    @Override
+    public JsonParser createParser(InputStream in, JsonConfiguration config) {
+        return new JsonParserImpl(in, config);
+    }
+
+    @Override
+    public JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
+        return new JsonParserImpl(in, encoding, config);
+    }
 
     @Override
     public JsonParser createParser(JsonArray array) {

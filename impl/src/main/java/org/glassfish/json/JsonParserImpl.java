@@ -73,8 +73,24 @@ public class JsonParserImpl implements JsonParser {
         tokenizer = new JsonTokenizer(in);
     }
 
+    public JsonParserImpl(InputStream in, String encoding) {
+        try {
+            tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
+    }
+
     public JsonParserImpl(InputStream in, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(in);
+    }
+
+    public JsonParserImpl(InputStream in, String encoding, JsonConfiguration config) {
+        try {
+            tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
     }
 
     public String getString() {

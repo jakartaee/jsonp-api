@@ -56,6 +56,8 @@ public interface JsonGeneratorFactory {
 
     public JsonGenerator createGenerator(Writer writer);
 
+    public JsonGenerator createGenerator(OutputStream out);
+
     public JsonGenerator createGenerator(OutputStream out, String encoding);
 
 }

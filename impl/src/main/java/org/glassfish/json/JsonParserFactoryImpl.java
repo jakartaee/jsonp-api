@@ -30,6 +30,11 @@ public class JsonParserFactoryImpl implements JsonParserFactory {
     }
 
     @Override
+    public JsonParser createParser(InputStream in, String encoding) {
+        return new JsonParserImpl(in, encoding);
+    }
+
+    @Override
     public JsonParser createParser(JsonArray array) {
         return new JsonStructureParser(array);
     }
