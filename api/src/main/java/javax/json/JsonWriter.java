@@ -123,6 +123,10 @@ public class JsonWriter implements /*Auto*/Closeable {
         impl.writeObject(value);
     }
 
+    public void write(JsonStructure value) {
+        impl.write(value);
+    }
+
     /**
      * Closes this JSON writer and frees any resources associated with the
      * writer. This doesn't close the underlying output source.

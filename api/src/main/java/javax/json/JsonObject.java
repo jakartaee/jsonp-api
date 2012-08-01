@@ -153,7 +153,7 @@ import java.util.Set;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonObject extends JsonValue {
+public interface JsonObject extends JsonStructure {
 
     /**
      * Returns the value to which the specified name/key is mapped,

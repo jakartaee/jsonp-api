@@ -106,8 +106,16 @@ public class JsonReader implements /*Auto*/Closeable {
      * @throws IllegalStateException if this method or close method is
      *     already called
      */
-    public JsonValue readObject() {
+    public JsonStructure read() {
+        return impl.read();
+    }
+
+    public JsonObject readObject() {
         return impl.readObject();
+    }
+
+    public JsonArray readArray() {
+        return impl.readArray();
     }
 
     /**

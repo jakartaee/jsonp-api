@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,30 +38,14 @@
  * holder.
  */
 
-package org.glassfish.json;
+package javax.json;
 
-import junit.framework.TestCase;
-
-import javax.json.*;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.util.Map;
+import java.util.Set;
 
 /**
+ *
  * @author Jitendra Kotamraju
  */
-public class JsonNumberTest extends TestCase {
-    public JsonNumberTest(String testName) {
-        super(testName);
-    }
-
-    public void testObject() throws Exception {
-        JsonArray array1 = new JsonBuilder().beginArray().add(10.4).endArray().build();
-        JsonReader reader = new JsonReader(new StringReader("[10.4]"));
-        JsonArray array2 = reader.readArray();
-
-        assertEquals(array1.getValue(0), array2.getValue(0));
-        assertEquals(array1, array2);
-    }
-
+public interface JsonStructure extends JsonValue {
 }

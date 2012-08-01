@@ -123,7 +123,7 @@ import java.util.List;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonArray extends JsonValue {
+public interface JsonArray extends JsonStructure {
 
     /**
      * Returns an unmodifiable list of this JSON array values

@@ -42,6 +42,7 @@ package org.glassfish.json;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Iterator;
 import javax.json.*;
 import javax.json.stream.JsonParser;
 
@@ -71,11 +72,54 @@ public class JsonReaderImpl {
         parser = Json.createParser(in, encoding, config);
     }
 
+    public JsonObject readObject() {
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_OBJECT) {
+                return (JsonObject)read(it, e);
+            } else if (e == JsonParser.Event.START_ARRAY) {
+                throw new JsonException("Cannot read JSON object, found JSON array");
+            } else {
+                throw new JsonException("Cannot read JSON object, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON object, possibly empty stream");
+    }
 
-    public JsonValue readObject() {
+    public JsonArray readArray() {
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_ARRAY) {
+                return (JsonArray)read(it, e);
+            } else if (e == JsonParser.Event.START_OBJECT) {
+                throw new JsonException("Cannot read JSON array, found JSON object");
+            } else {
+                throw new JsonException("Cannot read JSON array, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON array, possibly empty stream");
+    }
+
+    public JsonStructure read() {
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_ARRAY || e == JsonParser.Event.START_OBJECT) {
+                return read(it, e);
+            } else {
+                throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON, possibly empty stream");
+    }
+
+    private JsonStructure read(Iterator<JsonParser.Event> it, JsonParser.Event firstEvent) {
         Object builder = new JsonBuilder();
         String key = null;
-        for(JsonParser.Event e : parser) {
+        JsonParser.Event e = firstEvent;
+        do {
             switch (e) {
                 case START_ARRAY:
                     if (builder instanceof JsonBuilder) {
@@ -142,7 +186,13 @@ public class JsonReaderImpl {
                     builder = ((JsonArrayBuilder)builder).endArray();
                     break;
             }
-        }
+            if (it.hasNext()) {
+                e = it .next();
+            } else {
+                break;
+            }
+        } while(true);
+
         return ((JsonBuilder.JsonBuildable)builder).build();
     }
 

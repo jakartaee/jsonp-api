@@ -104,6 +104,14 @@ public class JsonWriterImpl {
         }
     }
 
+    public void write(JsonStructure value) {
+        if (value instanceof JsonArray) {
+            writeArray((JsonArray)value);
+        } else {
+            writeObject((JsonObject)value);
+        }
+    }
+
     public void close() {
         generator.close();
     }
