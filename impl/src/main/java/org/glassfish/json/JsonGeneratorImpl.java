@@ -162,6 +162,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                     break;
                 case NUMBER:
                     JsonNumber number = (JsonNumber)value;
+//                    writeValue(name, number.toString());
                     switch (number.getNumberType()) {
                         case INT:
                             add(name, number.getIntValue());
@@ -333,6 +334,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                     break;
                 case NUMBER:
                     JsonNumber number = (JsonNumber)value;
+//                    writeValue(number.toString());
                     switch (number.getNumberType()) {
                         case INT:
                             add(number.getIntValue());

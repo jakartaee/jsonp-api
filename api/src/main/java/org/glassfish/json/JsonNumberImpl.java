@@ -48,7 +48,7 @@ import java.math.BigInteger;
  * @author Jitendra Kotamraju
  */
 public final class JsonNumberImpl implements JsonNumber {
-    BigDecimal bigDecimal;
+    private final BigDecimal bigDecimal;
 
     public JsonNumberImpl(String value) {
         bigDecimal = new BigDecimal(value);
@@ -161,7 +161,8 @@ public final class JsonNumberImpl implements JsonNumber {
             return false;
         }
         JsonNumberImpl other = (JsonNumberImpl)obj;
-        return bigDecimal.equals(other.bigDecimal);
+        // not using equals as that takes scale into account
+        return bigDecimal.compareTo(other.bigDecimal) == 0;
     }
 
     @Override
