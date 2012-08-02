@@ -65,8 +65,12 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGeneratorImpl(OutputStream out) {
-        this.writer = new OutputStreamWriter(out);
-        this.config = null;
+        try {
+            this.writer = new OutputStreamWriter(out, "UTF-8");
+            this.config = null;
+        } catch (UnsupportedEncodingException e) {
+            throw new JsonException(e);
+        }
     }
 
     public JsonGeneratorImpl(OutputStream out, JsonConfiguration config) {
