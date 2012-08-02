@@ -46,7 +46,6 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 import java.io.Closeable;
 import java.io.Reader;
-import java.util.Iterator;
 
 /**
  * A JSON parser that allows forward, read-only access to JSON in a
@@ -213,7 +212,6 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
      * getJsonValue(JsonNumber.class) is valid in VALUE_NUMBER state
      *
      * @param clazz
-     * @param <T>
      * @return
      */
     public <T extends JsonValue> T getJsonValue(Class<T> clazz);

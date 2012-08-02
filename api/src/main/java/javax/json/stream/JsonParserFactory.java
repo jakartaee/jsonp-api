@@ -41,29 +41,54 @@
 package javax.json.stream;
 
 import javax.json.JsonArray;
-import javax.json.JsonNumber;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.json.stream.JsonParser;
-import java.io.Closeable;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.Iterator;
 
 /**
+ * Factory to create {@code JsonParser} instances.
+ *
+ * <p> All of the methods in this class are safe for use by multiple concurrent
+ * threads.</p>
  *
  * @author Jitendra Kotamraju
  */
 public interface JsonParserFactory {
 
+    /**
+     * Creates a JSON parser from a character stream
+     *
+     * @param reader a i/o reader from which JSON is to be read
+     */
     public JsonParser createParser(Reader reader);
 
+    /**
+     * Creates a JSON parser from a byte stream
+     *
+     * @param in a i/o stream from which JSON is to be read
+     */
     public JsonParser createParser(InputStream in);
 
+    /**
+     * Creates a JSON parser from a byte stream
+     *
+     * @param in a i/o stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     */
     public JsonParser createParser(InputStream in, String encoding);
 
+    /**
+     * Creates a JSON parser that provides streaming parser interface for a JSON object.
+     *
+     * @param obj a JSON object
+     */
     public JsonParser createParser(JsonObject obj);
 
+    /**
+     * Creates a JSON parser that provides streaming parser interface for a JSON array
+     *
+     * @param array a JSON array
+     */
     public JsonParser createParser(JsonArray array);
 
 }

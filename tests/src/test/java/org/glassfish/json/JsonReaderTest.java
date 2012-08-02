@@ -41,10 +41,14 @@
 package org.glassfish.json;
 
 import junit.framework.TestCase;
+import org.w3c.dom.Document;
 
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
@@ -70,6 +74,14 @@ public class JsonReaderTest extends TestCase {
 
         assertTrue(value instanceof JsonObject);
         return (JsonObject)value;
+    }
+
+
+    public void testDom() throws Exception {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.parse(new ByteArrayInputStream("<a/>".getBytes()));
+        doc.getDocumentElement();
+
     }
 
 }

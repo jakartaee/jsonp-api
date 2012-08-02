@@ -40,24 +40,43 @@
 
 package javax.json.stream;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonConfiguration;
-import javax.json.JsonObjectBuilder;
-import javax.json.stream.JsonGenerator;
-import java.io.Closeable;
 import java.io.OutputStream;
 import java.io.Writer;
 
 /**
  *
+ * Factory to create {@code JsonGenerator} instances.
+ *
+ * <p> All of the methods in this class are safe for use by multiple concurrent
+ * threads.</p>
+ *
  * @author Jitendra Kotamraju
  */
 public interface JsonGeneratorFactory {
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified character stream.
+     *
+     * @param writer i/o writer to which JSON is written
+     */
     public JsonGenerator createGenerator(Writer writer);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream.
+     *
+     * @param out i/o stream to which JSON is written
+     */
     public JsonGenerator createGenerator(OutputStream out);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param encoding the character encoding of the stream
+     */
     public JsonGenerator createGenerator(OutputStream out, String encoding);
 
 }

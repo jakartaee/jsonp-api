@@ -48,72 +48,182 @@ import javax.json.stream.JsonParserFactory;
 import java.io.*;
 
 /**
+ * JSON factory to create {@code JsonParser}, {@code JsonGenerator}
+ * {@code JsonParserFactory} and {@code JsonGeneratorFactory} instances.
+ *
+ * <p> All of the methods in this class are safe for use by multiple concurrent
+ * threads.</p>
  *
  * @author Jitendra Kotamraju
  */
 public class Json {
 
+    /**
+     * Creates a JSON parser from the specified character stream
+     *
+     * @param reader i/o reader from which JSON is to be read
+     */
     public static JsonParser createParser(Reader reader) {
         return JsonProvider.provider().createParser(reader);
     }
 
+    /**
+     * Creates a JSON parser from the specified character stream. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param reader i/o reader from which JSON is to be read
+     * @param config configuration of the parser
+     */
     public static JsonParser createParser(Reader reader, JsonConfiguration config) {
         return JsonProvider.provider().createParser(reader, config);
     }
 
+    /**
+     * Creates a JSON parser from the specified byte stream
+     *
+     * @param in i/o stream from which JSON is to be read
+     */
     public static JsonParser createParser(InputStream in) {
         return JsonProvider.provider().createParser(in);
     }
 
+    /**
+     * Creates a JSON parser from the specified byte stream.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     */
     public static JsonParser createParser(InputStream in, String encoding) {
         return JsonProvider.provider().createParser(in, encoding);
     }
 
+    /**
+     * Creates a JSON parser from the specified byte stream. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param config configuration of the parser
+     */
     public static JsonParser createParser(InputStream in, JsonConfiguration config) {
         return JsonProvider.provider().createParser(in, config);
     }
 
+    /**
+     * Creates a JSON parser from the specified byte stream. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     * @param config configuration of the parser
+     */
     public static JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createParser(in, encoding, config);
     }
 
+    /**
+     * Creates a JSON parser from the specified JSON object.
+     *
+     * @param obj JSON object
+     */
     public static JsonParser createParser(JsonObject obj) {
         return JsonProvider.provider().createParser(obj);
     }
 
+    /**
+     * Creates a JSON parser from the specified JSON object. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param obj JSON object
+     * @param config configuration of the parser
+     */
     public static JsonParser createParser(JsonObject obj, JsonConfiguration config) {
         return JsonProvider.provider().createParser(obj, config);
     }
 
+    /**
+     * Creates a JSON parser from the specified JSON array.
+     *
+     * @param array JSON array
+     */
     public static JsonParser createParser(JsonArray array) {
         return JsonProvider.provider().createParser(array);
     }
 
+    /**
+     * Creates a JSON parser from the specified JSON array. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param array JSON array
+     * @param config configuration of the parser
+     */
     public static JsonParser createParser(JsonArray array, JsonConfiguration config) {
         return JsonProvider.provider().createParser(array, config);
     }
 
-
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified character stream.
+     *
+     * @param writer a i/o writer to which JSON is written
+     */
     public static JsonGenerator createGenerator(Writer writer) {
         return JsonProvider.provider().createGenerator(writer);
     }
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified character stream. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param writer i/o writer to which JSON is written
+     * @param config configuration of the generator
+     */
     public static JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(writer, config);
     }
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream.
+     *
+     * @param out i/o stream to which JSON is written
+     */
     public static JsonGenerator createGenerator(OutputStream out) {
         return JsonProvider.provider().createGenerator(out);
     }
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param config configuration of the generator
+     */
     public static JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(out, config);
     }
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param encoding the character encoding of the stream
+     */
     public static JsonGenerator createGenerator(OutputStream out, String encoding) {
         return JsonProvider.provider().createGenerator(out, encoding);
     }
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param encoding the character encoding of the stream
+     * @param config configuration of the generator
+     */
     public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(out, encoding, config);
     }

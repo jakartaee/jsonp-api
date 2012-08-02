@@ -46,6 +46,8 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -59,9 +61,34 @@ public class JsonGeneratorTest extends TestCase {
         super(testName);
     }
 
-    public void testObject() throws Exception {
+    public void testObjectWriter() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
+        testObject(generator);
+        generator.close();
+        writer.close();
+
+        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonObject person = reader.readObject();
+        JsonObjectTest.testPerson(person);
+    }
+
+    public void testObjectStream() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        JsonGenerator generator = Json.createGenerator(out);
+        testObject(generator);
+        generator.close();
+        out.close();
+
+        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+        JsonReader reader = new JsonReader(in);
+        JsonObject person = reader.readObject();
+        JsonObjectTest.testPerson(person);
+        reader.close();
+        in.close();
+    }
+
+    private void testObject(JsonGenerator generator) throws Exception {
         generator
             .beginObject()
                 .add("firstName", "John")
@@ -84,12 +111,6 @@ public class JsonGeneratorTest extends TestCase {
                     .endObject()
                 .endArray()
             .endObject();
-        generator.close();
-        writer.close();
-
-        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
-        JsonObject person = (JsonObject)reader.readObject();
-        JsonObjectTest.testPerson(person);
     }
 
     public void testArray() throws Exception {
@@ -124,7 +145,7 @@ public class JsonGeneratorTest extends TestCase {
         writer.close();
 
         JsonReader reader = new JsonReader(new StringReader(writer.toString()));
-        JsonObject person = (JsonObject)reader.readObject();
+        JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
     }
 

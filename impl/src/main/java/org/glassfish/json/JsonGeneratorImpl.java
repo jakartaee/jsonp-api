@@ -111,6 +111,12 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public void close() {
+
+        try {
+            writer.flush();
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
     }
 
     private void write(String str) {
