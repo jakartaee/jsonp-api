@@ -48,11 +48,28 @@ import javax.json.stream.JsonParserFactory;
 import java.io.*;
 
 /**
- * JSON factory to create {@code JsonParser}, {@code JsonGenerator}
- * {@code JsonParserFactory} and {@code JsonGeneratorFactory} instances.
+ * Factory to create {@link JsonParser}, {@link JsonGenerator}
+ * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.</p>
+ * <p>
+ * All the methods would locate a provider instance, which is returned by
+ * the {@link JsonProvider#provider() provider} method, and use it
+ * to create {@link JsonParser}, {@link JsonGenerator}
+ * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
+ *
+ * <p>
+ * For example, a JSON parser for an empty array could be created as
+ * follows:
+ * <code>
+ * <pre>
+ * StringReader reader = new StringReader("[]");
+ * JsonParser parser = Json.createParser(reader);
+ * </pre>
+ * </code>
+ *
+ * <p>
+ * All of the methods in this class are safe for use by multiple concurrent
+ * threads.
  *
  * @author Jitendra Kotamraju
  */
@@ -79,9 +96,13 @@ public class Json {
     }
 
     /**
-     * Creates a JSON parser from the specified byte stream
+     * Creates a JSON parser from the specified byte stream.
+     * The character encoding of the stream is determined
+     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
      *
      * @param in i/o stream from which JSON is to be read
+     * @throws JsonException if encoding cannot be determined
+     *         or i/o error
      */
     public static JsonParser createParser(InputStream in) {
         return JsonProvider.provider().createParser(in);
@@ -89,9 +110,13 @@ public class Json {
 
     /**
      * Creates a JSON parser from the specified byte stream.
+     * The bytes of the stream are decoded to characters using the
+     * specified encoding.
      *
      * @param in i/o stream from which JSON is to be read
      * @param encoding the character encoding of the stream
+     * @throws JsonException if encoding is not supported
+     *         or i/o error
      */
     public static JsonParser createParser(InputStream in, String encoding) {
         return JsonProvider.provider().createParser(in, encoding);
@@ -99,7 +124,9 @@ public class Json {
 
     /**
      * Creates a JSON parser from the specified byte stream. The created
-     * parser is configured with the specified configuration.
+     * parser is configured with the specified configuration. The character
+     * encoding of the stream is determinedas per the
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>
      *
      * @param in i/o stream from which JSON is to be read
      * @param config configuration of the parser
@@ -109,7 +136,8 @@ public class Json {
     }
 
     /**
-     * Creates a JSON parser from the specified byte stream. The created
+     * Creates a JSON parser from the specified byte stream. The bytes of the
+     * stream are decoded to characters using the specified encoding. The created
      * parser is configured with the specified configuration.
      *
      * @param in i/o stream from which JSON is to be read
@@ -194,7 +222,8 @@ public class Json {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. The created generator is configured
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using UTF-8 encoding. The created generator is configured
      * with the specified configuration.
      *
      * @param out i/o stream to which JSON is written
@@ -206,7 +235,8 @@ public class Json {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream.
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using the specified encoding.
      *
      * @param out i/o stream to which JSON is written
      * @param encoding the character encoding of the stream
@@ -217,7 +247,8 @@ public class Json {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. The created generator is configured
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using the specified encoding. The created generator is configured
      * with the specified configuration.
      *
      * @param out i/o stream to which JSON is written
@@ -228,86 +259,44 @@ public class Json {
         return JsonProvider.provider().createGenerator(out, encoding, config);
     }
 
+    /**
+     * Creates a parser factory which can be used to create {@link JsonParser}.
+     *
+     * @return JSON parser factory
+     */
     public static JsonParserFactory createParserFactory() {
         return JsonProvider.provider().createParserFactory();
     }
 
+    /**
+     * Creates a parser factory which can be used to create {@link JsonParser}.
+     * The created parser factory is configured with the specified
+     * configuration
+     *
+     * @return JSON parser factory
+     */
     public static JsonParserFactory createParserFactory(JsonConfiguration config) {
         return JsonProvider.provider().createParserFactory(config);
     }
 
+    /**
+     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     *
+     * @return JSON generator factory
+     */
     public static JsonGeneratorFactory createGeneratorFactory() {
         return JsonProvider.provider().createGeneratorFactory();
     }
 
+    /**
+     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     * The created generator factory is configured with the specified
+     * configuration.
+     *
+     * @return JSON generator factory
+     */
     public static JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
         return JsonProvider.provider().createGeneratorFactory(config);
-    }
-
-    private void testParser() {
-        JsonParser parser = Json.createParser(new StringReader("[]"));
-        parser.close();
-    }
-
-    private void testParserWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new StringReader("[]"), config);
-        parser.close();
-    }
-
-    private void testGenerator() {
-        JsonGenerator generator = Json.createGenerator(new StringWriter());
-        generator.beginArray().endArray();
-        generator.close();
-    }
-
-    private void testGeneratorWithConfig() {
-        JsonConfiguration config = new JsonConfiguration().with(JsonFeature.PRETTY_PRINTING);
-        JsonGenerator generator = Json.createGenerator(new StringWriter(), config);
-        generator.beginArray().endArray();
-        generator.close();
-    }
-
-    private void testParserFactory() {
-        JsonParserFactory parserFactory = Json.createParserFactory();
-        JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
-        parser1.close();
-        JsonParser parser2 = parserFactory.createParser(new StringReader("[]"));
-        parser2.close();
-    }
-
-    private void testParserFactoryWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
-        JsonParserFactory parserFactory = Json.createParserFactory(config);
-        JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
-        parser1.close();
-        JsonParser parser2 = parserFactory.createParser(new StringReader("[]"));
-        parser2.close();
-    }
-
-    private void testGeneratorFactory() {
-        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory();
-
-        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.beginArray().endArray();
-        generator1.close();
-
-        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.beginArray().endArray();
-        generator2.close();
-    }
-
-    private void testGeneratorFactoryWithConfig() {
-        JsonConfiguration config = new JsonConfiguration().with(JsonFeature.PRETTY_PRINTING);
-        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
-
-        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.beginArray().endArray();
-        generator1.close();
-
-        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.beginArray().endArray();
-        generator2.close();
     }
 
 }

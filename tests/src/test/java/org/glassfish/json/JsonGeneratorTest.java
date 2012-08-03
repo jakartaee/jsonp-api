@@ -88,7 +88,7 @@ public class JsonGeneratorTest extends TestCase {
         in.close();
     }
 
-    private void testObject(JsonGenerator generator) throws Exception {
+    static void testObject(JsonGenerator generator) throws Exception {
         generator
             .beginObject()
                 .add("firstName", "John")

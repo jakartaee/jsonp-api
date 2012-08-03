@@ -44,8 +44,10 @@ import junit.framework.TestCase;
 
 import javax.json.Json;
 import javax.json.JsonBuilder;
+import javax.json.JsonConfiguration;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -73,8 +75,28 @@ public class JsonParserTest extends TestCase {
         parser.close();
     }
 
+    public void testEmptyArrayStream() {
+        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[',']'}));
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamWithConfig() {
+        JsonConfiguration config = new JsonConfiguration();
+        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[',']'}), config);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
     public void testEmptyArrayStructure() {
         JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStructureWithConfig() {
+        JsonConfiguration config = new JsonConfiguration();
+        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build(), config);
         testEmptyArray(parser);
         parser.close();
     }
@@ -168,15 +190,28 @@ public class JsonParserTest extends TestCase {
     }
 
 
-
+    // Tests empty object
     public void testEmptyObjectReader() {
         JsonParser parser = Json.createParser(new StringReader("{}"));
         testEmptyObject(parser);
         parser.close();
     }
 
+    public void testEmptyObjectStream() {
+        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'{','}'}));
+        testEmptyObject(parser);
+        parser.close();
+    }
+
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParser(new StringReader("{}"));
+        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        testEmptyObject(parser);
+        parser.close();
+    }
+
+    public void testEmptyObjectStructureWithConfig() {
+        JsonConfiguration config = new JsonConfiguration();
+        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build(), config);
         testEmptyObject(parser);
         parser.close();
     }
@@ -186,6 +221,7 @@ public class JsonParserTest extends TestCase {
         for(Event e : parser) {
         }
     }
+
 
 
 

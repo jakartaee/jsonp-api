@@ -82,7 +82,7 @@ public abstract class JsonProvider {
      * <ul>
      * <li>
      *   If a resource with the name of
-     *   <code>META-INF/services/javax.json.ext.spi.JsonProvider</code>
+     *   <code>META-INF/services/javax.json.spi.JsonProvider</code>
      *   exists, then its first line, if present, is used as the UTF-8 encoded
      *   name of the implementation class.
      * </li>
