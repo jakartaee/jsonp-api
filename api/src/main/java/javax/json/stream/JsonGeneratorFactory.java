@@ -45,7 +45,9 @@ import java.io.Writer;
 
 /**
  *
- * Factory to create {@code JsonGenerator} instances.
+ * Factory to create {@code JsonGenerator} instances. If a factory
+ * instance is configured with some configuration, that would be
+ * used to configure the created generator instances.
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>
@@ -56,7 +58,8 @@ public interface JsonGeneratorFactory {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream.
+     * specified character stream. The created generator is
+     * configured with the factory configuration.
      *
      * @param writer i/o writer to which JSON is written
      */
@@ -64,7 +67,9 @@ public interface JsonGeneratorFactory {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream.
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using UTF-8 encoding. The created generator is
+     * configured with the factory configuration.
      *
      * @param out i/o stream to which JSON is written
      */
@@ -72,7 +77,9 @@ public interface JsonGeneratorFactory {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream.
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using the specified encoding. The created generator is
+     * configured with the factory configuration.
      *
      * @param out i/o stream to which JSON is written
      * @param encoding the character encoding of the stream

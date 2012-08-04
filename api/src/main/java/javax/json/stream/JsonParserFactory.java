@@ -46,7 +46,9 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- * Factory to create {@code JsonParser} instances.
+ * Factory to create {@code JsonParser} instances. If a factory
+ * instance is configured with some configuration, that would be
+ * used to configure the created parser instances.
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>

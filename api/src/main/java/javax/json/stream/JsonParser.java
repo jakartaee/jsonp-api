@@ -46,15 +46,33 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 import java.io.Closeable;
 import java.io.Reader;
+import java.io.InputStream;
 
 /**
  * A JSON parser that allows forward, read-only access to JSON in a
  * a streaming way. This is designed to be the most efficient
- * way to read JSON data. The parser can be created from many input sources
- * like {@link Reader}, {@link JsonArray}, and {@link JsonObject}
+ * way to read JSON text. The parser can be created from many input sources
+ * like {@link Reader}, {@link InputStream}, {@link JsonArray}, and {@link JsonObject}.
+ * For example, a parser for empty JSON array can be created as follows:
+ * <code>
+ * <pre>
+ * JsonParser parser = Json.createParser(new StringReader("[]"));
+ * </pre>
+ * </code>
+ *
+ * A parser can also be created using {@link JsonParserFactory}. If
+ * multiple parser instances are created, then creating them using
+ * a factory is preferred.
+ * <code>
+ * <pre>
+ * JsonParserFactory factory = Json.createParserFactory();
+ * JsonParser parser1 = factory.createParser(...);
+ * JsonParser parser2 = factory.createParser(...);
+ * </pre>
+ * </code>
  * 
  * <p>
- * The JsonParser is used to parse JSON in a pull manner by calling its iterator
+ * The parser is used to parse JSON in a pull manner by calling its iterator
  * methods. The iterator's {@code next()} method causes the parser to advance
  * to the next parse state.
  * <p>
@@ -107,6 +125,8 @@ import java.io.Reader;
  * </pre>
  * </code>
  *
+ * @see javax.json.Json
+ * @see JsonParserFactory
  * @author Jitendra Kotamraju
  */
 public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeable {
