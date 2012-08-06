@@ -45,20 +45,17 @@ import org.glassfish.json.JsonReaderImpl;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.io.Reader;
-import java.io.StringReader;
 
 /**
- * A JSON reader.
- *
- * <p>
- * This reader reads a JSON object or array from the stream. For example:
+ * A JSON reader that reads a JSON object or array from an input source.
+ * For example:
  *
  * <code>
  * <pre>
  * An empty JSON array can be created as follows:
  *
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
- * JsonValue value = jsonReader.readObject();
+ * JsonObject obj = jsonReader.readObject();
  * jsonReader.close();
  * </pre>
  * </code>
@@ -79,41 +76,93 @@ public class JsonReader implements /*Auto*/Closeable {
         impl = new JsonReaderImpl(reader);
     }
 
+    /**
+     * Creates a JSON reader from a character stream
+     *
+     * @param reader a character stream from which JSON is to be read
+     * @return a JSON reader
+     */
     public JsonReader(Reader reader, JsonConfiguration config) {
         impl = new JsonReaderImpl(reader, config);
     }
 
+    /**
+     * Creates a JSON reader from a byte stream. The character encoding of
+     * the stream is determined as per the
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     *
+     * @param in a byte stream from which JSON is to be read
+     * @return a JSON reader
+     */
     public JsonReader(InputStream in) {
         impl = new JsonReaderImpl(in);
     }
 
+    /**
+     * Creates a JSON reader from a byte stream. The bytes of the stream
+     * are decoded to characters using the specified encoding.
+     *
+     * @param in a byte stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     * @return a JSON reader
+     */
     public JsonReader(InputStream in, String encoding) {
         impl = new JsonReaderImpl(in, encoding);
     }
 
+    /**
+     * Creates a JSON reader from a byte stream. The bytes of the stream
+     * are decoded to characters using the specified encoding. The created
+     * reader is configured with the specified configuration.
+     *
+     * @param in a byte stream from which JSON is to be read
+     * @return a JSON reader
+     */
     public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
         impl = new JsonReaderImpl(in, encoding, config);
     }
 
     /**
      * Returns a JSON array or object that is represented in
-     * the character stream. This method needs to be called
+     * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a {@link JsonArray} or {@code JsonObject}
-     * @throws JsonException if a JsonObject or JsonArray cannot
+     * @return a Json object or array
+     * @throws JsonException if a JSON object or array cannot
      *     be created due to i/o error or incorrect representation
-     * @throws IllegalStateException if this method or close method is
-     *     already called
+     * @throws IllegalStateException if this method, readObject, readArray or
+     *     close method is already called
      */
     public JsonStructure read() {
         return impl.read();
     }
 
+    /**
+     * Returns a JSON object that is represented in
+     * the input source. This method needs to be called
+     * only once for a reader instance.
+     *
+     * @return a Json object or array
+     * @throws JsonException if a JSON object or array cannot
+     *     be created due to i/o error or incorrect representation
+     * @throws IllegalStateException if this method, readObject, readArray or
+     *     close method is already called
+     */
     public JsonObject readObject() {
         return impl.readObject();
     }
 
+    /**
+     * Returns a JSON array that is represented in
+     * the input source. This method needs to be called
+     * only once for a reader instance.
+     *
+     * @return a Json object or array
+     * @throws JsonException if a JSON object or array cannot
+     *     be created due to i/o error or incorrect representation
+     * @throws IllegalStateException if this method, readObject, readArray or
+     *     close method is already called
+     */
     public JsonArray readArray() {
         return impl.readArray();
     }
@@ -125,18 +174,6 @@ public class JsonReader implements /*Auto*/Closeable {
     @Override
     public void close() {
         impl.close();
-    }
-
-    private void test() {
-        JsonReader jsonReader = new JsonReader(new StringReader("[]"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
-    }
-
-    private void test1() {
-        JsonReader jsonReader = new JsonReader(new StringReader("{}"));
-        JsonValue value = jsonReader.readObject();
-        jsonReader.close();
     }
 
 }

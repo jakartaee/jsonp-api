@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -44,14 +44,11 @@ import org.glassfish.json.JsonWriterImpl;
 
 import java.io.Closeable;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * A JSON writer.
- *
- * <p>
- * This writer writes a JSON object or array to the stream. For example:
+ * A JSON writer that writes a JSON object or array to an output source.
+ * For example:
  * <code>
  * <pre>
  * An empty JSON object can be written as follows:
@@ -61,6 +58,7 @@ import java.io.Writer;
  * jsonWriter.close();
  * </pre>
  * </code>
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonWriter implements /*Auto*/Closeable {
@@ -69,7 +67,7 @@ public class JsonWriter implements /*Auto*/Closeable {
 
     /**
      * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified i/o writer.
+     * object or array to the specified character stream.
      *
      * @param writer to which JSON object or array is written
      */
@@ -77,33 +75,75 @@ public class JsonWriter implements /*Auto*/Closeable {
         impl = new JsonWriterImpl(writer);
     }
 
+    /**
+     * Creates a JSON writer which can be used to write a JSON
+     * object or array to the specified character stream.  The created
+     * writer is configured with the specified configuration.
+     *
+     * @param writer to which JSON object or array is written
+     * @param config configuration of the writer
+     */
     public JsonWriter(Writer writer, JsonConfiguration config) {
         impl = new JsonWriterImpl(writer, config);
     }
 
+    /**
+     * Creates a JSON writer which can be used to write a JSON
+     * object or array to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using UTF-8 encoding.
+     *
+     * @param out to which JSON object or array is written
+     */
     public JsonWriter(OutputStream out) {
         impl = new JsonWriterImpl(out);
     }
 
+    /**
+     * Creates a JSON writer which can be used to write a JSON
+     * object or array to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using UTF-8 encoding. The created
+     * writer is configured with the specified configuration.
+     *
+     * @param out to which JSON object or array is written
+     * @param config configuration of the writer
+     */
     public JsonWriter(OutputStream out, JsonConfiguration config) {
         impl = new JsonWriterImpl(out, config);
     }
 
+    /**
+     * Creates a JSON writer which can be used to write a JSON
+     * object or array to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using the specified encoding.
+     *
+     * @param out to which JSON object or array is written
+     * @param encoding the character encoding of the output source
+     */
     public JsonWriter(OutputStream out, String encoding) {
         impl = new JsonWriterImpl(out, encoding);
     }
 
+    /**
+     * Creates a JSON writer which can be used to write a JSON
+     * object or array to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using the specified encoding.
+     * The created writer is configured with the specified configuration.
+     *
+     * @param out to which JSON object or array is written
+     * @param encoding the character encoding of the output source
+     * @param config configuration of the writer
+     */
     public JsonWriter(OutputStream out, String encoding, JsonConfiguration config) {
         impl = new JsonWriterImpl(out, encoding, config);
     }
 
     /**
-     * Writes the specified {@link JsonArray}'s representation to the character
-     * stream. This method needs to be called only once for a writer instance.
+     * Writes the specified {@link JsonArray}'s representation to the output
+     * source. This method needs to be called only once for a writer instance.
      *
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
-     * @throws IllegalStateException if this method, or writeObject or close
+     * @throws IllegalStateException if this method, writeObject, write or close
      *     method is already called
      */
     public void writeArray(JsonArray value) {
@@ -111,18 +151,28 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Writes the specified {@link JsonObject}'s representation to the character
-     * stream. This method needs to be called only once for a writer instance.
+     * Writes the specified {@link JsonObject}'s representation to the output
+     * source. This method needs to be called only once for a writer instance.
      *
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
-     * @throws IllegalStateException if this method, or writeArray or close
+     * @throws IllegalStateException if this method, writeArray, write or close
      *     method is already called
      */
     public void writeObject(JsonObject value) {
         impl.writeObject(value);
     }
 
+    /**
+     * Writes the specified {@link JsonObject} or {@link JsonArray}'s
+     * representation to the output source. This method needs to be called
+     * only once for a writer instance.
+     *
+     * @throws JsonException if the specified JSON object cannot be
+     *     written due to i/o error
+     * @throws IllegalStateException if this method, writeObject, writeArray
+     *     or close method is already called
+     */
     public void write(JsonStructure value) {
         impl.write(value);
     }
@@ -134,20 +184,6 @@ public class JsonWriter implements /*Auto*/Closeable {
     @Override
     public void close() {
         impl.close();
-    }
-
-    private void test() throws Exception {
-        Writer writer = new StringWriter();
-        JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeObject(new JsonBuilder().beginObject().endObject().build());
-        jsonWriter.close();
-        writer.close();
-
-        writer = new StringWriter();
-        jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().beginArray().endArray().build());
-        jsonWriter.close();
-        writer.close();
     }
 
 }
