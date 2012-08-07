@@ -44,10 +44,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * <code>JsonNumber</code> represents a JSON number value.
- *
- * <p>TODO Should we just use Integer|Long|BigInteger|Double|BigDecimal
- * instead of this wrapper type for performance reasons
+ * {@code JsonNumber} represents a JSON number value.
  *
  * @author Jitendra Kotamraju
  */
@@ -159,6 +156,5 @@ public interface JsonNumber extends JsonValue {
      * @return a BigDecimal for JSON number
      */
     public BigDecimal getBigDecimalValue();
-
 
 }

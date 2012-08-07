@@ -44,7 +44,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 
 /**
- *
  * Factory to create {@code JsonGenerator} instances. If a factory
  * instance is configured with some configuration, that would be
  * used to configure the created generator instances.

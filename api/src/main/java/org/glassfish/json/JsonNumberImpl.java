@@ -97,7 +97,7 @@ public final class JsonNumberImpl implements JsonNumber {
         } catch (Exception e) {
             // ignore
         }
-        if( bigDecimal.subtract(new BigDecimal(bigDecimal.doubleValue())).compareTo(BigDecimal.ZERO) != 0) {
+        if (bigDecimal.subtract(new BigDecimal(bigDecimal.doubleValue())).compareTo(BigDecimal.ZERO) != 0) {
             // conversion was not exact
             return JsonNumberType.BIG_DECIMAL;
         } else {

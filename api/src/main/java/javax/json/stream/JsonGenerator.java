@@ -43,19 +43,59 @@ package javax.json.stream;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.Closeable;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.Writer;
 
 /**
- * A streaming JSON generator.
+ * A JSON generator that writes JSON in a streaming way. The generator
+ * can be created from many output sources like {@link java.io.Writer},
+ * and {@link java.io.OutputStream}.
  *
  * <p>
- * For example:
+ * For example, a generator can be created as follows:
+ * <code>
+ * <pre>
+ * JsonGenerator generator = Json.createGenerator(..);
+ * </pre>
+ * </code>
  *
+ * A generator can also be created using {@link JsonGeneratorFactory}. If
+ * multiple generator instances are created, then creating them using
+ * a generator factory is preferred.
+ * <code>
+ * <pre>
+ * JsonGeneratorFactory factory = Json.createGeneratorFactory();
+ * JsonGenerator generator1 = factory.createGenerator(...);
+ * JsonGenerator generator2 = factory.createGenerator(...);
+ * </pre>
+ * </code>
+ *
+ * <p>
+ * The generator is used to generate JSON object in a streaming way by calling
+ * its {@link #beginObject()} method and adding name/value pairs.
+ * <p>
+ * For example 1:
+ * <p>Empty JSON object can be generated as follows:
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
+ * generator.beginObject().endObject().close();
+ * </pre>
+ * </code>
+ *
+ * The generator is used to generate JSON array in a streaming way by calling
+ * its {@link #beginArray()} method and adding values.
+ * <p>
+ * For example 2:
+ * <p>Empty JSON array can be generated as follows:
+ * <code>
+ * <pre>
+ * JsonGenerator generator = ...;
+ * generator.beginArray().endArray().close();
+ * </pre>
+ * </code>
+ *
+ * Similarly, the following generator
+ * <code>
+ * <pre>
  * generator
  *     .beginObject()
  *         .add("firstName", "John")
@@ -98,6 +138,8 @@ import java.io.Writer;
  * </pre>
  * </code>
  *
+ * @see javax.json.Json
+ * @see JsonGeneratorFactory
  * @author Jitendra Kotamraju
  */
 public interface JsonGenerator extends /*Auto*/Closeable {

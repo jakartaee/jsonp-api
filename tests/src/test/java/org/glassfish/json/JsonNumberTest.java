@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -43,9 +43,9 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 
 import javax.json.*;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.math.BigDecimal;
 
 /**
  * @author Jitendra Kotamraju
@@ -55,13 +55,51 @@ public class JsonNumberTest extends TestCase {
         super(testName);
     }
 
-    public void testObject() throws Exception {
+    public void testFloating() throws Exception {
         JsonArray array1 = new JsonBuilder().beginArray().add(10.4).endArray().build();
         JsonReader reader = new JsonReader(new StringReader("[10.4]"));
         JsonArray array2 = reader.readArray();
 
         assertEquals(array1.getValue(0), array2.getValue(0));
         assertEquals(array1, array2);
+    }
+
+    public void testBigDecimal() throws Exception {
+        JsonArray array1 = new JsonBuilder().beginArray().add(new BigDecimal("10.4")).endArray().build();
+        JsonReader reader = new JsonReader(new StringReader("[10.4]"));
+        JsonArray array2 = reader.readArray();
+
+        assertEquals(array1.getValue(0), array2.getValue(0));
+        assertEquals(array1, array2);
+    }
+
+    public void testNumberType() throws Exception {
+        JsonArray array = new JsonBuilder().beginArray().add(12.0).endArray().build();
+        assertEquals(JsonNumber.JsonNumberType.INT, array.getValue(0, JsonNumber.class).getNumberType());
+    }
+
+    public void testMinMax() throws Exception {
+        JsonArray expected = new JsonBuilder()
+                .beginArray()
+                    .add(Integer.MIN_VALUE)
+                    .add(Integer.MAX_VALUE)
+                    .add(Long.MIN_VALUE)
+                    .add(Long.MAX_VALUE)
+                    .add(Double.MIN_VALUE)
+                    .add(Double.MAX_VALUE)
+                .endArray()
+                .build();
+
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = new JsonWriter(sw);
+        writer.writeArray(expected);
+        writer.close();
+
+        JsonReader reader = new JsonReader(new StringReader(sw.toString()));
+        JsonArray actual = reader.readArray();
+        reader.close();
+
+        assertEquals(expected, actual);
     }
 
 }

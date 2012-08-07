@@ -65,31 +65,39 @@ public interface JsonParserFactory {
     public JsonParser createParser(Reader reader);
 
     /**
-     * Creates a JSON parser from a byte stream
+     * Creates a JSON parser from the specified byte stream.
+     * The character encoding of the stream is determined
+     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
      *
-     * @param in a i/o stream from which JSON is to be read
+     * @param in i/o stream from which JSON is to be read
+     * @throws javax.json.JsonException if encoding cannot be determined
+     *         or i/o error
      */
     public JsonParser createParser(InputStream in);
 
     /**
-     * Creates a JSON parser from a byte stream
+     * Creates a JSON parser from the specified byte stream.
+     * The bytes of the stream are decoded to characters using the
+     * specified encoding.
      *
-     * @param in a i/o stream from which JSON is to be read
+     * @param in i/o stream from which JSON is to be read
      * @param encoding the character encoding of the stream
+     * @throws javax.json.JsonException if encoding is not supported
+     *         or i/o error
      */
     public JsonParser createParser(InputStream in, String encoding);
 
     /**
-     * Creates a JSON parser that provides streaming parser interface for a JSON object.
+     * Creates a JSON parser from the specified JSON object.
      *
-     * @param obj a JSON object
+     * @param obj JSON object
      */
     public JsonParser createParser(JsonObject obj);
 
     /**
-     * Creates a JSON parser that provides streaming parser interface for a JSON array
+     * Creates a JSON parser from the specified JSON array.
      *
-     * @param array a JSON array
+     * @param array JSON array
      */
     public JsonParser createParser(JsonArray array);
 
