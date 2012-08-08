@@ -45,13 +45,13 @@ import java.util.List;
 /**
  * {@code JsonArray} class represents an immutable JSON array value.
  *
- * <p>A full JsonArray instance can be created from a character stream using
- * {@link JsonReader#readObject()}. For example:
+ * <p>A full JsonArray instance can be created from a input source using
+ * {@link JsonReader#readArray()}. For example:
  *
  * <code>
  * <pre>
- * JsonReader jsonReader = new JsonReader(...));
- * JsonArray array = (JsonArray)jsonReader.readObject();
+ * JsonReader jsonReader = new JsonReader(...);
+ * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
  * </pre>
  * </code>
@@ -98,13 +98,17 @@ import java.util.List;
  * </pre>
  * </code>
  *
+ * <p>
  * {@code JsonArray} can be written to JSON as follows:
+ *
+ * <code>
  * <pre>
  * JsonArray arr = ...;
  * JsonWriter writer = new JsonWriter(...)
- * writer.writeObject(arr);
+ * writer.writeArray(arr);
  * writer.close();
  * </pre>
+ * </code>
  *
  * <p>
  * {@code JsonArray} values can be {@link JsonObject}, {@link JsonArray},

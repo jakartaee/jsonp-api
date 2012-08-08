@@ -107,46 +107,190 @@ public abstract class JsonProvider {
         }
     }
 
+    /**
+     * Creates a JSON parser from the specified character stream
+     *
+     * @param reader i/o reader from which JSON is to be read
+     */
     public abstract JsonParser createParser(Reader reader);
 
+    /**
+     * Creates a JSON parser from the specified character stream. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param reader i/o reader from which JSON is to be read
+     * @param config configuration of the parser
+     */
     public abstract JsonParser createParser(Reader reader, JsonConfiguration config);
 
+    /**
+     * Creates a JSON parser from the specified byte stream.
+     * The character encoding of the stream is determined
+     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @throws JsonException if encoding cannot be determined
+     *         or i/o error
+     */
     public abstract JsonParser createParser(InputStream in);
 
+    /**
+     * Creates a JSON parser from the specified byte stream.
+     * The bytes of the stream are decoded to characters using the
+     * specified encoding.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     * @throws JsonException if encoding is not supported
+     *         or i/o error
+     */
     public abstract JsonParser createParser(InputStream in, String encoding);
 
+    /**
+     * Creates a JSON parser from the specified byte stream. The created
+     * parser is configured with the specified configuration. The character
+     * encoding of the stream is determinedas per the
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param config configuration of the parser
+     */
     public abstract JsonParser createParser(InputStream in, JsonConfiguration config);
 
+    /**
+     * Creates a JSON parser from the specified byte stream. The bytes of the
+     * stream are decoded to characters using the specified encoding. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param in i/o stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     * @param config configuration of the parser
+     */
     public abstract JsonParser createParser(InputStream in, String encoding, JsonConfiguration config);
 
+    /**
+     * Creates a JSON parser from the specified JSON array.
+     *
+     * @param array JSON array
+     */
     public abstract JsonParser createParser(JsonArray array);
 
+    /**
+     * Creates a JSON parser from the specified JSON array. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param array JSON array
+     * @param config configuration of the parser
+     */
     public abstract JsonParser createParser(JsonArray array, JsonConfiguration config);
 
+    /**
+     * Creates a JSON parser from the specified JSON object.
+     *
+     * @param object JSON object
+     */
     public abstract JsonParser createParser(JsonObject object);
 
+    /**
+     * Creates a JSON parser from the specified JSON object. The created
+     * parser is configured with the specified configuration.
+     *
+     * @param object JSON object
+     * @param config configuration of the parser
+     */
     public abstract JsonParser createParser(JsonObject object, JsonConfiguration config);
 
+    /**
+     * Creates a parser factory which can be used to create {@link JsonParser}.
+     *
+     * @return JSON parser factory
+     */
     public abstract JsonParserFactory createParserFactory();
 
+    /**
+     * Creates a parser factory which can be used to create {@link JsonParser}.
+     * The created parser factory is configured with the specified
+     * configuration
+     *
+     * @param config configuration of the parser factory
+     * @return JSON parser factory
+     */
     public abstract JsonParserFactory createParserFactory(JsonConfiguration config);
 
-
-
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified character stream.
+     *
+     * @param writer a i/o writer to which JSON is written
+     */
     public abstract JsonGenerator createGenerator(Writer writer);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified character stream. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param writer i/o writer to which JSON is written
+     * @param config configuration of the generator
+     */
     public abstract JsonGenerator createGenerator(Writer writer, JsonConfiguration config);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream.
+     *
+     * @param out i/o stream to which JSON is written
+     */
     public abstract JsonGenerator createGenerator(OutputStream out);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using UTF-8 encoding. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param config configuration of the generator
+     */
     public abstract JsonGenerator createGenerator(OutputStream out, JsonConfiguration config);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using the specified encoding.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param encoding the character encoding of the stream
+     */
     public abstract JsonGenerator createGenerator(OutputStream out, String encoding);
 
+    /**
+     * Creates a JSON generator which can be used to write JSON text to the
+     * specified byte stream. Characters written to the stream are encoded
+     * into bytes using the specified encoding. The created generator is configured
+     * with the specified configuration.
+     *
+     * @param out i/o stream to which JSON is written
+     * @param encoding the character encoding of the stream
+     * @param config configuration of the generator
+     */
     public abstract JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config);
 
+    /**
+     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     *
+     * @return JSON generator factory
+     */
     public abstract JsonGeneratorFactory createGeneratorFactory();
 
+    /**
+     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     * The created generator factory is configured with the specified
+     * configuration.
+     *
+     * @param config configuration of the generator factory
+     * @return JSON generator factory
+     */
     public abstract JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config);
 
 }

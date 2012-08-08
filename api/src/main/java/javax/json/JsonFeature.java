@@ -41,6 +41,8 @@
 package javax.json;
 
 /**
+ * JSON feature configures the behaviour of parsing and generation of JSON.
+ * Implementations may define their own features.
  *
  * @author Jitendra Kotamraju
  */

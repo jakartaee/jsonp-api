@@ -47,13 +47,13 @@ import java.util.Set;
  * {@code JsonObject} class represents an immutable JSON object value.
  *
  * <p>
- * A full JsonObject instance can be created from a character stream using
+ * A full JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
  *
  * <code>
  * <pre>
  * JsonReader jsonReader = new JsonReader(...));
- * JsonObject object = (JsonObject)jsonReader.readObject();
+ * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
  * </pre>
  * </code>
@@ -137,10 +137,6 @@ import java.util.Set;
  * String firstName = object.getValue("firstName", JsonString.class).getValue();
  * </pre>
  * </code>
- *
- * <p>
- * TODO 1. Implement {@code Map&lt;String, JsonValue>} Hard to implement lazily ??
- * Too many methods to implement ??
  *
  * <p>
  * TODO 2. define equals() semantics

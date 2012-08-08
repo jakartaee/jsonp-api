@@ -58,7 +58,7 @@ import java.io.*;
  * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
  *
  * <p>
- * For example, a JSON parser for an empty array could be created as
+ * For example, a JSON parser for parsing an empty array could be created as
  * follows:
  * <code>
  * <pre>
@@ -151,10 +151,10 @@ public class Json {
     /**
      * Creates a JSON parser from the specified JSON object.
      *
-     * @param obj JSON object
+     * @param object JSON object
      */
-    public static JsonParser createParser(JsonObject obj) {
-        return JsonProvider.provider().createParser(obj);
+    public static JsonParser createParser(JsonObject object) {
+        return JsonProvider.provider().createParser(object);
     }
 
     /**
@@ -273,6 +273,7 @@ public class Json {
      * The created parser factory is configured with the specified
      * configuration
      *
+     * @param config configuration of the parser factory
      * @return JSON parser factory
      */
     public static JsonParserFactory createParserFactory(JsonConfiguration config) {
@@ -293,6 +294,7 @@ public class Json {
      * The created generator factory is configured with the specified
      * configuration.
      *
+     * @param config configuration of the generator factory
      * @return JSON generator factory
      */
     public static JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
