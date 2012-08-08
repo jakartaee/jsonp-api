@@ -70,7 +70,6 @@ public class JsonReader implements /*Auto*/Closeable {
      * Creates a JSON reader from a character stream
      *
      * @param reader a reader from which JSON is to be read
-     * @return a JSON reader
      */
     public JsonReader(Reader reader) {
         impl = new JsonReaderImpl(reader);
@@ -80,7 +79,6 @@ public class JsonReader implements /*Auto*/Closeable {
      * Creates a JSON reader from a character stream
      *
      * @param reader a character stream from which JSON is to be read
-     * @return a JSON reader
      */
     public JsonReader(Reader reader, JsonConfiguration config) {
         impl = new JsonReaderImpl(reader, config);
@@ -92,7 +90,6 @@ public class JsonReader implements /*Auto*/Closeable {
      * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
      *
      * @param in a byte stream from which JSON is to be read
-     * @return a JSON reader
      */
     public JsonReader(InputStream in) {
         impl = new JsonReaderImpl(in);
@@ -104,7 +101,6 @@ public class JsonReader implements /*Auto*/Closeable {
      *
      * @param in a byte stream from which JSON is to be read
      * @param encoding the character encoding of the stream
-     * @return a JSON reader
      */
     public JsonReader(InputStream in, String encoding) {
         impl = new JsonReaderImpl(in, encoding);
@@ -116,7 +112,6 @@ public class JsonReader implements /*Auto*/Closeable {
      * reader is configured with the specified configuration.
      *
      * @param in a byte stream from which JSON is to be read
-     * @return a JSON reader
      */
     public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
         impl = new JsonReaderImpl(in, encoding, config);

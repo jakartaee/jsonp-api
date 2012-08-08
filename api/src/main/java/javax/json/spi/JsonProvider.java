@@ -58,6 +58,7 @@ import java.util.ServiceLoader;
 /**
  * Service provider for JSON objects.
  *
+ * @see ServiceLoader
  * @author Jitendra Kotamraju
  */
 public abstract class JsonProvider {
@@ -74,23 +75,13 @@ public abstract class JsonProvider {
 
     /**
      *
-     * Creates a JSON provider object.
-     * <p>
-     * The algorithm used to locate the provider subclass to use consists
-     * of the following steps:
-     * <p>
-     * <ul>
-     * <li>
-     *   If a resource with the name of
-     *   <code>META-INF/services/javax.json.spi.JsonProvider</code>
-     *   exists, then its first line, if present, is used as the UTF-8 encoded
-     *   name of the implementation class.
-     * </li>
-     * <li>
-     *   Otherwise, a default implementation class name is used.
-     * </li>
-     * </ul>
+     * Creates a JSON provider object. The provider is loaded using
+     * {@link ServiceLoader#load(Class)} method. If there is no available
+     * service provider is found, then the default service provider
+     * is loaded using the current thread's
+     * {@linkplain java.lang.Thread#getContextClassLoader context class loader}.
      *
+     * @see ServiceLoader
      * @return a JSON provider
      */
     public static JsonProvider provider() {

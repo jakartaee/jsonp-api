@@ -38,20 +38,11 @@
  * holder.
  */
 
-package javax.json;
-
 /**
- * {@code JsonString} represents a JSON string value
+ * SPI to plugin implementations for {@link javax.json.stream.JsonParser}
+ * and{@link javax.json.stream.JsonGenerator} portably.
  *
+ * @since JSON-P 1.0
  * @author Jitendra Kotamraju
  */
-public interface JsonString extends JsonValue {
-
-    /**
-     * Returns the JSON string value
-     *
-     * @return a JSON string value
-     */
-    public String getValue();
-
-}
+package javax.json.spi;

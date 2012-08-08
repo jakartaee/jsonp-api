@@ -39,7 +39,8 @@
  */
 
 /**
- * Provides a streaming API to parse and generate JSON.
+ * Provides a streaming API to parse and generate
+ * <a href="http://json.org/">JSON</a>.
  *
  * <p>
  * {@code JsonParser} can be used to parse JSON in a streaming way.

@@ -100,6 +100,9 @@
 </font>]]>
                     </bottom>
                     <excludePackageNames>org.glassfish.*</excludePackageNames>
+                    <links>
+                        <link>http://download.oracle.com/javase/6/docs/api/</link>
+                    </links>
                 </configuration>
 
                 <executions>

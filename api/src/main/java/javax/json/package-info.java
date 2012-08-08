@@ -40,27 +40,21 @@
 
 /**
  * Java API for JSON Processing (JSON-P) API provides a way to process
- * (for e.g. parse, generate, transform and query) JSON.
+ * (for e.g. parse, generate, transform and query)
+ * <a href="http://json.org/">JSON</a>.
  *
  * This API can be used to:
  * <ul>
- * <li>Produce and consume JSON text in a streaming fashion(similar to StAX API for XML)</li>
- * <li>Build a Java object model for JSON text using API classes(similar to DOM API for XML)</li>
+ * <li>Produce and consume JSON text in a streaming fashion
+ * (similar to StAX API for XML)</li>
+ * <li>Build a Java object model(similar to DOM API for XML) for JSON text</li>
  * </ul>
  *
  * The object model API uses builder pattern to build object models of JSON
- * objects {@code JsonObject} and arrays {@code JsonArray} from scratch.
+ * {@link javax.json.JsonObject object} and {@link javax.json.JsonArray array}
+ * from scratch.
  *
  * @since JSON-P 1.0
  * @author Jitendra Kotamraju
- *
- *
- * <p> TODO Serialization
- *
- * <p> TODO Thread-safety
- *
- * <p> TODO Async/NIO support
- * <p> TODO equals() for tree API
- * <p> TODO Streaming - split String values into multiple parts
  */
 package javax.json;

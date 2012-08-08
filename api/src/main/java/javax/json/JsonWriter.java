@@ -47,12 +47,13 @@ import java.io.OutputStream;
 import java.io.Writer;
 
 /**
- * A JSON writer that writes a JSON object or array to an output source.
- * For example:
+ * A JSON writer that writes a JSON {@link JsonObject object} or
+ * {@link JsonArray array} structure to an output source.
+ *
+ * <p>
+ * For example: An empty JSON object can be written as follows:
  * <code>
  * <pre>
- * An empty JSON object can be written as follows:
- *
  * JsonWriter jsonWriter = new JsonWriter(...);
  * jsonWriter.writeObject(new JsonBuilder().beginObject().endObject().build());
  * jsonWriter.close();
@@ -66,8 +67,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     private final JsonWriterImpl impl;
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified character stream.
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified character stream.
      *
      * @param writer to which JSON object or array is written
      */
@@ -76,8 +78,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified character stream.  The created
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified character stream.  The created
      * writer is configured with the specified configuration.
      *
      * @param writer to which JSON object or array is written
@@ -88,8 +91,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified byte stream. Characters written to
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using UTF-8 encoding.
      *
      * @param out to which JSON object or array is written
@@ -99,10 +103,11 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified byte stream. Characters written to
-     * the stream are encoded into bytes using UTF-8 encoding. The created
-     * writer is configured with the specified configuration.
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using UTF-8 encoding.
+     * The created writer is configured with the specified configuration.
      *
      * @param out to which JSON object or array is written
      * @param config configuration of the writer
@@ -112,8 +117,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified byte stream. Characters written to
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using the specified encoding.
      *
      * @param out to which JSON object or array is written
@@ -124,8 +130,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a JSON
-     * object or array to the specified byte stream. Characters written to
+     * Creates a JSON writer which can be used to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using the specified encoding.
      * The created writer is configured with the specified configuration.
      *
@@ -138,7 +145,7 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Writes the specified {@link JsonArray}'s representation to the output
+     * Writes the specified JSON {@link JsonArray array} to the output
      * source. This method needs to be called only once for a writer instance.
      *
      * @throws JsonException if the specified JSON object cannot be
@@ -151,7 +158,7 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Writes the specified {@link JsonObject}'s representation to the output
+     * Writes the specified JSON {@link JsonObject object} to the output
      * source. This method needs to be called only once for a writer instance.
      *
      * @throws JsonException if the specified JSON object cannot be
@@ -164,9 +171,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Writes the specified {@link JsonObject} or {@link JsonArray}'s
-     * representation to the output source. This method needs to be called
-     * only once for a writer instance.
+     * Writes the specified JSON {@link JsonObject object} or
+     * {@link JsonArray array} to the output source. This method needs
+     * to be called only once for a writer instance.
      *
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
