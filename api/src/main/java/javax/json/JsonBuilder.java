@@ -48,9 +48,10 @@ import java.util.Set;
 /**
  * Builds a JSON object or a JSON array
  *
- * <pre>
- * For example: For the following JSON
+ * <p>
+ * <b>For example</b>, for the following JSON
  *
+ * <pre>
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
  *     "address" : {

@@ -49,6 +49,10 @@ import java.math.BigInteger;
  */
 public final class JsonNumberImpl implements JsonNumber {
     private final BigDecimal bigDecimal;
+    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
+    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
+    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
+    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
 
     public JsonNumberImpl(String value) {
         bigDecimal = new BigDecimal(value);
@@ -78,30 +82,16 @@ public final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public JsonNumberType getNumberType() {
-        // TODO more efficient impl
-        try {
-            bigDecimal.intValueExact();
-            return JsonNumberType.INT;
-        } catch (Exception e) {
-            // ignore
-        }
-        try {
-            bigDecimal.longValueExact();
-            return JsonNumberType.LONG;
-        } catch (Exception e) {
-            // ignore
-        }
-        try {
-            bigDecimal.toBigIntegerExact();
-            return JsonNumberType.BIG_INTEGER;
-        } catch (Exception e) {
-            // ignore
-        }
-        if (bigDecimal.subtract(new BigDecimal(bigDecimal.doubleValue())).compareTo(BigDecimal.ZERO) != 0) {
-            // conversion was not exact
+        if (bigDecimal.scale() != 0)  {
             return JsonNumberType.BIG_DECIMAL;
         } else {
-            return JsonNumberType.DOUBLE;
+            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
+                return JsonNumberType.INT;
+            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
+                return JsonNumberType.LONG;
+            } else {
+                return JsonNumberType.BIG_DECIMAL;
+            }
         }
     }
 
@@ -161,12 +151,14 @@ public final class JsonNumberImpl implements JsonNumber {
             return false;
         }
         JsonNumberImpl other = (JsonNumberImpl)obj;
+        return bigDecimal.equals(other.bigDecimal);
         // not using equals as that takes scale into account
-        return bigDecimal.compareTo(other.bigDecimal) == 0;
+        // return bigDecimal.compareTo(other.bigDecimal) == 0;
     }
 
     @Override
     public String toString() {
         return bigDecimal.toString();
     }
+
 }

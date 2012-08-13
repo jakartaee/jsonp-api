@@ -105,11 +105,6 @@ public class JsonParserImpl implements JsonParser {
         return new JsonNumberImpl(tokenizer.getValue());
     }
 
-    @Override
-    public <T extends JsonValue> T getJsonValue(Class<T> clazz) {
-        throw new JsonException("TODO");
-    }
-
     public Iterator<JsonParser.Event> iterator() {
         return new StateIterator();
     }

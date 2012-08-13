@@ -180,24 +180,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                     break;
                 case NUMBER:
                     JsonNumber number = (JsonNumber)value;
-//                    writeValue(name, number.toString());
-                    switch (number.getNumberType()) {
-                        case INT:
-                            add(name, number.getIntValue());
-                            break;
-                        case LONG:
-                            add(name, number.getLongValue());
-                            break;
-                        case BIG_INTEGER:
-                            add(name, number.getBigIntegerValue());
-                            break;
-                        case DOUBLE:
-                            add(name, number.getDoubleValue());
-                            break;
-                        case BIG_DECIMAL:
-                            add(name, number.getBigDecimalValue());
-                            break;
-                    }
+                    writeValue(name, number.toString());
                     break;
                 case TRUE:
                     add(name, true);
@@ -352,24 +335,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                     break;
                 case NUMBER:
                     JsonNumber number = (JsonNumber)value;
-//                    writeValue(number.toString());
-                    switch (number.getNumberType()) {
-                        case INT:
-                            add(number.getIntValue());
-                            break;
-                        case LONG:
-                            add(number.getLongValue());
-                            break;
-                        case BIG_INTEGER:
-                            add(number.getBigIntegerValue());
-                            break;
-                        case DOUBLE:
-                            add(number.getDoubleValue());
-                            break;
-                        case BIG_DECIMAL:
-                            add(number.getBigDecimalValue());
-                            break;
-                    }
+                    writeValue(number.toString());
                     break;
                 case TRUE:
                     add(true);

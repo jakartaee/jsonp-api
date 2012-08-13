@@ -51,7 +51,7 @@ import java.io.Writer;
  * {@link JsonArray array} structure to an output source.
  *
  * <p>
- * For example: An empty JSON object can be written as follows:
+ * <b>For example</b>, an empty JSON object can be written as follows:
  * <code>
  * <pre>
  * JsonWriter jsonWriter = new JsonWriter(...);

@@ -76,7 +76,7 @@ import java.io.InputStream;
  * methods. The iterator's {@code next()} method causes the parser to advance
  * to the next parse state.
  * <p>
- * For example 1:
+ * <b>For example 1</b>:
  * <p>For empty JSON object { },
  * the iterator would give {<B>START_OBJECT</B> }<B>END_OBJECT</B> parse
  * events at the specified locations. Those events can be accessed using the
@@ -91,7 +91,7 @@ import java.io.InputStream;
  * </code>
  *
  * <p>
- * For example 2:
+ * <b>For example 2</b>:
  * <p>
  * For the following JSON
  * <pre>
@@ -233,8 +233,9 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
      *
      * @param clazz
      * @return
-     */
+     *
     public <T extends JsonValue> T getJsonValue(Class<T> clazz);
+     */
 
     /**
      * Closes this parser and frees any resources associated with the

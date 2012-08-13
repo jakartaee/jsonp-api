@@ -94,11 +94,6 @@ class JsonStructureParser implements JsonParser {
     }
 
     @Override
-    public <T extends JsonValue> T getJsonValue(Class<T> clazz) {
-        return null;
-    }
-
-    @Override
     public Iterator<Event> iterator() {
         return new Iterator<Event>() {
 

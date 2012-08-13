@@ -48,14 +48,12 @@ import java.io.Reader;
 
 /**
  * A JSON reader that reads a JSON object or array from an input source.
- * For example:
  *
+ * <p><b>For example</b>, an empty JSON array can be created as follows:
  * <code>
  * <pre>
- * An empty JSON array can be created as follows:
- *
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
- * JsonObject obj = jsonReader.readObject();
+ * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
  * </pre>
  * </code>

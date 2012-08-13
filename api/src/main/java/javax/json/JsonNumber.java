@@ -44,7 +44,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * {@code JsonNumber} represents a JSON number value.
+ * {@code JsonNumber} represents a JSON number value. A {@link BigDecimal}
+ * may be used to store the numeric value. Some of the method semantics
+ * in this class are defined using the {@code BigDecimal} semantics.
  *
  * @author Jitendra Kotamraju
  */
@@ -65,23 +67,21 @@ public interface JsonNumber extends JsonValue {
         LONG,
 
         /**
-         * BigInteger number type
-         */
-        BIG_INTEGER,
-
-        /**
-         * double number type
-         */
-        DOUBLE,
-
-        /**
          * BigDecimal number type
          */
         BIG_DECIMAL
     }
 
     /**
-     * Returns a JSON number type
+     * Returns a JSON number type that can hold the number.
+     * A {@link BigDecimal} may be used to store the numeric value.
+     * If the scale of a value is non-zero, its number type is
+     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}. If the scale is zero,
+     * and the value is numerically an integer. If the value can be exactly
+     * represented as an int, its type is {@link JsonNumberType#INT INT};
+     * if the value can be exactly represented as a long, its type is
+     * {@link JsonNumberType#LONG LONG}; otherwise, its type is
+     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
      *
      * @return a number type
      */
@@ -93,15 +93,17 @@ public interface JsonNumber extends JsonValue {
      * number value as well as return a result with the opposite sign.
      *
      * @return an integer for JSON number.
+     * @see java.math.BigDecimal#intValue()
      */
     public int getIntValue();
 
     /**
      * Converts JSON number to an integer number.
      *
-     * @return a number type
+     * @return a integer for JSON number
      * @throws ArithmeticException cause if the number has a nonzero fractional
      *         part, or will not fit in an {@code int}
+     * @see java.math.BigDecimal#intValueExact()
      */
     public int getIntValueExact();
 
@@ -111,6 +113,7 @@ public interface JsonNumber extends JsonValue {
      * number value as well as return a result with the opposite sign.
      *
      * @return a long for JSON number.
+     * @see java.math.BigDecimal#longValue()
      */
     public long getLongValue();
 
@@ -120,6 +123,7 @@ public interface JsonNumber extends JsonValue {
      * @return a long for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional
      *         part, or will not fit in a {@code long}.
+     * @see java.math.BigDecimal#longValueExact()
      */
     public long  getLongValueExact();
 
@@ -129,7 +133,8 @@ public interface JsonNumber extends JsonValue {
      * precision of the number value as well as return a result with the
      * opposite sign.
      *
-     * @return a long for JSON number.
+     * @return a BigInteger for JSON number.
+     * @see java.math.BigDecimal#toBigInteger()
      */
     public BigInteger getBigIntegerValue();
 
@@ -138,6 +143,7 @@ public interface JsonNumber extends JsonValue {
      *
      * @return a BigDecimal for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional part.
+     * @see java.math.BigDecimal#toBigIntegerExact()
      */
     public BigInteger getBigIntegerValueExact();
 
@@ -146,7 +152,8 @@ public interface JsonNumber extends JsonValue {
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return a long for JSON number
+     * @return a double for JSON number
+     * @see java.math.BigDecimal#doubleValue()
      */
     public double getDoubleValue();
 
@@ -156,5 +163,13 @@ public interface JsonNumber extends JsonValue {
      * @return a BigDecimal for JSON number
      */
     public BigDecimal getBigDecimalValue();
+
+    /**
+     * Returns a JSON representation of the JSON number value.
+     *
+     * @return JSON representation of the number
+     */
+    @Override
+    public String toString();
 
 }
