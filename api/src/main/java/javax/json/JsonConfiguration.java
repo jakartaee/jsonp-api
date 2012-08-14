@@ -44,6 +44,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * JSON configuration is a set features that configure the behaviour of
+ * parsing and generation of JSON.
  *
  * @author Jitendra Kotamraju
  */

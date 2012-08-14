@@ -42,9 +42,7 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.Json;
+import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -169,4 +167,19 @@ public class JsonGeneratorTest extends TestCase {
         assertEquals("[\"\\u0000\"]", writer.toString());
     }
 
+    public void testEscapedString1() throws Exception {
+        String expected = "\u0000\u00ff";
+        StringWriter sw = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sw);
+        generator.beginArray().add("\u0000\u00ff").endArray();
+        generator.close();
+        sw.close();
+
+        JsonReader jr = new JsonReader(new StringReader(sw.toString()));
+        JsonArray array = jr.readArray();
+        String got = array.getValue(0, JsonString.class).getValue();
+        jr.close();
+
+        assertEquals(expected, got);
+    }
 }

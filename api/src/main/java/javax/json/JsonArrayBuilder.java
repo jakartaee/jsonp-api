@@ -58,6 +58,8 @@ public interface JsonArrayBuilder<T> {
      * Indicates the end of the JSON array that is being built.
      *
      * @return the enclosing object of type T
+     * @throws IllegalStateException when endArray method is already
+     * called.
      */
     public T endArray();
 

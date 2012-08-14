@@ -90,6 +90,8 @@ public class Json {
      *
      * @param reader i/o reader from which JSON is to be read
      * @param config configuration of the parser
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParser createParser(Reader reader, JsonConfiguration config) {
         return JsonProvider.provider().createParser(reader, config);
@@ -130,6 +132,8 @@ public class Json {
      *
      * @param in i/o stream from which JSON is to be read
      * @param config configuration of the parser
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParser createParser(InputStream in, JsonConfiguration config) {
         return JsonProvider.provider().createParser(in, config);
@@ -143,6 +147,8 @@ public class Json {
      * @param in i/o stream from which JSON is to be read
      * @param encoding the character encoding of the stream
      * @param config configuration of the parser
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createParser(in, encoding, config);
@@ -163,6 +169,8 @@ public class Json {
      *
      * @param obj JSON object
      * @param config configuration of the parser
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParser createParser(JsonObject obj, JsonConfiguration config) {
         return JsonProvider.provider().createParser(obj, config);
@@ -183,6 +191,8 @@ public class Json {
      *
      * @param array JSON array
      * @param config configuration of the parser
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParser createParser(JsonArray array, JsonConfiguration config) {
         return JsonProvider.provider().createParser(array, config);
@@ -205,6 +215,8 @@ public class Json {
      *
      * @param writer i/o writer to which JSON is written
      * @param config configuration of the generator
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(writer, config);
@@ -228,6 +240,8 @@ public class Json {
      *
      * @param out i/o stream to which JSON is written
      * @param config configuration of the generator
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(out, config);
@@ -254,6 +268,8 @@ public class Json {
      * @param out i/o stream to which JSON is written
      * @param encoding the character encoding of the stream
      * @param config configuration of the generator
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(out, encoding, config);
@@ -275,6 +291,8 @@ public class Json {
      *
      * @param config configuration of the parser factory
      * @return JSON parser factory
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonParserFactory createParserFactory(JsonConfiguration config) {
         return JsonProvider.provider().createParserFactory(config);
@@ -296,6 +314,8 @@ public class Json {
      *
      * @param config configuration of the generator factory
      * @return JSON generator factory
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public static JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
         return JsonProvider.provider().createGeneratorFactory(config);

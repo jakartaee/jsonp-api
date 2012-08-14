@@ -42,9 +42,6 @@ package javax.json;
 
 import org.glassfish.json.JsonBuilderImpl;
 
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Builds a JSON object or a JSON array
  *
@@ -138,79 +135,6 @@ public class JsonBuilder {
      */
     public JsonArrayBuilder<JsonBuildable<JsonArray>> beginArray() {
         return impl.beginArray();
-    }
-
-    private void testObject() {
-        JsonObject object = new JsonBuilder()
-            .beginObject()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .beginObject("address")
-                    .add("streetAddress", "21 2nd Street")
-                    .add("city", "New York")
-                    .add("state", "NY")
-                    .add("postalCode", "10021")
-                .endObject()
-                .beginArray("phoneNumber")
-                    .beginObject()
-                        .add("type", "home")
-                        .add("number", "212 555-1234")
-                    .endObject()
-                    .beginObject()
-                        .add("type", "home")
-                        .add("number", "646 555-4567")
-                    .endObject()
-                .endArray()
-            .endObject()
-        .build();
-        
-        Set<String> names = object.getNames();
-        JsonString string = (JsonString)object.getValue("firstName");
-        JsonString firstName = object.getValue("firstName", JsonString.class);
-        JsonObject address = object.getValue("address", JsonObject.class);
-        JsonArray phoneNumber = object.getValue("phoneNumber", JsonArray.class);
-        JsonNumber ageNumber = object.getValue("age", JsonNumber.class);
-        int age = ageNumber.getIntValue();
-        
-        Map<String, JsonValue> values = object.getValues();
-    }
-
-    private void testArray() {
-        JsonArray array = new JsonBuilder()
-            .beginArray()
-            .endArray()
-        .build();
-        
-        java.util.List<JsonValue> values = array.getValues();
-        for(JsonValue value : array.getValues()) {
-            switch (value.getValueType()) {
-                case ARRAY:
-                    JsonArray childArray = (JsonArray)value; 
-                    break;
-                case OBJECT:
-                    JsonObject object = (JsonObject)value;
-                    break;
-                case STRING:
-                    JsonString string = (JsonString)value;
-                    break;
-                case NUMBER:
-                    JsonNumber number = (JsonNumber)value;
-                    break;
-                case TRUE:
-                    break;
-                case FALSE:
-                    break;
-                case NULL:
-                    break;
-            }
-        }
-        
-        JsonValue value = array.getValue(0);
-        JsonArray childArray = array.getValue(0, JsonArray.class);
-        JsonObject childObject = array.getValue(0, JsonObject.class);
-        JsonString childString = array.getValue(0, JsonString.class);
-        JsonNumber childNumber = array.getValue(0, JsonNumber.class);
     }
 
 }

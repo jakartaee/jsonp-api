@@ -43,14 +43,11 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
+import javax.json.*;
+import javax.json.stream.JsonGenerator;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 
 /**
  * @author Jitendra Kotamraju
@@ -65,6 +62,15 @@ public class JsonReaderTest extends TestCase {
         JsonObjectTest.testPerson(person);
     }
 
+    public void testEscapedString() throws Exception {
+        // u00ff is escaped once, not escaped once
+        JsonReader reader = new JsonReader(new StringReader("[\"\\u0000\\u00ff\u00ff\"]"));
+        JsonArray array = reader.readArray();
+        reader.close();
+        String str = array.getValue(0, JsonString.class).getValue();
+        assertEquals("\u0000\u00ff\u00ff", str);
+    }
+
     static JsonObject readPerson() throws Exception {
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = new JsonReader(wikiReader);
@@ -74,14 +80,6 @@ public class JsonReaderTest extends TestCase {
 
         assertTrue(value instanceof JsonObject);
         return (JsonObject)value;
-    }
-
-
-    public void testDom() throws Exception {
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = builder.parse(new ByteArrayInputStream("<a/>".getBytes()));
-        doc.getDocumentElement();
-
     }
 
 }

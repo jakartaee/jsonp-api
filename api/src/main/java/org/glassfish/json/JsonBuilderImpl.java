@@ -75,7 +75,8 @@ public class JsonBuilderImpl {
 
     private static class JsonObjectBuilderImpl<T> implements JsonObjectBuilder<T> {
         private final T enclosing;
-        private Map<String, JsonValue> valueMap;
+        private final Map<String, JsonValue> valueMap;
+        private boolean done;
         
         JsonObjectBuilderImpl(T enclosing, Map<String, JsonValue> valueMap) {
             this.enclosing = enclosing;
@@ -84,23 +85,36 @@ public class JsonBuilderImpl {
 
         @Override
         public T endObject() {
+            if (done) {
+                throw new IllegalStateException("endObject() is already invoked.");
+            }
+            done = true;
             return enclosing;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, JsonValue value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, value);
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, String value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonStringImpl(value));
             return this;  
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, BigInteger value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonNumberImpl(value));
             return this;
 
@@ -108,42 +122,63 @@ public class JsonBuilderImpl {
 
         @Override
         public JsonObjectBuilder<T> add(String name, BigDecimal value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, int value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, long value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, double value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> add(String name, boolean value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endObject()");
+            }
             valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
             return this;
         }
 
         @Override
         public JsonObjectBuilder<T> addNull(String name) {
+            if (done) {
+                throw new IllegalStateException("addNull() cannot be called after endObject()");
+            }
             valueMap.put(name, JsonValue.NULL);
             return this;
         }
 
         @Override
         public JsonObjectBuilder<JsonObjectBuilder<T>> beginObject(String name) {
+            if (done) {
+                throw new IllegalStateException("beginObject() cannot be called after endObject()");
+            }
             JsonObjectImpl child = new JsonObjectImpl();
             valueMap.put(name, child);
             return new JsonObjectBuilderImpl<JsonObjectBuilder<T>>(this, child.valueMap);
@@ -151,6 +186,9 @@ public class JsonBuilderImpl {
 
         @Override
         public JsonArrayBuilder<JsonObjectBuilder<T>> beginArray(String name) {
+            if (done) {
+                throw new IllegalStateException("beginArray() cannot be called after endObject()");
+            }
             JsonArrayImpl child = new JsonArrayImpl();
             valueMap.put(name, child);
             return new JsonArrayBuilderImpl<JsonObjectBuilder<T>>(this, child.valueList);
@@ -160,6 +198,7 @@ public class JsonBuilderImpl {
     static class JsonArrayBuilderImpl<T> implements JsonArrayBuilder<T> {
         private final T enclosing;
         private final List<JsonValue> valueList;
+        private boolean done;
         
         JsonArrayBuilderImpl(T enclosing, List<JsonValue> valueList) {
             this.enclosing = enclosing;
@@ -168,65 +207,99 @@ public class JsonBuilderImpl {
 
         @Override
         public T endArray() {
+            if (done) {
+                throw new IllegalStateException("endArray() is already invoked.");
+            }
+            done = true;
             return enclosing;
         }
 
         @Override
         public JsonArrayBuilder<T> add(JsonValue value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(value);
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(String value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonStringImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(BigDecimal value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(BigInteger value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(int value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(long value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(double value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(new JsonNumberImpl(value));
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> add(boolean value) {
+            if (done) {
+                throw new IllegalStateException("add() cannot be called after endArray()");
+            }
             valueList.add(value ? JsonValue.TRUE : JsonValue.FALSE);
             return this;
         }
 
         @Override
         public JsonArrayBuilder<T> addNull() {
+            if (done) {
+                throw new IllegalStateException("addNull() cannot be called after endArray()");
+            }
             valueList.add(JsonValue.NULL);
             return this;
         }
 
         @Override
         public JsonObjectBuilder<JsonArrayBuilder<T>> beginObject() {
+            if (done) {
+                throw new IllegalStateException("beginObject() cannot be called after endArray()");
+            }
             JsonObjectImpl child = new JsonObjectImpl();
             valueList.add(child);
             return new JsonObjectBuilderImpl<JsonArrayBuilder<T>>(this, child.valueMap);
@@ -234,6 +307,9 @@ public class JsonBuilderImpl {
 
         @Override
         public JsonArrayBuilder<JsonArrayBuilder<T>> beginArray() {
+            if (done) {
+                throw new IllegalStateException("beginArray() cannot be called after endArray()");
+            }
             JsonArrayImpl child = new JsonArrayImpl();
             valueList.add(child);
             return new JsonArrayBuilderImpl<JsonArrayBuilder<T>>(this, child.valueList);

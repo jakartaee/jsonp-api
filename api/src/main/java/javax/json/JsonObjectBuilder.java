@@ -58,6 +58,8 @@ public interface JsonObjectBuilder<T> {
      * Indicates the end of the JSON object that is being built.
      *
      * @return the enclosing object of type T
+     * @throws IllegalStateException when endObject method
+     * is already called
      */
     public T endObject();
 

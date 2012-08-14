@@ -142,9 +142,6 @@ import java.util.Set;
  * TODO 2. define equals() semantics
  *
  * <p>
- * TODO 3. Serialization
- *
- * <p>
  * TODO 4. Define an predictable iterating order ??
  *
  * @author Jitendra Kotamraju
