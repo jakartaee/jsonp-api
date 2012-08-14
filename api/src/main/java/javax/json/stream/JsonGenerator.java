@@ -46,7 +46,7 @@ import java.io.Closeable;
 
 /**
  * A JSON generator that writes JSON in a streaming way. The generator
- * can be created from many output sources like {@link java.io.Writer},
+ * can be created from many output sources like {@link java.io.Writer}
  * and {@link java.io.OutputStream}.
  *
  * <p>
@@ -60,6 +60,7 @@ import java.io.Closeable;
  * A generator can also be created using {@link JsonGeneratorFactory}. If
  * multiple generator instances are created, then creating them using
  * a generator factory is preferred.
+ * <p>
  * <code>
  * <pre>
  * JsonGeneratorFactory factory = Json.createGeneratorFactory();
@@ -72,7 +73,7 @@ import java.io.Closeable;
  * The generator is used to generate JSON object in a streaming way by calling
  * its {@link #beginObject()} method and adding name/value pairs.
  * <p>
- * For example 1:
+ * <b>For example 1:</b>
  * <p>Empty JSON object can be generated as follows:
  * <code>
  * <pre>
@@ -84,7 +85,7 @@ import java.io.Closeable;
  * The generator is used to generate JSON array in a streaming way by calling
  * its {@link #beginArray()} method and adding values.
  * <p>
- * For example 2:
+ * <b>For example 2:</b>
  * <p>Empty JSON array can be generated as follows:
  * <code>
  * <pre>
@@ -94,6 +95,7 @@ import java.io.Closeable;
  * </code>
  *
  * Similarly, the following generator
+ * <p>
  * <code>
  * <pre>
  * generator
@@ -119,8 +121,13 @@ import java.io.Closeable;
  *         .endArray()
  *     .endObject();
  * generator.close();
+ * </pre>
+ * </code>
  *
  * would generate a JSON equivalent to the following:
+ * <p>
+ * <code>
+ * <pre>
  * {
  *   "firstName": "John", "lastName": "Smith", "age": 25,
  *   "address" : {
@@ -134,7 +141,6 @@ import java.io.Closeable;
  *       {"type": "fax", "number": "646 555-4567"}
  *    ]
  * }
- *
  * </pre>
  * </code>
  *

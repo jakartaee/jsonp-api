@@ -51,6 +51,7 @@ import java.util.Set;
  * <p>
  * <b>For example</b>, for the following JSON
  *
+ * <code>
  * <pre>
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
@@ -65,10 +66,15 @@ import java.util.Set;
  *         { "type": "fax", "number": "646 555-4567" }
  *     ]
  * }
+ * </pre>
+ * </code>
  *
  * a JsonObject instance can be built using:
  *
- * <code>JsonObject value = new JsonBuilder()
+ * <p>
+ * <code>
+ * <pre>
+ * JsonObject value = new JsonBuilder()
  *     .beginObject()
  *         .add("firstName", "John")
  *         .add("lastName", "Smith")
@@ -91,8 +97,8 @@ import java.util.Set;
  *         .endArray()
  *     .endObject()
  * .build();
- * </code>
  * </pre>
+ * </code>
  *
  * @author Jitendra Kotamraju
  */

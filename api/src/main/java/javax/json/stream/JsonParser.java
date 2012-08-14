@@ -52,7 +52,10 @@ import java.io.InputStream;
  * A JSON parser that allows forward, read-only access to JSON in a
  * a streaming way. This is designed to be the most efficient
  * way to read JSON text. The parser can be created from many input sources
- * like {@link Reader}, {@link InputStream}, {@link JsonArray}, and {@link JsonObject}.
+ * like {@link Reader}, {@link InputStream}, {@link JsonArray} and
+ * {@link JsonObject}.
+ *
+ * <p>
  * For example, a parser for empty JSON array can be created as follows:
  * <code>
  * <pre>
@@ -63,6 +66,7 @@ import java.io.InputStream;
  * A parser can also be created using {@link JsonParserFactory}. If
  * multiple parser instances are created, then creating them using
  * a factory is preferred.
+ * <p>
  * <code>
  * <pre>
  * JsonParserFactory factory = Json.createParserFactory();
@@ -102,19 +106,26 @@ import java.io.InputStream;
  *       { "type": "fax", "number": "646 555-4567" }
  *    ]
  * }
+ * </pre>
  *
  * the iterator would give
  *
+ * <p>
+ * <pre>
  * {<B>START_OBJECT</B>
  *   "firstName"<B>KEY_NAME</B>: "John"<B>VALUE_STRING</B>, "lastName"<B>KEY_NAME</B>: "Smith"<B>VALUE_STRING</B>, "age"<B>KEY_NAME</B>: 25<B>VALUE_NUMBER</B>,
  *   "phoneNumber"<B>KEY_NAME</B> : [<B>START_ARRAY</B>
  *       {<B>START_OBJECT</B> "type"<B>KEY_NAME</B>: "home"<B>VALUE_STRING</B>, "number"<B>KEY_NAME</B>: "212 555-1234"<B>VALUE_STRING</B> }<B>END_OBJECT</B>,
  *       {<B>START_OBJECT</B> "type"<B>KEY_NAME</B>: "fax"<B>VALUE_STRING</B>, "number"<B>KEY_NAME</B>: "646 555-4567"<B>VALUE_STRING</B> }<B>END_OBJECT</B>
  *    ]<B>END_ARRAY</B>
- * }<B>END_OBJECT</B> parse events at the specified locations.
+ * }<B>END_OBJECT</B>
  * </pre>
- * 
+ * parse events at the specified locations.
+ *
+ * <p>
  * Here, "John" value is accessed as follows:
+ *
+ * <p>
  * <code>
  * <pre>
  * Iterator&lt;Event> it = reader.iterator();
