@@ -38,41 +38,57 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.jsonapi;
 
-import javax.json.JsonString;
+
+import javax.json.JsonArray;
+import javax.json.JsonValue;
+import java.util.*;
 
 /**
+ *  
  * @author Jitendra Kotamraju
  */
-public final class JsonStringImpl implements JsonString {
+public final class JsonArrayImpl implements JsonArray {
+    final List<JsonValue> valueList = new ArrayList<JsonValue>();
+    private final List<JsonValue> unmodifiableValueList = Collections.unmodifiableList(valueList);
 
-    private final String value;
-
-    public JsonStringImpl(String value) {
-        this.value = value;
+    @Override
+    public List<JsonValue> getValues() {
+        return unmodifiableValueList;
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public int size() {
+        return valueList.size();
+    }
+
+    @Override
+    public JsonValue getValue(int index) {
+        return valueList.get(index);
+    }
+
+    @Override
+    public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
+        return clazz.cast(valueList.get(index));
     }
 
     @Override
     public JsonValueType getValueType() {
-        return JsonValueType.STRING;
+        return JsonValueType.ARRAY;
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return valueList.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonStringImpl)) {
+        if (!(obj instanceof JsonArrayImpl)) {
             return false;
         }
-        JsonStringImpl other = (JsonStringImpl)obj;
-        return value.equals(other.value);
+        JsonArrayImpl other = (JsonArrayImpl)obj;
+        return valueList.equals(other.valueList);
     }
 }

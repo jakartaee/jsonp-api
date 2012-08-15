@@ -38,56 +38,41 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.jsonapi;
 
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import java.util.*;
+import javax.json.JsonString;
 
 /**
- *
  * @author Jitendra Kotamraju
  */
-public final class JsonObjectImpl implements JsonObject {
-    final Map<String, JsonValue> valueMap = new LinkedHashMap<String, JsonValue>();
-    private final Map<String, JsonValue> unmodifiableValueMap = Collections.unmodifiableMap(valueMap);
+public final class JsonStringImpl implements JsonString {
 
-    @Override
-    public JsonValue getValue(String name) {
-        return valueMap.get(name);
+    private final String value;
+
+    public JsonStringImpl(String value) {
+        this.value = value;
     }
 
-    @Override
-    public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-        return clazz.cast(valueMap.get(name));
+    public String getValue() {
+        return value;
     }
 
-    @Override
-    public Set<String> getNames() {
-        return valueMap.keySet();
-    }
-
-    @Override
-    public Map<String, JsonValue> getValues() {
-        return unmodifiableValueMap;
-    }
-    
     @Override
     public JsonValueType getValueType() {
-        return JsonValueType.OBJECT;
+        return JsonValueType.STRING;
     }
 
     @Override
     public int hashCode() {
-        return valueMap.hashCode();
+        return value.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonObjectImpl)) {
+        if (!(obj instanceof JsonStringImpl)) {
             return false;
         }
-        JsonObjectImpl other = (JsonObjectImpl)obj;
-        return valueMap.equals(other.valueMap);
+        JsonStringImpl other = (JsonStringImpl)obj;
+        return value.equals(other.value);
     }
 }

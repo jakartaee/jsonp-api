@@ -38,57 +38,56 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.jsonapi;
 
-
-import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.json.JsonValue;
 import java.util.*;
 
 /**
- *  
+ *
  * @author Jitendra Kotamraju
  */
-public final class JsonArrayImpl implements JsonArray {
-    final List<JsonValue> valueList = new ArrayList<JsonValue>();
-    private final List<JsonValue> unmodifiableValueList = Collections.unmodifiableList(valueList);
+public final class JsonObjectImpl implements JsonObject {
+    final Map<String, JsonValue> valueMap = new LinkedHashMap<String, JsonValue>();
+    private final Map<String, JsonValue> unmodifiableValueMap = Collections.unmodifiableMap(valueMap);
 
     @Override
-    public List<JsonValue> getValues() {
-        return unmodifiableValueList;
+    public JsonValue getValue(String name) {
+        return valueMap.get(name);
     }
 
     @Override
-    public int size() {
-        return valueList.size();
+    public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
+        return clazz.cast(valueMap.get(name));
     }
 
     @Override
-    public JsonValue getValue(int index) {
-        return valueList.get(index);
+    public Set<String> getNames() {
+        return valueMap.keySet();
     }
 
     @Override
-    public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-        return clazz.cast(valueList.get(index));
+    public Map<String, JsonValue> getValues() {
+        return unmodifiableValueMap;
     }
-
+    
     @Override
     public JsonValueType getValueType() {
-        return JsonValueType.ARRAY;
+        return JsonValueType.OBJECT;
     }
 
     @Override
     public int hashCode() {
-        return valueList.hashCode();
+        return valueMap.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonArrayImpl)) {
+        if (!(obj instanceof JsonObjectImpl)) {
             return false;
         }
-        JsonArrayImpl other = (JsonArrayImpl)obj;
-        return valueList.equals(other.valueList);
+        JsonObjectImpl other = (JsonObjectImpl)obj;
+        return valueMap.equals(other.valueMap);
     }
 }

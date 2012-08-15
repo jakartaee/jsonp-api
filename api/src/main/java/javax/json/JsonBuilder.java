@@ -40,7 +40,7 @@
 
 package javax.json;
 
-import org.glassfish.json.JsonBuilderImpl;
+import org.glassfish.jsonapi.JsonBuilderImpl;
 
 /**
  * Builds a JSON object or a JSON array

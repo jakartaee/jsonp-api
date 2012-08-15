@@ -40,7 +40,7 @@
 
 package javax.json;
 
-import org.glassfish.json.JsonReaderImpl;
+import org.glassfish.jsonapi.JsonReaderImpl;
 
 import java.io.Closeable;
 import java.io.InputStream;

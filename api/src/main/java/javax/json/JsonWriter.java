@@ -40,7 +40,7 @@
 
 package javax.json;
 
-import org.glassfish.json.JsonWriterImpl;
+import org.glassfish.jsonapi.JsonWriterImpl;
 
 import java.io.Closeable;
 import java.io.OutputStream;

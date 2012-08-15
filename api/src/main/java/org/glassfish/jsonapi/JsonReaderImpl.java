@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.jsonapi;
 
 import java.io.InputStream;
 import java.io.Reader;

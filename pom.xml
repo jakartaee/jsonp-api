@@ -109,7 +109,7 @@
         <jsonp.packages.import>
         </jsonp.packages.import>
         <jsonp.packages.private>
-            org.glassfish.json.*
+            org.glassfish.*
         </jsonp.packages.private>
     </properties>
 

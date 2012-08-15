@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.jsonapi;
 
 import javax.json.*;
 import java.math.BigDecimal;
