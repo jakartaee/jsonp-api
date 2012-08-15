@@ -358,7 +358,7 @@ public class JsonParserTest extends TestCase {
 
         event = it.next();
         assertEquals(Event.VALUE_NUMBER, event);
-        assertEquals(25, parser.getNumber().getIntValue());
+        assertEquals(25, parser.getIntValue());
 
         event = it.next();
         assertEquals(Event.KEY_NAME, event);

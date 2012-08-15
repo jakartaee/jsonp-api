@@ -43,6 +43,7 @@ package org.glassfish.json;
 import javax.json.*;
 import javax.json.stream.JsonParser;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
@@ -53,6 +54,10 @@ import org.glassfish.json.JsonTokenizer.JsonToken;
  * @author Jitendra Kotamraju
  */
 public class JsonParserImpl implements JsonParser {
+    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
+    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
+    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
+    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
 
     private State currentState = State.START_DOCUMENT;
     private State enclosingState = State.START_DOCUMENT;
@@ -98,11 +103,33 @@ public class JsonParserImpl implements JsonParser {
     }
 
     public JsonNumber.JsonNumberType getNumberType() {
-        return null;
+        BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
+        if (bigDecimal.scale() != 0)  {
+            return JsonNumber.JsonNumberType.BIG_DECIMAL;
+        } else {
+            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
+                return JsonNumber.JsonNumberType.INT;
+            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
+                return JsonNumber.JsonNumberType.LONG;
+            } else {
+                return JsonNumber.JsonNumberType.BIG_DECIMAL;
+            }
+        }
     }
 
-    public JsonNumber getNumber() {
-        return new JsonNumberImpl(tokenizer.getValue());
+    @Override
+    public int getIntValue() {
+        return new BigDecimal(tokenizer.getValue()).intValue();
+    }
+
+    @Override
+    public long getLongValue() {
+        return new BigDecimal(tokenizer.getValue()).longValue();
+    }
+
+    @Override
+    public BigDecimal getBigDecimalValue() {
+        return new BigDecimal(tokenizer.getValue());
     }
 
     public Iterator<JsonParser.Event> iterator() {

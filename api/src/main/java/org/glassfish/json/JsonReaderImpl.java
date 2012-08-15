@@ -42,6 +42,7 @@ package org.glassfish.json;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import javax.json.*;
 import javax.json.stream.JsonParser;
@@ -151,11 +152,11 @@ public class JsonReaderImpl {
                     }
                     break;
                 case VALUE_NUMBER:
-                    JsonNumber number = parser.getNumber();
+                    BigDecimal bd = new BigDecimal(parser.getString());
                     if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).add(number);
+                        ((JsonArrayBuilder)builder).add(bd);
                     } else {
-                        ((JsonObjectBuilder)builder).add(key, number);
+                        ((JsonObjectBuilder)builder).add(key, bd);
                     }
                     break;
                 case VALUE_TRUE:

@@ -41,12 +41,13 @@
 package javax.json.stream;
 
 import javax.json.JsonArray;
-import javax.json.JsonNumber;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import java.io.Closeable;
 import java.io.Reader;
 import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static javax.json.JsonNumber.JsonNumberType;
 
 /**
  * A JSON parser that allows forward, read-only access to JSON in a
@@ -197,39 +198,96 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
         END_ARRAY
     }
 
-
     /**
-     * Returns name when the parser state is {@link Event#KEY_NAME} or
-     * returns string value when the parser state is {@link Event#VALUE_STRING}
-     * 
-     * @return a string
-     * @throws IllegalStateException when the parser state is not
-     *      KEY_NAME or VALUE_STRING
+     * Returns a String for name(key), string value and number value. This
+     * method is only called when the parser state is one of
+     * {@link Event#KEY_NAME}, {@link Event#VALUE_STRING},
+     * {@link Event#VALUE_NUMBER}.
+     *
+     * @return name when the parser state is {@link Event#KEY_NAME}
+     *         string value when the parser state is {@link Event#VALUE_STRING}
+     *         number value when the parser state is {@link Event#VALUE_NUMBER}
+     * @throws IllegalStateException when the parser is not in one of
+     *      KEY_NAME, VALUE_STRING, VALUE_NUMBER states
      */
     public String getString();
 
     /**
-     * Returns number type and this method can only be called when the parser
+     * Returns a number type that can hold JSON number. A {@link BigDecimal}
+     * may be used to store the numeric value of the number. If the scale of
+     * a value is non-zero, its number type is
+     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * If the scale is zero, and the value is numerically an integer.
+     * If the value can be exactly represented as an int, its type is
+     * {@link JsonNumberType#INT INT}; if the value can be exactly represented
+     * as a long, its type is {@link JsonNumberType#LONG LONG}; otherwise,
+     * its type is {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
+     *
+     * <p>
+     * This method can be used to get the correct number type for a number.
+     * For example:
+     * <code>
+     * <pre>
+     * switch(parser.getNumberType()) {
+     *     case INT :
+     *         int i = parser.getIntValue(); break;
+     *     case LONG :
+     *         long l = parser.getLongValue(); break;
+     *     case BIG_DECIMAL :
+     *         BigDecimal bd = parser.getBigDecimalValue(); break;
+     * }
+     * </pre>
+     * </code>
+     * This method can only be called when the parser
      * state is {@link Event#VALUE_NUMBER}
      *
      * @return a number type
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public JsonNumber.JsonNumberType getNumberType();
+    public JsonNumberType getNumberType();
 
     /**
-     * Returns a number and this method can only be called when the parser
-     * state is {@link Event#VALUE_NUMBER}
+     * Returns JSON number as an integer. The returned value is equal
+     * to {@code new BigDecimal(getString()).intValue()}. Note that
+     * this conversion can lose information about the overall magnitude
+     * and precision of the number value as well as return a result with
+     * the opposite sign. This method is only called when the parser is in
+     * {@link Event#VALUE_NUMBER} state.
      *
-     * <p>TODO Any performance implications of creating JsonNumber,
-     * Otherwise, need to expose methods from JsonNumber
+     * @return an integer for JSON number.
+     * @throws IllegalStateException when the parser state is not
+     *      VALUE_NUMBER
+     * @see java.math.BigDecimal#intValue()
+     */
+    public int getIntValue();
+
+    /**
+     * Returns JSON number as a long. The returned value is equal
+     * to {@code new BigDecimal(getString()).longValue()}. Note that this
+     * conversion can lose information about the overall magnitude and
+     * precision of the number value as well as return a result with
+     * the opposite sign. This method is only called when the parser is in
+     * {@link Event#VALUE_NUMBER} state.
      *
-     * @return a number
+     * @return a long for JSON number.
+     * @throws IllegalStateException when the parser state is not
+     *      VALUE_NUMBER
+     * @see java.math.BigDecimal#longValue()
+     */
+    public long getLongValue();
+
+    /**
+     * Returns JSON number as a {@code BigDecimal}. The BigDecimal
+     * is created using {@code new BigDecimal(getString())}. This
+     * method is only called when the parser is in
+     * {@link Event#VALUE_NUMBER} state.
+     *
+     * @return a BigDecimal for JSON number
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public JsonNumber getNumber();
+    public BigDecimal getBigDecimalValue();
 
     /**
      * getJsonValue(JsonObject.class) is valid in START_OBJECT state,

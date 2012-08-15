@@ -42,6 +42,7 @@ package org.glassfish.json;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -77,20 +78,37 @@ class JsonStructureParser implements JsonParser {
     @Override
     public JsonNumber.JsonNumberType getNumberType() {
         if (state == Event.VALUE_NUMBER) {
-            return getNumber().getNumberType();
+            return ((JsonNumber)current.getJsonValue()).getNumberType();
         }
         throw new IllegalStateException("JsonParser#getNumberType() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
     }
 
     @Override
-    public JsonNumber getNumber() {
+    public int getIntValue() {
         if (state == Event.VALUE_NUMBER) {
-            return (JsonNumber)current.getJsonValue();
+            return ((JsonNumber)current.getJsonValue()).getIntValue();
         }
-        throw new IllegalStateException("JsonParser#getNumber() can only be called in"
+        throw new IllegalStateException("JsonParser#getIntValue() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
+    }
 
+    @Override
+    public long getLongValue() {
+        if (state == Event.VALUE_NUMBER) {
+            return ((JsonNumber)current.getJsonValue()).getLongValue();
+        }
+        throw new IllegalStateException("JsonParser#getLongValue() can only be called in"
+                + " VALUE_NUMBER state, not in "+state);
+    }
+
+    @Override
+    public BigDecimal getBigDecimalValue() {
+        if (state == Event.VALUE_NUMBER) {
+            return ((JsonNumber)current.getJsonValue()).getBigDecimalValue();
+        }
+        throw new IllegalStateException("JsonParser#getBigDecimalValue() can only be called in"
+                + " VALUE_NUMBER state, not in "+state);
     }
 
     @Override
