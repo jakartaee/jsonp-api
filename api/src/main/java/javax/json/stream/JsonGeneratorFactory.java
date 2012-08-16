@@ -44,9 +44,24 @@ import java.io.OutputStream;
 import java.io.Writer;
 
 /**
- * Factory to create {@code JsonGenerator} instances. If a factory
+ * Factory to create {@link JsonGenerator} instances. If a factory
  * instance is configured with some configuration, that would be
  * used to configure the created generator instances.
+ *
+ * <p>
+ * {@link JsonGenerator} can also be created using {@link javax.json.Json Json}'s
+ * {@code createGenerator} methods. If multiple generator instances are created,
+ * then creating them using a generator factory is preferred.
+ *
+ * <p>
+ * <b>For example:</b>
+ * <code>
+ * <pre>
+ * JsonGeneratorFactory factory = Json.createGeneratorFactory();
+ * JsonGenerator generator1 = factory.createGenerator(...);
+ * JsonGenerator generator2 = factory.createGenerator(...);
+ * </pre>
+ * </code>
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>
@@ -81,7 +96,13 @@ public interface JsonGeneratorFactory {
      * configured with the factory configuration.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws javax.json.JsonException if the named encoding is not supported.
+     *                                  The cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonGenerator createGenerator(OutputStream out, String encoding);
 

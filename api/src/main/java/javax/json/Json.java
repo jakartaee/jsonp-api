@@ -48,7 +48,7 @@ import javax.json.stream.JsonParserFactory;
 import java.io.*;
 
 /**
- * Factory to create {@link JsonParser}, {@link JsonGenerator}
+ * Factory to create {@link JsonParser}, {@link JsonGenerator},
  * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
  *
  * <p>
@@ -116,9 +116,13 @@ public class Json {
      * specified encoding.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
-     * @throws JsonException if encoding is not supported
-     *         or i/o error
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public static JsonParser createParser(InputStream in, String encoding) {
         return JsonProvider.provider().createParser(in, encoding);
@@ -145,10 +149,15 @@ public class Json {
      * parser is configured with the specified configuration.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
      * @param config configuration of the parser
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
+     * @see java.nio.charset.Charset
      */
     public static JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createParser(in, encoding, config);
@@ -253,7 +262,13 @@ public class Json {
      * into bytes using the specified encoding.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+
+     * @see java.nio.charset.Charset
      */
     public static JsonGenerator createGenerator(OutputStream out, String encoding) {
         return JsonProvider.provider().createGenerator(out, encoding);
@@ -266,10 +281,16 @@ public class Json {
      * with the specified configuration.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
      * @param config configuration of the generator
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
+     *
+     * @see java.nio.charset.Charset
      */
     public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
         return JsonProvider.provider().createGenerator(out, encoding, config);

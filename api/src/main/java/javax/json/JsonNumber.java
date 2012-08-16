@@ -44,9 +44,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * {@code JsonNumber} represents a JSON number value. A {@link BigDecimal}
- * may be used to store the numeric value. Some of the method semantics
- * in this class are defined using the {@code BigDecimal} semantics.
+ * {@code JsonNumber} represents a JSON number value and internally a
+ * {@link BigDecimal} may be used to store the numeric value. Some of the
+ * method semantics in this class are defined using the {@code BigDecimal}
+ * semantics.
  *
  * @author Jitendra Kotamraju
  */
@@ -83,12 +84,31 @@ public interface JsonNumber extends JsonValue {
      * {@link JsonNumberType#LONG LONG}; otherwise, its type is
      * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
      *
+     * <p>
+     * This method can be used to get the holding number type and use that
+     * information to invoke appropriate methods to get numeric value
+     * for a number.
+     * <p>
+     * <b>For example:</b>
+     * <code>
+     * <pre>
+     * switch(getNumberType()) {
+     *     case INT :
+     *         int i = getIntValue(); break;
+     *     case LONG :
+     *         long l = getLongValue(); break;
+     *     case BIG_DECIMAL :
+     *         BigDecimal bd = getBigDecimalValue(); break;
+     * }
+     * </pre>
+     * </code>
+     *
      * @return a number type
      */
     public JsonNumberType getNumberType();
 
     /**
-     * Converts JSON number to an integer number. Note that this conversion
+     * Converts JSON number to an {@code int} number. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
@@ -98,7 +118,7 @@ public interface JsonNumber extends JsonValue {
     public int getIntValue();
 
     /**
-     * Converts JSON number to an integer number.
+     * Converts JSON number to an {@code int} number.
      *
      * @return an {@code int} for JSON number
      * @throws ArithmeticException cause if the number has a nonzero fractional
@@ -108,7 +128,7 @@ public interface JsonNumber extends JsonValue {
     public int getIntValueExact();
 
     /**
-     * Converts JSON number to a long number. Note that this conversion
+     * Converts JSON number to a {@code long} number. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
@@ -118,7 +138,7 @@ public interface JsonNumber extends JsonValue {
     public long getLongValue();
 
     /**
-     * Converts JSON number to a long number.
+     * Converts JSON number to a {@code long} number.
      *
      * @return a {@code long} for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional
@@ -128,10 +148,11 @@ public interface JsonNumber extends JsonValue {
     public long  getLongValueExact();
 
     /**
-     * Converts JSON number to a {@code BigInteger} number. Note that this
-     * conversion can lose information about the overall magnitude and
-     * precision of the number value as well as return a result with the
-     * opposite sign.
+     * Converts JSON number to a {@link BigInteger} number. It is more of
+     * a convenience method for {@code getBigDecimalValue().toBigInteger()}.
+     * Note that this conversion can lose information about the overall
+     * magnitude and precision of the number value as well as return a result
+     * with the opposite sign.
      *
      * @return a BigInteger for JSON number.
      * @see java.math.BigDecimal#toBigInteger()
@@ -139,18 +160,21 @@ public interface JsonNumber extends JsonValue {
     public BigInteger getBigIntegerValue();
 
     /**
-     * Converts JSON number to a {@code BigDecimal} number.
+     * Converts JSON number to a {@link BigDecimal} number. It is more of
+     * a convenience method for {@code getBigDecimalValue().toBigIntegerExact()}.
      *
-     * @return a BigInteger for JSON number
+     * @return a {@link BigInteger} for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional part.
      * @see java.math.BigDecimal#toBigIntegerExact()
      */
     public BigInteger getBigIntegerValueExact();
 
     /**
-     * Converts JSON number to a double number. Note that this conversion
-     * can lose information about the overall magnitude and precision of the
-     * number value as well as return a result with the opposite sign.
+     * Converts JSON number to a {@code double} number. It is more of
+     * a convenience method for {@code getBigDecimalValue().doubleValue()}.
+     * Note that this conversion can lose information about the overall
+     * magnitude and precision of the number value as well as return a result
+     * with the opposite sign.
      *
      * @return a {@code double} for JSON number
      * @see java.math.BigDecimal#doubleValue()
@@ -158,9 +182,9 @@ public interface JsonNumber extends JsonValue {
     public double getDoubleValue();
 
     /**
-     * Converts JSON number to a {@code BigDecimal}
+     * Converts JSON number to a {@link BigDecimal}
      *
-     * @return a BigDecimal for JSON number
+     * @return a {@link BigDecimal} for JSON number
      */
     public BigDecimal getBigDecimalValue();
 

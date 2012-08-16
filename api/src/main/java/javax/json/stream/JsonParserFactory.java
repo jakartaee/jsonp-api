@@ -46,9 +46,24 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- * Factory to create {@code JsonParser} instances. If a factory
+ * Factory to create {@link JsonParser} instances. If a factory
  * instance is configured with some configuration, that would be
  * used to configure the created parser instances.
+ *
+ * <p>
+ * {@link JsonParser} can also be created using {@link javax.json.Json Json}'s
+ * {@code createParser} methods. If multiple parser instances are created,
+ * then creating them using a parser factory is preferred.
+ *
+ * <p>
+ * <b>For example:</b>,
+ * <code>
+ * <pre>
+ * JsonParserFactory factory = Json.createParserFactory();
+ * JsonParser parser1 = factory.createParser(...);
+ * JsonParser parser2 = factory.createParser(...);
+ * </pre>
+ * </code>
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>
@@ -81,9 +96,13 @@ public interface JsonParserFactory {
      * specified encoding.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
-     * @throws javax.json.JsonException if encoding is not supported
-     *         or i/o error
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws javax.json.JsonException if the named encoding is not supported.
+     * The cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonParser createParser(InputStream in, String encoding);
 

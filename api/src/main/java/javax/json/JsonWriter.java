@@ -127,7 +127,13 @@ public class JsonWriter implements /*Auto*/Closeable {
      * the stream are encoded into bytes using the specified encoding.
      *
      * @param out to which JSON object or array is written
-     * @param encoding the character encoding of the output source
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonWriter(OutputStream out, String encoding) {
         impl = new JsonWriterImpl(out, encoding);
@@ -141,8 +147,14 @@ public class JsonWriter implements /*Auto*/Closeable {
      * The created writer is configured with the specified configuration.
      *
      * @param out to which JSON object or array is written
-     * @param encoding the character encoding of the output source
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
      * @param config configuration of the writer
+     * @throws JsonException if the named encoding is not supported. The
+     *                       cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonWriter(OutputStream out, String encoding, JsonConfiguration config) {
         impl = new JsonWriterImpl(out, encoding, config);

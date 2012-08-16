@@ -44,19 +44,44 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * JSON configuration is a set features that configure the behaviour of
- * parsing and generation of JSON.
+ * JSON configuration is a set features that is used to configure the
+ * behaviour of parsing and generation of JSON. The features can be
+ * added to the configuration by chaining the {@code with} methods.
+ *
+ * <p>
+ * <b>For example, JSON can be written in a pretty manner as follows:</b>
+ * <code>
+ * <pre>
+ * JsonObject jsonObject = ...;
+ * JsonConfiguration config = new JsonConfiguration().withPrettyPrinting();
+ * JsonWriter jsonWriter = new JsonWriter(..., config);
+ * jsonWriter.writeObject(jsonObject);
+ * jsonWriter.close();
+ * </pre>
+ * </code>
+ *
  *
  * @author Jitendra Kotamraju
  */
 public class JsonConfiguration {
     private final Set<JsonFeature> features = new HashSet<JsonFeature>();
 
+    /**
+     * Adds a {@link JsonFeature feature} to this configuration
+     *
+     * @return this configuration
+     */
     public JsonConfiguration with(JsonFeature feature) {
         features.add(feature);
         return this;
     }
 
+    /**
+     * Adds {@link JsonFeature#PRETTY_PRINTING pretty printing} feature
+     * to this configuration
+     *
+     * @return this configuration
+     */
     public JsonConfiguration withPrettyPrinting() {
         features.add(JsonFeature.PRETTY_PRINTING);
         return this;
@@ -65,6 +90,11 @@ public class JsonConfiguration {
 //    public JsonConfiguration withSingleQuotedStrings() {
 //    }
 
+    /**
+     * Returns a {@link Iterable} for features in this configuration.
+     *
+     * @return iterable for features in this configuration
+     */
     public Iterable<JsonFeature> getFeatures() {
         return features;
     }

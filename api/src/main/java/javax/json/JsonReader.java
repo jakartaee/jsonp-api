@@ -47,7 +47,8 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- * A JSON reader that reads a JSON object or array from an input source.
+ * A JSON reader that reads a JSON {@link JsonObject object} or
+ * {@link JsonArray array} from an input source.
  *
  * <p><b>For example</b>, an empty JSON array can be created as follows:
  * <code>
@@ -102,7 +103,13 @@ public class JsonReader implements /*Auto*/Closeable {
      * are decoded to characters using the specified encoding.
      *
      * @param in a byte stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @throws JsonException if the named encoding is not supported. The
+     * cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonReader(InputStream in, String encoding) {
         impl = new JsonReaderImpl(in, encoding);
@@ -114,8 +121,14 @@ public class JsonReader implements /*Auto*/Closeable {
      * reader is configured with the specified configuration.
      *
      * @param in a byte stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
+     * @param encoding the name of character
+     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
      * @param config configuration of the reader
+     * @throws JsonException if the named encoding is not supported. The
+     * cause of the exception would be
+     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     *
+     * @see java.nio.charset.Charset
      */
     public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
         impl = new JsonReaderImpl(in, encoding, config);

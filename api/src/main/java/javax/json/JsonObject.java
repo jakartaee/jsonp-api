@@ -138,12 +138,6 @@ import java.util.Set;
  * </pre>
  * </code>
  *
- * <p>
- * TODO 2. define equals() semantics
- *
- * <p>
- * TODO 4. Define an predictable iterating order ??
- *
  * @author Jitendra Kotamraju
  */
 public interface JsonObject extends JsonStructure {
@@ -179,7 +173,9 @@ public interface JsonObject extends JsonStructure {
 
     /**
      * Returns an unmodifiable {@link Map} of the name(key)/value pairs
-     * contained in this JSON object.
+     * contained in this JSON object. The iteration order of the map is
+     * predictable which is normally the order in which name/value pairs
+     * were added into this JSON Object.
      *
      * @return a set of the name/keys contained in this JSON object
      */
@@ -187,5 +183,7 @@ public interface JsonObject extends JsonStructure {
 
     // TODO String getValue(String name) ??
     // TODO int getValue(String name) ??
+    // TODO equals()
+    // TODO hashcode()
 
 }
