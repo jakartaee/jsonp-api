@@ -73,7 +73,7 @@ public interface JsonNumber extends JsonValue {
     }
 
     /**
-     * Returns a JSON number type that can hold the number.
+     * Returns a JSON number type that can hold the number's numeric value.
      * A {@link BigDecimal} may be used to store the numeric value.
      * If the scale of a value is non-zero, its number type is
      * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}. If the scale is zero,
@@ -92,7 +92,7 @@ public interface JsonNumber extends JsonValue {
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return an integer for JSON number.
+     * @return an {@code int} for JSON number.
      * @see java.math.BigDecimal#intValue()
      */
     public int getIntValue();
@@ -100,7 +100,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * Converts JSON number to an integer number.
      *
-     * @return a integer for JSON number
+     * @return an {@code int} for JSON number
      * @throws ArithmeticException cause if the number has a nonzero fractional
      *         part, or will not fit in an {@code int}
      * @see java.math.BigDecimal#intValueExact()
@@ -112,7 +112,7 @@ public interface JsonNumber extends JsonValue {
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return a long for JSON number.
+     * @return a {@code long} for JSON number.
      * @see java.math.BigDecimal#longValue()
      */
     public long getLongValue();
@@ -120,7 +120,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * Converts JSON number to a long number.
      *
-     * @return a long for JSON number
+     * @return a {@code long} for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional
      *         part, or will not fit in a {@code long}.
      * @see java.math.BigDecimal#longValueExact()
@@ -141,7 +141,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * Converts JSON number to a {@code BigDecimal} number.
      *
-     * @return a BigDecimal for JSON number
+     * @return a BigInteger for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional part.
      * @see java.math.BigDecimal#toBigIntegerExact()
      */
@@ -152,7 +152,7 @@ public interface JsonNumber extends JsonValue {
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return a double for JSON number
+     * @return a {@code double} for JSON number
      * @see java.math.BigDecimal#doubleValue()
      */
     public double getDoubleValue();

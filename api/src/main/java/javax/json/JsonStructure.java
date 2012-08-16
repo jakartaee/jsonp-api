@@ -41,6 +41,8 @@
 package javax.json;
 
 /**
+ * Super type for JSON's two structured types ({@link JsonObject object}s
+ * and {@link JsonArray array}s).
  *
  * @author Jitendra Kotamraju
  */

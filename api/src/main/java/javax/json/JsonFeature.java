@@ -47,5 +47,8 @@ package javax.json;
  * @author Jitendra Kotamraju
  */
 public interface JsonFeature {
+    /**
+     * Feature for generating JSON in a pretty manner.
+     */
     public static final JsonFeature PRETTY_PRINTING = new JsonFeature() {};
 }

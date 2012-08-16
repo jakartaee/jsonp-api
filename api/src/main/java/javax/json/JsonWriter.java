@@ -60,6 +60,10 @@ import java.io.Writer;
  * </pre>
  * </code>
  *
+ * It uses {@link javax.json.stream.JsonGenerator} for writing.
+ * The generator is created using one of the {@link Json}'s
+ * {@code createGenerator} methods
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonWriter implements /*Auto*/Closeable {
@@ -148,26 +152,28 @@ public class JsonWriter implements /*Auto*/Closeable {
      * Writes the specified JSON {@link JsonArray array} to the output
      * source. This method needs to be called only once for a writer instance.
      *
+     * @param array JSON array that is to be written to the output source
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
      * @throws IllegalStateException if this method, writeObject, write or close
      *     method is already called
      */
-    public void writeArray(JsonArray value) {
-        impl.writeArray(value);
+    public void writeArray(JsonArray array) {
+        impl.writeArray(array);
     }
 
     /**
      * Writes the specified JSON {@link JsonObject object} to the output
      * source. This method needs to be called only once for a writer instance.
      *
+     * @param object JSON object that is to be written to the output source
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
      * @throws IllegalStateException if this method, writeArray, write or close
      *     method is already called
      */
-    public void writeObject(JsonObject value) {
-        impl.writeObject(value);
+    public void writeObject(JsonObject object) {
+        impl.writeObject(object);
     }
 
     /**
@@ -175,6 +181,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      * {@link JsonArray array} to the output source. This method needs
      * to be called only once for a writer instance.
      *
+     * @param value JSON array or object that is to be written to the output
+     *              source
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error
      * @throws IllegalStateException if this method, writeObject, writeArray

@@ -58,6 +58,9 @@ import java.io.Reader;
  * </pre>
  * </code>
  *
+ * It uses {@link javax.json.stream.JsonParser} for parsing. The parser
+ * is created using one of the {@link Json}'s {@code createParser} methods.
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonReader implements /*Auto*/Closeable {
@@ -77,6 +80,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * Creates a JSON reader from a character stream
      *
      * @param reader a character stream from which JSON is to be read
+     * @param config configuration of the reader
      */
     public JsonReader(Reader reader, JsonConfiguration config) {
         impl = new JsonReaderImpl(reader, config);
@@ -110,6 +114,8 @@ public class JsonReader implements /*Auto*/Closeable {
      * reader is configured with the specified configuration.
      *
      * @param in a byte stream from which JSON is to be read
+     * @param encoding the character encoding of the stream
+     * @param config configuration of the reader
      */
     public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
         impl = new JsonReaderImpl(in, encoding, config);
@@ -135,7 +141,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a Json object or array
+     * @return a Json object
      * @throws JsonException if a JSON object or array cannot
      *     be created due to i/o error or incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
@@ -150,7 +156,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a Json object or array
+     * @return a Json array
      * @throws JsonException if a JSON object or array cannot
      *     be created due to i/o error or incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or

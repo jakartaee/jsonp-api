@@ -43,7 +43,9 @@ package javax.json;
 import org.glassfish.jsonapi.JsonBuilderImpl;
 
 /**
- * Builds a JSON object or a JSON array
+ * Builds a JSON {@link JsonObject object} or {@link JsonArray array} from
+ * scratch. It uses builder pattern to build these object models and the
+ * builder methods can be chained.
  *
  * <p>
  * <b>For example</b>, for the following JSON
