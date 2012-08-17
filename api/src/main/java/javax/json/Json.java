@@ -53,7 +53,7 @@ import java.io.*;
  *
  * <p>
  * All the methods would locate a provider instance, which is returned by
- * the {@link JsonProvider#provider() provider} method, and use it
+ * the {@link JsonProvider#provider() provider} method, and is used
  * to create {@link JsonParser}, {@link JsonGenerator}
  * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
  *
