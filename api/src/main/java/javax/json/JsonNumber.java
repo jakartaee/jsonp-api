@@ -45,9 +45,14 @@ import java.math.BigInteger;
 
 /**
  * {@code JsonNumber} represents a JSON number value and internally a
- * {@link BigDecimal} may be used to store the numeric value. Some of the
- * method semantics in this class are defined using the {@code BigDecimal}
- * semantics.
+ * {@link BigDecimal} may be used to store the numeric value. The BigDecimal
+ * may be constructed using {@link BigDecimal#BigDecimal(int) <code>int</code>},
+ * {@link BigDecimal#BigDecimal(long) <code>long</code>},
+ * {@link BigDecimal#BigDecimal(BigInteger) <code>BigInteger</code>},
+ * {@link BigDecimal#valueOf(double) <code>double</code>} and
+ * {@link BigDecimal#BigDecimal(String) <code>String</code>}.
+ * Some of the method semantics in this class are defined using the
+ * {@code BigDecimal} semantics.
  *
  * @author Jitendra Kotamraju
  */
@@ -108,7 +113,7 @@ public interface JsonNumber extends JsonValue {
     public JsonNumberType getNumberType();
 
     /**
-     * Converts JSON number to an {@code int} number. Note that this conversion
+     * Returns JSON number as an {@code int} number. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
@@ -118,7 +123,7 @@ public interface JsonNumber extends JsonValue {
     public int getIntValue();
 
     /**
-     * Converts JSON number to an {@code int} number.
+     * Returns JSON number as an {@code int} number.
      *
      * @return an {@code int} for JSON number
      * @throws ArithmeticException cause if the number has a nonzero fractional
@@ -128,7 +133,7 @@ public interface JsonNumber extends JsonValue {
     public int getIntValueExact();
 
     /**
-     * Converts JSON number to a {@code long} number. Note that this conversion
+     * Returns JSON number as a {@code long} number. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
@@ -138,7 +143,7 @@ public interface JsonNumber extends JsonValue {
     public long getLongValue();
 
     /**
-     * Converts JSON number to a {@code long} number.
+     * Returns JSON number as a {@code long} number.
      *
      * @return a {@code long} for JSON number
      * @throws ArithmeticException if the number has a nonzero fractional
@@ -148,7 +153,7 @@ public interface JsonNumber extends JsonValue {
     public long  getLongValueExact();
 
     /**
-     * Converts JSON number to a {@link BigInteger} number. It is more of
+     * Returns JSON number as a {@link BigInteger} number. It is more of
      * a convenience method for {@code getBigDecimalValue().toBigInteger()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
@@ -160,7 +165,7 @@ public interface JsonNumber extends JsonValue {
     public BigInteger getBigIntegerValue();
 
     /**
-     * Converts JSON number to a {@link BigDecimal} number. It is more of
+     * Returns JSON number as a {@link BigDecimal} number. It is more of
      * a convenience method for {@code getBigDecimalValue().toBigIntegerExact()}.
      *
      * @return a {@link BigInteger} for JSON number
@@ -170,7 +175,7 @@ public interface JsonNumber extends JsonValue {
     public BigInteger getBigIntegerValueExact();
 
     /**
-     * Converts JSON number to a {@code double} number. It is more of
+     * Returns JSON number as a {@code double} number. It is more of
      * a convenience method for {@code getBigDecimalValue().doubleValue()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
@@ -182,14 +187,15 @@ public interface JsonNumber extends JsonValue {
     public double getDoubleValue();
 
     /**
-     * Converts JSON number to a {@link BigDecimal}
+     * Returns JSON number as a {@link BigDecimal}
      *
      * @return a {@link BigDecimal} for JSON number
      */
     public BigDecimal getBigDecimalValue();
 
     /**
-     * Returns a JSON representation of the JSON number value.
+     * Returns a JSON representation of the JSON number value. The
+     * representation would be equivalent to {@link BigDecimal#toString()}.
      *
      * @return JSON representation of the number
      */

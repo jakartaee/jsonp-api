@@ -92,6 +92,8 @@ public interface JsonArrayBuilder<T> {
      * @return this array builder
      * @throws IllegalStateException when invoked after endArray method is
      * called.
+     *
+     * @see JsonNumber
      */
     public JsonArrayBuilder<T> add(BigDecimal value);
 
@@ -103,6 +105,8 @@ public interface JsonArrayBuilder<T> {
      * @return this array builder
      * @throws IllegalStateException when invoked after endArray method is
      * called.
+     *
+     * @see JsonNumber
      */
     public JsonArrayBuilder<T> add(BigInteger value);
 
@@ -114,6 +118,8 @@ public interface JsonArrayBuilder<T> {
      * @return this array builder
      * @throws IllegalStateException when invoked after endArray method is
      * called.
+     *
+     * @see JsonNumber
      */
     public JsonArrayBuilder<T> add(int value);
 
@@ -125,6 +131,8 @@ public interface JsonArrayBuilder<T> {
      * @return this array builder
      * @throws IllegalStateException when invoked after endArray method is
      * called.
+     *
+     * @see JsonNumber
      */
     public JsonArrayBuilder<T> add(long value);
 
@@ -137,6 +145,8 @@ public interface JsonArrayBuilder<T> {
      * @throws IllegalStateException when invoked after endArray method is
      * called.
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     *
+     * @see JsonNumber
      */
     public JsonArrayBuilder<T> add(double value);
 

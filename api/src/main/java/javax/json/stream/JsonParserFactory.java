@@ -56,7 +56,7 @@ import java.io.Reader;
  * then creating them using a parser factory is preferred.
  *
  * <p>
- * <b>For example:</b>,
+ * <b>For example:</b>
  * <code>
  * <pre>
  * JsonParserFactory factory = Json.createParserFactory();

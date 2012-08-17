@@ -53,7 +53,7 @@ import java.io.Closeable;
  * For example, a generator can be created as follows:
  * <code>
  * <pre>
- * JsonGenerator generator = Json.createGenerator(..);
+ * JsonGenerator generator = Json.createGenerator(...);
  * </pre>
  * </code>
  *

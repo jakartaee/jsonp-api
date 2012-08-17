@@ -41,7 +41,11 @@
 package javax.json;
 
 /**
- * <code>JsonValue</code> represents a JSON value
+ * <code>JsonValue</code> represents a JSON value. A JSON value is an
+ * {@link JsonObject object}, {@link JsonArray array},
+ * {@link JsonNumber number}, {@link JsonString string},
+ * {@link JsonValue#TRUE true}, {@link JsonValue#FALSE false},
+ * {@link JsonValue#NULL null}
  *
  * @author Jitendra Kotamraju
  */

@@ -102,6 +102,8 @@ public interface JsonObjectBuilder<T> {
      * in the JSON object
      * @throws IllegalStateException when invoked after the endObject method
      * is called
+     *
+     * @see JsonNumber
      */
     public JsonObjectBuilder<T> add(String name, BigInteger value);
 
@@ -116,6 +118,8 @@ public interface JsonObjectBuilder<T> {
      * in the JSON object
      * @throws IllegalStateException when invoked after the endObject method
      * is called
+     *
+     * @see JsonNumber
      */
     public JsonObjectBuilder<T> add(String name, BigDecimal value);
 
@@ -130,6 +134,8 @@ public interface JsonObjectBuilder<T> {
      * in the JSON object
      * @throws IllegalStateException when invoked after the endObject method
      * is called
+     *
+     * @see JsonNumber
      */
     public JsonObjectBuilder<T> add(String name, int value);
 
@@ -144,6 +150,8 @@ public interface JsonObjectBuilder<T> {
      * in the JSON object
      * @throws IllegalStateException when invoked after the endObject method
      * is called
+     *
+     * @see JsonNumber
      */
     public JsonObjectBuilder<T> add(String name, long value);
 
@@ -159,6 +167,8 @@ public interface JsonObjectBuilder<T> {
      * @throws IllegalStateException when invoked after the endObject method
      * is called
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     *
+     * @see JsonNumber
      */
     public JsonObjectBuilder<T> add(String name, double value);
 

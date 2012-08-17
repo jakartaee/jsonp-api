@@ -49,7 +49,7 @@ import java.util.Set;
  * added to the configuration by chaining the {@code with} methods.
  *
  * <p>
- * <b>For example, JSON can be written in a pretty manner as follows:</b>
+ * <b>For example</b>, JSON can be written in a pretty manner as follows:
  * <code>
  * <pre>
  * JsonObject jsonObject = ...;
