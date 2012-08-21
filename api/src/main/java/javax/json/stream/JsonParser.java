@@ -204,9 +204,9 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
      * {@link Event#KEY_NAME}, {@link Event#VALUE_STRING},
      * {@link Event#VALUE_NUMBER}.
      *
-     * @return name when the parser state is {@link Event#KEY_NAME}
-     *         string value when the parser state is {@link Event#VALUE_STRING}
-     *         number value when the parser state is {@link Event#VALUE_NUMBER}
+     * @return name when the parser state is {@link Event#KEY_NAME}.
+     *         string value when the parser state is {@link Event#VALUE_STRING}.
+     *         number value when the parser state is {@link Event#VALUE_NUMBER}.
      * @throws IllegalStateException when the parser is not in one of
      *      KEY_NAME, VALUE_STRING, VALUE_NUMBER states
      */
