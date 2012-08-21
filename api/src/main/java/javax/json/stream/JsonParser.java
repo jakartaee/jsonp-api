@@ -89,7 +89,7 @@ import static javax.json.JsonNumber.JsonNumberType;
  *
  * <code>
  * <pre>
- * Iterator&lt;Event> it = reader.iterator();
+ * Iterator&lt;Event> it = parser.iterator();
  * Event event = it.next(); // START_OBJECT
  * event = it.next();       // END_OBJECT
  * </pre>
@@ -129,11 +129,11 @@ import static javax.json.JsonNumber.JsonNumberType;
  * <p>
  * <code>
  * <pre>
- * Iterator&lt;Event> it = reader.iterator();
+ * Iterator&lt;Event> it = parser.iterator();
  * Event event = it.next(); // START_OBJECT
  * event = it.next();       // KEY_NAME
  * event = it.next();       // VALUE_STRING
- * reader.getString();      // "John"
+ * parser.getString();      // "John"
  * </pre>
  * </code>
  *
