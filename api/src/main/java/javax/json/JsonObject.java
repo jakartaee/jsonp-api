@@ -160,6 +160,8 @@ public interface JsonObject extends JsonStructure {
      * @param clazz value class
      * @return the value to which the specified name is mapped, or
      *         {@code null} if this object contains no mapping for the name/key
+     * @throws ClassCastException if the value for specified name/key mapping
+     * is not assignable to the type T
      */
     public <T extends JsonValue> T getValue(String name, Class<T> clazz);
 

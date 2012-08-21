@@ -161,6 +161,8 @@ public interface JsonArray extends JsonStructure {
      * @param clazz value class
      * @return the value at the specified position in this array values
      * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to the type T
      */
     public <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
