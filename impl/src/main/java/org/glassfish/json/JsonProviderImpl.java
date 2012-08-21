@@ -2,6 +2,7 @@ package org.glassfish.json;
 
 import javax.json.JsonArray;
 import javax.json.JsonConfiguration;
+import javax.json.JsonFeature;
 import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
@@ -12,11 +13,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Jitendra Kotamraju
  */
 public class JsonProviderImpl extends JsonProvider {
+    private static final Set<JsonFeature> KNOWN_FEATURES = new HashSet<JsonFeature>();
+    static {
+        KNOWN_FEATURES.add(JsonFeature.PRETTY_PRINTING);
+    }
 
     @Override
     public JsonGenerator createGenerator(Writer writer) {
@@ -25,6 +32,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonGeneratorImpl(writer, config);
     }
 
@@ -35,6 +43,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonGeneratorImpl(out, config);
     }
 
@@ -45,6 +54,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonGeneratorImpl(out, encoding, config);
     }
 
@@ -55,6 +65,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(Reader reader, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonParserImpl(reader, config);
     }
 
@@ -70,11 +81,13 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(InputStream in, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonParserImpl(in, config);
     }
 
     @Override
     public JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonParserImpl(in, encoding, config);
     }
 
@@ -85,6 +98,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(JsonArray array, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonStructureParser(array);
     }
 
@@ -95,6 +109,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(JsonObject object, JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonStructureParser(object);
     }
 
@@ -105,6 +120,7 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParserFactory createParserFactory(JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonParserFactoryImpl(config);
     }
 
@@ -115,7 +131,24 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
+        validateConfiguration(config);
         return new JsonGeneratorFactoryImpl(config);
+    }
+
+    private static void validateConfiguration(JsonConfiguration config) {
+        Set<JsonFeature> unknown = null;
+        Iterable<JsonFeature> features = config.getFeatures();
+        for(JsonFeature feature : features) {
+            if (!KNOWN_FEATURES.contains(feature)) {
+                if (unknown == null) {
+                    unknown = new HashSet<JsonFeature>();
+                }
+                unknown.add(feature);
+            }
+        }
+        if (unknown != null && !unknown.isEmpty()) {
+            throw new IllegalArgumentException("Specified config contains unknown features :"+unknown);
+        }
     }
 
 }

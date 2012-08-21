@@ -71,6 +71,16 @@ public class JsonReaderTest extends TestCase {
         assertEquals("\u0000\u00ff\u00ff", str);
     }
 
+    public void testUnknownFeature() throws Exception {
+        JsonConfiguration config = new JsonConfiguration().with(new JsonFeature() { });
+        try {
+            JsonReader reader = new JsonReader(new StringReader("{}"), config);
+            fail("Should have thrown IllegalArgumentException");
+        } catch(IllegalArgumentException expected) {
+            // no-op
+        }
+    }
+
     static JsonObject readPerson() throws Exception {
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = new JsonReader(wikiReader);

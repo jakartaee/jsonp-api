@@ -89,6 +89,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      *
      * @param writer to which JSON object or array is written
      * @param config configuration of the writer
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public JsonWriter(Writer writer, JsonConfiguration config) {
         impl = new JsonWriterImpl(writer, config);
@@ -115,6 +117,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      *
      * @param out to which JSON object or array is written
      * @param config configuration of the writer
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public JsonWriter(OutputStream out, JsonConfiguration config) {
         impl = new JsonWriterImpl(out, config);
@@ -153,6 +157,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @throws JsonException if the named encoding is not supported. The
      *                       cause of the exception would be
      * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      *
      * @see java.nio.charset.Charset
      */

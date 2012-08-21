@@ -82,6 +82,8 @@ public class JsonReader implements /*Auto*/Closeable {
      *
      * @param reader a character stream from which JSON is to be read
      * @param config configuration of the reader
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      */
     public JsonReader(Reader reader, JsonConfiguration config) {
         impl = new JsonReaderImpl(reader, config);
@@ -127,6 +129,8 @@ public class JsonReader implements /*Auto*/Closeable {
      * @throws JsonException if the named encoding is not supported. The
      * cause of the exception would be
      * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
+     * @throws IllegalArgumentException if a feature in the configuration
+     * is not known
      *
      * @see java.nio.charset.Charset
      */
