@@ -62,6 +62,8 @@ public class JsonParserImpl implements JsonParser {
     private State currentState = State.START_DOCUMENT;
     private State enclosingState = State.START_DOCUMENT;
 
+    private Event currentEvent;
+
     private final Deque<State> stack = new ArrayDeque<State>();
     private final JsonTokenizer tokenizer;
     private int depth = 0;
@@ -99,10 +101,21 @@ public class JsonParserImpl implements JsonParser {
     }
 
     public String getString() {
-        return tokenizer.getValue();
+        if (currentEvent == Event.KEY_NAME || currentEvent == Event.VALUE_STRING
+                || currentEvent == Event.VALUE_NUMBER) {
+            return tokenizer.getValue();
+        }
+        throw new IllegalStateException("JsonParser#getString() is valid only "+
+                "KEY_NAME, VALUE_STRING, VALUE_NUMBER parser states. "+
+                "But current parser state is "+currentEvent);
     }
 
     public JsonNumber.JsonNumberType getNumberType() {
+        if (currentEvent != Event.VALUE_NUMBER) {
+            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
+                "VALUE_NUMBER parser state. "+
+                "But current parser state is "+currentEvent);
+        }
         BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
         if (bigDecimal.scale() != 0)  {
             return JsonNumber.JsonNumberType.BIG_DECIMAL;
@@ -119,16 +132,31 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public int getIntValue() {
+        if (currentEvent != Event.VALUE_NUMBER) {
+            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
+                    "VALUE_NUMBER parser state. "+
+                    "But current parser state is "+currentEvent);
+        }
         return new BigDecimal(tokenizer.getValue()).intValue();
     }
 
     @Override
     public long getLongValue() {
+        if (currentEvent != Event.VALUE_NUMBER) {
+            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
+                    "VALUE_NUMBER parser state. "+
+                    "But current parser state is "+currentEvent);
+        }
         return new BigDecimal(tokenizer.getValue()).longValue();
     }
 
     @Override
     public BigDecimal getBigDecimalValue() {
+        if (currentEvent != Event.VALUE_NUMBER) {
+            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
+                    "VALUE_NUMBER parser state. "+
+                    "But current parser state is "+currentEvent);
+        }
         return new BigDecimal(tokenizer.getValue());
     }
 
@@ -172,46 +200,46 @@ public class JsonParserImpl implements JsonParser {
                         continue;
                     case START_OBJECT:
                         depth++;
-                        return JsonParser.Event.START_OBJECT;
+                        return currentEvent=JsonParser.Event.START_OBJECT;
                     case KEY:
-                        return JsonParser.Event.KEY_NAME;
+                        return currentEvent=JsonParser.Event.KEY_NAME;
                     case COLON:
                         continue;
                     case OBJECT_STRING:
-                        return JsonParser.Event.VALUE_STRING;
+                        return currentEvent=JsonParser.Event.VALUE_STRING;
                     case OBJECT_NUMBER:
-                        return JsonParser.Event.VALUE_NUMBER;
+                        return currentEvent=JsonParser.Event.VALUE_NUMBER;
                     case OBJECT_TRUE:
-                        return JsonParser.Event.VALUE_TRUE;
+                        return currentEvent=JsonParser.Event.VALUE_TRUE;
                     case OBJECT_FALSE:
-                        return JsonParser.Event.VALUE_FALSE;
+                        return currentEvent=JsonParser.Event.VALUE_FALSE;
                     case OBJECT_NULL:
-                        return JsonParser.Event.VALUE_NULL;
+                        return currentEvent=JsonParser.Event.VALUE_NULL;
                     case OBJECT_COMMA:
                         continue;
                     case END_OBJECT:
                         depth--;
                         enclosingState = stack.removeFirst();
-                        return JsonParser.Event.END_OBJECT;
+                        return currentEvent=JsonParser.Event.END_OBJECT;
                     case START_ARRAY:
                         depth++;
-                        return JsonParser.Event.START_ARRAY;
+                        return currentEvent=JsonParser.Event.START_ARRAY;
                     case ARRAY_STRING:
-                        return JsonParser.Event.VALUE_STRING;
+                        return currentEvent=JsonParser.Event.VALUE_STRING;
                     case ARRAY_NUMBER:
-                        return JsonParser.Event.VALUE_NUMBER;
+                        return currentEvent=JsonParser.Event.VALUE_NUMBER;
                     case ARRAY_TRUE:
-                        return JsonParser.Event.VALUE_TRUE;
+                        return currentEvent=JsonParser.Event.VALUE_TRUE;
                     case ARRAY_FALSE:
-                        return JsonParser.Event.VALUE_FALSE;
+                        return currentEvent=JsonParser.Event.VALUE_FALSE;
                     case ARRAY_NULL:
-                        return JsonParser.Event.VALUE_NULL;
+                        return currentEvent=JsonParser.Event.VALUE_NULL;
                     case ARRAY_COMMA:
                         continue;
                     case END_ARRAY:
                         depth--;
                         enclosingState = stack.removeFirst();
-                        return JsonParser.Event.END_ARRAY;
+                        return currentEvent=JsonParser.Event.END_ARRAY;
                     case END_DOCUMENT:
                         break;
                 }
