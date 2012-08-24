@@ -81,6 +81,36 @@ public class JsonReaderTest extends TestCase {
         }
     }
 
+    public void testIllegalStateExcepton() throws Exception {
+        JsonReader reader = new JsonReader(new StringReader("{}"));
+        JsonObject obj = reader.readObject();
+        try {
+            reader.readObject();
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        reader.close();
+
+        reader = new JsonReader(new StringReader("[]"));
+        JsonArray array = reader.readArray();
+        try {
+            reader.readArray();
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        reader.close();
+
+        reader = new JsonReader(new StringReader("{}"));
+        JsonStructure struct = reader.read();
+        try {
+            reader.read();
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        reader.close();
+    }
+
+
     static JsonObject readPerson() throws Exception {
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = new JsonReader(wikiReader);

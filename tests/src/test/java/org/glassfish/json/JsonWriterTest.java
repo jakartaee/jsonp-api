@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.json.JsonWriter;
 import javax.json.JsonBuilder;
 import java.io.StringWriter;
@@ -102,5 +104,37 @@ public class JsonWriterTest extends TestCase {
         writer.close();
 
         assertEquals("[\"string\"]", writer.toString());
+    }
+
+    public void testIllegalStateExcepton() throws Exception {
+        JsonObject obj = new JsonBuilder().beginObject().endObject().build();
+        JsonArray array = new JsonBuilder().beginArray().endArray().build();
+
+        JsonWriter writer = new JsonWriter(new StringWriter());
+        writer.writeObject(obj);
+        try {
+            writer.writeObject(obj);
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        writer.close();
+
+        writer = new JsonWriter(new StringWriter());
+        writer.writeArray(array);
+        try {
+            writer.writeArray(array);
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        writer.close();
+
+        writer = new JsonWriter(new StringWriter());
+        writer.write(array);
+        try {
+            writer.writeArray(array);
+        } catch (IllegalStateException expected) {
+            // no-op
+        }
+        writer.close();
     }
 }

@@ -52,6 +52,7 @@ import javax.json.stream.JsonParser;
  */
 public class JsonReaderImpl {
     private final JsonParser parser;
+    private boolean readDone;
 
     public JsonReaderImpl(Reader reader) {
         parser = Json.createParser(reader);
@@ -74,6 +75,10 @@ public class JsonReaderImpl {
     }
 
     public JsonObject readObject() {
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
         Iterator<JsonParser.Event> it = parser.iterator();
         if (it.hasNext()) {
             JsonParser.Event e = it.next();
@@ -89,6 +94,10 @@ public class JsonReaderImpl {
     }
 
     public JsonArray readArray() {
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
         Iterator<JsonParser.Event> it = parser.iterator();
         if (it.hasNext()) {
             JsonParser.Event e = it.next();
@@ -104,6 +113,10 @@ public class JsonReaderImpl {
     }
 
     public JsonStructure read() {
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
         Iterator<JsonParser.Event> it = parser.iterator();
         if (it.hasNext()) {
             JsonParser.Event e = it.next();
@@ -198,6 +211,7 @@ public class JsonReaderImpl {
     }
 
     public void close() {
+        readDone = true;
         parser.close();
     }
 }

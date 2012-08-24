@@ -55,6 +55,7 @@ import java.util.Map;
  */
 public class JsonWriterImpl {
     private final JsonGenerator generator;
+    private boolean writeDone;
 
     public JsonWriterImpl(Writer writer) {
         generator = Json.createGenerator(writer);
@@ -81,6 +82,10 @@ public class JsonWriterImpl {
     }
 
     public void writeArray(JsonArray array) {
+        if (writeDone) {
+            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+        }
+        writeDone = true;
         try {
             JsonArrayBuilder<Closeable> builder = generator.beginArray();
             for(JsonValue value : array.getValues()) {
@@ -93,6 +98,10 @@ public class JsonWriterImpl {
     }
 
     public void writeObject(JsonObject object) {
+        if (writeDone) {
+            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+        }
+        writeDone = true;
         try {
             JsonObjectBuilder<Closeable> builder = generator.beginObject();
             for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
@@ -113,6 +122,7 @@ public class JsonWriterImpl {
     }
 
     public void close() {
+        writeDone = true;
         generator.close();
     }
 
