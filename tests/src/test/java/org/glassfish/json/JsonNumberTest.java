@@ -230,4 +230,15 @@ public class JsonNumberTest extends TestCase {
         assertEquals("[12.1]", sw.toString());
     }
 
+    public void testBigIntegerExact() {
+        try {
+            JsonArray array = new JsonBuilder().beginArray().add(12345.12345).endArray().build();
+            array.getValue(0, JsonNumber.class).getBigIntegerValueExact();
+            fail("Expected Arithmetic exception");
+        } catch(ArithmeticException expected) {
+            // no-op
+        }
+    }
+
+
 }
