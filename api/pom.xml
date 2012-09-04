@@ -60,13 +60,6 @@
     <name>JSON-P API jar</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
-
-    <properties>
-        <jsonp.bundle.symbolicName>
-            javax.json-api
-        </jsonp.bundle.symbolicName>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -114,6 +107,50 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+              This plugin is reponsible for packaging artifacts
+              as OSGi bundles.  Please refer to
+              http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+              for more information about how to use this plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${jsonp.spec.bundle.symbolicName}
+                        </Bundle-SymbolicName>
+                        <Export-Package>
+                            ${jsonp.spec.packages.export}
+                        </Export-Package>
+                        <Import-Package>
+                            ${jsonp.spec.packages.import}
+                        </Import-Package>
+                        <Private-Package>
+                            ${jsonp.spec.packages.private}
+                        </Private-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Specification-Version>${jsonp.spec.version}</Specification-Version>
+							<Specification-Vendor>${jsonp.spec.vendor}</Specification-Vendor>
+							<Implementation-Version>${jsonp.spec.impl.version}</Implementation-Version>
+							<Implementation-Vendor>${jsonp.spec.vendor}</Implementation-Vendor>
+							<Extension-Name>${jsonp.spec.extensionName}</Extension-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
 </project>

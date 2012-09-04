@@ -94,9 +94,23 @@
     </developers>
 
     <properties>
-        <jsonp.version>1.0-SNAPSHOT</jsonp.version>
-        <jsonp.spec.version>1.0-SNAPSHOT</jsonp.spec.version>
-        <!-- defaults that are overridden in child modules -->
+        <jsonp.version>${project.version}</jsonp.version>
+
+        <jsonp.spec.version>1.0</jsonp.spec.version>
+        <jsonp.spec.impl.version>${jsonp.version}</jsonp.spec.impl.version>
+        <jsonp.spec.vendor>Oracle</jsonp.spec.vendor>
+        <jsonp.spec.extensionName>javax.json</jsonp.spec.extensionName>
+        <jsonp.spec.bundle.symbolicName>
+            javax.json-api
+        </jsonp.spec.bundle.symbolicName>
+        <jsonp.spec.packages.export>
+            javax.json.*; version=${jsonp.spec.impl.version}
+        </jsonp.spec.packages.export>
+        <jsonp.spec.packages.private>
+            org.glassfish.*
+        </jsonp.spec.packages.private>
+
+        <jsonp.vendor>GlassFish Community</jsonp.vendor>
         <jsonp.extensionName>
             ${project.groupId}.${project.artifactId}
         </jsonp.extensionName>
@@ -104,7 +118,7 @@
             ${project.groupId}.${project.artifactId}
         </jsonp.bundle.symbolicName>
         <jsonp.packages.export>
-            javax.json.*; version=${jsonp.spec.version}
+            javax.json.*; version=${jsonp.spec.impl.version}
         </jsonp.packages.export>
         <jsonp.packages.import>
         </jsonp.packages.import>
@@ -122,34 +136,6 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
-                </configuration>
-            </plugin>
-            <!--
-              This plugin is reponsible for packaging artifacts
-              as OSGi bundles.  Please refer to
-              http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
-              for more information about how to use this plugin.
-            -->
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>
-                            ${jsonp.bundle.symbolicName}
-                        </Bundle-SymbolicName>
-                        <Export-Package>
-                            ${jsonp.packages.export}
-                        </Export-Package>
-                        <Import-Package>
-                            ${jsonp.packages.import}
-                        </Import-Package>
-                        <Private-Package>
-                            ${jsonp.packages.private}
-                        </Private-Package>
-                    </instructions>
                 </configuration>
             </plugin>
             <plugin>

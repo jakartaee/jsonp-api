@@ -104,6 +104,49 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+              This plugin is reponsible for packaging artifacts
+              as OSGi bundles.  Please refer to
+              http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+              for more information about how to use this plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${jsonp.bundle.symbolicName}
+                        </Bundle-SymbolicName>
+                        <Export-Package>
+                            ${jsonp.packages.export}
+                        </Export-Package>
+                        <Import-Package>
+                            ${jsonp.packages.import}
+                        </Import-Package>
+                        <Private-Package>
+                            ${jsonp.packages.private}
+                        </Private-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Specification-Version>${jsonp.spec.version}</Specification-Version>
+							<Implementation-Version>${jsonp.version}</Implementation-Version>
+							<Implementation-Vendor>${jsonp.spec.vendor}</Implementation-Vendor>
+							<Extension-Name>${jsonp.spec.extensionName}</Extension-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
     <dependencies>
