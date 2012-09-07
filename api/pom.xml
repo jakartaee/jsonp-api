@@ -53,10 +53,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>${API_PACKAGE}</groupId>
-    <artifactId>${API_PACKAGE}-api</artifactId>
+    <groupId>javax.json</groupId>
+    <artifactId>javax.json-api</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${apijar.maven.version}</version>
     <name>JSON-P API jar</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
@@ -121,6 +121,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-Version>${apijar.bundle.version}</Bundle-Version>
+                        <specversion>${apijar.bundle.specversion}</specversion>
                         <Bundle-SymbolicName>${apijar.bundle.symbolicName}</Bundle-SymbolicName>
                         <Export-Package>${packages.export}</Export-Package>
                         <Private-Package>${packages.private}</Private-Package>

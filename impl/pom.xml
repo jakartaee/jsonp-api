@@ -53,10 +53,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>${IMPL_NAMESPACE}</groupId>
-    <artifactId>${API_PACKAGE}</artifactId>
+    <groupId>org.glassfish</groupId>
+    <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${impljar.maven.version}</version>
     <name>Java API for Processing JSON (JSON-P)</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://jsonp.java.net</url>
@@ -118,6 +118,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-Version>${impljar.bundle.version}</Bundle-Version>
+                        <specversion>${impljar.bundle.specversion}</specversion>
                         <Bundle-SymbolicName>${impljar.bundle.symbolicName}</Bundle-SymbolicName>
                         <Export-Package>${packages.export}</Export-Package>
                         <Private-Package>
