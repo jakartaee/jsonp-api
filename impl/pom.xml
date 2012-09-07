@@ -56,7 +56,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
-    <version>${impljar.maven.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <name>Java API for Processing JSON (JSON-P)</name>
     <description>JSR 353:Java API for Processing JSON</description>
     <url>http://jsonp.java.net</url>
@@ -147,7 +147,7 @@
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
-            <version>${apijar.maven.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
