@@ -94,37 +94,31 @@
     </developers>
 
     <properties>
-        <jsonp.version>${project.version}</jsonp.version>
+        <API_PACKAGE>javax.json</API_PACKAGE>
+        <IMPL_NAMESPACE>org.glassfish</IMPL_NAMESPACE>
+        <SPEC_VERSION>0.0</SPEC_VERSION>
+        <NEW_SPEC_VERSION>1.0</NEW_SPEC_VERSION>
+        <NEW_IMPL_VERSION>1.0</NEW_IMPL_VERSION>
+        <BUILD_NUMBER>01</BUILD_NUMBER>
+        <SPEC_IMPL_VERSION>1.0.0</SPEC_IMPL_VERSION>
+        <IMPL_VERSION>0.0.0</IMPL_VERSION>
 
-        <jsonp.spec.version>1.0</jsonp.spec.version>
-        <jsonp.spec.impl.version>${jsonp.version}</jsonp.spec.impl.version>
-        <jsonp.spec.vendor>Oracle</jsonp.spec.vendor>
-        <jsonp.spec.extensionName>javax.json</jsonp.spec.extensionName>
-        <jsonp.spec.bundle.symbolicName>
-            javax.json-api
-        </jsonp.spec.bundle.symbolicName>
-        <jsonp.spec.packages.export>
-            javax.json.*; version=${jsonp.spec.impl.version}
-        </jsonp.spec.packages.export>
-        <jsonp.spec.packages.private>
-            org.glassfish.*
-        </jsonp.spec.packages.private>
+        <apijar.extensionName>${API_PACKAGE}</apijar.extensionName>
+        <apijar.bundle.symbolicName>${API_PACKAGE}-api</apijar.bundle.symbolicName>
+        <impljar.extensionName>${API_PACKAGE}</impljar.extensionName>
+        <impljar.bundle.symbolicName>${IMPL_NAMESPACE}.${API_PACKAGE}</impljar.bundle.symbolicName>
+        <packages.private>org.glassfish.*</packages.private>
 
-        <jsonp.vendor>GlassFish Community</jsonp.vendor>
-        <jsonp.extensionName>
-            ${project.groupId}.${project.artifactId}
-        </jsonp.extensionName>
-        <jsonp.bundle.symbolicName>
-            ${project.groupId}.${project.artifactId}
-        </jsonp.bundle.symbolicName>
-        <jsonp.packages.export>
-            javax.json.*; version=${jsonp.spec.impl.version}
-        </jsonp.packages.export>
-        <jsonp.packages.import>
-        </jsonp.packages.import>
-        <jsonp.packages.private>
-            org.glassfish.*
-        </jsonp.packages.private>
+        <!-- Non Final properties API jar-->
+        <apijar.bundle.version>${SPEC_VERSION}.99.b${BUILD_NUMBER}</apijar.bundle.version>
+        <apijar.spec.version>${SPEC_VERSION}.99.${BUILD_NUMBER}</apijar.spec.version>
+        <apijar.spec.impl.version>${NEW_SPEC_VERSION}-b${BUILD_NUMBER}</apijar.spec.impl.version>
+
+        <impljar.bundle.version>${SPEC_VERSION}.99.b${BUILD_NUMBER}</impljar.bundle.version>
+        <impljar.spec.version>${SPEC_VERSION}.99.${BUILD_NUMBER}</impljar.spec.version>
+        <impljar.impl.version>${NEW_SPEC_VERSION}-b${BUILD_NUMBER}</impljar.impl.version>
+        <packages.export>javax.json.*; version=${apijar.bundle.version}</packages.export>
+
     </properties>
 
     <build>

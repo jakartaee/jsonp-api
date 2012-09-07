@@ -53,8 +53,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.glassfish</groupId>
-    <artifactId>javax.json</artifactId>
+    <groupId>${IMPL_NAMESPACE}</groupId>
+    <artifactId>${API_PACKAGE}</artifactId>
     <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Java API for Processing JSON (JSON-P)</name>
@@ -117,18 +117,15 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>
-                            ${jsonp.bundle.symbolicName}
-                        </Bundle-SymbolicName>
-                        <Export-Package>
-                            ${jsonp.packages.export}
-                        </Export-Package>
-                        <Import-Package>
-                            ${jsonp.packages.import}
-                        </Import-Package>
+                        <Bundle-Version>${impljar.bundle.version}</Bundle-Version>
+                        <Bundle-SymbolicName>${impljar.bundle.symbolicName}</Bundle-SymbolicName>
+                        <Export-Package>${packages.export}</Export-Package>
                         <Private-Package>
-                            ${jsonp.packages.private}
+                            ${packages.private}
                         </Private-Package>
+						<Specification-Version>${impljar.spec.version}</Specification-Version>
+						<Implementation-Version>${impljar.impl.version}</Implementation-Version>
+						<Extension-Name>${impljar.extensionName}</Extension-Name>
                     </instructions>
                 </configuration>
             </plugin>
@@ -139,10 +136,6 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Specification-Version>${jsonp.spec.version}</Specification-Version>
-							<Implementation-Version>${jsonp.version}</Implementation-Version>
-							<Implementation-Vendor>${jsonp.spec.vendor}</Implementation-Vendor>
-							<Extension-Name>${jsonp.spec.extensionName}</Extension-Name>
 						</manifestEntries>
 					</archive>
 				</configuration>
