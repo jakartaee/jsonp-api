@@ -147,7 +147,7 @@
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${apijar.maven.version}</version>
         </dependency>
     </dependencies>
 </project>
