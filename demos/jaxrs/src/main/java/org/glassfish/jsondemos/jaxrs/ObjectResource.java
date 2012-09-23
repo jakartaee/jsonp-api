@@ -38,57 +38,48 @@
  * holder.
  */
 
-package org.glassfish.jsondemos.twitter;
+package org.glassfish.jsondemos.jaxrs;
 
-import javax.servlet.annotation.*;
-import javax.servlet.http.*;
-import javax.servlet.*;
-import java.io.IOException;
-import javax.json.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
-import javax.json.stream.*;
-import javax.json.stream.JsonParser.Event;
+import javax.json.JsonBuilder;
+import javax.json.JsonObject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
+ * Writes person's JSON using JsonObject
+ *
  * @author Jitendra Kotamraju
  */
-@WebServlet("/json")
-public class TwitterServlet extends HttpServlet {
+@Path("/object")
+public class ObjectResource {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException {
-        try {
-			res.setStatus(200);
-			res.setContentType("text/plain; charset=UTF-8");
-            writeTwitterFeed(res.getOutputStream());
-        } catch(IOException ioe) {
-            throw new ServletException(ioe);
-        }
+    @GET
+    @Produces("application/json")
+    public JsonObject doGet() {
+        return new JsonBuilder()
+            .beginObject()
+                .add("firstName", "John")
+                .add("lastName", "Smith")
+                .add("age", 25)
+                .beginObject("address")
+                    .add("streetAddress", "21 2nd Street")
+                    .add("city", "New York")
+                    .add("state", "NY")
+                    .add("postalCode", "10021")
+                .endObject()
+                .beginArray("phoneNumber")
+                    .beginObject()
+                        .add("type", "home")
+                        .add("number", "212 555-1234")
+                    .endObject()
+                    .beginObject()
+                        .add("type", "fax")
+                        .add("number", "646 555-4567")
+                    .endObject()
+                .endArray()
+            .endObject()
+        .build();
     }
-
-    private void writeTwitterFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23javaone");
-        try(InputStream is = url.openStream();
-            JsonParser parser = Json.createParser(is);
-            PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
-
-            Iterator<Event> it = parser.iterator();
-            while(it.hasNext()) {
-                Event e = it.next();
-                if (e == Event.KEY_NAME) {
-                    if (parser.getString().equals("from_user")) {
-                        e = it.next();
-                        ps.print(parser.getString());
-                        ps.print(": ");
-                    } else if (parser.getString().equals("text")) {
-                        e = it.next();
-                        ps.println(parser.getString());
-                        ps.println("---------");
-                    }
-                }
-            }
-        }
-	}
 
 }

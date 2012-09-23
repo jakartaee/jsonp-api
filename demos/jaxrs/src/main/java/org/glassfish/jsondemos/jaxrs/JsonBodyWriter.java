@@ -38,59 +38,50 @@
  * holder.
  */
 
-package org.glassfish.jsondemos.twitter;
+package org.glassfish.jsondemos.jaxrs;
 
-import javax.servlet.annotation.*;
-import javax.servlet.http.*;
-import javax.servlet.*;
-import java.io.IOException;
 import javax.json.*;
-import java.io.*;
-import java.util.*;
-import java.net.*;
-import javax.json.stream.*;
-import javax.json.stream.JsonParser.Event;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
+ * Writes wiki example JSON using JsonObject
+ *
  * @author Jitendra Kotamraju
  */
-@Path("/jsondemo")
-public class TwitterResource {
+@Provider
+@Consumes(MediaType.APPLICATION_JSON)
+public class JsonBodyWriter implements MessageBodyWriter<JsonStructure> {
 
-    @GET
-    @Produces("text/plain")
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException {
-        try {
-			res.setStatus(200);
-			res.setContentType("text/plain; charset=UTF-8");
-            writeTwitterFeed(res.getOutputStream());
-        } catch(IOException ioe) {
-            throw new ServletException(ioe);
-        }
+    @Override
+    public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations,
+        MediaType mediaType) {
+        return true;
     }
 
-    private void writeTwitterFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23javaone");
-        try(InputStream is = url.openStream();
-            JsonParser parser = Json.createParser(is);
-            PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
+    @Override
+    public long getSize(JsonStructure jsonStructure, Class<?> aClass,
+        Type type, Annotation[] annotations, MediaType mediaType) {
 
-            Iterator<Event> it = parser.iterator();
-            while(it.hasNext()) {
-                Event e = it.next();
-                if (e == Event.KEY_NAME) {
-                    if (parser.getString().equals("from_user")) {
-                        e = it.next();
-                        ps.print(parser.getString());
-                        ps.print(": ");
-                    } else if (parser.getString().equals("text")) {
-                        e = it.next();
-                        ps.println(parser.getString());
-                        ps.println("---------");
-                    }
-                }
-            }
+        return -1;
+    }
+
+    @Override
+    public void writeTo(JsonStructure jsonStructure, Class<?> aClass, Type type,
+        Annotation[] annotations, MediaType mediaType,
+        MultivaluedMap<String, Object> stringObjectMultivaluedMap,
+        OutputStream outputStream) throws IOException, WebApplicationException {
+
+        try(JsonWriter writer = new JsonWriter(outputStream)) {
+            writer.write(jsonStructure);
         }
-	}
 
+    }
 }
