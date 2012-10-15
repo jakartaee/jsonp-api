@@ -42,6 +42,8 @@ package org.glassfish.jsonapi;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.json.JsonWriter;
+import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -89,5 +91,14 @@ public final class JsonObjectImpl implements JsonObject {
         }
         JsonObjectImpl other = (JsonObjectImpl)obj;
         return valueMap.equals(other.valueMap);
+    }
+
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        jw.write(this);
+        jw.close();
+        return sw.toString();
     }
 }

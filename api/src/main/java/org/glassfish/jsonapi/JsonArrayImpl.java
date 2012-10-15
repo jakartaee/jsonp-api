@@ -43,6 +43,8 @@ package org.glassfish.jsonapi;
 
 import javax.json.JsonArray;
 import javax.json.JsonValue;
+import javax.json.JsonWriter;
+import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -90,5 +92,14 @@ public final class JsonArrayImpl implements JsonArray {
         }
         JsonArrayImpl other = (JsonArrayImpl)obj;
         return valueList.equals(other.valueList);
+    }
+
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        jw.write(this);
+        jw.close();
+        return sw.toString();
     }
 }
