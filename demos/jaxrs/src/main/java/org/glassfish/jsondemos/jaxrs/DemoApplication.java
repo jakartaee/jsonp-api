@@ -52,7 +52,7 @@ import java.util.Set;
  */
 @ApplicationPath("/")
 public class DemoApplication extends Application {
-    public java.util.Set<java.lang.Class<?>> getClasses() {
+    public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<>();
         set.add(ParserResource.class);
         set.add(GeneratorResource.class);
