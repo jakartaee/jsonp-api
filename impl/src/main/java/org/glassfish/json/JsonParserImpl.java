@@ -253,6 +253,11 @@ public class JsonParserImpl implements JsonParser {
     }
 
     public void close() {
+        try {
+            tokenizer.close();
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
     }
 
     private enum State {

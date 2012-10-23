@@ -112,11 +112,11 @@ public class JsonReaderTest extends TestCase {
 
 
     static JsonObject readPerson() throws Exception {
+
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = new JsonReader(wikiReader);
         JsonValue value = reader.readObject();
         reader.close();
-        wikiReader.close();
 
         assertTrue(value instanceof JsonObject);
         return (JsonObject)value;

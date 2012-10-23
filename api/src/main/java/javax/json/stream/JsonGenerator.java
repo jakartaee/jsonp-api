@@ -166,7 +166,7 @@ public interface JsonGenerator extends /*Auto*/Closeable {
 
     /**
      * Closes this generator and frees any resources associated with the
-     * generator. This doesn't close the underlying output source.
+     * generator. This closes the underlying output source.
      */
     @Override
     public void close();

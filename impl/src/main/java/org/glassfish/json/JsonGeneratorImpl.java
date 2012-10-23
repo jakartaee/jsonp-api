@@ -53,24 +53,20 @@ import java.util.Map;
 public class JsonGeneratorImpl implements JsonGenerator {
     private final Writer writer;
     private final JsonConfiguration config;
-    private final boolean flush;
-    
+
     public JsonGeneratorImpl(Writer writer) {
         this.writer = writer;
         this.config = null;
-        this.flush = false;
     }
 
     public JsonGeneratorImpl(Writer writer, JsonConfiguration config) {
         this.writer = writer;
         this.config = config;
-        this.flush = false;
     }
 
     public JsonGeneratorImpl(OutputStream out) {
         try {
             this.writer = new OutputStreamWriter(out, "UTF-8");
-            this.flush = true;
             this.config = null;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
@@ -80,7 +76,6 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGeneratorImpl(OutputStream out, JsonConfiguration config) {
         try {
             this.writer = new OutputStreamWriter(out, "UTF-8");
-            this.flush = true;
             this.config = config;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
@@ -90,7 +85,6 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGeneratorImpl(OutputStream out, String encoding) {
         try {
             this.writer = new OutputStreamWriter(out, encoding);
-            this.flush = true;
             this.config = null;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
@@ -100,7 +94,6 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGeneratorImpl(OutputStream out, String encoding, JsonConfiguration config) {
         try {
             this.writer = new OutputStreamWriter(out, encoding);
-            this.flush = true;
             this.config = config;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
@@ -118,12 +111,10 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public void close() {
-        if (flush) {
-            try {
-                writer.flush();
-            } catch (IOException e) {
-                throw new JsonException(e);
-            }
+        try {
+            writer.close();
+        } catch (IOException ioe) {
+            throw new JsonException(ioe);
         }
     }
 

@@ -185,7 +185,7 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Closes this reader and frees any resources associated with the
-     * reader. This doesn't close the underlying input source.
+     * reader. This closes the underlying input source.
      */
     @Override
     public void close() {

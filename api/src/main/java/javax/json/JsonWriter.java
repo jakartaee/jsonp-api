@@ -212,7 +212,7 @@ public class JsonWriter implements /*Auto*/Closeable {
 
     /**
      * Closes this JSON writer and frees any resources associated with the
-     * writer. This doesn't close the underlying output source.
+     * writer. This closes the underlying output source.
      */
     @Override
     public void close() {

@@ -48,10 +48,15 @@ import java.io.*;
  *
  * @author Jitendra Kotamraju
  */
-final class JsonTokenizer {
+final class JsonTokenizer implements Closeable {
 
     private final TokenizerReader reader;
     private int pushbackChar = -1;
+
+    @Override
+    public void close() throws IOException {
+        reader.close();
+    }
 
     enum JsonToken {
         CURLYOPEN,  SQUAREOPEN,
@@ -286,7 +291,7 @@ final class JsonTokenizer {
         return reader.getValue();
     }
     
-    private static interface TokenizerReader {
+    private static interface TokenizerReader extends Closeable {
         int readChar();
         void storeChar(int ch);
         void reset();
@@ -373,7 +378,11 @@ final class JsonTokenizer {
         public String getValue() {
             return null;
         }
-        
+
+        @Override
+        public void close() throws IOException {
+            reader.close();
+        }
     }
     
     private static class DirectReader implements TokenizerReader {
@@ -406,7 +415,11 @@ final class JsonTokenizer {
         public String getValue() {
             return builder.toString();
         }
-        
+
+        @Override
+        public void close() throws IOException {
+            reader.close();
+        }
     }
     
 }
