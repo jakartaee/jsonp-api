@@ -56,8 +56,9 @@ public class DemoApplication extends Application {
         Set<Class<?>> set = new HashSet<>();
         set.add(ParserResource.class);
         set.add(GeneratorResource.class);
-        set.add(JsonBodyWriter.class);
         set.add(ObjectResource.class);
+
+        set.add(JsonBodyWriter.class);
         return set;
     }
 }
