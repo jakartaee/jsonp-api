@@ -46,6 +46,7 @@ import java.io.Closeable;
 import java.io.Reader;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 import static javax.json.JsonNumber.JsonNumberType;
 
@@ -141,7 +142,7 @@ import static javax.json.JsonNumber.JsonNumberType;
  * @see JsonParserFactory
  * @author Jitendra Kotamraju
  */
-public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeable {
+public interface JsonParser extends /*Auto*/Closeable {
 
     /**
      * Event for parser state while parsing the JSON
@@ -197,6 +198,8 @@ public interface JsonParser extends Iterable<JsonParser.Event>, /*Auto*/Closeabl
          */
         END_ARRAY
     }
+
+    Iterator<Event> iterator();
 
     /**
      * Returns a String for name(key), string value and number value. This

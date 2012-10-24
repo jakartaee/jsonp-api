@@ -104,7 +104,9 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyArray(JsonParser parser) {
-        for(Event e : parser) {
+        Iterator<Event> it = parser.iterator();
+        while(it.hasNext()) {
+            it.next();
         }
     }
 
@@ -219,7 +221,9 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyObject(JsonParser parser) {
-        for(Event e : parser) {
+        Iterator<Event> it = parser.iterator();
+        while(it.hasNext()) {
+            it.next();
         }
     }
 
@@ -324,7 +328,9 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testWikiIterator(JsonParser parser) throws Exception {
-        for(Event e : parser) {
+        Iterator<Event> it = parser.iterator();
+        while(it.hasNext()) {
+            it.next();
         }
     }
 

@@ -66,31 +66,38 @@ public class JsonParserImpl implements JsonParser {
     private Event currentEvent;
 
     private final Deque<State> stack = new ArrayDeque<State>();
+    private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
     private int depth = 0;
 
     public JsonParserImpl(Reader reader) {
         tokenizer = new JsonTokenizer(reader);
+        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(Reader reader, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(reader);
+        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in) {
         tokenizer = new JsonTokenizer(in);
+        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, Charset encoding) {
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
+        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(in);
+        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, Charset encoding, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
+        stateIterator = new StateIterator();
     }
 
     public String getString() {
@@ -154,7 +161,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     public Iterator<JsonParser.Event> iterator() {
-        return new StateIterator();
+        return stateIterator;
     }
 
     private class StateIterator implements  Iterator<JsonParser.Event> {
