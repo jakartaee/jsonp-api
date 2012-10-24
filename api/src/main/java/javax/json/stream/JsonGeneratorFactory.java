@@ -42,6 +42,7 @@ package javax.json.stream;
 
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * Factory to create {@link JsonGenerator} instances. If a factory
@@ -92,18 +93,12 @@ public interface JsonGeneratorFactory {
     /**
      * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified encoding. The created generator is
+     * into bytes using the specified charset. The created generator is
      * configured with the factory configuration.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws javax.json.JsonException if the named encoding is not supported.
-     *                                  The cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-     *
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public JsonGenerator createGenerator(OutputStream out, String encoding);
+    public JsonGenerator createGenerator(OutputStream out, Charset charset);
 
 }

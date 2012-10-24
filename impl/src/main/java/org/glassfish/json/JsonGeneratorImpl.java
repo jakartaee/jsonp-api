@@ -45,6 +45,7 @@ import javax.json.stream.JsonGenerator;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -82,22 +83,14 @@ public class JsonGeneratorImpl implements JsonGenerator {
         }
     }
 
-    public JsonGeneratorImpl(OutputStream out, String encoding) {
-        try {
-            this.writer = new OutputStreamWriter(out, encoding);
-            this.config = null;
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
+    public JsonGeneratorImpl(OutputStream out, Charset encoding) {
+        this.writer = new OutputStreamWriter(out, encoding);
+        this.config = null;
     }
 
-    public JsonGeneratorImpl(OutputStream out, String encoding, JsonConfiguration config) {
-        try {
-            this.writer = new OutputStreamWriter(out, encoding);
-            this.config = config;
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
+    public JsonGeneratorImpl(OutputStream out, Charset encoding, JsonConfiguration config) {
+        this.writer = new OutputStreamWriter(out, encoding);
+        this.config = config;
     }
 
     public JsonObjectBuilder<Closeable> beginObject() {

@@ -45,6 +45,7 @@ import org.glassfish.jsonapi.JsonWriterImpl;
 import java.io.Closeable;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * A JSON writer that writes a JSON {@link JsonObject object} or
@@ -128,42 +129,30 @@ public class JsonWriter implements /*Auto*/Closeable {
      * Creates a JSON writer which can be used to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
-     * the stream are encoded into bytes using the specified encoding.
+     * the stream are encoded into bytes using the specified charset.
      *
      * @param out to which JSON object or array is written
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-     *
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public JsonWriter(OutputStream out, String encoding) {
-        impl = new JsonWriterImpl(out, encoding);
+    public JsonWriter(OutputStream out, Charset charset) {
+        impl = new JsonWriterImpl(out, charset);
     }
 
     /**
      * Creates a JSON writer which can be used to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
-     * the stream are encoded into bytes using the specified encoding.
+     * the stream are encoded into bytes using the specified charset.
      * The created writer is configured with the specified configuration.
      *
      * @param out to which JSON object or array is written
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @param charset a charset
      * @param config configuration of the writer
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
-     *
-     * @see java.nio.charset.Charset
      */
-    public JsonWriter(OutputStream out, String encoding, JsonConfiguration config) {
-        impl = new JsonWriterImpl(out, encoding, config);
+    public JsonWriter(OutputStream out, Charset charset, JsonConfiguration config) {
+        impl = new JsonWriterImpl(out, charset, config);
     }
 
     /**

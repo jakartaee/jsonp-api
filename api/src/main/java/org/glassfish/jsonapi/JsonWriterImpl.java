@@ -46,6 +46,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -73,11 +74,11 @@ public class JsonWriterImpl {
         generator = Json.createGenerator(out, config);
     }
 
-    public JsonWriterImpl(OutputStream out, String encoding) {
+    public JsonWriterImpl(OutputStream out, Charset encoding) {
         generator = Json.createGenerator(out, encoding);
     }
 
-    public JsonWriterImpl(OutputStream out, String encoding, JsonConfiguration config) {
+    public JsonWriterImpl(OutputStream out, Charset encoding, JsonConfiguration config) {
         generator = Json.createGenerator(out, encoding, config);
     }
 

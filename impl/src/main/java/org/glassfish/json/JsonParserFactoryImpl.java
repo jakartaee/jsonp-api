@@ -47,6 +47,7 @@ import javax.json.stream.JsonParserFactory;
 import javax.json.stream.JsonParser;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * @author Jitendra Kotamraju
@@ -70,8 +71,8 @@ public class JsonParserFactoryImpl implements JsonParserFactory {
     }
 
     @Override
-    public JsonParser createParser(InputStream in, String encoding) {
-        return new JsonParserImpl(in, encoding);
+    public JsonParser createParser(InputStream in, Charset charset) {
+        return new JsonParserImpl(in, charset);
     }
 
     @Override

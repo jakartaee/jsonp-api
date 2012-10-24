@@ -40,17 +40,12 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonArray;
 import javax.json.JsonConfiguration;
-import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParserFactory;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * @author Jitendra Kotamraju
@@ -76,8 +71,8 @@ public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
     }
 
     @Override
-    public JsonGenerator createGenerator(OutputStream out, String encoding) {
-        return new JsonGeneratorImpl(out, encoding);
+    public JsonGenerator createGenerator(OutputStream out, Charset charset) {
+        return new JsonGeneratorImpl(out, charset);
     }
 
 }

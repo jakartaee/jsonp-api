@@ -44,6 +44,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * Factory to create {@link JsonParser} instances. If a factory
@@ -93,18 +94,12 @@ public interface JsonParserFactory {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The bytes of the stream are decoded to characters using the
-     * specified encoding.
+     * specified charset.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws javax.json.JsonException if the named encoding is not supported.
-     * The cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-     *
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public JsonParser createParser(InputStream in, String encoding);
+    public JsonParser createParser(InputStream in, Charset charset);
 
     /**
      * Creates a JSON parser from the specified JSON object.

@@ -45,6 +45,7 @@ import org.glassfish.jsonapi.JsonReaderImpl;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * A JSON reader that reads a JSON {@link JsonObject object} or
@@ -102,40 +103,28 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Creates a JSON reader from a byte stream. The bytes of the stream
-     * are decoded to characters using the specified encoding.
+     * are decoded to characters using the specified charset.
      *
      * @param in a byte stream from which JSON is to be read
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws JsonException if the named encoding is not supported. The
-     * cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-     *
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public JsonReader(InputStream in, String encoding) {
-        impl = new JsonReaderImpl(in, encoding);
+    public JsonReader(InputStream in, Charset charset) {
+        impl = new JsonReaderImpl(in, charset);
     }
 
     /**
      * Creates a JSON reader from a byte stream. The bytes of the stream
-     * are decoded to characters using the specified encoding. The created
+     * are decoded to characters using the specified charset. The created
      * reader is configured with the specified configuration.
      *
      * @param in a byte stream from which JSON is to be read
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @param charset a charset
      * @param config configuration of the reader
-     * @throws JsonException if the named encoding is not supported. The
-     * cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
-     *
-     * @see java.nio.charset.Charset
      */
-    public JsonReader(InputStream in, String encoding, JsonConfiguration config) {
-        impl = new JsonReaderImpl(in, encoding, config);
+    public JsonReader(InputStream in, Charset charset, JsonConfiguration config) {
+        impl = new JsonReaderImpl(in, charset, config);
     }
 
     /**

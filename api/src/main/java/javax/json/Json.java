@@ -46,6 +46,7 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * Factory to create {@link JsonParser}, {@link JsonGenerator},
@@ -113,25 +114,19 @@ public class Json {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The bytes of the stream are decoded to characters using the
-     * specified encoding.
+     * specified charset.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-     *
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public static JsonParser createParser(InputStream in, String encoding) {
-        return JsonProvider.provider().createParser(in, encoding);
+    public static JsonParser createParser(InputStream in, Charset charset) {
+        return JsonProvider.provider().createParser(in, charset);
     }
 
     /**
      * Creates a JSON parser from the specified byte stream. The created
      * parser is configured with the specified configuration. The character
-     * encoding of the stream is determinedas per the
+     * encoding of the stream is determined as per the
      * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>
      *
      * @param in i/o stream from which JSON is to be read
@@ -145,22 +140,18 @@ public class Json {
 
     /**
      * Creates a JSON parser from the specified byte stream. The bytes of the
-     * stream are decoded to characters using the specified encoding. The created
+     * stream are decoded to characters using the specified charset. The created
      * parser is configured with the specified configuration.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @param charset a charset
+     * {@link java.nio.charset.Charset </code>charset<code>} of the stream.
      * @param config configuration of the parser
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
-     * @see java.nio.charset.Charset
      */
-    public static JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(in, encoding, config);
+    public static JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config) {
+        return JsonProvider.provider().createParser(in, charset, config);
     }
 
     /**
@@ -259,41 +250,29 @@ public class Json {
     /**
      * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified encoding.
+     * into bytes using the specified charset.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
-
-     * @see java.nio.charset.Charset
+     * @param charset a charset
      */
-    public static JsonGenerator createGenerator(OutputStream out, String encoding) {
-        return JsonProvider.provider().createGenerator(out, encoding);
+    public static JsonGenerator createGenerator(OutputStream out, Charset charset) {
+        return JsonProvider.provider().createGenerator(out, charset);
     }
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified encoding. The created generator is configured
+     * into bytes using the specified charset. The created generator is configured
      * with the specified configuration.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the name of character
-     * {@link java.nio.charset.Charset </code>encoding<code>} of the stream.
+     * @param charset a charset
      * @param config configuration of the generator
-     * @throws JsonException if the named encoding is not supported. The
-     *                       cause of the exception would be
-     * {@link java.io.UnsupportedEncodingException UnsupportedEncodingException}
      * @throws IllegalArgumentException if a feature in the configuration
      * is not known
-     *
-     * @see java.nio.charset.Charset
      */
-    public static JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
-        return JsonProvider.provider().createGenerator(out, encoding, config);
+    public static JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
+        return JsonProvider.provider().createGenerator(out, charset, config);
     }
 
     /**

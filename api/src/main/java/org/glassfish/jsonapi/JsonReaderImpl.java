@@ -43,6 +43,7 @@ package org.glassfish.jsonapi;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import javax.json.*;
 import javax.json.stream.JsonParser;
@@ -66,11 +67,11 @@ public class JsonReaderImpl {
         parser = Json.createParser(in);
     }
 
-    public JsonReaderImpl(InputStream in, String encoding) {
+    public JsonReaderImpl(InputStream in, Charset encoding) {
         parser = Json.createParser(in, encoding);
     }
 
-    public JsonReaderImpl(InputStream in, String encoding, JsonConfiguration config) {
+    public JsonReaderImpl(InputStream in, Charset encoding, JsonConfiguration config) {
         parser = Json.createParser(in, encoding, config);
     }
 

@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
@@ -137,14 +138,13 @@ public abstract class JsonProvider {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The bytes of the stream are decoded to characters using the
-     * specified encoding.
+     * specified charset.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
-     * @throws JsonException if encoding is not supported
-     *         or i/o error
+     * @param charset a charset
+     * @throws JsonException if i/o error
      */
-    public abstract JsonParser createParser(InputStream in, String encoding);
+    public abstract JsonParser createParser(InputStream in, Charset charset);
 
     /**
      * Creates a JSON parser from the specified byte stream. The created
@@ -159,14 +159,14 @@ public abstract class JsonProvider {
 
     /**
      * Creates a JSON parser from the specified byte stream. The bytes of the
-     * stream are decoded to characters using the specified encoding. The created
+     * stream are decoded to characters using the specified charset. The created
      * parser is configured with the specified configuration.
      *
      * @param in i/o stream from which JSON is to be read
-     * @param encoding the character encoding of the stream
+     * @param charset a charset
      * @param config configuration of the parser
      */
-    public abstract JsonParser createParser(InputStream in, String encoding, JsonConfiguration config);
+    public abstract JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config);
 
     /**
      * Creates a JSON parser from the specified JSON array.
@@ -257,24 +257,24 @@ public abstract class JsonProvider {
     /**
      * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified encoding.
+     * into bytes using the specified charset.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the character encoding of the stream
+     * @param charset a charset
      */
-    public abstract JsonGenerator createGenerator(OutputStream out, String encoding);
+    public abstract JsonGenerator createGenerator(OutputStream out, Charset charset);
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified encoding. The created generator is configured
+     * into bytes using the specified charset. The created generator is configured
      * with the specified configuration.
      *
      * @param out i/o stream to which JSON is written
-     * @param encoding the character encoding of the stream
+     * @param charset the character charset of the stream
      * @param config configuration of the generator
      */
-    public abstract JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config);
+    public abstract JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config);
 
     /**
      * Creates a generator factory which can be used to create {@link JsonGenerator}.

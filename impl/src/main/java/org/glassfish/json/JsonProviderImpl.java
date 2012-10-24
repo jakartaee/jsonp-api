@@ -53,6 +53,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,14 +89,14 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonGenerator createGenerator(OutputStream out, String encoding) {
-        return new JsonGeneratorImpl(out, encoding);
+    public JsonGenerator createGenerator(OutputStream out, Charset charset) {
+        return new JsonGeneratorImpl(out, charset);
     }
 
     @Override
-    public JsonGenerator createGenerator(OutputStream out, String encoding, JsonConfiguration config) {
+    public JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
         validateConfiguration(config);
-        return new JsonGeneratorImpl(out, encoding, config);
+        return new JsonGeneratorImpl(out, charset, config);
     }
 
     @Override
@@ -115,8 +116,8 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonParser createParser(InputStream in, String encoding) {
-        return new JsonParserImpl(in, encoding);
+    public JsonParser createParser(InputStream in, Charset charset) {
+        return new JsonParserImpl(in, charset);
     }
 
     @Override
@@ -126,9 +127,9 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonParser createParser(InputStream in, String encoding, JsonConfiguration config) {
+    public JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config) {
         validateConfiguration(config);
-        return new JsonParserImpl(in, encoding, config);
+        return new JsonParserImpl(in, charset, config);
     }
 
     @Override

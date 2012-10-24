@@ -44,6 +44,7 @@ import javax.json.*;
 import javax.json.stream.JsonParser;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
@@ -80,24 +81,16 @@ public class JsonParserImpl implements JsonParser {
         tokenizer = new JsonTokenizer(in);
     }
 
-    public JsonParserImpl(InputStream in, String encoding) {
-        try {
-            tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
+    public JsonParserImpl(InputStream in, Charset encoding) {
+        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
     }
 
     public JsonParserImpl(InputStream in, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(in);
     }
 
-    public JsonParserImpl(InputStream in, String encoding, JsonConfiguration config) {
-        try {
-            tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
+    public JsonParserImpl(InputStream in, Charset encoding, JsonConfiguration config) {
+        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
     }
 
     public String getString() {
