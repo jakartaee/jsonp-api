@@ -99,6 +99,19 @@ public interface JsonValue {
         public JsonValueType getValueType() {
             return JsonValueType.NULL;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof JsonValue) {
+                return getValueType().equals(((JsonValue)obj).getValueType());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return JsonValueType.NULL.hashCode();
+        }
     };
 
     /**
@@ -109,6 +122,19 @@ public interface JsonValue {
         public JsonValueType getValueType() {
             return JsonValueType.TRUE;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof JsonValue) {
+                return getValueType().equals(((JsonValue)obj).getValueType());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return JsonValueType.TRUE.hashCode();
+        }
     };
 
     /**
@@ -118,6 +144,19 @@ public interface JsonValue {
         @Override
         public JsonValueType getValueType() {
             return JsonValueType.FALSE;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof JsonValue) {
+                return getValueType().equals(((JsonValue)obj).getValueType());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return JsonValueType.FALSE.hashCode();
         }
     };
 

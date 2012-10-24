@@ -64,15 +64,15 @@ public final class JsonStringImpl implements JsonString {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return getValue().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonStringImpl)) {
+        if (!(obj instanceof JsonString)) {
             return false;
         }
-        JsonStringImpl other = (JsonStringImpl)obj;
-        return value.equals(other.value);
+        JsonString other = (JsonString)obj;
+        return getValue().equals(other.getValue());
     }
 }

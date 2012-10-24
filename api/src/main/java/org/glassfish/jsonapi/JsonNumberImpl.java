@@ -142,18 +142,16 @@ public final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public int hashCode() {
-        return bigDecimal.hashCode();
+        return getBigDecimalValue().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonNumberImpl)) {
+        if (!(obj instanceof JsonNumber)) {
             return false;
         }
-        JsonNumberImpl other = (JsonNumberImpl)obj;
-        return bigDecimal.equals(other.bigDecimal);
-        // not using equals as that takes scale into account
-        // return bigDecimal.compareTo(other.bigDecimal) == 0;
+        JsonNumber other = (JsonNumber)obj;
+        return getBigDecimalValue().equals(other.getBigDecimalValue());
     }
 
     @Override

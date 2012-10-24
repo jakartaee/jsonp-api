@@ -166,4 +166,11 @@ public interface JsonArray extends JsonStructure {
      */
     public <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
+    @Override
+    public boolean equals(Object obj);
+
+    @Override
+    public int hashCode();
+
+
 }

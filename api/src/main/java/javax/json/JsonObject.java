@@ -185,7 +185,11 @@ public interface JsonObject extends JsonStructure {
 
     // TODO String getValue(String name) ??
     // TODO int getValue(String name) ??
-    // TODO equals()
-    // TODO hashcode()
+
+    @Override
+    public boolean equals(Object obj);
+
+    @Override
+    public int hashCode();
 
 }

@@ -82,16 +82,16 @@ public final class JsonArrayImpl implements JsonArray {
 
     @Override
     public int hashCode() {
-        return valueList.hashCode();
+        return getValues().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonArrayImpl)) {
+        if (!(obj instanceof JsonArray)) {
             return false;
         }
-        JsonArrayImpl other = (JsonArrayImpl)obj;
-        return valueList.equals(other.valueList);
+        JsonArray other = (JsonArray)obj;
+        return getValues().equals(other.getValues());
     }
 
     @Override

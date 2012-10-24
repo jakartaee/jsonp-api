@@ -81,16 +81,16 @@ public final class JsonObjectImpl implements JsonObject {
 
     @Override
     public int hashCode() {
-        return valueMap.hashCode();
+        return getValues().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JsonObjectImpl)) {
+        if (!(obj instanceof JsonObject)) {
             return false;
         }
-        JsonObjectImpl other = (JsonObjectImpl)obj;
-        return valueMap.equals(other.valueMap);
+        JsonObject other = (JsonObject)obj;
+        return getValues().equals(other.getValues());
     }
 
     @Override
