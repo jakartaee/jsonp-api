@@ -41,9 +41,7 @@
 package org.glassfish.jsonapi;
 
 
-import javax.json.JsonArray;
-import javax.json.JsonValue;
-import javax.json.JsonWriter;
+import javax.json.*;
 import java.io.StringWriter;
 import java.util.*;
 
@@ -73,6 +71,16 @@ public final class JsonArrayImpl implements JsonArray {
     @Override
     public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
         return clazz.cast(valueList.get(index));
+    }
+
+    @Override
+    public String getStringValue(int index) {
+        return getValue(index, JsonString.class).getValue();
+    }
+
+    @Override
+    public int getIntValue(int index) {
+        return getValue(index, JsonNumber.class).getIntValue();
     }
 
     @Override

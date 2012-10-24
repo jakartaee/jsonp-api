@@ -81,6 +81,7 @@ public class JsonObjectTest extends TestCase {
         assertEquals("John", person.getValue("firstName", JsonString.class).getValue());
         assertEquals("Smith", person.getValue("lastName", JsonString.class).getValue());
         assertEquals(25, person.getValue("age", JsonNumber.class).getIntValue());
+        assertEquals(25, person.getIntValue("age"));
 
         JsonObject address = person.getValue("address", JsonObject.class);
         assertEquals(4, address.getNames().size());
@@ -95,11 +96,13 @@ public class JsonObjectTest extends TestCase {
         assertEquals(2, home.getNames().size());
         assertEquals("home", home.getValue("type", JsonString.class).getValue());
         assertEquals("212 555-1234", home.getValue("number", JsonString.class).getValue());
+        assertEquals("212 555-1234", home.getStringValue("number"));
 
         JsonObject fax = phoneNumber.getValue(1, JsonObject.class);
         assertEquals(2, fax.getNames().size());
         assertEquals("fax", fax.getValue("type", JsonString.class).getValue());
         assertEquals("646 555-4567", fax.getValue("number", JsonString.class).getValue());
+        assertEquals("646 555-4567", fax.getStringValue("number"));
     }
 
     static void testEmpty(JsonObject empty) {

@@ -166,6 +166,24 @@ public interface JsonArray extends JsonStructure {
      */
     public <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
+    /**
+     * A convenience method for the following:
+     * getValue(int, JsonString.class).getValue()
+     *
+     * @param index
+     * @return
+     */
+    public String getStringValue(int index);
+
+    /**
+     * A Convenience method for the following:
+     * getValue(int, JsonNumber.class).getIntValue
+     *
+     * @param index
+     * @return
+     */
+    public int getIntValue(int index);
+
     @Override
     public boolean equals(Object obj);
 

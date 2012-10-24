@@ -183,8 +183,23 @@ public interface JsonObject extends JsonStructure {
      */
     public Map<String, JsonValue> getValues();
 
-    // TODO String getValue(String name) ??
-    // TODO int getValue(String name) ??
+    /**
+     * A convenience method for the following:
+     * getValue(String, JsonString.class).getValue()
+     *
+     * @param name
+     * @return
+     */
+    public String getStringValue(String name);
+
+    /**
+     * A Convenience method for the following:
+     * getValue(String, JsonNumber.class).getIntValue
+     *
+     * @param name
+     * @return
+     */
+    public int getIntValue(String name);
 
     @Override
     public boolean equals(Object obj);

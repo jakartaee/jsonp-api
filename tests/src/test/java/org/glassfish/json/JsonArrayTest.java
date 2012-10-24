@@ -81,4 +81,22 @@ public class JsonArrayTest extends TestCase {
         assertEquals(expected, actual);
     }
 
+    public void testStringValue() throws Exception {
+        JsonArray array = new JsonBuilder()
+                .beginArray()
+                .add("John")
+                .endArray()
+                .build();
+        assertEquals("John", array.getStringValue(0));
+    }
+
+    public void testIntValue() throws Exception {
+        JsonArray array = new JsonBuilder()
+                .beginArray()
+                .add(20)
+                .endArray()
+                .build();
+        assertEquals(20, array.getIntValue(0));
+    }
+
 }

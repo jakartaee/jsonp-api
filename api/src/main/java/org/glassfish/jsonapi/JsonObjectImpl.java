@@ -40,9 +40,7 @@
 
 package org.glassfish.jsonapi;
 
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.json.JsonWriter;
+import javax.json.*;
 import java.io.StringWriter;
 import java.util.*;
 
@@ -73,7 +71,17 @@ public final class JsonObjectImpl implements JsonObject {
     public Map<String, JsonValue> getValues() {
         return unmodifiableValueMap;
     }
-    
+
+    @Override
+    public String getStringValue(String name) {
+        return getValue(name, JsonString.class).getValue();
+    }
+
+    @Override
+    public int getIntValue(String name) {
+        return getValue(name, JsonNumber.class).getIntValue();
+    }
+
     @Override
     public JsonValueType getValueType() {
         return JsonValueType.OBJECT;
