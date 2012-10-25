@@ -75,4 +75,9 @@ public final class JsonStringImpl implements JsonString {
         JsonString other = (JsonString)obj;
         return getValue().equals(other.getValue());
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -54,6 +54,9 @@ public interface JsonString extends JsonValue {
      */
     public String getValue();
 
+    // TODO
+    //public CharSequence getValue();
+
     @Override
     public boolean equals(Object obj);
 

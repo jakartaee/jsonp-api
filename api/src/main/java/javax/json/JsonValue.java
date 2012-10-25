@@ -112,6 +112,11 @@ public interface JsonValue {
         public int hashCode() {
             return JsonValueType.NULL.hashCode();
         }
+
+        @Override
+        public String toString() {
+            return "null";
+        }
     };
 
     /**
@@ -134,6 +139,11 @@ public interface JsonValue {
         @Override
         public int hashCode() {
             return JsonValueType.TRUE.hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "true";
         }
     };
 
@@ -158,6 +168,11 @@ public interface JsonValue {
         public int hashCode() {
             return JsonValueType.FALSE.hashCode();
         }
+
+        @Override
+        public String toString() {
+            return "false";
+        }
     };
 
     /**
@@ -166,5 +181,13 @@ public interface JsonValue {
      * @return JSON value type
      */
     public JsonValueType getValueType();
+
+    /**
+     * Returns JSON text for this JSON value
+     *
+     * @return JSON text
+     */
+    @Override
+    public String toString();
 
 }
