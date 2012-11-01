@@ -44,10 +44,7 @@ import junit.framework.TestCase;
 
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 
 /**
  * {@link JsonGenerator} tests
@@ -88,43 +85,45 @@ public class JsonGeneratorTest extends TestCase {
 
     static void testObject(JsonGenerator generator) throws Exception {
         generator
-            .beginObject()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .beginObject("address")
-                    .add("streetAddress", "21 2nd Street")
-                    .add("city", "New York")
-                    .add("state", "NY")
-                    .add("postalCode", "10021")
-                .endObject()
-                .beginArray("phoneNumber")
-                    .beginObject()
-                        .add("type", "home")
-                        .add("number", "212 555-1234")
-                    .endObject()
-                    .beginObject()
-                        .add("type", "fax")
-                        .add("number", "646 555-4567")
-                    .endObject()
-                .endArray()
-            .endObject();
+            .writeStartObject()
+                .write("firstName", "John")
+                .write("lastName", "Smith")
+                .write("age", 25)
+                .writeStartObject("address")
+                    .write("streetAddress", "21 2nd Street")
+                    .write("city", "New York")
+                    .write("state", "NY")
+                    .write("postalCode", "10021")
+                .end()
+                .writeStartArray("phoneNumber")
+                    .writeStartObject()
+                        .write("type", "home")
+                        .write("number", "212 555-1234")
+                    .end()
+                    .writeStartObject()
+                        .write("type", "fax")
+                        .write("number", "646 555-4567")
+                    .end()
+                .end()
+            .end();
     }
 
     public void testArray() throws Exception {
-        JsonGenerator generator = Json.createGenerator(new StringWriter());
+        Writer sw = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sw);
         generator
-            .beginArray()
-                .beginObject()
-                    .add("type", "home")
-                    .add("number", "212 555-1234")
-                .endObject()
-                .beginObject()
-                    .add("type", "fax")
-                    .add("number", "646 555-4567")
-                .endObject()
-            .endArray();
+            .writeStartArray()
+                .writeStartObject()
+                    .write("type", "home")
+                    .write("number", "212 555-1234")
+                .end()
+                .writeStartObject()
+                    .write("type", "fax")
+                    .write("number", "646 555-4567")
+                .end()
+            .end();
         generator.close();
+        System.out.println(sw.toString());
     }
 
     // tests JsonGenerator when JsonValue is used for generation
@@ -132,13 +131,13 @@ public class JsonGeneratorTest extends TestCase {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
         generator
-            .beginObject()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .add("address", JsonBuilderTest.buildAddress())
-                .add("phoneNumber", JsonBuilderTest.buildPhone())
-            .endObject();
+            .writeStartObject()
+                .write("firstName", "John")
+                .write("lastName", "Smith")
+                .write("age", 25)
+                .write("address", JsonBuilderTest.buildAddress())
+                .write("phoneNumber", JsonBuilderTest.buildPhone())
+            .end();
         generator.close();
         writer.close();
 
@@ -150,7 +149,7 @@ public class JsonGeneratorTest extends TestCase {
     public void testArrayString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
-        generator.beginArray().add("string").endArray();
+        generator.writeStartArray().write("string").end();
         generator.close();
         writer.close();
 
@@ -160,7 +159,7 @@ public class JsonGeneratorTest extends TestCase {
     public void testEscapedString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
-        generator.beginArray().add("\u0000").endArray();
+        generator.writeStartArray().write("\u0000").end();
         generator.close();
         writer.close();
 
@@ -171,7 +170,7 @@ public class JsonGeneratorTest extends TestCase {
         String expected = "\u0000\u00ff";
         StringWriter sw = new StringWriter();
         JsonGenerator generator = Json.createGenerator(sw);
-        generator.beginArray().add("\u0000\u00ff").endArray();
+        generator.writeStartArray().write("\u0000\u00ff").end();
         generator.close();
         sw.close();
 

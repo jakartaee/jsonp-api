@@ -46,6 +46,8 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
 
 /**
@@ -54,6 +56,7 @@ import java.util.Map;
 public class JsonGeneratorImpl implements JsonGenerator {
     private final Writer writer;
     private final JsonConfiguration config;
+    private final Deque<Context> stack = new ArrayDeque<Context>();
 
     public JsonGeneratorImpl(Writer writer) {
         this.writer = writer;
@@ -93,14 +96,369 @@ public class JsonGeneratorImpl implements JsonGenerator {
         this.config = config;
     }
 
-    public JsonObjectBuilder<Closeable> beginObject() {
-        write("{");
-        return new JsonObjectBuilderImpl<Closeable>(this, writer);
+    @Override
+    public void flush() {
+        try {
+            writer.flush();
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
     }
 
-    public JsonArrayBuilder<Closeable> beginArray() {
-        write("[");
-        return new JsonArrayBuilderImpl<Closeable>(this, writer);
+    private static enum Scope {
+        IN_OBJECT,
+        IN_ARRAY
+    }
+
+    @Override
+    public JsonGenerator writeStartObject() {
+        try {
+            if (stack.peekFirst() != null && stack.peekFirst().scope == Scope.IN_ARRAY) {
+                writeComma();
+            }
+            writer.write("{");
+            stack.addFirst(new Context(Scope.IN_OBJECT));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator writeStartObject(String name) {
+        try {
+            writeName(name);
+            writer.write("{");
+            stack.addFirst(new Context(Scope.IN_OBJECT));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    public JsonGenerator writeName(String name) {
+        try {
+            writeComma();
+            writeEscapedString(writer, name);
+            writer.write(":");
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, String fieldValue) {
+        try {
+            writeName(name);
+            writeEscapedString(writer, fieldValue);
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, int value) {
+        try {
+            writeName(name);
+            writer.write(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, long value) {
+        try {
+            writeName(name);
+            writer.write(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, double value) {
+        try {
+            writeName(name);
+            writer.write(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, BigInteger value) {
+        try {
+            writeName(name);
+            writer.write(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, BigDecimal value) {
+        try {
+            writeName(name);
+            writer.write(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, boolean value) {
+        try {
+            writeName(name);
+            writer.write(value? "true" : "false");
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator writeNull(String name) {
+        try {
+            writeName(name);
+            writer.write("null");
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(JsonValue value) {
+        switch (value.getValueType()) {
+            case ARRAY:
+                JsonArray array = (JsonArray)value;
+                writeStartArray();
+                for(JsonValue child: array.getValues()) {
+                    write(child);
+                }
+                end();
+                break;
+            case OBJECT:
+                JsonObject object = (JsonObject)value;
+                writeStartObject();
+                for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
+                    write(member.getKey(), member.getValue());
+                }
+                end();
+                break;
+            case STRING:
+                JsonString str = (JsonString)value;
+                write(str.getValue());
+                break;
+            case NUMBER:
+                JsonNumber number = (JsonNumber)value;
+                writeValue(number.toString());
+                break;
+            case TRUE:
+                write(true);
+                break;
+            case FALSE:
+                write(false);
+                break;
+            case NULL:
+                writeNull();
+                break;
+        }
+
+        return this;
+    }
+
+    @Override
+    public JsonGenerator writeStartArray() {
+        try {
+            if (stack.peekFirst() != null && stack.peekFirst().scope == Scope.IN_ARRAY) {
+                writeComma();
+            }
+            stack.addFirst(new Context(Scope.IN_ARRAY));
+            writer.write("[");
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator writeStartArray(String name) {
+        try {
+            writeName(name);
+            stack.addFirst(new Context(Scope.IN_ARRAY));
+            writer.write("[");
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(String name, JsonValue value) {
+        switch (value.getValueType()) {
+            case ARRAY:
+                JsonArray array = (JsonArray)value;
+                writeStartArray(name);
+                for(JsonValue child: array.getValues()) {
+                    write(child);
+                }
+                end();
+                break;
+            case OBJECT:
+                JsonObject object = (JsonObject)value;
+                writeStartObject(name);
+                for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
+                    write(member.getKey(), member.getValue());
+                }
+                end();
+                break;
+            case STRING:
+                JsonString str = (JsonString)value;
+                write(name, str.getValue());
+                break;
+            case NUMBER:
+                JsonNumber number = (JsonNumber)value;
+                writeValue(name, number.toString());
+                break;
+            case TRUE:
+                write(name, true);
+                break;
+            case FALSE:
+                write(name, false);
+                break;
+            case NULL:
+                writeNull(name);
+                break;
+        }
+        return this;
+    }
+
+    public JsonGenerator write(String value) {
+        try {
+            writeComma();
+            writeEscapedString(writer, value);
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+
+    public JsonGenerator write(int value) {
+        try {
+            writeComma();
+            writer.write(value);
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(long value) {
+        writeValue(String.valueOf(value));
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(double value) {
+        writeValue(String.valueOf(value));
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(BigInteger value) {
+        writeValue(value.toString());
+        return this;
+    }
+
+    @Override
+    public JsonGenerator write(BigDecimal value) {
+        writeValue(value.toString());
+        return this;
+    }
+
+    public JsonGenerator write(boolean value) {
+        try {
+            writeComma();
+            writer.write(value ? "true" : "false");
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    public JsonGenerator writeNull() {
+        try {
+            writeComma();
+            writer.write("null");
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    private void writeValue(String value) {
+        try {
+            writeComma();
+            writer.write(value);
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+    }
+
+    private void writeValue(String name, String value) {
+        try {
+            writeComma();
+            writeEscapedString(writer, name);
+            writer.write(':');
+            writer.write(value);
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+    }
+
+    @Override
+    public JsonGenerator end() {
+        Context ctxt = stack.removeFirst();
+        try {
+            if (ctxt.scope == Scope.IN_ARRAY)
+                writer.write("]");
+            else
+                writer.write("}");
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+        return this;
+    }
+
+    private void writeComma() throws IOException {
+        if (stack.peekFirst() == null) {
+            return;
+        }
+        if (!stack.peekFirst().first) {
+            writer.write(",");
+        }
+        stack.peekFirst().first = false;
+    }
+
+    private static class Context {
+        boolean first = true;
+        final Scope scope;
+
+        Context(Scope scope) {
+            this.scope = scope;
+        }
+
     }
 
     public void close() {
@@ -109,396 +467,6 @@ public class JsonGeneratorImpl implements JsonGenerator {
         } catch (IOException ioe) {
             throw new JsonException(ioe);
         }
-    }
-
-    private void write(String str) {
-        try {
-            writer.write(str);
-        } catch(IOException ioe) {
-            throw new JsonException(ioe);
-        }
-    }
-
-    private static class JsonObjectBuilderImpl<T> implements JsonObjectBuilder<T> {
-        private final T enclosing;
-        private final Writer writer;
-        private boolean first = true;
-        private boolean done;
-
-        JsonObjectBuilderImpl(T enclosing, Writer writer) {
-            this.enclosing = enclosing;
-            this.writer = writer;
-        }
-
-        @Override
-        public T endObject() {
-            if (done) {
-                throw new IllegalStateException("endObject() is already invoked.");
-            }
-            done = true;
-            try {
-                writer.write("}");
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-            return enclosing;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, JsonValue value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            switch (value.getValueType()) {
-                case ARRAY:
-                    JsonArray array = (JsonArray)value;
-                    JsonArrayBuilder<JsonObjectBuilder<T>> arrayBuilder = beginArray(name);
-                    for(JsonValue child: array.getValues()) {
-                        arrayBuilder.add(child);
-                    }
-                    arrayBuilder.endArray();
-                    break;
-                case OBJECT:
-                    JsonObject object = (JsonObject)value;
-                    JsonObjectBuilder<JsonObjectBuilder<T>> objectBuilder = beginObject(name);
-                    for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
-                        objectBuilder.add(member.getKey(), member.getValue());
-                    }
-                    objectBuilder.endObject();
-                    break;
-                case STRING:
-                    JsonString str = (JsonString)value;
-                    add(name, str.getValue());
-                    break;
-                case NUMBER:
-                    JsonNumber number = (JsonNumber)value;
-                    writeValue(name, number.toString());
-                    break;
-                case TRUE:
-                    add(name, true);
-                    break;
-                case FALSE:
-                    add(name, false);
-                    break;
-                case NULL:
-                    addNull(name);
-                    break;
-            }
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, String value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeString(name, value);
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, BigInteger value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, value.toString());
-            return this;
-
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, BigDecimal value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, value.toString());
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, int value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, long value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, double value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> add(String name, boolean value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, value ? "true" : "false");
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<T> addNull(String name) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, "null");
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<JsonObjectBuilder<T>> beginObject(String name) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, "{");
-            return new JsonObjectBuilderImpl<JsonObjectBuilder<T>>(this, writer);
-        }
-
-        @Override
-        public JsonArrayBuilder<JsonObjectBuilder<T>> beginArray(String name) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endObject()");
-            }
-            writeValue(name, "[");
-            return new JsonArrayBuilderImpl<JsonObjectBuilder<T>>(this, writer);
-        }
-
-        private void writeValue(String name, String value) {
-            try {
-                writeComma();
-                writeEscapedString(writer, name);
-                writer.write(':');
-                writer.write(value);
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-
-        private void writeString(String name, String value) {
-            try {
-                writeComma();
-                writeEscapedString(writer, name);
-                writer.write(':');
-                writeEscapedString(writer, value);
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-
-        private void writeComma() {
-            try {
-                if (!first) {
-                    writer.write(',');
-                }
-                first = false;
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-    }
-
-    private static class JsonArrayBuilderImpl<T> implements JsonArrayBuilder<T> {
-        private final T enclosing;
-        private final Writer writer;
-        private boolean first = true;
-        private boolean done;
-
-        JsonArrayBuilderImpl(T enclosing, Writer writer) {
-            this.enclosing = enclosing;
-            this.writer = writer;
-        }
-
-        @Override
-        public T endArray() {
-            if (done) {
-                throw new IllegalStateException("endArray() is already invoked.");
-            }
-            done = true;
-            try {
-                writer.write(']');
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-            return enclosing;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(JsonValue value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            switch (value.getValueType()) {
-                case ARRAY:
-                    JsonArray array = (JsonArray)value;
-                    JsonArrayBuilder<JsonArrayBuilder<T>> arrayBuilder = beginArray();
-                    for(JsonValue child: array.getValues()) {
-                        arrayBuilder.add(child);
-                    }
-                    arrayBuilder.endArray();
-                    break;
-                case OBJECT:
-                    JsonObject object = (JsonObject)value;
-                    JsonObjectBuilder<JsonArrayBuilder<T>> objectBuilder = beginObject();
-                    for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
-                        objectBuilder.add(member.getKey(), member.getValue());
-                    }
-                    objectBuilder.endObject();
-                    break;
-                case STRING:
-                    JsonString str = (JsonString)value;
-                    add(str.getValue());
-                    break;
-                case NUMBER:
-                    JsonNumber number = (JsonNumber)value;
-                    writeValue(number.toString());
-                    break;
-                case TRUE:
-                    add(true);
-                    break;
-                case FALSE:
-                    add(false);
-                    break;
-                case NULL:
-                    addNull();
-                    break;
-            }
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(String value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeString(value);
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(BigDecimal value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(value.toString());
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(BigInteger value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(value.toString());
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(int value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(long value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(double value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(String.valueOf(value));
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> add(boolean value) {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue(value ? "true" : "false");
-            return this;
-        }
-
-        @Override
-        public JsonArrayBuilder<T> addNull() {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue("null");
-            return this;
-        }
-
-        @Override
-        public JsonObjectBuilder<JsonArrayBuilder<T>> beginObject() {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue("{");
-            return new JsonObjectBuilderImpl<JsonArrayBuilder<T>>(this, writer);
-        }
-
-        @Override
-        public JsonArrayBuilder<JsonArrayBuilder<T>> beginArray() {
-            if (done) {
-                throw new IllegalStateException("add() cannot be called after endArray()");
-            }
-            writeValue("[");
-            return new JsonArrayBuilderImpl<JsonArrayBuilder<T>>(this, writer);
-        }
-
-        private void writeComma() {
-            try {
-                if (!first) {
-                    writer.write(',');
-                }
-                first = false;
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-
-        private void writeValue(String value) {
-            try {
-                writeComma();
-                writer.write(value);
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-
-        private void writeString(String value) {
-            try {
-                writeComma();
-                writeEscapedString(writer, value);
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-        }
-
     }
 
     static void writeEscapedString(Writer w, String string) throws IOException {

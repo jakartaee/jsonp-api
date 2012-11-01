@@ -42,8 +42,6 @@ package org.glassfish.jsonapi;
 
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
-import java.io.Closeable;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -87,15 +85,11 @@ public class JsonWriterImpl {
             throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
         }
         writeDone = true;
-        try {
-            JsonArrayBuilder<Closeable> builder = generator.beginArray();
-            for(JsonValue value : array.getValues()) {
-                builder.add(value);
-            }
-            builder.endArray().close();
-        } catch (IOException ioe) {
-            throw new JsonException(ioe);
+        generator.writeStartArray();
+        for(JsonValue value : array.getValues()) {
+            generator.write(value);
         }
+        generator.end().close();
     }
 
     public void writeObject(JsonObject object) {
@@ -103,15 +97,11 @@ public class JsonWriterImpl {
             throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
         }
         writeDone = true;
-        try {
-            JsonObjectBuilder<Closeable> builder = generator.beginObject();
-            for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
-                builder.add(e.getKey(), e.getValue());
-            }
-            builder.endObject().close();
-        } catch (IOException ioe) {
-            throw new JsonException(ioe);
+        generator.writeStartObject();
+        for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
+            generator.write(e.getKey(), e.getValue());
         }
+        generator.end().close();
     }
 
     public void write(JsonStructure value) {

@@ -42,7 +42,11 @@ package javax.json.stream;
 
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import java.io.Closeable;
+import java.io.Flushable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * A JSON generator that writes JSON in a streaming way. The generator
@@ -148,21 +152,272 @@ import java.io.Closeable;
  * @see JsonGeneratorFactory
  * @author Jitendra Kotamraju
  */
-public interface JsonGenerator extends /*Auto*/Closeable {
+public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
+
+    public JsonGenerator writeStartObject();
+    public JsonGenerator writeStartObject(String name);
+    public JsonGenerator writeStartArray();
+    public JsonGenerator writeStartArray(String name);
 
     /**
-     * Starts writing of a JSON object in a streaming fashion.
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
      *
-     * @return an object builder
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
      */
-    public JsonObjectBuilder<Closeable> beginObject();
+    public JsonGenerator write(String name, JsonValue value);
 
     /**
-     * Starts writing of a JSON array in a streaming fashion.
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
      *
-     * @return an array builder
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
      */
-    public JsonArrayBuilder<Closeable> beginArray();
+    public JsonGenerator write(String name, String value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(String name, BigInteger value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(String name, BigDecimal value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(String name, int value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(String name, long value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(String name, double value);
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * <p>TODO not needed since add(JsonValue.TRUE|FALSE) can be used ??
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @param value value to be associated with the specified name/key
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     */
+    public JsonGenerator write(String name, boolean value);
+
+
+    /**
+     * Associates the specified value with the specified name/key in the
+     * JSON object that is being built.
+     *
+     * <p>TODO not needed since add(JsonValue.NULL) can be used ??
+     *
+     * @param name name/key with which the specified value is to be associated
+     * @return this object builder
+     * @throws javax.json.JsonException if there is a mapping for the specified name/key
+     * in the JSON object
+     * @throws IllegalStateException when invoked after the endObject method
+     * is called
+     */
+    public JsonGenerator writeNull(String name);
+
+    /**
+     * Indicates the end of the JSON array that is being built.
+     *
+     * @return the enclosing object of type T
+     * @throws IllegalStateException when endArray method is already
+     * called.
+     */
+    public JsonGenerator end();
+
+    /**
+     * Adds the specified value to the array that is being built.
+     *
+     * @param value
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     */
+    public JsonGenerator write(JsonValue value);
+
+    /**
+     * Adds the specified value as a JSON string value to the array
+     * that is being built.
+     *
+     * @param value string
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     */
+    public JsonGenerator write(String value);
+
+    /**
+     * Adds the specified value as a JSON number value to the array
+     * that is being built.
+     *
+     * @param value a number
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(BigDecimal value);
+
+    /**
+     * Adds the specified value as a JSON number value to the array
+     * that is being built.
+     *
+     * @param value a number
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(BigInteger value);
+
+    /**
+     * Adds the specified value as a JSON number value to the array
+     * that is being built.
+     *
+     * @param value a number
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(int value);
+
+    /**
+     * Adds the specified value as a JSON number value to the array
+     * that is being built.
+     *
+     * @param value a number
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(long value);
+
+    /**
+     * Adds the specified value as a JSON number value to the array
+     * that is being built.
+     *
+     * @param value a number
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     *
+     * @see javax.json.JsonNumber
+     */
+    public JsonGenerator write(double value);
+
+    /**
+     * Adds a JSON true or false value to the array that is being built.
+     *
+     * <p>TODO not needed since add(JsonValue.TRUE|FALSE) can be used ??
+     *
+     * @param value a boolean
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     */
+    public JsonGenerator write(boolean value);
+
+    /**
+     * Adds the JSON null value to the array that is being built.
+     *
+     * <p>TODO not needed since add(JsonValue.NULL) can be used ??
+     *
+     * @return this array builder
+     * @throws IllegalStateException when invoked after endArray method is
+     * called.
+     */
+    public JsonGenerator writeNull();
 
     /**
      * Closes this generator and frees any resources associated with the
@@ -170,5 +425,8 @@ public interface JsonGenerator extends /*Auto*/Closeable {
      */
     @Override
     public void close();
+
+    @Override
+    public void flush();
 
 }
