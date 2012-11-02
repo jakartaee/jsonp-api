@@ -181,4 +181,40 @@ public class JsonGeneratorTest extends TestCase {
 
         assertEquals(expected, got);
     }
+
+    public void testGeneratorEquals() throws Exception {
+        StringWriter sw = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sw);
+        generator.writeStartArray()
+                    .write(JsonValue.TRUE)
+                    .write(JsonValue.FALSE)
+                    .write(JsonValue.NULL)
+                    .write(Integer.MAX_VALUE)
+                    .write(Long.MAX_VALUE)
+                    .write(Double.MAX_VALUE)
+                    .write(Integer.MIN_VALUE)
+                    .write(Long.MIN_VALUE)
+                    .write(Double.MIN_VALUE)
+                .end();
+
+        JsonReader reader = new JsonReader(new StringReader(sw.toString()));
+        JsonArray expected = reader.readArray();
+        reader.close();
+
+        JsonArray actual = new JsonBuilder()
+                .beginArray()
+                .add(JsonValue.TRUE)
+                .add(JsonValue.FALSE)
+                .add(JsonValue.NULL)
+                .add(Integer.MAX_VALUE)
+                .add(Long.MAX_VALUE)
+                .add(Double.MAX_VALUE)
+                .add(Integer.MIN_VALUE)
+                .add(Long.MIN_VALUE)
+                .add(Double.MIN_VALUE)
+                .endArray()
+                .build();
+
+        assertEquals(expected, actual);
+    }
 }

@@ -356,7 +356,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(int value) {
         try {
             writeComma();
-            writer.write(value);
+            writer.write(String.valueOf(value));
         } catch (IOException e) {
             throw new JsonException(e);
         }
