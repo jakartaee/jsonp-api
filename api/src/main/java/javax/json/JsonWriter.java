@@ -40,12 +40,12 @@
 
 package javax.json;
 
-import org.glassfish.jsonapi.JsonWriterImpl;
-
+import javax.json.stream.JsonGenerator;
 import java.io.Closeable;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * A JSON writer that writes a JSON {@link JsonObject object} or
@@ -69,7 +69,8 @@ import java.nio.charset.Charset;
  */
 public class JsonWriter implements /*Auto*/Closeable {
 
-    private final JsonWriterImpl impl;
+    private final JsonGenerator generator;
+    private boolean writeDone;
 
     /**
      * Creates a JSON writer which can be used to write a
@@ -79,7 +80,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param writer to which JSON object or array is written
      */
     public JsonWriter(Writer writer) {
-        impl = new JsonWriterImpl(writer);
+        generator = Json.createGenerator(writer);
     }
 
     /**
@@ -94,7 +95,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(Writer writer, JsonConfiguration config) {
-        impl = new JsonWriterImpl(writer, config);
+        generator = Json.createGenerator(writer, config);
     }
 
     /**
@@ -106,7 +107,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param out to which JSON object or array is written
      */
     public JsonWriter(OutputStream out) {
-        impl = new JsonWriterImpl(out);
+        generator = Json.createGenerator(out);
     }
 
     /**
@@ -122,7 +123,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(OutputStream out, JsonConfiguration config) {
-        impl = new JsonWriterImpl(out, config);
+        generator = Json.createGenerator(out, config);
     }
 
     /**
@@ -135,7 +136,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonWriter(OutputStream out, Charset charset) {
-        impl = new JsonWriterImpl(out, charset);
+        generator = Json.createGenerator(out, charset);
     }
 
     /**
@@ -152,7 +153,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(OutputStream out, Charset charset, JsonConfiguration config) {
-        impl = new JsonWriterImpl(out, charset, config);
+        generator = Json.createGenerator(out, charset, config);
     }
 
     /**
@@ -166,7 +167,15 @@ public class JsonWriter implements /*Auto*/Closeable {
      *     method is already called
      */
     public void writeArray(JsonArray array) {
-        impl.writeArray(array);
+        if (writeDone) {
+            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+        }
+        writeDone = true;
+        generator.writeStartArray();
+        for(JsonValue value : array.getValues()) {
+            generator.write(value);
+        }
+        generator.end().close();
     }
 
     /**
@@ -180,7 +189,15 @@ public class JsonWriter implements /*Auto*/Closeable {
      *     method is already called
      */
     public void writeObject(JsonObject object) {
-        impl.writeObject(object);
+        if (writeDone) {
+            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+        }
+        writeDone = true;
+        generator.writeStartObject();
+        for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
+            generator.write(e.getKey(), e.getValue());
+        }
+        generator.end().close();
     }
 
     /**
@@ -196,7 +213,11 @@ public class JsonWriter implements /*Auto*/Closeable {
      *     or close method is already called
      */
     public void write(JsonStructure value) {
-        impl.write(value);
+        if (value instanceof JsonArray) {
+            writeArray((JsonArray)value);
+        } else {
+            writeObject((JsonObject)value);
+        }
     }
 
     /**
@@ -205,7 +226,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      */
     @Override
     public void close() {
-        impl.close();
+        writeDone = true;
+        generator.close();
     }
 
 }
