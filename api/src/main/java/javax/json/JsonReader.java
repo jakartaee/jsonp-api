@@ -40,12 +40,13 @@
 
 package javax.json;
 
-import org.glassfish.jsonapi.JsonReaderImpl;
-
+import javax.json.stream.JsonParser;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 
 /**
  * A JSON reader that reads a JSON {@link JsonObject object} or
@@ -67,7 +68,8 @@ import java.nio.charset.Charset;
  */
 public class JsonReader implements /*Auto*/Closeable {
 
-    private final JsonReaderImpl impl;
+    private final JsonParser parser;
+    private boolean readDone;
 
     /**
      * Creates a JSON reader from a character stream
@@ -75,7 +77,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param reader a reader from which JSON is to be read
      */
     public JsonReader(Reader reader) {
-        impl = new JsonReaderImpl(reader);
+        parser = Json.createParser(reader);
     }
 
     /**
@@ -87,7 +89,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * is not known
      */
     public JsonReader(Reader reader, JsonConfiguration config) {
-        impl = new JsonReaderImpl(reader, config);
+        parser = Json.createParser(reader, config);
     }
 
     /**
@@ -98,7 +100,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param in a byte stream from which JSON is to be read
      */
     public JsonReader(InputStream in) {
-        impl = new JsonReaderImpl(in);
+        parser = Json.createParser(in);
     }
 
     /**
@@ -109,7 +111,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonReader(InputStream in, Charset charset) {
-        impl = new JsonReaderImpl(in, charset);
+        parser = Json.createParser(in, charset);
     }
 
     /**
@@ -124,7 +126,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * is not known
      */
     public JsonReader(InputStream in, Charset charset, JsonConfiguration config) {
-        impl = new JsonReaderImpl(in, charset, config);
+        parser = Json.createParser(in, charset, config);
     }
 
     /**
@@ -139,7 +141,20 @@ public class JsonReader implements /*Auto*/Closeable {
      *     close method is already called
      */
     public JsonStructure read() {
-        return impl.read();
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_ARRAY || e == JsonParser.Event.START_OBJECT) {
+                return read(it, e);
+            } else {
+                throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON, possibly empty stream");
     }
 
     /**
@@ -154,7 +169,22 @@ public class JsonReader implements /*Auto*/Closeable {
      *     close method is already called
      */
     public JsonObject readObject() {
-        return impl.readObject();
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_OBJECT) {
+                return (JsonObject)read(it, e);
+            } else if (e == JsonParser.Event.START_ARRAY) {
+                throw new JsonException("Cannot read JSON object, found JSON array");
+            } else {
+                throw new JsonException("Cannot read JSON object, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON object, possibly empty stream");
     }
 
     /**
@@ -169,7 +199,22 @@ public class JsonReader implements /*Auto*/Closeable {
      *     close method is already called
      */
     public JsonArray readArray() {
-        return impl.readArray();
+        if (readDone) {
+            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+        }
+        readDone = true;
+        Iterator<JsonParser.Event> it = parser.iterator();
+        if (it.hasNext()) {
+            JsonParser.Event e = it.next();
+            if (e == JsonParser.Event.START_ARRAY) {
+                return (JsonArray)read(it, e);
+            } else if (e == JsonParser.Event.START_OBJECT) {
+                throw new JsonException("Cannot read JSON array, found JSON object");
+            } else {
+                throw new JsonException("Cannot read JSON array, parsing error. Parsing Event="+e);
+            }
+        }
+        throw new JsonException("Cannot read JSON array, possibly empty stream");
     }
 
     /**
@@ -178,7 +223,89 @@ public class JsonReader implements /*Auto*/Closeable {
      */
     @Override
     public void close() {
-        impl.close();
+        readDone = true;
+        parser.close();
+    }
+
+    private JsonStructure read(Iterator<JsonParser.Event> it, JsonParser.Event firstEvent) {
+        Object builder = new JsonBuilder();
+        String key = null;
+        JsonParser.Event e = firstEvent;
+        do {
+            switch (e) {
+                case START_ARRAY:
+                    if (builder instanceof JsonBuilder) {
+                        builder =  ((JsonBuilder)builder).beginArray();
+                    } else if (builder instanceof JsonArrayBuilder) {
+                        builder = ((JsonArrayBuilder)builder).beginArray();
+                    } else {
+                        builder = ((JsonObjectBuilder)builder).beginArray(key);
+                    }
+                    break;
+                case START_OBJECT:
+                    if (builder instanceof JsonBuilder) {
+                        builder =  ((JsonBuilder)builder).beginObject();
+                    } else if (builder instanceof JsonArrayBuilder) {
+                        builder = ((JsonArrayBuilder)builder).beginObject();
+                    } else {
+                        builder = ((JsonObjectBuilder)builder).beginObject(key);
+                    }
+                    break;
+                case KEY_NAME:
+                    key = parser.getString();
+                    break;
+                case VALUE_STRING:
+                    String  string = parser.getString();
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(string);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, string);
+                    }
+                    break;
+                case VALUE_NUMBER:
+                    BigDecimal bd = new BigDecimal(parser.getString());
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(bd);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, bd);
+                    }
+                    break;
+                case VALUE_TRUE:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(true);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, true);
+                    }
+                    break;
+                case VALUE_FALSE:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).add(false);
+                    } else {
+                        ((JsonObjectBuilder)builder).add(key, false);
+                    }
+                    break;
+                case VALUE_NULL:
+                    if (builder instanceof JsonArrayBuilder) {
+                        ((JsonArrayBuilder)builder).addNull();
+                    } else {
+                        ((JsonObjectBuilder)builder).addNull(key);
+                    }
+                    break;
+                case END_OBJECT:
+                    builder = ((JsonObjectBuilder)builder).endObject();
+                    break;
+                case END_ARRAY:
+                    builder = ((JsonArrayBuilder)builder).endArray();
+                    break;
+            }
+            if (it.hasNext()) {
+                e = it .next();
+            } else {
+                break;
+            }
+        } while(true);
+
+        return ((JsonBuilder.JsonBuildable)builder).build();
     }
 
 }
