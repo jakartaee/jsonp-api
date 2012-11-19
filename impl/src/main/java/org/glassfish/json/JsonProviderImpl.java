@@ -74,7 +74,9 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
         validateConfiguration(config);
-        return new JsonGeneratorImpl(writer, config);
+        return (isPrettyPrintingEnabled(config))
+                ? new JsonPrettyGeneratorImpl(writer)
+                : new JsonGeneratorImpl(writer);
     }
 
     @Override
@@ -85,7 +87,9 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
         validateConfiguration(config);
-        return new JsonGeneratorImpl(out, config);
+        return (isPrettyPrintingEnabled(config))
+                ? new JsonPrettyGeneratorImpl(out)
+                : new JsonGeneratorImpl(out);
     }
 
     @Override
@@ -96,7 +100,9 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
         validateConfiguration(config);
-        return new JsonGeneratorImpl(out, charset, config);
+        return (isPrettyPrintingEnabled(config))
+                ? new JsonPrettyGeneratorImpl(out)
+                : new JsonGeneratorImpl(out);
     }
 
     @Override
@@ -192,4 +198,12 @@ public class JsonProviderImpl extends JsonProvider {
         }
     }
 
+    static boolean isPrettyPrintingEnabled(JsonConfiguration config) {
+        Iterable<JsonFeature> features = config.getFeatures();
+        for(JsonFeature feature : features) {
+            if (feature == JsonFeature.PRETTY_PRINTING)
+                return true;
+        }
+        return false;
+    }
 }

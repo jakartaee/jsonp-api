@@ -52,27 +52,35 @@ import java.nio.charset.Charset;
  */
 public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
 
-    public JsonGeneratorFactoryImpl() {
+    private final boolean prettyPrinting;
 
+    public JsonGeneratorFactoryImpl() {
+        prettyPrinting = false;
     }
 
     public JsonGeneratorFactoryImpl(JsonConfiguration config) {
-
+        prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
     }
 
     @Override
     public JsonGenerator createGenerator(Writer writer) {
-        return new JsonGeneratorImpl(writer);
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(writer)
+                : new JsonGeneratorImpl(writer);
     }
 
     @Override
     public JsonGenerator createGenerator(OutputStream out) {
-        return new JsonGeneratorImpl(out);
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(out)
+                : new JsonGeneratorImpl(out);
     }
 
     @Override
     public JsonGenerator createGenerator(OutputStream out, Charset charset) {
-        return new JsonGeneratorImpl(out, charset);
+        return prettyPrinting
+                ? new JsonPrettyGeneratorImpl(out, charset)
+                : new JsonGeneratorImpl(out, charset);
     }
 
 }

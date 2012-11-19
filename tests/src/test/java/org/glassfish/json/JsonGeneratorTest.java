@@ -217,4 +217,33 @@ public class JsonGeneratorTest extends TestCase {
 
         assertEquals(expected, actual);
     }
+
+    public void testPrettyObjectWriter() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer,
+                new JsonConfiguration().withPrettyPrinting());
+        testObject(generator);
+        generator.close();
+        writer.close();
+
+        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonObject person = reader.readObject();
+        JsonObjectTest.testPerson(person);
+    }
+
+    public void testPrettyObjectStream() throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        JsonGenerator generator = Json.createGenerator(out,
+                new JsonConfiguration().withPrettyPrinting());
+        testObject(generator);
+        generator.close();
+        out.close();
+
+        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+        JsonReader reader = new JsonReader(in);
+        JsonObject person = reader.readObject();
+        JsonObjectTest.testPerson(person);
+        reader.close();
+        in.close();
+    }
 }

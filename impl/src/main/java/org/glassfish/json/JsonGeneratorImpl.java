@@ -54,33 +54,16 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 public class JsonGeneratorImpl implements JsonGenerator {
-    private final Writer writer;
-    private final JsonConfiguration config;
+    protected final Writer writer;
     private final Deque<Context> stack = new ArrayDeque<Context>();
 
     public JsonGeneratorImpl(Writer writer) {
         this.writer = writer;
-        this.config = null;
-    }
-
-    public JsonGeneratorImpl(Writer writer, JsonConfiguration config) {
-        this.writer = writer;
-        this.config = config;
     }
 
     public JsonGeneratorImpl(OutputStream out) {
         try {
             this.writer = new OutputStreamWriter(out, "UTF-8");
-            this.config = null;
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
-    }
-
-    public JsonGeneratorImpl(OutputStream out, JsonConfiguration config) {
-        try {
-            this.writer = new OutputStreamWriter(out, "UTF-8");
-            this.config = config;
         } catch (UnsupportedEncodingException e) {
             throw new JsonException(e);
         }
@@ -88,12 +71,6 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     public JsonGeneratorImpl(OutputStream out, Charset encoding) {
         this.writer = new OutputStreamWriter(out, encoding);
-        this.config = null;
-    }
-
-    public JsonGeneratorImpl(OutputStream out, Charset encoding, JsonConfiguration config) {
-        this.writer = new OutputStreamWriter(out, encoding);
-        this.config = config;
     }
 
     @Override
@@ -441,7 +418,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
         return this;
     }
 
-    private void writeComma() throws IOException {
+    protected void writeComma() throws IOException {
         if (stack.peekFirst() == null) {
             return;
         }
