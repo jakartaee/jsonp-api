@@ -57,8 +57,8 @@ public class JsonBuilderTest extends TestCase {
 
     public void testEmptyObject() throws Exception {
         JsonObject empty = new JsonBuilder()
-            .beginObject()
-            .endObject()
+            .startObject()
+            .end()
         .build();
 
         JsonObjectTest.testEmpty(empty);
@@ -66,8 +66,8 @@ public class JsonBuilderTest extends TestCase {
 
     public void testEmptyArray() throws Exception {
         JsonArray empty = new JsonBuilder()
-            .beginArray()
-            .endArray()
+            .startArray()
+            .end()
         .build();
 
         List<JsonValue> list = empty.getValues();
@@ -90,53 +90,53 @@ public class JsonBuilderTest extends TestCase {
 
     static JsonObject buildPerson() {
         return new JsonBuilder()
-            .beginObject()
+            .startObject()
                 .add("firstName", "John")
                 .add("lastName", "Smith")
                 .add("age", 25)
-                .beginObject("address")
+                .startObject("address")
                     .add("streetAddress", "21 2nd Street")
                     .add("city", "New York")
                     .add("state", "NY")
                     .add("postalCode", "10021")
-                .endObject()
-                .beginArray("phoneNumber")
-                    .beginObject()
+                .end()
+                .startArray("phoneNumber")
+                    .startObject()
                         .add("type", "home")
                         .add("number", "212 555-1234")
-                    .endObject()
-                    .beginObject()
+                    .end()
+                    .startObject()
                         .add("type", "fax")
                         .add("number", "646 555-4567")
-                    .endObject()
-                .endArray()
-            .endObject()
+                    .end()
+                .end()
+            .end()
         .build();
     }
 
     static JsonObject buildAddress() {
         return new JsonBuilder()
-            .beginObject()
+            .startObject()
                 .add("streetAddress", "21 2nd Street")
                 .add("city", "New York")
                 .add("state", "NY")
                 .add("postalCode", "10021")
-            .endObject()
+            .end()
         .build();
     }
 
     static JsonArray buildPhone() {
         return new JsonBuilder()
-            .beginArray()
-                .beginObject()
+            .startArray()
+                .startObject()
                     .add("type", "home")
                     .add("number", "212 555-1234")
-                .endObject()
-                .beginObject()
+                .end()
+                .startObject()
                     .add("type", "fax")
                     .add("number", "646 555-4567")
-                .endObject()
-            .endArray()
+                .end()
+            .end()
         .build();
     }
 

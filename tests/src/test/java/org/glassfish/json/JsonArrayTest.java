@@ -56,7 +56,7 @@ public class JsonArrayTest extends TestCase {
 
     public void testArrayEquals() throws Exception {
         JsonArray expected = new JsonBuilder()
-            .beginArray()
+            .startArray()
                 .add(JsonValue.TRUE)
                 .add(JsonValue.FALSE)
                 .add(JsonValue.NULL)
@@ -66,7 +66,7 @@ public class JsonArrayTest extends TestCase {
                 .add(Integer.MIN_VALUE)
                 .add(Long.MIN_VALUE)
                 .add(Double.MIN_VALUE)
-            .endArray()
+            .end()
         .build();
 
         StringWriter sw = new StringWriter();
@@ -83,18 +83,18 @@ public class JsonArrayTest extends TestCase {
 
     public void testStringValue() throws Exception {
         JsonArray array = new JsonBuilder()
-                .beginArray()
+                .startArray()
                 .add("John")
-                .endArray()
+                .end()
                 .build();
         assertEquals("John", array.getStringValue(0));
     }
 
     public void testIntValue() throws Exception {
         JsonArray array = new JsonBuilder()
-                .beginArray()
+                .startArray()
                 .add(20)
-                .endArray()
+                .end()
                 .build();
         assertEquals(20, array.getIntValue(0));
     }

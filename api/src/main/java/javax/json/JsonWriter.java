@@ -56,7 +56,7 @@ import java.util.Map;
  * <code>
  * <pre>
  * JsonWriter jsonWriter = new JsonWriter(...);
- * jsonWriter.writeObject(new JsonBuilder().beginObject().endObject().build());
+ * jsonWriter.writeObject(new JsonBuilder().startObject().end().build());
  * jsonWriter.close();
  * </pre>
  * </code>

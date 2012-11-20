@@ -56,7 +56,7 @@ import java.util.List;
  * </pre>
  * </code>
  *
- * It can also be built from scratch using {@link JsonBuilder#beginArray()}.
+ * It can also be built from scratch using {@link JsonBuilder#startArray()}.
  * <p>
  * For example 1:
  * <code>
@@ -64,8 +64,8 @@ import java.util.List;
  * An empty JSON array can be built as follows:
  *
  * JsonArray array = new JsonBuilder()
- *     .beginArray()
- *     .endArray()
+ *     .startArray()
+ *     .end()
  * .build();
  * </pre>
  * </code>
@@ -84,16 +84,16 @@ import java.util.List;
  * can be built using :
  *
  * JsonArray array = new JsonBuilder()
- *     .beginArray()
- *         .beginObject()
+ *     .startArray()
+ *         .startObject()
  *             .add("type", "home")
  *             .add("number", "212 555-1234")
- *         .endObject()
- *         .beginObject()
+ *         .end()
+ *         .startObject()
  *             .add("type", "home")
  *             .add("number", "646 555-4567")
- *         .endObject()
- *     .endArray()
+ *         .end()
+ *     .end()
  * .build();
  * </pre>
  * </code>

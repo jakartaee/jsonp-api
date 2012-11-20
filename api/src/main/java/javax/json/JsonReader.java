@@ -235,20 +235,20 @@ public class JsonReader implements /*Auto*/Closeable {
             switch (e) {
                 case START_ARRAY:
                     if (builder instanceof JsonBuilder) {
-                        builder =  ((JsonBuilder)builder).beginArray();
+                        builder =  ((JsonBuilder)builder).startArray();
                     } else if (builder instanceof JsonArrayBuilder) {
-                        builder = ((JsonArrayBuilder)builder).beginArray();
+                        builder = ((JsonArrayBuilder)builder).startArray();
                     } else {
-                        builder = ((JsonObjectBuilder)builder).beginArray(key);
+                        builder = ((JsonObjectBuilder)builder).startArray(key);
                     }
                     break;
                 case START_OBJECT:
                     if (builder instanceof JsonBuilder) {
-                        builder =  ((JsonBuilder)builder).beginObject();
+                        builder =  ((JsonBuilder)builder).startObject();
                     } else if (builder instanceof JsonArrayBuilder) {
-                        builder = ((JsonArrayBuilder)builder).beginObject();
+                        builder = ((JsonArrayBuilder)builder).startObject();
                     } else {
-                        builder = ((JsonObjectBuilder)builder).beginObject(key);
+                        builder = ((JsonObjectBuilder)builder).startObject(key);
                     }
                     break;
                 case KEY_NAME:
@@ -292,10 +292,10 @@ public class JsonReader implements /*Auto*/Closeable {
                     }
                     break;
                 case END_OBJECT:
-                    builder = ((JsonObjectBuilder)builder).endObject();
+                    builder = ((JsonObjectBuilder)builder).end();
                     break;
                 case END_ARRAY:
-                    builder = ((JsonArrayBuilder)builder).endArray();
+                    builder = ((JsonArrayBuilder)builder).end();
                     break;
             }
             if (it.hasNext()) {

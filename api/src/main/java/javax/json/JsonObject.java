@@ -58,7 +58,7 @@ import java.util.Set;
  * </pre>
  * </code>
  *
- * It can also be built from scratch using {@link JsonBuilder#beginObject()}.
+ * It can also be built from scratch using {@link JsonBuilder#startObject()}.
  *
  * <p>
  * For example 1:
@@ -67,8 +67,8 @@ import java.util.Set;
  * An empty JSON object can be built as follows:
  *
  * JsonArray array = new JsonBuilder()
- *     .beginObject()
- *     .endObject()
+ *     .startObject()
+ *     .end()
  * .build();
  * </pre>
  * </code>
@@ -90,27 +90,27 @@ import java.util.Set;
  * can be built using :
  *
  * JsonObject object = new JsonBuilder()
- *     .beginObject()
+ *     .startObject()
  *         .add("firstName", "John")
  *         .add("lastName", "Smith")
  *         .add("age", 25)
- *         .beginObject("address")
+ *         .startObject("address")
  *             .add("streetAddress", "21 2nd Street")
  *             .add("city", "New York")
  *             .add("state", "NY")
  *             .add("postalCode", "10021")
- *         .endObject()
- *         .beginArray("phoneNumber")
- *             .beginObject()
+ *         .end()
+ *         .startArray("phoneNumber")
+ *             .startObject()
  *                 .add("type", "home")
  *                 .add("number", "212 555-1234")
- *             .endObject()
- *             .beginObject()
+ *             .end()
+ *             .startObject()
  *                 .add("type", "home")
  *                 .add("number", "646 555-4567")
- *             .endObject()
- *         .endArray()
- *     .endObject()
+ *             .end()
+ *         .end()
+ *     .end()
  * .build();
  * </pre>
  * </code>

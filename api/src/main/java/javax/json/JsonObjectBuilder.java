@@ -58,10 +58,10 @@ public interface JsonObjectBuilder<T> {
      * Indicates the end of the JSON object that is being built.
      *
      * @return the enclosing object of type T
-     * @throws IllegalStateException when endObject method
+     * @throws IllegalStateException when end method
      * is already called
      */
-    public T endObject();
+    public T end();
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -72,7 +72,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonObjectBuilder<T> add(String name, JsonValue value);
@@ -86,7 +86,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonObjectBuilder<T> add(String name, String value);
@@ -100,7 +100,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see JsonNumber
@@ -116,7 +116,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see JsonNumber
@@ -132,7 +132,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see JsonNumber
@@ -148,7 +148,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see JsonNumber
@@ -164,7 +164,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
@@ -183,7 +183,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonObjectBuilder<T> add(String name, boolean value);
@@ -205,7 +205,7 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonObjectBuilder<T> addNull(String name);
@@ -218,10 +218,10 @@ public interface JsonObjectBuilder<T> {
      * @return a object member builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
-    public JsonObjectBuilder<JsonObjectBuilder<T>> beginObject(String name);
+    public JsonObjectBuilder<JsonObjectBuilder<T>> startObject(String name);
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -231,9 +231,9 @@ public interface JsonObjectBuilder<T> {
      * @return a array member builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
-    public JsonArrayBuilder<JsonObjectBuilder<T>> beginArray(String name);
+    public JsonArrayBuilder<JsonObjectBuilder<T>> startArray(String name);
 
 }

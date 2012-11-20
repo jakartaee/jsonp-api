@@ -202,7 +202,7 @@ public class JsonGeneratorTest extends TestCase {
         reader.close();
 
         JsonArray actual = new JsonBuilder()
-                .beginArray()
+                .startArray()
                 .add(JsonValue.TRUE)
                 .add(JsonValue.FALSE)
                 .add(JsonValue.NULL)
@@ -212,7 +212,7 @@ public class JsonGeneratorTest extends TestCase {
                 .add(Integer.MIN_VALUE)
                 .add(Long.MIN_VALUE)
                 .add(Double.MIN_VALUE)
-                .endArray()
+                .end()
                 .build();
 
         assertEquals(expected, actual);

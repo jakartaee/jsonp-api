@@ -82,7 +82,7 @@ import java.math.BigInteger;
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.beginObject().endObject().close();
+ * generator.startObject().end().close();
  * </pre>
  * </code>
  *
@@ -94,7 +94,7 @@ import java.math.BigInteger;
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.beginArray().endArray().close();
+ * generator.startArray().end().close();
  * </pre>
  * </code>
  *
@@ -103,27 +103,27 @@ import java.math.BigInteger;
  * <code>
  * <pre>
  * generator
- *     .beginObject()
+ *     .startObject()
  *         .add("firstName", "John")
  *         .add("lastName", "Smith")
  *         .add("age", 25)
- *         .beginObject("address")
+ *         .startObject("address")
  *             .add("streetAddress", "21 2nd Street")
  *             .add("city", "New York")
  *             .add("state", "NY")
  *             .add("postalCode", "10021")
- *         .endObject()
- *         .beginArray("phoneNumber")
- *             .beginObject()
+ *         .end()
+ *         .startArray("phoneNumber")
+ *             .startObject()
  *                 .add("type", "home")
  *                 .add("number", "212 555-1234")
- *             .endObject()
- *             .beginObject()
+ *             .end()
+ *             .startObject()
  *                 .add("type", "fax")
  *                 .add("number", "646 555-4567")
- *             .endObject()
- *         .endArray()
- *     .endObject();
+ *             .end()
+ *         .end()
+ *     .end();
  * generator.close();
  * </pre>
  * </code>
@@ -168,7 +168,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonGenerator write(String name, JsonValue value);
@@ -182,7 +182,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonGenerator write(String name, String value);
@@ -196,7 +196,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see javax.json.JsonNumber
@@ -212,7 +212,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see javax.json.JsonNumber
@@ -228,7 +228,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see javax.json.JsonNumber
@@ -244,7 +244,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      *
      * @see javax.json.JsonNumber
@@ -260,7 +260,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
@@ -279,7 +279,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonGenerator write(String name, boolean value);
@@ -295,7 +295,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this object builder
      * @throws javax.json.JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the endObject method
+     * @throws IllegalStateException when invoked after the end method
      * is called
      */
     public JsonGenerator writeNull(String name);
@@ -304,7 +304,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Indicates the end of the JSON array that is being built.
      *
      * @return the enclosing object of type T
-     * @throws IllegalStateException when endArray method is already
+     * @throws IllegalStateException when end method is already
      * called.
      */
     public JsonGenerator end();
@@ -314,7 +314,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonGenerator write(JsonValue value);
@@ -325,7 +325,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value string
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonGenerator write(String value);
@@ -336,7 +336,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see javax.json.JsonNumber
@@ -349,7 +349,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see javax.json.JsonNumber
@@ -362,7 +362,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see javax.json.JsonNumber
@@ -375,7 +375,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see javax.json.JsonNumber
@@ -388,7 +388,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
@@ -403,7 +403,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param value a boolean
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonGenerator write(boolean value);
@@ -414,7 +414,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * <p>TODO not needed since add(JsonValue.NULL) can be used ??
      *
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonGenerator writeNull();

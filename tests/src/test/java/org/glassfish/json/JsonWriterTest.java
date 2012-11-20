@@ -59,7 +59,7 @@ public class JsonWriterTest extends TestCase {
     public void testObject() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeObject(new JsonBuilder().beginObject().endObject().build());
+        jsonWriter.writeObject(new JsonBuilder().startObject().end().build());
         jsonWriter.close();
         writer.close();
         
@@ -69,7 +69,7 @@ public class JsonWriterTest extends TestCase {
     public void testArray() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().beginArray().endArray().build());
+        jsonWriter.writeArray(new JsonBuilder().startArray().end().build());
         jsonWriter.close();
         writer.close();
 
@@ -79,7 +79,7 @@ public class JsonWriterTest extends TestCase {
     public void testNumber() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().beginArray().add(10).endArray().build());
+        jsonWriter.writeArray(new JsonBuilder().startArray().add(10).end().build());
         jsonWriter.close();
         writer.close();
 
@@ -89,7 +89,7 @@ public class JsonWriterTest extends TestCase {
     public void testDoubleNumber() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().beginArray().add(10.5).endArray().build());
+        jsonWriter.writeArray(new JsonBuilder().startArray().add(10.5).end().build());
         jsonWriter.close();
         writer.close();
 
@@ -99,7 +99,7 @@ public class JsonWriterTest extends TestCase {
     public void testArrayString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().beginArray().add("string").endArray().build());
+        jsonWriter.writeArray(new JsonBuilder().startArray().add("string").end().build());
         jsonWriter.close();
         writer.close();
 
@@ -107,8 +107,8 @@ public class JsonWriterTest extends TestCase {
     }
 
     public void testIllegalStateExcepton() throws Exception {
-        JsonObject obj = new JsonBuilder().beginObject().endObject().build();
-        JsonArray array = new JsonBuilder().beginArray().endArray().build();
+        JsonObject obj = new JsonBuilder().startObject().end().build();
+        JsonArray array = new JsonBuilder().startArray().end().build();
 
         JsonWriter writer = new JsonWriter(new StringWriter());
         writer.writeObject(obj);

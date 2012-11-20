@@ -74,27 +74,27 @@ import org.glassfish.jsonapi.JsonBuilderImpl;
  * <code>
  * <pre>
  * JsonObject value = new JsonBuilder()
- *     .beginObject()
+ *     .startObject()
  *         .add("firstName", "John")
  *         .add("lastName", "Smith")
  *         .add("age", 25)
- *         .beginObject("address")
+ *         .startObject("address")
  *             .add("streetAddress", "21 2nd Street")
  *             .add("city", "New York")
  *             .add("state", "NY")
  *             .add("postalCode", "10021")
- *         .endObject()
- *         .beginArray("phoneNumber")
- *             .beginObject()
+ *         .end()
+ *         .startArray("phoneNumber")
+ *             .startObject()
  *                 .add("type", "home")
  *                 .add("number", "212 555-1234")
- *             .endObject()
- *             .beginObject()
+ *             .end()
+ *             .startObject()
  *                 .add("type", "home")
  *                 .add("number", "646 555-4567")
- *             .endObject()
- *         .endArray()
- *     .endObject()
+ *             .end()
+ *         .end()
+ *     .end()
  * .build();
  * </pre>
  * </code>
@@ -126,7 +126,7 @@ public class JsonBuilder {
      *
      * @return an object builder
      */
-    public JsonObjectBuilder<JsonBuildable<JsonObject>> beginObject() {
+    public JsonObjectBuilder<JsonBuildable<JsonObject>> startObject() {
         return impl.beginObject();
     }
 
@@ -135,7 +135,7 @@ public class JsonBuilder {
      *
      * @return an array builder
      */
-    public JsonArrayBuilder<JsonBuildable<JsonArray>> beginArray() {
+    public JsonArrayBuilder<JsonBuildable<JsonArray>> startArray() {
         return impl.beginArray();
     }
 

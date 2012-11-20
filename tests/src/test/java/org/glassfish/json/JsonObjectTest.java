@@ -57,13 +57,13 @@ public class JsonObjectTest extends TestCase {
 
     public void testEmptyObjectEquals() throws Exception {
         JsonObject empty1 = new JsonBuilder()
-                .beginObject()
-                .endObject()
+                .startObject()
+                .end()
                 .build();
 
         JsonObject empty2 = new JsonBuilder()
-                .beginObject()
-                .endObject()
+                .startObject()
+                .end()
                 .build();
 
         assertEquals(empty1, empty2);

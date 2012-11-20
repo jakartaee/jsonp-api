@@ -90,14 +90,14 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build(), config);
+        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build(), config);
         testEmptyArray(parser);
         parser.close();
     }
@@ -118,7 +118,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureIterator() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator(parser);
         parser.close();
     }
@@ -151,7 +151,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator2Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator2(parser);
         parser.close();
     }
@@ -175,7 +175,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator3Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginArray().endArray().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator3(parser);
         parser.close();
     }
@@ -207,14 +207,14 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build(), config);
+        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build(), config);
         testEmptyObject(parser);
         parser.close();
     }
@@ -237,7 +237,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIteratorStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator(parser);
         parser.close();
     }
@@ -268,7 +268,7 @@ public class JsonParserTest extends TestCase {
         parser.close();
     }
     public void testEmptyObjectIterator2Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator2(parser);
         parser.close();
     }
@@ -292,7 +292,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIterator3Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().beginObject().endObject().build());
+        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator3(parser);
         parser.close();
     }
@@ -430,12 +430,12 @@ public class JsonParserTest extends TestCase {
 
     public void testNestedArrayStructure() {
         JsonParser parser = Json.createParser(new JsonBuilder()
-                .beginArray()
-                    .beginArray().endArray()
-                    .beginArray()
-                        .beginArray().endArray()
-                    .endArray()
-                .endArray()
+                .startArray()
+                    .startArray().end()
+                    .startArray()
+                        .startArray().end()
+                    .end()
+                .end()
                 .build());
         testNestedArray(parser);
         parser.close();

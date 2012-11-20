@@ -58,17 +58,17 @@ public interface JsonArrayBuilder<T> {
      * Indicates the end of the JSON array that is being built.
      *
      * @return the enclosing object of type T
-     * @throws IllegalStateException when endArray method is already
+     * @throws IllegalStateException when end method is already
      * called.
      */
-    public T endArray();
+    public T end();
 
     /**
      * Adds the specified value to the array that is being built.
      *
      * @param value
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonArrayBuilder<T> add(JsonValue value);
@@ -79,7 +79,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value string
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonArrayBuilder<T> add(String value);
@@ -90,7 +90,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see JsonNumber
@@ -103,7 +103,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see JsonNumber
@@ -116,7 +116,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see JsonNumber
@@ -129,7 +129,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      *
      * @see JsonNumber
@@ -142,7 +142,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
@@ -157,7 +157,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a boolean
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonArrayBuilder<T> add(boolean value);
@@ -168,7 +168,7 @@ public interface JsonArrayBuilder<T> {
      * <p>TODO not needed since add(JsonValue.NULL) can be used ??
      *
      * @return this array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
     public JsonArrayBuilder<T> addNull();
@@ -177,18 +177,18 @@ public interface JsonArrayBuilder<T> {
      * Returns a JSON array builder to build a new object value
      *
      * @return an array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonObjectBuilder<JsonArrayBuilder<T>> beginObject();
+    public JsonObjectBuilder<JsonArrayBuilder<T>> startObject();
 
     /**
      * Returns a JSON array builder to build a new array value
      *
      * @return an array builder
-     * @throws IllegalStateException when invoked after endArray method is
+     * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<JsonArrayBuilder<T>> beginArray();
+    public JsonArrayBuilder<JsonArrayBuilder<T>> startArray();
 
 }
