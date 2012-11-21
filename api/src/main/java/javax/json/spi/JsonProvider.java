@@ -79,8 +79,7 @@ public abstract class JsonProvider {
      * Creates a JSON provider object. The provider is loaded using
      * {@link ServiceLoader#load(Class)} method. If there is no available
      * service provider is found, then the default service provider
-     * is loaded using the current thread's
-     * {@linkplain java.lang.Thread#getContextClassLoader context class loader}.
+     * is returned.
      *
      * @see ServiceLoader
      * @return a JSON provider
@@ -92,11 +91,8 @@ public abstract class JsonProvider {
             return it.next();
         }
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         try {
-            Class<?> clazz = (classLoader == null)
-                ? Class.forName(DEFAULT_PROVIDER)
-                : classLoader.loadClass(DEFAULT_PROVIDER);
+            Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
             return (JsonProvider)clazz.newInstance();
         } catch (ClassNotFoundException x) {
             throw new JsonException(
