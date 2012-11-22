@@ -40,8 +40,6 @@
 
 package javax.json.stream;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import java.io.Closeable;
 import java.io.Flushable;
@@ -75,52 +73,52 @@ import java.math.BigInteger;
  *
  * <p>
  * The generator is used to generate JSON object in a streaming way by calling
- * its {@link #beginObject()} method and adding name/value pairs.
+ * its {@link #writeStartObject()} method and writing name/value pairs.
  * <p>
  * <b>For example 1:</b>
  * <p>Empty JSON object can be generated as follows:
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.startObject().end().close();
+ * generator.writeStartObject().end().close();
  * </pre>
  * </code>
  *
  * The generator is used to generate JSON array in a streaming way by calling
- * its {@link #beginArray()} method and adding values.
+ * its {@link #writeStartArray()} method and adding values.
  * <p>
  * <b>For example 2:</b>
  * <p>Empty JSON array can be generated as follows:
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.startArray().end().close();
+ * generator.writeStartArray().end().close();
  * </pre>
  * </code>
  *
- * Similarly, the following generator
+ * The generator methods can be chained. Similarly, the following generator
  * <p>
  * <code>
  * <pre>
  * generator
- *     .startObject()
- *         .add("firstName", "John")
- *         .add("lastName", "Smith")
- *         .add("age", 25)
- *         .startObject("address")
- *             .add("streetAddress", "21 2nd Street")
- *             .add("city", "New York")
- *             .add("state", "NY")
- *             .add("postalCode", "10021")
+ *     .writeStartObject()
+ *         .write("firstName", "John")
+ *         .write("lastName", "Smith")
+ *         .write("age", 25)
+ *         .writeStartObject("address")
+ *             .write("streetAddress", "21 2nd Street")
+ *             .write("city", "New York")
+ *             .write("state", "NY")
+ *             .write("postalCode", "10021")
  *         .end()
- *         .startArray("phoneNumber")
- *             .startObject()
- *                 .add("type", "home")
- *                 .add("number", "212 555-1234")
+ *         .writeStartArray("phoneNumber")
+ *             .writeStartObject()
+ *                 .write("type", "home")
+ *                 .write("number", "212 555-1234")
  *             .end()
- *             .startObject()
- *                 .add("type", "fax")
- *                 .add("number", "646 555-4567")
+ *             .writeStartObject()
+ *                 .write("type", "fax")
+ *                 .write("number", "646 555-4567")
  *             .end()
  *         .end()
  *     .end();
@@ -148,14 +146,29 @@ import java.math.BigInteger;
  * </pre>
  * </code>
  *
+ * The generated JSON text must strictly conform to the grammar defined in the
+ * <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC</a>.
+ *
  * @see javax.json.Json
  * @see JsonGeneratorFactory
  * @author Jitendra Kotamraju
  */
 public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
+    /**
+     * Starts writing a JSON Object
+     *
+     * @return this generator
+     */
     public JsonGenerator writeStartObject();
+
     public JsonGenerator writeStartObject(String name);
+
+    /**
+     * Starts writing a JSON array
+     *
+     * @return this generator
+     */
     public JsonGenerator writeStartArray();
     public JsonGenerator writeStartArray(String name);
 
@@ -174,22 +187,18 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     public JsonGenerator write(String name, JsonValue value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      */
     public JsonGenerator write(String name, String value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
@@ -204,64 +213,48 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     public JsonGenerator write(String name, BigInteger value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
-     *
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException     *
      * @see javax.json.JsonNumber
      */
     public JsonGenerator write(String name, BigDecimal value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      *
-     * @see javax.json.JsonNumber
      */
     public JsonGenerator write(String name, int value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
-     *
-     * @see javax.json.JsonNumber
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      */
     public JsonGenerator write(String name, long value);
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Writes a name/value pair with in an object context.
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
      * @see javax.json.JsonNumber
@@ -276,11 +269,9 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @param name name/key with which the specified value is to be associated
      * @param value value to be associated with the specified name/key
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      */
     public JsonGenerator write(String name, boolean value);
 
@@ -292,20 +283,18 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * <p>TODO not needed since add(JsonValue.NULL) can be used ??
      *
      * @param name name/key with which the specified value is to be associated
-     * @return this object builder
-     * @throws javax.json.JsonException if there is a mapping for the specified name/key
-     * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      */
     public JsonGenerator writeNull(String name);
 
     /**
      * Indicates the end of the JSON array that is being built.
      *
-     * @return the enclosing object of type T
-     * @throws IllegalStateException when end method is already
-     * called.
+     * @return this generator
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonGenerationException
      */
     public JsonGenerator end();
 

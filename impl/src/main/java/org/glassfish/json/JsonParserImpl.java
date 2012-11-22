@@ -42,6 +42,7 @@ package org.glassfish.json;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParsingException;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
@@ -185,7 +186,7 @@ public class JsonParserImpl implements JsonParser {
                     token = tokenizer.nextToken();
                     State nextState = currentState.getTransition(token, enclosingState);
                     if (nextState == null) {
-                        throw new JsonException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
+                        throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
                     }
                     if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
                         stack.addFirst(currentState);

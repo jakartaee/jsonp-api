@@ -41,6 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.JsonException;
+import javax.json.stream.JsonParsingException;
 import java.io.*;
 
 /**
@@ -140,14 +141,14 @@ final class JsonTokenizer implements Closeable {
                                 } else if (ch3 >= 'A' && ch3 <= 'F') {
                                     unicode |= (((char) ch3) - 'A') + 0xA;
                                 } else {
-                                    throw new JsonException("Unexpected Char="+ch3);
+                                    throw new JsonParsingException("Unexpected Char="+ch3);
                                 }
                             }
                             store((char) (unicode & 0xffff));
                             break;
                         }
                         default:
-                            throw new JsonException("Unexpected Char="+ch2);
+                            throw new JsonParsingException("Unexpected Char="+ch2);
                     }
                     break;
                 case '"':
@@ -170,7 +171,7 @@ final class JsonTokenizer implements Closeable {
 
             ch = read();
             if (ch < '0' || ch >'9') {
-                throw new JsonException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch);
             }
         }
 
@@ -194,7 +195,7 @@ final class JsonTokenizer implements Closeable {
                 count++;
             } while (ch >= '0' && ch <= '9');
             if (count == 1) {
-                throw new JsonException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch);
             }
         }
 
@@ -212,7 +213,7 @@ final class JsonTokenizer implements Closeable {
                 ch = read();
             }
             if (count == 0) {
-                throw new JsonException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch);
             }
         }
         unread(ch);
@@ -237,7 +238,7 @@ final class JsonTokenizer implements Closeable {
         char ch3 = (char) read();
     }
 
-    JsonToken nextToken() throws JsonException, IOException {
+    JsonToken nextToken() throws IOException {
         
         reader.reset();
         int ch = read();
@@ -282,7 +283,7 @@ final class JsonTokenizer implements Closeable {
                     readNumber(ch);
                     return JsonToken.NUMBER;
                 }
-                throw new JsonException("Unexpected char="+(char)ch);
+                throw new JsonParsingException("Unexpected char="+(char)ch);
         }
     }
 
