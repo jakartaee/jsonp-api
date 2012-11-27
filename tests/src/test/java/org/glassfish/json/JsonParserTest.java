@@ -52,7 +52,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -104,9 +103,8 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyArray(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        while(it.hasNext()) {
-            it.next();
+        while(parser.hasNext()) {
+            parser.next();
         }
     }
 
@@ -124,19 +122,18 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyArrayIterator(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(true, it.hasNext());
-        assertEquals(true, it.hasNext());
-        assertEquals(Event.START_ARRAY, it.next());
+        assertEquals(true, parser.hasNext());
+        assertEquals(true, parser.hasNext());
+        assertEquals(Event.START_ARRAY, parser.next());
 
-        assertEquals(true, it.hasNext());
-        assertEquals(true, it.hasNext());
-        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(true, parser.hasNext());
+        assertEquals(true, parser.hasNext());
+        assertEquals(Event.END_ARRAY, parser.next());
 
-        assertEquals(false, it.hasNext());
-        assertEquals(false, it.hasNext());
+        assertEquals(false, parser.hasNext());
+        assertEquals(false, parser.hasNext());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
@@ -157,11 +154,10 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyArrayIterator2(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
@@ -181,12 +177,11 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyArrayIterator3(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
-        assertEquals(false, it.hasNext());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
+        assertEquals(false, parser.hasNext());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
@@ -221,9 +216,8 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyObject(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        while(it.hasNext()) {
-            it.next();
+        while(parser.hasNext()) {
+            parser.next();
         }
     }
 
@@ -243,19 +237,18 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyObjectIterator(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(true, it.hasNext());
-        assertEquals(true, it.hasNext());
-        assertEquals(Event.START_OBJECT, it.next());
+        assertEquals(true, parser.hasNext());
+        assertEquals(true, parser.hasNext());
+        assertEquals(Event.START_OBJECT, parser.next());
 
-        assertEquals(true, it.hasNext());
-        assertEquals(true, it.hasNext());
-        assertEquals(Event.END_OBJECT, it.next());
+        assertEquals(true, parser.hasNext());
+        assertEquals(true, parser.hasNext());
+        assertEquals(Event.END_OBJECT, parser.next());
 
-        assertEquals(false, it.hasNext());
-        assertEquals(false, it.hasNext());
+        assertEquals(false, parser.hasNext());
+        assertEquals(false, parser.hasNext());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
@@ -274,11 +267,10 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyObjectIterator2(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(Event.START_OBJECT, it.next());
-        assertEquals(Event.END_OBJECT, it.next());
+        assertEquals(Event.START_OBJECT, parser.next());
+        assertEquals(Event.END_OBJECT, parser.next());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
         }
@@ -298,12 +290,11 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testEmptyObjectIterator3(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(Event.START_OBJECT, it.next());
-        assertEquals(Event.END_OBJECT, it.next());
-        assertEquals(false, it.hasNext());
+        assertEquals(Event.START_OBJECT, parser.next());
+        assertEquals(Event.END_OBJECT, parser.next());
+        assertEquals(false, parser.hasNext());
         try {
-            it.next();
+            parser.next();
             fail("Should have thrown a NoSuchElementException");
         } catch(NoSuchElementException ne) {
             // expected
@@ -328,9 +319,8 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testWikiIterator(JsonParser parser) throws Exception {
-        Iterator<Event> it = parser.iterator();
-        while(it.hasNext()) {
-            it.next();
+        while(parser.hasNext()) {
+            parser.next();
         }
     }
 
@@ -351,75 +341,74 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testWiki(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
 
-        Event event = it.next();
+        Event event = parser.next();
         assertEquals(Event.START_OBJECT, event);
 
-        testObjectStringValue(parser, it, "firstName", "John");
-        testObjectStringValue(parser, it, "lastName", "Smith");
+        testObjectStringValue(parser, "firstName", "John");
+        testObjectStringValue(parser, "lastName", "Smith");
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.KEY_NAME, event);
         assertEquals("age", parser.getString());
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.VALUE_NUMBER, event);
         assertEquals(25, parser.getIntValue());
         assertEquals(25, parser.getLongValue());
         assertEquals(25, parser.getBigDecimalValue().intValue());
         assertEquals(JsonNumber.JsonNumberType.INT, parser.getNumberType());
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.KEY_NAME, event);
         assertEquals("address", parser.getString());
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.START_OBJECT, event);
 
 
-        testObjectStringValue(parser, it, "streetAddress", "21 2nd Street");
-        testObjectStringValue(parser, it, "city", "New York");
-        testObjectStringValue(parser, it, "state", "NY");
-        testObjectStringValue(parser, it, "postalCode", "10021");
+        testObjectStringValue(parser, "streetAddress", "21 2nd Street");
+        testObjectStringValue(parser, "city", "New York");
+        testObjectStringValue(parser, "state", "NY");
+        testObjectStringValue(parser, "postalCode", "10021");
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.END_OBJECT, event);
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.KEY_NAME, event);
         assertEquals("phoneNumber", parser.getString());
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.START_ARRAY, event);
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.START_OBJECT, event);
-        testObjectStringValue(parser, it, "type", "home");
-        testObjectStringValue(parser, it, "number", "212 555-1234");
-        event = it.next();
+        testObjectStringValue(parser, "type", "home");
+        testObjectStringValue(parser, "number", "212 555-1234");
+        event = parser.next();
         assertEquals(Event.END_OBJECT, event);
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.START_OBJECT, event);
-        testObjectStringValue(parser, it, "type", "fax");
-        testObjectStringValue(parser, it, "number", "646 555-4567");
-        event = it.next();
+        testObjectStringValue(parser, "type", "fax");
+        testObjectStringValue(parser, "number", "646 555-4567");
+        event = parser.next();
         assertEquals(Event.END_OBJECT, event);
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.END_ARRAY, event);
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.END_OBJECT, event);
     }
 
-    static void testObjectStringValue(JsonParser reader, Iterator<Event> it, String name, String value) {
-        Event event = it.next();
+    static void testObjectStringValue(JsonParser parser, String name, String value) {
+        Event event = parser.next();
         assertEquals(Event.KEY_NAME, event);
-        assertEquals(name, reader.getString());
+        assertEquals(name, parser.getString());
 
-        event = it.next();
+        event = parser.next();
         assertEquals(Event.VALUE_STRING, event);
-        assertEquals(value, reader.getString());
+        assertEquals(value, parser.getString());
     }
 
     public void testNestedArrayReader() {
@@ -442,17 +431,16 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testNestedArray(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.START_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
-        assertEquals(Event.END_ARRAY, it.next());
-        assertEquals(false, it.hasNext());
-        assertEquals(false, it.hasNext());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.START_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
+        assertEquals(Event.END_ARRAY, parser.next());
+        assertEquals(false, parser.hasNext());
+        assertEquals(false, parser.hasNext());
     }
 
     public void testExceptionsReader() throws Exception {
@@ -470,9 +458,8 @@ public class JsonParserTest extends TestCase {
     }
 
     static void testExceptions(JsonParser parser) {
-        Iterator<Event> it = parser.iterator();
 
-        Event event = it.next();
+        Event event = parser.next();
         assertEquals(Event.START_OBJECT, event);
 
         try {

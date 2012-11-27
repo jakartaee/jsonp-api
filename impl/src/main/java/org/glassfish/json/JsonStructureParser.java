@@ -112,67 +112,55 @@ class JsonStructureParser implements JsonParser {
     }
 
     @Override
-    public Iterator<Event> iterator() {
-        return new Iterator<Event>() {
+    public boolean hasNext() {
+        return !((state == Event.END_OBJECT || state == Event.END_ARRAY) && scopeStack.isEmpty());
+    }
 
-            @Override
-            public boolean hasNext() {
-                return !((state == Event.END_OBJECT || state == Event.END_ARRAY) && scopeStack.isEmpty());
+    @Override
+    public Event next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        transition();
+        return state;
+    }
+
+    private void transition() {
+        if (state == null) {
+            state = current instanceof ArrayScope ? Event.START_ARRAY : Event.START_OBJECT;
+        } else {
+            if (state == Event.END_OBJECT || state == Event.END_ARRAY) {
+                current = scopeStack.pop();
             }
-
-            @Override
-            public Event next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                transition();
-                return state;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            private void transition() {
-                if (state == null) {
-                    state = current instanceof ArrayScope ? Event.START_ARRAY : Event.START_OBJECT;
+            if (current instanceof ArrayScope) {
+                if (current.hasNext()) {
+                    current.next();
+                    state = getState(current.getJsonValue());
+                    if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
+                        scopeStack.push(current);
+                        current = Scope.createScope(current.getJsonValue());
+                    }
                 } else {
-                    if (state == Event.END_OBJECT || state == Event.END_ARRAY) {
-                        current = scopeStack.pop();
+                    state = Event.END_ARRAY;
+                }
+            } else {
+                // ObjectScope
+                if (state == Event.KEY_NAME) {
+                    state = getState(current.getJsonValue());
+                    if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
+                        scopeStack.push(current);
+                        current = Scope.createScope(current.getJsonValue());
                     }
-                    if (current instanceof ArrayScope) {
-                        if (current.hasNext()) {
-                            current.next();
-                            state = getState(current.getJsonValue());
-                            if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
-                                scopeStack.push(current);
-                                current = Scope.createScope(current.getJsonValue());
-                            }
-                        } else {
-                            state = Event.END_ARRAY;
-                        }
+                } else {
+                    if (current.hasNext()) {
+                        current.next();
+                        state = Event.KEY_NAME;
                     } else {
-                        // ObjectScope
-                        if (state == Event.KEY_NAME) {
-                            state = getState(current.getJsonValue());
-                            if (state == Event.START_ARRAY || state == Event.START_OBJECT) {
-                                scopeStack.push(current);
-                                current = Scope.createScope(current.getJsonValue());
-                            }
-                        } else {
-                            if (current.hasNext()) {
-                                current.next();
-                                state = Event.KEY_NAME;
-                            } else {
-                                state = Event.END_OBJECT;
-                            }
-                        }
+                        state = Event.END_OBJECT;
                     }
                 }
             }
-
-        };
+        }
     }
 
     @Override

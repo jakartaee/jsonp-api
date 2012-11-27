@@ -199,7 +199,9 @@ public interface JsonParser extends /*Auto*/Closeable {
         END_ARRAY
     }
 
-    Iterator<Event> iterator();
+    boolean hasNext();
+
+    Event next();
 
     /**
      * Returns a String for name(key), string value and number value. This

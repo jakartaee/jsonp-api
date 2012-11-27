@@ -161,8 +161,12 @@ public class JsonParserImpl implements JsonParser {
         return new BigDecimal(tokenizer.getValue());
     }
 
-    public Iterator<JsonParser.Event> iterator() {
-        return stateIterator;
+    public boolean hasNext() {
+        return stateIterator.hasNext();
+    }
+
+    public Event next() {
+        return stateIterator.next();
     }
 
     private class StateIterator implements  Iterator<JsonParser.Event> {

@@ -46,7 +46,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.Iterator;
 
 /**
  * A JSON reader that reads a JSON {@link JsonObject object} or
@@ -145,11 +144,10 @@ public class JsonReader implements /*Auto*/Closeable {
             throw new IllegalStateException("read/readObject/readArray/close method is already called.");
         }
         readDone = true;
-        Iterator<JsonParser.Event> it = parser.iterator();
-        if (it.hasNext()) {
-            JsonParser.Event e = it.next();
+        if (parser.hasNext()) {
+            JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_ARRAY || e == JsonParser.Event.START_OBJECT) {
-                return read(it, e);
+                return read(e);
             } else {
                 throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
             }
@@ -173,11 +171,10 @@ public class JsonReader implements /*Auto*/Closeable {
             throw new IllegalStateException("read/readObject/readArray/close method is already called.");
         }
         readDone = true;
-        Iterator<JsonParser.Event> it = parser.iterator();
-        if (it.hasNext()) {
-            JsonParser.Event e = it.next();
+        if (parser.hasNext()) {
+            JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_OBJECT) {
-                return (JsonObject)read(it, e);
+                return (JsonObject)read(e);
             } else if (e == JsonParser.Event.START_ARRAY) {
                 throw new JsonException("Cannot read JSON object, found JSON array");
             } else {
@@ -203,11 +200,10 @@ public class JsonReader implements /*Auto*/Closeable {
             throw new IllegalStateException("read/readObject/readArray/close method is already called.");
         }
         readDone = true;
-        Iterator<JsonParser.Event> it = parser.iterator();
-        if (it.hasNext()) {
-            JsonParser.Event e = it.next();
+        if (parser.hasNext()) {
+            JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_ARRAY) {
-                return (JsonArray)read(it, e);
+                return (JsonArray)read(e);
             } else if (e == JsonParser.Event.START_OBJECT) {
                 throw new JsonException("Cannot read JSON array, found JSON object");
             } else {
@@ -227,7 +223,7 @@ public class JsonReader implements /*Auto*/Closeable {
         parser.close();
     }
 
-    private JsonStructure read(Iterator<JsonParser.Event> it, JsonParser.Event firstEvent) {
+    private JsonStructure read(JsonParser.Event firstEvent) {
         Object builder = new JsonBuilder();
         String key = null;
         JsonParser.Event e = firstEvent;
@@ -298,8 +294,8 @@ public class JsonReader implements /*Auto*/Closeable {
                     builder = ((JsonArrayBuilder)builder).end();
                     break;
             }
-            if (it.hasNext()) {
-                e = it .next();
+            if (parser.hasNext()) {
+                e = parser .next();
             } else {
                 break;
             }
