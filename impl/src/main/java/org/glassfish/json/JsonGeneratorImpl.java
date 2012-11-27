@@ -41,6 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.*;
+import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
 import java.io.*;
 import java.math.BigDecimal;
@@ -439,6 +440,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public void close() {
+        if (!stack.isEmpty()) {
+            throw new JsonGenerationException("Generating incomplete JSON");
+        }
         try {
             writer.close();
         } catch (IOException ioe) {
