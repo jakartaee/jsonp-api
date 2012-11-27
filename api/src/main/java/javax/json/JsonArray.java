@@ -167,28 +167,44 @@ public interface JsonArray extends JsonStructure {
     public <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
     /**
-     * A convenience method for the following:
-     * getValue(int, JsonString.class).getValue()
+     * A convenience method for
+     * {@code getValue(int, JsonString.class).getValue()}
      *
-     * @param index
-     * @return
+     * @param index index of the JsonString value
+     * @return the String value at the specified position in this array
      */
     public String getStringValue(int index);
 
     /**
-     * A Convenience method for the following:
-     * getValue(int, JsonNumber.class).getIntValue
+     * A Convenience method for
+     * {@code getValue(int, JsonNumber.class).getIntValue()}
      *
-     * @param index
-     * @return
+     * @param index index of the JsonNumber value
+     * @return the int value at the specified position in this array
      */
     public int getIntValue(int index);
 
+    /**
+     * Compares the specified object with this JsonArray object for equality.
+     * Returns {@code true} if and only if the specified object is also a
+     * JsonArray object, and their {@link #getValues()} objects are <i>equal</i>
+     *
+     * @param obj the object to be compared for equality with this JsonArray
+     *            object
+     * @return {@code true} if the specified object is equal to this JsonArray
+     * object
+     */
     @Override
     public boolean equals(Object obj);
 
+    /**
+     * Returns the hash code value for this JsonArray object.  The hash code of
+     * a JsonArray object is defined to be its {@link #getValues()} object's
+     * hash code.
+     *
+     * @return the hash code value for this JsonArray object
+     */
     @Override
     public int hashCode();
-
 
 }
