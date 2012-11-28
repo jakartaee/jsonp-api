@@ -156,10 +156,10 @@ public interface JsonObject extends JsonStructure {
      * Returns the value to which the specified name/key is mapped,
      * or {@code null} if this object contains no mapping for the name/key.
      *
-     * @param name the name/key whose associated value is to be returned
+     * @param name the name(key) whose associated value is to be returned
      * @param clazz value class
      * @return the value to which the specified name is mapped, or
-     *         {@code null} if this object contains no mapping for the name/key
+     *         {@code null} if this object contains no mapping for the name(key)
      * @throws ClassCastException if the value for specified name/key mapping
      * is not assignable to the type T
      */
@@ -184,26 +184,48 @@ public interface JsonObject extends JsonStructure {
     public Map<String, JsonValue> getValues();
 
     /**
-     * A convenience method for the following:
-     * getValue(String, JsonString.class).getValue()
+     * A convenience method for
+     * {@code getValue(String, JsonString.class).getValue()}
      *
-     * @param name
-     * @return
+     * @param name whose associated value is to be returned as String
+     * @return the String value to which the specified name is mapped,
+     * {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value for specified name mapping
+     * is not assignable to JsonString
      */
     public String getStringValue(String name);
 
     /**
-     * A Convenience method for the following:
-     * getValue(String, JsonNumber.class).getIntValue
+     * A convenience method for
+     * {@code getValue(String, JsonNumber.class).getIntValue()}
      *
-     * @param name
-     * @return
+     * @param name whose associated value is to be returned as int
+     * @return the int value to which the specified name is mapped,
+     * {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value for specified name mapping
+     * is not assignable to JsonNumber
      */
     public int getIntValue(String name);
 
+    /**
+     * Compares the specified object with this JsonObject for equality.
+     * Returns {@code true} if and only if the specified object is also a
+     * JsonObject, and their {@link #getValues()} objects are
+     * <i>equal</i>
+     *
+     * @param obj the object to be compared for equality with this JsonObject
+     * @return {@code true} if the specified object is equal to this JsonObject
+     */
     @Override
     public boolean equals(Object obj);
 
+    /**
+     * Returns the hash code value for this JsonObject. The hash code of
+     * a JsonObject is defined to be its {@link #getValues()} object's
+     * hash code.
+     *
+     * @return the hash code value for this JsonObject
+     */
     @Override
     public int hashCode();
 
