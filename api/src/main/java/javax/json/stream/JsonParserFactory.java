@@ -78,7 +78,7 @@ public interface JsonParserFactory {
      *
      * @param reader a i/o reader from which JSON is to be read
      */
-    public JsonParser createParser(Reader reader);
+    JsonParser createParser(Reader reader);
 
     /**
      * Creates a JSON parser from the specified byte stream.
@@ -89,7 +89,7 @@ public interface JsonParserFactory {
      * @throws javax.json.JsonException if encoding cannot be determined
      *         or i/o error
      */
-    public JsonParser createParser(InputStream in);
+    JsonParser createParser(InputStream in);
 
     /**
      * Creates a JSON parser from the specified byte stream.
@@ -99,20 +99,20 @@ public interface JsonParserFactory {
      * @param in i/o stream from which JSON is to be read
      * @param charset a charset
      */
-    public JsonParser createParser(InputStream in, Charset charset);
+    JsonParser createParser(InputStream in, Charset charset);
 
     /**
      * Creates a JSON parser from the specified JSON object.
      *
      * @param obj JSON object
      */
-    public JsonParser createParser(JsonObject obj);
+    JsonParser createParser(JsonObject obj);
 
     /**
      * Creates a JSON parser from the specified JSON array.
      *
      * @param array JSON array
      */
-    public JsonParser createParser(JsonArray array);
+    JsonParser createParser(JsonArray array);
 
 }

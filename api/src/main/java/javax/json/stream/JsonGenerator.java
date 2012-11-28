@@ -163,7 +163,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException
      */
-    public JsonGenerator writeStartObject();
+    JsonGenerator writeStartObject();
 
     /**
      * Writes name : {
@@ -173,7 +173,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator writeStartObject(String name);
+    JsonGenerator writeStartObject(String name);
 
     /**
      * Writes [
@@ -183,7 +183,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException
      */
-    public JsonGenerator writeStartArray();
+    JsonGenerator writeStartArray();
 
     /**
      * Writes name : [
@@ -194,7 +194,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator writeStartArray(String name);
+    JsonGenerator writeStartArray(String name);
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -206,7 +206,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, JsonValue value);
+    JsonGenerator write(String name, JsonValue value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -217,7 +217,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, String value);
+    JsonGenerator write(String name, String value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -228,7 +228,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, BigInteger value);
+    JsonGenerator write(String name, BigInteger value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -239,7 +239,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, BigDecimal value);
+    JsonGenerator write(String name, BigDecimal value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -250,7 +250,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, int value);
+    JsonGenerator write(String name, int value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -261,7 +261,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, long value);
+    JsonGenerator write(String name, long value);
 
     /**
      * Writes a name/value pair with in an object context.
@@ -275,7 +275,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(String name, double value);
+    JsonGenerator write(String name, double value);
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -287,7 +287,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator write(String name, boolean value);
+    JsonGenerator write(String name, boolean value);
 
 
     /**
@@ -299,7 +299,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within object context
      */
-    public JsonGenerator writeNull(String name);
+    JsonGenerator writeNull(String name);
 
     /**
      * Indicates the end of the JSON array that is being built.
@@ -308,7 +308,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException
      */
-    public JsonGenerator end();
+    JsonGenerator end();
 
     /**
      * Adds the specified value to the array that is being built.
@@ -318,7 +318,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within array context
      */
-    public JsonGenerator write(JsonValue value);
+    JsonGenerator write(JsonValue value);
 
     /**
      * Adds the specified value as a JSON string value to the array
@@ -328,7 +328,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within array context
      */
-    public JsonGenerator write(String value);
+    JsonGenerator write(String value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -340,7 +340,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(BigDecimal value);
+    JsonGenerator write(BigDecimal value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -352,7 +352,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(BigInteger value);
+    JsonGenerator write(BigInteger value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -364,7 +364,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(int value);
+    JsonGenerator write(int value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -376,7 +376,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(long value);
+    JsonGenerator write(long value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -389,7 +389,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      *
      * @see javax.json.JsonNumber
      */
-    public JsonGenerator write(double value);
+    JsonGenerator write(double value);
 
     /**
      * Adds a JSON true or false value to the array that is being built.
@@ -399,7 +399,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within array context
      */
-    public JsonGenerator write(boolean value);
+    JsonGenerator write(boolean value);
 
     /**
      * Adds the JSON null value to the array that is being built.
@@ -408,7 +408,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if not called within array context
      */
-    public JsonGenerator writeNull();
+    JsonGenerator writeNull();
 
     /**
      * Closes this generator and frees any resources associated with the
@@ -418,7 +418,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws JsonGenerationException if an incomplete JSON is generated
      */
     @Override
-    public void close();
+    void close();
 
     /*
      * Flushes the underlying output source. If the generator has saved
@@ -428,6 +428,6 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if there is i/o error
      */
     @Override
-    public void flush();
+    void flush();
 
 }

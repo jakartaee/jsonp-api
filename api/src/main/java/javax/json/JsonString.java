@@ -52,7 +52,7 @@ public interface JsonString extends JsonValue {
      *
      * @return a JSON string value
      */
-    public String getValue();
+    String getValue();
 
     // TODO
     //public CharSequence getValue();
@@ -67,7 +67,7 @@ public interface JsonString extends JsonValue {
      * @return {@code true} if the specified object is equal to this JsonString
      */
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * Returns the hash code value for this JsonString object.  The hash code of
@@ -77,6 +77,6 @@ public interface JsonString extends JsonValue {
      * @return the hash code value for this JsonString object
      */
     @Override
-    public int hashCode();
+    int hashCode();
 
 }

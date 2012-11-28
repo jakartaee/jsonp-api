@@ -150,7 +150,7 @@ public interface JsonObject extends JsonStructure {
      * @return the value to which the specified name is mapped, or
      *         {@code null} if this object contains no mapping for the name/key
      */
-    public JsonValue getValue(String name);
+    JsonValue getValue(String name);
 
     /**
      * Returns the value to which the specified name/key is mapped,
@@ -163,7 +163,7 @@ public interface JsonObject extends JsonStructure {
      * @throws ClassCastException if the value for specified name/key mapping
      * is not assignable to the type T
      */
-    public <T extends JsonValue> T getValue(String name, Class<T> clazz);
+    <T extends JsonValue> T getValue(String name, Class<T> clazz);
 
     /**
      * Returns an unmodifiable {@link Set} of the name/keys contained in this
@@ -171,7 +171,7 @@ public interface JsonObject extends JsonStructure {
      *
      * @return a set of the name/keys contained in this JSON object
      */
-    public Set<String> getNames();
+    Set<String> getNames();
 
     /**
      * Returns an unmodifiable {@link Map} of the name(key)/value pairs
@@ -181,7 +181,7 @@ public interface JsonObject extends JsonStructure {
      *
      * @return a set of the name/keys contained in this JSON object
      */
-    public Map<String, JsonValue> getValues();
+    Map<String, JsonValue> getValues();
 
     /**
      * A convenience method for
@@ -193,7 +193,7 @@ public interface JsonObject extends JsonStructure {
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonString
      */
-    public String getStringValue(String name);
+    String getStringValue(String name);
 
     /**
      * A convenience method for
@@ -205,7 +205,7 @@ public interface JsonObject extends JsonStructure {
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonNumber
      */
-    public int getIntValue(String name);
+    int getIntValue(String name);
 
     /**
      * Compares the specified object with this JsonObject for equality.
@@ -217,7 +217,7 @@ public interface JsonObject extends JsonStructure {
      * @return {@code true} if the specified object is equal to this JsonObject
      */
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * Returns the hash code value for this JsonObject. The hash code of
@@ -227,6 +227,6 @@ public interface JsonObject extends JsonStructure {
      * @return the hash code value for this JsonObject
      */
     @Override
-    public int hashCode();
+    int hashCode();
 
 }

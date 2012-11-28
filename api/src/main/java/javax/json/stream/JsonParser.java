@@ -147,7 +147,7 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Event for parser state while parsing the JSON
      */
-    public enum Event {
+    enum Event {
         /**
          * Event for start of a JSON array. This event indicates '[' is parsed.
          */
@@ -215,7 +215,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws IllegalStateException when the parser is not in one of
      *      KEY_NAME, VALUE_STRING, VALUE_NUMBER states
      */
-    public String getString();
+    String getString();
 
     /**
      * Returns a number type that can hold JSON number. A {@link BigDecimal}
@@ -250,7 +250,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public JsonNumberType getNumberType();
+    JsonNumberType getNumberType();
 
     /**
      * Returns JSON number as an integer. The returned value is equal
@@ -265,7 +265,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *      VALUE_NUMBER
      * @see java.math.BigDecimal#intValue()
      */
-    public int getIntValue();
+    int getIntValue();
 
     /**
      * Returns JSON number as a long. The returned value is equal
@@ -280,7 +280,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *      VALUE_NUMBER
      * @see java.math.BigDecimal#longValue()
      */
-    public long getLongValue();
+    long getLongValue();
 
     /**
      * Returns JSON number as a {@code BigDecimal}. The BigDecimal
@@ -292,7 +292,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    public BigDecimal getBigDecimalValue();
+    BigDecimal getBigDecimalValue();
 
     /**
      * getJsonValue(JsonObject.class) is valid in START_OBJECT state,
@@ -316,6 +316,6 @@ public interface JsonParser extends /*Auto*/Closeable {
      * parser. This closes the underlying input source.
      */
     @Override
-    public void close();
+    void close();
 
 }

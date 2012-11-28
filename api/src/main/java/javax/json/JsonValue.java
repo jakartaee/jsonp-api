@@ -54,7 +54,7 @@ public interface JsonValue {
     /**
      * JSON value type
      */
-    public enum JsonValueType {
+    enum JsonValueType {
         /**
          * JSON array value type
          */
@@ -94,7 +94,7 @@ public interface JsonValue {
     /**
      * JSON null value
      */
-    public static final JsonValue NULL = new JsonValue() {
+    static final JsonValue NULL = new JsonValue() {
         @Override
         public JsonValueType getValueType() {
             return JsonValueType.NULL;
@@ -143,7 +143,7 @@ public interface JsonValue {
     /**
      * JSON true value
      */
-    public static final JsonValue TRUE = new JsonValue() {
+    static final JsonValue TRUE = new JsonValue() {
         @Override
         public JsonValueType getValueType() {
             return JsonValueType.TRUE;
@@ -192,7 +192,7 @@ public interface JsonValue {
     /**
      * JSON false value
      */
-    public static final JsonValue FALSE = new JsonValue() {
+    static final JsonValue FALSE = new JsonValue() {
         @Override
         public JsonValueType getValueType() {
             return JsonValueType.FALSE;
@@ -243,7 +243,7 @@ public interface JsonValue {
      *
      * @return JSON value type
      */
-    public JsonValueType getValueType();
+    JsonValueType getValueType();
 
     /**
      * Returns JSON text for this JSON value
@@ -251,6 +251,6 @@ public interface JsonValue {
      * @return JSON text
      */
     @Override
-    public String toString();
+    String toString();
 
 }

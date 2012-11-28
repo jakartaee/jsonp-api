@@ -134,7 +134,7 @@ public interface JsonArray extends JsonStructure {
      *
      * @return a list of array values
      */
-    public List<JsonValue> getValues();
+    List<JsonValue> getValues();
 
     /**
      * Returns the number of values in this JSON array.  If this array contains
@@ -143,7 +143,7 @@ public interface JsonArray extends JsonStructure {
      *
      * @return the number of values in this JSON array
      */
-    public int size();
+    int size();
 
     /**
      * Returns the value at the specified position in this JSON array values.
@@ -152,7 +152,7 @@ public interface JsonArray extends JsonStructure {
      * @return the value at the specified position in this array values
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public JsonValue getValue(int index);
+    JsonValue getValue(int index);
 
     /**
      * Returns the value at the specified position in this JSON array values.
@@ -164,7 +164,7 @@ public interface JsonArray extends JsonStructure {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to the type T
      */
-    public <T extends JsonValue> T getValue(int index, Class<T> clazz);
+    <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
     /**
      * A convenience method for
@@ -176,7 +176,7 @@ public interface JsonArray extends JsonStructure {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to JsonString
      */
-    public String getStringValue(int index);
+    String getStringValue(int index);
 
     /**
      * A Convenience method for
@@ -188,7 +188,7 @@ public interface JsonArray extends JsonStructure {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to JsonNumber
      */
-    public int getIntValue(int index);
+    int getIntValue(int index);
 
     /**
      * Compares the specified object with this JsonArray object for equality.
@@ -201,7 +201,7 @@ public interface JsonArray extends JsonStructure {
      * object
      */
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * Returns the hash code value for this JsonArray object.  The hash code of
@@ -211,6 +211,6 @@ public interface JsonArray extends JsonStructure {
      * @return the hash code value for this JsonArray object
      */
     @Override
-    public int hashCode();
+    int hashCode();
 
 }

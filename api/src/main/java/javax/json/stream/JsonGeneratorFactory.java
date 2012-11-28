@@ -78,7 +78,7 @@ public interface JsonGeneratorFactory {
      *
      * @param writer i/o writer to which JSON is written
      */
-    public JsonGenerator createGenerator(Writer writer);
+    JsonGenerator createGenerator(Writer writer);
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
@@ -88,7 +88,7 @@ public interface JsonGeneratorFactory {
      *
      * @param out i/o stream to which JSON is written
      */
-    public JsonGenerator createGenerator(OutputStream out);
+    JsonGenerator createGenerator(OutputStream out);
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
@@ -99,6 +99,6 @@ public interface JsonGeneratorFactory {
      * @param out i/o stream to which JSON is written
      * @param charset a charset
      */
-    public JsonGenerator createGenerator(OutputStream out, Charset charset);
+    JsonGenerator createGenerator(OutputStream out, Charset charset);
 
 }

@@ -61,17 +61,17 @@ public interface JsonArrayBuilder<T> {
      * @throws IllegalStateException when end method is already
      * called.
      */
-    public T end();
+    T end();
 
     /**
      * Adds the specified value to the array that is being built.
      *
-     * @param value
+     * @param value a JSON value
      * @return this array builder
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<T> add(JsonValue value);
+    JsonArrayBuilder<T> add(JsonValue value);
 
     /**
      * Adds the specified value as a JSON string value to the array
@@ -82,7 +82,7 @@ public interface JsonArrayBuilder<T> {
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<T> add(String value);
+    JsonArrayBuilder<T> add(String value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -95,7 +95,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @see JsonNumber
      */
-    public JsonArrayBuilder<T> add(BigDecimal value);
+    JsonArrayBuilder<T> add(BigDecimal value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -108,7 +108,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @see JsonNumber
      */
-    public JsonArrayBuilder<T> add(BigInteger value);
+    JsonArrayBuilder<T> add(BigInteger value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -121,7 +121,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @see JsonNumber
      */
-    public JsonArrayBuilder<T> add(int value);
+    JsonArrayBuilder<T> add(int value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -134,7 +134,7 @@ public interface JsonArrayBuilder<T> {
      *
      * @see JsonNumber
      */
-    public JsonArrayBuilder<T> add(long value);
+    JsonArrayBuilder<T> add(long value);
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -148,30 +148,26 @@ public interface JsonArrayBuilder<T> {
      *
      * @see JsonNumber
      */
-    public JsonArrayBuilder<T> add(double value);
+    JsonArrayBuilder<T> add(double value);
 
     /**
      * Adds a JSON true or false value to the array that is being built.
-     *
-     * <p>TODO not needed since add(JsonValue.TRUE|FALSE) can be used ??
      *
      * @param value a boolean
      * @return this array builder
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<T> add(boolean value);
+    JsonArrayBuilder<T> add(boolean value);
 
     /**
      * Adds the JSON null value to the array that is being built.
-     *
-     * <p>TODO not needed since add(JsonValue.NULL) can be used ??
      *
      * @return this array builder
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<T> addNull();
+    JsonArrayBuilder<T> addNull();
 
     /**
      * Returns a JSON array builder to build a new object value
@@ -180,7 +176,7 @@ public interface JsonArrayBuilder<T> {
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonObjectBuilder<JsonArrayBuilder<T>> startObject();
+    JsonObjectBuilder<JsonArrayBuilder<T>> startObject();
 
     /**
      * Returns a JSON array builder to build a new array value
@@ -189,6 +185,6 @@ public interface JsonArrayBuilder<T> {
      * @throws IllegalStateException when invoked after end method is
      * called.
      */
-    public JsonArrayBuilder<JsonArrayBuilder<T>> startArray();
+    JsonArrayBuilder<JsonArrayBuilder<T>> startArray();
 
 }
