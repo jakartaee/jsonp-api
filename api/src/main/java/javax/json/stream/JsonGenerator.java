@@ -294,8 +294,6 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Associates the specified value with the specified name/key in the
      * JSON object that is being built.
      *
-     * <p>TODO not needed since add(JsonValue.NULL) can be used ??
-     *
      * @param name name/key with which the specified value is to be associated
      * @return this generator
      * @throws javax.json.JsonException if there is an i/o error
@@ -417,6 +415,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * generator. This closes the underlying output source.
      *
      * @throws javax.json.JsonException if there is i/o error
+     * @throws JsonGenerationException if an incomplete JSON is generated
      */
     @Override
     public void close();

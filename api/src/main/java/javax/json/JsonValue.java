@@ -100,6 +100,15 @@ public interface JsonValue {
             return JsonValueType.NULL;
         }
 
+        /**
+         * Compares the specified object with this {@link JsonValue#NULL}
+         * object for equality. Returns {@code true} if and only if the
+         * specified object is also a JsonValue, and their
+         * {@link #getValueType()} objects are <i>equal</i>
+         *
+         * @param obj the object to be compared for equality with this JsonValue
+         * @return {@code true} if the specified object is equal to this JsonValue
+         */
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof JsonValue) {
@@ -108,11 +117,23 @@ public interface JsonValue {
             return false;
         }
 
+        /**
+         * Returns the hash code value for this {@link JsonValue#NULL} object.
+         * The hash code of the {@link JsonValue#NULL} object is defined to be
+         * its {@link #getValueType()} object's hash code.
+         *
+         * @return the hash code value for this JsonString object
+         */
         @Override
         public int hashCode() {
             return JsonValueType.NULL.hashCode();
         }
 
+        /**
+         * Returns "null" string
+         *
+         * @return "null"
+         */
         @Override
         public String toString() {
             return "null";
@@ -128,6 +149,15 @@ public interface JsonValue {
             return JsonValueType.TRUE;
         }
 
+        /**
+         * Compares the specified object with this {@link JsonValue#TRUE}
+         * object for equality. Returns {@code true} if and only if the
+         * specified object is also a JsonValue, and their
+         * {@link #getValueType()} objects are <i>equal</i>
+         *
+         * @param obj the object to be compared for equality with this JsonValue
+         * @return {@code true} if the specified object is equal to this JsonValue
+         */
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof JsonValue) {
@@ -136,11 +166,23 @@ public interface JsonValue {
             return false;
         }
 
+        /**
+         * Returns the hash code value for this {@link JsonValue#TRUE} object.
+         * The hash code of the {@link JsonValue#TRUE} object is defined to be
+         * its {@link #getValueType()} object's hash code.
+         *
+         * @return the hash code value for this JsonString object
+         */
         @Override
         public int hashCode() {
             return JsonValueType.TRUE.hashCode();
         }
 
+        /**
+         * Returns "true" string
+         *
+         * @return "true"
+         */
         @Override
         public String toString() {
             return "true";
@@ -156,6 +198,15 @@ public interface JsonValue {
             return JsonValueType.FALSE;
         }
 
+        /**
+         * Compares the specified object with this {@link JsonValue#FALSE}
+         * object for equality. Returns {@code true} if and only if the
+         * specified object is also a JsonValue, and their
+         * {@link #getValueType()} objects are <i>equal</i>
+         *
+         * @param obj the object to be compared for equality with this JsonValue
+         * @return {@code true} if the specified object is equal to this JsonValue
+         */
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof JsonValue) {
@@ -164,11 +215,23 @@ public interface JsonValue {
             return false;
         }
 
+        /**
+         * Returns the hash code value for this {@link JsonValue#FALSE} object.
+         * The hash code of the {@link JsonValue#FALSE} object is defined to be
+         * its {@link #getValueType()} object's hash code.
+         *
+         * @return the hash code value for this JsonString object
+         */
         @Override
         public int hashCode() {
             return JsonValueType.FALSE.hashCode();
         }
 
+        /**
+         * Returns "false" string
+         *
+         * @return "false"
+         */
         @Override
         public String toString() {
             return "false";

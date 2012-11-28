@@ -172,6 +172,9 @@ public interface JsonArray extends JsonStructure {
      *
      * @param index index of the JsonString value
      * @return the String value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to JsonString
      */
     public String getStringValue(int index);
 
@@ -181,6 +184,9 @@ public interface JsonArray extends JsonStructure {
      *
      * @param index index of the JsonNumber value
      * @return the int value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to JsonNumber
      */
     public int getIntValue(int index);
 
