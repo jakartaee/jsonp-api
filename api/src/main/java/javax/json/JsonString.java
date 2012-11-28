@@ -57,9 +57,25 @@ public interface JsonString extends JsonValue {
     // TODO
     //public CharSequence getValue();
 
+    /**
+     * Compares the specified object with this JsonString for equality.
+     * Returns {@code true} if and only if the specified object is also a
+     * JsonString, and their {@link #getValue()} objects are
+     * <i>equal</i>
+     *
+     * @param obj the object to be compared for equality with this JsonString
+     * @return {@code true} if the specified object is equal to this JsonString
+     */
     @Override
     public boolean equals(Object obj);
 
+    /**
+     * Returns the hash code value for this JsonString object.  The hash code of
+     * a JsonString object is defined to be its {@link #getValue()} object's
+     * hash code.
+     *
+     * @return the hash code value for this JsonString object
+     */
     @Override
     public int hashCode();
 

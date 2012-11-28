@@ -202,9 +202,25 @@ public interface JsonNumber extends JsonValue {
     @Override
     public String toString();
 
+    /**
+     * Compares the specified object with this JsonNumber for equality.
+     * Returns {@code true} if and only if the specified object is also a
+     * JsonNumber, and their {@link #getBigDecimalValue()} objects are
+     * <i>equal</i>
+     *
+     * @param obj the object to be compared for equality with this JsonNumber
+     * @return {@code true} if the specified object is equal to this JsonNumber
+     */
     @Override
     public boolean equals(Object obj);
 
+    /**
+     * Returns the hash code value for this JsonNumber object.  The hash code of
+     * a JsonNumber object is defined to be its {@link #getBigDecimalValue()}
+     * object's hash code.
+     *
+     * @return the hash code value for this JsonNumber object
+     */
     @Override
     public int hashCode();
 
