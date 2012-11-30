@@ -175,7 +175,7 @@ public class JsonWriter implements /*Auto*/Closeable {
         for(JsonValue value : array.getValues()) {
             generator.write(value);
         }
-        generator.end().close();
+        generator.writeEnd().close();
     }
 
     /**
@@ -197,7 +197,7 @@ public class JsonWriter implements /*Auto*/Closeable {
         for(Map.Entry<String, JsonValue> e : object.getValues().entrySet()) {
             generator.write(e.getKey(), e.getValue());
         }
-        generator.end().close();
+        generator.writeEnd().close();
     }
 
     /**

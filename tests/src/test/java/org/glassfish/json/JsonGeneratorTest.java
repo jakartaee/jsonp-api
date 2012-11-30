@@ -94,18 +94,18 @@ public class JsonGeneratorTest extends TestCase {
                     .write("city", "New York")
                     .write("state", "NY")
                     .write("postalCode", "10021")
-                .end()
+                .writeEnd()
                 .writeStartArray("phoneNumber")
                     .writeStartObject()
                         .write("type", "home")
                         .write("number", "212 555-1234")
-                    .end()
+                    .writeEnd()
                     .writeStartObject()
                         .write("type", "fax")
                         .write("number", "646 555-4567")
-                    .end()
-                .end()
-            .end();
+                    .writeEnd()
+                .writeEnd()
+            .writeEnd();
     }
 
     public void testArray() throws Exception {
@@ -116,12 +116,12 @@ public class JsonGeneratorTest extends TestCase {
                 .writeStartObject()
                     .write("type", "home")
                     .write("number", "212 555-1234")
-                .end()
+                .writeEnd()
                 .writeStartObject()
                     .write("type", "fax")
                     .write("number", "646 555-4567")
-                .end()
-            .end();
+                .writeEnd()
+            .writeEnd();
         generator.close();
         System.out.println(sw.toString());
     }
@@ -137,7 +137,7 @@ public class JsonGeneratorTest extends TestCase {
                 .write("age", 25)
                 .write("address", JsonBuilderTest.buildAddress())
                 .write("phoneNumber", JsonBuilderTest.buildPhone())
-            .end();
+            .writeEnd();
         generator.close();
         writer.close();
 
@@ -149,7 +149,7 @@ public class JsonGeneratorTest extends TestCase {
     public void testArrayString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
-        generator.writeStartArray().write("string").end();
+        generator.writeStartArray().write("string").writeEnd();
         generator.close();
         writer.close();
 
@@ -159,7 +159,7 @@ public class JsonGeneratorTest extends TestCase {
     public void testEscapedString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
-        generator.writeStartArray().write("\u0000").end();
+        generator.writeStartArray().write("\u0000").writeEnd();
         generator.close();
         writer.close();
 
@@ -170,7 +170,7 @@ public class JsonGeneratorTest extends TestCase {
         String expected = "\u0000\u00ff";
         StringWriter sw = new StringWriter();
         JsonGenerator generator = Json.createGenerator(sw);
-        generator.writeStartArray().write("\u0000\u00ff").end();
+        generator.writeStartArray().write("\u0000\u00ff").writeEnd();
         generator.close();
         sw.close();
 
@@ -195,7 +195,7 @@ public class JsonGeneratorTest extends TestCase {
                     .write(Integer.MIN_VALUE)
                     .write(Long.MIN_VALUE)
                     .write(Double.MIN_VALUE)
-                .end();
+                .writeEnd();
 
         JsonReader reader = new JsonReader(new StringReader(sw.toString()));
         JsonArray expected = reader.readArray();

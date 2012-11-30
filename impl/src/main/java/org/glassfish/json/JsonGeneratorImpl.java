@@ -222,7 +222,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 for(JsonValue child: array.getValues()) {
                     write(child);
                 }
-                end();
+                writeEnd();
                 break;
             case OBJECT:
                 JsonObject object = (JsonObject)value;
@@ -230,7 +230,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
                     write(member.getKey(), member.getValue());
                 }
-                end();
+                writeEnd();
                 break;
             case STRING:
                 JsonString str = (JsonString)value;
@@ -289,7 +289,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 for(JsonValue child: array.getValues()) {
                     write(child);
                 }
-                end();
+                writeEnd();
                 break;
             case OBJECT:
                 JsonObject object = (JsonObject)value;
@@ -297,7 +297,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 for(Map.Entry<String, JsonValue> member: object.getValues().entrySet()) {
                     write(member.getKey(), member.getValue());
                 }
-                end();
+                writeEnd();
                 break;
             case STRING:
                 JsonString str = (JsonString)value;
@@ -406,7 +406,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     @Override
-    public JsonGenerator end() {
+    public JsonGenerator writeEnd() {
         Context ctxt = stack.removeFirst();
         try {
             if (ctxt.scope == Scope.IN_ARRAY)

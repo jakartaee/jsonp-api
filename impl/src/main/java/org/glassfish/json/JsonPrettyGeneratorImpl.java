@@ -95,11 +95,11 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
     }
 
     @Override
-    public JsonGenerator end() {
+    public JsonGenerator writeEnd() {
         writeNewLine();
         indentLevel--;
         writeIndent();
-        super.end();
+        super.writeEnd();
         return this;
     }
 

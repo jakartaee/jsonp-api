@@ -62,11 +62,11 @@ public class JsonGeneratorFactoryTest extends TestCase {
         JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory();
 
         JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.writeStartArray().end();
+        generator1.writeStartArray().writeEnd();
         generator1.close();
 
         JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.writeStartArray().end();
+        generator2.writeStartArray().writeEnd();
         generator2.close();
     }
 
@@ -75,11 +75,11 @@ public class JsonGeneratorFactoryTest extends TestCase {
         JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
 
         JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.writeStartArray().end();
+        generator1.writeStartArray().writeEnd();
         generator1.close();
 
         JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.writeStartArray().end();
+        generator2.writeStartArray().writeEnd();
         generator2.close();
     }
 

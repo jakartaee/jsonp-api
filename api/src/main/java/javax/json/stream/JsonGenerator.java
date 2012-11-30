@@ -80,7 +80,7 @@ import java.math.BigInteger;
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.writeStartObject().end().close();
+ * generator.writeStartObject().writeEnd().close();
  * </pre>
  * </code>
  *
@@ -92,7 +92,7 @@ import java.math.BigInteger;
  * <code>
  * <pre>
  * JsonGenerator generator = ...;
- * generator.writeStartArray().end().close();
+ * generator.writeStartArray().writeEnd().close();
  * </pre>
  * </code>
  *
@@ -110,18 +110,18 @@ import java.math.BigInteger;
  *             .write("city", "New York")
  *             .write("state", "NY")
  *             .write("postalCode", "10021")
- *         .end()
+ *         .writeEnd()
  *         .writeStartArray("phoneNumber")
  *             .writeStartObject()
  *                 .write("type", "home")
  *                 .write("number", "212 555-1234")
- *             .end()
+ *             .writeEnd()
  *             .writeStartObject()
  *                 .write("type", "fax")
  *                 .write("number", "646 555-4567")
- *             .end()
- *         .end()
- *     .end();
+ *             .writeEnd()
+ *         .writeEnd()
+ *     .writeEnd();
  * generator.close();
  * </pre>
  * </code>
@@ -337,16 +337,16 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator writeNull(String name);
 
     /**
-     * Indicates the end of the current context. If the current context is
-     * array context, the end of array char ']' is written. If the current
-     * context is object context, end of object char '}' is written. After
+     * Indicates the writeEnd of the current context. If the current context is
+     * array context, the writeEnd of array char ']' is written. If the current
+     * context is object context, writeEnd of object char '}' is written. After
      * writing, parent context would become the current context.
      *
      * @return this generator
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException
      */
-    JsonGenerator end();
+    JsonGenerator writeEnd();
 
     /**
      * Writes the specified value as a JSON value within
