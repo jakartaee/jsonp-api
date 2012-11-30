@@ -54,8 +54,13 @@ public interface JsonString extends JsonValue {
      */
     String getValue();
 
-    // TODO
-    //public CharSequence getValue();
+
+    /**
+     * Returns the char sequence for the JSON String value
+     *
+     * @return a char sequence for JSON String value
+     */
+    CharSequence getChars();
 
     /**
      * Compares the specified object with this JsonString for equality.

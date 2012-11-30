@@ -401,7 +401,13 @@ public class JsonBuilder {
             this.value = value;
         }
 
+        @Override
         public String getValue() {
+            return value;
+        }
+
+        @Override
+        public CharSequence getChars() {
             return value;
         }
 
