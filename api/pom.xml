@@ -55,8 +55,8 @@
     <artifactId>javax.json-api</artifactId>
     <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>JSON-P API jar</name>
-    <description>JSR 353:Java API for Processing JSON</description>
+    <name>JSR 353 (JSON Processing) API</name>
+    <description>API module of JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
     <build>
         <plugins>
@@ -81,7 +81,7 @@
                 <configuration>
                     <groups>
                         <group>
-                            <title>JSON-P Packages</title>
+                            <title>JSON Processing Packages</title>
                             <packages>javax.json*</packages>
                         </group>
                     </groups>
@@ -122,7 +122,6 @@
                         <specversion>${apijar.bundle.specversion}</specversion>
                         <Bundle-SymbolicName>${apijar.bundle.symbolicName}</Bundle-SymbolicName>
                         <Export-Package>${packages.export}</Export-Package>
-                        <Private-Package>${packages.private}</Private-Package>
 						<Specification-Version>${apijar.spec.version}</Specification-Version>
 						<Implementation-Version>${apijar.spec.impl.version}</Implementation-Version>
 						<Extension-Name>${apijar.extensionName}</Extension-Name>

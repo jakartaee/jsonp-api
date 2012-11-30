@@ -55,8 +55,8 @@
     <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Java API for Processing JSON (JSON-P)</name>
-    <description>JSR 353:Java API for Processing JSON</description>
+    <name>JSR 353 (JSON Processing) Default Provider</name>
+    <description>Default provider for JSR 353:Java API for Processing JSON</description>
     <url>http://jsonp.java.net</url>
 
     <build>

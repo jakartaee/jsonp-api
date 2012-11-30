@@ -42,7 +42,7 @@
  * SPI to plugin implementations for {@link javax.json.stream.JsonParser}
  * and {@link javax.json.stream.JsonGenerator} portably.
  *
- * @since JSON-P 1.0
+ * @since JSON Processing 1.0
  * @author Jitendra Kotamraju
  */
 package javax.json.spi;

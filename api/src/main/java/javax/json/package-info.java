@@ -39,7 +39,7 @@
  */
 
 /**
- * Java API for JSON Processing (JSON-P) API provides a way to process
+ * Java API for JSON Processing API provides a way to process
  * (for e.g. parse, generate, transform and query)
  * <a href="http://json.org/">JSON</a>.
  *
@@ -54,7 +54,7 @@
  * {@link javax.json.JsonObject object} and {@link javax.json.JsonArray array}
  * from scratch.
  *
- * @since JSON-P 1.0
+ * @since JSON Processing 1.0
  * @author Jitendra Kotamraju
  */
 package javax.json;

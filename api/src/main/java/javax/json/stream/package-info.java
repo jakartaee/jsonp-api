@@ -47,7 +47,7 @@
  * {@code JsonGenerator} can be used to generate JSON from scratch in a
  * streaming way.
  *
- * @since JSON-P 1.0
+ * @since JSON Processing 1.0
  * @author Jitendra Kotamraju
  */
 package javax.json.stream;
