@@ -43,8 +43,8 @@ package javax.json.stream;
 import javax.json.JsonException;
 
 /**
- * <code>JsonParsingException</code> indicates some exception happened during
- * JSON parsing.
+ * {@code JsonParsingException} is used when an incorrect JSON is
+ * being parsed.
  *
  * @author Jitendra Kotamraju
  */

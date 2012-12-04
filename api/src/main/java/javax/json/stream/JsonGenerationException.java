@@ -43,8 +43,8 @@ package javax.json.stream;
 import javax.json.JsonException;
 
 /**
- * <code>JsonGenerationException</code> indicates some exception happened during
- * JSON generation.
+ * {@code JsonGenerationException} indicates an incorrect JSON is
+ * being generated.
  *
  * @author Jitendra Kotamraju
  */

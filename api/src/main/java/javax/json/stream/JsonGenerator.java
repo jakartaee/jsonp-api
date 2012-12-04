@@ -159,11 +159,13 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Writes the JSON start object character. It starts a new child object
      * context within which JSON name/value pairs can be written to the object.
      * This method is valid only in an array context or in no context (when a
-     * context is not yet started).
+     * context is not yet started). This method can only be called once in
+     * no context.
      *
      * @return this generator
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if called within object context
+     * or if called more than once in no context
      */
     JsonGenerator writeStartObject();
 
@@ -183,11 +185,13 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Writes the JSON start array character. It starts a new child array
      * context within which JSON values can be written to the array. This
      * method is valid only in an array context or in no context (when a
-     * context is not yet started).
+     * context is not yet started). This method can only be called once in
+     * no context.
      *
      * @return this generator
      * @throws javax.json.JsonException if there is an i/o error
      * @throws JsonGenerationException if called within object context
+     * or if called more than once in no context
      */
     JsonGenerator writeStartArray();
 

@@ -46,7 +46,6 @@ import java.io.Closeable;
 import java.io.Reader;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Iterator;
 
 import static javax.json.JsonNumber.JsonNumberType;
 
@@ -78,21 +77,20 @@ import static javax.json.JsonNumber.JsonNumberType;
  * </code>
  * 
  * <p>
- * The parser is used to parse JSON in a pull manner by calling its iterator
- * methods. The iterator's {@code next()} method causes the parser to advance
- * to the next parse state.
+ * The parser is used to parse JSON in a pull manner by calling its
+ * {@code next()} method. The {@code next()} method causes the parser to
+ * advance to the next parse state.
  * <p>
  * <b>For example 1</b>:
  * <p>For empty JSON object { },
- * the iterator would give {<B>START_OBJECT</B> }<B>END_OBJECT</B> parse
+ * the {@code next()} would give {<B>START_OBJECT</B> }<B>END_OBJECT</B> parse
  * events at the specified locations. Those events can be accessed using the
  * following code.
  *
  * <code>
  * <pre>
- * Iterator&lt;Event> it = parser.iterator();
- * Event event = it.next(); // START_OBJECT
- * event = it.next();       // END_OBJECT
+ * Event event = parser.next(); // START_OBJECT
+ * event = parser.next();       // END_OBJECT
  * </pre>
  * </code>
  *
@@ -110,7 +108,7 @@ import static javax.json.JsonNumber.JsonNumberType;
  * }
  * </pre>
  *
- * the iterator would give
+ * the {@code next()} would give
  *
  * <p>
  * <pre>
@@ -130,11 +128,10 @@ import static javax.json.JsonNumber.JsonNumberType;
  * <p>
  * <code>
  * <pre>
- * Iterator&lt;Event> it = parser.iterator();
- * Event event = it.next(); // START_OBJECT
- * event = it.next();       // KEY_NAME
- * event = it.next();       // VALUE_STRING
- * parser.getString();      // "John"
+ * Event event = parser.next(); // START_OBJECT
+ * event = parser.next();       // KEY_NAME
+ * event = parser.next();       // VALUE_STRING
+ * parser.getString();          // "John"
  * </pre>
  * </code>
  *
@@ -199,8 +196,26 @@ public interface JsonParser extends /*Auto*/Closeable {
         END_ARRAY
     }
 
+    /**
+     * Returns true if there are more parsing states. This method will return
+     * false if the parser reaches the end state of JSON text.
+     *
+     * @return true if there are more parsing states
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonParsingException if incorrect JSON is encountered while
+     * advancing the parser to next state
+     */
     boolean hasNext();
 
+    /**
+     * Returns the event for next parsing state.
+     *
+     * @throws javax.json.JsonException if there is an i/o error
+     * @throws JsonParsingException if incorrect JSON is encountered while
+     * advancing the parser to next state
+     * @throws java.util.NoSuchElementException if there are no more parsing
+     * states
+     */
     Event next();
 
     /**
