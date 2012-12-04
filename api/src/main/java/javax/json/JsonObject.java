@@ -128,13 +128,13 @@ import java.util.Set;
  * {@code JsonObject} values can be {@link JsonObject}, {@link JsonArray},
  * {@link JsonString}, {@link JsonNumber}, {@link JsonValue#TRUE},
  * {@link JsonValue#FALSE}, {@link JsonValue#NULL}. These values can be
- * accessed using various accessor methods. For example:
+ * accessed using various accessor methods.
  *
+ * <p>
+ * In the above example 2, "John" can be got using
  * <code>
  * <pre>
- * In the above example 2, "John" can be got using
- *
- * String firstName = object.getValue("firstName", JsonString.class).getValue();
+ * String firstName = object.getStringValue("firstName");
  * </pre>
  * </code>
  *

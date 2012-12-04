@@ -114,14 +114,14 @@ import java.util.List;
  * {@code JsonArray} values can be {@link JsonObject}, {@link JsonArray},
  * {@link JsonString}, {@link JsonNumber}, {@link JsonValue#TRUE},
  * {@link JsonValue#FALSE}, {@link JsonValue#NULL}. These values can be
- * accessed using various accessor methods. For example:
+ * accessed using various accessor methods.
  *
+ * <p>
+ * In the above example 2, home number "212 555-1234" can be got using:
  * <code>
  * <pre>
- * In the above example 2, home number "212 555-1234" can be got using:
- *
  * JsonObject home = array.getValue(0, JsonObject.class);
- * String number = home.getValue("number", JsonString.class).getValue();
+ * String number = home.getStringValue("number");
  * </pre>
  * </code>
  *
