@@ -76,6 +76,9 @@ import java.nio.charset.Charset;
  */
 public class Json {
 
+    private Json() {
+    }
+
     /**
      * Creates a JSON parser from the specified character stream
      *
