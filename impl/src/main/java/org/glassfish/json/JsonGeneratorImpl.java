@@ -56,6 +56,7 @@ import java.util.Map;
  */
 public class JsonGeneratorImpl implements JsonGenerator {
     protected final Writer writer;
+    protected Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
 
     public JsonGeneratorImpl(Writer writer) {
@@ -84,37 +85,47 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     private static enum Scope {
+        IN_NONE,
         IN_OBJECT,
         IN_ARRAY
     }
 
     @Override
     public JsonGenerator writeStartObject() {
+        if (currentContext.scope == Scope.IN_OBJECT) {
+            throw new JsonGenerationException("writeStartObject() cannot be called in object context");
+        }
+        if (currentContext.scope == Scope.IN_NONE && !currentContext.first) {
+            throw new JsonGenerationException("writeStartObject() cannot be called in no context more than once");
+        }
         try {
-            if (stack.peekFirst() != null && stack.peekFirst().scope == Scope.IN_ARRAY) {
-                writeComma();
-            }
+            writeComma();
             writer.write("{");
-            stack.addFirst(new Context(Scope.IN_OBJECT));
         } catch(IOException ioe) {
             throw new JsonException(ioe);
         }
+        stack.push(currentContext);
+        currentContext = new Context(Scope.IN_OBJECT);
         return this;
     }
 
     @Override
     public JsonGenerator writeStartObject(String name) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("writeStartObject(String) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write("{");
-            stack.addFirst(new Context(Scope.IN_OBJECT));
         } catch(IOException ioe) {
             throw new JsonException(ioe);
         }
+        stack.push(currentContext);
+        currentContext = new Context(Scope.IN_OBJECT);
         return this;
     }
 
-    public JsonGenerator writeName(String name) {
+    private JsonGenerator writeName(String name) {
         try {
             writeComma();
             writeEscapedString(writer, name);
@@ -127,6 +138,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, String fieldValue) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, String) can only be called in object context");
+        }
         try {
             writeName(name);
             writeEscapedString(writer, fieldValue);
@@ -138,6 +152,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, int value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, int) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -149,6 +166,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, long value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, long) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -160,6 +180,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, double value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, double) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -171,6 +194,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, BigInteger value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, BigInteger) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -182,6 +208,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, BigDecimal value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, BigDecimal) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -193,6 +222,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, boolean value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, boolean) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write(value? "true" : "false");
@@ -204,6 +236,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator writeNull(String name) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("writeNull(String) can only be called in object context");
+        }
         try {
             writeName(name);
             writer.write("null");
@@ -215,6 +250,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(JsonValue value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(JsonValue) can only be called in array context");
+        }
         switch (value.getValueType()) {
             case ARRAY:
                 JsonArray array = (JsonArray)value;
@@ -256,32 +294,44 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator writeStartArray() {
-        try {
-            if (stack.peekFirst() != null && stack.peekFirst().scope == Scope.IN_ARRAY) {
-                writeComma();
-            }
-            stack.addFirst(new Context(Scope.IN_ARRAY));
-            writer.write("[");
-        } catch (IOException e) {
-            throw new JsonException(e);
+        if (currentContext.scope == Scope.IN_OBJECT) {
+            throw new JsonGenerationException("writeStartArray() cannot be called in object context");
         }
+        if (currentContext.scope == Scope.IN_NONE && !currentContext.first) {
+            throw new JsonGenerationException("writeStartArray() cannot be called in no context more than once");
+        }
+        try {
+            writeComma();
+            writer.write("[");
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
+        }
+        stack.push(currentContext);
+        currentContext = new Context(Scope.IN_ARRAY);
         return this;
     }
 
     @Override
     public JsonGenerator writeStartArray(String name) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("writeStartArray(String) can only be called in object context");
+        }
         try {
             writeName(name);
-            stack.addFirst(new Context(Scope.IN_ARRAY));
             writer.write("[");
-        } catch (IOException e) {
-            throw new JsonException(e);
+        } catch(IOException ioe) {
+            throw new JsonException(ioe);
         }
+        stack.push(currentContext);
+        currentContext = new Context(Scope.IN_ARRAY);
         return this;
     }
 
     @Override
     public JsonGenerator write(String name, JsonValue value) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException("write(String, JsonValue) can only be called in object context");
+        }
         switch (value.getValueType()) {
             case ARRAY:
                 JsonArray array = (JsonArray)value;
@@ -321,6 +371,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator write(String value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(String) can only be called in array context");
+        }
         try {
             writeComma();
             writeEscapedString(writer, value);
@@ -332,6 +385,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
 
     public JsonGenerator write(int value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(int) can only be called in array context");
+        }
         try {
             writeComma();
             writer.write(String.valueOf(value));
@@ -343,29 +399,44 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(long value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(long) can only be called in array context");
+        }
         writeValue(String.valueOf(value));
         return this;
     }
 
     @Override
     public JsonGenerator write(double value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(double) can only be called in array context");
+        }
         writeValue(String.valueOf(value));
         return this;
     }
 
     @Override
     public JsonGenerator write(BigInteger value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(BigInteger) can only be called in array context");
+        }
         writeValue(value.toString());
         return this;
     }
 
     @Override
     public JsonGenerator write(BigDecimal value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(BigDecimal) can only be called in array context");
+        }
         writeValue(value.toString());
         return this;
     }
 
     public JsonGenerator write(boolean value) {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("write(boolean) can only be called in array context");
+        }
         try {
             writeComma();
             writer.write(value ? "true" : "false");
@@ -376,6 +447,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator writeNull() {
+        if (currentContext.scope != Scope.IN_ARRAY) {
+            throw new JsonGenerationException("writeNull() can only be called in array context");
+        }
         try {
             writeComma();
             writer.write("null");
@@ -407,26 +481,23 @@ public class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator writeEnd() {
-        Context ctxt = stack.removeFirst();
+        if (currentContext.scope == Scope.IN_NONE) {
+            throw new JsonGenerationException("writeEnd() cannot be called in no context");
+        }
         try {
-            if (ctxt.scope == Scope.IN_ARRAY)
-                writer.write("]");
-            else
-                writer.write("}");
+            writer.write(currentContext.scope == Scope.IN_ARRAY ? ']' : '}');
         } catch (IOException e) {
             throw new JsonException(e);
         }
+        currentContext = stack.pop();
         return this;
     }
 
     protected void writeComma() throws IOException {
-        if (stack.peekFirst() == null) {
-            return;
-        }
-        if (!stack.peekFirst().first) {
+        if (!currentContext.first) {
             writer.write(",");
         }
-        stack.peekFirst().first = false;
+        currentContext.first = false;
     }
 
     private static class Context {
@@ -440,7 +511,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public void close() {
-        if (!stack.isEmpty()) {
+        if (currentContext.scope != Scope.IN_NONE || currentContext.first) {
             throw new JsonGenerationException("Generating incomplete JSON");
         }
         try {

@@ -43,6 +43,7 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 
 import javax.json.*;
+import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
 import java.io.*;
 
@@ -245,5 +246,64 @@ public class JsonGeneratorTest extends TestCase {
         JsonObjectTest.testPerson(person);
         reader.close();
         in.close();
+    }
+
+    public void testGenerationException1() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartObject();
+        try {
+            generator.writeStartObject();
+            fail("Expected JsonGenerationException, writeStartObject() cannot be called more than once");
+        } catch(JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException2() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartObject();
+        try {
+            generator.writeStartArray();
+            fail("Expected JsonGenerationException, writeStartArray() is valid in no context");
+        } catch(JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException3() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        try {
+            generator.close();
+            fail("Expected JsonGenerationException, no JSON is generated");
+        } catch(JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException4() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartArray();
+        try {
+            generator.close();
+            fail("Expected JsonGenerationException, writeEnd() is not called");
+        } catch(JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException5() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartObject();
+        try {
+            generator.close();
+            fail("Expected JsonGenerationException, writeEnd() is not called");
+        } catch(JsonGenerationException je) {
+            // Expected exception
+        }
     }
 }
