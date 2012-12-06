@@ -101,8 +101,8 @@ public class JsonProviderImpl extends JsonProvider {
     public JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
         validateConfiguration(config);
         return (isPrettyPrintingEnabled(config))
-                ? new JsonPrettyGeneratorImpl(out)
-                : new JsonGeneratorImpl(out);
+                ? new JsonPrettyGeneratorImpl(out, charset)
+                : new JsonGeneratorImpl(out, charset);
     }
 
     @Override
