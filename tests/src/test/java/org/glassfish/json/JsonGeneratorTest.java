@@ -306,4 +306,56 @@ public class JsonGeneratorTest extends TestCase {
             // Expected exception
         }
     }
+
+    public void testGeneratorArrayDouble() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartArray();
+        try {
+            generator.write(Double.NaN);
+            fail("JsonGenerator.write(Double.NaN) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        try {
+            generator.write(Double.POSITIVE_INFINITY);
+            fail("JsonGenerator.write(Double.POSITIVE_INIFINITY) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        try {
+            generator.write(Double.NEGATIVE_INFINITY);
+            fail("JsonGenerator.write(Double.NEGATIVE_INIFINITY) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        generator.writeEnd();
+        generator.close();
+    }
+
+    public void testGeneratorObjectDouble() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartObject();
+        try {
+            generator.write("foo", Double.NaN);
+            fail("JsonGenerator.write(String, Double.NaN) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        try {
+            generator.write("foo", Double.POSITIVE_INFINITY);
+            fail("JsonGenerator.write(String, Double.POSITIVE_INIFINITY) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        try {
+            generator.write("foo", Double.NEGATIVE_INFINITY);
+            fail("JsonGenerator.write(String, Double.NEGATIVE_INIFINITY) should produce NumberFormatException");
+        } catch(NumberFormatException ne) {
+            // expected
+        }
+        generator.writeEnd();
+        generator.close();
+    }
 }

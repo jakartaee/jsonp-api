@@ -183,6 +183,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException("write(String, double) can only be called in object context");
         }
+        if (Double.isInfinite(value) || Double.isNaN(value)) {
+            throw new NumberFormatException("write(String, double) value cannot be Infinite or NaN");
+        }
         try {
             writeName(name);
             writer.write(String.valueOf(value));
@@ -410,6 +413,9 @@ public class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(double value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException("write(double) can only be called in array context");
+        }
+        if (Double.isInfinite(value) || Double.isNaN(value)) {
+            throw new NumberFormatException("write(double) value cannot be Infinite or NaN");
         }
         writeValue(String.valueOf(value));
         return this;
