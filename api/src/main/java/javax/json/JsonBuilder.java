@@ -412,8 +412,8 @@ public class JsonBuilder {
         }
 
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.STRING;
+        public ValueType getValueType() {
+            return ValueType.STRING;
         }
 
         @Override
@@ -466,16 +466,16 @@ public class JsonBuilder {
         }
 
         @Override
-        public JsonNumberType getNumberType() {
+        public NumberType getNumberType() {
             if (bigDecimal.scale() != 0)  {
-                return JsonNumberType.BIG_DECIMAL;
+                return NumberType.BIG_DECIMAL;
             } else {
                 if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
-                    return JsonNumberType.INT;
+                    return NumberType.INT;
                 } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
-                    return JsonNumberType.LONG;
+                    return NumberType.LONG;
                 } else {
-                    return JsonNumberType.BIG_DECIMAL;
+                    return NumberType.BIG_DECIMAL;
                 }
             }
         }
@@ -521,8 +521,8 @@ public class JsonBuilder {
         }
 
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.NUMBER;
+        public ValueType getValueType() {
+            return ValueType.NUMBER;
         }
 
         @Override
@@ -581,8 +581,8 @@ public class JsonBuilder {
         }
 
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.ARRAY;
+        public ValueType getValueType() {
+            return ValueType.ARRAY;
         }
 
         @Override
@@ -644,8 +644,8 @@ public class JsonBuilder {
         }
 
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.OBJECT;
+        public ValueType getValueType() {
+            return ValueType.OBJECT;
         }
 
         @Override

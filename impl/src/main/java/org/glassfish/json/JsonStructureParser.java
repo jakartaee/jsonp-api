@@ -76,7 +76,7 @@ class JsonStructureParser implements JsonParser {
     }
 
     @Override
-    public JsonNumber.JsonNumberType getNumberType() {
+    public JsonNumber.NumberType getNumberType() {
         if (state == Event.VALUE_NUMBER) {
             return ((JsonNumber)current.getJsonValue()).getNumberType();
         }

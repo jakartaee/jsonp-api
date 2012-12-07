@@ -111,7 +111,7 @@ public class JsonParserImpl implements JsonParser {
                 "But current parser state is "+currentEvent);
     }
 
-    public JsonNumber.JsonNumberType getNumberType() {
+    public JsonNumber.NumberType getNumberType() {
         if (currentEvent != Event.VALUE_NUMBER) {
             throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
                 "VALUE_NUMBER parser state. "+
@@ -119,14 +119,14 @@ public class JsonParserImpl implements JsonParser {
         }
         BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
         if (bigDecimal.scale() != 0)  {
-            return JsonNumber.JsonNumberType.BIG_DECIMAL;
+            return JsonNumber.NumberType.BIG_DECIMAL;
         } else {
             if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
-                return JsonNumber.JsonNumberType.INT;
+                return JsonNumber.NumberType.INT;
             } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
-                return JsonNumber.JsonNumberType.LONG;
+                return JsonNumber.NumberType.LONG;
             } else {
-                return JsonNumber.JsonNumberType.BIG_DECIMAL;
+                return JsonNumber.NumberType.BIG_DECIMAL;
             }
         }
     }

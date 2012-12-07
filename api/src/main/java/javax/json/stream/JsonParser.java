@@ -41,13 +41,12 @@
 package javax.json.stream;
 
 import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import java.io.Closeable;
 import java.io.Reader;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import static javax.json.JsonNumber.JsonNumberType;
 
 /**
  * A JSON parser that allows forward, read-only access to JSON in a
@@ -236,12 +235,12 @@ public interface JsonParser extends /*Auto*/Closeable {
      * Returns a number type that can hold JSON number. A {@link BigDecimal}
      * may be used to store the numeric value of the number. If the scale of
      * a value is non-zero, its number type is
-     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
      * If the scale is zero, and the value is numerically an integer.
      * If the value can be exactly represented as an int, its type is
-     * {@link JsonNumberType#INT INT}; if the value can be exactly represented
-     * as a long, its type is {@link JsonNumberType#LONG LONG}; otherwise,
-     * its type is {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * {@link javax.json.JsonNumber.NumberType#INT INT}; if the value can be exactly represented
+     * as a long, its type is {@link javax.json.JsonNumber.NumberType#LONG LONG}; otherwise,
+     * its type is {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
      *
      * <p>
      * This method can be used to get the correct number type for a number.
@@ -265,7 +264,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws IllegalStateException when the parser state is not
      *      VALUE_NUMBER
      */
-    JsonNumberType getNumberType();
+    JsonNumber.NumberType getNumberType();
 
     /**
      * Returns JSON number as an integer. The returned value is equal

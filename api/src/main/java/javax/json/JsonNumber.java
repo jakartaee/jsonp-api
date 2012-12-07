@@ -61,7 +61,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * JSON number type
      */
-    enum JsonNumberType {
+    enum NumberType {
         /**
          * int number type
          */
@@ -82,12 +82,12 @@ public interface JsonNumber extends JsonValue {
      * Returns a JSON number type that can hold the number's numeric value.
      * A {@link BigDecimal} may be used to store the numeric value.
      * If the scale of a value is non-zero, its number type is
-     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}. If the scale is zero,
+     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}. If the scale is zero,
      * and the value is numerically an integer. If the value can be exactly
-     * represented as an int, its type is {@link JsonNumberType#INT INT};
+     * represented as an int, its type is {@link javax.json.JsonNumber.NumberType#INT INT};
      * if the value can be exactly represented as a long, its type is
-     * {@link JsonNumberType#LONG LONG}; otherwise, its type is
-     * {@link JsonNumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * {@link javax.json.JsonNumber.NumberType#LONG LONG}; otherwise, its type is
+     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
      *
      * <p>
      * This method can be used to get the holding number type and use that
@@ -110,7 +110,7 @@ public interface JsonNumber extends JsonValue {
      *
      * @return a number type
      */
-    JsonNumberType getNumberType();
+    NumberType getNumberType();
 
     /**
      * Returns JSON number as an {@code int} number. Note that this conversion

@@ -86,7 +86,7 @@ public class JsonNumberTest extends TestCase {
                 .add(new BigInteger("0"))
             .end()
         .build();
-        testNumberType(array1, JsonNumber.JsonNumberType.INT);
+        testNumberType(array1, JsonNumber.NumberType.INT);
 
         StringReader sr = new StringReader("[" +
             "-2147483648, " +
@@ -100,12 +100,12 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = new JsonReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.JsonNumberType.INT);
+        testNumberType(array2, JsonNumber.NumberType.INT);
 
         assertEquals(array1, array2);
     }
 
-    private void testNumberType(JsonArray array, JsonNumber.JsonNumberType numberType) {
+    private void testNumberType(JsonArray array, JsonNumber.NumberType numberType) {
         for(JsonValue value : array.getValues()) {
             assertEquals(numberType, ((JsonNumber)value).getNumberType());
         }
@@ -122,7 +122,7 @@ public class JsonNumberTest extends TestCase {
                 .add((long) Integer.MAX_VALUE + 1)
             .end()
         .build();
-        testNumberType(array1, JsonNumber.JsonNumberType.LONG);
+        testNumberType(array1, JsonNumber.NumberType.LONG);
 
         StringReader sr = new StringReader("[" +
             "-9223372036854775808, " +
@@ -135,7 +135,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = new JsonReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.JsonNumberType.LONG);
+        testNumberType(array2, JsonNumber.NumberType.LONG);
 
         assertEquals(array1, array2);
     }
@@ -149,7 +149,7 @@ public class JsonNumberTest extends TestCase {
 //                .add(new BigInteger("012345678901234567890"))
 //            .end()
 //        .build();
-//        testNumberType(array1, JsonNumber.JsonNumberType.BIG_INTEGER);
+//        testNumberType(array1, JsonNumber.NumberType.BIG_INTEGER);
 //
 //        StringReader sr = new StringReader("[" +
 //            "-9223372036854775809, " +
@@ -159,7 +159,7 @@ public class JsonNumberTest extends TestCase {
 //        JsonReader reader = new JsonReader(sr);
 //        JsonArray array2 = reader.readArray();
 //        reader.close();
-//        testNumberType(array2, JsonNumber.JsonNumberType.BIG_INTEGER);
+//        testNumberType(array2, JsonNumber.NumberType.BIG_INTEGER);
 //
 //        assertEquals(array1, array2);
 //    }
@@ -174,7 +174,7 @@ public class JsonNumberTest extends TestCase {
                 .add(Double.MAX_VALUE)
                 .end()
         .build();
-        testNumberType(array1, JsonNumber.JsonNumberType.BIG_DECIMAL);
+        testNumberType(array1, JsonNumber.NumberType.BIG_DECIMAL);
 
         StringReader sr = new StringReader("[" +
             "12.0, " +
@@ -186,7 +186,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = new JsonReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.JsonNumberType.BIG_DECIMAL);
+        testNumberType(array2, JsonNumber.NumberType.BIG_DECIMAL);
 
         assertEquals(array1, array2);
     }

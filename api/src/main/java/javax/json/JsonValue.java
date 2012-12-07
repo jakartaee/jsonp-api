@@ -54,7 +54,7 @@ public interface JsonValue {
     /**
      * JSON value type
      */
-    enum JsonValueType {
+    enum ValueType {
         /**
          * JSON array value type
          */
@@ -96,8 +96,8 @@ public interface JsonValue {
      */
     static final JsonValue NULL = new JsonValue() {
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.NULL;
+        public ValueType getValueType() {
+            return ValueType.NULL;
         }
 
         /**
@@ -126,7 +126,7 @@ public interface JsonValue {
          */
         @Override
         public int hashCode() {
-            return JsonValueType.NULL.hashCode();
+            return ValueType.NULL.hashCode();
         }
 
         /**
@@ -145,8 +145,8 @@ public interface JsonValue {
      */
     static final JsonValue TRUE = new JsonValue() {
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.TRUE;
+        public ValueType getValueType() {
+            return ValueType.TRUE;
         }
 
         /**
@@ -175,7 +175,7 @@ public interface JsonValue {
          */
         @Override
         public int hashCode() {
-            return JsonValueType.TRUE.hashCode();
+            return ValueType.TRUE.hashCode();
         }
 
         /**
@@ -194,8 +194,8 @@ public interface JsonValue {
      */
     static final JsonValue FALSE = new JsonValue() {
         @Override
-        public JsonValueType getValueType() {
-            return JsonValueType.FALSE;
+        public ValueType getValueType() {
+            return ValueType.FALSE;
         }
 
         /**
@@ -224,7 +224,7 @@ public interface JsonValue {
          */
         @Override
         public int hashCode() {
-            return JsonValueType.FALSE.hashCode();
+            return ValueType.FALSE.hashCode();
         }
 
         /**
@@ -243,7 +243,7 @@ public interface JsonValue {
      *
      * @return JSON value type
      */
-    JsonValueType getValueType();
+    ValueType getValueType();
 
     /**
      * Returns JSON text for this JSON value
