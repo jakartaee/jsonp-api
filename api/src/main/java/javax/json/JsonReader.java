@@ -88,7 +88,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * is not known
      */
     public JsonReader(Reader reader, JsonConfiguration config) {
-        parser = Json.createParser(reader, config);
+        parser = Json.createParserFactory(config).createParser(reader);
     }
 
     /**
@@ -110,7 +110,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonReader(InputStream in, Charset charset) {
-        parser = Json.createParser(in, charset);
+        parser = Json.createParserFactory().createParser(in, charset);
     }
 
     /**
@@ -125,7 +125,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * is not known
      */
     public JsonReader(InputStream in, Charset charset, JsonConfiguration config) {
-        parser = Json.createParser(in, charset, config);
+        parser = Json.createParserFactory(config).createParser(in, charset);
     }
 
     /**

@@ -95,7 +95,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(Writer writer, JsonConfiguration config) {
-        generator = Json.createGenerator(writer, config);
+        generator = Json.createGeneratorFactory(config).createGenerator(writer);
     }
 
     /**
@@ -123,7 +123,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(OutputStream out, JsonConfiguration config) {
-        generator = Json.createGenerator(out, config);
+        generator = Json.createGeneratorFactory(config).createGenerator(out);
     }
 
     /**
@@ -136,7 +136,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonWriter(OutputStream out, Charset charset) {
-        generator = Json.createGenerator(out, charset);
+        generator = Json.createGeneratorFactory().createGenerator(out, charset);
     }
 
     /**
@@ -153,7 +153,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * is not known
      */
     public JsonWriter(OutputStream out, Charset charset, JsonConfiguration config) {
-        generator = Json.createGenerator(out, charset, config);
+        generator = Json.createGeneratorFactory(config).createGenerator(out, charset);
     }
 
     /**

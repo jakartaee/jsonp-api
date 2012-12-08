@@ -40,10 +40,8 @@
 
 package javax.json.spi;
 
-import javax.json.JsonArray;
 import javax.json.JsonConfiguration;
 import javax.json.JsonException;
-import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
@@ -52,7 +50,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
@@ -112,15 +109,6 @@ public abstract class JsonProvider {
     public abstract JsonParser createParser(Reader reader);
 
     /**
-     * Creates a JSON parser from the specified character stream. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param reader i/o reader from which JSON is to be read
-     * @param config configuration of the parser
-     */
-    public abstract JsonParser createParser(Reader reader, JsonConfiguration config);
-
-    /**
      * Creates a JSON parser from the specified byte stream.
      * The character encoding of the stream is determined
      * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
@@ -130,71 +118,6 @@ public abstract class JsonProvider {
      *         or i/o error
      */
     public abstract JsonParser createParser(InputStream in);
-
-    /**
-     * Creates a JSON parser from the specified byte stream.
-     * The bytes of the stream are decoded to characters using the
-     * specified charset.
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param charset a charset
-     * @throws JsonException if i/o error
-     */
-    public abstract JsonParser createParser(InputStream in, Charset charset);
-
-    /**
-     * Creates a JSON parser from the specified byte stream. The created
-     * parser is configured with the specified configuration. The character
-     * encoding of the stream is determinedas per the
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param config configuration of the parser
-     */
-    public abstract JsonParser createParser(InputStream in, JsonConfiguration config);
-
-    /**
-     * Creates a JSON parser from the specified byte stream. The bytes of the
-     * stream are decoded to characters using the specified charset. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param charset a charset
-     * @param config configuration of the parser
-     */
-    public abstract JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config);
-
-    /**
-     * Creates a JSON parser from the specified JSON array.
-     *
-     * @param array JSON array
-     */
-    public abstract JsonParser createParser(JsonArray array);
-
-    /**
-     * Creates a JSON parser from the specified JSON array. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param array JSON array
-     * @param config configuration of the parser
-     */
-    public abstract JsonParser createParser(JsonArray array, JsonConfiguration config);
-
-    /**
-     * Creates a JSON parser from the specified JSON object.
-     *
-     * @param object JSON object
-     */
-    public abstract JsonParser createParser(JsonObject object);
-
-    /**
-     * Creates a JSON parser from the specified JSON object. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param object JSON object
-     * @param config configuration of the parser
-     */
-    public abstract JsonParser createParser(JsonObject object, JsonConfiguration config);
 
     /**
      * Creates a parser factory which can be used to create {@link JsonParser}.
@@ -223,54 +146,11 @@ public abstract class JsonProvider {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param writer i/o writer to which JSON is written
-     * @param config configuration of the generator
-     */
-    public abstract JsonGenerator createGenerator(Writer writer, JsonConfiguration config);
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream.
      *
      * @param out i/o stream to which JSON is written
      */
     public abstract JsonGenerator createGenerator(OutputStream out);
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using UTF-8 encoding. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param config configuration of the generator
-     */
-    public abstract JsonGenerator createGenerator(OutputStream out, JsonConfiguration config);
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified charset.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param charset a charset
-     */
-    public abstract JsonGenerator createGenerator(OutputStream out, Charset charset);
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified charset. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param charset the character charset of the stream
-     * @param config configuration of the generator
-     */
-    public abstract JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config);
 
     /**
      * Creates a generator factory which can be used to create {@link JsonGenerator}.

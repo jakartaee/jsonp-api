@@ -221,8 +221,8 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectWriter() throws Exception {
         StringWriter writer = new StringWriter();
-        JsonGenerator generator = Json.createGenerator(writer,
-                new JsonConfiguration().withPrettyPrinting());
+        JsonGenerator generator = Json.createGeneratorFactory(
+                new JsonConfiguration().withPrettyPrinting()).createGenerator(writer);
         testObject(generator);
         generator.close();
         writer.close();
@@ -234,8 +234,8 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectStream() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        JsonGenerator generator = Json.createGenerator(out,
-                new JsonConfiguration().withPrettyPrinting());
+        JsonGenerator generator = Json.createGeneratorFactory(
+                new JsonConfiguration().withPrettyPrinting()).createGenerator(out);
         testObject(generator);
         generator.close();
         out.close();

@@ -46,7 +46,6 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.*;
-import java.nio.charset.Charset;
 
 /**
  * Factory to create {@link JsonParser}, {@link JsonGenerator},
@@ -89,19 +88,6 @@ public class Json {
     }
 
     /**
-     * Creates a JSON parser from the specified character stream. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param reader i/o reader from which JSON is to be read
-     * @param config configuration of the parser
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonParser createParser(Reader reader, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(reader, config);
-    }
-
-    /**
      * Creates a JSON parser from the specified byte stream.
      * The character encoding of the stream is determined
      * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
@@ -112,93 +98,6 @@ public class Json {
      */
     public static JsonParser createParser(InputStream in) {
         return JsonProvider.provider().createParser(in);
-    }
-
-    /**
-     * Creates a JSON parser from the specified byte stream.
-     * The bytes of the stream are decoded to characters using the
-     * specified charset.
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param charset a charset
-     */
-    public static JsonParser createParser(InputStream in, Charset charset) {
-        return JsonProvider.provider().createParser(in, charset);
-    }
-
-    /**
-     * Creates a JSON parser from the specified byte stream. The created
-     * parser is configured with the specified configuration. The character
-     * encoding of the stream is determined as per the
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param config configuration of the parser
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonParser createParser(InputStream in, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(in, config);
-    }
-
-    /**
-     * Creates a JSON parser from the specified byte stream. The bytes of the
-     * stream are decoded to characters using the specified charset. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param in i/o stream from which JSON is to be read
-     * @param charset a charset
-     * {@link java.nio.charset.Charset </code>charset<code>} of the stream.
-     * @param config configuration of the parser
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(in, charset, config);
-    }
-
-    /**
-     * Creates a JSON parser from the specified JSON object.
-     *
-     * @param object JSON object
-     */
-    public static JsonParser createParser(JsonObject object) {
-        return JsonProvider.provider().createParser(object);
-    }
-
-    /**
-     * Creates a JSON parser from the specified JSON object. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param obj JSON object
-     * @param config configuration of the parser
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonParser createParser(JsonObject obj, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(obj, config);
-    }
-
-    /**
-     * Creates a JSON parser from the specified JSON array.
-     *
-     * @param array JSON array
-     */
-    public static JsonParser createParser(JsonArray array) {
-        return JsonProvider.provider().createParser(array);
-    }
-
-    /**
-     * Creates a JSON parser from the specified JSON array. The created
-     * parser is configured with the specified configuration.
-     *
-     * @param array JSON array
-     * @param config configuration of the parser
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonParser createParser(JsonArray array, JsonConfiguration config) {
-        return JsonProvider.provider().createParser(array, config);
     }
 
     /**
@@ -213,69 +112,12 @@ public class Json {
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param writer i/o writer to which JSON is written
-     * @param config configuration of the generator
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
-        return JsonProvider.provider().createGenerator(writer, config);
-    }
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
      * specified byte stream.
      *
      * @param out i/o stream to which JSON is written
      */
     public static JsonGenerator createGenerator(OutputStream out) {
         return JsonProvider.provider().createGenerator(out);
-    }
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using UTF-8 encoding. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param config configuration of the generator
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
-        return JsonProvider.provider().createGenerator(out, config);
-    }
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified charset.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param charset a charset
-     */
-    public static JsonGenerator createGenerator(OutputStream out, Charset charset) {
-        return JsonProvider.provider().createGenerator(out, charset);
-    }
-
-    /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified charset. The created generator is configured
-     * with the specified configuration.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param charset a charset
-     * @param config configuration of the generator
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
-     */
-    public static JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
-        return JsonProvider.provider().createGenerator(out, charset, config);
     }
 
     /**

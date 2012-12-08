@@ -83,20 +83,20 @@ public class JsonParserTest extends TestCase {
 
     public void testEmptyArrayStreamWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[',']'}), config);
+        JsonParser parser = Json.createParserFactory(config).createParser(new ByteArrayInputStream(new byte[]{'[',']'}));
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build(), config);
+        JsonParser parser = Json.createParserFactory(config).createParser(new JsonBuilder().startArray().end().build());
         testEmptyArray(parser);
         parser.close();
     }
@@ -116,7 +116,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureIterator() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator(parser);
         parser.close();
     }
@@ -148,7 +148,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator2Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator2(parser);
         parser.close();
     }
@@ -171,7 +171,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator3Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
         testEmptyArrayIterator3(parser);
         parser.close();
     }
@@ -202,14 +202,14 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build(), config);
+        JsonParser parser = Json.createParserFactory(config).createParser(new JsonBuilder().startObject().end().build());
         testEmptyObject(parser);
         parser.close();
     }
@@ -231,7 +231,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIteratorStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator(parser);
         parser.close();
     }
@@ -261,7 +261,7 @@ public class JsonParserTest extends TestCase {
         parser.close();
     }
     public void testEmptyObjectIterator2Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator2(parser);
         parser.close();
     }
@@ -284,7 +284,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIterator3Structure() {
-        JsonParser parser = Json.createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
         testEmptyObjectIterator3(parser);
         parser.close();
     }
@@ -312,7 +312,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testWikiIteratorStructure() throws Exception {
-        JsonParser parser = Json.createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
         testWikiIterator(parser);
         parser.close();
     }
@@ -335,7 +335,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testWikiStructure() throws Exception {
-        JsonParser parser = Json.createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
         testWiki(parser);
         parser.close();
     }
@@ -418,7 +418,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testNestedArrayStructure() {
-        JsonParser parser = Json.createParser(new JsonBuilder()
+        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder()
                 .startArray()
                     .startArray().end()
                     .startArray()
@@ -452,7 +452,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testExceptionsStructure() throws Exception {
-        JsonParser parser = Json.createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
         testExceptions(parser);
         parser.close();
     }

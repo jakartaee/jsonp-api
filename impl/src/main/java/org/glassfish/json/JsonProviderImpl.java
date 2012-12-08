@@ -40,10 +40,8 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonArray;
 import javax.json.JsonConfiguration;
 import javax.json.JsonFeature;
-import javax.json.JsonObject;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
@@ -53,7 +51,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,38 +68,10 @@ public class JsonProviderImpl extends JsonProvider {
         return new JsonGeneratorImpl(writer);
     }
 
-    @Override
-    public JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
-        validateConfiguration(config);
-        return (isPrettyPrintingEnabled(config))
-                ? new JsonPrettyGeneratorImpl(writer)
-                : new JsonGeneratorImpl(writer);
-    }
 
     @Override
     public JsonGenerator createGenerator(OutputStream out) {
         return new JsonGeneratorImpl(out);
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
-        validateConfiguration(config);
-        return (isPrettyPrintingEnabled(config))
-                ? new JsonPrettyGeneratorImpl(out)
-                : new JsonGeneratorImpl(out);
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, Charset charset) {
-        return new JsonGeneratorImpl(out, charset);
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
-        validateConfiguration(config);
-        return (isPrettyPrintingEnabled(config))
-                ? new JsonPrettyGeneratorImpl(out, charset)
-                : new JsonGeneratorImpl(out, charset);
     }
 
     @Override
@@ -111,53 +80,8 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonParser createParser(Reader reader, JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonParserImpl(reader, config);
-    }
-
-    @Override
     public JsonParser createParser(InputStream in) {
         return new JsonParserImpl(in);
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, Charset charset) {
-        return new JsonParserImpl(in, charset);
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonParserImpl(in, config);
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonParserImpl(in, charset, config);
-    }
-
-    @Override
-    public JsonParser createParser(JsonArray array) {
-        return new JsonStructureParser(array);
-    }
-
-    @Override
-    public JsonParser createParser(JsonArray array, JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonStructureParser(array);
-    }
-
-    @Override
-    public JsonParser createParser(JsonObject object) {
-        return new JsonStructureParser(object);
-    }
-
-    @Override
-    public JsonParser createParser(JsonObject object, JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonStructureParser(object);
     }
 
     @Override
