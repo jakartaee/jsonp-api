@@ -72,11 +72,12 @@ public class JsonReaderTest extends TestCase {
     }
 
     public void testUnknownFeature() throws Exception {
-        JsonConfiguration config = new JsonConfiguration().with(new JsonFeature() { });
+        JsonConfiguration config = new JsonConfiguration().with(new JsonFeature() {
+        });
         try {
             JsonReader reader = new JsonReader(new StringReader("{}"), config);
             fail("Should have thrown IllegalArgumentException");
-        } catch(IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             // no-op
         }
     }
@@ -119,7 +120,7 @@ public class JsonReaderTest extends TestCase {
         reader.close();
 
         assertTrue(value instanceof JsonObject);
-        return (JsonObject)value;
+        return (JsonObject) value;
     }
 
 }

@@ -86,43 +86,43 @@ public class JsonGeneratorTest extends TestCase {
 
     static void testObject(JsonGenerator generator) throws Exception {
         generator
-            .writeStartObject()
+                .writeStartObject()
                 .write("firstName", "John")
                 .write("lastName", "Smith")
                 .write("age", 25)
                 .writeStartObject("address")
-                    .write("streetAddress", "21 2nd Street")
-                    .write("city", "New York")
-                    .write("state", "NY")
-                    .write("postalCode", "10021")
+                .write("streetAddress", "21 2nd Street")
+                .write("city", "New York")
+                .write("state", "NY")
+                .write("postalCode", "10021")
                 .writeEnd()
                 .writeStartArray("phoneNumber")
-                    .writeStartObject()
-                        .write("type", "home")
-                        .write("number", "212 555-1234")
-                    .writeEnd()
-                    .writeStartObject()
-                        .write("type", "fax")
-                        .write("number", "646 555-4567")
-                    .writeEnd()
+                .writeStartObject()
+                .write("type", "home")
+                .write("number", "212 555-1234")
                 .writeEnd()
-            .writeEnd();
+                .writeStartObject()
+                .write("type", "fax")
+                .write("number", "646 555-4567")
+                .writeEnd()
+                .writeEnd()
+                .writeEnd();
     }
 
     public void testArray() throws Exception {
         Writer sw = new StringWriter();
         JsonGenerator generator = Json.createGenerator(sw);
         generator
-            .writeStartArray()
+                .writeStartArray()
                 .writeStartObject()
-                    .write("type", "home")
-                    .write("number", "212 555-1234")
+                .write("type", "home")
+                .write("number", "212 555-1234")
                 .writeEnd()
                 .writeStartObject()
-                    .write("type", "fax")
-                    .write("number", "646 555-4567")
+                .write("type", "fax")
+                .write("number", "646 555-4567")
                 .writeEnd()
-            .writeEnd();
+                .writeEnd();
         generator.close();
         System.out.println(sw.toString());
     }
@@ -132,13 +132,13 @@ public class JsonGeneratorTest extends TestCase {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
         generator
-            .writeStartObject()
+                .writeStartObject()
                 .write("firstName", "John")
                 .write("lastName", "Smith")
                 .write("age", 25)
                 .write("address", JsonBuilderTest.buildAddress())
                 .write("phoneNumber", JsonBuilderTest.buildPhone())
-            .writeEnd();
+                .writeEnd();
         generator.close();
         writer.close();
 
@@ -187,23 +187,22 @@ public class JsonGeneratorTest extends TestCase {
         StringWriter sw = new StringWriter();
         JsonGenerator generator = Json.createGenerator(sw);
         generator.writeStartArray()
-                    .write(JsonValue.TRUE)
-                    .write(JsonValue.FALSE)
-                    .write(JsonValue.NULL)
-                    .write(Integer.MAX_VALUE)
-                    .write(Long.MAX_VALUE)
-                    .write(Double.MAX_VALUE)
-                    .write(Integer.MIN_VALUE)
-                    .write(Long.MIN_VALUE)
-                    .write(Double.MIN_VALUE)
+                .write(JsonValue.TRUE)
+                .write(JsonValue.FALSE)
+                .write(JsonValue.NULL)
+                .write(Integer.MAX_VALUE)
+                .write(Long.MAX_VALUE)
+                .write(Double.MAX_VALUE)
+                .write(Integer.MIN_VALUE)
+                .write(Long.MIN_VALUE)
+                .write(Double.MIN_VALUE)
                 .writeEnd();
 
         JsonReader reader = new JsonReader(new StringReader(sw.toString()));
         JsonArray expected = reader.readArray();
         reader.close();
 
-        JsonArray actual = new JsonBuilder()
-                .startArray()
+        JsonArray actual = new JsonArrayBuilder()
                 .add(JsonValue.TRUE)
                 .add(JsonValue.FALSE)
                 .add(JsonValue.NULL)
@@ -213,7 +212,6 @@ public class JsonGeneratorTest extends TestCase {
                 .add(Integer.MIN_VALUE)
                 .add(Long.MIN_VALUE)
                 .add(Double.MIN_VALUE)
-                .end()
                 .build();
 
         assertEquals(expected, actual);
@@ -255,7 +253,7 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.writeStartObject();
             fail("Expected JsonGenerationException, writeStartObject() cannot be called more than once");
-        } catch(JsonGenerationException je) {
+        } catch (JsonGenerationException je) {
             // Expected exception
         }
     }
@@ -267,7 +265,7 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.writeStartArray();
             fail("Expected JsonGenerationException, writeStartArray() is valid in no context");
-        } catch(JsonGenerationException je) {
+        } catch (JsonGenerationException je) {
             // Expected exception
         }
     }
@@ -278,7 +276,7 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.close();
             fail("Expected JsonGenerationException, no JSON is generated");
-        } catch(JsonGenerationException je) {
+        } catch (JsonGenerationException je) {
             // Expected exception
         }
     }
@@ -290,7 +288,7 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.close();
             fail("Expected JsonGenerationException, writeEnd() is not called");
-        } catch(JsonGenerationException je) {
+        } catch (JsonGenerationException je) {
             // Expected exception
         }
     }
@@ -302,7 +300,7 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.close();
             fail("Expected JsonGenerationException, writeEnd() is not called");
-        } catch(JsonGenerationException je) {
+        } catch (JsonGenerationException je) {
             // Expected exception
         }
     }
@@ -314,19 +312,19 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.write(Double.NaN);
             fail("JsonGenerator.write(Double.NaN) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         try {
             generator.write(Double.POSITIVE_INFINITY);
             fail("JsonGenerator.write(Double.POSITIVE_INIFINITY) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         try {
             generator.write(Double.NEGATIVE_INFINITY);
             fail("JsonGenerator.write(Double.NEGATIVE_INIFINITY) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         generator.writeEnd();
@@ -340,19 +338,19 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.write("foo", Double.NaN);
             fail("JsonGenerator.write(String, Double.NaN) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         try {
             generator.write("foo", Double.POSITIVE_INFINITY);
             fail("JsonGenerator.write(String, Double.POSITIVE_INIFINITY) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         try {
             generator.write("foo", Double.NEGATIVE_INFINITY);
             fail("JsonGenerator.write(String, Double.NEGATIVE_INIFINITY) should produce NumberFormatException");
-        } catch(NumberFormatException ne) {
+        } catch (NumberFormatException ne) {
             // expected
         }
         generator.writeEnd();

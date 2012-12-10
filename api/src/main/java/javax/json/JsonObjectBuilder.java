@@ -42,25 +42,68 @@ package javax.json;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
- * Helps in building a JSON object. This is an intermediary class and the
- * actual build process is started from {@link JsonBuilder}
+ * Builds a {@link JsonObject} from scratch. It uses builder pattern to build
+ * the object model and the builder methods can be chained while building the
+ * JSON Object.
  *
- * @author Jitendra Kotamraju
- * @see JsonBuilder
- * @see javax.json.stream.JsonGenerator
+ * <p>
+ * <b>For example</b>, for the following JSON
+ *
+ * <code>
+ * <pre>
+ * {
+ *     "firstName": "John", "lastName": "Smith", "age": 25,
+ *     "address" : {
+ *         "streetAddress", "21 2nd Street",
+ *         "city", "New York",
+ *         "state", "NY",
+ *         "postalCode", "10021"
+ *     },
+ *     "phoneNumber": [
+ *         { "type": "home", "number": "212 555-1234" },
+ *         { "type": "fax", "number": "646 555-4567" }
+ *     ]
+ * }
+ * </pre>
+ * </code>
+ *
+ * a JsonObject instance can be built using:
+ *
+ * <p>
+ * <code>
+ * <pre>
+ * JsonObject value = new JsonObjectBuilder()
+ *     .add("firstName", "John")
+ *     .add("lastName", "Smith")
+ *     .add("age", 25)
+ *     .add("address", new JsonObjectBuilder()
+ *         .add("streetAddress", "21 2nd Street")
+ *         .add("city", "New York")
+ *         .add("state", "NY")
+ *         .add("postalCode", "10021"))
+ *     .add("phoneNumber", new JsonArrayBuilder()
+ *         .add(new JsonObjectBuilder()
+ *             .add("type", "home")
+ *             .add("number", "212 555-1234"))
+ *         .add(new JsonObjectBuilder()
+ *             .add("type", "fax")
+ *             .add("number", "646 555-4567")))
+ *     .build();
+ * </pre>
+ * </code>
+ *
+ * @see JsonArrayBuilder
  */
-public interface JsonObjectBuilder<T> {
+public class JsonObjectBuilder {
+    private final Map<String, JsonValue> valueMap;
 
-    /**
-     * Indicates the end of the JSON object that is being built.
-     *
-     * @return the enclosing object of type T
-     * @throws IllegalStateException when end method
-     * is already called
-     */
-    T end();
+    public JsonObjectBuilder() {
+        this.valueMap = new LinkedHashMap<String, JsonValue>();
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -71,10 +114,11 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonObjectBuilder<T> add(String name, JsonValue value);
+    public JsonObjectBuilder add(String name, JsonValue value) {
+        valueMap.put(name, value);
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -85,10 +129,11 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonObjectBuilder<T> add(String name, String value);
+    public JsonObjectBuilder add(String name, String value) {
+        valueMap.put(name, new JsonStringImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -99,12 +144,13 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      *
      * @see JsonNumber
      */
-    JsonObjectBuilder<T> add(String name, BigInteger value);
+    public JsonObjectBuilder add(String name, BigInteger value) {
+        valueMap.put(name, new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -115,12 +161,13 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      *
      * @see JsonNumber
      */
-    JsonObjectBuilder<T> add(String name, BigDecimal value);
+    public JsonObjectBuilder add(String name, BigDecimal value) {
+        valueMap.put(name, new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -131,12 +178,13 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      *
      * @see JsonNumber
      */
-    JsonObjectBuilder<T> add(String name, int value);
+    public JsonObjectBuilder add(String name, int value) {
+        valueMap.put(name, new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -147,12 +195,13 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      *
      * @see JsonNumber
      */
-    JsonObjectBuilder<T> add(String name, long value);
+    public JsonObjectBuilder add(String name, long value) {
+        valueMap.put(name, new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -163,13 +212,14 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
      * @see JsonNumber
      */
-    JsonObjectBuilder<T> add(String name, double value);
+    public JsonObjectBuilder add(String name, double value) {
+        valueMap.put(name, new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -180,10 +230,11 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonObjectBuilder<T> add(String name, boolean value);
+    public JsonObjectBuilder add(String name, boolean value) {
+        valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
+        return this;
+    }
 
     /**
      * Associates the specified value with the specified name/key in the
@@ -193,35 +244,46 @@ public interface JsonObjectBuilder<T> {
      * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonObjectBuilder<T> addNull(String name);
+    public JsonObjectBuilder addNull(String name) {
+        valueMap.put(name, JsonValue.NULL);
+        return this;
+    }
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Associates the JsonObject from the specified builder with the
+     * specified name/key in the JSON object that is being built.
      *
      * @param name name/key with which the specified value is to be associated
-     * @return a object member builder
+     * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonObjectBuilder<JsonObjectBuilder<T>> startObject(String name);
+    public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
+        valueMap.put(name, builder.build());
+        return this;
+    }
 
     /**
-     * Associates the specified value with the specified name/key in the
-     * JSON object that is being built.
+     * Associates the JSON array from the specified builder with the
+     * specified name/key in the JSON object that is being built.
      *
      * @param name name/key with which the specified value is to be associated
-     * @return a array member builder
+     * @return this object builder
      * @throws JsonException if there is a mapping for the specified name/key
      * in the JSON object
-     * @throws IllegalStateException when invoked after the end method
-     * is called
      */
-    JsonArrayBuilder<JsonObjectBuilder<T>> startArray(String name);
+    public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
+        valueMap.put(name, builder.build());
+        return this;
+    }
 
+    /**
+     * Returns the JSON object that is being built
+     *
+     * @return JSON object that is being built
+     */
+    public JsonObject build() {
+        return new JsonObjectImpl(new LinkedHashMap<String, JsonValue>(valueMap));
+    }
 }

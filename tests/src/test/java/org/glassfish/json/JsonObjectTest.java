@@ -51,19 +51,15 @@ public class JsonObjectTest extends TestCase {
     public JsonObjectTest(String testName) {
         super(testName);
     }
-    
+
     public void test() {
     }
 
     public void testEmptyObjectEquals() throws Exception {
-        JsonObject empty1 = new JsonBuilder()
-                .startObject()
-                .end()
+        JsonObject empty1 = new JsonObjectBuilder()
                 .build();
 
-        JsonObject empty2 = new JsonBuilder()
-                .startObject()
-                .end()
+        JsonObject empty2 = new JsonObjectBuilder()
                 .build();
 
         assertEquals(empty1, empty2);
@@ -110,12 +106,12 @@ public class JsonObjectTest extends TestCase {
     }
 
     public void testClassCastException() {
-        JsonObject obj = new JsonBuilder().startObject()
-                .add("foo", JsonValue.FALSE).end().build();
+        JsonObject obj = new JsonObjectBuilder()
+                .add("foo", JsonValue.FALSE).build();
         try {
             obj.getValue("foo", JsonNumber.class);
             fail("Expected ClassCastException for casting JsonValue.FALSE to JsonNumber");
-        } catch(ClassCastException ce) {
+        } catch (ClassCastException ce) {
             // Expected
         }
     }

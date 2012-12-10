@@ -146,8 +146,10 @@ public class JsonReader implements /*Auto*/Closeable {
         readDone = true;
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
-            if (e == JsonParser.Event.START_ARRAY || e == JsonParser.Event.START_OBJECT) {
-                return read(e);
+            if (e == JsonParser.Event.START_ARRAY) {
+                return readArray(new JsonArrayBuilder());
+            } else if (e == JsonParser.Event.START_OBJECT) {
+                return readObject(new JsonObjectBuilder());
             } else {
                 throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
             }
@@ -174,7 +176,7 @@ public class JsonReader implements /*Auto*/Closeable {
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_OBJECT) {
-                return (JsonObject)read(e);
+                return readObject(new JsonObjectBuilder());
             } else if (e == JsonParser.Event.START_ARRAY) {
                 throw new JsonException("Cannot read JSON object, found JSON array");
             } else {
@@ -203,7 +205,7 @@ public class JsonReader implements /*Auto*/Closeable {
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_ARRAY) {
-                return (JsonArray)read(e);
+                return readArray(new JsonArrayBuilder());
             } else if (e == JsonParser.Event.START_OBJECT) {
                 throw new JsonException("Cannot read JSON array, found JSON object");
             } else {
@@ -223,85 +225,84 @@ public class JsonReader implements /*Auto*/Closeable {
         parser.close();
     }
 
-    private JsonStructure read(JsonParser.Event firstEvent) {
-        Object builder = new JsonBuilder();
-        String key = null;
-        JsonParser.Event e = firstEvent;
-        do {
+    private JsonArray readArray(JsonArrayBuilder builder) {
+        while(parser.hasNext()) {
+            JsonParser.Event e = parser.next();
             switch (e) {
                 case START_ARRAY:
-                    if (builder instanceof JsonBuilder) {
-                        builder =  ((JsonBuilder)builder).startArray();
-                    } else if (builder instanceof JsonArrayBuilder) {
-                        builder = ((JsonArrayBuilder)builder).startArray();
-                    } else {
-                        builder = ((JsonObjectBuilder)builder).startArray(key);
-                    }
+                    JsonArray array = readArray(new JsonArrayBuilder());
+                    builder.add(array);
                     break;
                 case START_OBJECT:
-                    if (builder instanceof JsonBuilder) {
-                        builder =  ((JsonBuilder)builder).startObject();
-                    } else if (builder instanceof JsonArrayBuilder) {
-                        builder = ((JsonArrayBuilder)builder).startObject();
-                    } else {
-                        builder = ((JsonObjectBuilder)builder).startObject(key);
-                    }
+                    JsonObject object = readObject(new JsonObjectBuilder());
+                    builder.add(object);
+                    break;
+                case VALUE_STRING:
+                    String  string = parser.getString();
+                    builder.add(string);
+                    break;
+                case VALUE_NUMBER:
+                    BigDecimal bd = new BigDecimal(parser.getString());
+                    builder.add(bd);
+                    break;
+                case VALUE_TRUE:
+                    builder.add(true);
+                    break;
+                case VALUE_FALSE:
+                    builder.add(false);
+                    break;
+                case VALUE_NULL:
+                    builder.addNull();
+                    break;
+                case END_ARRAY:
+                    return builder.build();
+                default:
+                    throw new JsonException("Internal Error");
+            }
+        }
+        throw new JsonException("Internal Error");
+    }
+
+    private JsonObject readObject(JsonObjectBuilder builder) {
+        String key = null;
+        while(parser.hasNext()) {
+            JsonParser.Event e = parser .next();
+            switch (e) {
+                case START_ARRAY:
+                    JsonArray array = readArray(new JsonArrayBuilder());
+                    builder.add(key, array);
+                    break;
+                case START_OBJECT:
+                    JsonObject object = readObject(new JsonObjectBuilder());
+                    builder.add(key, object);
                     break;
                 case KEY_NAME:
                     key = parser.getString();
                     break;
                 case VALUE_STRING:
                     String  string = parser.getString();
-                    if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).add(string);
-                    } else {
-                        ((JsonObjectBuilder)builder).add(key, string);
-                    }
+                    builder.add(key, string);
                     break;
                 case VALUE_NUMBER:
                     BigDecimal bd = new BigDecimal(parser.getString());
-                    if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).add(bd);
-                    } else {
-                        ((JsonObjectBuilder)builder).add(key, bd);
-                    }
+                    builder.add(key, bd);
                     break;
                 case VALUE_TRUE:
-                    if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).add(true);
-                    } else {
-                        ((JsonObjectBuilder)builder).add(key, true);
-                    }
+                    builder.add(key, true);
                     break;
                 case VALUE_FALSE:
-                    if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).add(false);
-                    } else {
-                        ((JsonObjectBuilder)builder).add(key, false);
-                    }
+                    builder.add(key, false);
                     break;
                 case VALUE_NULL:
-                    if (builder instanceof JsonArrayBuilder) {
-                        ((JsonArrayBuilder)builder).addNull();
-                    } else {
-                        ((JsonObjectBuilder)builder).addNull(key);
-                    }
+                    builder.addNull(key);
                     break;
                 case END_OBJECT:
-                    builder = ((JsonObjectBuilder)builder).end();
-                    break;
-                case END_ARRAY:
-                    builder = ((JsonArrayBuilder)builder).end();
-                    break;
+                    return builder.build();
+                default:
+                    throw new JsonException("Internal Error");
             }
-            if (parser.hasNext()) {
-                e = parser .next();
-            } else {
-                break;
-            }
-        } while(true);
-
-        return ((JsonBuilder.JsonBuildable)builder).build();
+        }
+        throw new JsonException("Internal Error");
     }
 
 }

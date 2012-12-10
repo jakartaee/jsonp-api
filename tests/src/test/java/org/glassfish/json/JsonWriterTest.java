@@ -40,10 +40,7 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonWriter;
-import javax.json.JsonBuilder;
+import javax.json.*;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
@@ -59,17 +56,17 @@ public class JsonWriterTest extends TestCase {
     public void testObject() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeObject(new JsonBuilder().startObject().end().build());
+        jsonWriter.writeObject(new JsonObjectBuilder().build());
         jsonWriter.close();
         writer.close();
-        
+
         assertEquals("{}", writer.toString());
     }
 
     public void testArray() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().startArray().end().build());
+        jsonWriter.writeArray(new JsonArrayBuilder().build());
         jsonWriter.close();
         writer.close();
 
@@ -79,7 +76,7 @@ public class JsonWriterTest extends TestCase {
     public void testNumber() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().startArray().add(10).end().build());
+        jsonWriter.writeArray(new JsonArrayBuilder().add(10).build());
         jsonWriter.close();
         writer.close();
 
@@ -89,7 +86,7 @@ public class JsonWriterTest extends TestCase {
     public void testDoubleNumber() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().startArray().add(10.5).end().build());
+        jsonWriter.writeArray(new JsonArrayBuilder().add(10.5).build());
         jsonWriter.close();
         writer.close();
 
@@ -99,7 +96,7 @@ public class JsonWriterTest extends TestCase {
     public void testArrayString() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = new JsonWriter(writer);
-        jsonWriter.writeArray(new JsonBuilder().startArray().add("string").end().build());
+        jsonWriter.writeArray(new JsonArrayBuilder().add("string").build());
         jsonWriter.close();
         writer.close();
 
@@ -107,8 +104,8 @@ public class JsonWriterTest extends TestCase {
     }
 
     public void testIllegalStateExcepton() throws Exception {
-        JsonObject obj = new JsonBuilder().startObject().end().build();
-        JsonArray array = new JsonBuilder().startArray().end().build();
+        JsonObject obj = new JsonObjectBuilder().build();
+        JsonArray array = new JsonArrayBuilder().build();
 
         JsonWriter writer = new JsonWriter(new StringWriter());
         writer.writeObject(obj);

@@ -58,7 +58,7 @@ import java.util.Set;
  * </pre>
  * </code>
  *
- * It can also be built from scratch using {@link JsonBuilder#startObject()}.
+ * It can also be built from scratch using {@link JsonObjectBuilder}.
  *
  * <p>
  * For example 1:
@@ -66,10 +66,7 @@ import java.util.Set;
  * <pre>
  * An empty JSON object can be built as follows:
  *
- * JsonArray array = new JsonBuilder()
- *     .startObject()
- *     .end()
- * .build();
+ * JsonArray array = new JsonObjectBuilder().build();
  * </pre>
  * </code>
  *
@@ -81,37 +78,37 @@ import java.util.Set;
  *
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
+ *     "address" : {
+ *         "streetAddress", "21 2nd Street",
+ *         "city", "New York",
+ *         "state", "NY",
+ *         "postalCode", "10021"
+ *     },
  *     "phoneNumber": [
- *         {"type": "home", "number": "212 555-1234"},
- *         {"type": "fax", "number": "646 555-4567"}
- *      ]
+ *         { "type": "home", "number": "212 555-1234" },
+ *         { "type": "fax", "number": "646 555-4567" }
+ *     ]
  * }
  *
  * can be built using :
  *
- * JsonObject object = new JsonBuilder()
- *     .startObject()
- *         .add("firstName", "John")
- *         .add("lastName", "Smith")
- *         .add("age", 25)
- *         .startObject("address")
- *             .add("streetAddress", "21 2nd Street")
- *             .add("city", "New York")
- *             .add("state", "NY")
- *             .add("postalCode", "10021")
- *         .end()
- *         .startArray("phoneNumber")
- *             .startObject()
- *                 .add("type", "home")
- *                 .add("number", "212 555-1234")
- *             .end()
- *             .startObject()
- *                 .add("type", "home")
- *                 .add("number", "646 555-4567")
- *             .end()
- *         .end()
- *     .end()
- * .build();
+ * JsonObject value = new JsonObjectBuilder()
+ *     .add("firstName", "John")
+ *     .add("lastName", "Smith")
+ *     .add("age", 25)
+ *     .add("address", new JsonObjectBuilder()
+ *         .add("streetAddress", "21 2nd Street")
+ *         .add("city", "New York")
+ *         .add("state", "NY")
+ *         .add("postalCode", "10021"))
+ *     .add("phoneNumber", new JsonArrayBuilder()
+ *         .add(new JsonObjectBuilder()
+ *             .add("type", "home")
+ *             .add("number", "212 555-1234"))
+ *         .add(new JsonObjectBuilder()
+ *             .add("type", "fax")
+ *             .add("number", "646 555-4567")))
+ *     .build();
  * </pre>
  * </code>
  *

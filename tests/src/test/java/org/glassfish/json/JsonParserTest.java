@@ -42,10 +42,7 @@ package org.glassfish.json;
 
 import junit.framework.TestCase;
 
-import javax.json.Json;
-import javax.json.JsonBuilder;
-import javax.json.JsonConfiguration;
-import javax.json.JsonNumber;
+import javax.json.*;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.ByteArrayInputStream;
@@ -62,7 +59,7 @@ public class JsonParserTest extends TestCase {
     public JsonParserTest(String testName) {
         super(testName);
     }
-    
+
     public void testReader() {
         JsonParser reader = Json.createParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
         reader.close();
@@ -76,34 +73,34 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStream() {
-        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[',']'}));
+        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new ByteArrayInputStream(new byte[]{'[',']'}));
+        JsonParser parser = Json.createParserFactory(config).createParser(new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory(config).createParser(new JsonArrayBuilder().build());
         testEmptyArray(parser);
         parser.close();
     }
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyArray(JsonParser parser) {
-        while(parser.hasNext()) {
+        while (parser.hasNext()) {
             parser.next();
         }
     }
@@ -116,7 +113,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureIterator() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
         testEmptyArrayIterator(parser);
         parser.close();
     }
@@ -135,10 +132,9 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
         }
     }
-
 
 
     public void testEmptyArrayIterator2Reader() {
@@ -148,7 +144,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator2Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
         testEmptyArrayIterator2(parser);
         parser.close();
     }
@@ -159,7 +155,7 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
         }
     }
 
@@ -171,7 +167,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator3Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startArray().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
         testEmptyArrayIterator3(parser);
         parser.close();
     }
@@ -183,7 +179,7 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
         }
     }
 
@@ -196,32 +192,30 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStream() {
-        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'{','}'}));
+        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'{', '}'}));
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory(config).createParser(new JsonObjectBuilder().build());
         testEmptyObject(parser);
         parser.close();
     }
 
     @SuppressWarnings("UnusedDeclaration")
     static void testEmptyObject(JsonParser parser) {
-        while(parser.hasNext()) {
+        while (parser.hasNext()) {
             parser.next();
         }
     }
-
-
 
 
     public void testEmptyObjectIteratorReader() {
@@ -231,7 +225,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIteratorStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
         testEmptyObjectIterator(parser);
         parser.close();
     }
@@ -250,7 +244,7 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
         }
     }
 
@@ -260,8 +254,9 @@ public class JsonParserTest extends TestCase {
         testEmptyObjectIterator2(parser);
         parser.close();
     }
+
     public void testEmptyObjectIterator2Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
         testEmptyObjectIterator2(parser);
         parser.close();
     }
@@ -272,7 +267,7 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
         }
     }
 
@@ -284,7 +279,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIterator3Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder().startObject().end().build());
+        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
         testEmptyObjectIterator3(parser);
         parser.close();
     }
@@ -296,11 +291,10 @@ public class JsonParserTest extends TestCase {
         try {
             parser.next();
             fail("Should have thrown a NoSuchElementException");
-        } catch(NoSuchElementException ne) {
+        } catch (NoSuchElementException ne) {
             // expected
         }
     }
-
 
 
     public void testWikiIteratorReader() throws Exception {
@@ -319,13 +313,12 @@ public class JsonParserTest extends TestCase {
 
     @SuppressWarnings("UnusedDeclaration")
     static void testWikiIterator(JsonParser parser) throws Exception {
-        while(parser.hasNext()) {
+        while (parser.hasNext()) {
             parser.next();
         }
     }
 
-    
-    
+
     public void testWikiReader() throws Exception {
         Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
         JsonParser parser = Json.createParser(wikiReader);
@@ -418,14 +411,12 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testNestedArrayStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonBuilder()
-                .startArray()
-                    .startArray().end()
-                    .startArray()
-                        .startArray().end()
-                    .end()
-                .end()
-                .build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonArrayBuilder()
+                        .add(new JsonArrayBuilder())
+                        .add(new JsonArrayBuilder()
+                                .add(new JsonArrayBuilder()))
+                        .build());
         testNestedArray(parser);
         parser.close();
     }
@@ -465,35 +456,35 @@ public class JsonParserTest extends TestCase {
         try {
             parser.getString();
             fail("JsonParser#getString() should have thrown exception in START_OBJECT state");
-        } catch(IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
             parser.getNumberType();
             fail("JsonParser#getNumberType() should have thrown exception in START_OBJECT state");
-        } catch(IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
             parser.getIntValue();
             fail("JsonParser#getIntValue() should have thrown exception in START_OBJECT state");
-        } catch(IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
             parser.getLongValue();
             fail("JsonParser#getLongValue() should have thrown exception in START_OBJECT state");
-        } catch(IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
             parser.getBigDecimalValue();
             fail("JsonParser#getBigDecimalValue() should have thrown exception in START_OBJECT state");
-        } catch(IllegalStateException expected) {
+        } catch (IllegalStateException expected) {
             // no-op
         }
     }

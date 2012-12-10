@@ -40,38 +40,63 @@
 
 package javax.json;
 
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.*;
 
 /**
- * Helps in building a JSON array. This is an intermediary class and the
- * actual build process is started from {@link JsonBuilder} or
- * {@link javax.json.stream.JsonGenerator}
+ * Builds a {@link JsonArray} from scratch. It uses builder pattern
+ * to build the array model and the builder methods can be chained while
+ * building the JSON array.
  *
- * @author Jitendra Kotamraju
- * @see JsonBuilder
- * @see javax.json.stream.JsonGenerator
+ * <p>
+ * <b>For example</b>, for the following JSON array
+ *
+ * <code>
+ * <pre>
+ * [
+ *     { "type": "home", "number": "212 555-1234" },
+ *     { "type": "fax", "number": "646 555-4567" }
+ * ]
+ * </pre>
+ * </code>
+ *
+ * a JsonArray instance can be built using:
+ *
+ * <p>
+ * <code>
+ * <pre>
+ * JsonArray value = new JsonArrayBuilder()
+ *     .add(new JsonObjectBuilder()
+ *         .add("type", "home")
+ *         .add("number", "212 555-1234"))
+ *     .add(new JsonObjectBuilder()
+ *         .add("type", "fax")
+ *         .add("number", "646 555-4567"))
+ *     .build();
+ * </pre>
+ * </code>
+ *
+ * @see JsonObjectBuilder
  */
-public interface JsonArrayBuilder<T> {
+public class JsonArrayBuilder {
+    private final List<JsonValue> valueList;
 
-    /**
-     * Indicates the end of the JSON array that is being built.
-     *
-     * @return the enclosing object of type T
-     * @throws IllegalStateException when end method is already
-     * called.
-     */
-    T end();
+    public JsonArrayBuilder() {
+        this.valueList = new ArrayList<JsonValue>();
+    }
 
     /**
      * Adds the specified value to the array that is being built.
      *
      * @param value a JSON value
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      */
-    JsonArrayBuilder<T> add(JsonValue value);
+    public JsonArrayBuilder add(JsonValue value) {
+        valueList.add(value);
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON string value to the array
@@ -79,10 +104,11 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value string
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      */
-    JsonArrayBuilder<T> add(String value);
+    public JsonArrayBuilder add(String value) {
+        valueList.add(new JsonStringImpl(value));
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -90,12 +116,13 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      *
      * @see JsonNumber
      */
-    JsonArrayBuilder<T> add(BigDecimal value);
+    public JsonArrayBuilder add(BigDecimal value) {
+        valueList.add(new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -103,12 +130,13 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      *
      * @see JsonNumber
      */
-    JsonArrayBuilder<T> add(BigInteger value);
+    public JsonArrayBuilder add(BigInteger value) {
+        valueList.add(new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -116,12 +144,13 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      *
      * @see JsonNumber
      */
-    JsonArrayBuilder<T> add(int value);
+    public JsonArrayBuilder add(int value) {
+        valueList.add(new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -129,12 +158,13 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      *
      * @see JsonNumber
      */
-    JsonArrayBuilder<T> add(long value);
+    public JsonArrayBuilder add(long value) {
+        valueList.add(new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Adds the specified value as a JSON number value to the array
@@ -142,49 +172,353 @@ public interface JsonArrayBuilder<T> {
      *
      * @param value a number
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
      * @see JsonNumber
      */
-    JsonArrayBuilder<T> add(double value);
+    public JsonArrayBuilder add(double value) {
+        valueList.add(new JsonNumberImpl(value));
+        return this;
+    }
 
     /**
      * Adds a JSON true or false value to the array that is being built.
      *
      * @param value a boolean
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      */
-    JsonArrayBuilder<T> add(boolean value);
+    public JsonArrayBuilder add(boolean value) {
+        valueList.add(value ? JsonValue.TRUE : JsonValue.FALSE);
+        return this;
+    }
 
     /**
-     * Adds the JSON null value to the array that is being built.
+     * Adds a JSON null value to the array that is being built.
      *
      * @return this array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
      */
-    JsonArrayBuilder<T> addNull();
+    public JsonArrayBuilder addNull() {
+        valueList.add(JsonValue.NULL);
+        return this;
+    }
 
     /**
-     * Returns a JSON array builder to build a new object value
+     * Adds a JsonObject from the specified builder to the array that
+     * is being built.
      *
-     * @return an array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
+     * @return this array builder
      */
-    JsonObjectBuilder<JsonArrayBuilder<T>> startObject();
+    public JsonArrayBuilder add(JsonObjectBuilder builder) {
+        valueList.add(builder.build());
+        return this;
+    }
 
     /**
-     * Returns a JSON array builder to build a new array value
+     * Adds a JsonArray from the specified builder to the array that
+     * is being built.
      *
-     * @return an array builder
-     * @throws IllegalStateException when invoked after end method is
-     * called.
+     * @return this array builder
      */
-    JsonArrayBuilder<JsonArrayBuilder<T>> startArray();
+    public JsonArrayBuilder add(JsonArrayBuilder builder) {
+        valueList.add(builder.build());
+        return this;
+    }
+
+    /**
+     * Returns the array that is being built
+     *
+     * @return JSON array that is being built
+     */
+    public JsonArray build() {
+        return new JsonArrayImpl(new ArrayList<JsonValue>(valueList));
+    }
+}
+
+final class JsonStringImpl implements JsonString {
+
+    private final String value;
+
+    public JsonStringImpl(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public CharSequence getChars() {
+        return value;
+    }
+
+    @Override
+    public ValueType getValueType() {
+        return ValueType.STRING;
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonString)) {
+            return false;
+        }
+        JsonString other = (JsonString)obj;
+        return getValue().equals(other.getValue());
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+}
+
+final class JsonNumberImpl implements JsonNumber {
+    private final BigDecimal bigDecimal;
+    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
+    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
+    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
+    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
+
+    public JsonNumberImpl(int value) {
+        bigDecimal = new BigDecimal(value);
+    }
+
+    public JsonNumberImpl(long value) {
+        bigDecimal = new BigDecimal(value);
+    }
+
+    public JsonNumberImpl(BigInteger value) {
+        bigDecimal = new BigDecimal(value);
+    }
+
+    public JsonNumberImpl(double value) {
+        //bigDecimal = new BigDecimal(value);
+        // This is the preferred way to convert double to BigDecimal
+        bigDecimal = BigDecimal.valueOf(value);
+    }
+
+    public JsonNumberImpl(BigDecimal value) {
+        this.bigDecimal = value;
+    }
+
+    @Override
+    public NumberType getNumberType() {
+        if (bigDecimal.scale() != 0)  {
+            return NumberType.BIG_DECIMAL;
+        } else {
+            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
+                return NumberType.INT;
+            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
+                return NumberType.LONG;
+            } else {
+                return NumberType.BIG_DECIMAL;
+            }
+        }
+    }
+
+    @Override
+    public int getIntValue() {
+        return bigDecimal.intValue();
+    }
+
+    @Override
+    public int getIntValueExact() {
+        return bigDecimal.intValueExact();
+    }
+
+    @Override
+    public long getLongValue() {
+        return bigDecimal.longValue();
+    }
+
+    @Override
+    public long getLongValueExact() {
+        return bigDecimal.longValueExact();
+    }
+
+    @Override
+    public BigInteger getBigIntegerValue() {
+        return bigDecimal.toBigInteger();
+    }
+
+    @Override
+    public BigInteger getBigIntegerValueExact() {
+        return bigDecimal.toBigIntegerExact();
+    }
+
+    @Override
+    public double getDoubleValue() {
+        return bigDecimal.doubleValue();
+    }
+
+    @Override
+    public BigDecimal getBigDecimalValue() {
+        return bigDecimal;
+    }
+
+    @Override
+    public ValueType getValueType() {
+        return ValueType.NUMBER;
+    }
+
+    @Override
+    public int hashCode() {
+        return getBigDecimalValue().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonNumber)) {
+            return false;
+        }
+        JsonNumber other = (JsonNumber)obj;
+        return getBigDecimalValue().equals(other.getBigDecimalValue());
+    }
+
+    @Override
+    public String toString() {
+        return bigDecimal.toString();
+    }
 
 }
+
+final class JsonArrayImpl implements JsonArray {
+    final List<JsonValue> valueList;
+    private final List<JsonValue> unmodifiableValueList;
+
+    JsonArrayImpl(List<JsonValue> valueList) {
+        this.valueList = valueList;
+        unmodifiableValueList = Collections.unmodifiableList(valueList);
+    }
+
+    @Override
+    public List<JsonValue> getValues() {
+        return unmodifiableValueList;
+    }
+
+    @Override
+    public int size() {
+        return valueList.size();
+    }
+
+    @Override
+    public JsonValue getValue(int index) {
+        return valueList.get(index);
+    }
+
+    @Override
+    public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
+        return clazz.cast(valueList.get(index));
+    }
+
+    @Override
+    public String getStringValue(int index) {
+        return getValue(index, JsonString.class).getValue();
+    }
+
+    @Override
+    public int getIntValue(int index) {
+        return getValue(index, JsonNumber.class).getIntValue();
+    }
+
+    @Override
+    public ValueType getValueType() {
+        return ValueType.ARRAY;
+    }
+
+    @Override
+    public int hashCode() {
+        return getValues().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonArray)) {
+            return false;
+        }
+        JsonArray other = (JsonArray)obj;
+        return getValues().equals(other.getValues());
+    }
+
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        jw.write(this);
+        jw.close();
+        return sw.toString();
+    }
+}
+
+final class JsonObjectImpl implements JsonObject {
+    final Map<String, JsonValue> valueMap;
+    private final Map<String, JsonValue> unmodifiableValueMap;
+
+    JsonObjectImpl(Map<String, JsonValue> valueMap) {
+        this.valueMap = valueMap;
+        unmodifiableValueMap = Collections.unmodifiableMap(valueMap);
+    }
+    @Override
+    public JsonValue getValue(String name) {
+        return valueMap.get(name);
+    }
+
+    @Override
+    public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
+        return clazz.cast(valueMap.get(name));
+    }
+
+    @Override
+    public Set<String> getNames() {
+        return valueMap.keySet();
+    }
+
+    @Override
+    public Map<String, JsonValue> getValues() {
+        return unmodifiableValueMap;
+    }
+
+    @Override
+    public String getStringValue(String name) {
+        return getValue(name, JsonString.class).getValue();
+    }
+
+    @Override
+    public int getIntValue(String name) {
+        return getValue(name, JsonNumber.class).getIntValue();
+    }
+
+    @Override
+    public ValueType getValueType() {
+        return ValueType.OBJECT;
+    }
+
+    @Override
+    public int hashCode() {
+        return getValues().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonObject)) {
+            return false;
+        }
+        JsonObject other = (JsonObject)obj;
+        return getValues().equals(other.getValues());
+    }
+
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        jw.write(this);
+        jw.close();
+        return sw.toString();
+    }
+}
+

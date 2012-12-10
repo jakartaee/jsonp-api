@@ -46,8 +46,6 @@ import javax.json.*;
 import java.util.List;
 
 /**
- * {@link JsonBuilder} Tests
- *
  * @author Jitendra Kotamraju
  */
 public class JsonBuilderTest extends TestCase {
@@ -56,19 +54,15 @@ public class JsonBuilderTest extends TestCase {
     }
 
     public void testEmptyObject() throws Exception {
-        JsonObject empty = new JsonBuilder()
-            .startObject()
-            .end()
-        .build();
+        JsonObject empty = new JsonObjectBuilder()
+                .build();
 
         JsonObjectTest.testEmpty(empty);
     }
 
     public void testEmptyArray() throws Exception {
-        JsonArray empty = new JsonBuilder()
-            .startArray()
-            .end()
-        .build();
+        JsonArray empty = new JsonArrayBuilder()
+                .build();
 
         List<JsonValue> list = empty.getValues();
         assertTrue(list.isEmpty());
@@ -89,55 +83,43 @@ public class JsonBuilderTest extends TestCase {
     }
 
     static JsonObject buildPerson() {
-        return new JsonBuilder()
-            .startObject()
+        return new JsonObjectBuilder()
                 .add("firstName", "John")
                 .add("lastName", "Smith")
                 .add("age", 25)
-                .startObject("address")
-                    .add("streetAddress", "21 2nd Street")
-                    .add("city", "New York")
-                    .add("state", "NY")
-                    .add("postalCode", "10021")
-                .end()
-                .startArray("phoneNumber")
-                    .startObject()
-                        .add("type", "home")
-                        .add("number", "212 555-1234")
-                    .end()
-                    .startObject()
-                        .add("type", "fax")
-                        .add("number", "646 555-4567")
-                    .end()
-                .end()
-            .end()
-        .build();
+                .add("address", new JsonObjectBuilder()
+                        .add("streetAddress", "21 2nd Street")
+                        .add("city", "New York")
+                        .add("state", "NY")
+                        .add("postalCode", "10021"))
+                .add("phoneNumber", new JsonArrayBuilder()
+                        .add(new JsonObjectBuilder()
+                                .add("type", "home")
+                                .add("number", "212 555-1234"))
+                        .add(new JsonObjectBuilder()
+                                .add("type", "fax")
+                                .add("number", "646 555-4567")))
+                .build();
     }
 
     static JsonObject buildAddress() {
-        return new JsonBuilder()
-            .startObject()
+        return new JsonObjectBuilder()
                 .add("streetAddress", "21 2nd Street")
                 .add("city", "New York")
                 .add("state", "NY")
                 .add("postalCode", "10021")
-            .end()
-        .build();
+                .build();
     }
 
     static JsonArray buildPhone() {
-        return new JsonBuilder()
-            .startArray()
-                .startObject()
-                    .add("type", "home")
-                    .add("number", "212 555-1234")
-                .end()
-                .startObject()
-                    .add("type", "fax")
-                    .add("number", "646 555-4567")
-                .end()
-            .end()
-        .build();
+        return new JsonArrayBuilder()
+                .add(new JsonObjectBuilder()
+                        .add("type", "home")
+                        .add("number", "212 555-1234"))
+                .add(new JsonObjectBuilder()
+                        .add("type", "fax")
+                        .add("number", "646 555-4567"))
+                .build();
     }
 
 }
