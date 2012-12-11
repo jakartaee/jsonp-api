@@ -61,7 +61,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = new JsonReader(new StringReader("[10.4]"));
         JsonArray array2 = reader.readArray();
 
-        assertEquals(array1.getValue(0), array2.getValue(0));
+        assertEquals(array1.get(0), array2.get(0));
         assertEquals(array1, array2);
     }
 
@@ -70,7 +70,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = new JsonReader(new StringReader("[10.4]"));
         JsonArray array2 = reader.readArray();
 
-        assertEquals(array1.getValue(0), array2.getValue(0));
+        assertEquals(array1.get(0), array2.get(0));
         assertEquals(array1, array2);
     }
 
@@ -104,7 +104,7 @@ public class JsonNumberTest extends TestCase {
     }
 
     private void testNumberType(JsonArray array, JsonNumber.NumberType numberType) {
-        for (JsonValue value : array.getValues()) {
+        for (JsonValue value : array) {
             assertEquals(numberType, ((JsonNumber) value).getNumberType());
         }
     }

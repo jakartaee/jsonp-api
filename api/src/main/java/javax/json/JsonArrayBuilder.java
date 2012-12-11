@@ -230,7 +230,55 @@ public class JsonArrayBuilder {
      * @return JSON array that is being built
      */
     public JsonArray build() {
-        return new JsonArrayImpl(new ArrayList<JsonValue>(valueList));
+        ArrayList<JsonValue> snapshot = new ArrayList<JsonValue>(valueList);
+        return new JsonArrayImpl(Collections.unmodifiableList(snapshot));
+    }
+
+    private static final class JsonArrayImpl extends AbstractList<JsonValue> implements JsonArray {
+        private final List<JsonValue> valueList;    // Unmodifiable
+
+        JsonArrayImpl(List<JsonValue> valueList) {
+            this.valueList = valueList;
+        }
+
+        @Override
+        public int size() {
+            return valueList.size();
+        }
+
+        @Override
+        public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
+            return clazz.cast(valueList.get(index));
+        }
+
+        @Override
+        public String getStringValue(int index) {
+            return getValue(index, JsonString.class).getValue();
+        }
+
+        @Override
+        public int getIntValue(int index) {
+            return getValue(index, JsonNumber.class).getIntValue();
+        }
+
+        @Override
+        public ValueType getValueType() {
+            return ValueType.ARRAY;
+        }
+
+        @Override
+        public JsonValue get(int index) {
+            return valueList.get(index);
+        }
+
+        @Override
+        public String toString() {
+            StringWriter sw = new StringWriter();
+            JsonWriter jw = new JsonWriter(sw);
+            jw.write(this);
+            jw.close();
+            return sw.toString();
+        }
     }
 }
 
@@ -385,140 +433,5 @@ final class JsonNumberImpl implements JsonNumber {
         return bigDecimal.toString();
     }
 
-}
-
-final class JsonArrayImpl implements JsonArray {
-    final List<JsonValue> valueList;
-    private final List<JsonValue> unmodifiableValueList;
-
-    JsonArrayImpl(List<JsonValue> valueList) {
-        this.valueList = valueList;
-        unmodifiableValueList = Collections.unmodifiableList(valueList);
-    }
-
-    @Override
-    public List<JsonValue> getValues() {
-        return unmodifiableValueList;
-    }
-
-    @Override
-    public int size() {
-        return valueList.size();
-    }
-
-    @Override
-    public JsonValue getValue(int index) {
-        return valueList.get(index);
-    }
-
-    @Override
-    public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-        return clazz.cast(valueList.get(index));
-    }
-
-    @Override
-    public String getStringValue(int index) {
-        return getValue(index, JsonString.class).getValue();
-    }
-
-    @Override
-    public int getIntValue(int index) {
-        return getValue(index, JsonNumber.class).getIntValue();
-    }
-
-    @Override
-    public ValueType getValueType() {
-        return ValueType.ARRAY;
-    }
-
-    @Override
-    public int hashCode() {
-        return getValues().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JsonArray)) {
-            return false;
-        }
-        JsonArray other = (JsonArray)obj;
-        return getValues().equals(other.getValues());
-    }
-
-    @Override
-    public String toString() {
-        StringWriter sw = new StringWriter();
-        JsonWriter jw = new JsonWriter(sw);
-        jw.write(this);
-        jw.close();
-        return sw.toString();
-    }
-}
-
-final class JsonObjectImpl implements JsonObject {
-    final Map<String, JsonValue> valueMap;
-    private final Map<String, JsonValue> unmodifiableValueMap;
-
-    JsonObjectImpl(Map<String, JsonValue> valueMap) {
-        this.valueMap = valueMap;
-        unmodifiableValueMap = Collections.unmodifiableMap(valueMap);
-    }
-    @Override
-    public JsonValue getValue(String name) {
-        return valueMap.get(name);
-    }
-
-    @Override
-    public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-        return clazz.cast(valueMap.get(name));
-    }
-
-    @Override
-    public Set<String> getNames() {
-        return valueMap.keySet();
-    }
-
-    @Override
-    public Map<String, JsonValue> getValues() {
-        return unmodifiableValueMap;
-    }
-
-    @Override
-    public String getStringValue(String name) {
-        return getValue(name, JsonString.class).getValue();
-    }
-
-    @Override
-    public int getIntValue(String name) {
-        return getValue(name, JsonNumber.class).getIntValue();
-    }
-
-    @Override
-    public ValueType getValueType() {
-        return ValueType.OBJECT;
-    }
-
-    @Override
-    public int hashCode() {
-        return getValues().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JsonObject)) {
-            return false;
-        }
-        JsonObject other = (JsonObject)obj;
-        return getValues().equals(other.getValues());
-    }
-
-    @Override
-    public String toString() {
-        StringWriter sw = new StringWriter();
-        JsonWriter jw = new JsonWriter(sw);
-        jw.write(this);
-        jw.close();
-        return sw.toString();
-    }
 }
 

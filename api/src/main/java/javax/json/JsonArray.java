@@ -44,6 +44,7 @@ import java.util.List;
 
 /**
  * {@code JsonArray} class represents an immutable JSON array value.
+ * It also provides unmodifiable list view to the JSON array values.
  *
  * <p>A full JsonArray instance can be created from a input source using
  * {@link JsonReader#readArray()}. For example:
@@ -118,37 +119,18 @@ import java.util.List;
  * </pre>
  * </code>
  *
+ * This list object provides read-only access to the JSON array data,
+ * and attempts to modify the list, whether direct or via its collection
+ * views, result in an {@code UnsupportedOperationException}.
+ *
  * @author Jitendra Kotamraju
  */
-public interface JsonArray extends JsonStructure {
-
-    /**
-     * Returns an unmodifiable list of this JSON array values
-     *
-     * @return a list of array values
-     */
-    List<JsonValue> getValues();
-
-    /**
-     * Returns the number of values in this JSON array.  If this array contains
-     * more than <tt>Integer.MAX_VALUE</tt> values, returns
-     * <tt>Integer.MAX_VALUE</tt>.
-     *
-     * @return the number of values in this JSON array
-     */
-    int size();
+public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * Returns the value at the specified position in this JSON array values.
-     *
-     * @param index index of the value to return
-     * @return the value at the specified position in this array values
-     * @throws IndexOutOfBoundsException if the index is out of range
-     */
-    JsonValue getValue(int index);
-
-    /**
-     * Returns the value at the specified position in this JSON array values.
+     * This is just a convenience method for {@code (T) get(index)} to get
+     * the value.
      *
      * @param index index of the value to return
      * @param clazz value class
@@ -161,7 +143,7 @@ public interface JsonArray extends JsonStructure {
 
     /**
      * A convenience method for
-     * {@code getValue(int, JsonString.class).getValue()}
+     * {@code getValue(index, JsonString.class).getValue()}
      *
      * @param index index of the JsonString value
      * @return the String value at the specified position in this array
@@ -173,7 +155,7 @@ public interface JsonArray extends JsonStructure {
 
     /**
      * A Convenience method for
-     * {@code getValue(int, JsonNumber.class).getIntValue()}
+     * {@code getValue(index, JsonNumber.class).getIntValue()}
      *
      * @param index index of the JsonNumber value
      * @return the int value at the specified position in this array
@@ -182,28 +164,5 @@ public interface JsonArray extends JsonStructure {
      * assignable to JsonNumber
      */
     int getIntValue(int index);
-
-    /**
-     * Compares the specified object with this JsonArray object for equality.
-     * Returns {@code true} if and only if the specified object is also a
-     * JsonArray object, and their {@link #getValues()} objects are <i>equal</i>
-     *
-     * @param obj the object to be compared for equality with this JsonArray
-     *            object
-     * @return {@code true} if the specified object is equal to this JsonArray
-     * object
-     */
-    @Override
-    boolean equals(Object obj);
-
-    /**
-     * Returns the hash code value for this JsonArray object.  The hash code of
-     * a JsonArray object is defined to be its {@link #getValues()} object's
-     * hash code.
-     *
-     * @return the hash code value for this JsonArray object
-     */
-    @Override
-    int hashCode();
 
 }

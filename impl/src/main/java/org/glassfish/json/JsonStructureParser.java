@@ -207,7 +207,7 @@ class JsonStructureParser implements JsonParser {
         private JsonValue value;
 
         ArrayScope(JsonArray array) {
-            this.it = array.getValues().iterator();
+            this.it = array.iterator();
         }
 
         @Override
@@ -239,7 +239,7 @@ class JsonStructureParser implements JsonParser {
         private String key;
 
         ObjectScope(JsonObject object) {
-            this.it = object.getValues().entrySet().iterator();
+            this.it = object.entrySet().iterator();
         }
 
         @Override

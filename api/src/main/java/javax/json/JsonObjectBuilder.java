@@ -40,10 +40,10 @@
 
 package javax.json;
 
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Builds a {@link JsonObject} from scratch. It uses builder pattern to build
@@ -284,6 +284,49 @@ public class JsonObjectBuilder {
      * @return JSON object that is being built
      */
     public JsonObject build() {
-        return new JsonObjectImpl(new LinkedHashMap<String, JsonValue>(valueMap));
+        Map<String, JsonValue> snapshot = new LinkedHashMap<String, JsonValue>(valueMap);
+        return new JsonObjectImpl(Collections.unmodifiableMap(snapshot));
+    }
+
+    private static final class JsonObjectImpl extends AbstractMap<String, JsonValue> implements JsonObject {
+        private final Map<String, JsonValue> valueMap;      // unmodifiable
+
+        JsonObjectImpl(Map<String, JsonValue> valueMap) {
+            this.valueMap = valueMap;
+        }
+
+        @Override
+        public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
+            return clazz.cast(valueMap.get(name));
+        }
+
+        @Override
+        public String getStringValue(String name) {
+            return getValue(name, JsonString.class).getValue();
+        }
+
+        @Override
+        public int getIntValue(String name) {
+            return getValue(name, JsonNumber.class).getIntValue();
+        }
+
+        @Override
+        public ValueType getValueType() {
+            return ValueType.OBJECT;
+        }
+
+        @Override
+        public Set<Entry<String, JsonValue>> entrySet() {
+            return valueMap.entrySet();
+        }
+
+        @Override
+        public String toString() {
+            StringWriter sw = new StringWriter();
+            JsonWriter jw = new JsonWriter(sw);
+            jw.write(this);
+            jw.close();
+            return sw.toString();
+        }
     }
 }

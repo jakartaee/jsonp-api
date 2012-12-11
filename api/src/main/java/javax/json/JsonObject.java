@@ -41,10 +41,10 @@
 package javax.json;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * {@code JsonObject} class represents an immutable JSON object value.
+ * It also provides unmodifiable map view to the JSON object mappings.
  *
  * <p>
  * A full JsonObject instance can be created from an input source using
@@ -135,23 +135,18 @@ import java.util.Set;
  * </pre>
  * </code>
  *
+ * This map object provides read-only access to the JSON object data,
+ * and attempts to modify the map, whether direct or via its collection
+ * views, result in an {@code UnsupportedOperationException}.
+ *
  * @author Jitendra Kotamraju
  */
-public interface JsonObject extends JsonStructure {
+public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
-     * Returns the value to which the specified name/key is mapped,
-     * or {@code null} if this object contains no mapping for the name/key.
-     *
-     * @param name the name/key whose associated value is to be returned
-     * @return the value to which the specified name is mapped, or
-     *         {@code null} if this object contains no mapping for the name/key
-     */
-    JsonValue getValue(String name);
-
-    /**
-     * Returns the value to which the specified name/key is mapped,
-     * or {@code null} if this object contains no mapping for the name/key.
+     * Returns the value to which the specified name is mapped.
+     * This is just a convenience method for {@code (T) get(name)} to get
+     * the value.
      *
      * @param name the name(key) whose associated value is to be returned
      * @param clazz value class
@@ -163,26 +158,8 @@ public interface JsonObject extends JsonStructure {
     <T extends JsonValue> T getValue(String name, Class<T> clazz);
 
     /**
-     * Returns an unmodifiable {@link Set} of the name/keys contained in this
-     * JSON object.
-     *
-     * @return a set of the name/keys contained in this JSON object
-     */
-    Set<String> getNames();
-
-    /**
-     * Returns an unmodifiable {@link Map} of the name(key)/value pairs
-     * contained in this JSON object. The iteration order of the map is
-     * predictable which is normally the order in which name/value pairs
-     * were added into this JSON Object.
-     *
-     * @return a set of the name/keys contained in this JSON object
-     */
-    Map<String, JsonValue> getValues();
-
-    /**
      * A convenience method for
-     * {@code getValue(String, JsonString.class).getValue()}
+     * {@code getValue(name, JsonString.class).getValue()}
      *
      * @param name whose associated value is to be returned as String
      * @return the String value to which the specified name is mapped,
@@ -194,7 +171,7 @@ public interface JsonObject extends JsonStructure {
 
     /**
      * A convenience method for
-     * {@code getValue(String, JsonNumber.class).getIntValue()}
+     * {@code getValue(name, JsonNumber.class).getIntValue()}
      *
      * @param name whose associated value is to be returned as int
      * @return the int value to which the specified name is mapped,
@@ -203,27 +180,5 @@ public interface JsonObject extends JsonStructure {
      * is not assignable to JsonNumber
      */
     int getIntValue(String name);
-
-    /**
-     * Compares the specified object with this JsonObject for equality.
-     * Returns {@code true} if and only if the specified object is also a
-     * JsonObject, and their {@link #getValues()} objects are
-     * <i>equal</i>
-     *
-     * @param obj the object to be compared for equality with this JsonObject
-     * @return {@code true} if the specified object is equal to this JsonObject
-     */
-    @Override
-    boolean equals(Object obj);
-
-    /**
-     * Returns the hash code value for this JsonObject. The hash code of
-     * a JsonObject is defined to be its {@link #getValues()} object's
-     * hash code.
-     *
-     * @return the hash code value for this JsonObject
-     */
-    @Override
-    int hashCode();
 
 }

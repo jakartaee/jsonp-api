@@ -43,7 +43,6 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 
 import javax.json.*;
-import java.util.List;
 
 /**
  * @author Jitendra Kotamraju
@@ -64,8 +63,7 @@ public class JsonBuilderTest extends TestCase {
         JsonArray empty = new JsonArrayBuilder()
                 .build();
 
-        List<JsonValue> list = empty.getValues();
-        assertTrue(list.isEmpty());
+        assertTrue(empty.isEmpty());
     }
 
     public void testObject() throws Exception {

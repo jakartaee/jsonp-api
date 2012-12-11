@@ -93,4 +93,24 @@ public class JsonArrayTest extends TestCase {
         assertEquals(20, array.getIntValue(0));
     }
 
+    public void testAdd() {
+        JsonArray array = new JsonArrayBuilder().build();
+        try {
+            array.add(JsonValue.FALSE);
+            fail("JsonArray#add() should throw UnsupportedOperationException");
+        } catch(UnsupportedOperationException e) {
+            // Expected
+        }
+    }
+
+    public void testRemove() {
+        JsonArray array = new JsonArrayBuilder().build();
+        try {
+            array.remove(0);
+            fail("JsonArray#remove() should throw UnsupportedOperationException");
+        } catch(UnsupportedOperationException e) {
+            // Expected
+        }
+    }
+
 }
