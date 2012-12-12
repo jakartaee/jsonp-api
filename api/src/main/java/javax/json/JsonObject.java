@@ -139,6 +139,11 @@ import java.util.Map;
  * and attempts to modify the map, whether direct or via its collection
  * views, result in an {@code UnsupportedOperationException}.
  *
+ * <p>
+ * The map object's iteration ordering is based on the order in which
+ * name/value pairs are added to the corresponding builder or the order
+ * in which name/value pairs appear in the corresponding stream.
+ *
  * @author Jitendra Kotamraju
  */
 public interface JsonObject extends JsonStructure, Map<String, JsonValue> {

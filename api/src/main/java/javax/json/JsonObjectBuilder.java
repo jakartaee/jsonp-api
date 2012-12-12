@@ -279,7 +279,9 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Returns the JSON object that is being built
+     * Returns the JSON object that is being built. The returned JsonObject's
+     * iteration ordering is based on the order in which name/value pairs are
+     * added in this builder.
      *
      * @return JSON object that is being built
      */
