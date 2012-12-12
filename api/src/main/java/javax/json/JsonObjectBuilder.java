@@ -107,13 +107,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder add(String name, JsonValue value) {
         valueMap.put(name, value);
@@ -122,13 +122,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder add(String name, String value) {
         valueMap.put(name, new JsonStringImpl(value));
@@ -137,13 +137,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      *
      * @see JsonNumber
      */
@@ -154,13 +154,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      *
      * @see JsonNumber
      */
@@ -171,13 +171,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      *
      * @see JsonNumber
      */
@@ -188,13 +188,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      *
      * @see JsonNumber
      */
@@ -205,13 +205,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
      *
      * @see JsonNumber
@@ -223,13 +223,13 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @param value value to be associated with the specified name
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder add(String name, boolean value) {
         valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
@@ -238,12 +238,12 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the specified value with the specified name in the
-     * JSON object that is being built.
+     * JSON object that is being built. If the JSON object that is being
+     * built previously contained a mapping for the name, the old value
+     * is replaced by the specified value.
      *
      * @param name name with which the specified value is to be associated
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder addNull(String name) {
         valueMap.put(name, JsonValue.NULL);
@@ -252,12 +252,12 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the JsonObject from the specified builder with the
-     * specified name in the JSON object that is being built.
+     * specified name in the JSON object that is being built. If the JSON
+     * object that is being built previously contained a mapping for the name,
+     * the old value is replaced by the JsonObject from the specified builder.
      *
      * @param name name with which the specified value is to be associated
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
         valueMap.put(name, builder.build());
@@ -266,12 +266,12 @@ public class JsonObjectBuilder {
 
     /**
      * Associates the JSON array from the specified builder with the
-     * specified name in the JSON object that is being built.
+     * specified name in the JSON object that is being built. If the JSON
+     * object that is being built previously contained a mapping for the name,
+     * the old value is replaced by the JsonArray from the specified builder.
      *
      * @param name name with which the specified value is to be associated
      * @return this object builder
-     * @throws JsonException if there is a mapping for the specified name
-     * in the JSON object
      */
     public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
         valueMap.put(name, builder.build());
