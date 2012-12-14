@@ -83,6 +83,10 @@ import java.util.*;
 public class JsonArrayBuilder {
     private final List<JsonValue> valueList;
 
+    /**
+     * Constructs a {@code JsonArrayBuilder} that initializes an empty JSON
+     * array that is being built.
+     */
     public JsonArrayBuilder() {
         this.valueList = new ArrayList<JsonValue>();
     }

@@ -41,7 +41,7 @@
 package javax.json;
 
 /**
- * {@code JsonString} represents a JSON string value
+ * {@code JsonString} represents an immutable JSON string value.
  *
  * @author Jitendra Kotamraju
  */

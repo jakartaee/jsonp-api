@@ -50,6 +50,9 @@ import java.io.*;
 /**
  * Factory to create {@link JsonParser}, {@link JsonGenerator},
  * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
+ * This lists only commonly used methods to create {@link JsonParser}
+ * and {@link JsonGenerator} objects, the corresponding factories
+ * have all the methods to create these objects.
  *
  * <p>
  * All the methods would locate a provider instance, which is returned by

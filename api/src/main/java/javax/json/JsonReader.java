@@ -60,8 +60,9 @@ import java.nio.charset.Charset;
  * </pre>
  * </code>
  *
- * It uses {@link javax.json.stream.JsonParser} for parsing. The parser
- * is created using one of the {@link Json}'s {@code createParser} methods.
+ * It uses {@link javax.json.stream.JsonParser} internally for parsing. The
+ * parser is created using one of the {@link Json}'s {@code createParser}
+ * methods.
  *
  * @author Jitendra Kotamraju
  */

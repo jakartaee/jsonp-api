@@ -43,7 +43,8 @@ package javax.json;
 import java.util.List;
 
 /**
- * {@code JsonArray} class represents an immutable JSON array value.
+ * {@code JsonArray} class represents an immutable JSON array value
+ * (an ordered sequence of zero or more values).
  * It also provides unmodifiable list view to the JSON array values.
  *
  * <p>A full JsonArray instance can be created from a input source using
@@ -57,7 +58,7 @@ import java.util.List;
  * </pre>
  * </code>
  *
- * It can also be built from scratch using {@link JsonArrayBuilder}.
+ * It can also be built from scratch using a {@link JsonArrayBuilder}.
  * <p>
  * For example 1:
  * <code>

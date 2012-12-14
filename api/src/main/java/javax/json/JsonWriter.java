@@ -61,7 +61,7 @@ import java.util.Map;
  * </pre>
  * </code>
  *
- * It uses {@link javax.json.stream.JsonGenerator} for writing.
+ * It uses {@link javax.json.stream.JsonGenerator} internally for writing.
  * The generator is created using one of the {@link Json}'s
  * {@code createGenerator} methods
  *

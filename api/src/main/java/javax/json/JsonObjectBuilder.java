@@ -101,6 +101,10 @@ import java.util.*;
 public class JsonObjectBuilder {
     private final Map<String, JsonValue> valueMap;
 
+    /**
+     * Constructs a {@code JsonObjectBuilder} that initializes an empty JSON
+     * object that is being built.
+     */
     public JsonObjectBuilder() {
         this.valueMap = new LinkedHashMap<String, JsonValue>();
     }

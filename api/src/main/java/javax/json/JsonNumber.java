@@ -44,7 +44,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * {@code JsonNumber} represents a JSON number value and internally a
+ * {@code JsonNumber} represents an immutable JSON number value and internally a
  * {@link BigDecimal} may be used to store the numeric value. The BigDecimal
  * may be constructed using {@link BigDecimal#BigDecimal(int) <code>int</code>},
  * {@link BigDecimal#BigDecimal(long) <code>long</code>},

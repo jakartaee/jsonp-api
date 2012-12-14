@@ -43,22 +43,24 @@ package javax.json;
 import java.util.Map;
 
 /**
- * {@code JsonObject} class represents an immutable JSON object value.
- * It also provides unmodifiable map view to the JSON object mappings.
+ * {@code JsonObject} class represents an immutable JSON object value
+ * (an unordered collection of zero or more name/value pairs).
+ * It also provides unmodifiable map view to the JSON object
+ * name/value mappings.
  *
  * <p>
- * A full JsonObject instance can be created from an input source using
+ * A JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
  *
  * <code>
  * <pre>
- * JsonReader jsonReader = new JsonReader(...));
+ * JsonReader jsonReader = new JsonReader(...);
  * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
  * </pre>
  * </code>
  *
- * It can also be built from scratch using {@link JsonObjectBuilder}.
+ * It can also be built from scratch using a {@link JsonObjectBuilder}.
  *
  * <p>
  * For example 1:
@@ -66,7 +68,7 @@ import java.util.Map;
  * <pre>
  * An empty JSON object can be built as follows:
  *
- * JsonArray array = new JsonObjectBuilder().build();
+ * JsonObject object = new JsonObjectBuilder().build();
  * </pre>
  * </code>
  *
