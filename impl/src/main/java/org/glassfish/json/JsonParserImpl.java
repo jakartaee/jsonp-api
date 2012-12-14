@@ -56,10 +56,6 @@ import org.glassfish.json.JsonTokenizer.JsonToken;
  * @author Jitendra Kotamraju
  */
 public class JsonParserImpl implements JsonParser {
-    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
-    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
-    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
-    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
 
     private State currentState = State.START_DOCUMENT;
     private State enclosingState = State.START_DOCUMENT;
@@ -118,17 +114,7 @@ public class JsonParserImpl implements JsonParser {
                 "But current parser state is "+currentEvent);
         }
         BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
-        if (bigDecimal.scale() != 0)  {
-            return JsonNumber.NumberType.BIG_DECIMAL;
-        } else {
-            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
-                return JsonNumber.NumberType.INT;
-            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
-                return JsonNumber.NumberType.LONG;
-            } else {
-                return JsonNumber.NumberType.BIG_DECIMAL;
-            }
-        }
+        return bigDecimal.scale() == 0 ? JsonNumber.NumberType.INTEGER : JsonNumber.NumberType.DECIMAL;
     }
 
     @Override
@@ -397,40 +383,6 @@ public class JsonParserImpl implements JsonParser {
         State getTransition(JsonToken token, State enclosingState) {
             return transitions.get(token);
         }
-    } 
-    
-    void parse() {
-        JsonToken token;
-
-        while(true) {
-            try {
-                token = tokenizer.nextToken();
-                System.out.println("Token="+token);
-                if (token == JsonToken.STRING) {
-                    System.out.println("value=" + tokenizer.getValue());
-                }
-                if (token == JsonToken.EOF) {
-                    break;
-                }
-            } catch(IOException ioe) {
-                throw new JsonException(ioe);
-            }
-            
-            State enclosingState = State.START_DOCUMENT;
-            if (currentState == State.END_OBJECT || currentState == State.END_ARRAY) {
-                enclosingState = stack.removeFirst();
-            }
-            
-            State nextState = currentState.getTransition(token, enclosingState);
-            
-            if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
-                stack.addFirst(currentState);
-            }
-            currentState = nextState;
-
-            System.out.println("Current State="+currentState);
-
-        }
-    } 
+    }
     
 }

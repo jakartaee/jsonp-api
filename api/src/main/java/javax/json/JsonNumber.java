@@ -44,8 +44,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * {@code JsonNumber} represents an immutable JSON number value and internally a
- * {@link BigDecimal} may be used to store the numeric value. The BigDecimal
+ * {@code JsonNumber} represents an immutable JSON number value
+ *
+ * <p>
+ * A {@link BigDecimal} may be used to store the numeric value internally.
+ * The BigDecimal
  * may be constructed using {@link BigDecimal#BigDecimal(int) <code>int</code>},
  * {@link BigDecimal#BigDecimal(long) <code>long</code>},
  * {@link BigDecimal#BigDecimal(BigInteger) <code>BigInteger</code>},
@@ -59,50 +62,44 @@ import java.math.BigInteger;
 public interface JsonNumber extends JsonValue {
 
     /**
-     * JSON number type
+     * JSON number type that is used to find out if a number is numerically
+     * integer or a decimal.
      */
     enum NumberType {
         /**
-         * int number type
+         * Represents a number that is numerically integer.
+         * The value can be accessed as int, long, or BigInteger using
+         * different JsonNumber accessor methods.
          */
-        INT,
+        INTEGER,
 
         /**
-         * long number type
+         * Represents a number that is numerically decimal. The value can
+         * be accessed as double, or BigDecimal using different JsonNumber
+         * accessor methods.
          */
-        LONG,
-
-        /**
-         * BigDecimal number type
-         */
-        BIG_DECIMAL
+        DECIMAL
     }
 
     /**
-     * Returns a JSON number type that can hold the number's numeric value.
-     * A {@link BigDecimal} may be used to store the numeric value.
-     * If the scale of a value is non-zero, its number type is
-     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}. If the scale is zero,
-     * and the value is numerically an integer. If the value can be exactly
-     * represented as an int, its type is {@link javax.json.JsonNumber.NumberType#INT INT};
-     * if the value can be exactly represented as a long, its type is
-     * {@link javax.json.JsonNumber.NumberType#LONG LONG}; otherwise, its type is
-     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * Returns a JSON number type for this number.
+     * A {@link BigDecimal} may be used to store the numeric value internally
+     * and the semantics of this method is defined using
+     * {@link BigDecimal#scale()}.
+     * If the scale of a value is zero, then its number type is
+     * {@link NumberType#INTEGER INTEGER} else {@link NumberType#DECIMAL DECIMAL}.
      *
      * <p>
-     * This method can be used to get the holding number type and use that
-     * information to invoke appropriate methods to get numeric value
-     * for a number.
+     * The number type can be used to invoke appropriate accessor methods to get
+     * numeric value for the number.
      * <p>
      * <b>For example:</b>
      * <code>
      * <pre>
      * switch(getNumberType()) {
-     *     case INT :
-     *         int i = getIntValue(); break;
-     *     case LONG :
+     *     case INTEGER :
      *         long l = getLongValue(); break;
-     *     case BIG_DECIMAL :
+     *     case DECIMAL :
      *         BigDecimal bd = getBigDecimalValue(); break;
      * }
      * </pre>

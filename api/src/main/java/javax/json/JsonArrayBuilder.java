@@ -331,10 +331,6 @@ final class JsonStringImpl implements JsonString {
 
 final class JsonNumberImpl implements JsonNumber {
     private final BigDecimal bigDecimal;
-    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
-    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
-    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
-    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
 
     public JsonNumberImpl(int value) {
         bigDecimal = new BigDecimal(value);
@@ -360,17 +356,7 @@ final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public NumberType getNumberType() {
-        if (bigDecimal.scale() != 0)  {
-            return NumberType.BIG_DECIMAL;
-        } else {
-            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
-                return NumberType.INT;
-            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
-                return NumberType.LONG;
-            } else {
-                return NumberType.BIG_DECIMAL;
-            }
-        }
+        return bigDecimal.scale() == 0 ? NumberType.INTEGER : NumberType.DECIMAL;
     }
 
     @Override

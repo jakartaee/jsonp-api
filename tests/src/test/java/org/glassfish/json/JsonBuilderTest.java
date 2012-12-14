@@ -76,7 +76,7 @@ public class JsonBuilderTest extends TestCase {
         JsonNumber number = person.getValue("age", JsonNumber.class);
         assertEquals(25, number.getIntValueExact());
         assertEquals(25, number.getIntValue());
-        assertEquals(JsonNumber.NumberType.INT, number.getNumberType());
+        assertEquals(JsonNumber.NumberType.INTEGER, number.getNumberType());
         JsonObjectTest.testPerson(person);
     }
 

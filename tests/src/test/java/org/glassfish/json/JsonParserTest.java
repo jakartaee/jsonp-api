@@ -350,7 +350,7 @@ public class JsonParserTest extends TestCase {
         assertEquals(25, parser.getIntValue());
         assertEquals(25, parser.getLongValue());
         assertEquals(25, parser.getBigDecimalValue().intValue());
-        assertEquals(JsonNumber.NumberType.INT, parser.getNumberType());
+        assertEquals(JsonNumber.NumberType.INTEGER, parser.getNumberType());
 
         event = parser.next();
         assertEquals(Event.KEY_NAME, event);

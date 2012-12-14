@@ -232,33 +232,29 @@ public interface JsonParser extends /*Auto*/Closeable {
     String getString();
 
     /**
-     * Returns a number type that can hold JSON number. A {@link BigDecimal}
-     * may be used to store the numeric value of the number. If the scale of
-     * a value is non-zero, its number type is
-     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
-     * If the scale is zero, and the value is numerically an integer.
-     * If the value can be exactly represented as an int, its type is
-     * {@link javax.json.JsonNumber.NumberType#INT INT}; if the value can be exactly represented
-     * as a long, its type is {@link javax.json.JsonNumber.NumberType#LONG LONG}; otherwise,
-     * its type is {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * Returns a JSON number type for this number.
+     * A {@link BigDecimal} may be used to store the numeric value internally
+     * and the semantics of this method is defined using
+     * {@link BigDecimal#scale()}.
+     * If the scale of a value is zero, then its number type is
+     * {@link javax.json.JsonNumber.NumberType#INTEGER INTEGER} else
+     * {@link javax.json.JsonNumber.NumberType#DECIMAL DECIMAL}.
      *
      * <p>
-     * This method can be used to get the correct number type for a number.
-     * For example:
+     * The number type can be used to invoke appropriate accessor methods to get
+     * numeric value for the number.
+     * <p>
+     * <b>For example:</b>
      * <code>
      * <pre>
-     * switch(parser.getNumberType()) {
-     *     case INT :
-     *         int i = parser.getIntValue(); break;
-     *     case LONG :
-     *         long l = parser.getLongValue(); break;
-     *     case BIG_DECIMAL :
-     *         BigDecimal bd = parser.getBigDecimalValue(); break;
+     * switch(getNumberType()) {
+     *     case INTEGER :
+     *         long l = getLongValue(); break;
+     *     case DECIMAL :
+     *         BigDecimal bd = getBigDecimalValue(); break;
      * }
      * </pre>
      * </code>
-     * This method can only be called when the parser
-     * state is {@link Event#VALUE_NUMBER}
      *
      * @return a number type
      * @throws IllegalStateException when the parser state is not
