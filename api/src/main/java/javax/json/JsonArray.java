@@ -47,7 +47,7 @@ import java.util.List;
  * (an ordered sequence of zero or more values).
  * It also provides unmodifiable list view to the JSON array values.
  *
- * <p>A full JsonArray instance can be created from a input source using
+ * <p>A JsonArray instance can be created from a input source using
  * {@link JsonReader#readArray()}. For example:
  *
  * <code>
