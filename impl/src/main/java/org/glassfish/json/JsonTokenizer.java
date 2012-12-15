@@ -71,17 +71,6 @@ final class JsonTokenizer implements Closeable {
         this.reader = new DirectReader(reader);
     }
 
-    JsonTokenizer(InputStream in) {
-        Reader reader;
-        try {
-            // TODO BOM and auto detection of encoding
-            reader = new InputStreamReader(in, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
-        this.reader = new DirectReader(reader);
-    }
-
     private int read() {
         if (pushbackChar != -1) {
             int tempCh = pushbackChar;

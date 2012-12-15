@@ -49,6 +49,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.NoSuchElementException;
 
 /**
@@ -74,6 +75,41 @@ public class JsonParserTest extends TestCase {
 
     public void testEmptyArrayStream() {
         JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[', ']'}));
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF8() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-8")));
+        JsonParser parser = Json.createParser(bin);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF16LE() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-16LE")));
+        JsonParser parser = Json.createParser(bin);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF16BE() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-16BE")));
+        JsonParser parser = Json.createParser(bin);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF32LE() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-32LE")));
+        JsonParser parser = Json.createParser(bin);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF32BE() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-32BE")));
+        JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }

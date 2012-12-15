@@ -72,27 +72,13 @@ public class JsonParserImpl implements JsonParser {
         stateIterator = new StateIterator();
     }
 
-    public JsonParserImpl(Reader reader, JsonConfiguration config) {
-        tokenizer = new JsonTokenizer(reader);
-        stateIterator = new StateIterator();
-    }
-
     public JsonParserImpl(InputStream in) {
-        tokenizer = new JsonTokenizer(in);
+        UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
+        tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()));
         stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, Charset encoding) {
-        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
-        stateIterator = new StateIterator();
-    }
-
-    public JsonParserImpl(InputStream in, JsonConfiguration config) {
-        tokenizer = new JsonTokenizer(in);
-        stateIterator = new StateIterator();
-    }
-
-    public JsonParserImpl(InputStream in, Charset encoding, JsonConfiguration config) {
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
         stateIterator = new StateIterator();
     }
