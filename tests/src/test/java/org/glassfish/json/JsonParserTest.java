@@ -45,24 +45,30 @@ import junit.framework.TestCase;
 import javax.json.*;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.NoSuchElementException;
 
 /**
+ * JsonParser Tests
+ *
  * @author Jitendra Kotamraju
  */
 public class JsonParserTest extends TestCase {
+    static final Charset UTF_8 = Charset.forName("UTF-8");
+    static final Charset UTF_16BE = Charset.forName("UTF-16BE");
+    static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+    //static final Charset UTF_16 = Charset.forName("UTF-16");
+    static final Charset UTF_32LE = Charset.forName("UTF-32LE");
+    static final Charset UTF_32BE = Charset.forName("UTF-32BE");
 
     public JsonParserTest(String testName) {
         super(testName);
     }
 
     public void testReader() {
-        JsonParser reader = Json.createParser(new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" :[null, \"abc\"] }"));
+        JsonParser reader = Json.createParser(
+                new StringReader("{ \"a\" : \"b\", \"c\" : null, \"d\" : [null, \"abc\"] }"));
         reader.close();
     }
 
@@ -74,41 +80,42 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStream() {
-        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'[', ']'}));
+        JsonParser parser = Json.createParser(
+                new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF8() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-8")));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_8));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF16LE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-16LE")));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16LE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF16BE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-16BE")));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16BE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF32LE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-32LE")));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_32LE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF32BE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(Charset.forName("UTF-32BE")));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_32BE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
@@ -116,20 +123,23 @@ public class JsonParserTest extends TestCase {
 
     public void testEmptyArrayStreamWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new ByteArrayInputStream(new byte[]{'[', ']'}));
+        JsonParser parser = Json.createParserFactory(config).createParser(
+                new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonArrayBuilder().build());
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new JsonArrayBuilder().build());
+        JsonParser parser = Json.createParserFactory(config).createParser(
+                new JsonArrayBuilder().build());
         testEmptyArray(parser);
         parser.close();
     }
@@ -149,7 +159,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureIterator() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonArrayBuilder().build());
         testEmptyArrayIterator(parser);
         parser.close();
     }
@@ -180,7 +191,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator2Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonArrayBuilder().build());
         testEmptyArrayIterator2(parser);
         parser.close();
     }
@@ -195,7 +207,6 @@ public class JsonParserTest extends TestCase {
         }
     }
 
-
     public void testEmptyArrayIterator3Reader() {
         JsonParser parser = Json.createParser(new StringReader("[]"));
         testEmptyArrayIterator3(parser);
@@ -203,7 +214,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator3Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonArrayBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonArrayBuilder().build());
         testEmptyArrayIterator3(parser);
         parser.close();
     }
@@ -228,20 +240,23 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStream() {
-        JsonParser parser = Json.createParser(new ByteArrayInputStream(new byte[]{'{', '}'}));
+        JsonParser parser = Json.createParser(
+                new ByteArrayInputStream(new byte[]{'{', '}'}));
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonObjectBuilder().build());
         testEmptyObject(parser);
         parser.close();
     }
 
     public void testEmptyObjectStructureWithConfig() {
         JsonConfiguration config = new JsonConfiguration();
-        JsonParser parser = Json.createParserFactory(config).createParser(new JsonObjectBuilder().build());
+        JsonParser parser = Json.createParserFactory(config).createParser(
+                new JsonObjectBuilder().build());
         testEmptyObject(parser);
         parser.close();
     }
@@ -261,7 +276,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIteratorStructure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonObjectBuilder().build());
         testEmptyObjectIterator(parser);
         parser.close();
     }
@@ -292,7 +308,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIterator2Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonObjectBuilder().build());
         testEmptyObjectIterator2(parser);
         parser.close();
     }
@@ -315,7 +332,8 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectIterator3Structure() {
-        JsonParser parser = Json.createParserFactory().createParser(new JsonObjectBuilder().build());
+        JsonParser parser = Json.createParserFactory().createParser(
+                new JsonObjectBuilder().build());
         testEmptyObjectIterator3(parser);
         parser.close();
     }
@@ -334,15 +352,14 @@ public class JsonParserTest extends TestCase {
 
 
     public void testWikiIteratorReader() throws Exception {
-        Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser parser = Json.createParser(wikiReader);
+        JsonParser parser = Json.createParser(wikiReader());
         testWikiIterator(parser);
         parser.close();
-        wikiReader.close();
     }
 
     public void testWikiIteratorStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(
+                JsonBuilderTest.buildPerson());
         testWikiIterator(parser);
         parser.close();
     }
@@ -354,17 +371,29 @@ public class JsonParserTest extends TestCase {
         }
     }
 
-
-    public void testWikiReader() throws Exception {
-        Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser parser = Json.createParser(wikiReader);
+    public void testWikiInputStream() throws Exception {
+        JsonParser parser = Json.createParser(wikiStream());
         testWiki(parser);
         parser.close();
-        wikiReader.close();
+    }
+
+    public void testWikiInputStreamUTF16LE() throws Exception {
+        ByteArrayInputStream bin = new ByteArrayInputStream(wikiString()
+                .getBytes(UTF_16LE));
+        JsonParser parser = Json.createParser(bin);
+        testWiki(parser);
+        parser.close();
+    }
+
+    public void testWikiReader() throws Exception {
+        JsonParser parser = Json.createParser(wikiReader());
+        testWiki(parser);
+        parser.close();
     }
 
     public void testWikiStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(
+                JsonBuilderTest.buildPerson());
         testWiki(parser);
         parser.close();
     }
@@ -471,15 +500,14 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testExceptionsReader() throws Exception {
-        Reader wikiReader = new InputStreamReader(getClass().getResourceAsStream("/wiki.json"));
-        JsonParser parser = Json.createParser(wikiReader);
+        JsonParser parser = Json.createParser(wikiReader());
         testExceptions(parser);
         parser.close();
-        wikiReader.close();
     }
 
     public void testExceptionsStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory().createParser(JsonBuilderTest.buildPerson());
+        JsonParser parser = Json.createParserFactory().createParser(
+                JsonBuilderTest.buildPerson());
         testExceptions(parser);
         parser.close();
     }
@@ -523,6 +551,23 @@ public class JsonParserTest extends TestCase {
         } catch (IllegalStateException expected) {
             // no-op
         }
+    }
+
+    static String wikiString() {
+        java.util.Scanner scanner = new java.util.Scanner(wikiReader())
+                .useDelimiter("\\A");
+        String str = scanner.hasNext() ? scanner.next() : "";
+        scanner.close();
+        return str;
+    }
+
+    static InputStream wikiStream() {
+        return JsonParserTest.class.getResourceAsStream("/wiki.json");
+    }
+
+    static Reader wikiReader() {
+        return new InputStreamReader(
+                JsonParserTest.class.getResourceAsStream("/wiki.json"), UTF_8);
     }
 
 }

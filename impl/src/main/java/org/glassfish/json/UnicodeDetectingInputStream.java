@@ -41,7 +41,6 @@
 package org.glassfish.json;
 
 import javax.json.JsonException;
-import javax.json.stream.JsonParsingException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
