@@ -52,30 +52,30 @@ import java.util.Map;
  * A JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
  *
- * <code>
  * <pre>
+ * <code>
  * JsonReader jsonReader = new JsonReader(...);
  * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * It can also be built from scratch using a {@link JsonObjectBuilder}.
  *
  * <p>
  * For example 1:
- * <code>
  * <pre>
+ * <code>
  * An empty JSON object can be built as follows:
  *
  * JsonObject object = new JsonObjectBuilder().build();
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * For example 2:
- * <code>
  * <pre>
+ * <code>
  * The following JSON
  *
  * {
@@ -111,17 +111,17 @@ import java.util.Map;
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * {@code JsonObject} can be written to JSON as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonWriter writer = ...
  * JsonObject obj = ...;
  * writer.writeobject(obj);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * {@code JsonObject} values can be {@link JsonObject}, {@link JsonArray},
@@ -131,11 +131,11 @@ import java.util.Map;
  *
  * <p>
  * In the above example 2, "John" can be got using
- * <code>
  * <pre>
+ * <code>
  * String firstName = object.getStringValue("firstName");
- * </pre>
  * </code>
+ * </pre>
  *
  * This map object provides read-only access to the JSON object data,
  * and attempts to modify the map, whether direct or via its collection

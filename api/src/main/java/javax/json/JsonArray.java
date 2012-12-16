@@ -50,29 +50,29 @@ import java.util.List;
  * <p>A JsonArray instance can be created from a input source using
  * {@link JsonReader#readArray()}. For example:
  *
- * <code>
  * <pre>
+ * <code>
  * JsonReader jsonReader = new JsonReader(...);
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * It can also be built from scratch using a {@link JsonArrayBuilder}.
  * <p>
  * For example 1:
- * <code>
  * <pre>
+ * <code>
  * An empty JSON array can be built as follows:
  *
  * JsonArray array = new JsonArrayBuilder().build();
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * For example 2:
- * <code>
  * <pre>
+ * <code>
  * The following JSON
  *
  * [
@@ -90,20 +90,20 @@ import java.util.List;
  *         .add("type", "fax")
  *         .add("number", "646 555-4567"))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * {@code JsonArray} can be written to JSON as follows:
  *
- * <code>
  * <pre>
+ * <code>
  * JsonArray arr = ...;
  * JsonWriter writer = new JsonWriter(...)
  * writer.writeArray(arr);
  * writer.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * {@code JsonArray} values can be {@link JsonObject}, {@link JsonArray},
@@ -113,12 +113,12 @@ import java.util.List;
  *
  * <p>
  * In the above example 2, home number "212 555-1234" can be got using:
- * <code>
  * <pre>
+ * <code>
  * JsonObject home = array.getValue(0, JsonObject.class);
  * String number = home.getStringValue("number");
- * </pre>
  * </code>
+ * </pre>
  *
  * This list object provides read-only access to the JSON array data,
  * and attempts to modify the list, whether direct or via its collection

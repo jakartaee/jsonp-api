@@ -53,13 +53,13 @@ import java.util.Map;
  *
  * <p>
  * <b>For example</b>, an empty JSON object can be written as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonWriter jsonWriter = new JsonWriter(...);
  * jsonWriter.writeObject(new JsonObjectBuilder().build());
  * jsonWriter.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * It uses {@link javax.json.stream.JsonGenerator} internally for writing.
  * The generator is created using one of the {@link Json}'s

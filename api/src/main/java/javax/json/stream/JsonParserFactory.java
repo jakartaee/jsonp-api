@@ -58,13 +58,13 @@ import java.nio.charset.Charset;
  *
  * <p>
  * <b>For example:</b>
- * <code>
  * <pre>
+ * <code>
  * JsonParserFactory factory = Json.createParserFactory();
  * JsonParser parser1 = factory.createParser(...);
  * JsonParser parser2 = factory.createParser(...);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>

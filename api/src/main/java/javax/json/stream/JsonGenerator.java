@@ -53,23 +53,23 @@ import java.math.BigInteger;
  *
  * <p>
  * For example, a generator can be created as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonGenerator generator = Json.createGenerator(...);
- * </pre>
  * </code>
+ * </pre>
  *
  * A generator can also be created using {@link JsonGeneratorFactory}. If
  * multiple generator instances are created, then creating them using
  * a generator factory is preferred.
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonGeneratorFactory factory = Json.createGeneratorFactory();
  * JsonGenerator generator1 = factory.createGenerator(...);
  * JsonGenerator generator2 = factory.createGenerator(...);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * The generator is used to generate JSON object in a streaming way by calling
@@ -77,29 +77,29 @@ import java.math.BigInteger;
  * <p>
  * <b>For example 1:</b>
  * <p>Empty JSON object can be generated as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonGenerator generator = ...;
  * generator.writeStartObject().writeEnd().close();
- * </pre>
  * </code>
+ * </pre>
  *
  * The generator is used to generate JSON array in a streaming way by calling
  * its {@link #writeStartArray()} method and adding values.
  * <p>
  * <b>For example 2:</b>
  * <p>Empty JSON array can be generated as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonGenerator generator = ...;
  * generator.writeStartArray().writeEnd().close();
- * </pre>
  * </code>
+ * </pre>
  *
  * The generator methods can be chained. Similarly, the following generator
  * <p>
- * <code>
  * <pre>
+ * <code>
  * generator
  *     .writeStartObject()
  *         .write("firstName", "John")
@@ -123,13 +123,13 @@ import java.math.BigInteger;
  *         .writeEnd()
  *     .writeEnd();
  * generator.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * would generate a JSON equivalent to the following:
  * <p>
- * <code>
  * <pre>
+ * <code>
  * {
  *   "firstName": "John", "lastName": "Smith", "age": 25,
  *   "address" : {
@@ -143,8 +143,8 @@ import java.math.BigInteger;
  *       {"type": "fax", "number": "646 555-4567"}
  *    ]
  * }
- * </pre>
  * </code>
+ * </pre>
  *
  * The generated JSON text must strictly conform to the grammar defined in the
  * <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC</a>.

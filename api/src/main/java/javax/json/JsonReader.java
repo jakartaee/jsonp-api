@@ -52,13 +52,13 @@ import java.nio.charset.Charset;
  * {@link JsonArray array} from an input source.
  *
  * <p><b>For example</b>, an empty JSON array can be created as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
- * </pre>
  * </code>
+ * </pre>
  *
  * It uses {@link javax.json.stream.JsonParser} internally for parsing. The
  * parser is created using one of the {@link Json}'s {@code createParser}

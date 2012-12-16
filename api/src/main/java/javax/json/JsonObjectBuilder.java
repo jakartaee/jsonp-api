@@ -53,8 +53,8 @@ import java.util.*;
  * <p>
  * <b>For example</b>, for the following JSON
  *
- * <code>
  * <pre>
+ * <code>
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
  *     "address" : {
@@ -68,14 +68,14 @@ import java.util.*;
  *         { "type": "fax", "number": "646 555-4567" }
  *     ]
  * }
- * </pre>
  * </code>
+ * </pre>
  *
  * a JsonObject instance can be built using:
  *
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonObject value = new JsonObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
@@ -93,8 +93,8 @@ import java.util.*;
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * @see JsonArrayBuilder
  */

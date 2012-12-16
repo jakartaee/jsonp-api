@@ -56,13 +56,13 @@ import java.nio.charset.Charset;
  *
  * <p>
  * <b>For example:</b>
- * <code>
  * <pre>
+ * <code>
  * JsonGeneratorFactory factory = Json.createGeneratorFactory();
  * JsonGenerator generator1 = factory.createGenerator(...);
  * JsonGenerator generator2 = factory.createGenerator(...);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>

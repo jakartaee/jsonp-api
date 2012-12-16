@@ -50,15 +50,15 @@ import java.util.Set;
  *
  * <p>
  * <b>For example</b>, JSON can be written in a pretty manner as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonObject jsonObject = ...;
  * JsonConfiguration config = new JsonConfiguration().withPrettyPrinting();
  * JsonWriter jsonWriter = new JsonWriter(..., config);
  * jsonWriter.writeObject(jsonObject);
  * jsonWriter.close();
- * </pre>
  * </code>
+ * </pre>
  *
  *
  * @author Jitendra Kotamraju

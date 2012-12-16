@@ -57,23 +57,23 @@ import java.math.BigDecimal;
  *
  * <p>
  * For example, a parser for empty JSON array can be created as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonParser parser = Json.createParser(new StringReader("[]"));
- * </pre>
  * </code>
+ * </pre>
  *
  * A parser can also be created using {@link JsonParserFactory}. If
  * multiple parser instances are created, then creating them using
  * a factory is preferred.
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonParserFactory factory = Json.createParserFactory();
  * JsonParser parser1 = factory.createParser(...);
  * JsonParser parser2 = factory.createParser(...);
- * </pre>
  * </code>
+ * </pre>
  * 
  * <p>
  * The parser is used to parse JSON in a pull manner by calling its
@@ -86,12 +86,12 @@ import java.math.BigDecimal;
  * events at the specified locations. Those events can be accessed using the
  * following code.
  *
- * <code>
  * <pre>
+ * <code>
  * Event event = parser.next(); // START_OBJECT
  * event = parser.next();       // END_OBJECT
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * <b>For example 2</b>:
@@ -125,14 +125,14 @@ import java.math.BigDecimal;
  * Here, "John" value is accessed as follows:
  *
  * <p>
- * <code>
  * <pre>
+ * <code>
  * Event event = parser.next(); // START_OBJECT
  * event = parser.next();       // KEY_NAME
  * event = parser.next();       // VALUE_STRING
  * parser.getString();          // "John"
- * </pre>
  * </code>
+ * </pre>
  *
  * @see javax.json.Json
  * @see JsonParserFactory
@@ -247,16 +247,16 @@ public interface JsonParser extends /*Auto*/Closeable {
      * numeric value for the number.
      * <p>
      * <b>For example:</b>
-     * <code>
      * <pre>
+     * <code>
      * switch(getNumberType()) {
      *     case INTEGER :
      *         long l = getLongValue(); break;
      *     case DECIMAL :
      *         BigDecimal bd = getBigDecimalValue(); break;
      * }
-     * </pre>
      * </code>
+     * </pre>
      *
      * @return a number type
      * @throws IllegalStateException when the parser state is not

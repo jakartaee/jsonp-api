@@ -63,12 +63,12 @@ import java.io.*;
  * <p>
  * For example, a JSON parser for parsing an empty array could be created as
  * follows:
- * <code>
  * <pre>
+ * <code>
  * StringReader reader = new StringReader("[]");
  * JsonParser parser = Json.createParser(reader);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * All of the methods in this class are safe for use by multiple concurrent

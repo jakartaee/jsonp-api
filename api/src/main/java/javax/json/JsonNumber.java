@@ -94,16 +94,16 @@ public interface JsonNumber extends JsonValue {
      * numeric value for the number.
      * <p>
      * <b>For example:</b>
-     * <code>
      * <pre>
+     * <code>
      * switch(getNumberType()) {
      *     case INTEGER :
      *         long l = getLongValue(); break;
      *     case DECIMAL :
      *         BigDecimal bd = getBigDecimalValue(); break;
      * }
-     * </pre>
      * </code>
+     * </pre>
      *
      * @return a number type
      */

@@ -53,20 +53,20 @@ import java.util.*;
  * <p>
  * <b>For example</b>, for the following JSON array
  *
- * <code>
  * <pre>
+ * <code>
  * [
  *     { "type": "home", "number": "212 555-1234" },
  *     { "type": "fax", "number": "646 555-4567" }
  * ]
- * </pre>
  * </code>
+ * </pre>
  *
  * a JsonArray instance can be built using:
  *
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonArray value = new JsonArrayBuilder()
  *     .add(new JsonObjectBuilder()
  *         .add("type", "home")
@@ -75,8 +75,8 @@ import java.util.*;
  *         .add("type", "fax")
  *         .add("number", "646 555-4567"))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * @see JsonObjectBuilder
  */
