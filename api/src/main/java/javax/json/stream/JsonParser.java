@@ -200,7 +200,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * false if the parser reaches the end state of JSON text.
      *
      * @return true if there are more parsing states
-     * @throws javax.json.JsonException if there is an i/o error
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws JsonParsingException if incorrect JSON is encountered while
      * advancing the parser to next state
      */
@@ -209,7 +210,8 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Returns the event for next parsing state.
      *
-     * @throws javax.json.JsonException if there is an i/o error
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws JsonParsingException if incorrect JSON is encountered while
      * advancing the parser to next state
      * @throws java.util.NoSuchElementException if there are no more parsing
@@ -324,6 +326,9 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Closes this parser and frees any resources associated with the
      * parser. This closes the underlying input source.
+     *
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      */
     @Override
     void close();

@@ -115,7 +115,7 @@ public abstract class JsonProvider {
      *
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
-     *         or i/o error
+     *         or i/o error (IOException would be cause of JsonException)
      */
     public abstract JsonParser createParser(InputStream in);
 

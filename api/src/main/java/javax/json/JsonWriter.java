@@ -162,7 +162,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      *
      * @param array JSON array that is to be written to the output source
      * @throws JsonException if the specified JSON object cannot be
-     *     written due to i/o error
+     *     written due to i/o error (IOException would be cause of
+     *     JsonException)
      * @throws IllegalStateException if this method, writeObject, write or close
      *     method is already called
      */
@@ -184,7 +185,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      *
      * @param object JSON object that is to be written to the output source
      * @throws JsonException if the specified JSON object cannot be
-     *     written due to i/o error
+     *     written due to i/o error (IOException would be cause of JsonException)
      * @throws IllegalStateException if this method, writeArray, write or close
      *     method is already called
      */
@@ -208,7 +209,8 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param value JSON array or object that is to be written to the output
      *              source
      * @throws JsonException if the specified JSON object cannot be
-     *     written due to i/o error
+     *     written due to i/o error (IOException would be cause of
+     *     JsonException)
      * @throws IllegalStateException if this method, writeObject, writeArray
      *     or close method is already called
      */
@@ -223,6 +225,9 @@ public class JsonWriter implements /*Auto*/Closeable {
     /**
      * Closes this JSON writer and frees any resources associated with the
      * writer. This closes the underlying output source.
+     *
+     * @throws JsonException if an i/o error occurs (IOException would be
+     * cause of JsonException)
      */
     @Override
     public void close() {
