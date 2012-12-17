@@ -56,9 +56,15 @@ class UnicodeDetectingInputStream extends FilterInputStream {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
     private static final Charset UTF_16BE = Charset.forName("UTF-16BE");
     private static final Charset UTF_16LE = Charset.forName("UTF-16LE");
-    //private static final Charset UTF_16 = Charset.forName("UTF-16");
     private static final Charset UTF_32LE = Charset.forName("UTF-32LE");
     private static final Charset UTF_32BE = Charset.forName("UTF-32BE");
+
+    private static final byte FF = (byte)0xFF;
+    private static final byte FE = (byte)0xFE;
+    private static final byte EF = (byte)0xEF;
+    private static final byte BB = (byte)0xBB;
+    private static final byte BF = (byte)0xBF;
+    private static final byte NUL = (byte)0x00;
 
     private final byte[] buf = new byte[4];
     private int bufLen;
@@ -122,15 +128,33 @@ class UnicodeDetectingInputStream extends FilterInputStream {
     private Charset detectEncoding() {
         fillBuf();
         if (bufLen < 2) {
-            throw new JsonException("Cannot detect encoding, not enough chars");
+            throw new JsonException("Cannot auto-detect encoding, not enough chars");
         } else if (bufLen == 4) {
-            if (buf[0] == 0 && buf[1] == 0 && buf[2] == 0) {
+            // Use BOM to detect encoding
+            if (buf[0] == NUL && buf[1] == NUL && buf[2] == FE && buf[3] == FF) {
+                curIndex = 4;
                 return UTF_32BE;
-            } else if (buf[0] == 0 && buf[2] == 0) {
-                return UTF_16BE;
-            } else if (buf[1] == 0 && buf[2] == 0 && buf[3] == 0) {
+            } else if (buf[0] == FF && buf[1] == FE && buf[2] == NUL && buf[3] == NUL) {
+                curIndex = 4;
                 return UTF_32LE;
-            } else if (buf[1] == 0 && buf[3] == 0) {
+            } else if (buf[0] == FE && buf[1] == FF) {
+                curIndex = 2;
+                return UTF_16BE;
+            } else if (buf[0] == FF && buf[1] == FE) {
+                curIndex = 2;
+                return UTF_16LE;
+            } else if (buf[0] == EF && buf[1] == BB && buf[2] == BF) {
+                curIndex = 3;
+                return UTF_8;
+            }
+            // No BOM, just use JSON RFC's encoding algo to auto-detect
+            if (buf[0] == NUL && buf[1] == NUL && buf[2] == NUL) {
+                return UTF_32BE;
+            } else if (buf[0] == NUL && buf[2] == NUL) {
+                return UTF_16BE;
+            } else if (buf[1] == NUL && buf[2] == NUL && buf[3] == NUL) {
+                return UTF_32LE;
+            } else if (buf[1] == NUL && buf[3] == NUL) {
                 return UTF_16LE;
             }
         }

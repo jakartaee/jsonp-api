@@ -58,7 +58,7 @@ public class JsonParserTest extends TestCase {
     static final Charset UTF_8 = Charset.forName("UTF-8");
     static final Charset UTF_16BE = Charset.forName("UTF-16BE");
     static final Charset UTF_16LE = Charset.forName("UTF-16LE");
-    //static final Charset UTF_16 = Charset.forName("UTF-16");
+    static final Charset UTF_16 = Charset.forName("UTF-16");
     static final Charset UTF_32LE = Charset.forName("UTF-32LE");
     static final Charset UTF_32BE = Charset.forName("UTF-32BE");
 
@@ -116,6 +116,13 @@ public class JsonParserTest extends TestCase {
 
     public void testEmptyArrayStreamUTF32BE() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_32BE));
+        JsonParser parser = Json.createParser(bin);
+        testEmptyArray(parser);
+        parser.close();
+    }
+
+    public void testEmptyArrayStreamUTF16() {
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
