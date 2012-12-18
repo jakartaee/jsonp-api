@@ -48,32 +48,23 @@ import java.util.Map;
  * It also provides unmodifiable map view to the JSON object
  * name/value mappings.
  *
- * <p>
- * A JsonObject instance can be created from an input source using
+ * <p>A JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
- *
- * <pre>
- * <code>
+ * <pre><code>
  * JsonReader jsonReader = new JsonReader(...);
  * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
- * </code>
- * </pre>
+ * </code></pre>
  *
  * It can also be built from scratch using a {@link JsonObjectBuilder}.
  *
- * <p>
- * For example 1: An empty JSON object can be built as follows:
- * <pre>
- * <code>
+ * <p>For example 1: An empty JSON object can be built as follows:
+ * <pre><code>
  * JsonObject object = new JsonObjectBuilder().build();
- * </code>
- * </pre>
+ * </code></pre>
  *
- * <p>
  * For example 2: The following JSON
- * <pre>
- * <code>
+ * <pre><code>
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
  *     "address" : {
@@ -87,11 +78,9 @@ import java.util.Map;
  *         { "type": "fax", "number": "646 555-4567" }
  *     ]
  * }
- * </pre>
- * </code>
+ * </pre></code>
  * can be built using :
- * <pre>
- * <code>
+ * <pre><code>
  * JsonObject value = new JsonObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
@@ -109,38 +98,30 @@ import java.util.Map;
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();
- * </code>
- * </pre>
+ * </code></pre>
  *
  * {@code JsonObject} can be written to JSON as follows:
- * <pre>
- * <code>
+ * <pre><code>
  * JsonWriter writer = ...
  * JsonObject obj = ...;
  * writer.writeobject(obj);
- * </code>
- * </pre>
+ * </code></pre>
  *
- * <p>
  * {@code JsonObject} values can be {@link JsonObject}, {@link JsonArray},
  * {@link JsonString}, {@link JsonNumber}, {@link JsonValue#TRUE},
  * {@link JsonValue#FALSE}, {@link JsonValue#NULL}. These values can be
  * accessed using various accessor methods.
  *
- * <p>
- * In the above example 2, "John" can be got using
- * <pre>
- * <code>
+ * <p>In the above example 2, "John" can be got using
+ * <pre><code>
  * String firstName = object.getStringValue("firstName");
- * </code>
- * </pre>
+ * </code></pre>
  *
  * This map object provides read-only access to the JSON object data,
  * and attempts to modify the map, whether direct or via its collection
  * views, result in an {@code UnsupportedOperationException}.
  *
- * <p>
- * The map object's iteration ordering is based on the order in which
+ * <p>The map object's iteration ordering is based on the order in which
  * name/value pairs are added to the corresponding builder or the order
  * in which name/value pairs appear in the corresponding stream.
  *
