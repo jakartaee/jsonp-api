@@ -78,7 +78,7 @@ import java.util.Map;
  *         { "type": "fax", "number": "646 555-4567" }
  *     ]
  * }
- * </pre></code>
+ * </code></pre>
  * can be built using :
  * <pre><code>
  * JsonObject value = new JsonObjectBuilder()
