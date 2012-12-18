@@ -60,28 +60,26 @@ import java.util.List;
  *
  * It can also be built from scratch using a {@link JsonArrayBuilder}.
  * <p>
- * For example 1:
+ * For example 1: An empty JSON array can be built as follows:
  * <pre>
  * <code>
- * An empty JSON array can be built as follows:
- *
  * JsonArray array = new JsonArrayBuilder().build();
  * </code>
  * </pre>
  *
  * <p>
- * For example 2:
+ * For example 2: The following JSON
  * <pre>
  * <code>
- * The following JSON
- *
  * [
  *     { "type": "home", "number": "212 555-1234" },
  *     { "type": "fax", "number": "646 555-4567" }
  * ]
- *
+ * </code>
+ * </pre>
  * can be built using :
- *
+ * <pre>
+ * <code>
  * JsonArray value = new JsonArrayBuilder()
  *     .add(new JsonObjectBuilder()
  *         .add("type", "home")

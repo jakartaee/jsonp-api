@@ -63,21 +63,17 @@ import java.util.Map;
  * It can also be built from scratch using a {@link JsonObjectBuilder}.
  *
  * <p>
- * For example 1:
+ * For example 1: An empty JSON object can be built as follows:
  * <pre>
  * <code>
- * An empty JSON object can be built as follows:
- *
  * JsonObject object = new JsonObjectBuilder().build();
  * </code>
  * </pre>
  *
  * <p>
- * For example 2:
+ * For example 2: The following JSON
  * <pre>
  * <code>
- * The following JSON
- *
  * {
  *     "firstName": "John", "lastName": "Smith", "age": 25,
  *     "address" : {
@@ -91,9 +87,11 @@ import java.util.Map;
  *         { "type": "fax", "number": "646 555-4567" }
  *     ]
  * }
- *
+ * </pre>
+ * </code>
  * can be built using :
- *
+ * <pre>
+ * <code>
  * JsonObject value = new JsonObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
