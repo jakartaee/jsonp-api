@@ -181,7 +181,7 @@ public class TestGenerator implements JsonGenerator {
     }
 
     @Override
-    public JsonGenerator end() {
+    public JsonGenerator writeEnd() {
         try {
             writer.write("]");
         } catch(IOException ioe) {

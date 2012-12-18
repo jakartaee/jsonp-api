@@ -60,7 +60,7 @@ public class TestServlet extends HttpServlet {
 			res.setContentType("application/json");
 			OutputStream os = res.getOutputStream();
 			JsonGenerator generator = Json.createGenerator(os);
-            generator.writeStartArray().end();
+            generator.writeStartArray().writeEnd();
             generator.close();
         } catch(IOException ioe) {
             throw new ServletException(ioe);

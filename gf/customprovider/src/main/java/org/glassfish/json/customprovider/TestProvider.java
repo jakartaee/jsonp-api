@@ -68,27 +68,7 @@ public class TestProvider extends JsonProvider {
     }
 
     @Override
-    public JsonGenerator createGenerator(Writer writer, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
     public JsonGenerator createGenerator(OutputStream out) {
-        return null;
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, Charset charset) {
-        return null;
-    }
-
-    @Override
-    public JsonGenerator createGenerator(OutputStream out, Charset charset, JsonConfiguration config) {
         return null;
     }
 
@@ -98,47 +78,7 @@ public class TestProvider extends JsonProvider {
     }
 
     @Override
-    public JsonParser createParser(Reader reader, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
     public JsonParser createParser(InputStream in) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, Charset charset) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(InputStream in, Charset charset, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(JsonArray array) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(JsonArray array, JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(JsonObject object) {
-        return null;
-    }
-
-    @Override
-    public JsonParser createParser(JsonObject object, JsonConfiguration config) {
         return null;
     }
 

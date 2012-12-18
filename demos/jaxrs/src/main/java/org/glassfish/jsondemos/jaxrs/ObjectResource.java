@@ -40,7 +40,8 @@
 
 package org.glassfish.jsondemos.jaxrs;
 
-import javax.json.JsonBuilder;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -57,29 +58,23 @@ public class ObjectResource {
     @GET
     @Produces("application/json")
     public JsonObject doGet() {
-        return new JsonBuilder()
-            .beginObject()
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                .beginObject("address")
-                    .add("streetAddress", "21 2nd Street")
-                    .add("city", "New York")
-                    .add("state", "NY")
-                    .add("postalCode", "10021")
-                .endObject()
-                .beginArray("phoneNumber")
-                    .beginObject()
-                        .add("type", "home")
-                        .add("number", "212 555-1234")
-                    .endObject()
-                    .beginObject()
-                        .add("type", "fax")
-                        .add("number", "646 555-4567")
-                    .endObject()
-                .endArray()
-            .endObject()
-        .build();
+        return new JsonObjectBuilder()
+            .add("firstName", "John")
+            .add("lastName", "Smith")
+            .add("age", 25)
+            .add("address", new JsonObjectBuilder()
+                .add("streetAddress", "21 2nd Street")
+                .add("city", "New York")
+                .add("state", "NY")
+                .add("postalCode", "10021"))
+            .add("phoneNumber", new JsonArrayBuilder()
+                .add(new JsonObjectBuilder()
+                    .add("type", "home")
+                    .add("number", "212 555-1234"))
+                .add(new JsonObjectBuilder()
+                    .add("type", "fax")
+                    .add("number", "646 555-4567")))
+            .build();
     }
 
 }

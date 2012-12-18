@@ -63,7 +63,7 @@ public class TestServlet extends HttpServlet {
             if (!(generator instanceof TestGenerator)) {
                 throw new RuntimeException("MyGenerator is not picked up");
             }
-            generator.writeStartArray().end();
+            generator.writeStartArray().writeEnd();
             generator.close();
 			os.close();
         } catch(IOException ioe) {

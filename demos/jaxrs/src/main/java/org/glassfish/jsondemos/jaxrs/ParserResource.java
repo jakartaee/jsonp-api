@@ -80,21 +80,20 @@ public class ParserResource {
      * --------
      */
     private void writeTwitterFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23javaone");
+        URL url = new URL("http://search.twitter.com/search.json?q=%23java");
         try(InputStream is = url.openStream();
             JsonParser parser = Json.createParser(is);
             PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
 
-            Iterator<Event> it = parser.iterator();
-            while(it.hasNext()) {
-                Event e = it.next();
+            while(parser.hasNext()) {
+                Event e = parser.next();
                 if (e == Event.KEY_NAME) {
                     if (parser.getString().equals("from_user")) {
-                        it.next();
+                        parser.next();
                         ps.print(parser.getString());
                         ps.print(": ");
                     } else if (parser.getString().equals("text")) {
-                        it.next();
+                        parser.next();
                         ps.println(parser.getString());
                         ps.println("---------");
                     }
