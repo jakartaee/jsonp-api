@@ -1,0 +1,16 @@
+<html>
+<body>
+Java API for JSON Processing API provides a way to process <a href="http://json.org/">JSON</a>. 
+
+<p>This API can be used to:
+<ul>
+<li>Parse and generate JSON text in a streaming fashion
+(similar to StAX API for XML).</li>
+<li>Build a Java object model (similar to DOM API for XML) for JSON text. </li>
+</ul>
+
+<p>The streaming API is built upon <a href="javax/json/stream/JsonParser.html">JsonParser</a> and <a href="javax/json/stream/JsonGenerator.html">JsonGenerator</a> abstractions. A JsonParser can be used to parse JSON in a streaming way and a JsonGenerator can be used to generate JSON from scratch in a streaming way. It is a low-level API to process JSON and provides an efficient way to do the processing.
+
+<p>On the other hand, the object model API is a high-level API that provides object models for JSON object and array structures. These JSON structures are represented using <a href="javax/json/JsonObject.html">JsonObject</a> and <a href="javax/json/JsonArray.html">JsonArray</a> object models. The API uses builder patterns to build these object models of JSON from scratch. These object models can also be created from an input source using a <a href="javax/json/JsonReader.html">JsonReader</a>. Similarly, these object models can be written to an output source using a <a href="javax/json/JsonWriter.html">JsonWriter</a>.
+</body>
+</html>
