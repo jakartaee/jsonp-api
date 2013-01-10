@@ -10,7 +10,7 @@ Java API for JSON Processing provides a way to process <a href="http://json.org/
 </ul>
 
 <h2>Streaming API</h2>
-<p>The streaming API is built upon {@link javax.json.stream.JsonParser} and {@link javax.json.stream.JsonGenerator} abstractions. A JsonParser can be used to parse JSON in a streaming way and a JsonGenerator can be used to generate JSON from scratch in a streaming way. It is a low-level API to process JSON and provides an efficient way to do the processing.
+<p>The streaming API is built upon {@link javax.json.stream.JsonParser} and {@link javax.json.stream.JsonGenerator} abstractions. A JsonParser can be used to parse JSON in a streaming way and a JsonGenerator can be used to generate JSON from scratch in a streaming way. It is a low-level API and is designed to process large JSON text efficiently. Other JSON frameworks(for e.g. binding) can be built on top of this API.
 
 <h2>Object Model API</h2>
 <p>The object model API is a high-level API that provides immutable object models for JSON object and array structures. These JSON structures are represented using {@link javax.json.JsonObject} and {@link javax.json.JsonArray} object models. JsonObject provides {@link java.util.Map} view to access its unordered collection of zero or more name/value pairs. Similarly, JsonArray provides {@link java.util.List} view to access its ordered sequence of zero or more values.

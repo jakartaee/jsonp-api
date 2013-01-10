@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -43,9 +43,10 @@
  * <a href="http://json.org/">JSON</a>.
  *
  * <p>
- * {@code JsonParser} can be used to parse JSON in a streaming way.
- * {@code JsonGenerator} can be used to generate JSON from scratch in a
- * streaming way.
+ * {@link javax.json.stream.JsonParser} can be used to parse JSON in a
+ * streaming way. {@link javax.json.stream.JsonGenerator} can be used to
+ * generate JSON from scratch in a streaming way. It is a low-level API
+ * and is designed to parse and generate large JSON text efficiently.
  *
  * @since JSON Processing 1.0
  * @author Jitendra Kotamraju

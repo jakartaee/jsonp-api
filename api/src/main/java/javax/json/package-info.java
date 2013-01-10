@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -39,20 +39,25 @@
  */
 
 /**
- * Java API for JSON Processing API provides a way to process
- * (for e.g. parse, generate, transform and query)
- * <a href="http://json.org/">JSON</a>.
+ * Provides a object model API to process <a href="http://json.org/">JSON</a>.
  *
- * This API can be used to:
- * <ul>
- * <li>Produce and consume JSON text in a streaming fashion
- * (similar to StAX API for XML)</li>
- * <li>Build a Java object model(similar to DOM API for XML) for JSON text</li>
- * </ul>
+ * <p>The object model API is a high-level API that provides immutable object
+ * models for JSON object and array structures. These JSON structures are
+ * represented using {@link javax.json.JsonObject} and
+ * {@link javax.json.JsonArray} object models. JsonObject provides
+ * {@link java.util.Map} view to access its unordered
+ * collection of zero or more name/value pairs. Similarly, JsonArray provides
+ * {@link java.util.List} view to access its ordered sequence of zero
+ * or more values.
  *
- * The object model API uses builder pattern to build object models of JSON
- * {@link javax.json.JsonObject object} and {@link javax.json.JsonArray array}
- * from scratch.
+ * <p>The API uses builder patterns to build these object models of JSON
+ * from scratch. A {@link javax.json.JsonObjectBuilder} and
+ * {@link javax.json.JsonArrayBuilder}
+ * are used to build JsonObject and JsonArray structures respectively.
+ *
+ * <p>These object models can also be created from an input source using a
+ * {@link javax.json.JsonReader}. Similarly, these object models can be written
+ * to an output source using a {@link javax.json.JsonWriter}.
  *
  * @since JSON Processing 1.0
  * @author Jitendra Kotamraju
