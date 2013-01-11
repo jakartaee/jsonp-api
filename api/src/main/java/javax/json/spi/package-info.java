@@ -42,6 +42,16 @@
  * SPI to plugin implementations for {@link javax.json.stream.JsonParser}
  * and {@link javax.json.stream.JsonGenerator} portably.
  *
+ * <p> {@link JsonProvider} is an abstract class that provides a service for
+ * creating JSON parser and generator instances. A <i>service provider</i>
+ * for {@code JsonProvider} service provides a specific implementation
+ * by subclassing and implementing {@code JsonProvider} methods. This
+ * allows to use custom efficient JSON parser and generator implementations
+ * than the default one.
+ *
+ * <p>API locates and loads the providers using
+ * {@link java.util.ServiceLoader}.
+ *
  * @since JSON Processing 1.0
  * @author Jitendra Kotamraju
  */
