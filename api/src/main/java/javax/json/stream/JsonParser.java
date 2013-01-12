@@ -94,6 +94,7 @@ import java.math.BigDecimal;
  * </pre>
  *
  * <p>
+ * <a id="JsonParserExample2"/>
  * <b>For example 2</b>:
  * <p>
  * For the following JSON

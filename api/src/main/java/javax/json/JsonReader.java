@@ -51,7 +51,9 @@ import java.nio.charset.Charset;
  * A JSON reader that reads a JSON {@link JsonObject object} or
  * {@link JsonArray array} from an input source.
  *
- * <p><b>For example</b>, an empty JSON array can be created as follows:
+ * <p>
+ * <a id="JsonReaderExample1"/>
+ * <b>For example</b>, an empty JSON array can be created as follows:
  * <pre>
  * <code>
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));

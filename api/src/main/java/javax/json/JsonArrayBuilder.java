@@ -51,6 +51,7 @@ import java.util.*;
  * building the JSON array.
  *
  * <p>
+ * <a id="JsonArrayBuilderExample1"/>
  * <b>For example</b>, for the following JSON array
  *
  * <pre>

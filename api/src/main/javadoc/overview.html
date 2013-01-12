@@ -10,13 +10,58 @@ Java API for JSON Processing provides a way to process <a href="http://json.org/
 </ul>
 
 <h2>Streaming API</h2>
-<p>The streaming API is built upon {@link javax.json.stream.JsonParser} and {@link javax.json.stream.JsonGenerator} abstractions. A JsonParser can be used to parse JSON in a streaming way and a JsonGenerator can be used to generate JSON from scratch in a streaming way. It is a low-level API and is designed to process large JSON text efficiently. Other JSON frameworks(for e.g. binding) can be built on top of this API.
+<p>
+The streaming API is built upon {@link javax.json.stream.JsonParser}
+and {@link javax.json.stream.JsonGenerator} abstractions. A JsonParser
+can be used to parse JSON in a streaming way and a JsonGenerator can be used
+to generate JSON from scratch in a streaming way. It is a low-level API
+and is designed to process large JSON text efficiently. Other JSON
+frameworks(for e.g. binding) can be built on top of this API.
+
+
+<p>
+{@code JsonParser} provides forward, read-only access to JSON and is used
+to parse JSON in a pull manner. Parser can be advanced to a next parsing state
+and the required information can be got at that state using parser's methods.
+Sample usage can be seen in this
+<a href="javax/json/stream/JsonParser.html#JsonParserExample2">example</a>.
+
+<p>
+{@code JsonGenerator} is used to generate JSON object in a streaming way.
+JSON name/value pairs and values are written in object and array contexts
+respectively. Sample usage can be seen in this
+<a href="javax/json/stream/JsonGenerator.html#JsonGeneratorExample3">example</a>.
+
 
 <h2>Object Model API</h2>
-<p>The object model API is a high-level API that provides immutable object models for JSON object and array structures. These JSON structures are represented using {@link javax.json.JsonObject} and {@link javax.json.JsonArray} object models. JsonObject provides {@link java.util.Map} view to access its unordered collection of zero or more name/value pairs. Similarly, JsonArray provides {@link java.util.List} view to access its ordered sequence of zero or more values.
+<p>
+The object model API is a high-level API that provides immutable object
+models for JSON object and array structures. These JSON structures are
+represented using {@link javax.json.JsonObject} and
+{@link javax.json.JsonArray} object models. JsonObject provides
+{@link java.util.Map} view to access its unordered collection of zero or
+more name/value pairs. Similarly, JsonArray provides {@link java.util.List}
+view to access its ordered sequence of zero or more values.
 
-<p>The API uses builder patterns to build these object models of JSON from scratch. A {@link javax.json.JsonObjectBuilder} and {@link javax.json.JsonArrayBuilder} are used to build JsonObject and JsonArray structures respectively.
+<p>
+The API uses builder patterns to build these object models of JSON from
+scratch. A {@link javax.json.JsonObjectBuilder} can be used to build
+JsonObject, as seen in the
+<a href="javax/json/JsonObjectBuilder.html#JsonObjectBuilderExample1">example</a>.
+A {@link javax.json.JsonArrayBuilder} can used to build JsonArray, as seen in
+the <a href="javax/json/JsonArrayBuilder.html#JsonArrayBuilderExample1">example</a>.
 
-<p>These object models can also be created from an input source using a {@link javax.json.JsonReader}. Similarly, these object models can be written to an output source using a {@link javax.json.JsonWriter}.
+<p>
+These object models can also be created from an input source (such as
+{@link java.io.InputStream} or {@link java.io.Reader}) using a
+{@link javax.json.JsonReader}. For example, reading and creating an empty
+{@code JsonArray} using a {@code JsonReader} can be seen
+<a href="javax/json/JsonReader.html#JsonReaderExample1">here</a>.
+
+Similarly, these object models can be written
+to an output source (such as {@link java.io.OutputStream} or
+{@link java.io.Writer}) using a {@link javax.json.JsonWriter}.
+For example, writing an empty {@code JsonObject} using a {@code JsonWriter}
+can be seen <a href="javax/json/JsonWriter.html#JsonWriterExample1">here</a>.
 </body>
 </html>

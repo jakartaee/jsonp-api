@@ -98,6 +98,7 @@ import java.math.BigInteger;
  *
  * The generator methods can be chained. Similarly, the following generator
  * <p>
+ * <a id="JsonGeneratorExample3"/>
  * <pre>
  * <code>
  * generator

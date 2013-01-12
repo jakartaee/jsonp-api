@@ -52,6 +52,7 @@ import java.util.Map;
  * {@link JsonArray array} structure to an output source.
  *
  * <p>
+ * <a id="JsonWriterExample1"/>
  * <b>For example</b>, an empty JSON object can be written as follows:
  * <pre>
  * <code>
