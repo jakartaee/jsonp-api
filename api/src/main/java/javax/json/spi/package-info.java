@@ -47,7 +47,7 @@
  * for {@code JsonProvider} service provides a specific implementation
  * by subclassing and implementing {@code JsonProvider} methods. This
  * allows to use custom efficient JSON parser and generator implementations
- * than the default one.
+ * than the default ones.
  *
  * <p>API locates and loads the providers using
  * {@link java.util.ServiceLoader}.
