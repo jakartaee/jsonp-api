@@ -43,9 +43,9 @@ package org.glassfish.jsondemos.jaxrs;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonObject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.json.JsonStructure;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Writes person's JSON using JsonObject
@@ -56,7 +56,7 @@ import javax.ws.rs.Produces;
 public class ObjectResource {
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public JsonObject doGet() {
         return new JsonObjectBuilder()
             .add("firstName", "John")
@@ -75,6 +75,12 @@ public class ObjectResource {
                     .add("type", "fax")
                     .add("number", "646 555-4567")))
             .build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void doPost(JsonObject structure) {
+        System.out.println(structure);
     }
 
 }

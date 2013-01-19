@@ -45,6 +45,7 @@ import javax.json.stream.JsonGenerator;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
 
@@ -57,7 +58,7 @@ import java.io.OutputStream;
 public class GeneratorResource {
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public StreamingOutput doGet() {
         return new StreamingOutput() {
             public void write(OutputStream os) {
