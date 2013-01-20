@@ -40,12 +40,13 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonConfiguration;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -53,13 +54,17 @@ import java.nio.charset.Charset;
 public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
 
     private final boolean prettyPrinting;
+    private final Map<String, Object> config = new HashMap<String, Object>();
 
     public JsonGeneratorFactoryImpl() {
         prettyPrinting = false;
     }
 
-    public JsonGeneratorFactoryImpl(JsonConfiguration config) {
+    public JsonGeneratorFactoryImpl(Map<String, ?> config) {
         prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+        if (prettyPrinting) {
+            this.config.put(JsonGenerator.PRETTY_PRINTING, true);
+        }
     }
 
     @Override
@@ -81,6 +86,11 @@ public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
         return prettyPrinting
                 ? new JsonPrettyGeneratorImpl(out, charset)
                 : new JsonGeneratorImpl(out, charset);
+    }
+
+    @Override
+    public Map<String, ?> getConfigInUse() {
+        return config;
     }
 
 }

@@ -47,6 +47,8 @@ import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -129,7 +131,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStreamWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
+        Map<String, ?> config = new HashMap<String, Object>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
@@ -144,7 +146,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
+        Map<String, ?> config = new HashMap<String, Object>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 new JsonArrayBuilder().build());
         testEmptyArray(parser);
@@ -261,7 +263,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStructureWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
+        Map<String, ?> config = new HashMap<String, Object>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 new JsonObjectBuilder().build());
         testEmptyObject(parser);

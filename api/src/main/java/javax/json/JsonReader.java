@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -41,11 +41,14 @@
 package javax.json;
 
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * A JSON reader that reads a JSON {@link JsonObject object} or
@@ -72,6 +75,7 @@ public class JsonReader implements /*Auto*/Closeable {
 
     private final JsonParser parser;
     private boolean readDone;
+    private final Map<String, ?> config;
 
     /**
      * Creates a JSON reader from a character stream
@@ -79,19 +83,23 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param reader a reader from which JSON is to be read
      */
     public JsonReader(Reader reader) {
-        parser = Json.createParser(reader);
+        this(reader, Collections.<String, Object>emptyMap());
     }
 
     /**
-     * Creates a JSON reader from a character stream
+     * Creates a JSON reader from a character stream. The created
+     * JSON reader is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
      *
      * @param reader a character stream from which JSON is to be read
-     * @param config configuration of the reader
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
+     * @param config a map of provider specific properties to configure the
+     *               JSON reader; may be empty or null
      */
-    public JsonReader(Reader reader, JsonConfiguration config) {
-        parser = Json.createParserFactory(config).createParser(reader);
+    public JsonReader(Reader reader, Map<String, ?> config) {
+        JsonParserFactory factory = Json.createParserFactory(config);
+        parser = factory.createParser(reader);
+        this.config = factory.getConfigInUse();
     }
 
     /**
@@ -103,6 +111,7 @@ public class JsonReader implements /*Auto*/Closeable {
      */
     public JsonReader(InputStream in) {
         parser = Json.createParser(in);
+        config = Collections.emptyMap();
     }
 
     /**
@@ -113,22 +122,25 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonReader(InputStream in, Charset charset) {
-        parser = Json.createParserFactory().createParser(in, charset);
+        this(in, charset, Collections.<String, Object>emptyMap());
     }
 
     /**
      * Creates a JSON reader from a byte stream. The bytes of the stream
      * are decoded to characters using the specified charset. The created
-     * reader is configured with the specified configuration.
+     * JSON reader is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
      *
      * @param in a byte stream from which JSON is to be read
      * @param charset a charset
-     * @param config configuration of the reader
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
+     * @param config a map of provider specific properties to configure the
+     *               JSON reader; may be empty or null
      */
-    public JsonReader(InputStream in, Charset charset, JsonConfiguration config) {
-        parser = Json.createParserFactory(config).createParser(in, charset);
+    public JsonReader(InputStream in, Charset charset, Map<String, ?> config) {
+        JsonParserFactory factory = Json.createParserFactory(config);
+        parser = factory.createParser(in, charset);
+        this.config = factory.getConfigInUse();
     }
 
     /**
@@ -318,6 +330,19 @@ public class JsonReader implements /*Auto*/Closeable {
             }
         }
         throw new JsonException("Internal Error");
+    }
+
+    /**
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure this JSON reader. If there are
+     * any specified configuration properties that are not supported by
+     * the provider, they won't be part of the returned map.
+     *
+     * @return a map of supported provider specific properties that are used
+     * to configure this JSON reader; may be empty but not null.
+     */
+    public Map<String, ?> getConfigInUse() {
+        return config;
     }
 
 }

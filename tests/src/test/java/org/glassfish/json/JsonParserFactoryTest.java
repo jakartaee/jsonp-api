@@ -43,10 +43,11 @@ package org.glassfish.json;
 import junit.framework.TestCase;
 
 import javax.json.Json;
-import javax.json.JsonConfiguration;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tests JsonParserFactory
@@ -68,7 +69,7 @@ public class JsonParserFactoryTest extends TestCase {
     }
 
     public void testParserFactoryWithConfig() {
-        JsonConfiguration config = new JsonConfiguration();
+        Map<String, ?> config = new HashMap<String, Object>();
         JsonParserFactory parserFactory = Json.createParserFactory(config);
         JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
         parser1.close();

@@ -46,6 +46,8 @@ import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tests JsonGeneratorFactory
@@ -71,8 +73,14 @@ public class JsonGeneratorFactoryTest extends TestCase {
     }
 
     public void testGeneratorFactoryWithConfig() {
-        JsonConfiguration config = new JsonConfiguration().with(JsonFeature.PRETTY_PRINTING);
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
+        Map<String, ?> config1 = generatorFactory.getConfigInUse();
+        if (config1.size() != 1) {
+            throw new JsonException("Expecting no of properties=1, got="+config1.size());
+        }
+        assertEquals(true, config1.get(JsonGenerator.PRETTY_PRINTING));
 
         JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
         generator1.writeStartArray().writeEnd();

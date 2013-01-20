@@ -46,6 +46,8 @@ import javax.json.*;
 import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {@link JsonGenerator} tests
@@ -219,8 +221,10 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectWriter() throws Exception {
         StringWriter writer = new StringWriter();
-        JsonGenerator generator = Json.createGeneratorFactory(
-                new JsonConfiguration().withPrettyPrinting()).createGenerator(writer);
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonGenerator generator = Json.createGeneratorFactory(config)
+                .createGenerator(writer);
         testObject(generator);
         generator.close();
         writer.close();
@@ -232,8 +236,10 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectStream() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        JsonGenerator generator = Json.createGeneratorFactory(
-                new JsonConfiguration().withPrettyPrinting()).createGenerator(out);
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonGenerator generator = Json.createGeneratorFactory(config)
+                .createGenerator(out);
         testObject(generator);
         generator.close();
         out.close();

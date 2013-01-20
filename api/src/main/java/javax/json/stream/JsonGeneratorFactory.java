@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -43,6 +43,7 @@ package javax.json.stream;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * Factory to create {@link JsonGenerator} instances. If a factory
@@ -100,5 +101,16 @@ public interface JsonGeneratorFactory {
      * @param charset a charset
      */
     JsonGenerator createGenerator(OutputStream out, Charset charset);
+
+    /**
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure the created JSON generators.
+     * If there are any specified configuration properties that are not
+     * supported by the provider, they won't be part of the returned map.
+     *
+     * @return a map of supported provider specific properties that are used
+     * to configure the created generators; may be empty but not null.
+     */
+    Map<String, ?> getConfigInUse();
 
 }

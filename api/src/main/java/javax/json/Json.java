@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -46,6 +46,7 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.*;
+import java.util.Map;
 
 /**
  * Factory to create {@link JsonParser}, {@link JsonGenerator},
@@ -134,20 +135,22 @@ public class Json {
 
     /**
      * Creates a parser factory which can be used to create {@link JsonParser}.
-     * The created parser factory is configured with the specified
-     * configuration
+     * The created factory is configured with the specified map of
+     * provider specific configuration properties. Provider implementations
+     * should ignore any unsupported configuration properties specified in
+     * the map.
      *
-     * @param config configuration of the parser factory
+     * @param config a map of provider specific properties to configure the
+     *               JSON parsers; may be empty or null
      * @return JSON parser factory
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
      */
-    public static JsonParserFactory createParserFactory(JsonConfiguration config) {
+    public static JsonParserFactory createParserFactory(Map<String, ?> config) {
         return JsonProvider.provider().createParserFactory(config);
     }
 
     /**
-     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     * Creates a generator factory which can be used to create
+     * {@link JsonGenerator}.
      *
      * @return JSON generator factory
      */
@@ -156,16 +159,18 @@ public class Json {
     }
 
     /**
-     * Creates a generator factory which can be used to create {@link JsonGenerator}.
-     * The created generator factory is configured with the specified
-     * configuration.
+     * Creates a generator factory which can be used to create
+     * {@link JsonGenerator}. The created factory is configured with the
+     * specified map of provider specific configuration properties. Provider
+     * implementations should ignore any unsupported configuration properties
+     * specified in the map.
      *
-     * @param config configuration of the generator factory
+     * @param config a map of provider specific properties to configure the
+     *               JSON generators; may be empty or null
      * @return JSON generator factory
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
      */
-    public static JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
+    public static JsonGeneratorFactory createGeneratorFactory(
+            Map<String, ?> config) {
         return JsonProvider.provider().createGeneratorFactory(config);
     }
 

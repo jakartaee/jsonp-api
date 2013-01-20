@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -41,10 +41,12 @@
 package javax.json;
 
 import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 import java.io.Closeable;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -69,9 +71,11 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 public class JsonWriter implements /*Auto*/Closeable {
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private final JsonGenerator generator;
     private boolean writeDone;
+    private final Map<String, ?> config;
 
     /**
      * Creates a JSON writer which can be used to write a
@@ -81,22 +85,25 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param writer to which JSON object or array is written
      */
     public JsonWriter(Writer writer) {
-        generator = Json.createGenerator(writer);
+        this(writer, Collections.<String, Object>emptyMap());
     }
 
     /**
      * Creates a JSON writer which can be used to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
-     * structure to the specified character stream.  The created
-     * writer is configured with the specified configuration.
+     * structure to the specified character stream. The created
+     * JSON writer is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
      *
      * @param writer to which JSON object or array is written
-     * @param config configuration of the writer
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
+     * @param config a map of provider specific properties to configure the
+     *               JSON writer; may be empty or null
      */
-    public JsonWriter(Writer writer, JsonConfiguration config) {
-        generator = Json.createGeneratorFactory(config).createGenerator(writer);
+    public JsonWriter(Writer writer, Map<String, ?> config) {
+        JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
+        generator = factory.createGenerator(writer);
+        this.config = factory.getConfigInUse();
     }
 
     /**
@@ -108,7 +115,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param out to which JSON object or array is written
      */
     public JsonWriter(OutputStream out) {
-        generator = Json.createGenerator(out);
+        this(out, UTF_8, Collections.<String, Object>emptyMap());
     }
 
     /**
@@ -116,15 +123,17 @@ public class JsonWriter implements /*Auto*/Closeable {
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using UTF-8 encoding.
-     * The created writer is configured with the specified configuration.
+     * The created JSON writer is configured with the specified map of
+     * provider specific configuration properties. Provider implementations
+     * should ignore any unsupported configuration properties specified in
+     * the map.
      *
      * @param out to which JSON object or array is written
-     * @param config configuration of the writer
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
+     * @param config a map of provider specific properties to configure the
+     *               JSON writer; may be empty or null
      */
-    public JsonWriter(OutputStream out, JsonConfiguration config) {
-        generator = Json.createGeneratorFactory(config).createGenerator(out);
+    public JsonWriter(OutputStream out, Map<String, ?> config) {
+        this(out, UTF_8, config);
     }
 
     /**
@@ -137,7 +146,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param charset a charset
      */
     public JsonWriter(OutputStream out, Charset charset) {
-        generator = Json.createGeneratorFactory().createGenerator(out, charset);
+        this(out, charset, Collections.<String, Object>emptyMap());
     }
 
     /**
@@ -145,16 +154,20 @@ public class JsonWriter implements /*Auto*/Closeable {
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using the specified charset.
-     * The created writer is configured with the specified configuration.
+     * The created JSON writer is configured with the specified map of
+     * provider specific configuration properties. Provider implementations
+     * should ignore any unsupported configuration properties specified in
+     * the map.
      *
      * @param out to which JSON object or array is written
      * @param charset a charset
-     * @param config configuration of the writer
-     * @throws IllegalArgumentException if a feature in the configuration
-     * is not known
+     * @param config a map of provider specific properties to configure the
+     *               JSON writer; may be empty or null
      */
-    public JsonWriter(OutputStream out, Charset charset, JsonConfiguration config) {
-        generator = Json.createGeneratorFactory(config).createGenerator(out, charset);
+    public JsonWriter(OutputStream out, Charset charset, Map<String, ?> config) {
+        JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
+        generator = factory.createGenerator(out, charset);
+        this.config = factory.getConfigInUse();
     }
 
     /**
@@ -234,6 +247,19 @@ public class JsonWriter implements /*Auto*/Closeable {
     public void close() {
         writeDone = true;
         generator.close();
+    }
+
+    /**
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure this JSON writer. If there are
+     * any specified configuration properties that are not supported by
+     * the provider, they won't be part of the returned map.
+     *
+     * @return a map of supported provider specific properties that are used
+     * to configure this JSON writer; may be empty but not null.
+     */
+    public Map<String, ?> getConfigInUse() {
+        return config;
     }
 
 }

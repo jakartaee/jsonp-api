@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,7 +40,6 @@
 
 package javax.json.spi;
 
-import javax.json.JsonConfiguration;
 import javax.json.JsonException;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
@@ -51,6 +50,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
@@ -128,13 +128,16 @@ public abstract class JsonProvider {
 
     /**
      * Creates a parser factory which can be used to create {@link JsonParser}.
-     * The created parser factory is configured with the specified
-     * configuration
+     * The created factory is configured with the specified map of
+     * provider specific configuration properties. Provider implementations
+     * should ignore any unsupported configuration properties specified in
+     * the map.
      *
-     * @param config configuration of the parser factory
+     * @param config a map of provider specific properties to configure the
+     *               JSON parsers; may be empty or null
      * @return JSON parser factory
      */
-    public abstract JsonParserFactory createParserFactory(JsonConfiguration config);
+    public abstract JsonParserFactory createParserFactory(Map<String, ?> config);
 
     /**
      * Creates a JSON generator which can be used to write JSON text to the
@@ -161,12 +164,14 @@ public abstract class JsonProvider {
 
     /**
      * Creates a generator factory which can be used to create {@link JsonGenerator}.
-     * The created generator factory is configured with the specified
-     * configuration.
+     * The created factory is configured with the specified map of provider
+     * specific configuration properties. Provider implementations should
+     * ignore any unsupported configuration properties specified in the map.
      *
-     * @param config configuration of the generator factory
+     * @param config a map of provider specific properties to configure the
+     *               JSON generators; may be empty or null
      * @return JSON generator factory
      */
-    public abstract JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config);
+    public abstract JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config);
 
 }

@@ -41,13 +41,11 @@
 package org.glassfish.json;
 
 import junit.framework.TestCase;
-import org.w3c.dom.Document;
 
 import javax.json.*;
-import javax.json.stream.JsonGenerator;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -72,13 +70,12 @@ public class JsonReaderTest extends TestCase {
     }
 
     public void testUnknownFeature() throws Exception {
-        JsonConfiguration config = new JsonConfiguration().with(new JsonFeature() {
-        });
-        try {
-            JsonReader reader = new JsonReader(new StringReader("{}"), config);
-            fail("Should have thrown IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-            // no-op
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put("foo", true);
+        JsonReader reader = new JsonReader(new StringReader("{}"), config);
+        Map<String, ?> config1 = reader.getConfigInUse();
+        if (config1.size() > 0) {
+            fail("Shouldn't have any config in use");
         }
     }
 

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -45,6 +45,7 @@ import javax.json.JsonObject;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * Factory to create {@link JsonParser} instances. If a factory
@@ -114,5 +115,16 @@ public interface JsonParserFactory {
      * @param array JSON array
      */
     JsonParser createParser(JsonArray array);
+
+    /**
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure the created JSON parsers.
+     * If there are any specified configuration properties that are not
+     * supported by the provider, they won't be part of the returned map.
+     *
+     * @return a map of supported provider specific properties that are used
+     * to configure the created parsers; may be empty but not null.
+     */
+    Map<String, ?> getConfigInUse();
 
 }

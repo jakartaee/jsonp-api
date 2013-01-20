@@ -40,8 +40,6 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonConfiguration;
-import javax.json.JsonFeature;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
@@ -52,16 +50,13 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Jitendra Kotamraju
  */
 public class JsonProviderImpl extends JsonProvider {
-    private static final Set<JsonFeature> KNOWN_FEATURES = new HashSet<JsonFeature>();
-    static {
-        KNOWN_FEATURES.add(JsonFeature.PRETTY_PRINTING);
-    }
 
     @Override
     public JsonGenerator createGenerator(Writer writer) {
@@ -90,9 +85,8 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonParserFactory createParserFactory(JsonConfiguration config) {
-        validateConfiguration(config);
-        return new JsonParserFactoryImpl(config);
+    public JsonParserFactory createParserFactory(Map<String, ?> config) {
+        return new JsonParserFactoryImpl();
     }
 
     @Override
@@ -101,32 +95,15 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
-        validateConfiguration(config);
+    public JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config) {
         return new JsonGeneratorFactoryImpl(config);
     }
 
-    private static void validateConfiguration(JsonConfiguration config) {
-        Set<JsonFeature> unknown = null;
-        Iterable<JsonFeature> features = config.getFeatures();
-        for(JsonFeature feature : features) {
-            if (!KNOWN_FEATURES.contains(feature)) {
-                if (unknown == null) {
-                    unknown = new HashSet<JsonFeature>();
-                }
-                unknown.add(feature);
-            }
-        }
-        if (unknown != null && !unknown.isEmpty()) {
-            throw new IllegalArgumentException("Specified config contains unknown features :"+unknown);
-        }
-    }
-
-    static boolean isPrettyPrintingEnabled(JsonConfiguration config) {
-        Iterable<JsonFeature> features = config.getFeatures();
-        for(JsonFeature feature : features) {
-            if (feature == JsonFeature.PRETTY_PRINTING)
+    static boolean isPrettyPrintingEnabled(Map<String, ?> config) {
+        for(Map.Entry e : config.entrySet()) {
+            if (e.getKey().equals(JsonGenerator.PRETTY_PRINTING)) {
                 return true;
+            }
         }
         return false;
     }
