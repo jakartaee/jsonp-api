@@ -100,11 +100,6 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     static boolean isPrettyPrintingEnabled(Map<String, ?> config) {
-        for(Map.Entry e : config.entrySet()) {
-            if (e.getKey().equals(JsonGenerator.PRETTY_PRINTING)) {
-                return true;
-            }
-        }
-        return false;
+        return config.containsKey(JsonGenerator.PRETTY_PRINTING);
     }
 }

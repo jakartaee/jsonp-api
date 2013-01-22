@@ -80,7 +80,7 @@ public class JsonGeneratorFactoryTest extends TestCase {
         if (config1.size() != 1) {
             throw new JsonException("Expecting no of properties=1, got="+config1.size());
         }
-        assertEquals(true, config1.get(JsonGenerator.PRETTY_PRINTING));
+        assertTrue(config1.containsKey(JsonGenerator.PRETTY_PRINTING));
 
         JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
         generator1.writeStartArray().writeEnd();

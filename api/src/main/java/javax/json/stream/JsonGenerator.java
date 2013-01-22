@@ -157,7 +157,8 @@ import java.math.BigInteger;
 public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     /**
      * Configuration property to generate JSON prettily. All providers
-     * must support this feature.
+     * must support this property. The value of the property could be
+     * be anything.
      */
     String PRETTY_PRINTING = "javax.json.stream.JsonGenerator.prettyPrinting" ;
 
