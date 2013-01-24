@@ -55,6 +55,8 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 public class JsonGeneratorImpl implements JsonGenerator {
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
+
     protected final Writer writer;
     protected Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
@@ -64,11 +66,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGeneratorImpl(OutputStream out) {
-        try {
-            this.writer = new OutputStreamWriter(out, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new JsonException(e);
-        }
+        this(out, UTF_8);
     }
 
     public JsonGeneratorImpl(OutputStream out, Charset encoding) {
