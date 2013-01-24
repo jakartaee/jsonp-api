@@ -110,8 +110,25 @@ public class JsonReader implements /*Auto*/Closeable {
      * @param in a byte stream from which JSON is to be read
      */
     public JsonReader(InputStream in) {
-        parser = Json.createParser(in);
-        config = Collections.emptyMap();
+        this(in, Collections.<String, Object>emptyMap());
+    }
+
+    /**
+     * Creates a JSON reader from a byte stream. The character encoding of
+     * the stream is determined as per the
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>. The created
+     * JSON reader is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
+     *
+     * @param in a byte stream from which JSON is to be read
+     * @param config a map of provider specific properties to configure the
+     *               JSON reader; may be empty or null
+     */
+    public JsonReader(InputStream in, Map<String, ?> config) {
+        JsonParserFactory factory = Json.createParserFactory(config);
+        parser = factory.createParser(in);
+        this.config = factory.getConfigInUse();
     }
 
     /**
