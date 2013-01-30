@@ -148,8 +148,9 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * {@code getValue(name, JsonString.class).getValue()}
      *
      * @param name whose associated value is to be returned as String
-     * @return the String value to which the specified name is mapped,
-     * {@code null} if this object contains no mapping for the name
+     * @return the String value to which the specified name is mapped
+     * @throws NullPointerException if the specified name doesn't have any
+     * mapping
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonString
      */
@@ -160,8 +161,9 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * {@code getValue(name, JsonNumber.class).getIntValue()}
      *
      * @param name whose associated value is to be returned as int
-     * @return the int value to which the specified name is mapped,
-     * {@code null} if this object contains no mapping for the name
+     * @return the int value to which the specified name is mapped
+     * @throws NullPointerException if the specified name doesn't have any
+     * mapping
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonNumber
      */
