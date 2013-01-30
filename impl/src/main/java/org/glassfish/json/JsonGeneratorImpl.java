@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -78,7 +78,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
         try {
             writer.flush();
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while flushing JsonGenerator", e);
         }
     }
 
@@ -100,7 +100,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writer.write("{");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing start object", ioe);
         }
         stack.push(currentContext);
         currentContext = new Context(Scope.IN_OBJECT);
@@ -116,21 +116,17 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write("{");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing start of object in JSON object", ioe);
         }
         stack.push(currentContext);
         currentContext = new Context(Scope.IN_OBJECT);
         return this;
     }
 
-    private JsonGenerator writeName(String name) {
-        try {
-            writeComma();
-            writeEscapedString(writer, name);
-            writer.write(":");
-        } catch(IOException ioe) {
-            throw new JsonException(ioe);
-        }
+    private JsonGenerator writeName(String name) throws IOException {
+        writeComma();
+        writeEscapedString(writer, name);
+        writer.write(":");
         return this;
     }
 
@@ -143,7 +139,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writeEscapedString(writer, fieldValue);
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, String) pair in JSON object", ioe);
         }
         return this;
     }
@@ -157,7 +153,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(String.valueOf(value));
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, int) pair in JSON object", ioe);
         }
         return this;
     }
@@ -171,7 +167,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(String.valueOf(value));
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, long) pair in JSON object",ioe);
         }
         return this;
     }
@@ -188,7 +184,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(String.valueOf(value));
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, double) pair in JSON object", ioe);
         }
         return this;
     }
@@ -202,7 +198,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(String.valueOf(value));
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, BigInteger) pair in JSON object", ioe);
         }
         return this;
     }
@@ -216,7 +212,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(String.valueOf(value));
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, BigDecimal) pair in JSON object", ioe);
         }
         return this;
     }
@@ -230,7 +226,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write(value? "true" : "false");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing (name, boolean) pair in JSON object", ioe);
         }
         return this;
     }
@@ -244,7 +240,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write("null");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing null value in JSON object", ioe);
         }
         return this;
     }
@@ -277,7 +273,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 break;
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;
-                writeValue(number.toString());
+                try {
+                    writeValue(number.toString());
+                } catch(IOException ioe) {
+                    throw new JsonException("I/O error while writing a number", ioe);
+                }
                 break;
             case TRUE:
                 write(true);
@@ -305,7 +305,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writer.write("[");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing start of JSON array", ioe);
         }
         stack.push(currentContext);
         currentContext = new Context(Scope.IN_ARRAY);
@@ -321,7 +321,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeName(name);
             writer.write("[");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while writing start of array in JSON object", ioe);
         }
         stack.push(currentContext);
         currentContext = new Context(Scope.IN_ARRAY);
@@ -356,7 +356,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 break;
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;
-                writeValue(name, number.toString());
+                try {
+                    writeValue(name, number.toString());
+                } catch (IOException ioe) {
+                    throw new JsonException("I/O error while writing a number in JSON object", ioe);
+                }
                 break;
             case TRUE:
                 write(name, true);
@@ -379,7 +383,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writeEscapedString(writer, value);
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while writing string value in JSON array", e);
         }
         return this;
     }
@@ -393,7 +397,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writer.write(String.valueOf(value));
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while writing int value in JSON array", e);
         }
         return this;
     }
@@ -403,7 +407,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException("write(long) can only be called in array context");
         }
-        writeValue(String.valueOf(value));
+        try {
+            writeValue(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException("I/O error while writing long value in JSON array", ioe);
+        }
         return this;
     }
 
@@ -415,7 +423,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
         if (Double.isInfinite(value) || Double.isNaN(value)) {
             throw new NumberFormatException("write(double) value cannot be Infinite or NaN");
         }
-        writeValue(String.valueOf(value));
+        try {
+            writeValue(String.valueOf(value));
+        } catch(IOException ioe) {
+            throw new JsonException("I/O error while writing double value in JSON array", ioe);
+        }
         return this;
     }
 
@@ -424,7 +436,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException("write(BigInteger) can only be called in array context");
         }
-        writeValue(value.toString());
+        try {
+            writeValue(value.toString());
+        } catch(IOException ioe) {
+            throw new JsonException("I/O error while writing BigInteger value in JSON array", ioe);
+        }
         return this;
     }
 
@@ -433,7 +449,11 @@ public class JsonGeneratorImpl implements JsonGenerator {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException("write(BigDecimal) can only be called in array context");
         }
-        writeValue(value.toString());
+        try {
+            writeValue(value.toString());
+        } catch(IOException ioe) {
+            throw new JsonException("I/O error while writing BigDecimal value in JSON array", ioe);
+        }
         return this;
     }
 
@@ -445,7 +465,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writer.write(value ? "true" : "false");
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while writing boolean value in JSON array", e);
         }
         return this;
     }
@@ -458,29 +478,21 @@ public class JsonGeneratorImpl implements JsonGenerator {
             writeComma();
             writer.write("null");
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while writing null value in JSON array", e);
         }
         return this;
     }
 
-    private void writeValue(String value) {
-        try {
-            writeComma();
-            writer.write(value);
-        } catch(IOException ioe) {
-            throw new JsonException(ioe);
-        }
+    private void writeValue(String value) throws IOException {
+        writeComma();
+        writer.write(value);
     }
 
-    private void writeValue(String name, String value) {
-        try {
-            writeComma();
-            writeEscapedString(writer, name);
-            writer.write(':');
-            writer.write(value);
-        } catch(IOException ioe) {
-            throw new JsonException(ioe);
-        }
+    private void writeValue(String name, String value) throws IOException {
+        writeComma();
+        writeEscapedString(writer, name);
+        writer.write(':');
+        writer.write(value);
     }
 
     @Override
@@ -491,7 +503,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
         try {
             writer.write(currentContext.scope == Scope.IN_ARRAY ? ']' : '}');
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while writing end of JSON structure", e);
         }
         currentContext = stack.pop();
         return this;
@@ -521,7 +533,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
         try {
             writer.close();
         } catch (IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while closing JsonGenerator", ioe);
         }
     }
 

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -160,17 +160,17 @@ public class JsonParserImpl implements JsonParser {
             while (true) {
                 try {
                     token = tokenizer.nextToken();
-                    State nextState = currentState.getTransition(token, enclosingState);
-                    if (nextState == null) {
-                        throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
-                    }
-                    if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
-                        stack.addFirst(currentState);
-                    }
-                    currentState = nextState;
                 } catch(IOException ioe) {
-                    throw new JsonException(ioe);
+                    throw new JsonException("I/O error while moving parser to next state", ioe);
                 }
+                State nextState = currentState.getTransition(token, enclosingState);
+                if (nextState == null) {
+                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
+                }
+                if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
+                    stack.addFirst(currentState);
+                }
+                currentState = nextState;
 
                 switch (currentState) {
                     case START_DOCUMENT:
@@ -233,7 +233,7 @@ public class JsonParserImpl implements JsonParser {
         try {
             tokenizer.close();
         } catch (IOException e) {
-            throw new JsonException(e);
+            throw new JsonException("I/O error while closing JSON tokenizer", e);
         }
     }
 

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -47,7 +47,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 /**
- * A filter stream that detects the unicode for the original
+ * A filter stream that detects the unicode encoding for the original
  * stream
  *
  * @author Jitendra Kotamraju
@@ -121,7 +121,7 @@ class UnicodeDetectingInputStream extends FilterInputStream {
             buf[2] = (byte)b3;
             buf[3] = (byte)b4;
         } catch (IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error while auto-detecting the encoding of stream", ioe);
         }
     }
 
