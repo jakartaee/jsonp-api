@@ -46,13 +46,15 @@ import java.math.BigInteger;
 import java.util.*;
 
 /**
- * Builds a {@link JsonArray} from scratch. It uses builder pattern
- * to build the array model and the builder methods can be chained while
- * building the JSON array.
+ * A builder class for creating {@link JsonArray} models from scratch. This
+ * class initializes an empty JSON array model and provides methods to add
+ * values to the array model and to return the resulting array. The methods
+ * in this class can be chained to add multiple values to the array.
  *
  * <p>
  * <a id="JsonArrayBuilderExample1"/>
- * <b>For example</b>, for the following JSON array
+ * The example code below shows how to build a {@code JsonArray} object
+ * that represents the following JSON array:
  *
  * <pre>
  * <code>
@@ -63,9 +65,8 @@ import java.util.*;
  * </code>
  * </pre>
  *
- * a JsonArray instance can be built using:
+ * <p>The following code creates the JSON array above:
  *
- * <p>
  * <pre>
  * <code>
  * JsonArray value = new JsonArrayBuilder()
@@ -85,17 +86,17 @@ public class JsonArrayBuilder {
     private final List<JsonValue> valueList;
 
     /**
-     * Constructs a {@code JsonArrayBuilder} that initializes an empty JSON
-     * array that is being built.
+     * Creates a {@code JsonArrayBuilder} instance that initializes an empty
+     * JSON array.
      */
     public JsonArrayBuilder() {
         this.valueList = new ArrayList<JsonValue>();
     }
 
     /**
-     * Adds the specified value to the array that is being built.
+     * Adds a value to the array.
      *
-     * @param value a JSON value
+     * @param value the JSON value
      * @return this array builder
      */
     public JsonArrayBuilder add(JsonValue value) {
@@ -104,10 +105,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON string value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonString}.
      *
-     * @param value string
+     * @param value the string value
      * @return this array builder
      */
     public JsonArrayBuilder add(String value) {
@@ -116,10 +116,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonNumber}.
      *
-     * @param value a number
+     * @param value the number value
      * @return this array builder
      *
      * @see JsonNumber
@@ -130,10 +129,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonNumber}.
      *
-     * @param value a number
+     * @param value the number value
      * @return this array builder
      *
      * @see JsonNumber
@@ -144,10 +142,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonNumber}.
      *
-     * @param value a number
+     * @param value the number value
      * @return this array builder
      *
      * @see JsonNumber
@@ -158,10 +155,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonNumber}.
      *
-     * @param value a number
+     * @param value the number value
      * @return this array builder
      *
      * @see JsonNumber
@@ -172,12 +168,12 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
+     * Adds a value to the array as a {@link JsonNumber}.
      *
-     * @param value a number
+     * @param value the number value
      * @return this array builder
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     * @throws NumberFormatException if the value is Not-a-Number(NaN) or 
+     *      infinity
      *
      * @see JsonNumber
      */
@@ -187,9 +183,10 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds a JSON true or false value to the array that is being built.
+     * Adds a {@link JsonValue#TRUE}  or {@link JsonValue#FALSE} value to the
+     * array.
      *
-     * @param value a boolean
+     * @param value the boolean value
      * @return this array builder
      */
     public JsonArrayBuilder add(boolean value) {
@@ -198,7 +195,7 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds a JSON null value to the array that is being built.
+     * Adds a {@link JsonValue#NULL} value to the array.
      *
      * @return this array builder
      */
@@ -208,9 +205,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds a JsonObject from the specified builder to the array that
-     * is being built.
+     * Adds a {@link JsonObject} from an object builder to the array.
      *
+     * @param builder the object builder
      * @return this array builder
      */
     public JsonArrayBuilder add(JsonObjectBuilder builder) {
@@ -219,9 +216,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Adds a JsonArray from the specified builder to the array that
-     * is being built.
+     * Adds a {@link JsonArray} from an array builder to the array.
      *
+     * @param builder the array builder
      * @return this array builder
      */
     public JsonArrayBuilder add(JsonArrayBuilder builder) {
@@ -230,9 +227,9 @@ public class JsonArrayBuilder {
     }
 
     /**
-     * Returns the array that is being built
+     * Returns the current array.
      *
-     * @return JSON array that is being built
+     * @return the current JSON array
      */
     public JsonArray build() {
         ArrayList<JsonValue> snapshot = new ArrayList<JsonValue>(valueList);
