@@ -43,33 +43,35 @@ package javax.json;
 import java.util.List;
 
 /**
- * {@code JsonArray} class represents an immutable JSON array value
+ * {@code JsonArray} represents an immutable JSON array
  * (an ordered sequence of zero or more values).
- * It also provides unmodifiable list view to the JSON array values.
+ * It also provides an unmodifiable list view of the values in the array.
  *
- * <p>A JsonArray instance can be created from a input source using
- * {@link JsonReader#readArray()}. For example:
+ * <p>A {@code JsonArray} object can be created by reading JSON data from
+ * an input source or it can be built from scratch using an array builder
+ * object.
+ *
+ * <p>The following example demonstrates how to create a {@code JsonArray}
+ * object from an input source using the method {@link JsonReader#readArray()}:
  * <pre><code>
  * JsonReader jsonReader = new JsonReader(...);
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
  * </code></pre>
  *
- * It can also be built from scratch using a {@link JsonArrayBuilder}.
- *
- * <p>For example 1: An empty JSON array can be built as follows:
+ * <p>The following example demonstrates how to build an empty JSON array
+ * using the class {@link JsonArrayBuilder}:
  * <pre><code>
  * JsonArray array = new JsonArrayBuilder().build();
  * </code></pre>
  *
- * For example 2: The following JSON
+ * <p>The example code below demonstrates how to create the following JSON array:
  * <pre><code>
  * [
  *     { "type": "home", "number": "212 555-1234" },
  *     { "type": "fax", "number": "646 555-4567" }
  * ]
  * </code></pre>
- * can be built using :
  * <pre><code>
  * JsonArray value = new JsonArrayBuilder()
  *     .add(new JsonObjectBuilder()
@@ -81,7 +83,8 @@ import java.util.List;
  *     .build();
  * </code></pre>
  *
- * {@code JsonArray} can be written to JSON as follows:
+ * <p>The following example demonstrates how to write a {@code JsonArray} object 
+ * as JSON data:
  * <pre><code>
  * JsonArray arr = ...;
  * JsonWriter writer = new JsonWriter(...)
@@ -89,33 +92,36 @@ import java.util.List;
  * writer.close();
  * </code></pre>
  *
- * {@code JsonArray} values can be {@link JsonObject}, {@link JsonArray},
+ * <p>The values in a {@code JsonArray} can be of the following types:
+ * {@link JsonObject}, {@link JsonArray},
  * {@link JsonString}, {@link JsonNumber}, {@link JsonValue#TRUE},
- * {@link JsonValue#FALSE}, {@link JsonValue#NULL}. These values can be
- * accessed using various accessor methods.
- *
- * <p>In the above example 2, home number "212 555-1234" can be got using:
+ * {@link JsonValue#FALSE}, and {@link JsonValue#NULL}. 
+ * {@code JsonArray} provides various accessor methods to access the values
+ * in an array.
+ * 
+ * <p>The following example shows how to obtain the home phone number 
+ * "212 555-1234" from the array built in the previous example:
  * <pre><code>
  * JsonObject home = array.getValue(0, JsonObject.class);
  * String number = home.getStringValue("number");
  * </code></pre>
  *
- * This list object provides read-only access to the JSON array data,
- * and attempts to modify the list, whether direct or via its collection
- * views, result in an {@code UnsupportedOperationException}.
+ * <p>{@code JsonArray} instances are list objects that provide read-only 
+ * access to the values in the JSON array. Any attempt to modify the list,
+ * whether directly or using its collection views, results in an 
+ * {@code UnsupportedOperationException}.
  *
  * @author Jitendra Kotamraju
  */
 public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
-     * Returns the value at the specified position in this JSON array values.
-     * This is just a convenience method for {@code (T) get(index)} to get
-     * the value.
+     * Returns the value of the array at the specified position.
+     * This is a convenience method for {@code (T)get(index)}.
      *
      * @param index index of the value to return
      * @param clazz value class
-     * @return the value at the specified position in this array values
+     * @return the value of the array at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
      * assignable to the type T
@@ -124,13 +130,13 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(index, JsonString.class).getValue()}
+     * {@code getValue(index, JsonString.class).getValue()}.
      *
-     * @param index index of the JsonString value
-     * @return the String value at the specified position in this array
+     * @param index index of the {@code JsonString} value
+     * @return the String value at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
-     * assignable to JsonString
+     * assignable to {@code JsonString}
      */
     String getStringValue(int index);
 
@@ -147,51 +153,52 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
     String getStringValue(int index, String defaultValue);
 
     /**
-     * A Convenience method for
-     * {@code getValue(index, JsonNumber.class).getIntValue()}
+     * A convenience method for
+     * {@code getValue(index, JsonNumber.class).getIntValue()}.
      *
-     * @param index index of the JsonNumber value
-     * @return the int value at the specified position in this array
+     * @param index index of the {@code JsonNumber} value
+     * @return the int value at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
-     * assignable to JsonNumber
+     * assignable to {@code JsonNumber}
      */
     int getIntValue(int index);
 
     /**
-     * Returns the int value of {@code JsonNumber} at specified position in
-     * this JSON array values. If {@code JsonNumber} is found,
-     * its {@link javax.json.JsonNumber#getIntValue()} is returned. Otherwise,
-     * the specified default value is returned.
+     * Returns the int value of the {@code JsonNumber} at the specified position. 
+     * If the value at that position is a {@code JsonNumber},
+     * this method returns {@link javax.json.JsonNumber#getIntValue()}. Otherwise
+     * this method returns the specified default value.
      *
-     * @param index index of the JsonNumber value
+     * @param index index of the {@code JsonNumber} value
      * @return the int value at the specified position in this array,
      * or the specified default value
      */
     int getIntValue(int index, int defaultValue);
 
     /**
-     * Returns the boolean value for the specified position in this array.
-     * If the value at the specified position is JsonValue.TRUE, then returns
-     * true. If the value at the specified position is JsonValue.FALSE, then
-     * returns false.
+     * Returns the boolean value at the specified position.
+     * If the value at the specified position is {@code JsonValue.TRUE} 
+     * this method returns {@code true}. If the value at the specified position 
+     * is {@code JsonValue.FALSE} this method returns {@code false}.
      *
      * @param index index of the JSON boolean value
-     * @return the boolean value at the specified position in this array
+     * @return the boolean value at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
-     * assignable to JsonValue.TRUE or JsonValue.FALSE
+     * assignable to {@code JsonValue.TRUE} or {@code JsonValue.FALSE}
      */
     boolean getBooleanValue(int index);
 
     /**
-     * Returns the boolean value for the specified position in this array.
-     * If the value at the specified position is JsonValue.TRUE, then returns
-     * true. If the value at the specified position is JsonValue.FALSE, then
-     * returns false. Otherwise, the specified default value is returned.
+     * Returns the boolean value at the specified position.
+     * If the value at the specified position is {@code JsonValue.TRUE}
+     * this method returns {@code true}. If the value at the specified position 
+     * is {@code JsonValue.FALSE} this method returns {@code false}. 
+     * Otherwise this method returns the specified default value.
      *
      * @param index index of the JSON boolean value
-     * @return the boolean value at the specified position in this array,
+     * @return the boolean value at the specified position,
      * or the specified default value
      */
     boolean getBooleanValue(int index, boolean defaultValue);
