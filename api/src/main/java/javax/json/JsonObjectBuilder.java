@@ -313,8 +313,49 @@ public class JsonObjectBuilder {
         }
 
         @Override
+        public String getStringValue(String name, String defaultValue) {
+            try {
+                return getStringValue(name);
+            } catch (Exception e) {
+                return defaultValue;
+            }
+        }
+
+        @Override
         public int getIntValue(String name) {
             return getValue(name, JsonNumber.class).getIntValue();
+        }
+
+        @Override
+        public int getIntValue(String name, int defaultValue) {
+            try {
+                return getIntValue(name);
+            } catch (Exception e) {
+                return defaultValue;
+            }
+        }
+
+        @Override
+        public boolean getBooleanValue(String name) {
+            JsonValue value = get(name);
+            if (value == null) {
+                throw new NullPointerException();
+            } else if (value == JsonValue.TRUE) {
+                return true;
+            } else if (value == JsonValue.FALSE) {
+                return false;
+            } else {
+                throw new ClassCastException();
+            }
+        }
+
+        @Override
+        public boolean getBooleanValue(String name, boolean defaultValue) {
+            try {
+                return getBooleanValue(name);
+            } catch (Exception e) {
+                return defaultValue;
+            }
         }
 
         @Override

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -157,6 +157,19 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
     String getStringValue(String name);
 
     /**
+     * Returns the string value of the associated {@code JsonString} mapping
+     * for the specified name. If {@code JsonString} is found, then its
+     * {@link javax.json.JsonString#getValue()} is returned. Otherwise,
+     * the specified default value is returned.
+     *
+     * @param name whose associated value is to be returned as String
+     * @param defaultValue a default value to be returned
+     * @return the string value of the associated mapping for the name,
+     * or the default value
+     */
+    String getStringValue(String name, String defaultValue);
+
+    /**
      * A convenience method for
      * {@code getValue(name, JsonNumber.class).getIntValue()}
      *
@@ -168,5 +181,45 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * is not assignable to JsonNumber
      */
     int getIntValue(String name);
+
+    /**
+     * Returns the int value of the associated {@code JsonNumber} mapping
+     * for the specified name. If {@code JsonNumber} is found, then its
+     * {@link javax.json.JsonNumber#getIntValue()} is returned. Otherwise,
+     * the specified default value is returned.
+     *
+     * @param name whose associated value is to be returned as int
+     * @param defaultValue a default value to be returned
+     * @return the int value of the associated mapping for the name,
+     * or the default value
+     */
+    int getIntValue(String name, int defaultValue);
+
+    /**
+     * Returns the boolean value of the associated mapping for the specified
+     * name. If the associated mapping is JsonValue.TRUE, then returns true.
+     * If the associated mapping is JsonValue.FALSE, then returns false.
+     *
+     * @param name whose associated value is to be returned as boolean
+     * @return the boolean value to which the specified name is mapped
+     * @throws NullPointerException if the specified name doesn't have any
+     * mapping
+     * @throws ClassCastException if the value for specified name mapping
+     * is not assignable to JsonValue.TRUE or JsonValue.FALSE
+     */
+    boolean getBooleanValue(String name);
+
+    /**
+     * Returns the boolean value of the associated mapping for the specified
+     * name. If the associated mapping is JsonValue.TRUE, then returns true.
+     * If the associated mapping is JsonValue.FALSE, then returns false.
+     * Otherwise, the specified default value is returned.
+     *
+     * @param name whose associated value is to be returned as int
+     * @param defaultValue a default value to be returned
+     * @return the boolean value of the associated mapping for the name,
+     * or the default value
+     */
+    boolean getBooleanValue(String name, boolean defaultValue);
 
 }

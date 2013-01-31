@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -135,6 +135,18 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
     String getStringValue(int index);
 
     /**
+     * Returns the {@code String} value of {@code JsonString} at the specified
+     * position in this JSON array values. If {@code JsonString} is found,
+     * its {@link javax.json.JsonString#getValue()} is returned. Otherwise,
+     * the specified default value is returned.
+     *
+     * @param index index of the JsonString value
+     * @return the String value at the specified position in this array,
+     * or the specified default value
+     */
+    String getStringValue(int index, String defaultValue);
+
+    /**
      * A Convenience method for
      * {@code getValue(index, JsonNumber.class).getIntValue()}
      *
@@ -145,5 +157,43 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * assignable to JsonNumber
      */
     int getIntValue(int index);
+
+    /**
+     * Returns the int value of {@code JsonNumber} at specified position in
+     * this JSON array values. If {@code JsonNumber} is found,
+     * its {@link javax.json.JsonNumber#getIntValue()} is returned. Otherwise,
+     * the specified default value is returned.
+     *
+     * @param index index of the JsonNumber value
+     * @return the int value at the specified position in this array,
+     * or the specified default value
+     */
+    int getIntValue(int index, int defaultValue);
+
+    /**
+     * Returns the boolean value for the specified position in this array.
+     * If the value at the specified position is JsonValue.TRUE, then returns
+     * true. If the value at the specified position is JsonValue.FALSE, then
+     * returns false.
+     *
+     * @param index index of the JSON boolean value
+     * @return the boolean value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to JsonValue.TRUE or JsonValue.FALSE
+     */
+    boolean getBooleanValue(int index);
+
+    /**
+     * Returns the boolean value for the specified position in this array.
+     * If the value at the specified position is JsonValue.TRUE, then returns
+     * true. If the value at the specified position is JsonValue.FALSE, then
+     * returns false. Otherwise, the specified default value is returned.
+     *
+     * @param index index of the JSON boolean value
+     * @return the boolean value at the specified position in this array,
+     * or the specified default value
+     */
+    boolean getBooleanValue(int index, boolean defaultValue);
 
 }

@@ -262,8 +262,47 @@ public class JsonArrayBuilder {
         }
 
         @Override
+        public String getStringValue(int index, String defaultValue) {
+            try {
+                return getStringValue(index);
+            } catch (Exception e) {
+                return defaultValue;
+            }
+        }
+
+        @Override
         public int getIntValue(int index) {
             return getValue(index, JsonNumber.class).getIntValue();
+        }
+
+        @Override
+        public int getIntValue(int index, int defaultValue) {
+            try {
+                return getIntValue(index);
+            } catch (Exception e) {
+                return defaultValue;
+            }
+        }
+
+        @Override
+        public boolean getBooleanValue(int index) {
+            JsonValue jsonValue = get(index);
+            if (jsonValue == JsonValue.TRUE) {
+                return true;
+            } else if (jsonValue == JsonValue.FALSE) {
+                return false;
+            } else {
+                throw new ClassCastException();
+            }
+        }
+
+        @Override
+        public boolean getBooleanValue(int index, boolean defaultValue) {
+            try {
+                return getBooleanValue(index);
+            } catch (Exception e) {
+                return defaultValue;
+            }
         }
 
         @Override
