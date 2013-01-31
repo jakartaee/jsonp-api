@@ -104,7 +104,7 @@ import java.util.Map;
  * <pre><code>
  * JsonWriter writer = ...
  * JsonObject obj = ...;
- * writer.writeobject(obj);
+ * writer.writeObject(obj);
  * </code></pre>
  *
  * {@code JsonObject} values can be {@link JsonObject}, {@link JsonArray},
