@@ -46,13 +46,16 @@ import java.math.BigInteger;
 import java.util.*;
 
 /**
- * Builds a {@link JsonObject} from scratch. It uses builder pattern to build
- * the object model and the builder methods can be chained while building the
- * JSON Object.
+ * A builder class for creating {@link JsonObject} models from scratch. This
+ * class initializes an empty JSON object model and provides methods to add
+ * name/value pairs to the object model and to return the resulting object.
+ * The methods in this class can be chained to add multiple name/value pairs
+ * to the object.
  *
  * <p>
  * <a id="JsonObjectBuilderExample1"/>
- * <b>For example</b>, for the following JSON
+ * The example code below shows how to build a {@code JsonObject} model that
+ * represents the following JSON object:
  *
  * <pre>
  * <code>
@@ -72,9 +75,8 @@ import java.util.*;
  * </code>
  * </pre>
  *
- * a JsonObject instance can be built using:
+ * <p>The code to create the object shown above is the following:
  *
- * <p>
  * <pre>
  * <code>
  * JsonObject value = new JsonObjectBuilder()
@@ -103,21 +105,20 @@ public class JsonObjectBuilder {
     private final Map<String, JsonValue> valueMap;
 
     /**
-     * Constructs a {@code JsonObjectBuilder} that initializes an empty JSON
-     * object that is being built.
+     * Creates a {@code JsonObjectBuilder} instance that initializes an empty 
+     * JSON object.
      */
     public JsonObjectBuilder() {
         this.valueMap = new LinkedHashMap<String, JsonValue>();
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonValue} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      */
     public JsonObjectBuilder add(String name, JsonValue value) {
@@ -126,13 +127,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonString} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      */
     public JsonObjectBuilder add(String name, String value) {
@@ -141,13 +141,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonNumber} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      *
      * @see JsonNumber
@@ -158,13 +157,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonNumber} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      *
      * @see JsonNumber
@@ -175,13 +173,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonNumber} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      *
      * @see JsonNumber
@@ -192,13 +189,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonNumber} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      *
      * @see JsonNumber
@@ -209,15 +205,15 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonNumber} pair to the JSON object associated with
+     * this object builder. If the object contains a mapping for the specified
+     * name, this method replaces the old value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     * @throws NumberFormatException if the value is Not-a-Number(NaN) or 
+     * infinity
      *
      * @see JsonNumber
      */
@@ -227,13 +223,13 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonValue#TRUE} or name/{@code JsonValue#FALSE} pair
+     * to the JSON object associated with this object builder. If the object
+     * contains a mapping for the specified name, this method replaces the old
+     * value with the specified value.
      *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
+     * @param name name in the name/value pair
+     * @param value value in the name/value pair
      * @return this object builder
      */
     public JsonObjectBuilder add(String name, boolean value) {
@@ -242,12 +238,12 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
+     * Adds a name/{@code JsonValue#NULL} pair to the JSON object associated
+     * with this object builder where the value is {@code null}.
+     * If the object contains a mapping for the specified name, this method
+     * replaces the old value with {@code null}.
      *
-     * @param name name with which the specified value is to be associated
+     * @param name name in the name/value pair
      * @return this object builder
      */
     public JsonObjectBuilder addNull(String name) {
@@ -256,12 +252,14 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the JsonObject from the specified builder with the
-     * specified name in the JSON object that is being built. If the JSON
-     * object that is being built previously contained a mapping for the name,
-     * the old value is replaced by the JsonObject from the specified builder.
+     * Adds a name/{@code JsonObject} pair to the JSON object associated
+     * with this object builder. The value {@code JsonObject} is built from the
+     * specified object builder. If the object contains a mapping for the
+     * specified name, this method replaces the old value with the
+     * {@code JsonObject} from the specified object builder.
      *
-     * @param name name with which the specified value is to be associated
+     * @param name name in the name/value pair
+     * @param builder the value is the object associated with this builder
      * @return this object builder
      */
     public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
@@ -270,12 +268,14 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Associates the JSON array from the specified builder with the
-     * specified name in the JSON object that is being built. If the JSON
-     * object that is being built previously contained a mapping for the name,
-     * the old value is replaced by the JsonArray from the specified builder.
+     * Adds a name/{@code JsonArray} pair to the JSON object associated with
+     * this object builder. The value {@code JsonArray} is built from the
+     * specified array builder. If the object contains a mapping for the
+     * specified name, this method replaces the old value with the
+     * {@code JsonArray} from the specified array builder.
      *
-     * @param name name with which the specified value is to be associated
+     * @param name the name in the name/value pair
+     * @param builder the value is the object array with this builder
      * @return this object builder
      */
     public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
@@ -284,9 +284,10 @@ public class JsonObjectBuilder {
     }
 
     /**
-     * Returns the JSON object that is being built. The returned JsonObject's
-     * iteration ordering is based on the order in which name/value pairs are
-     * added in this builder.
+     * Returns the JSON object associated with this object builder. 
+     * The iteration order for the {@code JsonObject} is based
+     * on the order in which name/value pairs are added to the object using
+     * this builder.
      *
      * @return JSON object that is being built
      */
