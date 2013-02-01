@@ -51,12 +51,13 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A JSON reader that reads a JSON {@link JsonObject object} or
- * {@link JsonArray array} from an input source.
+ * Reads a JSON {@link JsonObject object} or
+ * an {@link JsonArray array} structure from an input source.
  *
  * <p>
  * <a id="JsonReaderExample1"/>
- * <b>For example</b>, an empty JSON array can be created as follows:
+ * The following example demonstrates how to read an empty JSON array from
+ * a string:
  * <pre>
  * <code>
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
@@ -65,9 +66,9 @@ import java.util.Map;
  * </code>
  * </pre>
  *
- * It uses {@link javax.json.stream.JsonParser} internally for parsing. The
- * parser is created using one of the {@link Json}'s {@code createParser}
- * methods.
+ * {@code JsonReader} uses {@link javax.json.stream.JsonParser} internally 
+ * for parsing. The parser is created using one of the {@code createParser}
+ * methods in the {@link Json} class.
  *
  * @author Jitendra Kotamraju
  */
@@ -78,7 +79,7 @@ public class JsonReader implements /*Auto*/Closeable {
     private final Map<String, ?> config;
 
     /**
-     * Creates a JSON reader from a character stream
+     * Creates a JSON reader from a character stream.
      *
      * @param reader a reader from which JSON is to be read
      */
@@ -87,14 +88,14 @@ public class JsonReader implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON reader from a character stream. The created
-     * JSON reader is configured with the specified map of provider specific
+     * Creates a JSON reader from a character stream. The
+     * reader is configured with the specified map of provider specific
      * configuration properties. Provider implementations should ignore any
      * unsupported configuration properties specified in the map.
      *
      * @param reader a character stream from which JSON is to be read
      * @param config a map of provider specific properties to configure the
-     *               JSON reader; may be empty or null
+     *               JSON reader. The map may be empty or null
      */
     public JsonReader(Reader reader, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
@@ -104,8 +105,8 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Creates a JSON reader from a byte stream. The character encoding of
-     * the stream is determined as per the
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     * the stream is determined as described in
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
      *
      * @param in a byte stream from which JSON is to be read
      */
@@ -115,15 +116,15 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Creates a JSON reader from a byte stream. The character encoding of
-     * the stream is determined as per the
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>. The created
-     * JSON reader is configured with the specified map of provider specific
+     * the stream is determined as described in
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>. The
+     * reader is configured with the specified map of provider-specific
      * configuration properties. Provider implementations should ignore any
      * unsupported configuration properties specified in the map.
      *
      * @param in a byte stream from which JSON is to be read
      * @param config a map of provider specific properties to configure the
-     *               JSON reader; may be empty or null
+     *               JSON reader. The map may be empty or null
      */
     public JsonReader(InputStream in, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
@@ -144,15 +145,15 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Creates a JSON reader from a byte stream. The bytes of the stream
-     * are decoded to characters using the specified charset. The created
-     * JSON reader is configured with the specified map of provider specific
+     * are decoded to characters using the specified charset. The 
+     * reader is configured with the specified map of provider specific
      * configuration properties. Provider implementations should ignore any
      * unsupported configuration properties specified in the map.
      *
      * @param in a byte stream from which JSON is to be read
      * @param charset a charset
      * @param config a map of provider specific properties to configure the
-     *               JSON reader; may be empty or null
+     *               JSON reader. The map may be empty or null
      */
     public JsonReader(InputStream in, Charset charset, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
@@ -165,13 +166,13 @@ public class JsonReader implements /*Auto*/Closeable {
      * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a Json object or array
+     * @return a JSON object or array
      * @throws JsonException if a JSON object or array cannot
      *     be created due to i/o error (IOException would be
      * cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON object or array
      *     cannot be created due to incorrect representation
-     * @throws IllegalStateException if this method, readObject, readArray or
+     * @throws IllegalStateException if read, readObject, readArray or
      *     close method is already called
      */
     public JsonStructure read() {
@@ -197,13 +198,13 @@ public class JsonReader implements /*Auto*/Closeable {
      * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a Json object
+     * @return a JSON object
      * @throws JsonException if a JSON object cannot
      *     be created due to i/o error (IOException would be
      *     cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON object cannot
      *     be created due to incorrect representation
-     * @throws IllegalStateException if this method, readObject, readArray or
+     * @throws IllegalStateException if read, readObject, readArray or
      *     close method is already called
      */
     public JsonObject readObject() {
@@ -229,13 +230,13 @@ public class JsonReader implements /*Auto*/Closeable {
      * the input source. This method needs to be called
      * only once for a reader instance.
      *
-     * @return a Json array
+     * @return a JSON array
      * @throws JsonException if a JSON array cannot
      *     be created due to i/o error (IOException would be
      *     cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON array cannot
      *     be created due to incorrect representation
-     * @throws IllegalStateException if this method, readObject, readArray or
+     * @throws IllegalStateException if read, readObject, readArray or
      *     close method is already called
      */
     public JsonArray readArray() {
@@ -258,7 +259,7 @@ public class JsonReader implements /*Auto*/Closeable {
 
     /**
      * Closes this reader and frees any resources associated with the
-     * reader. This closes the underlying input source.
+     * reader. This method closes the underlying input source.
      *
      * @throws JsonException if an i/o error occurs (IOException would be
      * cause of JsonException)
@@ -350,13 +351,13 @@ public class JsonReader implements /*Auto*/Closeable {
     }
 
     /**
-     * Returns read-only map of supported provider specific configuration
+     * Returns a read-only map of supported provider-specific configuration
      * properties that are used to configure this JSON reader. If there are
      * any specified configuration properties that are not supported by
      * the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure this JSON reader; may be empty but not null.
+     * to configure this JSON reader. The map may be empty but not null
      */
     public Map<String, ?> getConfigInUse() {
         return config;
