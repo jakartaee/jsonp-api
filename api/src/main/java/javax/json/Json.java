@@ -49,21 +49,21 @@ import java.io.*;
 import java.util.Map;
 
 /**
- * Factory to create {@link JsonParser}, {@link JsonGenerator},
- * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
- * This lists only commonly used methods to create {@link JsonParser}
- * and {@link JsonGenerator} objects, the corresponding factories
- * have all the methods to create these objects.
+ * Factory class for creating {@link JsonParser}, {@link JsonGenerator},
+ * {@link JsonParserFactory}, and {@link JsonGeneratorFactory} objects.
+ * This class provides the most commonly used methods to create {@link JsonParser}
+ * and {@link JsonGenerator} objects. The factory classes {@link JsonParserFactory}
+ * and {@link JsonGeneratorFactory} provide all available methods to create these
+ * objects.
  *
  * <p>
- * All the methods would locate a provider instance, which is returned by
- * the {@link JsonProvider#provider() provider} method, and is used
- * to create {@link JsonParser}, {@link JsonGenerator}
- * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
+ * The methods in this class locate a provider instance using the method
+ * {@link JsonProvider#provider()}. This class uses the provider instance
+ * to create {@link JsonParser}, {@link JsonGenerator}, {@link JsonParserFactory}, 
+ * and {@link JsonGeneratorFactory} objects.
  *
  * <p>
- * For example, a JSON parser for parsing an empty array could be created as
- * follows:
+ * The following example shows how to create a JSON parser to parse an empty array:
  * <pre>
  * <code>
  * StringReader reader = new StringReader("[]");
@@ -72,8 +72,7 @@ import java.util.Map;
  * </pre>
  *
  * <p>
- * All of the methods in this class are safe for use by multiple concurrent
- * threads.
+ * All the methods in this class are safe for use by multiple concurrent threads.
  *
  * @author Jitendra Kotamraju
  */
@@ -83,7 +82,7 @@ public class Json {
     }
 
     /**
-     * Creates a JSON parser from the specified character stream
+     * Creates a JSON parser from a character stream.
      *
      * @param reader i/o reader from which JSON is to be read
      */
@@ -92,9 +91,9 @@ public class Json {
     }
 
     /**
-     * Creates a JSON parser from the specified byte stream.
-     * The character encoding of the stream is determined
-     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     * Creates a JSON parser from a byte stream.
+     * The character encoding of the stream is determined as specified in 
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
      *
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
@@ -105,8 +104,7 @@ public class Json {
     }
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream.
+     * Creates a JSON generator for writing JSON to a character stream.
      *
      * @param writer a i/o writer to which JSON is written
      */
@@ -115,8 +113,7 @@ public class Json {
     }
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream.
+     * Creates a JSON generator for writing JSON to a byte stream.
      *
      * @param out i/o stream to which JSON is written
      */
@@ -125,23 +122,22 @@ public class Json {
     }
 
     /**
-     * Creates a parser factory which can be used to create {@link JsonParser}.
+     * Creates a parser factory for creating {@link JsonParser} objects.
      *
-     * @return JSON parser factory
+     * @return JSON parser factory.
      */
     public static JsonParserFactory createParserFactory() {
         return JsonProvider.provider().createParserFactory();
     }
 
     /**
-     * Creates a parser factory which can be used to create {@link JsonParser}.
-     * The created factory is configured with the specified map of
-     * provider specific configuration properties. Provider implementations
-     * should ignore any unsupported configuration properties specified in
-     * the map.
+     * Creates a parser factory for creating {@link JsonParser} objects.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
      *
      * @param config a map of provider specific properties to configure the
-     *               JSON parsers; may be empty or null
+     *               JSON parsers. The map may be empty or null
      * @return JSON parser factory
      */
     public static JsonParserFactory createParserFactory(Map<String, ?> config) {
@@ -149,8 +145,7 @@ public class Json {
     }
 
     /**
-     * Creates a generator factory which can be used to create
-     * {@link JsonGenerator}.
+     * Creates a generator factory for creating {@link JsonGenerator} objects.
      *
      * @return JSON generator factory
      */
@@ -159,14 +154,13 @@ public class Json {
     }
 
     /**
-     * Creates a generator factory which can be used to create
-     * {@link JsonGenerator}. The created factory is configured with the
-     * specified map of provider specific configuration properties. Provider
-     * implementations should ignore any unsupported configuration properties
-     * specified in the map.
+     * Creates a generator factory for creating {@link JsonGenerator} objects.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
      *
      * @param config a map of provider specific properties to configure the
-     *               JSON generators; may be empty or null
+     *               JSON generators. The map may be empty or null
      * @return JSON generator factory
      */
     public static JsonGeneratorFactory createGeneratorFactory(

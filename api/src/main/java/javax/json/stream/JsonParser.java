@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,33 +40,31 @@
 
 package javax.json.stream;
 
-import javax.json.JsonArray;
+
 import javax.json.JsonNumber;
-import javax.json.JsonObject;
 import java.io.Closeable;
-import java.io.Reader;
-import java.io.InputStream;
 import java.math.BigDecimal;
 
 /**
- * A JSON parser that allows forward, read-only access to JSON in a
- * a streaming way. This is designed to be the most efficient
- * way to read JSON text. The parser can be created from many input sources
- * like {@link Reader}, {@link InputStream}, {@link JsonArray} and
- * {@link JsonObject}.
+ * Provides forward, read-only access to JSON data in a streaming way. This
+ * is the most efficient way for reading JSON data. The class
+ * {@link javax.json.Json} contains methods to create parsers from input
+ * sources ({@link java.io.InputStream} and {@link java.io.Reader}.
  *
  * <p>
- * For example, a parser for empty JSON array can be created as follows:
+ * The following example demonstrates how to create a parser from a string
+ * that contains an empty JSON array:
  * <pre>
  * <code>
  * JsonParser parser = Json.createParser(new StringReader("[]"));
  * </code>
  * </pre>
  *
- * A parser can also be created using {@link JsonParserFactory}. If
- * multiple parser instances are created, then creating them using
- * a factory is preferred.
  * <p>
+ * The class {@link JsonParserFactory} also contains methods to create
+ * {@code JsonParser} instances. {@link JsonParserFactory} is preferred
+ * when creating multiple parser instances. A sample usage is shown
+ * in the following example:
  * <pre>
  * <code>
  * JsonParserFactory factory = Json.createParserFactory();
@@ -76,15 +74,20 @@ import java.math.BigDecimal;
  * </pre>
  * 
  * <p>
- * The parser is used to parse JSON in a pull manner by calling its
- * {@code next()} method. The {@code next()} method causes the parser to
- * advance to the next parse state.
+ * {@code JsonParser} parses JSON using the pull parsing programming model. 
+ * In this model the client code controls the thread and calls the method 
+ * {@code next()} to advance the parser to the next state after
+ * processing each element. The parser can generate the following events: 
+ * {@code START_OBJECT}, {@code END_OBJECT}, {@code START_ARRAY}, 
+ * {@code END_ARRAY}, {@code KEY_NAME}, {@code VALUE_STRING},
+ * {@code VALUE_NUMBER}, {@code VALUE_TRUE}, {@code VALUE_FALSE}, 
+ * and {@code VALUE_NULL}. 
+ *
  * <p>
- * <b>For example 1</b>:
- * <p>For empty JSON object { },
- * the {@code next()} would give {<B>START_OBJECT</B> }<B>END_OBJECT</B> parse
- * events at the specified locations. Those events can be accessed using the
- * following code.
+ * <b>For example</b>, for an empty JSON object ({ }), the parser generates the event
+ * {@code START_OBJECT} with the first call to the method {@code next()} and the
+ * event {@code END_OBJECT} with the second call to the method {@code next()}.
+ * The following code demonstrates how to access these events:
  *
  * <pre>
  * <code>
@@ -95,9 +98,8 @@ import java.math.BigDecimal;
  *
  * <p>
  * <a id="JsonParserExample2"/>
- * <b>For example 2</b>:
  * <p>
- * For the following JSON
+ * <b>For example</b>, for the following JSON:
  * <pre>
  * {
  *   "firstName": "John", "lastName": "Smith", "age": 25,
@@ -108,7 +110,8 @@ import java.math.BigDecimal;
  * }
  * </pre>
  *
- * the {@code next()} would give
+ * <p>calls to the method {@code next()} result in parse events at the specified
+ * locations below (marked in bold):
  *
  * <p>
  * <pre>
@@ -120,10 +123,12 @@ import java.math.BigDecimal;
  *    ]<B>END_ARRAY</B>
  * }<B>END_OBJECT</B>
  * </pre>
- * parse events at the specified locations.
  *
  * <p>
- * Here, "John" value is accessed as follows:
+ * The methods {@code next()} and {@code hasNext()} enable iteration over
+ * parser events to process JSON data. {@code JsonParser} provides get methods
+ * to obtain the value at the current state of the parser. For example, the
+ * following code shows how to obtain the value "John" from the JSON above:
  *
  * <p>
  * <pre>
@@ -142,112 +147,112 @@ import java.math.BigDecimal;
 public interface JsonParser extends /*Auto*/Closeable {
 
     /**
-     * Event for parser state while parsing the JSON
+     * An event from {@code JsonParser}.
      */
     enum Event {
         /**
-         * Event for start of a JSON array. This event indicates '[' is parsed.
+         * Start of a JSON array. The position of the parser is after '['.
          */
         START_ARRAY,
         /**
-         * Event for start of a JSON object. This event indicates '{' is parsed.
+         * Start of a JSON object. The position of the parser is after '{'.
          */
         START_OBJECT,
         /**
-         * Event for a name in name(key)/value pair of a JSON object. This event
-         * indicates that the key name is parsed. The name/key value itself
-         * can be accessed using {@link #getString}
+         * Name in a name/value pair of a JSON object. The position of the parser
+         * is after the key name. The method {@link #getString} returns the key
+         * name.
          */
         KEY_NAME,
         /**
-         * Event for JSON string value. This event indicates a string value in
-         * an array or object is parsed. The string value itself can be
-         * accessed using {@link #getString}
+         * String value in a JSON array or object. The position of the parser is
+         * after the string value. The method {@link #getString}
+         * returns the string value.
          */
         VALUE_STRING,
         /**
-         * Event for a number value. This event indicates a number value in
-         * an array or object is parsed. The number value itself can be
-         * accessed using {@link javax.json.JsonNumber} methods
+         * Number value in a JSON array or object. The position of the parser is
+         * after the number value. {@code JsonParser} provides the following
+         * methods to access the number value: {@link #getNumberType},
+         * {@link #getIntValue}, {@link #getLongValue}, and 
+         * {@link #getBigDecimalValue}.
          */
         VALUE_NUMBER,
         /**
-         * Event for a true value. This event indicates a true value in an
-         * array or object is parsed.
+         * {@code true} value in a JSON array or object. The position of the
+         * parser is after the {@code true} value. 
          */
         VALUE_TRUE,
         /**
-         * Event for a false value. This event indicates a false value in an
-         * array or object is parsed.
+         * {@code false} value in a JSON array or object. The position of the
+         * parser is after the {@code false} value.
          */
         VALUE_FALSE,
         /**
-         * Event for a null value. This event indicates a null value in an
-         * array or object is parsed.
+         * {@code null} value in a JSON array or object. The position of the
+         * parser is after the {@code null} value.
          */
         VALUE_NULL,
         /**
-         * Event for end of an object. This event indicates '}' is parsed.
+         * End of a JSON object. The position of the parser is after '}'.
          */
         END_OBJECT,
         /**
-         * Event for end of an array. This event indicates ']' is parsed.
+         * End of a JSON array. The position of the parser is after ']'.
          */
         END_ARRAY
     }
 
     /**
-     * Returns true if there are more parsing states. This method will return
-     * false if the parser reaches the end state of JSON text.
+     * Returns {@code true} if there are more parsing states. This method returns
+     * {@code false} if the parser reaches the end of the JSON text.
      *
-     * @return true if there are more parsing states
+     * @return {@code true} if there are more parsing states.
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonParsingException if incorrect JSON is encountered while
-     * advancing the parser to next state
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
      */
     boolean hasNext();
 
     /**
-     * Returns the event for next parsing state.
+     * Returns the event for the next parsing state.
      *
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonParsingException if incorrect JSON is encountered while
-     * advancing the parser to next state
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
      * @throws java.util.NoSuchElementException if there are no more parsing
-     * states
+     * states.
      */
     Event next();
 
     /**
-     * Returns a String for name(key), string value and number value. This
-     * method is only called when the parser state is one of
-     * {@link Event#KEY_NAME}, {@link Event#VALUE_STRING},
-     * {@link Event#VALUE_NUMBER}.
+     * Returns a {@code String} for the name in a name/value pair,
+     * for a string value or a number value. This method should only be called
+     * when the parser state is {@link Event#KEY_NAME}, {@link Event#VALUE_STRING},
+     * or {@link Event#VALUE_NUMBER}.
      *
-     * @return name when the parser state is {@link Event#KEY_NAME}.
-     *         string value when the parser state is {@link Event#VALUE_STRING}.
-     *         number value when the parser state is {@link Event#VALUE_NUMBER}.
-     * @throws IllegalStateException when the parser is not in one of
-     *      KEY_NAME, VALUE_STRING, VALUE_NUMBER states
+     * @return a name when the parser state is {@link Event#KEY_NAME}
+     *         a string value when the parser state is {@link Event#VALUE_STRING}
+     *         a number value when the parser state is {@link Event#VALUE_NUMBER}
+     * @throws IllegalStateException when the parser state is not
+     *      {@code KEY_NAME}, {@code VALUE_STRING}, or {@code VALUE_NUMBER}
      */
     String getString();
 
     /**
-     * Returns a JSON number type for this number.
-     * A {@link BigDecimal} may be used to store the numeric value internally
-     * and the semantics of this method is defined using
-     * {@link BigDecimal#scale()}.
+     * Returns a JSON number type for a number value.
+     * A {@link BigDecimal} may be used to store the value internally.
+     * The semantics of this method are defined using {@link BigDecimal#scale()}.
      * If the scale of a value is zero, then its number type is
-     * {@link javax.json.JsonNumber.NumberType#INTEGER INTEGER} else
+     * {@link javax.json.JsonNumber.NumberType#INTEGER INTEGER}, otherwise
+     * its number type is
      * {@link javax.json.JsonNumber.NumberType#DECIMAL DECIMAL}.
      *
      * <p>
-     * The number type can be used to invoke appropriate accessor methods to get
-     * numeric value for the number.
-     * <p>
-     * <b>For example:</b>
+     * The number type enables invoking the appropiate accesor method to obtain
+     * the correct value, as shown in the following example:
      * <pre>
      * <code>
      * switch(getNumberType()) {
@@ -261,62 +266,62 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @return a number type
      * @throws IllegalStateException when the parser state is not
-     *      VALUE_NUMBER
+     *      {@code VALUE_NUMBER}
      */
     JsonNumber.NumberType getNumberType();
 
     /**
-     * Returns JSON number as an integer. The returned value is equal
+     * Returns a JSON number as an integer. The returned value is equal
      * to {@code new BigDecimal(getString()).intValue()}. Note that
      * this conversion can lose information about the overall magnitude
      * and precision of the number value as well as return a result with
-     * the opposite sign. This method is only called when the parser is in
-     * {@link Event#VALUE_NUMBER} state.
+     * the opposite sign. This method should only be called when the parser
+     * state is {@link Event#VALUE_NUMBER}.
      *
-     * @return an integer for JSON number.
+     * @return an integer for a JSON number
      * @throws IllegalStateException when the parser state is not
-     *      VALUE_NUMBER
+     *      {@code VALUE_NUMBER}
      * @see java.math.BigDecimal#intValue()
      */
     int getIntValue();
 
     /**
-     * Returns JSON number as a long. The returned value is equal
+     * Returns a JSON number as a long. The returned value is equal
      * to {@code new BigDecimal(getString()).longValue()}. Note that this
      * conversion can lose information about the overall magnitude and
      * precision of the number value as well as return a result with
-     * the opposite sign. This method is only called when the parser is in
-     * {@link Event#VALUE_NUMBER} state.
+     * the opposite sign. This method is only called when the parser state is
+     * {@link Event#VALUE_NUMBER}.
      *
-     * @return a long for JSON number.
+     * @return a long for a JSON number
      * @throws IllegalStateException when the parser state is not
-     *      VALUE_NUMBER
+     *      {@code VALUE_NUMBER}
      * @see java.math.BigDecimal#longValue()
      */
     long getLongValue();
 
     /**
-     * Returns JSON number as a {@code BigDecimal}. The BigDecimal
+     * Returns a JSON number as a {@code BigDecimal}. The {@code BigDecimal}
      * is created using {@code new BigDecimal(getString())}. This
-     * method is only called when the parser is in
-     * {@link Event#VALUE_NUMBER} state.
+     * method should only called when the parser state is
+     * {@link Event#VALUE_NUMBER}.
      *
-     * @return a BigDecimal for JSON number
+     * @return a {@code BigDecimal} for a JSON number
      * @throws IllegalStateException when the parser state is not
-     *      VALUE_NUMBER
+     *      {@code VALUE_NUMBER}
      */
     BigDecimal getBigDecimalValue();
 
     /**
-     * getJsonValue(JsonObject.class) is valid in START_OBJECT state,
-     * moves cursor to END_OBJECT
+     * getJsonValue(JsonObject.class) is valid in the START_OBJECT state and
+     * moves the cursor to END_OBJECT.
      *
-     * getJsonValue(JsonArray.class) is valid in START_ARRAY state
-     * moves cursor to END_ARRAY
+     * getJsonValue(JsonArray.class) is valid in the START_ARRAY state
+     * and moves the cursor to END_ARRAY.
      *
-     * getJsonValue(JsonString.class) is valid in VALUE_STRING state
+     * getJsonValue(JsonString.class) is valid in the VALUE_STRING state.
      *
-     * getJsonValue(JsonNumber.class) is valid in VALUE_NUMBER state
+     * getJsonValue(JsonNumber.class) is valid in the VALUE_NUMBER state.
      *
      * @param clazz
      * @return
@@ -326,7 +331,7 @@ public interface JsonParser extends /*Auto*/Closeable {
 
     /**
      * Closes this parser and frees any resources associated with the
-     * parser. This closes the underlying input source.
+     * parser. This method closes the underlying input source.
      *
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)

@@ -48,17 +48,16 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
- * Factory to create {@link JsonParser} instances. If a factory
- * instance is configured with some configuration, that would be
- * used to configure the created parser instances.
+ * Factory for creating {@link JsonParser} instances. If a factory
+ * instance is configured with a configuration, the configuration applies
+ * to all parser instances created using that factory instance.
  *
  * <p>
- * {@link JsonParser} can also be created using {@link javax.json.Json Json}'s
- * {@code createParser} methods. If multiple parser instances are created,
- * then creating them using a parser factory is preferred.
+ * The class {@link javax.json.Json Json} also provides methods to create
+ * {@link JsonParser} instances, but using {@code JsonParserFactory} is 
+ * preferred when creating multiple parser instances as shown in the following
+ * example:
  *
- * <p>
- * <b>For example:</b>
  * <pre>
  * <code>
  * JsonParserFactory factory = Json.createParserFactory();
@@ -67,15 +66,15 @@ import java.util.Map;
  * </code>
  * </pre>
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.</p>
+ * <p> All the methods in this class are safe for use by multiple concurrent
+ * threads.
  *
  * @author Jitendra Kotamraju
  */
 public interface JsonParserFactory {
 
     /**
-     * Creates a JSON parser from a character stream
+     * Creates a JSON parser from a character stream.
      *
      * @param reader a i/o reader from which JSON is to be read
      */
@@ -84,7 +83,7 @@ public interface JsonParserFactory {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The character encoding of the stream is determined
-     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     * as specified in <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
      *
      * @param in i/o stream from which JSON is to be read
      * @throws javax.json.JsonException if encoding cannot be determined
@@ -105,25 +104,25 @@ public interface JsonParserFactory {
     /**
      * Creates a JSON parser from the specified JSON object.
      *
-     * @param obj JSON object
+     * @param obj a JSON object
      */
     JsonParser createParser(JsonObject obj);
 
     /**
      * Creates a JSON parser from the specified JSON array.
      *
-     * @param array JSON array
+     * @param array a JSON array
      */
     JsonParser createParser(JsonArray array);
 
     /**
-     * Returns read-only map of supported provider specific configuration
-     * properties that are used to configure the created JSON parsers.
+     * Returns a read-only map of supported provider specific configuration
+     * properties that are used to configure the JSON parsers.
      * If there are any specified configuration properties that are not
      * supported by the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure the created parsers; may be empty but not null.
+     * to configure the created parsers. The map may be empty but not null
      */
     Map<String, ?> getConfigInUse();
 

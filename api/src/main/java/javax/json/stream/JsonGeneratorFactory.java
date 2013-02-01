@@ -47,16 +47,15 @@ import java.util.Map;
 
 /**
  * Factory to create {@link JsonGenerator} instances. If a factory
- * instance is configured with some configuration, that would be
- * used to configure the created generator instances.
+ * instance is configured with some configuration, the configuration applies
+ * to all generator instances created using that factory instance.
  *
  * <p>
- * {@link JsonGenerator} can also be created using {@link javax.json.Json Json}'s
- * {@code createGenerator} methods. If multiple generator instances are created,
- * then creating them using a generator factory is preferred.
+ * The class {@link javax.json.Json Json} also provides methods to create
+ * {@link JsonGenerator} instances, but using {@code JsonGeneratorFactory} is
+ * preferred when creating multiple generator instances as shown in the
+ * following example:
  *
- * <p>
- * <b>For example:</b>
  * <pre>
  * <code>
  * JsonGeneratorFactory factory = Json.createGeneratorFactory();
@@ -65,37 +64,34 @@ import java.util.Map;
  * </code>
  * </pre>
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.</p>
+ * <p> All the methods in this class are safe for use by multiple concurrent
+ * threads.
  *
  * @author Jitendra Kotamraju
  */
 public interface JsonGeneratorFactory {
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream. The created generator is
-     * configured with the factory configuration.
+     * Creates a JSON generator to write JSON text to a character stream.
+     * The generator is configured with the factory configuration.
      *
      * @param writer i/o writer to which JSON is written
      */
     JsonGenerator createGenerator(Writer writer);
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using UTF-8 encoding. The created generator is
-     * configured with the factory configuration.
+     * Creates a JSON generator to write JSON text to a byte stream. Characters 
+     * written to the stream are encoded into bytes using UTF-8 encoding. 
+     * The generator is configured with the factory's configuration.
      *
      * @param out i/o stream to which JSON is written
      */
     JsonGenerator createGenerator(OutputStream out);
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream. Characters written to the stream are encoded
-     * into bytes using the specified charset. The created generator is
-     * configured with the factory configuration.
+     * Creates a JSON generator to write JSON text to a byte stream. Characters 
+     * written to the stream are encoded into bytes using the specified charset. 
+     * The generator is configured with the factory's configuration.
      *
      * @param out i/o stream to which JSON is written
      * @param charset a charset
@@ -103,13 +99,13 @@ public interface JsonGeneratorFactory {
     JsonGenerator createGenerator(OutputStream out, Charset charset);
 
     /**
-     * Returns read-only map of supported provider specific configuration
-     * properties that are used to configure the created JSON generators.
+     * Returns a read-only map of supported provider specific configuration
+     * properties that are used to configure the JSON generators.
      * If there are any specified configuration properties that are not
      * supported by the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure the created generators; may be empty but not null.
+     * to configure the created generators. The map may be empty but not null
      */
     Map<String, ?> getConfigInUse();
 

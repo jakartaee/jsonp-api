@@ -41,58 +41,62 @@
 package javax.json;
 
 /**
- * <code>JsonValue</code> represents a JSON value. A JSON value is an
- * {@link JsonObject object}, {@link JsonArray array},
- * {@link JsonNumber number}, {@link JsonString string},
- * {@link JsonValue#TRUE true}, {@link JsonValue#FALSE false},
- * {@link JsonValue#NULL null}
+ * <code>JsonValue</code> represents an immutable JSON value.
+ *
+ * 
+ * <p>A JSON value is one of the following:
+ * an object ({@link JsonObject}), an array ({@link JsonArray}),
+ * a number ({@link JsonNumber}), a string ({@link JsonString}),
+ * {@code true} ({@link JsonValue#TRUE JsonValue.TRUE}), {@code false} 
+ * ({@link JsonValue#FALSE JsonValue.FALSE}),
+ * or {@code null} ({@link JsonValue#NULL JsonValue.NULL}).
  *
  * @author Jitendra Kotamraju
  */
 public interface JsonValue {
 
     /**
-     * JSON value type
+     * Indicates the type of a {@link JsonValue} object.
      */
     enum ValueType {
         /**
-         * JSON array value type
+         * JSON array.
          */
         ARRAY,
 
         /**
-         * JSON object value type
+         * JSON object.
          */
         OBJECT,
 
         /**
-         * JSON string value type
+         * JSON string.
          */
         STRING,
 
         /**
-         * JSON number value type
+         * JSON number.
          */
         NUMBER,
 
         /**
-         * JSON true value type
+         * JSON true.
          */
         TRUE,
 
         /**
-         * JSON false value type
+         * JSON false.
          */
         FALSE,
 
         /**
-         * JSON null value type
+         * JSON null.
          */
         NULL
     }
 
     /**
-     * JSON null value
+     * JSON null value.
      */
     static final JsonValue NULL = new JsonValue() {
         @Override
@@ -103,11 +107,13 @@ public interface JsonValue {
         /**
          * Compares the specified object with this {@link JsonValue#NULL}
          * object for equality. Returns {@code true} if and only if the
-         * specified object is also a JsonValue, and their
-         * {@link #getValueType()} objects are <i>equal</i>
+         * specified object is also a {@code JsonValue}, and their
+         * {@link #getValueType()} objects are <i>equal</i>.
          *
-         * @param obj the object to be compared for equality with this JsonValue
-         * @return {@code true} if the specified object is equal to this JsonValue
+         * @param obj the object to be compared for equality with this 
+         *      {@code JsonValue}
+         * @return {@code true} if the specified object is equal to this 
+         *      {@code JsonValue}
          */
         @Override
         public boolean equals(Object obj) {
@@ -130,7 +136,7 @@ public interface JsonValue {
         }
 
         /**
-         * Returns "null" string
+         * Returns a "null" string.
          *
          * @return "null"
          */
@@ -141,7 +147,7 @@ public interface JsonValue {
     };
 
     /**
-     * JSON true value
+     * JSON true value.
      */
     static final JsonValue TRUE = new JsonValue() {
         @Override
@@ -153,10 +159,10 @@ public interface JsonValue {
          * Compares the specified object with this {@link JsonValue#TRUE}
          * object for equality. Returns {@code true} if and only if the
          * specified object is also a JsonValue, and their
-         * {@link #getValueType()} objects are <i>equal</i>
+         * {@link #getValueType()} objects are <i>equal</i>.
          *
-         * @param obj the object to be compared for equality with this JsonValue
-         * @return {@code true} if the specified object is equal to this JsonValue
+         * @param obj the object to be compared for equality with this JsonValue.
+         * @return {@code true} if the specified object is equal to this JsonValue.
          */
         @Override
         public boolean equals(Object obj) {
@@ -202,7 +208,7 @@ public interface JsonValue {
          * Compares the specified object with this {@link JsonValue#FALSE}
          * object for equality. Returns {@code true} if and only if the
          * specified object is also a JsonValue, and their
-         * {@link #getValueType()} objects are <i>equal</i>
+         * {@link #getValueType()} objects are <i>equal</i>.
          *
          * @param obj the object to be compared for equality with this JsonValue
          * @return {@code true} if the specified object is equal to this JsonValue
@@ -239,14 +245,14 @@ public interface JsonValue {
     };
 
     /**
-     * Returns the value type of this JSON value
+     * Returns the value type of this JSON value.
      *
      * @return JSON value type
      */
     ValueType getValueType();
 
     /**
-     * Returns JSON text for this JSON value
+     * Returns JSON text for this JSON value.
      *
      * @return JSON text
      */

@@ -50,12 +50,12 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A JSON writer that writes a JSON {@link JsonObject object} or
+ * Writes a JSON {@link JsonObject object} or
  * {@link JsonArray array} structure to an output source.
  *
  * <p>
  * <a id="JsonWriterExample1"/>
- * <b>For example</b>, an empty JSON object can be written as follows:
+ * The following example demonstrates how write an empty JSON object:
  * <pre>
  * <code>
  * JsonWriter jsonWriter = new JsonWriter(...);
@@ -64,9 +64,9 @@ import java.util.Map;
  * </code>
  * </pre>
  *
- * It uses {@link javax.json.stream.JsonGenerator} internally for writing.
- * The generator is created using one of the {@link Json}'s
- * {@code createGenerator} methods
+ * {@code JsonWriter} uses {@link javax.json.stream.JsonGenerator} internally
+ * for writing. The generator is created using one of the {@code createGenerator} 
+ * methods in the {@link Json} class.
  *
  * @author Jitendra Kotamraju
  */
@@ -78,7 +78,7 @@ public class JsonWriter implements /*Auto*/Closeable {
     private final Map<String, ?> config;
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified character stream.
      *
@@ -89,16 +89,16 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
-     * structure to the specified character stream. The created
-     * JSON writer is configured with the specified map of provider specific
+     * structure to the specified character stream. The 
+     * writer is configured with the specified map of provider specific
      * configuration properties. Provider implementations should ignore any
      * unsupported configuration properties specified in the map.
      *
      * @param writer to which JSON object or array is written
      * @param config a map of provider specific properties to configure the
-     *               JSON writer; may be empty or null
+     *               JSON writer. The map may be empty or null
      */
     public JsonWriter(Writer writer, Map<String, ?> config) {
         JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
@@ -107,7 +107,7 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using UTF-8 encoding.
@@ -119,25 +119,25 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using UTF-8 encoding.
-     * The created JSON writer is configured with the specified map of
+     * The writer is configured with the specified map of
      * provider specific configuration properties. Provider implementations
      * should ignore any unsupported configuration properties specified in
      * the map.
      *
      * @param out to which JSON object or array is written
      * @param config a map of provider specific properties to configure the
-     *               JSON writer; may be empty or null
+     *               JSON writer. The map may be empty or null
      */
     public JsonWriter(OutputStream out, Map<String, ?> config) {
         this(out, UTF_8, config);
     }
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using the specified charset.
@@ -150,11 +150,11 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Creates a JSON writer which can be used to write a
+     * Creates a JSON writer to write a
      * JSON {@link JsonObject object} or {@link JsonArray array}
      * structure to the specified byte stream. Characters written to
      * the stream are encoded into bytes using the specified charset.
-     * The created JSON writer is configured with the specified map of
+     * The writer is configured with the specified map of
      * provider specific configuration properties. Provider implementations
      * should ignore any unsupported configuration properties specified in
      * the map.
@@ -162,7 +162,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param out to which JSON object or array is written
      * @param charset a charset
      * @param config a map of provider specific properties to configure the
-     *               JSON writer; may be empty or null
+     *               JSON writer. The map may be empty or null
      */
     public JsonWriter(OutputStream out, Charset charset, Map<String, ?> config) {
         JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
@@ -178,7 +178,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error (IOException would be cause of
      *     JsonException)
-     * @throws IllegalStateException if this method, writeObject, write or close
+     * @throws IllegalStateException if writeArray, writeObject, write or close
      *     method is already called
      */
     public void writeArray(JsonArray array) {
@@ -200,7 +200,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @param object JSON object that is to be written to the output source
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error (IOException would be cause of JsonException)
-     * @throws IllegalStateException if this method, writeArray, write or close
+     * @throws IllegalStateException if writeArray, writeObject, write or close
      *     method is already called
      */
     public void writeObject(JsonObject object) {
@@ -225,7 +225,7 @@ public class JsonWriter implements /*Auto*/Closeable {
      * @throws JsonException if the specified JSON object cannot be
      *     written due to i/o error (IOException would be cause of
      *     JsonException)
-     * @throws IllegalStateException if this method, writeObject, writeArray
+     * @throws IllegalStateException if writeArray, writeObject, write
      *     or close method is already called
      */
     public void write(JsonStructure value) {
@@ -238,7 +238,7 @@ public class JsonWriter implements /*Auto*/Closeable {
 
     /**
      * Closes this JSON writer and frees any resources associated with the
-     * writer. This closes the underlying output source.
+     * writer. This method closes the underlying output source.
      *
      * @throws JsonException if an i/o error occurs (IOException would be
      * cause of JsonException)
@@ -250,13 +250,13 @@ public class JsonWriter implements /*Auto*/Closeable {
     }
 
     /**
-     * Returns read-only map of supported provider specific configuration
+     * Returns a read-only map of supported provider specific configuration
      * properties that are used to configure this JSON writer. If there are
      * any specified configuration properties that are not supported by
      * the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure this JSON writer; may be empty but not null.
+     * to configure this JSON writer. The map may be empty but not null
      */
     public Map<String, ?> getConfigInUse() {
         return config;

@@ -47,22 +47,22 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * A JSON generator that writes JSON in a streaming way. The generator
- * can be created from many output sources like {@link java.io.Writer}
- * and {@link java.io.OutputStream}.
+ * Writes JSON data to an output source in a streaming way. The class
+ * {@link javax.json.Json} contains methods to create generators for character
+ * or output streams ({@link java.io.Writer} and {@link java.io.OutputStream}).
  *
  * <p>
- * For example, a generator can be created as follows:
+ * The following example shows how to create a JSON generator:
  * <pre>
  * <code>
  * JsonGenerator generator = Json.createGenerator(...);
  * </code>
  * </pre>
  *
- * A generator can also be created using {@link JsonGeneratorFactory}. If
- * multiple generator instances are created, then creating them using
- * a generator factory is preferred.
  * <p>
+ * The class {@link JsonGeneratorFactory} also contains methods to create
+ * {@code JsonGenerator} instances. {@link JsonGeneratorFactory} should be used
+ * when creating multiple generator instances, as in the following example:
  * <pre>
  * <code>
  * JsonGeneratorFactory factory = Json.createGeneratorFactory();
@@ -72,11 +72,11 @@ import java.math.BigInteger;
  * </pre>
  *
  * <p>
- * The generator is used to generate JSON object in a streaming way by calling
- * its {@link #writeStartObject()} method and writing name/value pairs.
+ * JSON objects can be created using {@code JsonGenerator} by calling the
+ * {@link #writeStartObject()} method and then adding name/value pairs with the
+ * {@code write} method.
  * <p>
- * <b>For example 1:</b>
- * <p>Empty JSON object can be generated as follows:
+ * The following example shows how to generate an empty JSON object:
  * <pre>
  * <code>
  * JsonGenerator generator = ...;
@@ -84,11 +84,12 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * The generator is used to generate JSON array in a streaming way by calling
- * its {@link #writeStartArray()} method and adding values.
+ * JSON arrays can be created using {@code JsonGenerator} by calling the
+ * {@link #writeStartArray()} method and then adding values with the
+ * {@code write} method.
+ *
  * <p>
- * <b>For example 2:</b>
- * <p>Empty JSON array can be generated as follows:
+ * The following example shows how to generate an empty JSON array:
  * <pre>
  * <code>
  * JsonGenerator generator = ...;
@@ -96,7 +97,7 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * The generator methods can be chained. Similarly, the following generator
+ * {@code JsonGenerator} methods can be chained as in the following example:
  * <p>
  * <a id="JsonGeneratorExample3"/>
  * <pre>
@@ -127,7 +128,7 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * would generate a JSON equivalent to the following:
+ * The example code above generates the following JSON (or equivalent):
  * <p>
  * <pre>
  * <code>
@@ -147,8 +148,8 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * The generated JSON text must strictly conform to the grammar defined in the
- * <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC</a>.
+ * The generated JSON text must strictly conform to the grammar defined in
+ * <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
  *
  * @see javax.json.Json
  * @see JsonGeneratorFactory
@@ -172,13 +173,13 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if called within object context
-     * or if called more than once in no context
+     * @throws JsonGenerationException if this method is called within an 
+     *      object context or if it is called more than once in no context.
      */
     JsonGenerator writeStartObject();
 
     /**
-     * Writes the JSON name/start object character pair with in the current
+     * Writes the JSON name/start object character pair in the current
      * object context. It starts a new child object context within which JSON
      * name/value pairs can be written to the object.
      *
@@ -186,7 +187,8 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *     object context
      */
     JsonGenerator writeStartObject(String name);
 
@@ -200,8 +202,8 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if called within object context
-     * or if called more than once in no context
+     * @throws JsonGenerationException if this method is called within an 
+     *      object context or if called more than once in no context
      */
     JsonGenerator writeStartArray();
 
@@ -214,162 +216,174 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within 
+     *      an object context
      */
     JsonGenerator writeStartArray(String name);
 
     /**
-     * Writes a JSON name/value pair with in the current object context.
+     * Writes a JSON name/value pair in the current object context.
      *
-     * @param name a name in the JSON name/value pair to be written within
+     * @param name a name in the JSON name/value pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/value pair to be written within
+     * @param value a value in the JSON name/value pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context
      */
     JsonGenerator write(String name, JsonValue value);
 
     /**
-     * Writes a JSON name/string value pair with in the current object context.
+     * Writes a JSON name/string value pair in the current object context.
      * The specified value is written as JSON string value.
      *
-     * @param name a name in the JSON name/string pair to be written within
+     * @param name a name in the JSON name/string pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/string pair to be written within
+     * @param value a value in the JSON name/string pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context
      */
     JsonGenerator write(String name, String value);
 
     /**
-     * Writes a JSON name/number value pair with in the current object context.
-     * The specified value is written as a JSON number value. The
+     * Writes a JSON name/number value pair in the current object context.
+     * The specified value is written as a JSON number value. The string
      * {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
-     * @param name a name in the JSON name/number pair to be written within
+     * @param name a name in the JSON name/number pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/number pair to be written within
+     * @param value a value in the JSON name/number pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context.
      */
     JsonGenerator write(String name, BigInteger value);
 
     /**
-     * Writes a JSON name/number value pair with in the current object context.
+     * Writes a JSON name/number value pair in the current object context.
      * The specified value is written as a JSON number value. The specified
      * value's {@code toString()} is used as the text value for writing.
      *
-     * @param name a name in the JSON name/number pair to be written within
+     * @param name a name in the JSON name/number pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/number pair to be written within
+     * @param value a value in the JSON name/number pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context.
      */
     JsonGenerator write(String name, BigDecimal value);
 
     /**
-     * Writes a JSON name/number value pair with in the current object context.
-     * The specified value is written as a JSON number value. The
+     * Writes a JSON name/number value pair in the current object context.
+     * The specified value is written as a JSON number value. The string
      * {@code new BigDecimal(value).toString()} is used as the text value
      * for writing.
      *
-     * @param name a name in the JSON name/number pair to be written within
+     * @param name a name in the JSON name/number pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/number pair to be written within
+     * @param value a value in the JSON name/number pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context.
      */
     JsonGenerator write(String name, int value);
 
     /**
-     * Writes a JSON name/number value pair with in the current object context.
-     * The specified value is written as a JSON number value. The
+     * Writes a JSON name/number value pair in the current object context.
+     * The specified value is written as a JSON number value. The string
      * {@code new BigDecimal(value).toString()} is used as the text
      * value for writing.
      *
-     * @param name a name in the JSON name/number pair to be written within
+     * @param name a name in the JSON name/number pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/number pair to be written within
+     * @param value a value in the JSON name/number pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context.
      */
     JsonGenerator write(String name, long value);
 
     /**
-     * Writes a JSON name/number value pair with in the current object context.
-     * The specified value is written as a JSON number value. The
+     * Writes a JSON name/number value pair in the current object context.
+     * The specified value is written as a JSON number value. The string
      * {@code BigDecimal.valueOf(double).toString()}
      * is used as the text value for writing.
      *
-     * @param name a name in the JSON name/number pair to be written within
+     * @param name a name in the JSON name/number pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/number pair to be written within
+     * @param value a value in the JSON name/number pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
-     * @throws JsonGenerationException if not called within object context
+     * @throws NumberFormatException if the value is Not-a-Number(NaN) or infinity.
+     * @throws JsonGenerationException if this method is not called within an
+     *      object context
      */
     JsonGenerator write(String name, double value);
 
     /**
-     * Writes a JSON name/boolean value pair with in the current object context.
-     * If value is true, it writes JSON true value, otherwise JSON false value.
+     * Writes a JSON name/boolean value pair in the current object context.
+     * If value is true, it writes the JSON {@code true} value, otherwise 
+     * it writes the JSON {@code false} value.
      *
-     * @param name a name in the JSON name/boolean pair to be written within
+     * @param name a name in the JSON name/boolean pair to be written in
      *             current JSON object
-     * @param value a value in the JSON name/boolean pair to be written within
+     * @param value a value in the JSON name/boolean pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an
+     *      object context.
      */
     JsonGenerator write(String name, boolean value);
 
 
     /**
-     * Writes a JSON name/null value pair with in an current object context.
+     * Writes a JSON name/null value pair in an current object context.
      *
-     * @param name a name in the JSON name/null pair to be written within
+     * @param name a name in the JSON name/null pair to be written in
      *             current JSON object
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within object context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      object context
      */
     JsonGenerator writeNull(String name);
 
     /**
-     * Indicates the writeEnd of the current context. If the current context is
-     * array context, the writeEnd of array char ']' is written. If the current
-     * context is object context, writeEnd of object char '}' is written. After
-     * writing, parent context would become the current context.
+     * Writes the end of the current context. If the current context is
+     * an array context, this method writes the end-of-array character (']'). 
+     * If the current context is an object context, this method writes the
+     * end-of-object character ('}'). After writing the end of the current
+     * context, the parent context becomes the new current context.
      *
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if called in no context
+     * @throws JsonGenerationException if this method is called in no context.
      */
     JsonGenerator writeEnd();
 
@@ -377,11 +391,12 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Writes the specified value as a JSON value within
      * the current array context.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context.
      */
     JsonGenerator write(JsonValue value);
 
@@ -389,11 +404,12 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Writes the specified value as a JSON string value within
      * the current array context.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      */
     JsonGenerator write(String value);
 
@@ -402,11 +418,12 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * the current array context. The specified value's {@code toString()}
      * is used as the the text value for writing.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      *
      * @see javax.json.JsonNumber
      */
@@ -414,14 +431,15 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The {@code new BigDecimal(value).toString()}
+     * the current array context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
-     * @param value a value to be written within current JSON array
-     * @return this generator
+     * @param value a value to be written in current JSON array
+     * @return this generator.
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      *
      * @see javax.json.JsonNumber
      */
@@ -429,53 +447,58 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The {@code new BigDecimal(value).toString()}
+     * the current array context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      */
     JsonGenerator write(int value);
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The {@code new BigDecimal(value).toString()}
+     * the current array context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      */
     JsonGenerator write(long value);
 
     /**
      * Writes the specified value as a JSON number value within the current
-     * array context.The {@code BigDecimal.valueOf(value).toString()}
+     * array context. The string {@code BigDecimal.valueOf(value).toString()}
      * is used as the text value for writing.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a value to be written in current JSON array
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
+     * @throws NumberFormatException if the value is Not-a-Number(NaN) or infinity.
      */
     JsonGenerator write(double value);
 
     /**
      * Writes a JSON true or false value within the current array context.
-     * If value is true, it writes JSON true value, otherwise JSON false value.
+     * If value is true, this method writes the JSON {@code true} value, 
+     * otherwise it writes the JSON {@code false} value.
      *
-     * @param value a value to be written within current JSON array
+     * @param value a {@code boolean} value
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context.
      */
     JsonGenerator write(boolean value);
 
@@ -485,13 +508,14 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws JsonGenerationException if not called within array context
+     * @throws JsonGenerationException if this method is not called within an 
+     *      array context
      */
     JsonGenerator writeNull();
 
     /**
-     * Closes this generator and frees any resources associated with the
-     * generator. This closes the underlying output source.
+     * Closes this generator and frees any resources associated with it. 
+     * This method closes the underlying output source.
      *
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)

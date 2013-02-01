@@ -44,15 +44,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * {@code JsonNumber} represents an immutable JSON number value
+ * An immutable JSON number value.
  *
  * <p>
- * A {@link BigDecimal} may be used to store the numeric value internally.
- * The BigDecimal
- * may be constructed using {@link BigDecimal#BigDecimal(int) <code>int</code>},
+ * Implementations may use a {@link BigDecimal} object to store the numeric
+ * value internally.
+ * The {@code BigDecimal} object can be constructed from the following types:
+ * {@link BigDecimal#BigDecimal(int) <code>int</code>},
  * {@link BigDecimal#BigDecimal(long) <code>long</code>},
  * {@link BigDecimal#BigDecimal(BigInteger) <code>BigInteger</code>},
- * {@link BigDecimal#valueOf(double) <code>double</code>} and
+ * {@link BigDecimal#valueOf(double) <code>double</code>}, and
  * {@link BigDecimal#BigDecimal(String) <code>String</code>}.
  * Some of the method semantics in this class are defined using the
  * {@code BigDecimal} semantics.
@@ -62,38 +63,39 @@ import java.math.BigInteger;
 public interface JsonNumber extends JsonValue {
 
     /**
-     * JSON number type that is used to find out if a number is numerically
-     * integer or a decimal.
+     * JSON number type that indicates whether a number is an integer or a 
+     * decimal.
      */
     enum NumberType {
         /**
-         * Represents a number that is numerically integer.
-         * The value can be accessed as int, long, or BigInteger using
-         * different JsonNumber accessor methods.
+         * Represents an integer number.
+         * The value can be accessed as {@code int}, {@code long}, 
+         * or {@code BigInteger} using
+         * different {@code JsonNumber} accessor methods.
          */
         INTEGER,
 
         /**
-         * Represents a number that is numerically decimal. The value can
-         * be accessed as double, or BigDecimal using different JsonNumber
-         * accessor methods.
+         * Represents a decimal number. The value can
+         * be accessed as {@code double} or {@code BigDecimal} using different 
+         * {@code JsonNumber} accessor methods.
          */
         DECIMAL
     }
 
     /**
      * Returns a JSON number type for this number.
-     * A {@link BigDecimal} may be used to store the numeric value internally
-     * and the semantics of this method is defined using
+     * Implementations may use a {@link BigDecimal} object to store the numeric 
+     * value internally. The method semantics are defined using
      * {@link BigDecimal#scale()}.
-     * If the scale of a value is zero, then its number type is
-     * {@link NumberType#INTEGER INTEGER} else {@link NumberType#DECIMAL DECIMAL}.
+     * If the scale of a value is zero its number type is
+     * {@link NumberType#INTEGER INTEGER}, otherwise its number type is
+     * {@link NumberType#DECIMAL DECIMAL}.
      *
      * <p>
-     * The number type can be used to invoke appropriate accessor methods to get
-     * numeric value for the number.
-     * <p>
-     * <b>For example:</b>
+     * The number type can be used to invoke the appropriate accessor method to 
+     * obtain a numeric value as in the following example:
+     *
      * <pre>
      * <code>
      * switch(getNumberType()) {
@@ -110,113 +112,115 @@ public interface JsonNumber extends JsonValue {
     NumberType getNumberType();
 
     /**
-     * Returns JSON number as an {@code int} number. Note that this conversion
+     * Returns this JSON number as an {@code int}. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return an {@code int} for JSON number.
+     * @return an {@code int} representation of the JSON number
      * @see java.math.BigDecimal#intValue()
      */
     int getIntValue();
 
     /**
-     * Returns JSON number as an {@code int} number.
+     * Returns this JSON number as an {@code int}.
      *
-     * @return an {@code int} for JSON number
-     * @throws ArithmeticException cause if the number has a nonzero fractional
-     *         part, or will not fit in an {@code int}
+     * @return an {@code int} representation of the JSON number
+     * @throws ArithmeticException if the number has a nonzero fractional
+     *         part or if it does not fit in an {@code int}
      * @see java.math.BigDecimal#intValueExact()
      */
     int getIntValueExact();
 
     /**
-     * Returns JSON number as a {@code long} number. Note that this conversion
+     * Returns this JSON number as a {@code long}. Note that this conversion
      * can lose information about the overall magnitude and precision of the
      * number value as well as return a result with the opposite sign.
      *
-     * @return a {@code long} for JSON number.
+     * @return a {@code long} representation of the JSON number.
      * @see java.math.BigDecimal#longValue()
      */
     long getLongValue();
 
     /**
-     * Returns JSON number as a {@code long} number.
+     * Returns this JSON number as a {@code long}.
      *
-     * @return a {@code long} for JSON number
-     * @throws ArithmeticException if the number has a nonzero fractional
-     *         part, or will not fit in a {@code long}.
+     * @return a {@code long} representation of the JSON number
+     * @throws ArithmeticException if the number has a non-zero fractional
+     *         part or if it does not fit in a {@code long}
      * @see java.math.BigDecimal#longValueExact()
      */
     long  getLongValueExact();
 
     /**
-     * Returns JSON number as a {@link BigInteger} number. It is more of
+     * Returns this JSON number as a {@link BigInteger} object. This is a
      * a convenience method for {@code getBigDecimalValue().toBigInteger()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
      * with the opposite sign.
      *
-     * @return a BigInteger for JSON number.
+     * @return a {@code BigInteger} representation of the JSON number.
      * @see java.math.BigDecimal#toBigInteger()
      */
     BigInteger getBigIntegerValue();
 
     /**
-     * Returns JSON number as a {@link BigDecimal} number. It is more of
-     * a convenience method for {@code getBigDecimalValue().toBigIntegerExact()}.
+     * Returns this JSON number as a {@link BigDecimal} object. This is a
+     * convenience method for {@code getBigDecimalValue().toBigIntegerExact()}.
      *
-     * @return a {@link BigInteger} for JSON number
-     * @throws ArithmeticException if the number has a nonzero fractional part.
+     * @return a {@link BigInteger} representation of the JSON number
+     * @throws ArithmeticException if the number has a nonzero fractional part
      * @see java.math.BigDecimal#toBigIntegerExact()
      */
     BigInteger getBigIntegerValueExact();
 
     /**
-     * Returns JSON number as a {@code double} number. It is more of
+     * Returns this JSON number as a {@code double}. This is a
      * a convenience method for {@code getBigDecimalValue().doubleValue()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
      * with the opposite sign.
      *
-     * @return a {@code double} for JSON number
+     * @return a {@code double} representation of the JSON number
      * @see java.math.BigDecimal#doubleValue()
      */
     double getDoubleValue();
 
     /**
-     * Returns JSON number as a {@link BigDecimal}
+     * Returns this JSON number as a {@link BigDecimal} object.
      *
-     * @return a {@link BigDecimal} for JSON number
+     * @return a {@link BigDecimal} representation of the JSON number
      */
     BigDecimal getBigDecimalValue();
 
     /**
-     * Returns a JSON representation of the JSON number value. The
-     * representation would be equivalent to {@link BigDecimal#toString()}.
+     * Returns a JSON text representation of the JSON number. The
+     * representation is equivalent to {@link BigDecimal#toString()}.
      *
-     * @return JSON representation of the number
+     * @return JSON text representation of the number
      */
     @Override
     String toString();
 
     /**
-     * Compares the specified object with this JsonNumber for equality.
-     * Returns {@code true} if and only if the specified object is also a
-     * JsonNumber, and their {@link #getBigDecimalValue()} objects are
-     * <i>equal</i>
+     * Compares the specified object with this {@code JsonNumber} object for
+     * equality. Returns {@code true} if and only if the type of the specified
+     * object is also {@code JsonNumber} and their {@link #getBigDecimalValue()}
+     * objects are <i>equal</i>
      *
-     * @param obj the object to be compared for equality with this JsonNumber
-     * @return {@code true} if the specified object is equal to this JsonNumber
+     * @param obj the object to be compared for equality with 
+     *      this {@code JsonNumber}
+     * @return {@code true} if the specified object is equal to this 
+     *      {@code JsonNumber}
      */
     @Override
     boolean equals(Object obj);
 
     /**
-     * Returns the hash code value for this JsonNumber object.  The hash code of
-     * a JsonNumber object is defined to be its {@link #getBigDecimalValue()}
-     * object's hash code.
+     * Returns the hash code value for this {@code JsonNumber} object.  The
+     * hash code of a {@code JsonNumber} object is defined as the hash code of
+     * its {@link #getBigDecimalValue()} object.
      *
-     * @return the hash code value for this JsonNumber object
+     * @return the hash code value for this {@code JsonNumber} object
      */
     @Override
     int hashCode();
