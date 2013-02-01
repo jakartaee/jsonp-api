@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -39,17 +39,18 @@
  */
 
 /**
- * SPI to plugin implementations for {@link javax.json.stream.JsonParser}
- * and {@link javax.json.stream.JsonGenerator} portably.
+ * Service Provider Interface (SPI) to plug in implementations for 
+ * {@link javax.json.stream.JsonParser} and 
+ * {@link javax.json.stream.JsonGenerator}.
  *
- * <p> {@link JsonProvider} is an abstract class that provides a service for
- * creating JSON parser and generator instances. A <i>service provider</i>
- * for {@code JsonProvider} service provides a specific implementation
- * by subclassing and implementing {@code JsonProvider} methods. This
- * allows to use custom efficient JSON parser and generator implementations
- * than the default ones.
+ * <p> {@link javax.json.spi.JsonProvider JsonProvider} is an abstract class 
+ * that provides a service for creating JSON parser and generator instances. 
+ * A <i>service provider</i> for {@code JsonProvider} provides an 
+ * specific implementation by subclassing and implementing the methods in
+ * {@code JsonProvider}. This enables using custom, efficient JSON parser and 
+ * generator implementations other than the default ones.
  *
- * <p>API locates and loads the providers using
+ * <p>The API locates and loads providers using
  * {@link java.util.ServiceLoader}.
  *
  * @since JSON Processing 1.0

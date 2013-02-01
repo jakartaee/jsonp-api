@@ -73,10 +73,9 @@ public abstract class JsonProvider {
 
     /**
      *
-     * Creates a JSON provider object. The provider is loaded using
-     * {@link ServiceLoader#load(Class)} method. If there is no available
-     * service provider is found, then the default service provider
-     * is returned.
+     * Creates a JSON provider object. The provider is loaded using the
+     * {@link ServiceLoader#load(Class)} method. If there are no available
+     * service providers, this method returns the default service provider.
      *
      * @see ServiceLoader
      * @return a JSON provider
@@ -102,7 +101,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JSON parser from the specified character stream
+     * Creates a JSON parser from a character stream.
      *
      * @param reader i/o reader from which JSON is to be read
      */
@@ -111,7 +110,8 @@ public abstract class JsonProvider {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The character encoding of the stream is determined
-     * as per the <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC</a>.
+     * as defined in <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627
+     * </a>.
      *
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
@@ -120,57 +120,57 @@ public abstract class JsonProvider {
     public abstract JsonParser createParser(InputStream in);
 
     /**
-     * Creates a parser factory which can be used to create {@link JsonParser}.
+     * Creates a parser factory for creating {@link JsonParser} instances.
      *
-     * @return JSON parser factory
+     * @return a JSON parser factory
      */
     public abstract JsonParserFactory createParserFactory();
 
     /**
-     * Creates a parser factory which can be used to create {@link JsonParser}.
-     * The created factory is configured with the specified map of
+     * Creates a parser factory for creating {@link JsonParser} instances.
+     * The factory is configured with the specified map of
      * provider specific configuration properties. Provider implementations
      * should ignore any unsupported configuration properties specified in
      * the map.
      *
      * @param config a map of provider specific properties to configure the
-     *               JSON parsers; may be empty or null
-     * @return JSON parser factory
+     *               JSON parsers. The map may be empty or null
+     * @return a JSON parser factory
      */
     public abstract JsonParserFactory createParserFactory(Map<String, ?> config);
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified character stream.
+     * Creates a JSON generator for writing JSON text to a character stream.
      *
      * @param writer a i/o writer to which JSON is written
+     * @return a JSON generator
      */
     public abstract JsonGenerator createGenerator(Writer writer);
 
     /**
-     * Creates a JSON generator which can be used to write JSON text to the
-     * specified byte stream.
+     * Creates a JSON generator for writing JSON text to a byte stream.
      *
      * @param out i/o stream to which JSON is written
+     * @return a JSON generator
      */
     public abstract JsonGenerator createGenerator(OutputStream out);
 
     /**
-     * Creates a generator factory which can be used to create {@link JsonGenerator}.
+     * Creates a generator factory for creating {@link JsonGenerator} instances.
      *
-     * @return JSON generator factory
+     * @return a JSON generator factory
      */
     public abstract JsonGeneratorFactory createGeneratorFactory();
 
     /**
-     * Creates a generator factory which can be used to create {@link JsonGenerator}.
-     * The created factory is configured with the specified map of provider
-     * specific configuration properties. Provider implementations should
+     * Creates a generator factory for creating {@link JsonGenerator} instances.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should
      * ignore any unsupported configuration properties specified in the map.
      *
      * @param config a map of provider specific properties to configure the
-     *               JSON generators; may be empty or null
-     * @return JSON generator factory
+     *               JSON generators. The map may be empty or null
+     * @return a JSON generator factory
      */
     public abstract JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config);
 
