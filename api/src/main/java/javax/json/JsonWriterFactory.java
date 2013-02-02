@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,7 +38,7 @@
  * holder.
  */
 
-package javax.json.stream;
+package javax.json;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -46,21 +46,22 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
- * Factory to create {@link JsonGenerator} instances. If a factory
- * instance is configured with some configuration, the configuration applies
- * to all generator instances created using that factory instance.
+ * Factory to create {@link javax.json.JsonWriter} instances. If a factory
+ * instance is configured with some configuration, that would be
+ * used to configure the created writer instances.
  *
  * <p>
- * The class {@link javax.json.Json Json} also provides methods to create
- * {@link JsonGenerator} instances, but using {@code JsonGeneratorFactory} is
- * preferred when creating multiple generator instances as shown in the
- * following example:
+ * {@link javax.json.JsonWriter} can also be created using {@link Json}'s
+ * {@code createWriter} methods. If multiple writer instances are created,
+ * then creating them using a writer factory is preferred.
  *
+ * <p>
+ * <b>For example:</b>
  * <pre>
  * <code>
- * JsonGeneratorFactory factory = Json.createGeneratorFactory();
- * JsonGenerator generator1 = factory.createGenerator(...);
- * JsonGenerator generator2 = factory.createGenerator(...);
+ * JsonWriterFactory factory = Json.createWriterFactory(...);
+ * JsonWriter writer1 = factory.createWriter(...);
+ * JsonWriter writer2 = factory.createWriter(...);
  * </code>
  * </pre>
  *
@@ -69,43 +70,50 @@ import java.util.Map;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonGeneratorFactory {
+public interface JsonWriterFactory {
 
     /**
-     * Creates a JSON generator to write JSON text to a character stream.
-     * The generator is configured with the factory configuration.
+     * Creates a JSON writer to write a JSON {@link JsonObject object} or
+     * {@link JsonArray array} structure to the specified character stream.
+     * The writer is configured with the factory configuration.
      *
-     * @param writer i/o writer to which JSON is written
+     * @param writer to which JSON object or array is written
+     * @return a JSON writer
      */
-    JsonGenerator createGenerator(Writer writer);
+    JsonWriter createWriter(Writer writer);
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using UTF-8 encoding. 
-     * The generator is configured with the factory's configuration.
+     * Creates a JSON writer to write a JSON {@link JsonObject object} or
+     * {@link JsonArray array} structure to the specified byte stream.
+     * Characters written to the stream are encoded into bytes using UTF-8
+     * encoding. The writer is configured with the factory configuration.
      *
-     * @param out i/o stream to which JSON is written
+     * @param out to which JSON object or array is written
+     * @return a JSON writer
      */
-    JsonGenerator createGenerator(OutputStream out);
+    JsonWriter createWriter(OutputStream out);
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using the specified charset. 
-     * The generator is configured with the factory's configuration.
+     * Creates a JSON writer to write a JSON {@link JsonObject object} or
+     * {@link JsonArray array} structure to the specified byte stream.
+     * Characters written to the stream are encoded into bytes using the
+     * specified charset. The writer is configured with the factory
+     * configuration.
      *
-     * @param out i/o stream to which JSON is written
+     * @param out to which JSON object or array is written
      * @param charset a charset
+     * @return a JSON writer
      */
-    JsonGenerator createGenerator(OutputStream out, Charset charset);
+    JsonWriter createWriter(OutputStream out, Charset charset);
 
     /**
-     * Returns a read-only map of supported provider specific configuration
-     * properties that are used to configure the JSON generators.
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure the created JSON writer objects.
      * If there are any specified configuration properties that are not
      * supported by the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure the created generators. The map may be empty but not null
+     * to configure the created writers. The map may be empty but not null.
      */
     Map<String, ?> getConfigInUse();
 

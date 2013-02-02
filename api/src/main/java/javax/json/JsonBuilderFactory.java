@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,29 +38,33 @@
  * holder.
  */
 
-package javax.json.stream;
+package javax.json;
 
-import java.io.OutputStream;
-import java.io.Writer;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
- * Factory to create {@link JsonGenerator} instances. If a factory
- * instance is configured with some configuration, the configuration applies
- * to all generator instances created using that factory instance.
+ * Factory to create {@link JsonObjectBuilder} and {@link JsonArrayBuilder}
+ * instances. If a factory instance is configured with some configuration,
+ * that would be used to configure the created builder instances.
  *
  * <p>
- * The class {@link javax.json.Json Json} also provides methods to create
- * {@link JsonGenerator} instances, but using {@code JsonGeneratorFactory} is
- * preferred when creating multiple generator instances as shown in the
- * following example:
+ * {@code JsonObjectBuilder} and {@code JsonArrayBuilder} can also be created
+ * using {@link Json}'s methods. If multiple builder instances are created,
+ * then creating them using a builder factory is preferred.
  *
+ * <p>
+ * <b>For example:</b>
  * <pre>
  * <code>
- * JsonGeneratorFactory factory = Json.createGeneratorFactory();
- * JsonGenerator generator1 = factory.createGenerator(...);
- * JsonGenerator generator2 = factory.createGenerator(...);
+ * JsonBuilderFactory factory = Json.createBuilderFactory(...);
+ * JsonArray value = factory.createArrayBuilder()
+ *     .add(factory.createObjectBuilder()
+ *         .add("type", "home")
+ *         .add("number", "212 555-1234"))
+ *     .add(factory.createObjectBuilder()
+ *         .add("type", "fax")
+ *         .add("number", "646 555-4567"))
+ *     .build();
  * </code>
  * </pre>
  *
@@ -69,43 +73,32 @@ import java.util.Map;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonGeneratorFactory {
+public interface JsonBuilderFactory {
 
     /**
-     * Creates a JSON generator to write JSON text to a character stream.
-     * The generator is configured with the factory configuration.
+     * Creates a {@code JsonObjectBuilder} instance that is used to build
+     * {@link JsonObject}.
      *
-     * @param writer i/o writer to which JSON is written
+     * @return a JSON object builder
      */
-    JsonGenerator createGenerator(Writer writer);
+    JsonObjectBuilder createObjectBuilder();
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using UTF-8 encoding. 
-     * The generator is configured with the factory's configuration.
+     * Creates a {@code JsonArrayBuilder} instance that is used to build
+     * {@link JsonArray}
      *
-     * @param out i/o stream to which JSON is written
+     * @return a JSON array builder
      */
-    JsonGenerator createGenerator(OutputStream out);
+    JsonArrayBuilder createArrayBuilder();
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using the specified charset. 
-     * The generator is configured with the factory's configuration.
-     *
-     * @param out i/o stream to which JSON is written
-     * @param charset a charset
-     */
-    JsonGenerator createGenerator(OutputStream out, Charset charset);
-
-    /**
-     * Returns a read-only map of supported provider specific configuration
-     * properties that are used to configure the JSON generators.
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure the created JSON builders.
      * If there are any specified configuration properties that are not
      * supported by the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure the created generators. The map may be empty but not null
+     * to configure the builders. The map be empty but not null.
      */
     Map<String, ?> getConfigInUse();
 

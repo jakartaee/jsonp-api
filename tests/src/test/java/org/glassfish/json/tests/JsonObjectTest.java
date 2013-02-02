@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
@@ -56,10 +56,10 @@ public class JsonObjectTest extends TestCase {
     }
 
     public void testEmptyObjectEquals() throws Exception {
-        JsonObject empty1 = new JsonObjectBuilder()
+        JsonObject empty1 = Json.createObjectBuilder()
                 .build();
 
-        JsonObject empty2 = new JsonObjectBuilder()
+        JsonObject empty2 = Json.createObjectBuilder()
                 .build();
 
         assertEquals(empty1, empty2);
@@ -106,7 +106,7 @@ public class JsonObjectTest extends TestCase {
     }
 
     public void testClassCastException() {
-        JsonObject obj = new JsonObjectBuilder()
+        JsonObject obj = Json.createObjectBuilder()
                 .add("foo", JsonValue.FALSE).build();
         try {
             obj.getValue("foo", JsonNumber.class);
@@ -117,7 +117,7 @@ public class JsonObjectTest extends TestCase {
     }
 
     public void testPut() {
-        JsonObject obj = new JsonObjectBuilder().add("foo", 1).build();
+        JsonObject obj = Json.createObjectBuilder().add("foo", 1).build();
         try {
             obj.put("bar", JsonValue.FALSE);
             fail("JsonObject#put() should throw UnsupportedOperationException");
@@ -127,7 +127,7 @@ public class JsonObjectTest extends TestCase {
     }
 
     public void testRemove() {
-        JsonObject obj = new JsonObjectBuilder().add("foo", 1).build();
+        JsonObject obj = Json.createObjectBuilder().add("foo", 1).build();
         try {
             obj.remove("foo");
             fail("JsonObject#remove() should throw UnsupportedOperationException");

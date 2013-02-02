@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
@@ -62,7 +62,7 @@ public class JsonReaderTest extends TestCase {
 
     public void testEscapedString() throws Exception {
         // u00ff is escaped once, not escaped once
-        JsonReader reader = new JsonReader(new StringReader("[\"\\u0000\\u00ff\u00ff\"]"));
+        JsonReader reader = Json.createReader(new StringReader("[\"\\u0000\\u00ff\u00ff\"]"));
         JsonArray array = reader.readArray();
         reader.close();
         String str = array.getValue(0, JsonString.class).getValue();
@@ -72,15 +72,16 @@ public class JsonReaderTest extends TestCase {
     public void testUnknownFeature() throws Exception {
         Map<String, Object> config = new HashMap<String, Object>();
         config.put("foo", true);
-        JsonReader reader = new JsonReader(new StringReader("{}"), config);
-        Map<String, ?> config1 = reader.getConfigInUse();
+        JsonReaderFactory factory = Json.createReaderFactory(config);
+        JsonReader reader = factory.createReader(new StringReader("{}"));
+        Map<String, ?> config1 = factory.getConfigInUse();
         if (config1.size() > 0) {
             fail("Shouldn't have any config in use");
         }
     }
 
     public void testIllegalStateExcepton() throws Exception {
-        JsonReader reader = new JsonReader(new StringReader("{}"));
+        JsonReader reader = Json.createReader(new StringReader("{}"));
         JsonObject obj = reader.readObject();
         try {
             reader.readObject();
@@ -89,7 +90,7 @@ public class JsonReaderTest extends TestCase {
         }
         reader.close();
 
-        reader = new JsonReader(new StringReader("[]"));
+        reader = Json.createReader(new StringReader("[]"));
         JsonArray array = reader.readArray();
         try {
             reader.readArray();
@@ -98,7 +99,7 @@ public class JsonReaderTest extends TestCase {
         }
         reader.close();
 
-        reader = new JsonReader(new StringReader("{}"));
+        reader = Json.createReader(new StringReader("{}"));
         JsonStructure struct = reader.read();
         try {
             reader.read();
@@ -112,7 +113,7 @@ public class JsonReaderTest extends TestCase {
     static JsonObject readPerson() throws Exception {
 
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
-        JsonReader reader = new JsonReader(wikiReader);
+        JsonReader reader = Json.createReader(wikiReader);
         JsonValue value = reader.readObject();
         reader.close();
 

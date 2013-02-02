@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,29 +38,30 @@
  * holder.
  */
 
-package javax.json.stream;
+package javax.json;
 
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.InputStream;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
- * Factory to create {@link JsonGenerator} instances. If a factory
- * instance is configured with some configuration, the configuration applies
- * to all generator instances created using that factory instance.
+ * Factory to create {@link javax.json.JsonReader} instances. If a factory
+ * instance is configured with some configuration, that would be
+ * used to configure the created reader instances.
  *
  * <p>
- * The class {@link javax.json.Json Json} also provides methods to create
- * {@link JsonGenerator} instances, but using {@code JsonGeneratorFactory} is
- * preferred when creating multiple generator instances as shown in the
- * following example:
+ * {@link javax.json.JsonReader} can also be created using {@link Json}'s
+ * {@code createReader} methods. If multiple reader instances are created,
+ * then creating them using a reader factory is preferred.
  *
+ * <p>
+ * <b>For example:</b>
  * <pre>
  * <code>
- * JsonGeneratorFactory factory = Json.createGeneratorFactory();
- * JsonGenerator generator1 = factory.createGenerator(...);
- * JsonGenerator generator2 = factory.createGenerator(...);
+ * JsonReaderFactory factory = Json.createReaderFactory(...);
+ * JsonReader reader1 = factory.createReader(...);
+ * JsonReader reader2 = factory.createReader(...);
  * </code>
  * </pre>
  *
@@ -69,43 +70,47 @@ import java.util.Map;
  *
  * @author Jitendra Kotamraju
  */
-public interface JsonGeneratorFactory {
+public interface JsonReaderFactory {
 
     /**
-     * Creates a JSON generator to write JSON text to a character stream.
-     * The generator is configured with the factory configuration.
+     * Creates a JSON reader from a character stream. The reader is configured
+     * with the factory configuration.
      *
-     * @param writer i/o writer to which JSON is written
+     * @param reader a reader from which JSON is to be read
+     * @return a JSON reader
      */
-    JsonGenerator createGenerator(Writer writer);
+    JsonReader createReader(Reader reader);
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using UTF-8 encoding. 
-     * The generator is configured with the factory's configuration.
+     * Creates a JSON reader from a byte stream. The character encoding of
+     * the stream is determined as described in
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+     * The reader is configured with the factory configuration.
      *
-     * @param out i/o stream to which JSON is written
+     * @param in a byte stream from which JSON is to be read
+     * @return a JSON reader
      */
-    JsonGenerator createGenerator(OutputStream out);
+    JsonReader createReader(InputStream in);
 
     /**
-     * Creates a JSON generator to write JSON text to a byte stream. Characters 
-     * written to the stream are encoded into bytes using the specified charset. 
-     * The generator is configured with the factory's configuration.
+     * Creates a JSON reader from a byte stream. The bytes of the stream
+     * are decoded to characters using the specified charset. The reader is
+     * configured with the factory configuration.
      *
-     * @param out i/o stream to which JSON is written
+     * @param in a byte stream from which JSON is to be read
      * @param charset a charset
+     * @return a JSON reader
      */
-    JsonGenerator createGenerator(OutputStream out, Charset charset);
+    JsonReader createReader(InputStream in, Charset charset);
 
     /**
-     * Returns a read-only map of supported provider specific configuration
-     * properties that are used to configure the JSON generators.
+     * Returns read-only map of supported provider specific configuration
+     * properties that are used to configure the created JSON readers.
      * If there are any specified configuration properties that are not
      * supported by the provider, they won't be part of the returned map.
      *
      * @return a map of supported provider specific properties that are used
-     * to configure the created generators. The map may be empty but not null
+     * to configure the readers. The map be empty but not null.
      */
     Map<String, ?> getConfigInUse();
 

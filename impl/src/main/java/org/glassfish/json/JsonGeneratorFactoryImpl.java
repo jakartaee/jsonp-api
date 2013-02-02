@@ -45,26 +45,26 @@ import javax.json.stream.JsonGeneratorFactory;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
  */
-public class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
+class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
 
     private final boolean prettyPrinting;
-    private final Map<String, Object> config = new HashMap<String, Object>();
+    private final Map<String, Object> config;
 
-    public JsonGeneratorFactoryImpl() {
-        prettyPrinting = false;
-    }
-
-    public JsonGeneratorFactoryImpl(Map<String, ?> config) {
-        prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+    JsonGeneratorFactoryImpl(Map<String, ?> config) {
+        prettyPrinting = config != null
+                && JsonProviderImpl.isPrettyPrintingEnabled(config);
+        Map<String, Object> providerConfig = new HashMap<String, Object>();
         if (prettyPrinting) {
-            this.config.put(JsonGenerator.PRETTY_PRINTING, true);
+            providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
         }
+        this.config = Collections.unmodifiableMap(providerConfig);
     }
 
     @Override

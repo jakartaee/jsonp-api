@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
@@ -57,8 +57,8 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testFloating() throws Exception {
-        JsonArray array1 = new JsonArrayBuilder().add(10.4).build();
-        JsonReader reader = new JsonReader(new StringReader("[10.4]"));
+        JsonArray array1 = Json.createArrayBuilder().add(10.4).build();
+        JsonReader reader = Json.createReader(new StringReader("[10.4]"));
         JsonArray array2 = reader.readArray();
 
         assertEquals(array1.get(0), array2.get(0));
@@ -66,8 +66,8 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testBigDecimal() throws Exception {
-        JsonArray array1 = new JsonArrayBuilder().add(new BigDecimal("10.4")).build();
-        JsonReader reader = new JsonReader(new StringReader("[10.4]"));
+        JsonArray array1 = Json.createArrayBuilder().add(new BigDecimal("10.4")).build();
+        JsonReader reader = Json.createReader(new StringReader("[10.4]"));
         JsonArray array2 = reader.readArray();
 
         assertEquals(array1.get(0), array2.get(0));
@@ -75,7 +75,7 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testIntNumberType() throws Exception {
-        JsonArray array1 = new JsonArrayBuilder()
+        JsonArray array1 = Json.createArrayBuilder()
                 .add(Integer.MIN_VALUE)
                 .add(Integer.MAX_VALUE)
                 .add(Integer.MIN_VALUE + 1)
@@ -95,7 +95,7 @@ public class JsonNumberTest extends TestCase {
                 "12, " +
                 "0 " +
                 "]");
-        JsonReader reader = new JsonReader(sr);
+        JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
         testNumberType(array2, JsonNumber.NumberType.INTEGER);
@@ -110,7 +110,7 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testLongNumberType() throws Exception {
-        JsonArray array1 = new JsonArrayBuilder()
+        JsonArray array1 = Json.createArrayBuilder()
                 .add(Long.MIN_VALUE)
                 .add(Long.MAX_VALUE)
                 .add(Long.MIN_VALUE + 1)
@@ -128,7 +128,7 @@ public class JsonNumberTest extends TestCase {
                 "-2147483649, " +
                 "2147483648 " +
                 "]");
-        JsonReader reader = new JsonReader(sr);
+        JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
         testNumberType(array2, JsonNumber.NumberType.INTEGER);
@@ -161,7 +161,7 @@ public class JsonNumberTest extends TestCase {
 //    }
 
     public void testBigDecimalNumberType() throws Exception {
-        JsonArray array1 = new JsonArrayBuilder()
+        JsonArray array1 = Json.createArrayBuilder()
                 .add(12d)
                 .add(12.0d)
                 .add(12.1d)
@@ -177,7 +177,7 @@ public class JsonNumberTest extends TestCase {
                 "4.9E-324, " +
                 "1.7976931348623157E+308 " +
                 "]");
-        JsonReader reader = new JsonReader(sr);
+        JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
         testNumberType(array2, JsonNumber.NumberType.DECIMAL);
@@ -186,7 +186,7 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testMinMax() throws Exception {
-        JsonArray expected = new JsonArrayBuilder()
+        JsonArray expected = Json.createArrayBuilder()
                 .add(Integer.MIN_VALUE)
                 .add(Integer.MAX_VALUE)
                 .add(Long.MIN_VALUE)
@@ -196,11 +196,11 @@ public class JsonNumberTest extends TestCase {
                 .build();
 
         StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
+        JsonWriter writer = Json.createWriter(sw);
         writer.writeArray(expected);
         writer.close();
 
-        JsonReader reader = new JsonReader(new StringReader(sw.toString()));
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
         JsonArray actual = reader.readArray();
         reader.close();
 
@@ -208,12 +208,12 @@ public class JsonNumberTest extends TestCase {
     }
 
     public void testLeadingZeroes() {
-        JsonArray array = new JsonArrayBuilder()
+        JsonArray array = Json.createArrayBuilder()
                 .add(0012.1d)
                 .build();
 
         StringWriter sw = new StringWriter();
-        JsonWriter jw = new JsonWriter(sw);
+        JsonWriter jw = Json.createWriter(sw);
         jw.write(array);
         jw.close();
 
@@ -222,7 +222,7 @@ public class JsonNumberTest extends TestCase {
 
     public void testBigIntegerExact() {
         try {
-            JsonArray array = new JsonArrayBuilder().add(12345.12345).build();
+            JsonArray array = Json.createArrayBuilder().add(12345.12345).build();
             array.getValue(0, JsonNumber.class).getBigIntegerValueExact();
             fail("Expected Arithmetic exception");
         } catch (ArithmeticException expected) {

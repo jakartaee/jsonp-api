@@ -40,6 +40,7 @@
 
 package org.glassfish.json;
 
+import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
@@ -49,9 +50,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Jitendra Kotamraju
@@ -80,23 +79,59 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonParserFactory createParserFactory() {
-        return new JsonParserFactoryImpl();
-    }
-
-    @Override
     public JsonParserFactory createParserFactory(Map<String, ?> config) {
+        // Our provider doesn't support any config
         return new JsonParserFactoryImpl();
-    }
-
-    @Override
-    public JsonGeneratorFactory createGeneratorFactory() {
-        return new JsonGeneratorFactoryImpl();
     }
 
     @Override
     public JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config) {
         return new JsonGeneratorFactoryImpl(config);
+    }
+
+    @Override
+    public JsonReader createReader(Reader reader) {
+        return new JsonReaderImpl(reader);
+    }
+
+    @Override
+    public JsonReader createReader(InputStream in) {
+        return new JsonReaderImpl(in);
+    }
+
+    @Override
+    public JsonWriter createWriter(Writer writer) {
+        return new JsonWriterImpl(writer);
+    }
+
+    @Override
+    public JsonWriter createWriter(OutputStream out) {
+        return new JsonWriterImpl(out);
+    }
+
+    @Override
+    public JsonWriterFactory createWriterFactory(Map<String, ?> config) {
+        return new JsonWriterFactoryImpl(config);
+    }
+
+    @Override
+    public JsonReaderFactory createReaderFactory(Map<String, ?> config) {
+        return new JsonReaderFactoryImpl();
+    }
+
+    @Override
+    public JsonObjectBuilder createObjectBuilder() {
+        return new JsonObjectBuilderImpl();
+    }
+
+    @Override
+    public JsonArrayBuilder createArrayBuilder() {
+        return new JsonArrayBuilderImpl();
+    }
+
+    @Override
+    public JsonBuilderFactory createBuilderFactory(Map<String,?> config) {
+        return new JsonBuilderFactoryImpl();
     }
 
     static boolean isPrettyPrintingEnabled(Map<String, ?> config) {

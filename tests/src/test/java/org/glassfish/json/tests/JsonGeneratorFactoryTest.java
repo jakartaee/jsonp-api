@@ -38,51 +38,57 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.stream.JsonParserFactory;
-import javax.json.stream.JsonParser;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.Charset;
-import java.util.Collections;
+import junit.framework.TestCase;
+
+import javax.json.*;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Tests JsonGeneratorFactory
+ *
  * @author Jitendra Kotamraju
  */
-class JsonParserFactoryImpl implements JsonParserFactory {
-    private final Map<String, ?> config = Collections.emptyMap();
+public class JsonGeneratorFactoryTest extends TestCase {
 
-    @Override
-    public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader);
+    public JsonGeneratorFactoryTest(String testName) {
+        super(testName);
     }
 
-    @Override
-    public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in);
+    public void testGeneratorFactory() {
+        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(null);
+
+        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
+        generator1.writeStartArray().writeEnd();
+        generator1.close();
+
+        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
+        generator2.writeStartArray().writeEnd();
+        generator2.close();
     }
 
-    @Override
-    public JsonParser createParser(InputStream in, Charset charset) {
-        return new JsonParserImpl(in, charset);
+    public void testGeneratorFactoryWithConfig() {
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
+        Map<String, ?> config1 = generatorFactory.getConfigInUse();
+        if (config1.size() != 1) {
+            throw new JsonException("Expecting no of properties=1, got="+config1.size());
+        }
+        assertTrue(config1.containsKey(JsonGenerator.PRETTY_PRINTING));
+
+        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
+        generator1.writeStartArray().writeEnd();
+        generator1.close();
+
+        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
+        generator2.writeStartArray().writeEnd();
+        generator2.close();
     }
 
-    @Override
-    public JsonParser createParser(JsonArray array) {
-        return new JsonStructureParser(array);
-    }
-
-    @Override
-    public Map<String, ?> getConfigInUse() {
-        return config;
-    }
-
-    @Override
-    public JsonParser createParser(JsonObject object) {
-        return new JsonStructureParser(object);
-    }
 }

@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
@@ -53,14 +53,14 @@ public class JsonBuilderTest extends TestCase {
     }
 
     public void testEmptyObject() throws Exception {
-        JsonObject empty = new JsonObjectBuilder()
+        JsonObject empty = Json.createObjectBuilder()
                 .build();
 
         JsonObjectTest.testEmpty(empty);
     }
 
     public void testEmptyArray() throws Exception {
-        JsonArray empty = new JsonArrayBuilder()
+        JsonArray empty = Json.createArrayBuilder()
                 .build();
 
         assertTrue(empty.isEmpty());
@@ -81,27 +81,27 @@ public class JsonBuilderTest extends TestCase {
     }
 
     static JsonObject buildPerson() {
-        return new JsonObjectBuilder()
+        return Json.createObjectBuilder()
                 .add("firstName", "John")
                 .add("lastName", "Smith")
                 .add("age", 25)
-                .add("address", new JsonObjectBuilder()
+                .add("address", Json.createObjectBuilder()
                         .add("streetAddress", "21 2nd Street")
                         .add("city", "New York")
                         .add("state", "NY")
                         .add("postalCode", "10021"))
-                .add("phoneNumber", new JsonArrayBuilder()
-                        .add(new JsonObjectBuilder()
+                .add("phoneNumber", Json.createArrayBuilder()
+                        .add(Json.createObjectBuilder()
                                 .add("type", "home")
                                 .add("number", "212 555-1234"))
-                        .add(new JsonObjectBuilder()
+                        .add(Json.createObjectBuilder()
                                 .add("type", "fax")
                                 .add("number", "646 555-4567")))
                 .build();
     }
 
     static JsonObject buildAddress() {
-        return new JsonObjectBuilder()
+        return Json.createObjectBuilder()
                 .add("streetAddress", "21 2nd Street")
                 .add("city", "New York")
                 .add("state", "NY")
@@ -110,11 +110,11 @@ public class JsonBuilderTest extends TestCase {
     }
 
     static JsonArray buildPhone() {
-        return new JsonArrayBuilder()
-                .add(new JsonObjectBuilder()
+        return Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
                         .add("type", "home")
                         .add("number", "212 555-1234"))
-                .add(new JsonObjectBuilder()
+                .add(Json.createObjectBuilder()
                         .add("type", "fax")
                         .add("number", "646 555-4567"))
                 .build();

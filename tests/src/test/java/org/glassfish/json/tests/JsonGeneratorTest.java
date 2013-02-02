@@ -38,7 +38,7 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
@@ -66,7 +66,7 @@ public class JsonGeneratorTest extends TestCase {
         generator.close();
         writer.close();
 
-        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonReader reader = Json.createReader(new StringReader(writer.toString()));
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
     }
@@ -79,7 +79,7 @@ public class JsonGeneratorTest extends TestCase {
         out.close();
 
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        JsonReader reader = new JsonReader(in);
+        JsonReader reader = Json.createReader(in);
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
         reader.close();
@@ -144,7 +144,7 @@ public class JsonGeneratorTest extends TestCase {
         generator.close();
         writer.close();
 
-        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonReader reader = Json.createReader(new StringReader(writer.toString()));
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
     }
@@ -177,7 +177,7 @@ public class JsonGeneratorTest extends TestCase {
         generator.close();
         sw.close();
 
-        JsonReader jr = new JsonReader(new StringReader(sw.toString()));
+        JsonReader jr = Json.createReader(new StringReader(sw.toString()));
         JsonArray array = jr.readArray();
         String got = array.getValue(0, JsonString.class).getValue();
         jr.close();
@@ -200,11 +200,11 @@ public class JsonGeneratorTest extends TestCase {
                 .write(Double.MIN_VALUE)
                 .writeEnd();
 
-        JsonReader reader = new JsonReader(new StringReader(sw.toString()));
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
         JsonArray expected = reader.readArray();
         reader.close();
 
-        JsonArray actual = new JsonArrayBuilder()
+        JsonArray actual = Json.createArrayBuilder()
                 .add(JsonValue.TRUE)
                 .add(JsonValue.FALSE)
                 .add(JsonValue.NULL)
@@ -229,7 +229,7 @@ public class JsonGeneratorTest extends TestCase {
         generator.close();
         writer.close();
 
-        JsonReader reader = new JsonReader(new StringReader(writer.toString()));
+        JsonReader reader = Json.createReader(new StringReader(writer.toString()));
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
     }
@@ -245,7 +245,7 @@ public class JsonGeneratorTest extends TestCase {
         out.close();
 
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        JsonReader reader = new JsonReader(in);
+        JsonReader reader = Json.createReader(in);
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
         reader.close();

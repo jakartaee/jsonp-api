@@ -40,13 +40,11 @@
 
 package javax.json;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
 
 /**
- * A builder class for creating {@link JsonObject} models from scratch. This
+ * A builder for creating {@link JsonObject} models from scratch. This
  * class initializes an empty JSON object model and provides methods to add
  * name/value pairs to the object model and to return the resulting object.
  * The methods in this class can be chained to add multiple name/value pairs
@@ -79,20 +77,20 @@ import java.util.*;
  *
  * <pre>
  * <code>
- * JsonObject value = new JsonObjectBuilder()
+ * JsonObject value = Json.createObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
  *     .add("age", 25)
- *     .add("address", new JsonObjectBuilder()
+ *     .add("address", Json.createObjectBuilder()
  *         .add("streetAddress", "21 2nd Street")
  *         .add("city", "New York")
  *         .add("state", "NY")
  *         .add("postalCode", "10021"))
- *     .add("phoneNumber", new JsonArrayBuilder()
- *         .add(new JsonObjectBuilder()
+ *     .add("phoneNumber", Json.createArrayBuilder()
+ *         .add(Json.createObjectBuilder()
  *             .add("type", "home")
  *             .add("number", "212 555-1234"))
- *         .add(new JsonObjectBuilder()
+ *         .add(Json.createObjectBuilder()
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();
@@ -101,16 +99,7 @@ import java.util.*;
  *
  * @see JsonArrayBuilder
  */
-public class JsonObjectBuilder {
-    private final Map<String, JsonValue> valueMap;
-
-    /**
-     * Creates a {@code JsonObjectBuilder} instance that initializes an empty 
-     * JSON object.
-     */
-    public JsonObjectBuilder() {
-        this.valueMap = new LinkedHashMap<String, JsonValue>();
-    }
+public interface JsonObjectBuilder {
 
     /**
      * Adds a name/{@code JsonValue} pair to the JSON object associated with
@@ -121,10 +110,7 @@ public class JsonObjectBuilder {
      * @param value value in the name/value pair
      * @return this object builder
      */
-    public JsonObjectBuilder add(String name, JsonValue value) {
-        valueMap.put(name, value);
-        return this;
-    }
+    JsonObjectBuilder add(String name, JsonValue value);
 
     /**
      * Adds a name/{@code JsonString} pair to the JSON object associated with
@@ -135,10 +121,7 @@ public class JsonObjectBuilder {
      * @param value value in the name/value pair
      * @return this object builder
      */
-    public JsonObjectBuilder add(String name, String value) {
-        valueMap.put(name, new JsonStringImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, String value);
 
     /**
      * Adds a name/{@code JsonNumber} pair to the JSON object associated with
@@ -151,10 +134,7 @@ public class JsonObjectBuilder {
      *
      * @see JsonNumber
      */
-    public JsonObjectBuilder add(String name, BigInteger value) {
-        valueMap.put(name, new JsonNumberImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, BigInteger value);
 
     /**
      * Adds a name/{@code JsonNumber} pair to the JSON object associated with
@@ -167,10 +147,7 @@ public class JsonObjectBuilder {
      *
      * @see JsonNumber
      */
-    public JsonObjectBuilder add(String name, BigDecimal value) {
-        valueMap.put(name, new JsonNumberImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, BigDecimal value);
 
     /**
      * Adds a name/{@code JsonNumber} pair to the JSON object associated with
@@ -183,10 +160,7 @@ public class JsonObjectBuilder {
      *
      * @see JsonNumber
      */
-    public JsonObjectBuilder add(String name, int value) {
-        valueMap.put(name, new JsonNumberImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, int value);
 
     /**
      * Adds a name/{@code JsonNumber} pair to the JSON object associated with
@@ -199,10 +173,7 @@ public class JsonObjectBuilder {
      *
      * @see JsonNumber
      */
-    public JsonObjectBuilder add(String name, long value) {
-        valueMap.put(name, new JsonNumberImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, long value);
 
     /**
      * Adds a name/{@code JsonNumber} pair to the JSON object associated with
@@ -217,10 +188,7 @@ public class JsonObjectBuilder {
      *
      * @see JsonNumber
      */
-    public JsonObjectBuilder add(String name, double value) {
-        valueMap.put(name, new JsonNumberImpl(value));
-        return this;
-    }
+    JsonObjectBuilder add(String name, double value);
 
     /**
      * Adds a name/{@code JsonValue#TRUE} or name/{@code JsonValue#FALSE} pair
@@ -232,10 +200,7 @@ public class JsonObjectBuilder {
      * @param value value in the name/value pair
      * @return this object builder
      */
-    public JsonObjectBuilder add(String name, boolean value) {
-        valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
-        return this;
-    }
+    JsonObjectBuilder add(String name, boolean value);
 
     /**
      * Adds a name/{@code JsonValue#NULL} pair to the JSON object associated
@@ -246,10 +211,7 @@ public class JsonObjectBuilder {
      * @param name name in the name/value pair
      * @return this object builder
      */
-    public JsonObjectBuilder addNull(String name) {
-        valueMap.put(name, JsonValue.NULL);
-        return this;
-    }
+    JsonObjectBuilder addNull(String name);
 
     /**
      * Adds a name/{@code JsonObject} pair to the JSON object associated
@@ -262,10 +224,7 @@ public class JsonObjectBuilder {
      * @param builder the value is the object associated with this builder
      * @return this object builder
      */
-    public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
-        valueMap.put(name, builder.build());
-        return this;
-    }
+    JsonObjectBuilder add(String name, JsonObjectBuilder builder);
 
     /**
      * Adds a name/{@code JsonArray} pair to the JSON object associated with
@@ -278,10 +237,7 @@ public class JsonObjectBuilder {
      * @param builder the value is the object array with this builder
      * @return this object builder
      */
-    public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
-        valueMap.put(name, builder.build());
-        return this;
-    }
+    JsonObjectBuilder add(String name, JsonArrayBuilder builder);
 
     /**
      * Returns the JSON object associated with this object builder. 
@@ -291,91 +247,6 @@ public class JsonObjectBuilder {
      *
      * @return JSON object that is being built
      */
-    public JsonObject build() {
-        Map<String, JsonValue> snapshot = new LinkedHashMap<String, JsonValue>(valueMap);
-        return new JsonObjectImpl(Collections.unmodifiableMap(snapshot));
-    }
+    JsonObject build();
 
-    private static final class JsonObjectImpl extends AbstractMap<String, JsonValue> implements JsonObject {
-        private final Map<String, JsonValue> valueMap;      // unmodifiable
-
-        JsonObjectImpl(Map<String, JsonValue> valueMap) {
-            this.valueMap = valueMap;
-        }
-
-        @Override
-        public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-            return clazz.cast(valueMap.get(name));
-        }
-
-        @Override
-        public String getStringValue(String name) {
-            return getValue(name, JsonString.class).getValue();
-        }
-
-        @Override
-        public String getStringValue(String name, String defaultValue) {
-            try {
-                return getStringValue(name);
-            } catch (Exception e) {
-                return defaultValue;
-            }
-        }
-
-        @Override
-        public int getIntValue(String name) {
-            return getValue(name, JsonNumber.class).getIntValue();
-        }
-
-        @Override
-        public int getIntValue(String name, int defaultValue) {
-            try {
-                return getIntValue(name);
-            } catch (Exception e) {
-                return defaultValue;
-            }
-        }
-
-        @Override
-        public boolean getBooleanValue(String name) {
-            JsonValue value = get(name);
-            if (value == null) {
-                throw new NullPointerException();
-            } else if (value == JsonValue.TRUE) {
-                return true;
-            } else if (value == JsonValue.FALSE) {
-                return false;
-            } else {
-                throw new ClassCastException();
-            }
-        }
-
-        @Override
-        public boolean getBooleanValue(String name, boolean defaultValue) {
-            try {
-                return getBooleanValue(name);
-            } catch (Exception e) {
-                return defaultValue;
-            }
-        }
-
-        @Override
-        public ValueType getValueType() {
-            return ValueType.OBJECT;
-        }
-
-        @Override
-        public Set<Entry<String, JsonValue>> entrySet() {
-            return valueMap.entrySet();
-        }
-
-        @Override
-        public String toString() {
-            StringWriter sw = new StringWriter();
-            JsonWriter jw = new JsonWriter(sw);
-            jw.write(this);
-            jw.close();
-            return sw.toString();
-        }
-    }
 }

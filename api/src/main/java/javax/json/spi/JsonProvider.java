@@ -40,7 +40,7 @@
 
 package javax.json.spi;
 
-import javax.json.JsonException;
+import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
@@ -123,8 +123,9 @@ public abstract class JsonProvider {
      * Creates a parser factory for creating {@link JsonParser} instances.
      *
      * @return a JSON parser factory
-     */
+     *
     public abstract JsonParserFactory createParserFactory();
+     */
 
     /**
      * Creates a parser factory for creating {@link JsonParser} instances.
@@ -159,8 +160,9 @@ public abstract class JsonProvider {
      * Creates a generator factory for creating {@link JsonGenerator} instances.
      *
      * @return a JSON generator factory
-     */
+     *
     public abstract JsonGeneratorFactory createGeneratorFactory();
+     */
 
     /**
      * Creates a generator factory for creating {@link JsonGenerator} instances.
@@ -173,5 +175,95 @@ public abstract class JsonProvider {
      * @return a JSON generator factory
      */
     public abstract JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config);
+
+    /**
+     * Creates a JSON reader from a character stream.
+     *
+     * @param reader a reader from which JSON is to be read
+     * @return a JSON reader
+     */
+    public abstract JsonReader createReader(Reader reader);
+
+    /**
+     * Creates a JSON reader from a byte stream. The character encoding of
+     * the stream is determined as described in
+     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+     *
+     * @param in a byte stream from which JSON is to be read
+     * @return a JSON reader
+     */
+    public abstract JsonReader createReader(InputStream in);
+
+    /**
+     * Creates a JSON writer to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified character stream.
+     *
+     * @param writer to which JSON object or array is written
+     * @return a JSON writer
+     */
+    public abstract JsonWriter createWriter(Writer writer);
+
+    /**
+     * Creates a JSON writer to write a
+     * JSON {@link JsonObject object} or {@link JsonArray array}
+     * structure to the specified byte stream. Characters written to
+     * the stream are encoded into bytes using UTF-8 encoding.
+     *
+     * @param out to which JSON object or array is written
+     * @return a JSON writer
+     */
+    public abstract JsonWriter createWriter(OutputStream out);
+
+    /**
+     * Creates a writer factory for creating {@link JsonWriter} objects.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
+     *
+     * @param config a map of provider specific properties to configure the
+     *               JSON writers. The map may be empty or null
+     * @return a JSON writer factory
+     */
+    public abstract JsonWriterFactory createWriterFactory(Map<String,?> config);
+
+    /**
+     * Creates a reader factory for creating {@link JsonReader} objects.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
+     *
+     * @param config a map of provider specific properties to configure the
+     *               JSON readers. The map may be empty or null
+     * @return a JSON reader factory
+     */
+    public abstract JsonReaderFactory createReaderFactory(Map<String,?> config);
+
+    /**
+     * Creates a JSON object builder
+     *
+     * @return a JSON object builder
+     */
+    public abstract JsonObjectBuilder createObjectBuilder();
+
+    /**
+     * Creates a JSON array builder
+     *
+     * @return a JSON array builder
+     */
+    public abstract JsonArrayBuilder createArrayBuilder();
+
+    /**
+     * Creates a builder factory for creating {@link JsonArrayBuilder}
+     * and {@link JsonObjectBuilder} objects.
+     * The factory is configured with the specified map of provider specific
+     * configuration properties. Provider implementations should ignore any
+     * unsupported configuration properties specified in the map.
+     *
+     * @param config a map of provider specific properties to configure the
+     *               JSON builders. The map may be empty or null
+     * @return a JSON builder factory
+     */
+    public abstract JsonBuilderFactory createBuilderFactory(Map<String,?> config);
 
 }

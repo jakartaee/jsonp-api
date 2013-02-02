@@ -54,7 +54,7 @@ import java.util.List;
  * <p>The following example demonstrates how to create a {@code JsonArray}
  * object from an input source using the method {@link JsonReader#readArray()}:
  * <pre><code>
- * JsonReader jsonReader = new JsonReader(...);
+ * JsonReader jsonReader = Json.createReader(...);
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
  * </code></pre>
@@ -62,7 +62,7 @@ import java.util.List;
  * <p>The following example demonstrates how to build an empty JSON array
  * using the class {@link JsonArrayBuilder}:
  * <pre><code>
- * JsonArray array = new JsonArrayBuilder().build();
+ * JsonArray array = Json.createArrayBuilder().build();
  * </code></pre>
  *
  * <p>The example code below demonstrates how to create the following JSON array:
@@ -73,11 +73,11 @@ import java.util.List;
  * ]
  * </code></pre>
  * <pre><code>
- * JsonArray value = new JsonArrayBuilder()
- *     .add(new JsonObjectBuilder()
+ * JsonArray value = Json.createArrayBuilder()
+ *     .add(Json.createObjectBuilder()
  *         .add("type", "home")
  *         .add("number", "212 555-1234"))
- *     .add(new JsonObjectBuilder()
+ *     .add(Json.createObjectBuilder()
  *         .add("type", "fax")
  *         .add("number", "646 555-4567"))
  *     .build();
@@ -87,7 +87,7 @@ import java.util.List;
  * as JSON data:
  * <pre><code>
  * JsonArray arr = ...;
- * JsonWriter writer = new JsonWriter(...)
+ * JsonWriter writer = Json.createWriter(...)
  * writer.writeArray(arr);
  * writer.close();
  * </code></pre>

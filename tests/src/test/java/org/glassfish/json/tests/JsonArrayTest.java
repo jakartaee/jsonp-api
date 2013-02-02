@@ -38,43 +38,79 @@
  * holder.
  */
 
-package org.glassfish.json;
+package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.Json;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParserFactory;
+import javax.json.*;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.StringWriter;
 
 /**
- * Tests JsonParserFactory
- *
  * @author Jitendra Kotamraju
  */
-public class JsonParserFactoryTest extends TestCase {
-
-    public JsonParserFactoryTest(String testName) {
+public class JsonArrayTest extends TestCase {
+    public JsonArrayTest(String testName) {
         super(testName);
     }
 
-    public void testParserFactory() {
-        JsonParserFactory parserFactory = Json.createParserFactory();
-        JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
-        parser1.close();
-        JsonParser parser2 = parserFactory.createParser(new StringReader("[]"));
-        parser2.close();
+    public void testArrayEquals() throws Exception {
+        JsonArray expected = Json.createArrayBuilder()
+                .add(JsonValue.TRUE)
+                .add(JsonValue.FALSE)
+                .add(JsonValue.NULL)
+                .add(Integer.MAX_VALUE)
+                .add(Long.MAX_VALUE)
+                .add(Double.MAX_VALUE)
+                .add(Integer.MIN_VALUE)
+                .add(Long.MIN_VALUE)
+                .add(Double.MIN_VALUE)
+                .build();
+
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.writeArray(expected);
+        writer.close();
+
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
+        JsonArray actual = reader.readArray();
+        reader.close();
+
+        assertEquals(expected, actual);
     }
 
-    public void testParserFactoryWithConfig() {
-        Map<String, ?> config = new HashMap<String, Object>();
-        JsonParserFactory parserFactory = Json.createParserFactory(config);
-        JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
-        parser1.close();
-        JsonParser parser2 = parserFactory.createParser(new StringReader("[]"));
-        parser2.close();
+    public void testStringValue() throws Exception {
+        JsonArray array = Json.createArrayBuilder()
+                .add("John")
+                .build();
+        assertEquals("John", array.getStringValue(0));
+    }
+
+    public void testIntValue() throws Exception {
+        JsonArray array = Json.createArrayBuilder()
+                .add(20)
+                .build();
+        assertEquals(20, array.getIntValue(0));
+    }
+
+    public void testAdd() {
+        JsonArray array = Json.createArrayBuilder().build();
+        try {
+            array.add(JsonValue.FALSE);
+            fail("JsonArray#add() should throw UnsupportedOperationException");
+        } catch(UnsupportedOperationException e) {
+            // Expected
+        }
+    }
+
+    public void testRemove() {
+        JsonArray array = Json.createArrayBuilder().build();
+        try {
+            array.remove(0);
+            fail("JsonArray#remove() should throw UnsupportedOperationException");
+        } catch(UnsupportedOperationException e) {
+            // Expected
+        }
     }
 
 }

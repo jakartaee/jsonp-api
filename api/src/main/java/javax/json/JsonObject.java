@@ -51,7 +51,7 @@ import java.util.Map;
  * <p>A JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
  * <pre><code>
- * JsonReader jsonReader = new JsonReader(...);
+ * JsonReader jsonReader = Json.createReader(...);
  * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
  * </code></pre>
@@ -60,7 +60,7 @@ import java.util.Map;
  *
  * <p>For example 1: An empty JSON object can be built as follows:
  * <pre><code>
- * JsonObject object = new JsonObjectBuilder().build();
+ * JsonObject object = Json.createObjectBuilder().build();
  * </code></pre>
  *
  * For example 2: The following JSON
@@ -81,20 +81,20 @@ import java.util.Map;
  * </code></pre>
  * can be built using :
  * <pre><code>
- * JsonObject value = new JsonObjectBuilder()
+ * JsonObject value = Json.createObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
  *     .add("age", 25)
- *     .add("address", new JsonObjectBuilder()
+ *     .add("address", Json.createObjectBuilder()
  *         .add("streetAddress", "21 2nd Street")
  *         .add("city", "New York")
  *         .add("state", "NY")
  *         .add("postalCode", "10021"))
- *     .add("phoneNumber", new JsonArrayBuilder()
- *         .add(new JsonObjectBuilder()
+ *     .add("phoneNumber", Json.createArrayBuilder()
+ *         .add(Json.createObjectBuilder()
  *             .add("type", "home")
  *             .add("number", "212 555-1234"))
- *         .add(new JsonObjectBuilder()
+ *         .add(Json.createObjectBuilder()
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();

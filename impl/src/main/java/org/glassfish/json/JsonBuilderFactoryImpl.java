@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,55 +40,34 @@
 
 package org.glassfish.json;
 
-import junit.framework.TestCase;
-
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
-import java.io.StringWriter;
-import java.util.HashMap;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObjectBuilder;
+import java.util.Collections;
 import java.util.Map;
 
 /**
- * Tests JsonGeneratorFactory
- *
  * @author Jitendra Kotamraju
  */
-public class JsonGeneratorFactoryTest extends TestCase {
+class JsonBuilderFactoryImpl implements JsonBuilderFactory {
+    private final Map<String, ?> config;
 
-    public JsonGeneratorFactoryTest(String testName) {
-        super(testName);
+    JsonBuilderFactoryImpl() {
+        this.config = Collections.emptyMap();
     }
 
-    public void testGeneratorFactory() {
-        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory();
-
-        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.writeStartArray().writeEnd();
-        generator1.close();
-
-        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.writeStartArray().writeEnd();
-        generator2.close();
+    @Override
+    public JsonObjectBuilder createObjectBuilder() {
+        return new JsonObjectBuilderImpl();
     }
 
-    public void testGeneratorFactoryWithConfig() {
-        Map<String, Object> config = new HashMap<String, Object>();
-        config.put(JsonGenerator.PRETTY_PRINTING, true);
-        JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
-        Map<String, ?> config1 = generatorFactory.getConfigInUse();
-        if (config1.size() != 1) {
-            throw new JsonException("Expecting no of properties=1, got="+config1.size());
-        }
-        assertTrue(config1.containsKey(JsonGenerator.PRETTY_PRINTING));
-
-        JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
-        generator1.writeStartArray().writeEnd();
-        generator1.close();
-
-        JsonGenerator generator2 = generatorFactory.createGenerator(new StringWriter());
-        generator2.writeStartArray().writeEnd();
-        generator2.close();
+    @Override
+    public JsonArrayBuilder createArrayBuilder() {
+        return new JsonArrayBuilderImpl();
     }
 
+    @Override
+    public Map<String, ?> getConfigInUse() {
+        return config;
+    }
 }
