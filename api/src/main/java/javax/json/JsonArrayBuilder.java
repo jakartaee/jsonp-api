@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,14 +40,12 @@
 
 package javax.json;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
 
 /**
  * A builder for creating {@link JsonArray} models from scratch. This
- * class initializes an empty JSON array model and provides methods to add
+ * interface initializes an empty JSON array model and provides methods to add
  * values to the array model and to return the resulting array. The methods
  * in this class can be chained to add multiple values to the array.
  *

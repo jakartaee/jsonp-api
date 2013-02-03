@@ -49,21 +49,19 @@ import java.io.*;
 import java.util.Map;
 
 /**
- * Factory class for creating {@link JsonParser}, {@link JsonGenerator},
- * {@link JsonParserFactory}, and {@link JsonGeneratorFactory} objects.
- * This class provides the most commonly used methods to create {@link JsonParser}
- * and {@link JsonGenerator} objects. The factory classes {@link JsonParserFactory}
- * and {@link JsonGeneratorFactory} provide all available methods to create these
- * objects.
+ * Factory class for creating JSON processing objects.
+ * This class provides the most commonly used methods for creating these
+ * objects and their corresponding factories. The factory classes provide
+ * all the various ways to create these objects.
  *
  * <p>
  * The methods in this class locate a provider instance using the method
  * {@link JsonProvider#provider()}. This class uses the provider instance
- * to create {@link JsonParser}, {@link JsonGenerator}, {@link JsonParserFactory}, 
- * and {@link JsonGeneratorFactory} objects.
+ * to create JSON processing objects.
  *
  * <p>
- * The following example shows how to create a JSON parser to parse an empty array:
+ * The following example shows how to create a JSON parser to parse
+ * an empty array:
  * <pre>
  * <code>
  * StringReader reader = new StringReader("[]");
@@ -72,7 +70,8 @@ import java.util.Map;
  * </pre>
  *
  * <p>
- * All the methods in this class are safe for use by multiple concurrent threads.
+ * All the methods in this class are safe for use by multiple concurrent
+ * threads.
  *
  * @author Jitendra Kotamraju
  */
@@ -278,7 +277,8 @@ public class Json {
      *               JSON builders. The map may be empty or null
      * @return a JSON builder factory
      */
-    public static JsonBuilderFactory createBuilderFactory(Map<String, ?> config) {
+    public static JsonBuilderFactory createBuilderFactory(
+            Map<String, ?> config) {
         return JsonProvider.provider().createBuilderFactory(config);
     }
 

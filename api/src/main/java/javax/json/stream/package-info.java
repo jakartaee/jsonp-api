@@ -40,11 +40,15 @@
 
 /**
  * Provides a streaming API to parse and generate
- * <a href="http://json.org/">JSON</a> that consist of the interfaces
- * {@link javax.json.stream.JsonParser} and {@link javax.json.stream.JsonGenerator}.
- * The interface {@code JsonParser} contains methods to parse JSON in a
- * streaming way. The interface {@code JsonGenerator} contains methods to
- * write JSON to an output source in a streaming way.
+ * <a href="http://json.org/">JSON</a>.
+ *
+ * <p>
+ * The streaming API consists of the interfaces
+ * {@link javax.json.stream.JsonParser} and
+ * {@link javax.json.stream.JsonGenerator}. The interface {@code JsonParser}
+ * contains methods to parse JSON in a streaming way. The interface
+ * {@code JsonGenerator} contains methods to write JSON to an output source
+ * in a streaming way.
  *
  * <p>
  * {@code JsonParser} provides forward, read-only access to JSON data using the

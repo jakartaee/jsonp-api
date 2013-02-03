@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -45,7 +45,7 @@ import java.math.BigInteger;
 
 /**
  * A builder for creating {@link JsonObject} models from scratch. This
- * class initializes an empty JSON object model and provides methods to add
+ * interface initializes an empty JSON object model and provides methods to add
  * name/value pairs to the object model and to return the resulting object.
  * The methods in this class can be chained to add multiple name/value pairs
  * to the object.

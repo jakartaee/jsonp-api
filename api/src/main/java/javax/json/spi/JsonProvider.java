@@ -54,7 +54,10 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
- * Service provider for JSON objects.
+ * Service provider for JSON processing objects.
+ *
+ * <p>All the methods in this class are safe for use by multiple concurrent
+ * threads.
  *
  * @see ServiceLoader
  * @author Jitendra Kotamraju
@@ -104,6 +107,7 @@ public abstract class JsonProvider {
      * Creates a JSON parser from a character stream.
      *
      * @param reader i/o reader from which JSON is to be read
+     * @return a JSON parser
      */
     public abstract JsonParser createParser(Reader reader);
 
@@ -116,6 +120,7 @@ public abstract class JsonProvider {
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
      *         or i/o error (IOException would be cause of JsonException)
+     * @return a JSON parser
      */
     public abstract JsonParser createParser(InputStream in);
 
