@@ -13,36 +13,32 @@ import java.util.Map;
 class JsonReaderImpl implements JsonReader {
     private final JsonParser parser;
     private boolean readDone;
-    private final Map<String, ?> config;
 
     JsonReaderImpl(Reader reader) {
         this(reader, Collections.<String, Object>emptyMap());
     }
 
-    JsonReaderImpl(Reader reader, Map<String, ?> config) {
+    private JsonReaderImpl(Reader reader, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
         parser = factory.createParser(reader);
-        this.config = factory.getConfigInUse();
     }
 
     JsonReaderImpl(InputStream in) {
         this(in, Collections.<String, Object>emptyMap());
     }
 
-    JsonReaderImpl(InputStream in, Map<String, ?> config) {
+    private JsonReaderImpl(InputStream in, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
         parser = factory.createParser(in);
-        this.config = factory.getConfigInUse();
     }
 
     JsonReaderImpl(InputStream in, Charset charset) {
         this(in, charset, Collections.<String, Object>emptyMap());
     }
 
-    JsonReaderImpl(InputStream in, Charset charset, Map<String, ?> config) {
+    private JsonReaderImpl(InputStream in, Charset charset, Map<String, ?> config) {
         JsonParserFactory factory = Json.createParserFactory(config);
         parser = factory.createParser(in, charset);
-        this.config = factory.getConfigInUse();
     }
 
     @Override
@@ -100,11 +96,6 @@ class JsonReaderImpl implements JsonReader {
             }
         }
         throw new JsonException("Cannot read JSON array, possibly empty stream");
-    }
-
-    @Override
-    public Map<String, ?> getConfigInUse() {
-        return config;
     }
 
     @Override

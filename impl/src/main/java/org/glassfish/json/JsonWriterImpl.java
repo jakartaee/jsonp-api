@@ -14,7 +14,6 @@ class JsonWriterImpl implements JsonWriter {
 
     private final JsonGenerator generator;
     private boolean writeDone;
-    private final Map<String, ?> config;
 
     JsonWriterImpl(Writer writer) {
         this(writer, Collections.<String, Object>emptyMap());
@@ -23,7 +22,6 @@ class JsonWriterImpl implements JsonWriter {
     JsonWriterImpl(Writer writer, Map<String, ?> config) {
         JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
         generator = factory.createGenerator(writer);
-        this.config = factory.getConfigInUse();
     }
 
     JsonWriterImpl(OutputStream out) {
@@ -37,7 +35,6 @@ class JsonWriterImpl implements JsonWriter {
     JsonWriterImpl(OutputStream out, Charset charset, Map<String, ?> config) {
         JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
         generator = factory.createGenerator(out, charset);
-        this.config = factory.getConfigInUse();
     }
 
     @Override
@@ -81,7 +78,4 @@ class JsonWriterImpl implements JsonWriter {
         generator.close();
     }
 
-    public Map<String, ?> getConfigInUse() {
-        return config;
-    }
 }

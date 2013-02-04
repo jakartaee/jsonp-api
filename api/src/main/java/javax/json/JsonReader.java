@@ -41,7 +41,6 @@
 package javax.json;
 
 import java.io.Closeable;
-import java.util.Map;
 
 /**
  * Reads a JSON {@link JsonObject object} or
@@ -120,16 +119,5 @@ public interface JsonReader extends  /*Auto*/Closeable {
      */
     @Override
     void close();
-
-    /**
-     * Returns a read-only map of supported provider-specific configuration
-     * properties that are used to configure this JSON reader. If there are
-     * any specified configuration properties that are not supported by
-     * the provider, they won't be part of the returned map.
-     *
-     * @return a map of supported provider specific properties that are used
-     * to configure this JSON reader. The map may be empty but not null
-     */
-    Map<String, ?> getConfigInUse();
 
 }
