@@ -262,7 +262,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
         @Override
         public String getStringValue(int index) {
-            return getValue(index, JsonString.class).getValue();
+            return getValue(index, JsonString.class).getStringValue();
         }
 
         @Override

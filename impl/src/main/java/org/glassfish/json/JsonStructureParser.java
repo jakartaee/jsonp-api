@@ -69,7 +69,7 @@ class JsonStructureParser implements JsonParser {
         if (state == Event.KEY_NAME) {
             return ((ObjectScope)current).key;
         } else if (state == Event.VALUE_STRING) {
-            return ((JsonString)current.getJsonValue()).getValue();
+            return ((JsonString)current.getJsonValue()).getStringValue();
         }
         throw new IllegalStateException("JsonParser#getString() can only be called in"
                 + " KEY_NAME or VALUE_STRING states, not in "+state);

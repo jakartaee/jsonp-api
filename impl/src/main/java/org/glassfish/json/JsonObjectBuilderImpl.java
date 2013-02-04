@@ -311,7 +311,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
         @Override
         public String getStringValue(String name) {
-            return getValue(name, JsonString.class).getValue();
+            return getValue(name, JsonString.class).getStringValue();
         }
 
         @Override

@@ -11,7 +11,7 @@ final class JsonStringImpl implements JsonString {
     }
 
     @Override
-    public String getValue() {
+    public String getStringValue() {
         return value;
     }
 
@@ -27,7 +27,7 @@ final class JsonStringImpl implements JsonString {
 
     @Override
     public int hashCode() {
-        return getValue().hashCode();
+        return getStringValue().hashCode();
     }
 
     @Override
@@ -36,7 +36,7 @@ final class JsonStringImpl implements JsonString {
             return false;
         }
         JsonString other = (JsonString)obj;
-        return getValue().equals(other.getValue());
+        return getStringValue().equals(other.getStringValue());
     }
 
     @Override

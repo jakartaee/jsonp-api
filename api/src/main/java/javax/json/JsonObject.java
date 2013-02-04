@@ -145,7 +145,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(name, JsonString.class).getValue()}
+     * {@code getValue(name, JsonString.class).getStringValue()}
      *
      * @param name whose associated value is to be returned as String
      * @return the String value to which the specified name is mapped
@@ -159,7 +159,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
     /**
      * Returns the string value of the associated {@code JsonString} mapping
      * for the specified name. If {@code JsonString} is found, then its
-     * {@link javax.json.JsonString#getValue()} is returned. Otherwise,
+     * {@link javax.json.JsonString#getStringValue()} is returned. Otherwise,
      * the specified default value is returned.
      *
      * @param name whose associated value is to be returned as String

@@ -74,30 +74,30 @@ public class JsonObjectTest extends TestCase {
 
     static void testPerson(JsonObject person) {
         assertEquals(5, person.size());
-        assertEquals("John", person.getValue("firstName", JsonString.class).getValue());
-        assertEquals("Smith", person.getValue("lastName", JsonString.class).getValue());
+        assertEquals("John", person.getValue("firstName", JsonString.class).getStringValue());
+        assertEquals("Smith", person.getValue("lastName", JsonString.class).getStringValue());
         assertEquals(25, person.getValue("age", JsonNumber.class).getIntValue());
         assertEquals(25, person.getIntValue("age"));
 
         JsonObject address = person.getValue("address", JsonObject.class);
         assertEquals(4, address.size());
-        assertEquals("21 2nd Street", address.getValue("streetAddress", JsonString.class).getValue());
-        assertEquals("New York", address.getValue("city", JsonString.class).getValue());
-        assertEquals("NY", address.getValue("state", JsonString.class).getValue());
-        assertEquals("10021", address.getValue("postalCode", JsonString.class).getValue());
+        assertEquals("21 2nd Street", address.getValue("streetAddress", JsonString.class).getStringValue());
+        assertEquals("New York", address.getValue("city", JsonString.class).getStringValue());
+        assertEquals("NY", address.getValue("state", JsonString.class).getStringValue());
+        assertEquals("10021", address.getValue("postalCode", JsonString.class).getStringValue());
 
         JsonArray phoneNumber = person.getValue("phoneNumber", JsonArray.class);
         assertEquals(2, phoneNumber.size());
         JsonObject home = phoneNumber.getValue(0, JsonObject.class);
         assertEquals(2, home.size());
-        assertEquals("home", home.getValue("type", JsonString.class).getValue());
-        assertEquals("212 555-1234", home.getValue("number", JsonString.class).getValue());
+        assertEquals("home", home.getValue("type", JsonString.class).getStringValue());
+        assertEquals("212 555-1234", home.getValue("number", JsonString.class).getStringValue());
         assertEquals("212 555-1234", home.getStringValue("number"));
 
         JsonObject fax = phoneNumber.getValue(1, JsonObject.class);
         assertEquals(2, fax.size());
-        assertEquals("fax", fax.getValue("type", JsonString.class).getValue());
-        assertEquals("646 555-4567", fax.getValue("number", JsonString.class).getValue());
+        assertEquals("fax", fax.getValue("type", JsonString.class).getStringValue());
+        assertEquals("646 555-4567", fax.getValue("number", JsonString.class).getStringValue());
         assertEquals("646 555-4567", fax.getStringValue("number"));
     }
 

@@ -130,7 +130,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(index, JsonString.class).getValue()}.
+     * {@code getValue(index, JsonString.class).getStringValue()}.
      *
      * @param index index of the {@code JsonString} value
      * @return the String value at the specified position
@@ -143,7 +143,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
     /**
      * Returns the {@code String} value of {@code JsonString} at the specified
      * position in this JSON array values. If {@code JsonString} is found,
-     * its {@link javax.json.JsonString#getValue()} is returned. Otherwise,
+     * its {@link javax.json.JsonString#getStringValue()} is returned. Otherwise,
      * the specified default value is returned.
      *
      * @param index index of the JsonString value
