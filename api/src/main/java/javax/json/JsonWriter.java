@@ -43,8 +43,11 @@ package javax.json;
 import java.io.Closeable;
 
 /**
- * Writes a JSON {@link JsonObject object} or
- * {@link JsonArray array} structure to an output source.
+ * Writes a JSON {@link JsonObject object} or {@link JsonArray array} structure
+ * to an output source.
+ *
+ * <p>The class {@link javax.json.Json} contains methods to create writers from
+ * output sources ({@link java.io.OutputStream} and {@link java.io.Writer}).
  *
  * <p>
  * <a id="JsonWriterExample1"/>
@@ -54,6 +57,20 @@ import java.io.Closeable;
  * JsonWriter jsonWriter = Json.createWriter(...);
  * jsonWriter.writeObject(Json.createObjectBuilder().build());
  * jsonWriter.close();
+ * </code>
+ * </pre>
+ *
+ * <p>
+ * The class {@link JsonWriterFactory} also contains methods to create
+ * {@code JsonWriter} instances. A factory instance can be used to create
+ * multiple writer instances with the same configuration. This the preferred
+ * way to create multiple instances. A sample usage is shown in the following
+ * example:
+ * <pre>
+ * <code>
+ * JsonWriterFactory factory = Json.createWriterFactory(config);
+ * JsonWriter writer1 = factory.createWriter(...);
+ * JsonWriter writer2 = factory.createWriter(...);
  * </code>
  * </pre>
  *

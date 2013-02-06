@@ -47,7 +47,7 @@ import java.io.Closeable;
  * structure from an input source.
  *
  * <p>The class {@link javax.json.Json} contains methods to create readers from
- * input sources ({@link java.io.InputStream} and {@link java.io.Reader}.
+ * input sources ({@link java.io.InputStream} and {@link java.io.Reader}).
  *
  * <p>
  * <a id="JsonReaderExample1"/>
