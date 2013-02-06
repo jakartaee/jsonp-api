@@ -43,8 +43,11 @@ package javax.json;
 import java.io.Closeable;
 
 /**
- * Reads a JSON {@link JsonObject object} or
- * an {@link JsonArray array} structure from an input source.
+ * Reads a JSON {@link JsonObject object} or an {@link JsonArray array}
+ * structure from an input source.
+ *
+ * <p>The class {@link javax.json.Json} contains methods to create readers from
+ * input sources ({@link java.io.InputStream} and {@link java.io.Reader}.
  *
  * <p>
  * <a id="JsonReaderExample1"/>
@@ -55,6 +58,20 @@ import java.io.Closeable;
  * JsonReader jsonReader = Json.createReader(new StringReader("[]"));
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
+ * </code>
+ * </pre>
+ *
+ * <p>
+ * The class {@link JsonReaderFactory} also contains methods to create
+ * {@code JsonReader} instances. A factory instance can be used to create
+ * multiple reader instances with the same configuration. This the preferred
+ * way to create multiple instances. A sample usage is shown in the following
+ * example:
+ * <pre>
+ * <code>
+ * JsonReaderFactory factory = Json.createReaderFactory(config);
+ * JsonReader reader1 = factory.createReader(...);
+ * JsonReader reader2 = factory.createReader(...);
  * </code>
  * </pre>
  *
