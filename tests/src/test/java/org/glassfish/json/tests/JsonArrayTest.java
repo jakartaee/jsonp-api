@@ -45,6 +45,7 @@ import junit.framework.TestCase;
 import javax.json.*;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 /**
  * @author Jitendra Kotamraju
@@ -111,6 +112,18 @@ public class JsonArrayTest extends TestCase {
         } catch(UnsupportedOperationException e) {
             // Expected
         }
+    }
+
+    public void testNumberView() throws Exception {
+        JsonArray array = Json.createArrayBuilder().add(20).add(10).build();
+
+        List<JsonNumber> numberList = array.getValuesAs(JsonNumber.class);
+        for(JsonNumber num : numberList) {
+            num.getIntValue();
+        }
+
+        assertEquals(20, array.getIntValue(0));
+        assertEquals(10, array.getIntValue(1));
     }
 
 }

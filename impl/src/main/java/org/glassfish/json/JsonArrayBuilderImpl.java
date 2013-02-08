@@ -261,6 +261,12 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
+        public <T extends JsonValue> List<T> getValuesAs(Class<T> clazz) {
+            return (List<T>)valueList;
+        }
+
+        @Override
         public String getStringValue(int index) {
             return getValue(index, JsonString.class).getStringValue();
         }

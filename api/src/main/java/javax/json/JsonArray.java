@@ -129,6 +129,19 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
     <T extends JsonValue> T getValue(int index, Class<T> clazz);
 
     /**
+     * Returns a list a view of the specified type for the array. This method
+     * does not verify if there is a value of wrong type in the array. Providing
+     * this typesafe view dynamically may cause a program fail with a
+     * {@code ClassCastException}, if there is a value of wrong type in this
+     * array. Unfortunately, the exception can occur at any time after this
+     * method returns.
+     *
+     * @param clazz a JsonValue type
+     * @return a list view of the  specified type
+     */
+    <T extends JsonValue> List<T> getValuesAs(Class<T> clazz);
+
+    /**
      * A convenience method for
      * {@code getValue(index, JsonString.class).getStringValue()}.
      *
