@@ -130,14 +130,14 @@ final class JsonTokenizer implements Closeable {
                                 } else if (ch3 >= 'A' && ch3 <= 'F') {
                                     unicode |= (((char) ch3) - 'A') + 0xA;
                                 } else {
-                                    throw new JsonParsingException("Unexpected Char="+ch3);
+                                    throw new JsonParsingException("Unexpected Char="+ch3, JsonLocationImpl.UNKNOWN);
                                 }
                             }
                             store((char) (unicode & 0xffff));
                             break;
                         }
                         default:
-                            throw new JsonParsingException("Unexpected Char="+ch2);
+                            throw new JsonParsingException("Unexpected Char="+ch2, JsonLocationImpl.UNKNOWN);
                     }
                     break;
                 case '"':
@@ -160,7 +160,7 @@ final class JsonTokenizer implements Closeable {
 
             ch = read();
             if (ch < '0' || ch >'9') {
-                throw new JsonParsingException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
             }
         }
 
@@ -184,7 +184,7 @@ final class JsonTokenizer implements Closeable {
                 count++;
             } while (ch >= '0' && ch <= '9');
             if (count == 1) {
-                throw new JsonParsingException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
             }
         }
 
@@ -202,7 +202,7 @@ final class JsonTokenizer implements Closeable {
                 ch = read();
             }
             if (count == 0) {
-                throw new JsonParsingException("Unexpected Char="+ch);
+                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
             }
         }
         unread(ch);
@@ -272,7 +272,7 @@ final class JsonTokenizer implements Closeable {
                     readNumber(ch);
                     return JsonToken.NUMBER;
                 }
-                throw new JsonParsingException("Unexpected char="+(char)ch);
+                throw new JsonParsingException("Unexpected char="+(char)ch, JsonLocationImpl.UNKNOWN);
         }
     }
 

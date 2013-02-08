@@ -41,6 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.*;
+import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import java.math.BigDecimal;
 import java.util.*;
@@ -109,6 +110,11 @@ class JsonStructureParser implements JsonParser {
         }
         throw new IllegalStateException("JsonParser#getBigDecimalValue() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
+    }
+
+    @Override
+    public JsonLocation getLocation() {
+        return JsonLocationImpl.UNKNOWN;
     }
 
     @Override

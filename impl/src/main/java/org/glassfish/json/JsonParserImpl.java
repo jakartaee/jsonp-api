@@ -41,6 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.*;
+import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParsingException;
 import java.io.*;
@@ -133,6 +134,11 @@ public class JsonParserImpl implements JsonParser {
         return new BigDecimal(tokenizer.getValue());
     }
 
+    @Override
+    public JsonLocation getLocation() {
+        return JsonLocationImpl.UNKNOWN;
+    }
+
     public boolean hasNext() {
         return stateIterator.hasNext();
     }
@@ -165,7 +171,8 @@ public class JsonParserImpl implements JsonParser {
                 }
                 State nextState = currentState.getTransition(token, enclosingState);
                 if (nextState == null) {
-                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token);
+                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token,
+                            JsonLocationImpl.UNKNOWN);
                 }
                 if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
                     stack.addFirst(currentState);

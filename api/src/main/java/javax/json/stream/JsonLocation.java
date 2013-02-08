@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,59 +40,48 @@
 
 package javax.json.stream;
 
-import javax.json.JsonException;
-
 /**
- * {@code JsonParsingException} is used when an incorrect JSON is
- * being parsed.
+ * Provides the location information of a JSON event in an input source. The
+ * {@code JsonLocation} information can be used to identify incorrect JSON
+ * or can be used by higher frameworks to know about the processing location.
+ *
+ * <p>All the information provided by a {@code JsonLocation} is optional. For
+ * example, a provider may only report line numbers. Also, there may not be any
+ * location information for an input source. For example, if a
+ * {@code JsonParser} is created using
+ * {@link JsonParserFactory#createParser(javax.json.JsonArray)}, all the
+ * methods in this class return -1.
  *
  * @author Jitendra Kotamraju
+ * @see JsonParser
+ * @see JsonParsingException
  */
-public class JsonParsingException extends JsonException {
-
-    private final JsonLocation location;
+public interface JsonLocation {
 
     /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
+     * Return the line number for the current JSON event in the input source.
      *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     * @param location the location of the incorrect JSON
+     * @return the line number or -1 if none is available
      */
-    public JsonParsingException(String message, JsonLocation location) {
-        super(message);
-        this.location = location;
-    }
+    int getLineNumber();
 
     /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
+     * Return the column number for the current JSON event in the input source.
      *
-     * @param message the detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method). (A <tt>null</tt> value is
-     *              permitted, and indicates that the cause is nonexistent or
-     *              unknown.)
-     * @param location the location of the incorrect JSON
+     * @return the column number or -1 if none is available
      */
-    public JsonParsingException(String message, Throwable cause, JsonLocation location) {
-        super(message, cause);
-        this.location = location;
-    }
+    int getColumnNumber();
 
     /**
-     * Return the location of the incorrect JSON.
+     * Return the stream offset into the input source this location
+     * is pointing to. If the input source is a file or a byte stream then
+     * this is the byte offset into that stream, but if the input source is
+     * a character media then the offset is the character offset.
+     * Returns -1 if there is no offset available.
      *
-     * @return the non-null location of the incorrect JSON
+     * @return the offset of input source stream, or -1 if there is
+     * no offset available
      */
-    public JsonLocation getLocation() {
-        return location;
-    }
+    int getStreamOffset();
 
 }
-

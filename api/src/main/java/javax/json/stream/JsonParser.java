@@ -313,6 +313,16 @@ public interface JsonParser extends /*Auto*/Closeable {
     BigDecimal getBigDecimalValue();
 
     /**
+     * Return the location that corresponds to the parser's current state in
+     * the JSON input source. The location information is only valid in the
+     * current parser state (or until the parser is advanced to a next state).
+     *
+     * @return a non-null location corresponding to the current parser state
+     * in JSON input source
+     */
+    JsonLocation getLocation();
+
+    /**
      * getJsonValue(JsonObject.class) is valid in the START_OBJECT state and
      * moves the cursor to END_OBJECT.
      *
