@@ -256,8 +256,23 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         }
 
         @Override
-        public <T extends JsonValue> T getValue(int index, Class<T> clazz) {
-            return clazz.cast(valueList.get(index));
+        public JsonObject getJsonObject(int index) {
+            return (JsonObject)valueList.get(index);
+        }
+
+        @Override
+        public JsonArray getJsonArray(int index) {
+            return (JsonArray)valueList.get(index);
+        }
+
+        @Override
+        public JsonNumber getJsonNumber(int index) {
+            return (JsonNumber)valueList.get(index);
+        }
+
+        @Override
+        public JsonString getJsonString(int index) {
+            return (JsonString)valueList.get(index);
         }
 
         @Override
@@ -268,7 +283,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
         @Override
         public String getStringValue(int index) {
-            return getValue(index, JsonString.class).getStringValue();
+            return getJsonString(index).getStringValue();
         }
 
         @Override
@@ -282,7 +297,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
         @Override
         public int getIntValue(int index) {
-            return getValue(index, JsonNumber.class).getIntValue();
+            return getJsonNumber(index).getIntValue();
         }
 
         @Override
@@ -313,6 +328,11 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
             } catch (Exception e) {
                 return defaultValue;
             }
+        }
+
+        @Override
+        public boolean isNull(int index) {
+            return valueList.get(index).equals(JsonValue.NULL);
         }
 
         @Override

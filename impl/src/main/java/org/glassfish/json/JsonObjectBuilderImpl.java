@@ -305,13 +305,28 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         }
 
         @Override
-        public <T extends JsonValue> T getValue(String name, Class<T> clazz) {
-            return clazz.cast(valueMap.get(name));
+        public JsonArray getJsonArray(String name) {
+            return (JsonArray)get(name);
+        }
+
+        @Override
+        public JsonObject getJsonObject(String name) {
+            return (JsonObject)get(name);
+        }
+
+        @Override
+        public JsonNumber getJsonNumber(String name) {
+            return (JsonNumber)get(name);
+        }
+
+        @Override
+        public JsonString getJsonString(String name) {
+            return (JsonString)get(name);
         }
 
         @Override
         public String getStringValue(String name) {
-            return getValue(name, JsonString.class).getStringValue();
+            return getJsonString(name).getStringValue();
         }
 
         @Override
@@ -325,7 +340,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
         @Override
         public int getIntValue(String name) {
-            return getValue(name, JsonNumber.class).getIntValue();
+            return getJsonNumber(name).getIntValue();
         }
 
         @Override
@@ -358,6 +373,11 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
             } catch (Exception e) {
                 return defaultValue;
             }
+        }
+
+        @Override
+        public boolean isNull(String name) {
+            return get(name).equals(JsonValue.NULL);
         }
 
         @Override

@@ -116,17 +116,52 @@ import java.util.List;
 public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
-     * Returns the value of the array at the specified position.
-     * This is a convenience method for {@code (T)get(index)}.
+     * Returns the object value at the specified position in this array.
+     * This is a convenience method for {@code (JsonObject)get(index)}.
      *
-     * @param index index of the value to return
-     * @param clazz value class
-     * @return the value of the array at the specified position
+     * @param index index of the value to be returned
+     * @return the value at the specified position in this array
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
-     * assignable to the type T
+     * assignable to the JsonObject type
      */
-    <T extends JsonValue> T getValue(int index, Class<T> clazz);
+    JsonObject getJsonObject(int index);
+
+    /**
+     * Returns the array value at the specified position in this array.
+     * This is a convenience method for {@code (JsonArray)get(index)}.
+     *
+     * @param index index of the value to be returned
+     * @return the value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to the JsonArray type
+     */
+    JsonArray getJsonArray(int index);
+
+    /**
+     * Returns the number value at the specified position in this array.
+     * This is a convenience method for {@code (JsonNumber)get(index)}.
+     *
+     * @param index index of the value to be returned
+     * @return the value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to the JsonNumber type
+     */
+    JsonNumber getJsonNumber(int index);
+
+    /**
+     * Returns the string value at ths specified position in this array.
+     * This is a convenience method for {@code (JsonString)get(index)}.
+     *
+     * @param index index of the value to be returned
+     * @return the value at the specified position in this array
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws ClassCastException if the value at the specified position is not
+     * assignable to the JsonString type
+     */
+    JsonString getJsonString(int index);
 
     /**
      * Returns a list a view of the specified type for the array. This method
@@ -143,7 +178,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(index, JsonString.class).getStringValue()}.
+     * {@code getJsonString(index).getStringValue()}.
      *
      * @param index index of the {@code JsonString} value
      * @return the String value at the specified position
@@ -167,7 +202,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(index, JsonNumber.class).getIntValue()}.
+     * {@code getJsonNumber(index).getIntValue()}.
      *
      * @param index index of the {@code JsonNumber} value
      * @return the int value at the specified position
@@ -215,5 +250,16 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * or the specified default value
      */
     boolean getBooleanValue(int index, boolean defaultValue);
+
+    /**
+     * Returns {@code true} if the value at the specified location in this
+     * array is {@code JsonValue.NULL}.
+     *
+     * @param index index of the JSON null value
+     * @return return true if the value at the specified location is
+     * {@code JsonValue.NUL}, otherwise false
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    boolean isNull(int index);
 
 }

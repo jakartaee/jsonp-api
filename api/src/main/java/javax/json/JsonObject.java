@@ -130,22 +130,60 @@ import java.util.Map;
 public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
-     * Returns the value to which the specified name is mapped.
-     * This is just a convenience method for {@code (T) get(name)} to get
-     * the value.
+     * Returns the array value to which the specified name is mapped.
+     * This is a convenience method for {@code (JsonArray)get(name)} to
+     * get the value.
      *
-     * @param name the name(key) whose associated value is to be returned
-     * @param clazz value class
-     * @return the value to which the specified name is mapped, or
-     *         {@code null} if this object contains no mapping for the name(key)
-     * @throws ClassCastException if the value for specified name/key mapping
-     * is not assignable to the type T
+     * @param name the name whose associated value is to be returned
+     * @return the array value to which the specified name is mapped, or
+     *         {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value to which the specified name
+     * is mapped is not assignable to JsonArray type
      */
-    <T extends JsonValue> T getValue(String name, Class<T> clazz);
+    JsonArray getJsonArray(String name);
+
+    /**
+     * Returns the object value to which the specified name is mapped.
+     * This is a convenience method for {@code (JsonObject)get(name)} to
+     * get the value.
+     *
+     * @param name the name whose associated value is to be returned
+     * @return the object value to which the specified name is mapped, or
+     *         {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value to which the specified name
+     * is mapped is not assignable to JsonObject type
+     */
+    JsonObject getJsonObject(String name);
+
+    /**
+     * Returns the number value to which the specified name is mapped.
+     * This is a convenience method for {@code (JsonNumber)get(name)} to
+     * get the value.
+     *
+     * @param name the name whose associated value is to be returned
+     * @return the number value to which the specified name is mapped, or
+     *         {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value to which the specified name
+     * is mapped is not assignable to JsonNumber type
+     */
+    JsonNumber getJsonNumber(String name);
+
+    /**
+     * Returns the string value to which the specified name is mapped.
+     * This is a convenience method for {@code (JsonString)get(name)} to
+     * get the value.
+     *
+     * @param name the name whose associated value is to be returned
+     * @return the string value to which the specified name is mapped, or
+     *         {@code null} if this object contains no mapping for the name
+     * @throws ClassCastException if the value to which the specified name
+     * is mapped is not assignable to JsonString type
+     */
+    JsonString getJsonString(String name);
 
     /**
      * A convenience method for
-     * {@code getValue(name, JsonString.class).getStringValue()}
+     * {@code getJsonString(name).getStringValue()}
      *
      * @param name whose associated value is to be returned as String
      * @return the String value to which the specified name is mapped
@@ -171,7 +209,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getValue(name, JsonNumber.class).getIntValue()}
+     * {@code getJsonNumber(name).getIntValue()}
      *
      * @param name whose associated value is to be returned as int
      * @return the int value to which the specified name is mapped
@@ -221,5 +259,17 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * or the default value
      */
     boolean getBooleanValue(String name, boolean defaultValue);
+
+    /**
+     * Returns {@code true} if the associated value for the specified name is
+     * {@code JsonValue.NULL}.
+     *
+     * @param name name whose associated value is checked
+     * @return return true if the associated value is {@code JsonValue.NUL},
+     * otherwise false
+     * @throws NullPointerException if the specified name doesn't have any
+     * mapping
+     */
+    boolean isNull(String name);
 
 }
