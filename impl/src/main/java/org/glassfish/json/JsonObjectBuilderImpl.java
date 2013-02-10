@@ -325,35 +325,35 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         }
 
         @Override
-        public String getStringValue(String name) {
-            return getJsonString(name).getStringValue();
+        public String getString(String name) {
+            return getJsonString(name).getString();
         }
 
         @Override
-        public String getStringValue(String name, String defaultValue) {
+        public String getString(String name, String defaultValue) {
             try {
-                return getStringValue(name);
+                return getString(name);
             } catch (Exception e) {
                 return defaultValue;
             }
         }
 
         @Override
-        public int getIntValue(String name) {
-            return getJsonNumber(name).getIntValue();
+        public int getInt(String name) {
+            return getJsonNumber(name).intValue();
         }
 
         @Override
-        public int getIntValue(String name, int defaultValue) {
+        public int getInt(String name, int defaultValue) {
             try {
-                return getIntValue(name);
+                return getInt(name);
             } catch (Exception e) {
                 return defaultValue;
             }
         }
 
         @Override
-        public boolean getBooleanValue(String name) {
+        public boolean getBoolean(String name) {
             JsonValue value = get(name);
             if (value == null) {
                 throw new NullPointerException();
@@ -367,9 +367,9 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         }
 
         @Override
-        public boolean getBooleanValue(String name, boolean defaultValue) {
+        public boolean getBoolean(String name, boolean defaultValue) {
             try {
-                return getBooleanValue(name);
+                return getBoolean(name);
             } catch (Exception e) {
                 return defaultValue;
             }

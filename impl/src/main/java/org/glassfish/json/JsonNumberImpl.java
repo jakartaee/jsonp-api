@@ -35,42 +35,42 @@ final class JsonNumberImpl implements JsonNumber {
     }
 
     @Override
-    public int getIntValue() {
+    public int intValue() {
         return bigDecimal.intValue();
     }
 
     @Override
-    public int getIntValueExact() {
+    public int intValueExact() {
         return bigDecimal.intValueExact();
     }
 
     @Override
-    public long getLongValue() {
+    public long longValue() {
         return bigDecimal.longValue();
     }
 
     @Override
-    public long getLongValueExact() {
+    public long longValueExact() {
         return bigDecimal.longValueExact();
     }
 
     @Override
-    public BigInteger getBigIntegerValue() {
+    public BigInteger bigIntegerValue() {
         return bigDecimal.toBigInteger();
     }
 
     @Override
-    public BigInteger getBigIntegerValueExact() {
+    public BigInteger bigIntegerValueExact() {
         return bigDecimal.toBigIntegerExact();
     }
 
     @Override
-    public double getDoubleValue() {
+    public double doubleValue() {
         return bigDecimal.doubleValue();
     }
 
     @Override
-    public BigDecimal getBigDecimalValue() {
+    public BigDecimal bigDecimalValue() {
         return bigDecimal;
     }
 
@@ -81,7 +81,7 @@ final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public int hashCode() {
-        return getBigDecimalValue().hashCode();
+        return bigDecimalValue().hashCode();
     }
 
     @Override
@@ -90,7 +90,7 @@ final class JsonNumberImpl implements JsonNumber {
             return false;
         }
         JsonNumber other = (JsonNumber)obj;
-        return getBigDecimalValue().equals(other.getBigDecimalValue());
+        return bigDecimalValue().equals(other.bigDecimalValue());
     }
 
     @Override

@@ -52,7 +52,7 @@ public interface JsonString extends JsonValue {
      *
      * @return a JSON string value
      */
-    String getStringValue();
+    String getString();
 
 
     /**
@@ -65,7 +65,7 @@ public interface JsonString extends JsonValue {
     /**
      * Compares the specified object with this {@code JsonString} for equality.
      * Returns {@code true} if and only if the specified object is also a
-     * {@code JsonString}, and their {@link #getStringValue()} objects are
+     * {@code JsonString}, and their {@link #getString()} objects are
      * <i>equal</i>.
      *
      * @param obj the object to be compared for equality with this 
@@ -79,7 +79,7 @@ public interface JsonString extends JsonValue {
     /**
      * Returns the hash code value for this {@code JsonString} object.  
      * The hash code of a {@code JsonString} object is defined to be its 
-     * {@link #getStringValue()} object's hash code.
+     * {@link #getString()} object's hash code.
      *
      * @return the hash code value for this {@code JsonString} object
      */

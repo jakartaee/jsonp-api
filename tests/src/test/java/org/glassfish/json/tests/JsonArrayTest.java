@@ -84,14 +84,14 @@ public class JsonArrayTest extends TestCase {
         JsonArray array = Json.createArrayBuilder()
                 .add("John")
                 .build();
-        assertEquals("John", array.getStringValue(0));
+        assertEquals("John", array.getString(0));
     }
 
     public void testIntValue() throws Exception {
         JsonArray array = Json.createArrayBuilder()
                 .add(20)
                 .build();
-        assertEquals(20, array.getIntValue(0));
+        assertEquals(20, array.getInt(0));
     }
 
     public void testAdd() {
@@ -119,11 +119,11 @@ public class JsonArrayTest extends TestCase {
 
         List<JsonNumber> numberList = array.getValuesAs(JsonNumber.class);
         for(JsonNumber num : numberList) {
-            num.getIntValue();
+            num.intValue();
         }
 
-        assertEquals(20, array.getIntValue(0));
-        assertEquals(10, array.getIntValue(1));
+        assertEquals(20, array.getInt(0));
+        assertEquals(10, array.getInt(1));
     }
 
 }

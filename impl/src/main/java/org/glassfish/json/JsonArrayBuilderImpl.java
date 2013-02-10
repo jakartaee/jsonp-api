@@ -282,35 +282,35 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         }
 
         @Override
-        public String getStringValue(int index) {
-            return getJsonString(index).getStringValue();
+        public String getString(int index) {
+            return getJsonString(index).getString();
         }
 
         @Override
-        public String getStringValue(int index, String defaultValue) {
+        public String getString(int index, String defaultValue) {
             try {
-                return getStringValue(index);
+                return getString(index);
             } catch (Exception e) {
                 return defaultValue;
             }
         }
 
         @Override
-        public int getIntValue(int index) {
-            return getJsonNumber(index).getIntValue();
+        public int getInt(int index) {
+            return getJsonNumber(index).intValue();
         }
 
         @Override
-        public int getIntValue(int index, int defaultValue) {
+        public int getInt(int index, int defaultValue) {
             try {
-                return getIntValue(index);
+                return getInt(index);
             } catch (Exception e) {
                 return defaultValue;
             }
         }
 
         @Override
-        public boolean getBooleanValue(int index) {
+        public boolean getBoolean(int index) {
             JsonValue jsonValue = get(index);
             if (jsonValue == JsonValue.TRUE) {
                 return true;
@@ -322,9 +322,9 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         }
 
         @Override
-        public boolean getBooleanValue(int index, boolean defaultValue) {
+        public boolean getBoolean(int index, boolean defaultValue) {
             try {
-                return getBooleanValue(index);
+                return getBoolean(index);
             } catch (Exception e) {
                 return defaultValue;
             }

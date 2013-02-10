@@ -269,7 +269,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 break;
             case STRING:
                 JsonString str = (JsonString)value;
-                write(str.getStringValue());
+                write(str.getString());
                 break;
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;
@@ -352,7 +352,7 @@ public class JsonGeneratorImpl implements JsonGenerator {
                 break;
             case STRING:
                 JsonString str = (JsonString)value;
-                write(name, str.getStringValue());
+                write(name, str.getString());
                 break;
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;

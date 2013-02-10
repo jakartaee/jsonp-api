@@ -174,8 +174,8 @@ public interface JsonParser extends /*Auto*/Closeable {
          * Number value in a JSON array or object. The position of the parser is
          * after the number value. {@code JsonParser} provides the following
          * methods to access the number value: {@link #getNumberType},
-         * {@link #getIntValue}, {@link #getLongValue}, and 
-         * {@link #getBigDecimalValue}.
+         * {@link #getInt}, {@link #getLong}, and
+         * {@link #getBigDecimal}.
          */
         VALUE_NUMBER,
         /**
@@ -257,9 +257,9 @@ public interface JsonParser extends /*Auto*/Closeable {
      * <code>
      * switch(getNumberType()) {
      *     case INTEGER :
-     *         long l = getLongValue(); break;
+     *         long l = getLong(); break;
      *     case DECIMAL :
-     *         BigDecimal bd = getBigDecimalValue(); break;
+     *         BigDecimal bd = getBigDecimal(); break;
      * }
      * </code>
      * </pre>
@@ -283,7 +283,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *      {@code VALUE_NUMBER}
      * @see java.math.BigDecimal#intValue()
      */
-    int getIntValue();
+    int getInt();
 
     /**
      * Returns a JSON number as a long. The returned value is equal
@@ -298,7 +298,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *      {@code VALUE_NUMBER}
      * @see java.math.BigDecimal#longValue()
      */
-    long getLongValue();
+    long getLong();
 
     /**
      * Returns a JSON number as a {@code BigDecimal}. The {@code BigDecimal}
@@ -310,7 +310,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws IllegalStateException when the parser state is not
      *      {@code VALUE_NUMBER}
      */
-    BigDecimal getBigDecimalValue();
+    BigDecimal getBigDecimal();
 
     /**
      * Return the location that corresponds to the parser's current state in

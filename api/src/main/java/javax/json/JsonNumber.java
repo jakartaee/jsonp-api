@@ -100,9 +100,9 @@ public interface JsonNumber extends JsonValue {
      * <code>
      * switch(getNumberType()) {
      *     case INTEGER :
-     *         long l = getLongValue(); break;
+     *         long l = longValue(); break;
      *     case DECIMAL :
-     *         BigDecimal bd = getBigDecimalValue(); break;
+     *         BigDecimal bd = bigDecimalValue(); break;
      * }
      * </code>
      * </pre>
@@ -119,7 +119,7 @@ public interface JsonNumber extends JsonValue {
      * @return an {@code int} representation of the JSON number
      * @see java.math.BigDecimal#intValue()
      */
-    int getIntValue();
+    int intValue();
 
     /**
      * Returns this JSON number as an {@code int}.
@@ -129,7 +129,7 @@ public interface JsonNumber extends JsonValue {
      *         part or if it does not fit in an {@code int}
      * @see java.math.BigDecimal#intValueExact()
      */
-    int getIntValueExact();
+    int intValueExact();
 
     /**
      * Returns this JSON number as a {@code long}. Note that this conversion
@@ -139,7 +139,7 @@ public interface JsonNumber extends JsonValue {
      * @return a {@code long} representation of the JSON number.
      * @see java.math.BigDecimal#longValue()
      */
-    long getLongValue();
+    long longValue();
 
     /**
      * Returns this JSON number as a {@code long}.
@@ -149,11 +149,11 @@ public interface JsonNumber extends JsonValue {
      *         part or if it does not fit in a {@code long}
      * @see java.math.BigDecimal#longValueExact()
      */
-    long  getLongValueExact();
+    long longValueExact();
 
     /**
      * Returns this JSON number as a {@link BigInteger} object. This is a
-     * a convenience method for {@code getBigDecimalValue().toBigInteger()}.
+     * a convenience method for {@code bigDecimalValue().toBigInteger()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
      * with the opposite sign.
@@ -161,21 +161,21 @@ public interface JsonNumber extends JsonValue {
      * @return a {@code BigInteger} representation of the JSON number.
      * @see java.math.BigDecimal#toBigInteger()
      */
-    BigInteger getBigIntegerValue();
+    BigInteger bigIntegerValue();
 
     /**
      * Returns this JSON number as a {@link BigDecimal} object. This is a
-     * convenience method for {@code getBigDecimalValue().toBigIntegerExact()}.
+     * convenience method for {@code bigDecimalValue().toBigIntegerExact()}.
      *
      * @return a {@link BigInteger} representation of the JSON number
      * @throws ArithmeticException if the number has a nonzero fractional part
      * @see java.math.BigDecimal#toBigIntegerExact()
      */
-    BigInteger getBigIntegerValueExact();
+    BigInteger bigIntegerValueExact();
 
     /**
      * Returns this JSON number as a {@code double}. This is a
-     * a convenience method for {@code getBigDecimalValue().doubleValue()}.
+     * a convenience method for {@code bigDecimalValue().doubleValue()}.
      * Note that this conversion can lose information about the overall
      * magnitude and precision of the number value as well as return a result
      * with the opposite sign.
@@ -183,14 +183,14 @@ public interface JsonNumber extends JsonValue {
      * @return a {@code double} representation of the JSON number
      * @see java.math.BigDecimal#doubleValue()
      */
-    double getDoubleValue();
+    double doubleValue();
 
     /**
      * Returns this JSON number as a {@link BigDecimal} object.
      *
      * @return a {@link BigDecimal} representation of the JSON number
      */
-    BigDecimal getBigDecimalValue();
+    BigDecimal bigDecimalValue();
 
     /**
      * Returns a JSON text representation of the JSON number. The
@@ -204,7 +204,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * Compares the specified object with this {@code JsonNumber} object for
      * equality. Returns {@code true} if and only if the type of the specified
-     * object is also {@code JsonNumber} and their {@link #getBigDecimalValue()}
+     * object is also {@code JsonNumber} and their {@link #bigDecimalValue()}
      * objects are <i>equal</i>
      *
      * @param obj the object to be compared for equality with 
@@ -218,7 +218,7 @@ public interface JsonNumber extends JsonValue {
     /**
      * Returns the hash code value for this {@code JsonNumber} object.  The
      * hash code of a {@code JsonNumber} object is defined as the hash code of
-     * its {@link #getBigDecimalValue()} object.
+     * its {@link #bigDecimalValue()} object.
      *
      * @return the hash code value for this {@code JsonNumber} object
      */

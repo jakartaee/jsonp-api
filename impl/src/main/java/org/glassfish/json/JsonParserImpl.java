@@ -105,7 +105,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
-    public int getIntValue() {
+    public int getInt() {
         if (currentEvent != Event.VALUE_NUMBER) {
             throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
                     "VALUE_NUMBER parser state. "+
@@ -115,7 +115,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
-    public long getLongValue() {
+    public long getLong() {
         if (currentEvent != Event.VALUE_NUMBER) {
             throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
                     "VALUE_NUMBER parser state. "+
@@ -125,7 +125,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
-    public BigDecimal getBigDecimalValue() {
+    public BigDecimal getBigDecimal() {
         if (currentEvent != Event.VALUE_NUMBER) {
             throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
                     "VALUE_NUMBER parser state. "+

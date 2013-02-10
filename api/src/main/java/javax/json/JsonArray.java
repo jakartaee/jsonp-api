@@ -102,8 +102,8 @@ import java.util.List;
  * <p>The following example shows how to obtain the home phone number 
  * "212 555-1234" from the array built in the previous example:
  * <pre><code>
- * JsonObject home = array.getValue(0, JsonObject.class);
- * String number = home.getStringValue("number");
+ * JsonObject home = array.getJsonObject(0);
+ * String number = home.getString("number");
  * </code></pre>
  *
  * <p>{@code JsonArray} instances are list objects that provide read-only 
@@ -178,7 +178,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getJsonString(index).getStringValue()}.
+     * {@code getJsonString(index).getString()}.
      *
      * @param index index of the {@code JsonString} value
      * @return the String value at the specified position
@@ -186,23 +186,23 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to {@code JsonString}
      */
-    String getStringValue(int index);
+    String getString(int index);
 
     /**
      * Returns the {@code String} value of {@code JsonString} at the specified
      * position in this JSON array values. If {@code JsonString} is found,
-     * its {@link javax.json.JsonString#getStringValue()} is returned. Otherwise,
+     * its {@link javax.json.JsonString#getString()} is returned. Otherwise,
      * the specified default value is returned.
      *
      * @param index index of the JsonString value
      * @return the String value at the specified position in this array,
      * or the specified default value
      */
-    String getStringValue(int index, String defaultValue);
+    String getString(int index, String defaultValue);
 
     /**
      * A convenience method for
-     * {@code getJsonNumber(index).getIntValue()}.
+     * {@code getJsonNumber(index).intValue()}.
      *
      * @param index index of the {@code JsonNumber} value
      * @return the int value at the specified position
@@ -210,19 +210,19 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to {@code JsonNumber}
      */
-    int getIntValue(int index);
+    int getInt(int index);
 
     /**
      * Returns the int value of the {@code JsonNumber} at the specified position. 
      * If the value at that position is a {@code JsonNumber},
-     * this method returns {@link javax.json.JsonNumber#getIntValue()}. Otherwise
+     * this method returns {@link javax.json.JsonNumber#intValue()}. Otherwise
      * this method returns the specified default value.
      *
      * @param index index of the {@code JsonNumber} value
      * @return the int value at the specified position in this array,
      * or the specified default value
      */
-    int getIntValue(int index, int defaultValue);
+    int getInt(int index, int defaultValue);
 
     /**
      * Returns the boolean value at the specified position.
@@ -236,7 +236,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * @throws ClassCastException if the value at the specified position is not
      * assignable to {@code JsonValue.TRUE} or {@code JsonValue.FALSE}
      */
-    boolean getBooleanValue(int index);
+    boolean getBoolean(int index);
 
     /**
      * Returns the boolean value at the specified position.
@@ -249,7 +249,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * @return the boolean value at the specified position,
      * or the specified default value
      */
-    boolean getBooleanValue(int index, boolean defaultValue);
+    boolean getBoolean(int index, boolean defaultValue);
 
     /**
      * Returns {@code true} if the value at the specified location in this

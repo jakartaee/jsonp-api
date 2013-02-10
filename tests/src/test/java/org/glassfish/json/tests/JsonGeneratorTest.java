@@ -179,7 +179,7 @@ public class JsonGeneratorTest extends TestCase {
 
         JsonReader jr = Json.createReader(new StringReader(sw.toString()));
         JsonArray array = jr.readArray();
-        String got = array.getStringValue(0);
+        String got = array.getString(0);
         jr.close();
 
         assertEquals(expected, got);

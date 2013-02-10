@@ -421,9 +421,9 @@ public class JsonParserTest extends TestCase {
 
         event = parser.next();
         assertEquals(Event.VALUE_NUMBER, event);
-        assertEquals(25, parser.getIntValue());
-        assertEquals(25, parser.getLongValue());
-        assertEquals(25, parser.getBigDecimalValue().intValue());
+        assertEquals(25, parser.getInt());
+        assertEquals(25, parser.getLong());
+        assertEquals(25, parser.getBigDecimal().intValue());
         assertEquals(JsonNumber.NumberType.INTEGER, parser.getNumberType());
 
         event = parser.next();
@@ -541,22 +541,22 @@ public class JsonParserTest extends TestCase {
         }
 
         try {
-            parser.getIntValue();
-            fail("JsonParser#getIntValue() should have thrown exception in START_OBJECT state");
+            parser.getInt();
+            fail("JsonParser#getInt() should have thrown exception in START_OBJECT state");
         } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
-            parser.getLongValue();
-            fail("JsonParser#getLongValue() should have thrown exception in START_OBJECT state");
+            parser.getLong();
+            fail("JsonParser#getLong() should have thrown exception in START_OBJECT state");
         } catch (IllegalStateException expected) {
             // no-op
         }
 
         try {
-            parser.getBigDecimalValue();
-            fail("JsonParser#getBigDecimalValue() should have thrown exception in START_OBJECT state");
+            parser.getBigDecimal();
+            fail("JsonParser#getBigDecimal() should have thrown exception in START_OBJECT state");
         } catch (IllegalStateException expected) {
             // no-op
         }

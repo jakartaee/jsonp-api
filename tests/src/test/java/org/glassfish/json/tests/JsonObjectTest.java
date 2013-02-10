@@ -74,31 +74,31 @@ public class JsonObjectTest extends TestCase {
 
     static void testPerson(JsonObject person) {
         assertEquals(5, person.size());
-        assertEquals("John", person.getStringValue("firstName"));
-        assertEquals("Smith", person.getStringValue("lastName"));
-        assertEquals(25, person.getJsonNumber("age").getIntValue());
-        assertEquals(25, person.getIntValue("age"));
+        assertEquals("John", person.getString("firstName"));
+        assertEquals("Smith", person.getString("lastName"));
+        assertEquals(25, person.getJsonNumber("age").intValue());
+        assertEquals(25, person.getInt("age"));
 
         JsonObject address = person.getJsonObject("address");
         assertEquals(4, address.size());
-        assertEquals("21 2nd Street", address.getStringValue("streetAddress"));
-        assertEquals("New York", address.getStringValue("city"));
-        assertEquals("NY", address.getStringValue("state"));
-        assertEquals("10021", address.getStringValue("postalCode"));
+        assertEquals("21 2nd Street", address.getString("streetAddress"));
+        assertEquals("New York", address.getString("city"));
+        assertEquals("NY", address.getString("state"));
+        assertEquals("10021", address.getString("postalCode"));
 
         JsonArray phoneNumber = person.getJsonArray("phoneNumber");
         assertEquals(2, phoneNumber.size());
         JsonObject home = phoneNumber.getJsonObject(0);
         assertEquals(2, home.size());
-        assertEquals("home", home.getStringValue("type"));
-        assertEquals("212 555-1234", home.getStringValue("number"));
-        assertEquals("212 555-1234", home.getStringValue("number"));
+        assertEquals("home", home.getString("type"));
+        assertEquals("212 555-1234", home.getString("number"));
+        assertEquals("212 555-1234", home.getString("number"));
 
         JsonObject fax = phoneNumber.getJsonObject(1);
         assertEquals(2, fax.size());
-        assertEquals("fax", fax.getStringValue("type"));
-        assertEquals("646 555-4567", fax.getStringValue("number"));
-        assertEquals("646 555-4567", fax.getStringValue("number"));
+        assertEquals("fax", fax.getString("type"));
+        assertEquals("646 555-4567", fax.getString("number"));
+        assertEquals("646 555-4567", fax.getString("number"));
     }
 
     static void testEmpty(JsonObject empty) {

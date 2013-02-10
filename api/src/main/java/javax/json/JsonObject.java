@@ -114,7 +114,7 @@ import java.util.Map;
  *
  * <p>In the above example 2, "John" can be got using
  * <pre><code>
- * String firstName = object.getStringValue("firstName");
+ * String firstName = object.getString("firstName");
  * </code></pre>
  *
  * This map object provides read-only access to the JSON object data,
@@ -183,7 +183,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
      * A convenience method for
-     * {@code getJsonString(name).getStringValue()}
+     * {@code getJsonString(name).getString()}
      *
      * @param name whose associated value is to be returned as String
      * @return the String value to which the specified name is mapped
@@ -192,12 +192,12 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonString
      */
-    String getStringValue(String name);
+    String getString(String name);
 
     /**
      * Returns the string value of the associated {@code JsonString} mapping
      * for the specified name. If {@code JsonString} is found, then its
-     * {@link javax.json.JsonString#getStringValue()} is returned. Otherwise,
+     * {@link javax.json.JsonString#getString()} is returned. Otherwise,
      * the specified default value is returned.
      *
      * @param name whose associated value is to be returned as String
@@ -205,11 +205,11 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @return the string value of the associated mapping for the name,
      * or the default value
      */
-    String getStringValue(String name, String defaultValue);
+    String getString(String name, String defaultValue);
 
     /**
      * A convenience method for
-     * {@code getJsonNumber(name).getIntValue()}
+     * {@code getJsonNumber(name).intValue()}
      *
      * @param name whose associated value is to be returned as int
      * @return the int value to which the specified name is mapped
@@ -218,12 +218,12 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonNumber
      */
-    int getIntValue(String name);
+    int getInt(String name);
 
     /**
      * Returns the int value of the associated {@code JsonNumber} mapping
      * for the specified name. If {@code JsonNumber} is found, then its
-     * {@link javax.json.JsonNumber#getIntValue()} is returned. Otherwise,
+     * {@link javax.json.JsonNumber#intValue()} is returned. Otherwise,
      * the specified default value is returned.
      *
      * @param name whose associated value is to be returned as int
@@ -231,7 +231,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @return the int value of the associated mapping for the name,
      * or the default value
      */
-    int getIntValue(String name, int defaultValue);
+    int getInt(String name, int defaultValue);
 
     /**
      * Returns the boolean value of the associated mapping for the specified
@@ -245,7 +245,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @throws ClassCastException if the value for specified name mapping
      * is not assignable to JsonValue.TRUE or JsonValue.FALSE
      */
-    boolean getBooleanValue(String name);
+    boolean getBoolean(String name);
 
     /**
      * Returns the boolean value of the associated mapping for the specified
@@ -258,7 +258,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * @return the boolean value of the associated mapping for the name,
      * or the default value
      */
-    boolean getBooleanValue(String name, boolean defaultValue);
+    boolean getBoolean(String name, boolean defaultValue);
 
     /**
      * Returns {@code true} if the associated value for the specified name is

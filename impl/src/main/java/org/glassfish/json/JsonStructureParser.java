@@ -70,7 +70,7 @@ class JsonStructureParser implements JsonParser {
         if (state == Event.KEY_NAME) {
             return ((ObjectScope)current).key;
         } else if (state == Event.VALUE_STRING) {
-            return ((JsonString)current.getJsonValue()).getStringValue();
+            return ((JsonString)current.getJsonValue()).getString();
         }
         throw new IllegalStateException("JsonParser#getString() can only be called in"
                 + " KEY_NAME or VALUE_STRING states, not in "+state);
@@ -86,29 +86,29 @@ class JsonStructureParser implements JsonParser {
     }
 
     @Override
-    public int getIntValue() {
+    public int getInt() {
         if (state == Event.VALUE_NUMBER) {
-            return ((JsonNumber)current.getJsonValue()).getIntValue();
+            return ((JsonNumber)current.getJsonValue()).intValue();
         }
-        throw new IllegalStateException("JsonParser#getIntValue() can only be called in"
+        throw new IllegalStateException("JsonParser#getInt() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
     }
 
     @Override
-    public long getLongValue() {
+    public long getLong() {
         if (state == Event.VALUE_NUMBER) {
-            return ((JsonNumber)current.getJsonValue()).getLongValue();
+            return ((JsonNumber)current.getJsonValue()).longValue();
         }
-        throw new IllegalStateException("JsonParser#getLongValue() can only be called in"
+        throw new IllegalStateException("JsonParser#getLong() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
     }
 
     @Override
-    public BigDecimal getBigDecimalValue() {
+    public BigDecimal getBigDecimal() {
         if (state == Event.VALUE_NUMBER) {
-            return ((JsonNumber)current.getJsonValue()).getBigDecimalValue();
+            return ((JsonNumber)current.getJsonValue()).bigDecimalValue();
         }
-        throw new IllegalStateException("JsonParser#getBigDecimalValue() can only be called in"
+        throw new IllegalStateException("JsonParser#getBigDecimal() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
     }
 
