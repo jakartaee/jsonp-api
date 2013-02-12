@@ -50,7 +50,20 @@ import java.math.BigInteger;
  * The methods in this class can be chained to add multiple name/value pairs
  * to the object.
  *
- * <p>
+ * <p>The class {@link javax.json.Json} contains methods to create the builder
+ * object. The example code below shows how to build an empty {@code JsonObject}
+ * instance.
+ * <pre>
+ * <code>
+ * JsonObject object = Json.createObjectBuilder().build();
+ * </code>
+ * </pre>
+ *
+ * <p>The class {@link JsonBuilderFactory} also contains methods to create
+ * {@code JsonObjectBuilder} instances. A factory instance can be used to create
+ * multiple builder instances with the same configuration. This the preferred
+ * way to create multiple instances.
+ *
  * <a id="JsonObjectBuilderExample1"/>
  * The example code below shows how to build a {@code JsonObject} model that
  * represents the following JSON object:
@@ -77,20 +90,21 @@ import java.math.BigInteger;
  *
  * <pre>
  * <code>
- * JsonObject value = Json.createObjectBuilder()
+ * JsonBuilderFactory factory = Json.createBuilderFactory(config);
+ * JsonObject value = factory.createObjectBuilder()
  *     .add("firstName", "John")
  *     .add("lastName", "Smith")
  *     .add("age", 25)
- *     .add("address", Json.createObjectBuilder()
+ *     .add("address", factory.createObjectBuilder()
  *         .add("streetAddress", "21 2nd Street")
  *         .add("city", "New York")
  *         .add("state", "NY")
  *         .add("postalCode", "10021"))
- *     .add("phoneNumber", Json.createArrayBuilder()
- *         .add(Json.createObjectBuilder()
+ *     .add("phoneNumber", factory.createArrayBuilder()
+ *         .add(factory.createObjectBuilder()
  *             .add("type", "home")
  *             .add("number", "212 555-1234"))
- *         .add(Json.createObjectBuilder()
+ *         .add(factory.createObjectBuilder()
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();

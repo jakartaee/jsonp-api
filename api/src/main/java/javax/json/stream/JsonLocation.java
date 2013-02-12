@@ -49,8 +49,8 @@ package javax.json.stream;
  * example, a provider may only report line numbers. Also, there may not be any
  * location information for an input source. For example, if a
  * {@code JsonParser} is created using
- * {@link JsonParserFactory#createParser(javax.json.JsonArray)}, all the
- * methods in this class return -1.
+ * {@link javax.json.JsonArray JsonArray} input source, all the methods in
+ * this class return -1.
  *
  * @author Jitendra Kotamraju
  * @see JsonParser

@@ -49,7 +49,20 @@ import java.math.BigInteger;
  * values to the array model and to return the resulting array. The methods
  * in this class can be chained to add multiple values to the array.
  *
- * <p>
+ * <p>The class {@link javax.json.Json} contains methods to create the builder
+ * object. The example code below shows how to build an empty {@code JsonArray}
+ * instance.
+ * <pre>
+ * <code>
+ * JsonArray array = Json.createArrayBuilder().build();
+ * </code>
+ * </pre>
+ *
+ * <p>The class {@link JsonBuilderFactory} also contains methods to create
+ * {@code JsonArrayBuilder} instances. A factory instance can be used to create
+ * multiple builder instances with the same configuration. This the preferred
+ * way to create multiple instances.
+ *
  * <a id="JsonArrayBuilderExample1"/>
  * The example code below shows how to build a {@code JsonArray} object
  * that represents the following JSON array:
@@ -67,11 +80,12 @@ import java.math.BigInteger;
  *
  * <pre>
  * <code>
- * JsonArray value = Json.createArrayBuilder()
- *     .add(Json.createObjectBuilder()
+ * JsonBuilderFactory factory = Json.createBuilderFactory(config);
+ * JsonArray value = factory.createArrayBuilder()
+ *     .add(factory.createObjectBuilder()
  *         .add("type", "home")
  *         .add("number", "212 555-1234"))
- *     .add(Json.createObjectBuilder()
+ *     .add(factory.createObjectBuilder()
  *         .add("type", "fax")
  *         .add("number", "646 555-4567"))
  *     .build();
