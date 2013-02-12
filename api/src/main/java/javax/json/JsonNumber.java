@@ -63,53 +63,26 @@ import java.math.BigInteger;
 public interface JsonNumber extends JsonValue {
 
     /**
-     * JSON number type that indicates whether a number is an integer or a 
-     * decimal.
-     */
-    enum NumberType {
-        /**
-         * Represents an integer number.
-         * The value can be accessed as {@code int}, {@code long}, 
-         * or {@code BigInteger} using
-         * different {@code JsonNumber} accessor methods.
-         */
-        INTEGER,
-
-        /**
-         * Represents a decimal number. The value can
-         * be accessed as {@code double} or {@code BigDecimal} using different 
-         * {@code JsonNumber} accessor methods.
-         */
-        DECIMAL
-    }
-
-    /**
-     * Returns a JSON number type for this number.
-     * Implementations may use a {@link BigDecimal} object to store the numeric 
-     * value internally. The method semantics are defined using
-     * {@link BigDecimal#scale()}.
-     * If the scale of a value is zero its number type is
-     * {@link NumberType#INTEGER INTEGER}, otherwise its number type is
-     * {@link NumberType#DECIMAL DECIMAL}.
-     *
-     * <p>
-     * The number type can be used to invoke the appropriate accessor method to 
+     * Returns true if this JSON number is a integral number. This method
+     * semantics are defined using {@code bigDecimalValue().scale()}. If the
+     * scale is zero, then it is considered integral type. This integral type
+     * information can be used to invoke an appropriate accessor method to
      * obtain a numeric value as in the following example:
      *
      * <pre>
      * <code>
-     * switch(getNumberType()) {
-     *     case INTEGER :
-     *         long l = longValue(); break;
-     *     case DECIMAL :
-     *         BigDecimal bd = bigDecimalValue(); break;
+     * JsonNumber num = ...
+     * if (num.isIntegral()) {
+     *     num.longValue();     // or other methods to get integral value
+     * } else {
+     *     num.doubleValue();   // or other methods to get decimal number value
      * }
      * </code>
      * </pre>
      *
-     * @return a number type
+     * @return true if this number is a integral number, otherwise false
      */
-    NumberType getNumberType();
+    boolean isIntegral();
 
     /**
      * Returns this JSON number as an {@code int}. Note that this conversion

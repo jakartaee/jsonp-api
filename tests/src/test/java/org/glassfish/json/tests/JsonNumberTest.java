@@ -84,7 +84,7 @@ public class JsonNumberTest extends TestCase {
                 .add(12l)
                 .add(new BigInteger("0"))
                 .build();
-        testNumberType(array1, JsonNumber.NumberType.INTEGER);
+        testNumberType(array1, true);
 
         StringReader sr = new StringReader("[" +
                 "-2147483648, " +
@@ -98,14 +98,14 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.NumberType.INTEGER);
+        testNumberType(array2, true);
 
         assertEquals(array1, array2);
     }
 
-    private void testNumberType(JsonArray array, JsonNumber.NumberType numberType) {
+    private void testNumberType(JsonArray array, boolean integral) {
         for (JsonValue value : array) {
-            assertEquals(numberType, ((JsonNumber) value).getNumberType());
+            assertEquals(integral, ((JsonNumber) value).isIntegral());
         }
     }
 
@@ -118,7 +118,7 @@ public class JsonNumberTest extends TestCase {
                 .add((long) Integer.MIN_VALUE - 1)
                 .add((long) Integer.MAX_VALUE + 1)
                 .build();
-        testNumberType(array1, JsonNumber.NumberType.INTEGER);
+        testNumberType(array1, true);
 
         StringReader sr = new StringReader("[" +
                 "-9223372036854775808, " +
@@ -131,7 +131,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.NumberType.INTEGER);
+        testNumberType(array2, true);
 
         assertEquals(array1, array2);
     }
@@ -168,7 +168,7 @@ public class JsonNumberTest extends TestCase {
                 .add(Double.MIN_VALUE)
                 .add(Double.MAX_VALUE)
                 .build();
-        testNumberType(array1, JsonNumber.NumberType.DECIMAL);
+        testNumberType(array1, false);
 
         StringReader sr = new StringReader("[" +
                 "12.0, " +
@@ -180,7 +180,7 @@ public class JsonNumberTest extends TestCase {
         JsonReader reader = Json.createReader(sr);
         JsonArray array2 = reader.readArray();
         reader.close();
-        testNumberType(array2, JsonNumber.NumberType.DECIMAL);
+        testNumberType(array2, false);
 
         assertEquals(array1, array2);
     }

@@ -242,33 +242,30 @@ public interface JsonParser extends /*Auto*/Closeable {
     String getString();
 
     /**
-     * Returns a JSON number type for a number value.
-     * A {@link BigDecimal} may be used to store the value internally.
-     * The semantics of this method are defined using {@link BigDecimal#scale()}.
-     * If the scale of a value is zero, then its number type is
-     * {@link javax.json.JsonNumber.NumberType#INTEGER INTEGER}, otherwise
-     * its number type is
-     * {@link javax.json.JsonNumber.NumberType#DECIMAL DECIMAL}.
+     * Returns true if the JSON number at the current parser state is a
+     * integral number. A {@link BigDecimal} may be used to store the value
+     * internally and this method semantics are defined using its
+     * {@code scale()}. If the scale is zero, then it is considered integral
+     * type. This integral type information can be used to invoke an
+     * appropriate accessor method to obtain a numeric value as in the
+     * following example:
      *
-     * <p>
-     * The number type enables invoking the appropiate accesor method to obtain
-     * the correct value, as shown in the following example:
      * <pre>
      * <code>
-     * switch(getNumberType()) {
-     *     case INTEGER :
-     *         long l = getLong(); break;
-     *     case DECIMAL :
-     *         BigDecimal bd = getBigDecimal(); break;
+     * JsonParser parser = ...
+     * if (parser.isIntegralNumber()) {
+     *     parser.getInt();     // or other methods to get integral value
+     * } else {
+     *     parser.getBigDecimal();
      * }
      * </code>
      * </pre>
      *
-     * @return a number type
+     * @return true if this number is a integral number, otherwise false
      * @throws IllegalStateException when the parser state is not
      *      {@code VALUE_NUMBER}
      */
-    JsonNumber.NumberType getNumberType();
+    boolean isIntegralNumber();
 
     /**
      * Returns a JSON number as an integer. The returned value is equal

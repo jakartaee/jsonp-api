@@ -30,8 +30,8 @@ final class JsonNumberImpl implements JsonNumber {
     }
 
     @Override
-    public NumberType getNumberType() {
-        return bigDecimal.scale() == 0 ? NumberType.INTEGER : NumberType.DECIMAL;
+    public boolean isIntegral() {
+        return bigDecimal.scale() == 0;
     }
 
     @Override

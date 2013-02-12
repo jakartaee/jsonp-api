@@ -94,14 +94,15 @@ public class JsonParserImpl implements JsonParser {
                 "But current parser state is "+currentEvent);
     }
 
-    public JsonNumber.NumberType getNumberType() {
+    @Override
+    public boolean isIntegralNumber() {
         if (currentEvent != Event.VALUE_NUMBER) {
-            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
-                "VALUE_NUMBER parser state. "+
-                "But current parser state is "+currentEvent);
+            throw new IllegalStateException("JsonParser#isIntegralNumber() is valid only "+
+                    "VALUE_NUMBER parser state. "+
+                    "But current parser state is "+currentEvent);
         }
         BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
-        return bigDecimal.scale() == 0 ? JsonNumber.NumberType.INTEGER : JsonNumber.NumberType.DECIMAL;
+        return bigDecimal.scale() == 0;
     }
 
     @Override

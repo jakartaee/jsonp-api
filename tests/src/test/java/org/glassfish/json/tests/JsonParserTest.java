@@ -424,7 +424,7 @@ public class JsonParserTest extends TestCase {
         assertEquals(25, parser.getInt());
         assertEquals(25, parser.getLong());
         assertEquals(25, parser.getBigDecimal().intValue());
-        assertEquals(JsonNumber.NumberType.INTEGER, parser.getNumberType());
+        assertTrue( parser.isIntegralNumber());
 
         event = parser.next();
         assertEquals(Event.KEY_NAME, event);
@@ -534,7 +534,7 @@ public class JsonParserTest extends TestCase {
         }
 
         try {
-            parser.getNumberType();
+            parser.isIntegralNumber();
             fail("JsonParser#getNumberType() should have thrown exception in START_OBJECT state");
         } catch (IllegalStateException expected) {
             // no-op

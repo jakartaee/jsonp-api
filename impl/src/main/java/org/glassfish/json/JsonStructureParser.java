@@ -77,12 +77,13 @@ class JsonStructureParser implements JsonParser {
     }
 
     @Override
-    public JsonNumber.NumberType getNumberType() {
+    public boolean isIntegralNumber() {
         if (state == Event.VALUE_NUMBER) {
-            return ((JsonNumber)current.getJsonValue()).getNumberType();
+            return ((JsonNumber)current.getJsonValue()).isIntegral();
         }
-        throw new IllegalStateException("JsonParser#getNumberType() can only be called in"
+        throw new IllegalStateException("JsonParser#isIntegralNumber() can only be called in"
                 + " VALUE_NUMBER state, not in "+state);
+
     }
 
     @Override
