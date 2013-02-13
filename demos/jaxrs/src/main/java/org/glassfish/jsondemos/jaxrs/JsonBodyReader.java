@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,7 +40,9 @@
 
 package org.glassfish.jsondemos.jaxrs;
 
+import javax.json.Json;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.json.JsonStructure;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
@@ -54,12 +56,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
+ * JAX-RS MessageBodyReader for JsonStructure. This allows
+ * JsonStructure, JsonArray and JsonObject to be a parameter of a
+ * resource method.
  *
  * @author Jitendra Kotamraju
  */
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
 public class JsonBodyReader implements MessageBodyReader<JsonStructure> {
+    private final JsonReaderFactory rf = Json.createReaderFactory(null);
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type,
@@ -73,7 +79,7 @@ public class JsonBodyReader implements MessageBodyReader<JsonStructure> {
             MultivaluedMap<String, String> stringStringMultivaluedMap,
             InputStream inputStream) throws IOException, WebApplicationException {
 
-        try(JsonReader reader = new JsonReader(inputStream)) {
+        try(JsonReader reader = rf.createReader(inputStream)) {
             return reader.read();
         }
     }

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -50,15 +50,16 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/array")
 public class ArrayResource {
+    private static final JsonBuilderFactory bf = Json.createBuilderFactory(null);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray doGet() {
-        return new JsonArrayBuilder()
-                .add(new JsonObjectBuilder()
+        return bf.createArrayBuilder()
+                .add(bf.createObjectBuilder()
                     .add("type", "home")
                     .add("number", "212 555-1234"))
-                .add(new JsonObjectBuilder()
+                .add(bf.createObjectBuilder()
                     .add("type", "fax")
                     .add("number", "646 555-4567"))
                 .build();

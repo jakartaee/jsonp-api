@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,10 +40,7 @@
 
 package org.glassfish.jsondemos.jaxrs;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonStructure;
+import javax.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -53,24 +50,25 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/structure")
 public class StructureResource {
+    private static final JsonBuilderFactory bf = Json.createBuilderFactory(null);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonStructure doGet() {
-        return new JsonObjectBuilder()
+        return bf.createObjectBuilder()
             .add("firstName", "John")
             .add("lastName", "Smith")
             .add("age", 25)
-            .add("address", new JsonObjectBuilder()
+            .add("address", bf.createObjectBuilder()
                 .add("streetAddress", "21 2nd Street")
                 .add("city", "New York")
                 .add("state", "NY")
                 .add("postalCode", "10021"))
-            .add("phoneNumber", new JsonArrayBuilder()
-                .add(new JsonObjectBuilder()
+            .add("phoneNumber", bf.createArrayBuilder()
+                .add(bf.createObjectBuilder()
                     .add("type", "home")
                     .add("number", "212 555-1234"))
-                .add(new JsonObjectBuilder()
+                .add(bf.createObjectBuilder()
                     .add("type", "fax")
                     .add("number", "646 555-4567")))
             .build();

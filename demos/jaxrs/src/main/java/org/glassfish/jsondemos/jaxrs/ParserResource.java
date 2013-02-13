@@ -49,7 +49,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.*;
 import java.net.URL;
-import java.util.Iterator;
 
 /**
  * Filters JSON from twitter search REST API

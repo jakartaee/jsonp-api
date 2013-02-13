@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -52,13 +52,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
- * Writes wiki example JSON using JsonObject
+ * JAX-RS MessageBodyWriter for JsonStructure. This allows
+ * JsonStructure, JsonArray and JsonObject to be return type of a
+ * resource method.
  *
  * @author Jitendra Kotamraju
  */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 public class JsonBodyWriter implements MessageBodyWriter<JsonStructure> {
+    private final JsonWriterFactory wf = Json.createWriterFactory(null);
 
     @Override
     public boolean isWriteable(Class<?> aClass,
@@ -79,7 +82,7 @@ public class JsonBodyWriter implements MessageBodyWriter<JsonStructure> {
             MultivaluedMap<String, Object> stringObjectMultivaluedMap,
             OutputStream outputStream) throws IOException, WebApplicationException {
 
-        try(JsonWriter writer = new JsonWriter(outputStream)) {
+        try(JsonWriter writer = wf.createWriter(outputStream)) {
             writer.write(jsonStructure);
         }
 
