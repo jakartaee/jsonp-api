@@ -60,8 +60,6 @@ public class DemoApplication extends Application {
         set.add(ArrayResource.class);
         set.add(StructureResource.class);
 
-        set.add(JsonBodyReader.class);
-        set.add(JsonBodyWriter.class);
         return set;
     }
 }
