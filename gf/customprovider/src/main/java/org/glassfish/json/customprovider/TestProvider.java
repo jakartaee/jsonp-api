@@ -40,22 +40,17 @@
 
 package org.glassfish.json.customprovider;
 
-import javax.json.JsonArray;
-import javax.json.JsonConfiguration;
-import javax.json.JsonFeature;
-import javax.json.JsonObject;
+import javax.json.*;
+import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
-import javax.json.spi.JsonProvider;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.charset.Charset;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -73,6 +68,56 @@ public class TestProvider extends JsonProvider {
     }
 
     @Override
+    public JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config) {
+        return null;
+    }
+
+    @Override
+    public JsonReader createReader(Reader reader) {
+        return null;
+    }
+
+    @Override
+    public JsonReader createReader(InputStream in) {
+        return null;
+    }
+
+    @Override
+    public JsonWriter createWriter(Writer writer) {
+        return null;
+    }
+
+    @Override
+    public JsonWriter createWriter(OutputStream out) {
+        return null;
+    }
+
+    @Override
+    public JsonWriterFactory createWriterFactory(Map<String, ?> config) {
+        return null;
+    }
+
+    @Override
+    public JsonReaderFactory createReaderFactory(Map<String, ?> config) {
+        return null;
+    }
+
+    @Override
+    public JsonObjectBuilder createObjectBuilder() {
+        return null;
+    }
+
+    @Override
+    public JsonArrayBuilder createArrayBuilder() {
+        return null;
+    }
+
+    @Override
+    public JsonBuilderFactory createBuilderFactory(Map<String, ?> config) {
+        return null;
+    }
+
+    @Override
     public JsonParser createParser(Reader reader) {
         return null;
     }
@@ -83,23 +128,9 @@ public class TestProvider extends JsonProvider {
     }
 
     @Override
-    public JsonParserFactory createParserFactory() {
+    public JsonParserFactory createParserFactory(Map<String, ?> config) {
         return null;
     }
 
-    @Override
-    public JsonParserFactory createParserFactory(JsonConfiguration config) {
-        return null;
-    }
-
-    @Override
-    public JsonGeneratorFactory createGeneratorFactory() {
-        return null;
-    }
-
-    @Override
-    public JsonGeneratorFactory createGeneratorFactory(JsonConfiguration config) {
-        return null;
-    }
 
 }

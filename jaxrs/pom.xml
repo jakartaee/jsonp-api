@@ -87,7 +87,8 @@
                 <configuration>
                     <instructions>
                         <Bundle-Version>${apijar.bundle.version}</Bundle-Version>
-                        <Export-Package>org.glassfish.json.jaxrs</Export-Package>
+                        <Export-Package/>
+                        <Private-Package>org.glassfish.json.jaxrs</Private-Package>
                     </instructions>
                 </configuration>
             </plugin>

@@ -40,15 +40,13 @@
 
 package org.glassfish.json.customprovider;
 
-import javax.json.*;
+import javax.json.JsonException;
+import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
-import java.io.*;
+import java.io.IOException;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -71,10 +69,6 @@ public class TestGenerator implements JsonGenerator {
 
     @Override
     public JsonGenerator writeStartObject(String name) {
-        return null;
-    }
-
-    public JsonGenerator writeName(String name) {
         return null;
     }
 
@@ -128,7 +122,7 @@ public class TestGenerator implements JsonGenerator {
         try {
             writer.write("[");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error", ioe);
         }
         return this;
     }
@@ -185,7 +179,7 @@ public class TestGenerator implements JsonGenerator {
         try {
             writer.write("]");
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error", ioe);
         }
         return this;
     }
@@ -194,7 +188,7 @@ public class TestGenerator implements JsonGenerator {
         try {
             writer.close();
         } catch(IOException ioe) {
-            throw new JsonException(ioe);
+            throw new JsonException("I/O error", ioe);
         }
     }
 
