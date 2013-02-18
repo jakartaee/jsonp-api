@@ -2,7 +2,6 @@ package org.glassfish.json;
 
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -20,8 +19,10 @@ class JsonWriterImpl implements JsonWriter {
     }
 
     JsonWriterImpl(Writer writer, Map<String, ?> config) {
-        JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
-        generator = factory.createGenerator(writer);
+        boolean prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+        generator = prettyPrinting
+                ? new JsonPrettyGeneratorImpl(writer)
+                : new JsonGeneratorImpl(writer);
     }
 
     JsonWriterImpl(OutputStream out) {
@@ -33,8 +34,10 @@ class JsonWriterImpl implements JsonWriter {
     }
 
     JsonWriterImpl(OutputStream out, Charset charset, Map<String, ?> config) {
-        JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
-        generator = factory.createGenerator(out, charset);
+        boolean prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+        generator = prettyPrinting
+                ? new JsonPrettyGeneratorImpl(out, charset)
+                : new JsonGeneratorImpl(out, charset);
     }
 
     @Override
@@ -47,7 +50,7 @@ class JsonWriterImpl implements JsonWriter {
         for(JsonValue value : array) {
             generator.write(value);
         }
-        generator.writeEnd().close();
+        generator.writeEnd();
     }
 
     @Override
@@ -60,7 +63,7 @@ class JsonWriterImpl implements JsonWriter {
         for(Map.Entry<String, JsonValue> e : object.entrySet()) {
             generator.write(e.getKey(), e.getValue());
         }
-        generator.writeEnd().close();
+        generator.writeEnd();
     }
 
     @Override

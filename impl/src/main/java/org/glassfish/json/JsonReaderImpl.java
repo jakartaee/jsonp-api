@@ -2,7 +2,6 @@ package org.glassfish.json;
 
 import javax.json.*;
 import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParserFactory;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -19,8 +18,7 @@ class JsonReaderImpl implements JsonReader {
     }
 
     private JsonReaderImpl(Reader reader, Map<String, ?> config) {
-        JsonParserFactory factory = Json.createParserFactory(config);
-        parser = factory.createParser(reader);
+        parser = new JsonParserImpl(reader);
     }
 
     JsonReaderImpl(InputStream in) {
@@ -28,8 +26,7 @@ class JsonReaderImpl implements JsonReader {
     }
 
     private JsonReaderImpl(InputStream in, Map<String, ?> config) {
-        JsonParserFactory factory = Json.createParserFactory(config);
-        parser = factory.createParser(in);
+        parser = new JsonParserImpl(in);
     }
 
     JsonReaderImpl(InputStream in, Charset charset) {
@@ -37,8 +34,7 @@ class JsonReaderImpl implements JsonReader {
     }
 
     private JsonReaderImpl(InputStream in, Charset charset, Map<String, ?> config) {
-        JsonParserFactory factory = Json.createParserFactory(config);
-        parser = factory.createParser(in, charset);
+        parser = new JsonParserImpl(in, charset);
     }
 
     @Override
