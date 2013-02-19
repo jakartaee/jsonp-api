@@ -173,9 +173,8 @@ public interface JsonParser extends /*Auto*/Closeable {
         /**
          * Number value in a JSON array or object. The position of the parser is
          * after the number value. {@code JsonParser} provides the following
-         * methods to access the number value: {@link #getNumberType},
-         * {@link #getInt}, {@link #getLong}, and
-         * {@link #getBigDecimal}.
+         * methods to access the number value: {@link #getInt},
+         * {@link #getLong}, and {@link #getBigDecimal}.
          */
         VALUE_NUMBER,
         /**
