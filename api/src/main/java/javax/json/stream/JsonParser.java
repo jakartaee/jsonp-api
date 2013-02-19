@@ -49,7 +49,7 @@ import java.math.BigDecimal;
  * Provides forward, read-only access to JSON data in a streaming way. This
  * is the most efficient way for reading JSON data. The class
  * {@link javax.json.Json} contains methods to create parsers from input
- * sources ({@link java.io.InputStream} and {@link java.io.Reader}.
+ * sources ({@link java.io.InputStream} and {@link java.io.Reader}).
  *
  * <p>
  * The following example demonstrates how to create a parser from a string
