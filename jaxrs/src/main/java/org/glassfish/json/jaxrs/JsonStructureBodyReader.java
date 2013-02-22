@@ -45,6 +45,7 @@ import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 import javax.json.JsonStructure;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -61,16 +62,29 @@ import java.lang.reflect.Type;
  * resource method.
  *
  * @author Jitendra Kotamraju
+ * @author Blaise Doughan
+ * @author Michal Gajdos
  */
 @Provider
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({"application/json", "text/json", "*/*"})
 public class JsonStructureBodyReader implements MessageBodyReader<JsonStructure> {
     private final JsonReaderFactory rf = Json.createReaderFactory(null);
+
+    private static final String JSON = "json";
+    private static final String PLUS_JSON = "+json";
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type,
             Annotation[] annotations, MediaType mediaType) {
-        return JsonStructure.class.isAssignableFrom(aClass);
+        return JsonStructure.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
+    }
+
+    /**
+     * @return true for all media types of the pattern *&#47;json and
+     * *&#47;*+json.
+     */
+    private static boolean supportsMediaType(final MediaType mediaType) {
+        return mediaType.getSubtype().equals(JSON) || mediaType.getSubtype().endsWith(PLUS_JSON);
     }
 
     @Override

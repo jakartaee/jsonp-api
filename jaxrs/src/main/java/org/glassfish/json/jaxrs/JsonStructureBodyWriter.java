@@ -40,8 +40,12 @@
 
 package org.glassfish.json.jaxrs;
 
+import javax.annotation.PostConstruct;
 import javax.json.*;
+import javax.json.stream.JsonGenerator;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Configuration;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -50,6 +54,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JAX-RS MessageBodyWriter for JsonStructure. This allows
@@ -57,16 +63,41 @@ import java.lang.reflect.Type;
  * resource method.
  *
  * @author Jitendra Kotamraju
+ * @author Blaise Doughan
+ * @author Michal Gajdos
  */
 @Provider
-@Produces(MediaType.APPLICATION_JSON)
+@Produces({"application/json", "text/json", "*/*"})
 public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure> {
-    private final JsonWriterFactory wf = Json.createWriterFactory(null);
+    private static final String JSON = "json";
+    private static final String PLUS_JSON = "+json";
+
+    private JsonWriterFactory wf = Json.createWriterFactory(null);
+
+    @Context
+    private Configuration config;       // TODO : not working
+
+    @PostConstruct
+    private void init() {               // TODO : not working
+        Map<String, Object> props = new HashMap<String, Object>();
+        if (config != null && config.getProperties().containsKey(JsonGenerator.PRETTY_PRINTING)) {
+            props.put(JsonGenerator.PRETTY_PRINTING, true);
+        }
+        wf = Json.createWriterFactory(props);
+    }
 
     @Override
     public boolean isWriteable(Class<?> aClass,
             Type type, Annotation[] annotations, MediaType mediaType) {
-        return JsonStructure.class.isAssignableFrom(aClass);
+        return JsonStructure.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
+    }
+
+    /**
+     * @return true for all media types of the pattern *&#47;json and
+     * *&#47;*+json.
+     */
+    private static boolean supportsMediaType(final MediaType mediaType) {
+        return mediaType.getSubtype().equals(JSON) || mediaType.getSubtype().endsWith(PLUS_JSON);
     }
 
     @Override
