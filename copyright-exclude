@@ -1,2 +1,5 @@
 .json
 /copyright-exclude
+/META-INF/services
+overview.html
+speclicense.html
