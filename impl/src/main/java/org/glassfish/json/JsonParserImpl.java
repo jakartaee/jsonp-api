@@ -59,11 +59,11 @@ import org.glassfish.json.JsonTokenizer.JsonToken;
 public class JsonParserImpl implements JsonParser {
 
     private State currentState = State.START_DOCUMENT;
-    private State enclosingState = State.START_DOCUMENT;
+    private Context currentContext = Context.NONE;
 
     private Event currentEvent;
 
-    private final Deque<State> stack = new ArrayDeque<State>();
+    private final Deque<Context> stack = new ArrayDeque<Context>();
     private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
     private int depth = 0;
@@ -170,21 +170,19 @@ public class JsonParserImpl implements JsonParser {
                 } catch(IOException ioe) {
                     throw new JsonException("I/O error while moving parser to next state", ioe);
                 }
-                State nextState = currentState.getTransition(token, enclosingState);
-                if (nextState == null) {
-                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token,
-                            JsonLocationImpl.UNKNOWN);
-                }
-                if (nextState == State.START_OBJECT || nextState == State.START_ARRAY) {
-                    stack.addFirst(currentState);
-                }
-                currentState = nextState;
+                currentState = currentState.getTransition(token, currentContext);
+//                if (currentState == null) {
+//                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token,
+//                            JsonLocationImpl.UNKNOWN);
+//                }
 
                 switch (currentState) {
                     case START_DOCUMENT:
                         continue;
                     case START_OBJECT:
                         depth++;
+                        stack.push(currentContext);
+                        currentContext = Context.OBJECT;
                         return currentEvent=JsonParser.Event.START_OBJECT;
                     case KEY:
                         return currentEvent=JsonParser.Event.KEY_NAME;
@@ -204,10 +202,12 @@ public class JsonParserImpl implements JsonParser {
                         continue;
                     case END_OBJECT:
                         depth--;
-                        enclosingState = stack.removeFirst();
+                        currentContext = stack.pop();
                         return currentEvent=JsonParser.Event.END_OBJECT;
                     case START_ARRAY:
                         depth++;
+                        stack.push(currentContext);
+                        currentContext = Context.ARRAY;
                         return currentEvent=JsonParser.Event.START_ARRAY;
                     case ARRAY_STRING:
                         return currentEvent=JsonParser.Event.VALUE_STRING;
@@ -223,7 +223,7 @@ public class JsonParserImpl implements JsonParser {
                         continue;
                     case END_ARRAY:
                         depth--;
-                        enclosingState = stack.removeFirst();
+                        currentContext = stack.pop();
                         return currentEvent=JsonParser.Event.END_ARRAY;
                     case END_DOCUMENT:
                         break;
@@ -245,6 +245,10 @@ public class JsonParserImpl implements JsonParser {
         }
     }
 
+    private enum Context {
+        NONE, ARRAY, OBJECT
+    }
+
     private enum State {
         START_DOCUMENT,
 
@@ -259,12 +263,25 @@ public class JsonParserImpl implements JsonParser {
         OBJECT_COMMA,
         END_OBJECT {
             @Override
-            State getTransition(JsonToken token, State enclosingState) {
+            State getTransition(JsonToken token, Context context) {
                 if (token == JsonToken.COMMA) {
-                    return enclosingState == State.COLON ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+                    return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
-                    return transitions.get(token);
+                    return super.getTransition(token, context);
                 }
+//                if (context == Context.NONE) {
+//                    throw new JsonParsingException("Not Expecting any token, but got "+token, JsonLocationImpl.UNKNOWN);
+//                } else {
+//                    if (token == JsonToken.COMMA) {
+//                        return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+//                    } else if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
+//                        throw new JsonParsingException("Expecting ] in array context", JsonLocationImpl.UNKNOWN);
+//                    } else if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
+//                        throw new JsonParsingException("Expecting } in object context", JsonLocationImpl.UNKNOWN);
+//                    } else {
+//                        return transitions.get(token);
+//                    }
+//                }
             }
         },
 
@@ -277,13 +294,27 @@ public class JsonParserImpl implements JsonParser {
         ARRAY_COMMA,
         END_ARRAY {
             @Override
-            State getTransition(JsonToken token, State enclosingState) {
+            State getTransition(JsonToken token, Context context) {
                 if (token == JsonToken.COMMA) {
-                    return enclosingState == State.COLON ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+                    return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
-                    return transitions.get(token);
+                    return super.getTransition(token, context);
                 }
-            }            
+
+//                if (context == Context.NONE) {
+//                    throw new JsonParsingException("Not Expecting any token, but got "+token, JsonLocationImpl.UNKNOWN);
+//                } else {
+//                    if (token == JsonToken.COMMA) {
+//                        return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
+//                    } else if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
+//                        throw new JsonParsingException("Expecting ] in array context", JsonLocationImpl.UNKNOWN);
+//                    } else if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
+//                        throw new JsonParsingException("Expecting } in object context", JsonLocationImpl.UNKNOWN);
+//                    } else {
+//                        return transitions.get(token);
+//                    }
+//                }
+            }
         },
 
         END_DOCUMENT;
@@ -291,12 +322,12 @@ public class JsonParserImpl implements JsonParser {
         static {
             START_DOCUMENT.transition(JsonToken.CURLYOPEN, START_OBJECT);
             START_DOCUMENT.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-            
+
             START_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
             START_OBJECT.transition(JsonToken.STRING, KEY);
-            
+
             KEY.transition(JsonToken.COLON, COLON);
-            
+
             COLON.transition(JsonToken.STRING, OBJECT_STRING);
             COLON.transition(JsonToken.NUMBER, OBJECT_NUMBER);
             COLON.transition(JsonToken.TRUE, OBJECT_TRUE);
@@ -304,7 +335,7 @@ public class JsonParserImpl implements JsonParser {
             COLON.transition(JsonToken.NULL, OBJECT_NULL);
             COLON.transition(JsonToken.CURLYOPEN, START_OBJECT);
             COLON.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-            
+
             OBJECT_STRING.transition(JsonToken.CURLYCLOSE, END_OBJECT);
             OBJECT_STRING.transition(JsonToken.COMMA, OBJECT_COMMA);
 
@@ -319,15 +350,15 @@ public class JsonParserImpl implements JsonParser {
 
             OBJECT_NULL.transition(JsonToken.CURLYCLOSE, END_OBJECT);
             OBJECT_NULL.transition(JsonToken.COMMA, OBJECT_COMMA);
-            
+
             OBJECT_COMMA.transition(JsonToken.STRING, KEY);
-            
+
             END_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
             END_OBJECT.transition(JsonToken.SQUARECLOSE, END_ARRAY);
             // Need an enclosing scope to determine the next state
             // END_OBJECT.transition(JsonToken.COMMA, OBJECT_COMMA or ARRAY_COMMA );
             END_OBJECT.transition(JsonToken.EOF, END_DOCUMENT);
-            
+
             START_ARRAY.transition(JsonToken.STRING, ARRAY_STRING);
             START_ARRAY.transition(JsonToken.NUMBER, ARRAY_NUMBER);
             START_ARRAY.transition(JsonToken.TRUE, ARRAY_TRUE);
@@ -336,7 +367,7 @@ public class JsonParserImpl implements JsonParser {
             START_ARRAY.transition(JsonToken.CURLYOPEN, START_OBJECT);
             START_ARRAY.transition(JsonToken.SQUAREOPEN, START_ARRAY);
             START_ARRAY.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-            
+
             ARRAY_STRING.transition(JsonToken.COMMA, ARRAY_COMMA);
             ARRAY_STRING.transition(JsonToken.SQUARECLOSE, END_ARRAY);
 
@@ -374,8 +405,13 @@ public class JsonParserImpl implements JsonParser {
             transitions.put(token, state);
         }
 
-        State getTransition(JsonToken token, State enclosingState) {
-            return transitions.get(token);
+        State getTransition(JsonToken token, Context context) {
+            State state = transitions.get(token);
+            if (state == null) {
+                throw new JsonParsingException("Expecting Tokens="+transitions.keySet()+" Got ="+token,
+                        JsonLocationImpl.UNKNOWN);
+            }
+            return state;
         }
     }
     
