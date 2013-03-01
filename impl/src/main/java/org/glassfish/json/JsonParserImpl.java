@@ -66,7 +66,6 @@ public class JsonParserImpl implements JsonParser {
     private final Deque<Context> stack = new ArrayDeque<Context>();
     private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
-    private int depth = 0;
 
     public JsonParserImpl(Reader reader) {
         tokenizer = new JsonTokenizer(reader);
@@ -149,14 +148,26 @@ public class JsonParserImpl implements JsonParser {
     }
 
     private class StateIterator implements  Iterator<JsonParser.Event> {
-        JsonToken token;
+
+        private JsonToken nextToken() {
+            try {
+                return tokenizer.nextToken();
+            } catch(IOException ioe) {
+                throw new JsonException("I/O error while moving parser to next state", ioe);
+            }
+        }
 
         @Override
         public boolean hasNext() {
-            if (token == JsonToken.EOF) {
+            if (stack.isEmpty() && (currentState == State.END_ARRAY || currentState == State.END_OBJECT)) {
+                JsonToken token = nextToken();
+                if (token != JsonToken.EOF) {
+                    throw new JsonParsingException("Expected EOF, but got="+token,
+                            JsonLocationImpl.UNKNOWN);
+                }
                 return false;
             }
-            return !(depth == 0 && (currentState == State.END_OBJECT || currentState == State.END_ARRAY));
+            return true;
         }
 
         @Override
@@ -165,22 +176,13 @@ public class JsonParserImpl implements JsonParser {
                 throw new NoSuchElementException();
             }
             while (true) {
-                try {
-                    token = tokenizer.nextToken();
-                } catch(IOException ioe) {
-                    throw new JsonException("I/O error while moving parser to next state", ioe);
-                }
+                JsonToken token = nextToken();
                 currentState = currentState.getTransition(token, currentContext);
-//                if (currentState == null) {
-//                    throw new JsonParsingException("Expecting Tokens="+currentState.transitions.keySet()+"Got ="+token,
-//                            JsonLocationImpl.UNKNOWN);
-//                }
 
                 switch (currentState) {
                     case START_DOCUMENT:
                         continue;
                     case START_OBJECT:
-                        depth++;
                         stack.push(currentContext);
                         currentContext = Context.OBJECT;
                         return currentEvent=JsonParser.Event.START_OBJECT;
@@ -201,11 +203,9 @@ public class JsonParserImpl implements JsonParser {
                     case OBJECT_COMMA:
                         continue;
                     case END_OBJECT:
-                        depth--;
                         currentContext = stack.pop();
                         return currentEvent=JsonParser.Event.END_OBJECT;
                     case START_ARRAY:
-                        depth++;
                         stack.push(currentContext);
                         currentContext = Context.ARRAY;
                         return currentEvent=JsonParser.Event.START_ARRAY;
@@ -222,7 +222,6 @@ public class JsonParserImpl implements JsonParser {
                     case ARRAY_COMMA:
                         continue;
                     case END_ARRAY:
-                        depth--;
                         currentContext = stack.pop();
                         return currentEvent=JsonParser.Event.END_ARRAY;
                     case END_DOCUMENT:
