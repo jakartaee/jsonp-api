@@ -266,21 +266,14 @@ public class JsonParserImpl implements JsonParser {
                 if (token == JsonToken.COMMA) {
                     return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
+                    if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
+                        throw new JsonParsingException("Not in array context, but got = ]", JsonLocationImpl.UNKNOWN);
+                    }
+                    if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
+                        throw new JsonParsingException("Not in object context, but got = }", JsonLocationImpl.UNKNOWN);
+                    }
                     return super.getTransition(token, context);
                 }
-//                if (context == Context.NONE) {
-//                    throw new JsonParsingException("Not Expecting any token, but got "+token, JsonLocationImpl.UNKNOWN);
-//                } else {
-//                    if (token == JsonToken.COMMA) {
-//                        return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
-//                    } else if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-//                        throw new JsonParsingException("Expecting ] in array context", JsonLocationImpl.UNKNOWN);
-//                    } else if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-//                        throw new JsonParsingException("Expecting } in object context", JsonLocationImpl.UNKNOWN);
-//                    } else {
-//                        return transitions.get(token);
-//                    }
-//                }
             }
         },
 
@@ -297,22 +290,14 @@ public class JsonParserImpl implements JsonParser {
                 if (token == JsonToken.COMMA) {
                     return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
+                    if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
+                        throw new JsonParsingException("Not in array context, but got = ]", JsonLocationImpl.UNKNOWN);
+                    }
+                    if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
+                        throw new JsonParsingException("Not in object context, but got = }", JsonLocationImpl.UNKNOWN);
+                    }
                     return super.getTransition(token, context);
                 }
-
-//                if (context == Context.NONE) {
-//                    throw new JsonParsingException("Not Expecting any token, but got "+token, JsonLocationImpl.UNKNOWN);
-//                } else {
-//                    if (token == JsonToken.COMMA) {
-//                        return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
-//                    } else if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-//                        throw new JsonParsingException("Expecting ] in array context", JsonLocationImpl.UNKNOWN);
-//                    } else if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-//                        throw new JsonParsingException("Expecting } in object context", JsonLocationImpl.UNKNOWN);
-//                    } else {
-//                        return transitions.get(token);
-//                    }
-//                }
             }
         },
 
