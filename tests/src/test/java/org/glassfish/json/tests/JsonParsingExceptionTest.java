@@ -43,6 +43,7 @@ package org.glassfish.json.tests;
 import junit.framework.TestCase;
 
 import javax.json.Json;
+import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParsingException;
@@ -60,45 +61,85 @@ import java.util.NoSuchElementException;
 public class JsonParsingExceptionTest extends TestCase {
 
     public void testWrongJson() {
-        testMalformedJson("");
+        testMalformedJson("", null);
     }
 
     public void testWrongJson1() {
-        testMalformedJson("{}{}");
+        testMalformedJson("{}{}", null);
     }
 
     public void testWrongJson2() {
-        testMalformedJson("{");
+        testMalformedJson("{", null);
     }
 
     public void testWrongJson3() {
-        testMalformedJson("{[]");
+        testMalformedJson("{[]", null);
     }
 
     public void testWrongJson4() {
-        testMalformedJson("{]");
+        testMalformedJson("{]", null);
     }
 
     public void testWrongJson5() {
-        testMalformedJson("{\"a\":[]]");
+        testMalformedJson("{\"a\":[]]", null);
     }
 
     public void testWrongJson6() {
-        testMalformedJson("[ {}, [] }");
+        testMalformedJson("[ {}, [] }", null);
     }
 
-    private void testMalformedJson(String json) {
+    public void testLocation1() {
+        testMalformedJson("[nuLl", new MyLocation(1, 5, 4));
+    }
+
+    public void testLocation2() {
+        testMalformedJson("[tRue", new MyLocation(1, 4, 3));
+    }
+
+    private void testMalformedJson(String json, JsonLocation expected) {
         JsonParser parser = Json.createParser(new StringReader(json));
         try {
             while(parser.hasNext()) {
-                System.out.println(parser.next());
+                parser.next();
             }
             fail("Expected to throw JsonParsingException for "+json);
         } catch(JsonParsingException je) {
-            System.out.println(je);
-            //Expected
+            // Expected
+            if (expected != null) {
+                JsonLocation got = je.getLocation();
+                assertEquals(expected.getLineNumber(), got.getLineNumber());
+                assertEquals(expected.getColumnNumber(), got.getColumnNumber());
+                assertEquals(expected.getStreamOffset(), got.getStreamOffset());
+            }
         } finally {
             parser.close();
+        }
+    }
+
+    private static class MyLocation implements JsonLocation {
+        private final int columnNo;
+        private final int lineNo;
+        private final int streamOffset;
+
+        MyLocation(int lineNo, int columnNo, int streamOffset) {
+            this.lineNo = lineNo;
+            this.columnNo = columnNo;
+            this.streamOffset = streamOffset;
+        }
+
+        @Override
+        public int getLineNumber() {
+            return lineNo;
+        }
+
+        @Override
+        public int getColumnNumber() {
+            return columnNo;
+        }
+
+        @Override
+        public int getStreamOffset() {
+            return streamOffset;
         }
     }
 

@@ -41,6 +41,7 @@
 package org.glassfish.json;
 
 import javax.json.JsonException;
+import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParsingException;
 import java.io.*;
 
@@ -52,7 +53,11 @@ import java.io.*;
 final class JsonTokenizer implements Closeable {
 
     private final TokenizerReader reader;
-    private int pushbackChar = -1;
+    private boolean unread;
+    private int prevChar;
+    private long lineNo = 1;
+    private long columnNo = 1;
+    private long streamOffset = 0;
 
     @Override
     public void close() throws IOException {
@@ -72,12 +77,23 @@ final class JsonTokenizer implements Closeable {
     }
 
     private int read() {
-        if (pushbackChar != -1) {
-            int tempCh = pushbackChar;
-            pushbackChar = -1;
-            return tempCh;
+        int ch;
+        if (this.unread) {
+            this.unread = false;
+            ch = this.prevChar;
+        } else {
+            ch = reader.readChar();
         }
-        return reader.readChar();
+
+        if (this.prevChar == '\r' || ch == '\n') {
+            ++lineNo;
+            columnNo = (ch == '\n') ? 0 : 1;
+        } else {
+            ++columnNo;
+        }
+        ++streamOffset;
+        prevChar = ch;
+        return ch;
     }
 
     private void store(char ch) {
@@ -85,7 +101,10 @@ final class JsonTokenizer implements Closeable {
     }
 
     private void unread(int ch) {
-        pushbackChar = ch;
+        prevChar = ch;
+        unread = true;
+        --streamOffset;
+        --columnNo;
     }
 
     private void readString() {
@@ -130,14 +149,14 @@ final class JsonTokenizer implements Closeable {
                                 } else if (ch3 >= 'A' && ch3 <= 'F') {
                                     unicode |= (((char) ch3) - 'A') + 0xA;
                                 } else {
-                                    throw new JsonParsingException("Unexpected Char="+ch3, JsonLocationImpl.UNKNOWN);
+                                    throw new JsonParsingException("Unexpected Char="+ch3, getLocation());
                                 }
                             }
                             store((char) (unicode & 0xffff));
                             break;
                         }
                         default:
-                            throw new JsonParsingException("Unexpected Char="+ch2, JsonLocationImpl.UNKNOWN);
+                            throw new JsonParsingException("Unexpected Char="+ch2, getLocation());
                     }
                     break;
                 case '"':
@@ -160,7 +179,7 @@ final class JsonTokenizer implements Closeable {
 
             ch = read();
             if (ch < '0' || ch >'9') {
-                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
+                throw new JsonParsingException("Unexpected Char="+ch, getLocation());
             }
         }
 
@@ -184,7 +203,7 @@ final class JsonTokenizer implements Closeable {
                 count++;
             } while (ch >= '0' && ch <= '9');
             if (count == 1) {
-                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
+                throw new JsonParsingException("Unexpected Char="+ch, getLocation());
             }
         }
 
@@ -202,7 +221,7 @@ final class JsonTokenizer implements Closeable {
                 ch = read();
             }
             if (count == 0) {
-                throw new JsonParsingException("Unexpected Char="+ch, JsonLocationImpl.UNKNOWN);
+                throw new JsonParsingException("Unexpected Char="+ch, getLocation());
             }
         }
         unread(ch);
@@ -210,21 +229,51 @@ final class JsonTokenizer implements Closeable {
 
     private void readTrue() {
         char ch1 = (char) read();
+        if (ch1 != 'r') {
+            throw new JsonParsingException("Unexpected Char="+ch1+" expecting 'r'", getLocation());
+        }
         char ch2 = (char) read();
+        if (ch2 != 'u') {
+            throw new JsonParsingException("Unexpected Char="+ch2+" expecting 'u'", getLocation());
+        }
         char ch3 = (char) read();
+        if (ch3 != 'e') {
+            throw new JsonParsingException("Unexpected Char="+ch3+" expecting 'e'", getLocation());
+        }
     }
 
     private void readFalse() {
         char ch1 = (char) read();
+        if (ch1 != 'a') {
+            throw new JsonParsingException("Unexpected Char="+ch1+" expecting 'a'", getLocation());
+        }
         char ch2 = (char) read();
+        if (ch2 != 'l') {
+            throw new JsonParsingException("Unexpected Char="+ch2+" expecting 'l'", getLocation());
+        }
         char ch3 = (char) read();
+        if (ch3 != 's') {
+            throw new JsonParsingException("Unexpected Char="+ch3+" expecting 's'", getLocation());
+        }
         char ch4 = (char) read();
+        if (ch4 != 'e') {
+            throw new JsonParsingException("Unexpected Char="+ch4+" expecting 'e'", getLocation());
+        }
     }
 
     private void readNull() {
         char ch1 = (char) read();
+        if (ch1 != 'u') {
+            throw new JsonParsingException("Unexpected Char="+ch1+" expecting 'u'", getLocation());
+        }
         char ch2 = (char) read();
+        if (ch2 != 'l') {
+            throw new JsonParsingException("Unexpected Char="+ch2+" expecting 'l'", getLocation());
+        }
         char ch3 = (char) read();
+        if (ch3 != 'l') {
+            throw new JsonParsingException("Unexpected Char="+ch3+" expecting 'l'", getLocation());
+        }
     }
 
     JsonToken nextToken() throws IOException {
@@ -272,13 +321,17 @@ final class JsonTokenizer implements Closeable {
                     readNumber(ch);
                     return JsonToken.NUMBER;
                 }
-                throw new JsonParsingException("Unexpected char="+(char)ch, JsonLocationImpl.UNKNOWN);
+                throw new JsonParsingException("Unexpected char="+(char)ch, getLocation());
         }
     }
 
     // returns string or number values
     String getValue() {
         return reader.getValue();
+    }
+
+    JsonLocation getLocation() {
+        return new JsonLocationImpl(lineNo, columnNo, streamOffset);
     }
     
     private static interface TokenizerReader extends Closeable {
@@ -287,7 +340,7 @@ final class JsonTokenizer implements Closeable {
         void reset();
         String getValue();
     }
-    
+
     private static class BufReader implements TokenizerReader {
         // Buffer for parsing
         private char[] buf = new char[8192];

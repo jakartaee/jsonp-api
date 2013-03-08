@@ -40,43 +40,41 @@
 
 package org.glassfish.json;
 
-import javax.json.*;
 import javax.json.stream.JsonLocation;
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Jitendra Kotamraju
  */
 class JsonLocationImpl implements JsonLocation {
-    static JsonLocation UNKNOWN = new JsonLocationImpl(-1, -1, -1);
-    private final int columnNo;
-    private final int lineNo;
-    private final int streamOffset;
+    static final JsonLocation UNKNOWN = new JsonLocationImpl(-1, -1, -1);
 
-    JsonLocationImpl(int lineNo, int columnNo, int streamOffset) {
+    private final long columnNo;
+    private final long lineNo;
+    private final long offset;
+
+    JsonLocationImpl(long lineNo, long columnNo, long streamOffset) {
         this.lineNo = lineNo;
         this.columnNo = columnNo;
-        this.streamOffset = streamOffset;
+        this.offset = streamOffset;
     }
 
     @Override
     public int getLineNumber() {
-        return lineNo;
+        return (int)lineNo;
     }
 
     @Override
     public int getColumnNumber() {
-        return columnNo;
+        return (int)columnNo;
     }
 
     @Override
     public int getStreamOffset() {
-        return streamOffset;
+        return (int) offset;
     }
+
+    public String toString() {
+        return "(line no="+lineNo+", column no="+columnNo+", offset="+ offset +")";
+    }
+
 }
