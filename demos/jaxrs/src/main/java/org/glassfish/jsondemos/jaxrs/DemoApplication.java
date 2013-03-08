@@ -40,9 +40,12 @@
 
 package org.glassfish.jsondemos.jaxrs;
 
+import javax.json.stream.JsonGenerator;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,6 +55,8 @@ import java.util.Set;
  */
 @ApplicationPath("/")
 public class DemoApplication extends Application {
+
+    @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<>();
         set.add(ParserResource.class);
@@ -61,5 +66,10 @@ public class DemoApplication extends Application {
         set.add(StructureResource.class);
 
         return set;
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        return new HashMap<String, Object>() {{ put(JsonGenerator.PRETTY_PRINTING, true); }};
     }
 }
