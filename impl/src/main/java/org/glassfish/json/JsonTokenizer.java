@@ -44,6 +44,7 @@ import javax.json.JsonException;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParsingException;
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * JSON Tokenizer
@@ -338,7 +339,7 @@ final class JsonTokenizer implements Closeable {
     }
 
     // Gives the parser location. Used for JsonParser.getLocation
-    JsonLocation geLocation() {
+    JsonLocation getLocation() {
         return new JsonLocationImpl(lineNo, columnNo, streamOffset);
     }
     
@@ -348,134 +349,56 @@ final class JsonTokenizer implements Closeable {
         void reset();
         String getValue();
     }
-
-    /*
-    TODO need to implement this, otherwise unnecessarily creates strings
-    even though the application doesn't ask for it
-
-    private static class BufReader implements TokenizerReader {
-        // Buffer for parsing
-        private char[] buf = new char[8192];
-        private int length;
-        private int curPtr;
-
-        // Current string/number starting ptr in the buffer and the length
-        private int valuePtr = -1;
-        private int valueLength;
-        private final Reader reader;
-
-        boolean eof;
-
-        BufReader(Reader reader) {
-            this.reader = reader;
-        }
-
-        public int readChar() {
-            if (eof) {
-                return -1;
-            } else if (curPtr < length) {
-                return buf[curPtr++];
-            } else {
-                if (valuePtr == -1) {
-                    // Not tracking any value. Use the entire buf
-                    curPtr = 0;
-                    length = 0;
-                } else if (valuePtr == 0 && valueLength == buf.length) {
-                    // partial value uses entire buf. Double the buf.
-                    assert length == buf.length;
-                    assert curPtr == buf.length;
-                    char[] temp = new char[2*buf.length];
-                    System.arraycopy(buf, 0, temp, 0, valueLength);
-                    buf = temp;
-                } else if (valuePtr == 0 && valueLength < buf.length) {
-                    // partial value (that is at the beginning of buf) uses part of buf
-                    curPtr = valueLength;
-                    length = valueLength;
-                } else {
-                    // Partial value uses part of buf
-                    // value is copied to the beginning of the buf
-                    System.arraycopy(buf, valuePtr, buf, 0, valueLength);
-                    length = valueLength;
-                    curPtr = valueLength;
-                    valuePtr = 0;
-                }
-                // Now fill the buf starting from curPtr
-                while(curPtr <= length) {
-                    int read;
-                    try {
-                        read = reader.read(buf, curPtr, buf.length-length);
-                    } catch(IOException ioe) {
-                        throw new JsonException("I/O error", ioe);
-                    }
-                    if (read == -1) {
-                        eof = true;
-                        return -1;
-                    } else {
-                        length += read;
-                    }
-                }
-                return buf[curPtr++];
-            }
-        }
-
-        public void storeChar(int ch) {
-            if (valuePtr == -1) {
-                valuePtr = curPtr-1;
-            }
-            buf[valuePtr+valueLength] = (char)ch;
-            valueLength++;
-        }
-
-        public void reset() {
-
-        }
-
-        public String getValue() {
-            return null;
-        }
-
-        @Override
-        public void close() throws IOException {
-            reader.close();
-        }
-    }
-    */
     
     private static class DirectReader implements TokenizerReader {
         private final Reader reader;
-        private StringBuilder builder;
+        private char[] buf = new char[8192];
+        private int len;
+        private String value;
 
         DirectReader(Reader reader) {
+            if (!(reader instanceof BufferedReader)) {
+                reader = new BufferedReader(reader);
+            }
             this.reader = reader;
-            this.builder = new StringBuilder();
         }
-        
+
+        @Override
         public int readChar() {
             try {
                 return reader.read();
             } catch (IOException ioe) {
-                throw new JsonException("I/O error while tokenizing", ioe);
+                throw new JsonException("I/O error while tokenizing JSON", ioe);
             }
         }
 
+        @Override
         public void storeChar(int ch) {
-            builder.append((char)ch);
-        }
-
-        public void reset() {
-            if (builder.length() != 0 ) {
-                builder = new StringBuilder();
+            if (len == buf.length) {
+                buf = Arrays.copyOf(buf, 2*buf.length);
             }
+            buf[len++] = (char)ch;
         }
 
+        @Override
+        public void reset() {
+            len = 0;
+            value = null;
+        }
+
+        @Override
         public String getValue() {
-            return builder.toString();
+            if (value == null) {
+                value = new String(buf, 0, len);
+            }
+            return value;
         }
 
         @Override
         public void close() throws IOException {
             reader.close();
         }
+
     }
     
 }

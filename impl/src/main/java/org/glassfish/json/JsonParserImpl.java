@@ -136,7 +136,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public JsonLocation getLocation() {
-        return tokenizer.getLastCharLocation();
+        return tokenizer.getLocation();
     }
 
     public JsonLocation getLastCharLocation() {
