@@ -89,11 +89,21 @@ public class JsonParsingExceptionTest extends TestCase {
     }
 
     public void testLocation1() {
-        testMalformedJson("[nuLl", new MyLocation(1, 5, 4));
+        testMalformedJson("x", new MyLocation(1, 1, 0));
+        testMalformedJson("{]", new MyLocation(1, 2, 1));
+        testMalformedJson("[}", new MyLocation(1, 2, 1));
+        testMalformedJson("[a", new MyLocation(1, 2, 1));
+        testMalformedJson("[nuLl]", new MyLocation(1, 4, 3));
+        testMalformedJson("[falsE]", new MyLocation(1, 6, 5));
+        testMalformedJson("[][]", new MyLocation(1, 3, 2));
+        testMalformedJson("[1234L]", new MyLocation(1, 6, 5));
     }
 
     public void testLocation2() {
-        testMalformedJson("[tRue", new MyLocation(1, 4, 3));
+        testMalformedJson("[null\n}", new MyLocation(2, 1, 6));
+        testMalformedJson("[null\r\n}", new MyLocation(2, 1, 7));
+        testMalformedJson("[null\n, null\n}", new MyLocation(3, 1, 13));
+        testMalformedJson("[null\r\n, null\r\n}", new MyLocation(3, 1, 15));
     }
 
     private void testMalformedJson(String json, JsonLocation expected) {

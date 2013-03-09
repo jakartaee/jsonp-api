@@ -136,7 +136,11 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public JsonLocation getLocation() {
-        return JsonLocationImpl.UNKNOWN;
+        return tokenizer.getLastCharLocation();
+    }
+
+    public JsonLocation getLastCharLocation() {
+        return tokenizer.getLastCharLocation();
     }
 
     public boolean hasNext() {
@@ -163,7 +167,7 @@ public class JsonParserImpl implements JsonParser {
                 JsonToken token = nextToken();
                 if (token != JsonToken.EOF) {
                     throw new JsonParsingException("Expected EOF, but got="+token,
-                            JsonLocationImpl.UNKNOWN);
+                            getLastCharLocation());
                 }
                 return false;
             }
@@ -177,7 +181,7 @@ public class JsonParserImpl implements JsonParser {
             }
             while (true) {
                 JsonToken token = nextToken();
-                currentState = currentState.getTransition(token, currentContext);
+                currentState = currentState.getTransition(token, currentContext, JsonParserImpl.this);
 
                 switch (currentState) {
                     case START_DOCUMENT:
@@ -262,17 +266,17 @@ public class JsonParserImpl implements JsonParser {
         OBJECT_COMMA,
         END_OBJECT {
             @Override
-            State getTransition(JsonToken token, Context context) {
+            State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
                 if (token == JsonToken.COMMA) {
                     return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
                     if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-                        throw new JsonParsingException("Not in array context, but got = ]", JsonLocationImpl.UNKNOWN);
+                        throw new JsonParsingException("Not in array context, but got = ]", parser.getLastCharLocation());
                     }
                     if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-                        throw new JsonParsingException("Not in object context, but got = }", JsonLocationImpl.UNKNOWN);
+                        throw new JsonParsingException("Not in object context, but got = }", parser.getLastCharLocation());
                     }
-                    return super.getTransition(token, context);
+                    return super.getTransition(token, context, parser);
                 }
             }
         },
@@ -286,23 +290,25 @@ public class JsonParserImpl implements JsonParser {
         ARRAY_COMMA,
         END_ARRAY {
             @Override
-            State getTransition(JsonToken token, Context context) {
+            State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
                 if (token == JsonToken.COMMA) {
                     return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
                 } else {
                     if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-                        throw new JsonParsingException("Not in array context, but got = ]", JsonLocationImpl.UNKNOWN);
+                        throw new JsonParsingException("Not in array context, but got = ]", parser.getLastCharLocation());
                     }
                     if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-                        throw new JsonParsingException("Not in object context, but got = }", JsonLocationImpl.UNKNOWN);
+                        throw new JsonParsingException("Not in object context, but got = }", parser.getLastCharLocation());
                     }
-                    return super.getTransition(token, context);
+                    return super.getTransition(token, context, parser);
                 }
             }
         },
 
         END_DOCUMENT;
-        
+
+        // TODO state transitions may be moved to Context so that some
+        // transitions are only valid in say object context
         static {
             START_DOCUMENT.transition(JsonToken.CURLYOPEN, START_OBJECT);
             START_DOCUMENT.transition(JsonToken.SQUAREOPEN, START_ARRAY);
@@ -389,11 +395,11 @@ public class JsonParserImpl implements JsonParser {
             transitions.put(token, state);
         }
 
-        State getTransition(JsonToken token, Context context) {
+        State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
             State state = transitions.get(token);
             if (state == null) {
                 throw new JsonParsingException("Expecting Tokens="+transitions.keySet()+" Got ="+token,
-                        JsonLocationImpl.UNKNOWN);
+                        parser.getLastCharLocation());
             }
             return state;
         }
