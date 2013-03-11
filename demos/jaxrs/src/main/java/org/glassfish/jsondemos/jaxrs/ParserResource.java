@@ -79,7 +79,7 @@ public class ParserResource {
      * --------
      */
     private void writeTwitterFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23java");
+        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
         try(InputStream is = url.openStream();
             JsonParser parser = Json.createParser(is);
             PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
