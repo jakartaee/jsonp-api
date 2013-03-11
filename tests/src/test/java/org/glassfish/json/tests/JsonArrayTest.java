@@ -126,4 +126,13 @@ public class JsonArrayTest extends TestCase {
         assertEquals(10, array.getInt(1));
     }
 
+    public void testArrayBuilderNpe() {
+        try {
+            JsonArray array = Json.createArrayBuilder().add((JsonValue)null).build();
+            fail("JsonArrayBuilder#add(null) should throw NullPointerException");
+        } catch(NullPointerException e) {
+            // Expected
+        }
+    }
+
 }

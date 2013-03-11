@@ -49,198 +49,89 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Builds a {@link javax.json.JsonArray} from scratch. It uses builder pattern
- * to build the array model and the builder methods can be chained while
- * building the JSON array.
- *
- * <p>
- * <a id="JsonArrayBuilderExample1"/>
- * <b>For example</b>, for the following JSON array
- *
- * <pre>
- * <code>
- * [
- *     { "type": "home", "number": "212 555-1234" },
- *     { "type": "fax", "number": "646 555-4567" }
- * ]
- * </code>
- * </pre>
- *
- * a JsonArray instance can be built using:
- *
- * <p>
- * <pre>
- * <code>
- * JsonArray value = new JsonArrayBuilderImpl()
- *     .add(new JsonObjectBuilderImpl()
- *         .add("type", "home")
- *         .add("number", "212 555-1234"))
- *     .add(new JsonObjectBuilderImpl()
- *         .add("type", "fax")
- *         .add("number", "646 555-4567"))
- *     .build();
- * </code>
- * </pre>
- *
- * @see javax.json.JsonObjectBuilder
- */
 class JsonArrayBuilderImpl implements JsonArrayBuilder {
     private final List<JsonValue> valueList;
 
-    /**
-     * Constructs a {@code JsonArrayBuilderImpl} that initializes an empty JSON
-     * array that is being built.
-     */
-    public JsonArrayBuilderImpl() {
+    JsonArrayBuilderImpl() {
         this.valueList = new ArrayList<JsonValue>();
     }
 
-    /**
-     * Adds the specified value to the array that is being built.
-     *
-     * @param value a JSON value
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder add(JsonValue value) {
+    public JsonArrayBuilder add(JsonValue value) {
+        validateValue(value);
         valueList.add(value);
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON string value to the array
-     * that is being built.
-     *
-     * @param value string
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder add(String value) {
+    public JsonArrayBuilder add(String value) {
+        validateValue(value);
         valueList.add(new JsonStringImpl(value));
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
-     *
-     * @param value a number
-     * @return this array builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonArrayBuilder add(BigDecimal value) {
+    public JsonArrayBuilder add(BigDecimal value) {
+        validateValue(value);
         valueList.add(new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
-     *
-     * @param value a number
-     * @return this array builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonArrayBuilder add(BigInteger value) {
+    public JsonArrayBuilder add(BigInteger value) {
+        validateValue(value);
         valueList.add(new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
-     *
-     * @param value a number
-     * @return this array builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonArrayBuilder add(int value) {
+    public JsonArrayBuilder add(int value) {
         valueList.add(new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
-     *
-     * @param value a number
-     * @return this array builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonArrayBuilder add(long value) {
+    public JsonArrayBuilder add(long value) {
         valueList.add(new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Adds the specified value as a JSON number value to the array
-     * that is being built.
-     *
-     * @param value a number
-     * @return this array builder
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonArrayBuilder add(double value) {
+    public JsonArrayBuilder add(double value) {
         valueList.add(new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Adds a JSON true or false value to the array that is being built.
-     *
-     * @param value a boolean
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder add(boolean value) {
+    public JsonArrayBuilder add(boolean value) {
         valueList.add(value ? JsonValue.TRUE : JsonValue.FALSE);
         return this;
     }
 
-    /**
-     * Adds a JSON null value to the array that is being built.
-     *
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder addNull() {
+    public JsonArrayBuilder addNull() {
         valueList.add(JsonValue.NULL);
         return this;
     }
 
-    /**
-     * Adds a JsonObject from the specified builder to the array that
-     * is being built.
-     *
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder add(JsonObjectBuilder builder) {
+    public JsonArrayBuilder add(JsonObjectBuilder builder) {
+        if (builder == null) {
+            throw new NullPointerException(
+                    "Object builder that is used to add a value to JSON array cannot be null");
+        }
         valueList.add(builder.build());
         return this;
     }
 
-    /**
-     * Adds a JsonArray from the specified builder to the array that
-     * is being built.
-     *
-     * @return this array builder
-     */
-    public javax.json.JsonArrayBuilder add(javax.json.JsonArrayBuilder builder) {
+    public JsonArrayBuilder add(JsonArrayBuilder builder) {
+        if (builder == null) {
+            throw new NullPointerException(
+                    "Array builder that is used to add a value to JSON array cannot be null");
+        }
         valueList.add(builder.build());
         return this;
     }
 
-    /**
-     * Returns the array that is being built
-     *
-     * @return JSON array that is being built
-     */
     public JsonArray build() {
         ArrayList<JsonValue> snapshot = new ArrayList<JsonValue>(valueList);
         return new JsonArrayImpl(Collections.unmodifiableList(snapshot));
+    }
+
+    private void validateValue(Object value) {
+        if (value == null) {
+            throw new NullPointerException("JsonArray's value cannot be null");
+        }
     }
 
     private static final class JsonArrayImpl extends AbstractList<JsonValue> implements JsonArray {

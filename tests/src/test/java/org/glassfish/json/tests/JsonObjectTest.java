@@ -136,4 +136,13 @@ public class JsonObjectTest extends TestCase {
         }
     }
 
+    public void testObjectBuilderNpe() {
+        try {
+            JsonObject obj = Json.createObjectBuilder().add(null, 1).build();
+            fail("JsonObjectBuilder#add(null, 1) should throw NullPointerException");
+        } catch(NullPointerException e) {
+            // Expected
+        }
+    }
+
 }

@@ -47,254 +47,106 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
-/**
- * Builds a {@link javax.json.JsonObject} from scratch. It uses builder pattern to build
- * the object model and the builder methods can be chained while building the
- * JSON Object.
- *
- * <p>
- * <a id="JsonObjectBuilderExample1"/>
- * <b>For example</b>, for the following JSON
- *
- * <pre>
- * <code>
- * {
- *     "firstName": "John", "lastName": "Smith", "age": 25,
- *     "address" : {
- *         "streetAddress", "21 2nd Street",
- *         "city", "New York",
- *         "state", "NY",
- *         "postalCode", "10021"
- *     },
- *     "phoneNumber": [
- *         { "type": "home", "number": "212 555-1234" },
- *         { "type": "fax", "number": "646 555-4567" }
- *     ]
- * }
- * </code>
- * </pre>
- *
- * a JsonObject instance can be built using:
- *
- * <p>
- * <pre>
- * <code>
- * JsonObject value = new JsonObjectBuilderImpl()
- *     .add("firstName", "John")
- *     .add("lastName", "Smith")
- *     .add("age", 25)
- *     .add("address", new JsonObjectBuilderImpl()
- *         .add("streetAddress", "21 2nd Street")
- *         .add("city", "New York")
- *         .add("state", "NY")
- *         .add("postalCode", "10021"))
- *     .add("phoneNumber", new JsonArrayBuilderImpl()
- *         .add(new JsonObjectBuilderImpl()
- *             .add("type", "home")
- *             .add("number", "212 555-1234"))
- *         .add(new JsonObjectBuilderImpl()
- *             .add("type", "fax")
- *             .add("number", "646 555-4567")))
- *     .build();
- * </code>
- * </pre>
- *
- * @see javax.json.JsonArrayBuilder
- */
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
     private final Map<String, JsonValue> valueMap;
 
-    /**
-     * Constructs a {@code JsonObjectBuilderImpl} that initializes an empty JSON
-     * object that is being built.
-     */
-    public JsonObjectBuilderImpl() {
+    JsonObjectBuilderImpl() {
         this.valueMap = new LinkedHashMap<String, JsonValue>();
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder add(String name, JsonValue value) {
+    public JsonObjectBuilder add(String name, JsonValue value) {
+        validateName(name);
+        validateValue(value);
         valueMap.put(name, value);
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder add(String name, String value) {
+    public JsonObjectBuilder add(String name, String value) {
+        validateName(name);
+        validateValue(value);
         valueMap.put(name, new JsonStringImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonObjectBuilder add(String name, BigInteger value) {
+    public JsonObjectBuilder add(String name, BigInteger value) {
+        validateName(name);
+        validateValue(value);
         valueMap.put(name, new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonObjectBuilder add(String name, BigDecimal value) {
+    public JsonObjectBuilder add(String name, BigDecimal value) {
+        validateName(name);
+        validateValue(value);
         valueMap.put(name, new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonObjectBuilder add(String name, int value) {
+    public JsonObjectBuilder add(String name, int value) {
+        validateName(name);
         valueMap.put(name, new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     *
-     * @see javax.json.JsonNumber
-     */
-    public javax.json.JsonObjectBuilder add(String name, long value) {
+    public JsonObjectBuilder add(String name, long value) {
+        validateName(name);
         valueMap.put(name, new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     * @throws NumberFormatException if value is Not-a-Number(NaN) or infinity
-     *
-     * @see javax.json.JsonNumber
-     */
     public javax.json.JsonObjectBuilder add(String name, double value) {
+        validateName(name);
         valueMap.put(name, new JsonNumberImpl(value));
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @param value value to be associated with the specified name
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder add(String name, boolean value) {
+    public JsonObjectBuilder add(String name, boolean value) {
+        validateName(name);
         valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
         return this;
     }
 
-    /**
-     * Associates the specified value with the specified name in the
-     * JSON object that is being built. If the JSON object that is being
-     * built previously contained a mapping for the name, the old value
-     * is replaced by the specified value.
-     *
-     * @param name name with which the specified value is to be associated
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder addNull(String name) {
+    public JsonObjectBuilder addNull(String name) {
+        validateName(name);
         valueMap.put(name, JsonValue.NULL);
         return this;
     }
 
-    /**
-     * Associates the JsonObject from the specified builder with the
-     * specified name in the JSON object that is being built. If the JSON
-     * object that is being built previously contained a mapping for the name,
-     * the old value is replaced by the JsonObject from the specified builder.
-     *
-     * @param name name with which the specified value is to be associated
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder add(String name, javax.json.JsonObjectBuilder builder) {
+    public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
+        validateName(name);
+        if (builder == null) {
+            throw new NullPointerException(
+                    "Object builder that is used to create a value in JsonObject's name/value pair cannot be null");
+        }
         valueMap.put(name, builder.build());
         return this;
     }
 
-    /**
-     * Associates the JSON array from the specified builder with the
-     * specified name in the JSON object that is being built. If the JSON
-     * object that is being built previously contained a mapping for the name,
-     * the old value is replaced by the JsonArray from the specified builder.
-     *
-     * @param name name with which the specified value is to be associated
-     * @return this object builder
-     */
-    public javax.json.JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
+    public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
+        validateName(name);
+        if (builder == null) {
+            throw new NullPointerException(
+                    "Array builder that is used to create a value in JsonObject's name/value pair cannot be null");
+        }
         valueMap.put(name, builder.build());
         return this;
     }
 
-    /**
-     * Returns the JSON object that is being built. The returned JsonObject's
-     * iteration ordering is based on the order in which name/value pairs are
-     * added in this builder.
-     *
-     * @return JSON object that is being built
-     */
     public JsonObject build() {
         Map<String, JsonValue> snapshot = new LinkedHashMap<String, JsonValue>(valueMap);
         return new JsonObjectImpl(Collections.unmodifiableMap(snapshot));
+    }
+
+    private void validateName(String name) {
+        if (name == null) {
+            throw new NullPointerException("Name in JsonObject's name/value pair cannot be null");
+        }
+    }
+
+    private void validateValue(Object value) {
+        if (value == null) {
+            throw new NullPointerException("Value in JsonObject's name/value pair cannot be null");
+        }
     }
 
     private static final class JsonObjectImpl extends AbstractMap<String, JsonValue> implements JsonObject {
