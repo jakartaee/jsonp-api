@@ -524,7 +524,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     @Override
     void close();
 
-    /*
+    /**
      * Flushes the underlying output source. If the generator has saved
      * any characters in a buffer, writes them immediately to the underlying
      * output source before flushing it.
