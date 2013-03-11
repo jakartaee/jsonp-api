@@ -63,14 +63,14 @@ public interface JsonLocation {
      *
      * @return the line number or -1 if none is available
      */
-    int getLineNumber();
+    long getLineNumber();
 
     /**
      * Return the column number for the current JSON event in the input source.
      *
      * @return the column number or -1 if none is available
      */
-    int getColumnNumber();
+    long getColumnNumber();
 
     /**
      * Return the stream offset into the input source this location
@@ -82,6 +82,6 @@ public interface JsonLocation {
      * @return the offset of input source stream, or -1 if there is
      * no offset available
      */
-    int getStreamOffset();
+    long getStreamOffset();
 
 }

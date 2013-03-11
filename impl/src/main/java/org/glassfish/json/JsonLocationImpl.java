@@ -59,18 +59,18 @@ class JsonLocationImpl implements JsonLocation {
     }
 
     @Override
-    public int getLineNumber() {
-        return (int)lineNo;
+    public long getLineNumber() {
+        return lineNo;
     }
 
     @Override
-    public int getColumnNumber() {
-        return (int)columnNo;
+    public long getColumnNumber() {
+        return columnNo;
     }
 
     @Override
-    public int getStreamOffset() {
-        return (int) offset;
+    public long getStreamOffset() {
+        return offset;
     }
 
     public String toString() {

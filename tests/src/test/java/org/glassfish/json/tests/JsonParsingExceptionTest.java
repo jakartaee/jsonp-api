@@ -45,13 +45,8 @@ import junit.framework.TestCase;
 import javax.json.Json;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParsingException;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.io.StringReader;
 
 /**
  * JsonParsingException Tests
@@ -127,28 +122,28 @@ public class JsonParsingExceptionTest extends TestCase {
     }
 
     private static class MyLocation implements JsonLocation {
-        private final int columnNo;
-        private final int lineNo;
-        private final int streamOffset;
+        private final long columnNo;
+        private final long lineNo;
+        private final long streamOffset;
 
-        MyLocation(int lineNo, int columnNo, int streamOffset) {
+        MyLocation(long lineNo, long columnNo, long streamOffset) {
             this.lineNo = lineNo;
             this.columnNo = columnNo;
             this.streamOffset = streamOffset;
         }
 
         @Override
-        public int getLineNumber() {
+        public long getLineNumber() {
             return lineNo;
         }
 
         @Override
-        public int getColumnNumber() {
+        public long getColumnNumber() {
             return columnNo;
         }
 
         @Override
-        public int getStreamOffset() {
+        public long getStreamOffset() {
             return streamOffset;
         }
     }
