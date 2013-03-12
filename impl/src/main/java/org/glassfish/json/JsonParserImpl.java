@@ -59,7 +59,7 @@ import org.glassfish.json.JsonTokenizer.JsonToken;
 public class JsonParserImpl implements JsonParser {
 
     private State currentState = State.START_DOCUMENT;
-    private Context currentContext = Context.NONE;
+    private Context currentContext = new NoneContext(this);
 
     private Event currentEvent;
 
@@ -181,14 +181,14 @@ public class JsonParserImpl implements JsonParser {
             }
             while (true) {
                 JsonToken token = nextToken();
-                currentState = currentState.getTransition(token, currentContext, JsonParserImpl.this);
+                currentState = currentContext.getTransition(currentState, token);
 
                 switch (currentState) {
                     case START_DOCUMENT:
                         continue;
                     case START_OBJECT:
                         stack.push(currentContext);
-                        currentContext = Context.OBJECT;
+                        currentContext = new ObjectContext(JsonParserImpl.this);
                         return currentEvent=JsonParser.Event.START_OBJECT;
                     case KEY:
                         return currentEvent=JsonParser.Event.KEY_NAME;
@@ -211,7 +211,7 @@ public class JsonParserImpl implements JsonParser {
                         return currentEvent=JsonParser.Event.END_OBJECT;
                     case START_ARRAY:
                         stack.push(currentContext);
-                        currentContext = Context.ARRAY;
+                        currentContext = new ArrayContext(JsonParserImpl.this);
                         return currentEvent=JsonParser.Event.START_ARRAY;
                     case ARRAY_STRING:
                         return currentEvent=JsonParser.Event.VALUE_STRING;
@@ -248,11 +248,222 @@ public class JsonParserImpl implements JsonParser {
         }
     }
 
-    private enum Context {
-        NONE, ARRAY, OBJECT
+
+    private static abstract class Context {
+        final JsonParserImpl parser;
+
+        Context(JsonParserImpl parser) {
+            this.parser = parser;
+        }
+
+        abstract State[][] getTransitions();
+
+        abstract EnumMap<State, Set<JsonToken>> getExpectedTokens();
+
+        State getTransition(State current, JsonToken token) {
+            State state = getTransitions()[current.ordinal()][token.ordinal()];
+            if (state == State.INVALID) {
+                throw new JsonParsingException(
+                        "Invalid token "+token+" at "+parser.getLastCharLocation()+", "+
+                        "Expected Tokens "+ getExpectedTokens().get(current), parser.getLastCharLocation());
+            }
+            return state;
+        }
+
+        // Using 2-dimensional array (may be better than
+        // EnumMap<State, EnumMap<JsonToken, State>> )
+        static void transition(State[][] TRANSITIONS, EnumMap<State,
+                Set<JsonToken>> EXPECTED_TOKENS,
+                State current, JsonToken token, State next) {
+            TRANSITIONS[current.ordinal()][token.ordinal()] = next;
+            Set<JsonToken> allowed =  EXPECTED_TOKENS.get(current);
+            if (allowed == null) {
+                allowed = EnumSet.noneOf(JsonToken.class);
+                EXPECTED_TOKENS.put(current, allowed);
+            }
+            allowed.add(token);
+        }
     }
 
+    private static class NoneContext extends Context {
+        private static final State[][] TRANSITIONS =
+                new State[State.values().length][JsonToken.values().length];
+        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
+                new EnumMap<State, Set<JsonToken>>(State.class);
+
+        static {
+            for(int i=0; i < TRANSITIONS.length; i++) {
+                for(int j=0; j < TRANSITIONS[i].length; j++) {
+                    TRANSITIONS[i][j] = State.INVALID;
+                }
+            }
+            transition(State.START_DOCUMENT, JsonToken.CURLYOPEN, State.START_OBJECT);
+            transition(State.START_DOCUMENT, JsonToken.SQUAREOPEN, State.START_ARRAY);
+        }
+
+        NoneContext(JsonParserImpl parser) {
+            super(parser);
+        }
+
+        @Override
+        State[][] getTransitions() {
+            return TRANSITIONS;
+        }
+
+        @Override
+        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
+            return EXPECTED_TOKENS;
+        }
+
+        static void transition(State current, JsonToken token, State next) {
+            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
+        }
+    }
+
+    private static class ObjectContext extends Context {
+        private static final State[][] TRANSITIONS =
+                new State[State.values().length][JsonToken.values().length];
+        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
+                new EnumMap<State, Set<JsonToken>>(State.class);
+
+        static {
+            for(int i=0; i < TRANSITIONS.length; i++) {
+                for(int j=0; j < TRANSITIONS[i].length; j++) {
+                    TRANSITIONS[i][j] = State.INVALID;
+                }
+            }
+            transition(State.START_OBJECT, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.START_OBJECT, JsonToken.STRING, State.KEY);
+
+            transition(State.KEY, JsonToken.COLON, State.COLON);
+
+            transition(State.COLON, JsonToken.STRING, State.OBJECT_STRING);
+            transition(State.COLON, JsonToken.NUMBER, State.OBJECT_NUMBER);
+            transition(State.COLON, JsonToken.TRUE, State.OBJECT_TRUE);
+            transition(State.COLON, JsonToken.FALSE, State.OBJECT_FALSE);
+            transition(State.COLON, JsonToken.NULL, State.OBJECT_NULL);
+            transition(State.COLON, JsonToken.CURLYOPEN, State.START_OBJECT);
+            transition(State.COLON, JsonToken.SQUAREOPEN, State.START_ARRAY);
+
+            transition(State.OBJECT_STRING, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.OBJECT_STRING, JsonToken.COMMA, State.OBJECT_COMMA);
+
+            transition(State.OBJECT_NUMBER, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.OBJECT_NUMBER, JsonToken.COMMA, State.OBJECT_COMMA);
+
+            transition(State.OBJECT_TRUE, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.OBJECT_TRUE, JsonToken.COMMA, State.OBJECT_COMMA);
+
+            transition(State.OBJECT_FALSE, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.OBJECT_FALSE, JsonToken.COMMA, State.OBJECT_COMMA);
+
+            transition(State.OBJECT_NULL, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.OBJECT_NULL, JsonToken.COMMA, State.OBJECT_COMMA);
+
+            transition(State.OBJECT_COMMA, JsonToken.STRING, State.KEY);
+
+            transition(State.END_OBJECT, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.END_OBJECT, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.END_OBJECT, JsonToken.EOF, State.END_DOCUMENT);
+
+            transition(State.END_ARRAY, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.END_ARRAY, JsonToken.CURLYCLOSE, State.END_OBJECT);
+        }
+
+        ObjectContext(JsonParserImpl parser) {
+            super(parser);
+        }
+
+        static void transition(State current, JsonToken token, State next) {
+            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
+        }
+
+        @Override
+        State[][] getTransitions() {
+            return TRANSITIONS;
+        }
+
+        @Override
+        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
+            return EXPECTED_TOKENS;
+        }
+    }
+
+    private static class ArrayContext extends Context {
+        private static final State[][] TRANSITIONS =
+                new State[State.values().length][JsonToken.values().length];
+        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
+                new EnumMap<State, Set<JsonToken>>(State.class);
+
+        static {
+            for(int i=0; i < TRANSITIONS.length; i++) {
+                for(int j=0; j < TRANSITIONS[i].length; j++) {
+                    TRANSITIONS[i][j] = State.INVALID;
+                }
+            }
+            transition(State.START_ARRAY, JsonToken.STRING, State.ARRAY_STRING);
+            transition(State.START_ARRAY, JsonToken.NUMBER, State.ARRAY_NUMBER);
+            transition(State.START_ARRAY, JsonToken.TRUE, State.ARRAY_TRUE);
+            transition(State.START_ARRAY, JsonToken.FALSE, State.ARRAY_FALSE);
+            transition(State.START_ARRAY, JsonToken.NULL, State.ARRAY_NULL);
+            transition(State.START_ARRAY, JsonToken.CURLYOPEN, State.START_OBJECT);
+            transition(State.START_ARRAY, JsonToken.SQUAREOPEN, State.START_ARRAY);
+            transition(State.START_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_STRING, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.ARRAY_STRING, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_NUMBER, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.ARRAY_NUMBER, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_TRUE, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.ARRAY_TRUE, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_FALSE, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.ARRAY_FALSE, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_NULL, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.ARRAY_NULL, JsonToken.SQUARECLOSE, State.END_ARRAY);
+
+            transition(State.ARRAY_COMMA, JsonToken.STRING, State.ARRAY_STRING);
+            transition(State.ARRAY_COMMA, JsonToken.NUMBER, State.ARRAY_NUMBER);
+            transition(State.ARRAY_COMMA, JsonToken.TRUE, State.ARRAY_TRUE);
+            transition(State.ARRAY_COMMA, JsonToken.FALSE, State.ARRAY_FALSE);
+            transition(State.ARRAY_COMMA, JsonToken.NULL, State.ARRAY_NULL);
+            transition(State.ARRAY_COMMA, JsonToken.CURLYOPEN, State.START_OBJECT);
+            transition(State.ARRAY_COMMA, JsonToken.SQUAREOPEN, State.START_ARRAY);
+
+            transition(State.END_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.END_ARRAY, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.END_ARRAY, JsonToken.EOF, State.END_DOCUMENT);
+
+            transition(State.END_OBJECT, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.END_OBJECT, JsonToken.SQUARECLOSE, State.END_ARRAY);
+        }
+
+        ArrayContext(JsonParserImpl parser) {
+            super(parser);
+        }
+
+        static void transition(State current, JsonToken token, State next) {
+            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
+        }
+
+        @Override
+        State[][] getTransitions() {
+            return TRANSITIONS;
+        }
+
+        @Override
+        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
+            return EXPECTED_TOKENS;
+        }
+    }
+
+
     private enum State {
+        INVALID,
+
         START_DOCUMENT,
 
         START_OBJECT,
@@ -264,22 +475,7 @@ public class JsonParserImpl implements JsonParser {
         OBJECT_FALSE,
         OBJECT_NULL,
         OBJECT_COMMA,
-        END_OBJECT {
-            @Override
-            State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
-                if (token == JsonToken.COMMA) {
-                    return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
-                } else {
-                    if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-                        throw new JsonParsingException("Not in array context, but got = ]", parser.getLastCharLocation());
-                    }
-                    if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-                        throw new JsonParsingException("Not in object context, but got = }", parser.getLastCharLocation());
-                    }
-                    return super.getTransition(token, context, parser);
-                }
-            }
-        },
+        END_OBJECT,
 
         START_ARRAY,
         ARRAY_STRING,
@@ -288,121 +484,9 @@ public class JsonParserImpl implements JsonParser {
         ARRAY_FALSE,
         ARRAY_NULL,
         ARRAY_COMMA,
-        END_ARRAY {
-            @Override
-            State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
-                if (token == JsonToken.COMMA) {
-                    return context == Context.OBJECT ? State.OBJECT_COMMA : State.ARRAY_COMMA;
-                } else {
-                    if (token == JsonToken.SQUARECLOSE && context != Context.ARRAY) {
-                        throw new JsonParsingException("Not in array context, but got = ]", parser.getLastCharLocation());
-                    }
-                    if (token == JsonToken.CURLYCLOSE && context != Context.OBJECT) {
-                        throw new JsonParsingException("Not in object context, but got = }", parser.getLastCharLocation());
-                    }
-                    return super.getTransition(token, context, parser);
-                }
-            }
-        },
+        END_ARRAY,
 
-        END_DOCUMENT;
-
-        // TODO state transitions may be moved to Context so that some
-        // transitions are only valid in say object context
-        static {
-            START_DOCUMENT.transition(JsonToken.CURLYOPEN, START_OBJECT);
-            START_DOCUMENT.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-
-            START_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            START_OBJECT.transition(JsonToken.STRING, KEY);
-
-            KEY.transition(JsonToken.COLON, COLON);
-
-            COLON.transition(JsonToken.STRING, OBJECT_STRING);
-            COLON.transition(JsonToken.NUMBER, OBJECT_NUMBER);
-            COLON.transition(JsonToken.TRUE, OBJECT_TRUE);
-            COLON.transition(JsonToken.FALSE, OBJECT_FALSE);
-            COLON.transition(JsonToken.NULL, OBJECT_NULL);
-            COLON.transition(JsonToken.CURLYOPEN, START_OBJECT);
-            COLON.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-
-            OBJECT_STRING.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            OBJECT_STRING.transition(JsonToken.COMMA, OBJECT_COMMA);
-
-            OBJECT_NUMBER.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            OBJECT_NUMBER.transition(JsonToken.COMMA, OBJECT_COMMA);
-
-            OBJECT_TRUE.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            OBJECT_TRUE.transition(JsonToken.COMMA, OBJECT_COMMA);
-
-            OBJECT_FALSE.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            OBJECT_FALSE.transition(JsonToken.COMMA, OBJECT_COMMA);
-
-            OBJECT_NULL.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            OBJECT_NULL.transition(JsonToken.COMMA, OBJECT_COMMA);
-
-            OBJECT_COMMA.transition(JsonToken.STRING, KEY);
-
-            END_OBJECT.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            END_OBJECT.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-            // Need an enclosing scope to determine the next state
-            // END_OBJECT.transition(JsonToken.COMMA, OBJECT_COMMA or ARRAY_COMMA );
-            END_OBJECT.transition(JsonToken.EOF, END_DOCUMENT);
-
-            START_ARRAY.transition(JsonToken.STRING, ARRAY_STRING);
-            START_ARRAY.transition(JsonToken.NUMBER, ARRAY_NUMBER);
-            START_ARRAY.transition(JsonToken.TRUE, ARRAY_TRUE);
-            START_ARRAY.transition(JsonToken.FALSE, ARRAY_FALSE);
-            START_ARRAY.transition(JsonToken.NULL, ARRAY_NULL);
-            START_ARRAY.transition(JsonToken.CURLYOPEN, START_OBJECT);
-            START_ARRAY.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-            START_ARRAY.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_STRING.transition(JsonToken.COMMA, ARRAY_COMMA);
-            ARRAY_STRING.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_NUMBER.transition(JsonToken.COMMA, ARRAY_COMMA);
-            ARRAY_NUMBER.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_TRUE.transition(JsonToken.COMMA, ARRAY_COMMA);
-            ARRAY_TRUE.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_FALSE.transition(JsonToken.COMMA, ARRAY_COMMA);
-            ARRAY_FALSE.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_NULL.transition(JsonToken.COMMA, ARRAY_COMMA);
-            ARRAY_NULL.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-
-            ARRAY_COMMA.transition(JsonToken.STRING, ARRAY_STRING);
-            ARRAY_COMMA.transition(JsonToken.NUMBER, ARRAY_NUMBER);
-            ARRAY_COMMA.transition(JsonToken.TRUE, ARRAY_TRUE);
-            ARRAY_COMMA.transition(JsonToken.FALSE, ARRAY_FALSE);
-            ARRAY_COMMA.transition(JsonToken.NULL, ARRAY_NULL);
-            ARRAY_COMMA.transition(JsonToken.CURLYOPEN, START_OBJECT);
-            ARRAY_COMMA.transition(JsonToken.SQUAREOPEN, START_ARRAY);
-
-            END_ARRAY.transition(JsonToken.CURLYCLOSE, END_OBJECT);
-            END_ARRAY.transition(JsonToken.SQUARECLOSE, END_ARRAY);
-            // Need an enclosing scope to determine the next state
-            //END_ARRAY.transition(JsonToken.COMMA, OBJECT_COMMA or ARRAY_COMMA);
-            END_ARRAY.transition(JsonToken.EOF, END_DOCUMENT);
-        }
-        
-        final EnumMap<JsonToken, State> transitions
-                = new EnumMap<JsonToken, State>(JsonToken.class);
-        
-        private void transition(JsonToken token, State state) {
-            transitions.put(token, state);
-        }
-
-        State getTransition(JsonToken token, Context context, JsonParserImpl parser) {
-            State state = transitions.get(token);
-            if (state == null) {
-                throw new JsonParsingException("Expecting Tokens="+transitions.keySet()+" Got ="+token,
-                        parser.getLastCharLocation());
-            }
-            return state;
-        }
+        END_DOCUMENT
     }
     
 }
