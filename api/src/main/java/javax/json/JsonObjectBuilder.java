@@ -111,6 +111,9 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
+ * <p>This class does <em>not</em> allow <tt>null</tt> to be used as a name or
+ * value while building the JSON object
+ *
  * @see JsonArrayBuilder
  */
 public interface JsonObjectBuilder {
@@ -123,6 +126,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name or value is null
      */
     JsonObjectBuilder add(String name, JsonValue value);
 
@@ -134,6 +138,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name or value is null
      */
     JsonObjectBuilder add(String name, String value);
 
@@ -145,6 +150,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name or value is null
      *
      * @see JsonNumber
      */
@@ -158,6 +164,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name or value is null
      *
      * @see JsonNumber
      */
@@ -171,6 +178,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name is null
      *
      * @see JsonNumber
      */
@@ -184,6 +192,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name is null
      *
      * @see JsonNumber
      */
@@ -199,6 +208,7 @@ public interface JsonObjectBuilder {
      * @return this object builder
      * @throws NumberFormatException if the value is Not-a-Number(NaN) or 
      * infinity
+     * @throws NullPointerException if the specified name is null
      *
      * @see JsonNumber
      */
@@ -213,6 +223,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name is null
      */
     JsonObjectBuilder add(String name, boolean value);
 
@@ -224,6 +235,7 @@ public interface JsonObjectBuilder {
      *
      * @param name name in the name/value pair
      * @return this object builder
+     * @throws NullPointerException if the specified name is null
      */
     JsonObjectBuilder addNull(String name);
 
@@ -237,6 +249,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param builder the value is the object associated with this builder
      * @return this object builder
+     * @throws NullPointerException if the specified name or builder is null
      */
     JsonObjectBuilder add(String name, JsonObjectBuilder builder);
 
@@ -250,6 +263,7 @@ public interface JsonObjectBuilder {
      * @param name the name in the name/value pair
      * @param builder the value is the object array with this builder
      * @return this object builder
+     * @throws NullPointerException if the specified name or builder is null
      */
     JsonObjectBuilder add(String name, JsonArrayBuilder builder);
 

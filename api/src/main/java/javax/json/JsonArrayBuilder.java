@@ -92,6 +92,9 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
+ * <p>This class does <em>not</em> allow <tt>null</tt> to be used as a
+ * value while building the JSON array
+ *
  * @see JsonObjectBuilder
  */
 public interface JsonArrayBuilder {
@@ -101,6 +104,7 @@ public interface JsonArrayBuilder {
      *
      * @param value the JSON value
      * @return this array builder
+     * @throws NullPointerException if the specified value is null
      */
     JsonArrayBuilder add(JsonValue value);
 
@@ -109,6 +113,7 @@ public interface JsonArrayBuilder {
      *
      * @param value the string value
      * @return this array builder
+     * @throws NullPointerException if the specified value is null
      */
     JsonArrayBuilder add(String value);
 
@@ -117,6 +122,7 @@ public interface JsonArrayBuilder {
      *
      * @param value the number value
      * @return this array builder
+     * @throws NullPointerException if the specified value is null
      *
      * @see JsonNumber
      */
@@ -127,6 +133,7 @@ public interface JsonArrayBuilder {
      *
      * @param value the number value
      * @return this array builder
+     * @throws NullPointerException if the specified value is null
      *
      * @see JsonNumber
      */
@@ -185,6 +192,7 @@ public interface JsonArrayBuilder {
      *
      * @param builder the object builder
      * @return this array builder
+     * @throws NullPointerException if the specified builder is null
      */
     JsonArrayBuilder add(JsonObjectBuilder builder);
 
@@ -193,6 +201,7 @@ public interface JsonArrayBuilder {
      *
      * @param builder the array builder
      * @return this array builder
+     * @throws NullPointerException if the specified builder is null
      */
     JsonArrayBuilder add(JsonArrayBuilder builder);
 
