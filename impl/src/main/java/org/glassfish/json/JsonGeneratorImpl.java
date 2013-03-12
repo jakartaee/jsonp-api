@@ -54,23 +54,26 @@ import java.util.Map;
 /**
  * @author Jitendra Kotamraju
  */
-public class JsonGeneratorImpl implements JsonGenerator {
+class JsonGeneratorImpl implements JsonGenerator {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     protected final Writer writer;
     protected Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
 
-    public JsonGeneratorImpl(Writer writer) {
+    JsonGeneratorImpl(Writer writer) {
+        if (!(writer instanceof  BufferedWriter)) {
+            writer = new BufferedWriter(writer);
+        }
         this.writer = writer;
     }
 
-    public JsonGeneratorImpl(OutputStream out) {
+    JsonGeneratorImpl(OutputStream out) {
         this(out, UTF_8);
     }
 
-    public JsonGeneratorImpl(OutputStream out, Charset encoding) {
-        this.writer = new OutputStreamWriter(out, encoding);
+    JsonGeneratorImpl(OutputStream out, Charset encoding) {
+        this(new OutputStreamWriter(out, encoding));
     }
 
     @Override

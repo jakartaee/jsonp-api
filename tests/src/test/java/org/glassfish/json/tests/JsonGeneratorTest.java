@@ -199,6 +199,7 @@ public class JsonGeneratorTest extends TestCase {
                 .write(Long.MIN_VALUE)
                 .write(Double.MIN_VALUE)
                 .writeEnd();
+        generator.close();
 
         JsonReader reader = Json.createReader(new StringReader(sw.toString()));
         JsonArray expected = reader.readArray();
