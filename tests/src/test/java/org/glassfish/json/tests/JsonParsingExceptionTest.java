@@ -83,8 +83,16 @@ public class JsonParsingExceptionTest extends TestCase {
         testMalformedJson("[ {}, [] }", null);
     }
 
+    public void testWrongJson61() {
+        testMalformedJson("[ {}, {} }", null);
+    }
+
     public void testWrongJson7() {
         testMalformedJson("{ \"a\" : {}, \"b\": {} ]", null);
+    }
+
+    public void testWrongJson8() {
+        testMalformedJson("{ \"a\" : {}, \"b\": [] ]", null);
     }
 
     public void testLocation1() {
