@@ -75,10 +75,10 @@ public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure>
     private JsonWriterFactory wf = Json.createWriterFactory(null);
 
     @Context
-    private Configuration config;       // TODO : not working
+    private Configuration config;
 
     @PostConstruct
-    private void init() {               // TODO : not working
+    private void init() {
         Map<String, Object> props = new HashMap<String, Object>();
         if (config != null && config.getProperties().containsKey(JsonGenerator.PRETTY_PRINTING)) {
             props.put(JsonGenerator.PRETTY_PRINTING, true);
