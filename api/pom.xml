@@ -54,7 +54,7 @@
     <groupId>javax.json</groupId>
     <artifactId>javax.json-api</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>JSR 353 (JSON Processing) API</name>
     <description>API module of JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
@@ -97,6 +97,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.glassfish.build</groupId>
+                <artifactId>spec-version-maven-plugin</artifactId>
+                <configuration>
+                    <spec>
+                        <nonFinal>false</nonFinal>
+                        <jarType>api</jarType>
+                        <specVersion>${spec_version}</specVersion>
+                        <specImplVersion>${spec_impl_version}</specImplVersion>
+                        <apiPackage>${api_package}</apiPackage>
+                    </spec>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-spec-properties</goal>
+                            <goal>check-module</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--
               This plugin is reponsible for packaging artifacts
               as OSGi bundles.  Please refer to
@@ -109,13 +130,12 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-Version>${apijar.bundle.version}</Bundle-Version>
-                        <specversion>${apijar.bundle.specversion}</specversion>
-                        <Bundle-SymbolicName>${apijar.bundle.symbolicName}</Bundle-SymbolicName>
+                        <Bundle-Version>${spec.bundle.version}</Bundle-Version>
+                        <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
+                        <Extension-Name>${spec.extension.name}</Extension-Name>
+                        <Implementation-Version>${spec.implementation.version}</Implementation-Version>
+                        <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
-						<Specification-Version>${apijar.spec.version}</Specification-Version>
-						<Implementation-Version>${apijar.spec.impl.version}</Implementation-Version>
-						<Extension-Name>${apijar.extensionName}</Extension-Name>
                     </instructions>
                 </configuration>
             </plugin>

@@ -95,32 +95,11 @@
     <properties>
         <api_package>javax.json</api_package>
         <impl_namespace>org.glassfish</impl_namespace>
-        <spec_version>0.0</spec_version>
-        <new_spec_version>1.0</new_spec_version>
-        <new_impl_version>1.0</new_impl_version>
-        <build_number>06</build_number>
-        <spec_impl_version>1.0.0</spec_impl_version>
-        <impl_version>0.0.0</impl_version>
-
-        <apijar.extensionName>${api_package}</apijar.extensionName>
-        <apijar.bundle.symbolicName>${api_package}-api</apijar.bundle.symbolicName>
-        <impljar.extensionName>${api_package}</impljar.extensionName>
-        <impljar.bundle.symbolicName>${impl_namespace}.${api_package}</impljar.bundle.symbolicName>
+        <spec_version>1.0</spec_version>
+        <spec_impl_version>1.0</spec_impl_version>
+        <impl_version>1.0</impl_version>
         <packages.private>org.glassfish.*</packages.private>
-
-        <!-- Non Final properties API and impl jar-->
-        <apijar.maven.version>${new_spec_version}-b${build_number}</apijar.maven.version>
-        <apijar.bundle.specversion>${spec_version}.99.b${build_number}</apijar.bundle.specversion>
-        <apijar.bundle.version>${spec_version}.99.b${build_number}</apijar.bundle.version>
-        <apijar.spec.version>${spec_version}.99.${build_number}</apijar.spec.version>
-        <apijar.spec.impl.version>${new_spec_version}-b${build_number}</apijar.spec.impl.version>
-        <impljar.bundle.specversion>${spec_version}.99.b${build_number}</impljar.bundle.specversion>
-        <impljar.maven.version>${new_impl_version}-b${build_number}</impljar.maven.version>
-        <impljar.bundle.version>${spec_version}.99.b${build_number}</impljar.bundle.version>
-        <impljar.spec.version>${spec_version}.99.${build_number}</impljar.spec.version>
-        <impljar.impl.version>${new_spec_version}-b${build_number}</impljar.impl.version>
-        <packages.export>javax.json.*; version=${apijar.bundle.version}</packages.export>
-
+        <packages.export>javax.json.*</packages.export>
     </properties>
 
     <build>
@@ -158,15 +137,20 @@
 
         <pluginManagement>
             <plugins>
-            	<plugin>
-                	<groupId>org.apache.felix</groupId>
-                	<artifactId>maven-bundle-plugin</artifactId>
-                	<version>2.3.7</version>
-            	</plugin>
                 <plugin>
-                	<groupId>org.apache.maven.plugins</groupId>
-                	<artifactId>maven-javadoc-plugin</artifactId>
-                	<version>2.8.1</version>
+                    <groupId>org.glassfish.build</groupId>
+                    <artifactId>spec-version-maven-plugin</artifactId>
+                    <version>1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -191,14 +175,14 @@
                         <target>1.6</target>
                     </configuration>
                 </plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1-beta-1</version>
-					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1-beta-1</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -227,6 +211,27 @@
                 <version>2.0-rc1</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-web-api</artifactId>
+                <version>6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.json</groupId>
+                <artifactId>javax.json-api</artifactId>
+                <version>${spec_impl_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>${impl_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -241,21 +246,17 @@
         </profile>
         <profile>
             <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
-				<module>tests</module>
-				<module>gf</module>
-				<module>demos</module>
+                <module>tests</module>
+                <module>gf</module>
+                <module>demos</module>
             </modules>
         </profile>
     </profiles>
-
-    <modules>
-        <module>api</module>
-        <module>impl</module>
-        <module>tests</module>
-        <module>jaxrs</module>
-    </modules>
 </project>
