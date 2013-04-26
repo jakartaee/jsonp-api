@@ -59,7 +59,7 @@ public class TwitterSearchTest extends TestCase {
         // dummy test so that junit doesn't complain
     }
 
-    public void xtestTwitterFeed() throws Exception {
+    public void xtestStreamTwitter() throws Exception {
         URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
         InputStream is = url.openStream();
         JsonParser parser = Json.createParser(is);
@@ -80,5 +80,20 @@ public class TwitterSearchTest extends TestCase {
         }
         parser.close();
 	}
+
+    public void xtestObjectTwitter() throws Exception {
+        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
+        InputStream is = url.openStream();
+        JsonReader rdr = Json.createReader(is);
+        JsonObject obj = rdr.readObject();
+        JsonArray results = obj.getJsonArray("results");
+        for(JsonObject result : results.getValuesAs(JsonObject.class)) {
+            System.out.print(result.get("from_user"));
+            System.out.print(": ");
+            System.out.println(result.get("text"));
+            System.out.println("-----------");
+        }
+        rdr.close();
+    }
 
 }
