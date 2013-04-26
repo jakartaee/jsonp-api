@@ -96,8 +96,8 @@
         <api_package>javax.json</api_package>
         <impl_namespace>org.glassfish</impl_namespace>
         <spec_version>1.0</spec_version>
-        <spec_impl_version>1.0-SNAPSHOT</spec_impl_version>
-        <impl_version>1.0-SNAPSHOT</impl_version>
+        <spec_impl_version>1.0</spec_impl_version>
+        <impl_version>1.0</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
     </properties>
