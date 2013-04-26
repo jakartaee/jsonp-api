@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,40 +38,33 @@
  * holder.
  */
 
-package org.glassfish.jsondemos.jaxrs;
+package org.glassfish.jsondemos.twitter;
 
-import javax.json.stream.JsonGenerator;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.json.*;
+import java.io.*;
+import java.net.URL;
 
 /**
- * A JAX-RS Demo Application using JSON API
+ * JsonParser Tests using twitter search API
  *
  * @author Jitendra Kotamraju
  */
-@ApplicationPath("/")
-public class DemoApplication extends Application {
+public class TwitterObjectSearch {
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> set = new HashSet<>();
-        set.add(ParserResource.class);
-        set.add(GeneratorResource.class);
-        set.add(ObjectResource.class);
-        set.add(ArrayResource.class);
-        set.add(StructureResource.class);
+    public static void main(String... args) throws Exception {
+        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
+        try (InputStream is = url.openStream();
+             JsonReader rdr = Json.createReader(is)) {
 
-        return set;
+            JsonObject obj = rdr.readObject();
+            JsonArray results = obj.getJsonArray("results");
+            for (JsonObject result : results.getValuesAs(JsonObject.class)) {
+                System.out.print(result.get("from_user"));
+                System.out.print(": ");
+                System.out.println(result.get("text"));
+                System.out.println("-----------");
+            }
+        }
     }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        return new HashMap<String, Object>() {{
-            put(JsonGenerator.PRETTY_PRINTING, true);
-        }};
-    }
 }

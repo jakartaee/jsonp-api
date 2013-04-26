@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,40 +38,43 @@
  * holder.
  */
 
-package org.glassfish.jsondemos.jaxrs;
+package org.glassfish.jsondemos.twitter;
 
-import javax.json.stream.JsonGenerator;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.json.*;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParser.Event;
+import java.io.*;
+import java.net.URL;
 
 /**
- * A JAX-RS Demo Application using JSON API
+ * JsonParser Tests using twitter search API
  *
  * @author Jitendra Kotamraju
  */
-@ApplicationPath("/")
-public class DemoApplication extends Application {
+public class TwitterStreamSearch {
 
-    @Override
-    public Set<Class<?>> getClasses() {
-        Set<Class<?>> set = new HashSet<>();
-        set.add(ParserResource.class);
-        set.add(GeneratorResource.class);
-        set.add(ObjectResource.class);
-        set.add(ArrayResource.class);
-        set.add(StructureResource.class);
-
-        return set;
+    public static void main(String... args) throws Exception {
+        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
+        try (InputStream is = url.openStream();
+             JsonParser parser = Json.createParser(is)) {
+            while (parser.hasNext()) {
+                Event e = parser.next();
+                if (e == Event.KEY_NAME) {
+                    switch (parser.getString()) {
+                        case "from_user":
+                            parser.next();
+                            System.out.print(parser.getString());
+                            System.out.print(": ");
+                            break;
+                        case "text":
+                            parser.next();
+                            System.out.println(parser.getString());
+                            System.out.println("---------");
+                            break;
+                    }
+                }
+            }
+        }
     }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        return new HashMap<String, Object>() {{
-            put(JsonGenerator.PRETTY_PRINTING, true);
-        }};
-    }
 }
