@@ -50,7 +50,7 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.OutputStream;
 
 /**
- * Writes wiki's JSON example in a streaming fashion
+ * Writes wiki's JSON example in a streaming fashion using JsonGenerator
  *
  * @author Jitendra Kotamraju
  */

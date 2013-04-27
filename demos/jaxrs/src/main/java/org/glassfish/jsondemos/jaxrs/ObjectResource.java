@@ -45,7 +45,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Writes person's JSON using JsonObject
+ * JsonObject as parameter and return type for a JAX-RS resource
+ * Writes a person's representation as JSON using JsonObject
  *
  * @author Jitendra Kotamraju
  */

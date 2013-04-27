@@ -47,7 +47,14 @@ import java.io.*;
 import java.net.URL;
 
 /**
- * JsonParser Tests using twitter search API
+ * Parses JSON from twitter search REST API using streaming API.
+ * JSON would like :
+ *
+ * ... { ... "from_user" : "xxx", ..., "text: "yyy", ... } ...
+ *
+ * This codes writes the tweets to output as follows:
+ * xxx: yyy
+ * --------
  *
  * @author Jitendra Kotamraju
  */

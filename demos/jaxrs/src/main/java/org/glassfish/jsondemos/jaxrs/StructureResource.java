@@ -45,6 +45,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * JsonStructure as parameter and return type for a JAX-RS resource
  *
  * @author Jitendra Kotamraju
  */
