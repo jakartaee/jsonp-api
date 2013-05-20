@@ -100,7 +100,7 @@ public class JsonParserImpl implements JsonParser {
                     "VALUE_NUMBER parser state. "+
                     "But current parser state is "+currentEvent);
         }
-        BigDecimal bigDecimal = new BigDecimal(tokenizer.getValue());
+        BigDecimal bigDecimal = tokenizer.getBigDecimal();
         return bigDecimal.scale() == 0;
     }
 
@@ -111,7 +111,7 @@ public class JsonParserImpl implements JsonParser {
                     "VALUE_NUMBER parser state. "+
                     "But current parser state is "+currentEvent);
         }
-        return new BigDecimal(tokenizer.getValue()).intValue();
+        return tokenizer.getBigDecimal().intValue();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class JsonParserImpl implements JsonParser {
                     "VALUE_NUMBER parser state. "+
                     "But current parser state is "+currentEvent);
         }
-        return new BigDecimal(tokenizer.getValue()).longValue();
+        return tokenizer.getBigDecimal().longValue();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class JsonParserImpl implements JsonParser {
                     "VALUE_NUMBER parser state. "+
                     "But current parser state is "+currentEvent);
         }
-        return new BigDecimal(tokenizer.getValue());
+        return tokenizer.getBigDecimal();
     }
 
     @Override

@@ -44,6 +44,7 @@ import javax.json.JsonException;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParsingException;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
@@ -331,6 +332,11 @@ final class JsonTokenizer implements Closeable {
         return reader.getValue();
     }
 
+    // returns a BigDecimal
+    BigDecimal getBigDecimal() {
+        return reader.getBigDecimal();
+    }
+
     // Gives the location of the last char. Used for
     // JsonParsingException.getLocation
     JsonLocation getLastCharLocation() {
@@ -348,6 +354,7 @@ final class JsonTokenizer implements Closeable {
         void storeChar(int ch);
         void reset();
         String getValue();
+        BigDecimal getBigDecimal();
     }
     
     private static class DirectReader implements TokenizerReader {
@@ -355,6 +362,7 @@ final class JsonTokenizer implements Closeable {
         private char[] buf = new char[8192];
         private int len;
         private String value;
+        private BigDecimal bd;
 
         DirectReader(Reader reader) {
             if (!(reader instanceof BufferedReader)) {
@@ -384,6 +392,7 @@ final class JsonTokenizer implements Closeable {
         public void reset() {
             len = 0;
             value = null;
+            bd = null;
         }
 
         @Override
@@ -392,6 +401,14 @@ final class JsonTokenizer implements Closeable {
                 value = new String(buf, 0, len);
             }
             return value;
+        }
+
+        @Override
+        public BigDecimal getBigDecimal() {
+            if (bd == null) {
+                bd = new BigDecimal(buf, 0, len);
+            }
+            return bd;
         }
 
         @Override
