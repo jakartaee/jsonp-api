@@ -47,14 +47,14 @@
     <parent>
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.glassfish</groupId>
     <artifactId>jsonp-jaxrs</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>JSR 353 (JSON Processing) Media for JAX-RS</name>
     <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonObject/JsonArray/JsonStructure API of JSR 353:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>

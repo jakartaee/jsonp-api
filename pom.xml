@@ -53,7 +53,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>JSR 353 (JSON Processing) RI</name>
     <description>JSR 353:Java API for Processing JSON RI</description>
     <url>http://jsonp.java.net</url>
@@ -97,7 +97,7 @@
         <impl_namespace>org.glassfish</impl_namespace>
         <spec_version>1.0</spec_version>
         <spec_impl_version>1.0</spec_impl_version>
-        <impl_version>1.0</impl_version>
+        <impl_version>1.0.1</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
     </properties>
@@ -140,7 +140,7 @@
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
                     <artifactId>spec-version-maven-plugin</artifactId>
-                    <version>1.1</version>
+                    <version>1.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
@@ -244,9 +244,11 @@
         <profile>
             <id>release</id>
             <modules>
+                <!--
                 <module>api</module>
-                <module>impl</module>
                 <module>jaxrs</module>
+                -->
+                <module>impl</module>
             </modules>
         </profile>
         <profile>
