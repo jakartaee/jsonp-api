@@ -48,67 +48,63 @@ import java.math.BigInteger;
 import java.util.*;
 
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
-    private final Map<String, JsonValue> valueMap;
-
-    JsonObjectBuilderImpl() {
-        this.valueMap = new LinkedHashMap<String, JsonValue>();
-    }
+    private Map<String, JsonValue> valueMap;
 
     public JsonObjectBuilder add(String name, JsonValue value) {
         validateName(name);
         validateValue(value);
-        valueMap.put(name, value);
+        putValueMap(name, value);
         return this;
     }
 
     public JsonObjectBuilder add(String name, String value) {
         validateName(name);
         validateValue(value);
-        valueMap.put(name, new JsonStringImpl(value));
+        putValueMap(name, new JsonStringImpl(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, BigInteger value) {
         validateName(name);
         validateValue(value);
-        valueMap.put(name, new JsonNumberImpl(value));
+        putValueMap(name, new JsonNumberImpl(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, BigDecimal value) {
         validateName(name);
         validateValue(value);
-        valueMap.put(name, new JsonNumberImpl(value));
+        putValueMap(name, new JsonNumberImpl(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, int value) {
         validateName(name);
-        valueMap.put(name, new JsonNumberImpl(value));
+        putValueMap(name, new JsonNumberImpl(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, long value) {
         validateName(name);
-        valueMap.put(name, new JsonNumberImpl(value));
+        putValueMap(name, new JsonNumberImpl(value));
         return this;
     }
 
-    public javax.json.JsonObjectBuilder add(String name, double value) {
+    public JsonObjectBuilder add(String name, double value) {
         validateName(name);
-        valueMap.put(name, new JsonNumberImpl(value));
+        putValueMap(name, new JsonNumberImpl(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, boolean value) {
         validateName(name);
-        valueMap.put(name, value ? JsonValue.TRUE : JsonValue.FALSE);
+        putValueMap(name, value ? JsonValue.TRUE : JsonValue.FALSE);
         return this;
     }
 
     public JsonObjectBuilder addNull(String name) {
         validateName(name);
-        valueMap.put(name, JsonValue.NULL);
+        putValueMap(name, JsonValue.NULL);
         return this;
     }
 
@@ -118,7 +114,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
             throw new NullPointerException(
                     "Object builder that is used to create a value in JsonObject's name/value pair cannot be null");
         }
-        valueMap.put(name, builder.build());
+        putValueMap(name, builder.build());
         return this;
     }
 
@@ -128,13 +124,23 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
             throw new NullPointerException(
                     "Array builder that is used to create a value in JsonObject's name/value pair cannot be null");
         }
-        valueMap.put(name, builder.build());
+        putValueMap(name, builder.build());
         return this;
     }
 
     public JsonObject build() {
-        Map<String, JsonValue> snapshot = new LinkedHashMap<String, JsonValue>(valueMap);
-        return new JsonObjectImpl(Collections.unmodifiableMap(snapshot));
+        Map<String, JsonValue> snapshot = (valueMap == null)
+                ? Collections.<String, JsonValue>emptyMap()
+                : Collections.unmodifiableMap(valueMap);
+        valueMap = null;
+        return new JsonObjectImpl(snapshot);
+    }
+
+    private void putValueMap(String name, JsonValue value) {
+        if (valueMap == null) {
+            this.valueMap = new LinkedHashMap<String, JsonValue>();
+        }
+        valueMap.put(name, value);
     }
 
     private void validateName(String name) {

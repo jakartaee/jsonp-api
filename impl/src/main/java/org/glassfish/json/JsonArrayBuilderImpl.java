@@ -50,58 +50,54 @@ import java.util.Collections;
 import java.util.List;
 
 class JsonArrayBuilderImpl implements JsonArrayBuilder {
-    private final List<JsonValue> valueList;
-
-    JsonArrayBuilderImpl() {
-        this.valueList = new ArrayList<JsonValue>();
-    }
+    private ArrayList<JsonValue> valueList;
 
     public JsonArrayBuilder add(JsonValue value) {
         validateValue(value);
-        valueList.add(value);
+        addValueList(value);
         return this;
     }
 
     public JsonArrayBuilder add(String value) {
         validateValue(value);
-        valueList.add(new JsonStringImpl(value));
+        addValueList(new JsonStringImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(BigDecimal value) {
         validateValue(value);
-        valueList.add(new JsonNumberImpl(value));
+        addValueList(new JsonNumberImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(BigInteger value) {
         validateValue(value);
-        valueList.add(new JsonNumberImpl(value));
+        addValueList(new JsonNumberImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(int value) {
-        valueList.add(new JsonNumberImpl(value));
+        addValueList(new JsonNumberImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(long value) {
-        valueList.add(new JsonNumberImpl(value));
+        addValueList(new JsonNumberImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(double value) {
-        valueList.add(new JsonNumberImpl(value));
+        addValueList(new JsonNumberImpl(value));
         return this;
     }
 
     public JsonArrayBuilder add(boolean value) {
-        valueList.add(value ? JsonValue.TRUE : JsonValue.FALSE);
+        addValueList(value ? JsonValue.TRUE : JsonValue.FALSE);
         return this;
     }
 
     public JsonArrayBuilder addNull() {
-        valueList.add(JsonValue.NULL);
+        addValueList(JsonValue.NULL);
         return this;
     }
 
@@ -110,7 +106,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
             throw new NullPointerException(
                     "Object builder that is used to add a value to JSON array cannot be null");
         }
-        valueList.add(builder.build());
+        addValueList(builder.build());
         return this;
     }
 
@@ -119,13 +115,28 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
             throw new NullPointerException(
                     "Array builder that is used to add a value to JSON array cannot be null");
         }
-        valueList.add(builder.build());
+        addValueList(builder.build());
         return this;
     }
 
     public JsonArray build() {
-        ArrayList<JsonValue> snapshot = new ArrayList<JsonValue>(valueList);
-        return new JsonArrayImpl(Collections.unmodifiableList(snapshot));
+        List<JsonValue> snapshot;
+        if (valueList == null) {
+            snapshot = Collections.<JsonValue>emptyList();
+        } else {
+            // Should we trim to minimize storage ?
+            // valueList.trimToSize();
+            snapshot = Collections.unmodifiableList(valueList);
+        }
+        valueList = null;
+        return new JsonArrayImpl(snapshot);
+    }
+
+    private void addValueList(JsonValue value) {
+        if (valueList == null) {
+            valueList = new ArrayList<JsonValue>();
+        }
+        valueList.add(value);
     }
 
     private void validateValue(Object value) {
