@@ -57,15 +57,12 @@ import java.util.Map;
 class JsonGeneratorImpl implements JsonGenerator {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    protected final Writer writer;
+    protected final GeneratorBufferedWriter writer;
     protected Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
 
     JsonGeneratorImpl(Writer writer) {
-        if (!(writer instanceof  BufferedWriter)) {
-            writer = new BufferedWriter(writer);
-        }
-        this.writer = writer;
+        this.writer = new GeneratorBufferedWriter(writer);
     }
 
     JsonGeneratorImpl(OutputStream out) {
@@ -540,7 +537,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
     }
 
-    static void writeEscapedString(Writer w, String string) throws IOException {
+    static void writeEscapedString(GeneratorBufferedWriter w, String string) throws IOException {
         w.write('"');
         for (int i = 0; i < string.length(); i++) {
             char c = string.charAt(i);
@@ -575,5 +572,53 @@ class JsonGeneratorImpl implements JsonGenerator {
             }
         }
         w.write('"');
+    }
+
+    // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
+    // methods. Also, flushBuffer() is useful when you don't want to actually
+    // flush the underlying output source
+    static final class GeneratorBufferedWriter {
+        private final Writer writer;
+        private final char buf[] = new char[8192];
+        private int len = 0;
+
+        GeneratorBufferedWriter(Writer writer) {
+            this.writer = writer;
+        }
+
+        void write(String str) throws IOException {
+            int begin = 0, end = str.length();
+            while (begin < end) {       // source begin and end indexes
+                int no = Math.min(buf.length - len, end - begin);
+                str.getChars(begin, begin + no, buf, len);
+                begin += no;            // Increment source index
+                len += no;              // Increment dest index
+                if (len >= buf.length) {
+                    flushBuffer();
+                }
+            }
+        }
+
+        void write(char c) throws IOException {
+            buf[len++] = c;
+            if (len >= buf.length) {
+                flushBuffer();
+            }
+        }
+
+        void flushBuffer() throws IOException {
+            writer.write(buf, 0, len);
+            len = 0;
+        }
+
+        void flush() throws IOException {
+            flushBuffer();
+            writer.flush();
+        }
+
+        void close() throws IOException {
+            flushBuffer();
+            writer.close();
+        }
     }
 }
