@@ -54,7 +54,7 @@ import java.util.Arrays;
  */
 final class JsonTokenizer implements Closeable {
 
-    private final TokenizerReader reader;
+    private final TokenizerBufferedReader reader;
     private boolean unread;
     private int prevChar;
     private long lineNo = 1;
@@ -75,7 +75,7 @@ final class JsonTokenizer implements Closeable {
     }
 
     JsonTokenizer(Reader reader) {
-        this.reader = new DirectReader(reader);
+        this.reader = new TokenizerBufferedReader(reader);
     }
 
     private int read() {
@@ -348,65 +348,61 @@ final class JsonTokenizer implements Closeable {
     JsonLocation getLocation() {
         return new JsonLocationImpl(lineNo, columnNo, streamOffset);
     }
-    
-    private static interface TokenizerReader extends Closeable {
-        int readChar();
-        void storeChar(int ch);
-        void reset();
-        String getValue();
-        BigDecimal getBigDecimal();
-    }
-    
-    private static class DirectReader implements TokenizerReader {
+
+    // Using own buffering mechanism as JDK's BufferedReader uses synchronized
+    // methods. Also, the tokenizer needs only one char at a time
+    private static class TokenizerBufferedReader implements Closeable {
         private final Reader reader;
-        private char[] buf = new char[8192];
-        private int len;
+
+        private char[] readBuf = new char[8192];       // need capacity > 0
+        private int readOffset;
+        private int readLen;
+
+        private char[] storeBuf = new char[8192];
+        private int storeLen;
         private String value;
         private BigDecimal bd;
 
-        DirectReader(Reader reader) {
-            if (!(reader instanceof BufferedReader)) {
-                reader = new BufferedReader(reader);
-            }
+        TokenizerBufferedReader(Reader reader) {
             this.reader = reader;
         }
 
-        @Override
-        public int readChar() {
+        int readChar() {
             try {
-                return reader.read();
+                if (readOffset >= readLen) {
+                    readLen = reader.read(readBuf);
+                    assert readLen != 0;
+                    readOffset = 0;
+                }
+                return (readLen == -1) ? -1 : readBuf[readOffset++];
             } catch (IOException ioe) {
                 throw new JsonException("I/O error while tokenizing JSON", ioe);
             }
         }
 
-        @Override
-        public void storeChar(int ch) {
-            if (len == buf.length) {
-                buf = Arrays.copyOf(buf, 2*buf.length);
+        void storeChar(int ch) {
+            if (storeLen == storeBuf.length) {
+                storeBuf = Arrays.copyOf(storeBuf, 2* storeBuf.length);
             }
-            buf[len++] = (char)ch;
+            storeBuf[storeLen++] = (char)ch;
         }
 
-        @Override
-        public void reset() {
-            len = 0;
+        void reset() {
+            storeLen = 0;
             value = null;
             bd = null;
         }
 
-        @Override
-        public String getValue() {
+        String getValue() {
             if (value == null) {
-                value = new String(buf, 0, len);
+                value = new String(storeBuf, 0, storeLen);
             }
             return value;
         }
 
-        @Override
-        public BigDecimal getBigDecimal() {
+        BigDecimal getBigDecimal() {
             if (bd == null) {
-                bd = new BigDecimal(buf, 0, len);
+                bd = new BigDecimal(storeBuf, 0, storeLen);
             }
             return bd;
         }
