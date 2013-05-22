@@ -157,7 +157,7 @@ class JsonReaderImpl implements JsonReader {
                     builder.add(string);
                     break;
                 case VALUE_NUMBER:
-                    BigDecimal bd = new BigDecimal(parser.getString());
+                    BigDecimal bd = parser.getBigDecimal();
                     builder.add(bd);
                     break;
                 case VALUE_TRUE:
@@ -199,7 +199,7 @@ class JsonReaderImpl implements JsonReader {
                     builder.add(key, string);
                     break;
                 case VALUE_NUMBER:
-                    BigDecimal bd = new BigDecimal(parser.getString());
+                    BigDecimal bd = parser.getBigDecimal();
                     builder.add(key, bd);
                     break;
                 case VALUE_TRUE:
