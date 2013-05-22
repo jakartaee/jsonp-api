@@ -495,6 +495,14 @@ class JsonGeneratorImpl implements JsonGenerator {
         writer.write(value);
     }
 
+    void flushBuffer() {
+        try {
+            writer.flushBuffer();
+        } catch (IOException e) {
+            throw new JsonException("I/O error while flushing the buffer", e);
+        }
+    }
+
     @Override
     public JsonGenerator writeEnd() {
         if (currentContext.scope == Scope.IN_NONE) {
@@ -607,8 +615,10 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
 
         void flushBuffer() throws IOException {
-            writer.write(buf, 0, len);
-            len = 0;
+            if (len > 0) {
+                writer.write(buf, 0, len);
+                len = 0;
+            }
         }
 
         void flush() throws IOException {

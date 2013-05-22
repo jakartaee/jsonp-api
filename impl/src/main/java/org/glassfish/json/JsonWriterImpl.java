@@ -41,7 +41,6 @@
 package org.glassfish.json;
 
 import javax.json.*;
-import javax.json.stream.JsonGenerator;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -51,7 +50,7 @@ import java.util.Map;
 class JsonWriterImpl implements JsonWriter {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    private final JsonGenerator generator;
+    private final JsonGeneratorImpl generator;
     private boolean writeDone;
 
     JsonWriterImpl(Writer writer) {
@@ -91,6 +90,7 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(value);
         }
         generator.writeEnd();
+        generator.flushBuffer();
     }
 
     @Override
@@ -104,6 +104,7 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(e.getKey(), e.getValue());
         }
         generator.writeEnd();
+        generator.flushBuffer();
     }
 
     @Override
