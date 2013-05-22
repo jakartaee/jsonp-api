@@ -122,7 +122,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
     public JsonArray build() {
         List<JsonValue> snapshot;
         if (valueList == null) {
-            snapshot = Collections.<JsonValue>emptyList();
+            snapshot = Collections.emptyList();
         } else {
             // Should we trim to minimize storage ?
             // valueList.trimToSize();
