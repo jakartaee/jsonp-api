@@ -45,11 +45,14 @@ import junit.framework.TestCase;
 import javax.json.*;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
+import javax.json.stream.JsonParserFactory;
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 /**
  * JsonParser Tests
@@ -577,6 +580,22 @@ public class JsonParserTest extends TestCase {
     static Reader wikiReader() {
         return new InputStreamReader(
                 JsonParserTest.class.getResourceAsStream("/wiki.json"), UTF_8);
+    }
+
+    public void testIntNumber() {
+        JsonParserFactory factory = Json.createParserFactory(null);
+
+        Random r = new Random(System.currentTimeMillis());
+
+        for(int i=0; i < 100000; i++) {
+            long num = i%2 == 0 ? r.nextInt() : r.nextLong();
+            JsonParser parser = factory.createParser(new StringReader("["+num+"]"));
+            parser.next();
+            parser.next();
+            assertEquals("Fails for num="+num, new BigDecimal(num).intValue(), parser.getInt());
+            parser.close();
+        }
+
     }
 
 }

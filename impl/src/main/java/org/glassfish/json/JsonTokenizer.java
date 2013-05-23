@@ -178,6 +178,7 @@ final class JsonTokenizer implements Closeable {
         // sign
         if (ch == '-') {
             store((char) ch);
+            reader.setMinus();
 
             ch = read();
             if (ch < '0' || ch >'9') {
@@ -198,6 +199,7 @@ final class JsonTokenizer implements Closeable {
 
         // frac
         if (ch == '.') {
+            reader.setFracOrExp();
             int count = 0;
             do {
                 store((char) ch);
@@ -212,6 +214,7 @@ final class JsonTokenizer implements Closeable {
         // exp
         if (ch == 'e' || ch == 'E') {
             store((char) ch);
+            reader.setFracOrExp();
             ch = read();
             if (ch == '+' || ch == '-') {
                 store((char) ch);
@@ -337,6 +340,15 @@ final class JsonTokenizer implements Closeable {
         return reader.getBigDecimal();
     }
 
+    // returns a BigDecimal
+    int getInt() {
+        return reader.getInt();
+    }
+
+    boolean isIntegral() {
+        return reader.isIntegral();
+    }
+
     // Gives the location of the last char. Used for
     // JsonParsingException.getLocation
     JsonLocation getLastCharLocation() {
@@ -362,6 +374,8 @@ final class JsonTokenizer implements Closeable {
         private int storeLen;
         private String value;
         private BigDecimal bd;
+        private boolean minus;
+        private boolean fracOrExp;
 
         TokenizerBufferedReader(Reader reader) {
             this.reader = reader;
@@ -387,10 +401,20 @@ final class JsonTokenizer implements Closeable {
             storeBuf[storeLen++] = (char)ch;
         }
 
+        void setMinus() {
+            this.minus = true;
+        }
+
+        void setFracOrExp() {
+            this.fracOrExp = true;
+        }
+
         void reset() {
             storeLen = 0;
             value = null;
             bd = null;
+            minus = false;
+            fracOrExp = false;
         }
 
         String getValue() {
@@ -405,6 +429,24 @@ final class JsonTokenizer implements Closeable {
                 bd = new BigDecimal(storeBuf, 0, storeLen);
             }
             return bd;
+        }
+
+        int getInt() {
+            // no need to create BigDecimal for common integer values (1-9 digits)
+            if (!fracOrExp && (storeLen <= 9 || (minus && storeLen == 10))) {
+                int num = 0;
+                int i = minus ? 1 : 0;
+                for(; i < storeLen; i++) {
+                    num = num * 10 + (storeBuf[i] - '0');
+                }
+                return minus ? -num : num;
+            } else {
+                return getBigDecimal().intValue();
+            }
+        }
+
+        boolean isIntegral() {
+            return !fracOrExp || getBigDecimal().scale() == 0;
         }
 
         @Override
