@@ -151,7 +151,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(String.valueOf(value));
+            writer.write(value);
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, int) pair in JSON object", ioe);
         }
@@ -395,7 +395,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write(String.valueOf(value));
+            writer.write(value);
         } catch (IOException e) {
             throw new JsonException("I/O error while writing int value in JSON array", e);
         }
@@ -587,7 +587,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     // flush the underlying output source
     static final class GeneratorBufferedWriter {
         private final Writer writer;
-        private final char buf[] = new char[8192];
+        private final char buf[] = new char[8192];  // capacity >= INT_MIN_VALUE_CHARS.length
         private int len = 0;
 
         GeneratorBufferedWriter(Writer writer) {
@@ -608,10 +608,30 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
 
         void write(char c) throws IOException {
-            buf[len++] = c;
             if (len >= buf.length) {
                 flushBuffer();
             }
+            buf[len++] = c;
+        }
+
+        // Not using Integer.toString() since it creates intermediary String
+        // Also, we want the chars to be copied to our buffer directly
+        void write(int num) throws IOException {
+            int size;
+            if (num == Integer.MIN_VALUE) {
+                size = INT_MIN_VALUE_CHARS.length;
+            } else {
+                size = (num < 0) ? stringSize(-num) + 1 : stringSize(num);
+            }
+            if (len+size >= buf.length) {
+                flushBuffer();
+            }
+            if (num == Integer.MIN_VALUE) {
+                System.arraycopy(INT_MIN_VALUE_CHARS, 0, buf, len, size);
+            } else {
+                fillIntChars(num, buf, len+size);
+            }
+            len += size;
         }
 
         void flushBuffer() throws IOException {
@@ -631,4 +651,93 @@ class JsonGeneratorImpl implements JsonGenerator {
             writer.close();
         }
     }
+
+    private static final char[] INT_MIN_VALUE_CHARS = "-2147483648".toCharArray();
+    private static final int [] INT_CHARS_SIZE_TABLE = { 9, 99, 999, 9999, 99999,
+            999999, 9999999, 99999999, 999999999, Integer.MAX_VALUE };
+
+    // Requires positive x
+    private static int stringSize(int x) {
+        for (int i=0; ; i++)
+            if (x <= INT_CHARS_SIZE_TABLE[i])
+                return i+1;
+    }
+
+    /**
+     * Places characters representing the integer i into the
+     * character array buf. The characters are placed into
+     * the buffer backwards starting with the least significant
+     * digit at the specified index (exclusive), and working
+     * backwards from there.
+     *
+     * Will fail if i == Integer.MIN_VALUE
+     */
+    private static void fillIntChars(int i, char[] buf, int index) {
+        int q, r;
+        int charPos = index;
+        char sign = 0;
+
+        if (i < 0) {
+            sign = '-';
+            i = -i;
+        }
+
+        // Generate two digits per iteration
+        while (i >= 65536) {
+            q = i / 100;
+            // really: r = i - (q * 100);
+            r = i - ((q << 6) + (q << 5) + (q << 2));
+            i = q;
+            buf [--charPos] = DIGIT_ONES[r];
+            buf [--charPos] = DIGIT_TENS[r];
+        }
+
+        // Fall thru to fast mode for smaller numbers
+        // assert(i <= 65536, i);
+        for (;;) {
+            q = (i * 52429) >>> (16+3);
+            r = i - ((q << 3) + (q << 1));  // r = i-(q*10) ...
+            buf [--charPos] = DIGITS[r];
+            i = q;
+            if (i == 0) break;
+        }
+        if (sign != 0) {
+            buf [--charPos] = sign;
+        }
+    }
+
+    private static final char [] DIGIT_TENS = {
+            '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+            '1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
+            '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
+            '3', '3', '3', '3', '3', '3', '3', '3', '3', '3',
+            '4', '4', '4', '4', '4', '4', '4', '4', '4', '4',
+            '5', '5', '5', '5', '5', '5', '5', '5', '5', '5',
+            '6', '6', '6', '6', '6', '6', '6', '6', '6', '6',
+            '7', '7', '7', '7', '7', '7', '7', '7', '7', '7',
+            '8', '8', '8', '8', '8', '8', '8', '8', '8', '8',
+            '9', '9', '9', '9', '9', '9', '9', '9', '9', '9',
+    } ;
+
+    private static final char [] DIGIT_ONES = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    } ;
+
+    /**
+     * All possible chars for representing a number as a String
+     */
+    private static final char[] DIGITS = {
+            '0' , '1' , '2' , '3' , '4' , '5' ,
+            '6' , '7' , '8' , '9'
+    };
+
 }

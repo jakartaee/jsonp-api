@@ -45,9 +45,11 @@ import junit.framework.TestCase;
 import javax.json.*;
 import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * {@link JsonGenerator} tests
@@ -363,4 +365,50 @@ public class JsonGeneratorTest extends TestCase {
         generator.writeEnd();
         generator.close();
     }
+
+    public void testIntGenerator() throws Exception {
+        Random r = new Random(System.currentTimeMillis());
+        JsonGeneratorFactory gf = Json.createGeneratorFactory(null);
+        JsonReaderFactory rf = Json.createReaderFactory(null);
+        JsonBuilderFactory bf = Json.createBuilderFactory(null);
+        for(int i=0; i < 100000; i++) {
+            int num = r.nextInt();
+            StringWriter sw = new StringWriter();
+            JsonGenerator generator = gf.createGenerator(sw);
+            generator.writeStartArray().write(num).writeEnd().close();
+
+            JsonReader reader = rf.createReader(new StringReader(sw.toString()));
+            JsonArray got = reader.readArray();
+            reader.close();
+
+            JsonArray expected = bf.createArrayBuilder().add(num).build();
+
+            assertEquals(expected, got);
+        }
+    }
+
+    public void testGeneratorBuf() throws Exception {
+        JsonGeneratorFactory gf = Json.createGeneratorFactory(null);
+        JsonReaderFactory rf = Json.createReaderFactory(null);
+        JsonBuilderFactory bf = Json.createBuilderFactory(null);
+        StringBuilder sb = new StringBuilder();
+        int value = 10;
+        for(int i=0; i < 25000; i++) {
+            sb.append('a');
+            String name = sb.toString();
+            StringWriter sw = new StringWriter();
+            JsonGenerator generator = gf.createGenerator(sw);
+            generator.writeStartObject().write(name, value).writeEnd().close();
+
+            JsonReader reader = rf.createReader(new StringReader(sw.toString()));
+            JsonObject got = reader.readObject();
+            reader.close();
+
+            JsonObject expected = bf.createObjectBuilder().add(name, value).build();
+
+            assertEquals(expected, got);
+        }
+    }
+
+
 }
