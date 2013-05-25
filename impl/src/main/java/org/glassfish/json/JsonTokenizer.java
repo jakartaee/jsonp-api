@@ -366,11 +366,11 @@ final class JsonTokenizer implements Closeable {
     private static class TokenizerBufferedReader implements Closeable {
         private final Reader reader;
 
-        private char[] readBuf = new char[8192];       // need capacity > 0
+        private char[] readBuf = new char[4096];       // need capacity > 0
         private int readOffset;
         private int readLen;
 
-        private char[] storeBuf = new char[8192];
+        private char[] storeBuf = new char[4096];
         private int storeLen;
         private String value;
         private BigDecimal bd;

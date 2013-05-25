@@ -587,7 +587,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     // flush the underlying output source
     static final class GeneratorBufferedWriter {
         private final Writer writer;
-        private final char buf[] = new char[8192];  // capacity >= INT_MIN_VALUE_CHARS.length
+        private final char buf[] = new char[4096];  // capacity >= INT_MIN_VALUE_CHARS.length
         private int len = 0;
 
         GeneratorBufferedWriter(Writer writer) {
