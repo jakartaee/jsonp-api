@@ -54,17 +54,28 @@ import java.util.Arrays;
  */
 final class JsonTokenizer implements Closeable {
 
-    private final TokenizerBufferedReader reader;
     private boolean unread;
     private int prevChar;
     private long lineNo = 1;
     private long columnNo = 1;
     private long streamOffset = 0;
 
-    @Override
-    public void close() throws IOException {
-        reader.close();
-    }
+    private final Reader reader;
+
+    private char[] buf = new char[4096];
+    // XXXssssssssssssXXXXXXXXXXXXXXXXXXXXXXrrrrrrrrrrrrrrXXXXXX
+    //    ^           ^                     ^             ^
+    //    |           |                     |             |
+    //   storeBegin  storeEnd            readBegin      readEnd
+    private int readBegin;
+    private int readEnd;
+    private int storeBegin;
+    private int storeEnd;
+    private boolean minus;
+    private boolean fracOrExp;
+
+    private String value;
+    private BigDecimal bd;
 
     enum JsonToken {
         CURLYOPEN,  SQUAREOPEN,
@@ -75,7 +86,7 @@ final class JsonTokenizer implements Closeable {
     }
 
     JsonTokenizer(Reader reader) {
-        this.reader = new TokenizerBufferedReader(reader);
+        this.reader = reader;
     }
 
     private int read() {
@@ -84,7 +95,7 @@ final class JsonTokenizer implements Closeable {
             this.unread = false;
             ch = this.prevChar;
         } else {
-            ch = reader.readChar();
+            ch = readChar();
         }
 
         if (ch == '\r' || (prevChar != '\r' && ch == '\n')) {
@@ -98,10 +109,6 @@ final class JsonTokenizer implements Closeable {
         return ch;
     }
 
-    private void store(char ch) {
-        reader.storeChar(ch);
-    }
-
     private void unread(int ch) {
         prevChar = ch;
         unread = true;
@@ -110,6 +117,8 @@ final class JsonTokenizer implements Closeable {
     }
 
     private void readString() {
+        storeBegin = storeEnd = readBegin;
+        boolean escaped = false;
         int ch;
         do {
             ch = read();
@@ -117,27 +126,28 @@ final class JsonTokenizer implements Closeable {
                 case -1:
                     throw new JsonException("Unexpected EOF");
                 case '\\':
+                    escaped = true;
                     int ch2 = read();
                     switch (ch2) {
                         case 'b':
-                            store('\b');
+                            buf[storeEnd++] = '\b';
                             break;
                         case 't':
-                            store('\t');
+                            buf[storeEnd++] = '\t';
                             break;
                         case 'n':
-                            store('\n');
+                            buf[storeEnd++] = '\n';
                             break;
                         case 'f':
-                            store('\f');
+                            buf[storeEnd++] = '\f';
                             break;
                         case 'r':
-                            store('\r');
+                            buf[storeEnd++] = '\r';
                             break;
                         case '"':
                         case '\\':
                         case '/':
-                            store((char) ch2);
+                            buf[storeEnd++] = (char)ch2;
                             break;
                         case 'u': {
                             char unicode = 0;
@@ -154,7 +164,7 @@ final class JsonTokenizer implements Closeable {
                                     throw new JsonParsingException("Unexpected Char="+ch3, getLastCharLocation());
                                 }
                             }
-                            store((char) (unicode & 0xffff));
+                            buf[storeEnd++] = (char) (unicode & 0xffff);
                             break;
                         }
                         default:
@@ -168,17 +178,21 @@ final class JsonTokenizer implements Closeable {
                             (ch >= 0x007F && ch <= 0x009F)) {
                         throw new JsonException("Unexpected Char="+ch);
                     }
-                    store((char) ch);
+                    if (!escaped) {
+                        storeEnd++;
+                    } else {
+                        buf[storeEnd++] = (char)ch;
+                    }
             }
         } while (ch != '"');
     }
 
     private void readNumber(int ch)  {
-
+        storeBegin = storeEnd = readBegin-1;
         // sign
         if (ch == '-') {
-            store((char) ch);
-            reader.setMinus();
+            storeEnd++;
+            this.minus = true;
 
             ch = read();
             if (ch < '0' || ch >'9') {
@@ -188,21 +202,21 @@ final class JsonTokenizer implements Closeable {
 
         // int
         if (ch == '0') {
-            store((char) ch);
+            storeEnd++;
             ch = read();
         } else {
             do {
-                store((char) ch);
+                storeEnd++;
                 ch = read();
             } while (ch >= '0' && ch <= '9');
         }
 
         // frac
         if (ch == '.') {
-            reader.setFracOrExp();
+            this.fracOrExp = true;
             int count = 0;
             do {
-                store((char) ch);
+                storeEnd++;
                 ch = read();
                 count++;
             } while (ch >= '0' && ch <= '9');
@@ -213,16 +227,16 @@ final class JsonTokenizer implements Closeable {
 
         // exp
         if (ch == 'e' || ch == 'E') {
-            store((char) ch);
-            reader.setFracOrExp();
+            storeEnd++;
+            this.fracOrExp = true;
             ch = read();
             if (ch == '+' || ch == '-') {
-                store((char) ch);
+                storeEnd++;
                 ch = read();
             }
             int count;
             for (count = 0; ch >= '0' && ch <= '9'; count++) {
-                store((char) ch);
+                storeEnd++;
                 ch = read();
             }
             if (count == 0) {
@@ -283,7 +297,7 @@ final class JsonTokenizer implements Closeable {
 
     JsonToken nextToken() throws IOException {
         
-        reader.reset();
+        reset();
         int ch = read();
 
         // whitespace
@@ -330,25 +344,6 @@ final class JsonTokenizer implements Closeable {
         }
     }
 
-    // returns string or number values
-    String getValue() {
-        return reader.getValue();
-    }
-
-    // returns a BigDecimal
-    BigDecimal getBigDecimal() {
-        return reader.getBigDecimal();
-    }
-
-    // returns a BigDecimal
-    int getInt() {
-        return reader.getInt();
-    }
-
-    boolean isIntegral() {
-        return reader.isIntegral();
-    }
-
     // Gives the location of the last char. Used for
     // JsonParsingException.getLocation
     JsonLocation getLastCharLocation() {
@@ -361,99 +356,80 @@ final class JsonTokenizer implements Closeable {
         return new JsonLocationImpl(lineNo, columnNo, streamOffset);
     }
 
-    // Using own buffering mechanism as JDK's BufferedReader uses synchronized
-    // methods. Also, the tokenizer needs only one char at a time
-    private static class TokenizerBufferedReader implements Closeable {
-        private final Reader reader;
-
-        private char[] readBuf = new char[4096];       // need capacity > 0
-        private int readOffset;
-        private int readLen;
-
-        private char[] storeBuf = new char[4096];
-        private int storeLen;
-        private String value;
-        private BigDecimal bd;
-        private boolean minus;
-        private boolean fracOrExp;
-
-        TokenizerBufferedReader(Reader reader) {
-            this.reader = reader;
-        }
-
-        int readChar() {
-            try {
-                if (readOffset >= readLen) {
-                    readLen = reader.read(readBuf);
-                    assert readLen != 0;
-                    readOffset = 0;
+    private int readChar() {
+        try {
+            if (readBegin == readEnd) {     // need to fill the buffer
+                if ((storeEnd-storeBegin) == buf.length) {
+                    // buffer is full, double the capacity
+                    buf = Arrays.copyOf(buf, 2* buf.length);
+                } else {
+                    // Left shift all the required data to make space
+                    if (storeEnd-storeBegin > 0) {
+                        System.arraycopy(buf, storeBegin, buf, 0, storeEnd-storeBegin);
+                        storeEnd = storeEnd - storeBegin;
+                        storeBegin = 0;
+                    }
                 }
-                return (readLen == -1) ? -1 : readBuf[readOffset++];
-            } catch (IOException ioe) {
-                throw new JsonException("I/O error while tokenizing JSON", ioe);
-            }
-        }
-
-        void storeChar(int ch) {
-            if (storeLen == storeBuf.length) {
-                storeBuf = Arrays.copyOf(storeBuf, 2* storeBuf.length);
-            }
-            storeBuf[storeLen++] = (char)ch;
-        }
-
-        void setMinus() {
-            this.minus = true;
-        }
-
-        void setFracOrExp() {
-            this.fracOrExp = true;
-        }
-
-        void reset() {
-            storeLen = 0;
-            value = null;
-            bd = null;
-            minus = false;
-            fracOrExp = false;
-        }
-
-        String getValue() {
-            if (value == null) {
-                value = new String(storeBuf, 0, storeLen);
-            }
-            return value;
-        }
-
-        BigDecimal getBigDecimal() {
-            if (bd == null) {
-                bd = new BigDecimal(storeBuf, 0, storeLen);
-            }
-            return bd;
-        }
-
-        int getInt() {
-            // no need to create BigDecimal for common integer values (1-9 digits)
-            if (!fracOrExp && (storeLen <= 9 || (minus && storeLen == 10))) {
-                int num = 0;
-                int i = minus ? 1 : 0;
-                for(; i < storeLen; i++) {
-                    num = num * 10 + (storeBuf[i] - '0');
+                // Fill the rest of the buf
+                int len = reader.read(buf, storeEnd, buf.length-storeEnd);
+                if (len == -1) {
+                    return -1;
                 }
-                return minus ? -num : num;
-            } else {
-                return getBigDecimal().intValue();
+                assert len != 0;
+                readBegin = storeEnd;
+                readEnd = readBegin+len;
             }
+            return buf[readBegin++];
+        } catch (IOException ioe) {
+            throw new JsonException("I/O error while tokenizing JSON", ioe);
         }
+    }
 
-        boolean isIntegral() {
-            return !fracOrExp || getBigDecimal().scale() == 0;
+    private void reset() {
+        storeBegin = 0;
+        storeEnd = 0;
+        value = null;
+        bd = null;
+        minus = false;
+        fracOrExp = false;
+    }
+
+    String getValue() {
+        if (value == null) {
+            value = new String(buf, storeBegin, storeEnd-storeBegin);
         }
+        return value;
+    }
 
-        @Override
-        public void close() throws IOException {
-            reader.close();
+    BigDecimal getBigDecimal() {
+        if (bd == null) {
+            bd = new BigDecimal(buf, storeBegin, storeEnd-storeBegin);
         }
+        return bd;
+    }
 
+    int getInt() {
+        // no need to create BigDecimal for common integer values (1-9 digits)
+        int storeLen = storeEnd-storeBegin;
+        if (!fracOrExp && (storeLen <= 9 || (minus && storeLen == 10))) {
+            int num = 0;
+            int i = minus ? 1 : 0;
+            for(; i < storeLen; i++) {
+                num = num * 10 + (buf[storeBegin+i] - '0');
+            }
+            return minus ? -num : num;
+        } else {
+            return getBigDecimal().intValue();
+        }
+    }
+
+    boolean isIntegral() {
+        return !fracOrExp || getBigDecimal().scale() == 0;
+    }
+
+    @Override
+    public void close() throws IOException {
+        reader.close();
     }
     
 }
