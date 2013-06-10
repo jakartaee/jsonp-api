@@ -306,8 +306,9 @@ final class JsonTokenizer implements Closeable {
         }
 
         switch (ch) {
-            case -1:
-                return JsonToken.EOF;
+            case '"':
+                readString();
+                return JsonToken.STRING;
             case '{':
                 return JsonToken.CURLYOPEN;
             case '[':
@@ -316,12 +317,6 @@ final class JsonTokenizer implements Closeable {
                 return JsonToken.COLON;
             case ',':
                 return JsonToken.COMMA;
-            case '"':
-                readString();
-                return JsonToken.STRING;
-            case '-':
-                readNumber(ch);
-                return JsonToken.NUMBER;
             case 't':
                 readTrue();
                 return JsonToken.TRUE;
@@ -335,11 +330,22 @@ final class JsonTokenizer implements Closeable {
                 return JsonToken.SQUARECLOSE;
             case '}':
                 return JsonToken.CURLYCLOSE;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '-':
+                readNumber(ch);
+                return JsonToken.NUMBER;
+            case -1:
+                return JsonToken.EOF;
             default:
-                if (ch >= '0' && ch <= '9') {
-                    readNumber(ch);
-                    return JsonToken.NUMBER;
-                }
                 throw new JsonParsingException("Unexpected char="+(char)ch, getLastCharLocation());
         }
     }
