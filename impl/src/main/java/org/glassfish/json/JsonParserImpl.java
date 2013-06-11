@@ -193,17 +193,17 @@ public class JsonParserImpl implements JsonParser {
                         return currentEvent=JsonParser.Event.KEY_NAME;
                     case COLON:
                         continue;
-                    case OBJECT_STRING:
+                    case STRING:
                         return currentEvent=JsonParser.Event.VALUE_STRING;
-                    case OBJECT_NUMBER:
+                    case NUMBER:
                         return currentEvent=JsonParser.Event.VALUE_NUMBER;
-                    case OBJECT_TRUE:
+                    case TRUE:
                         return currentEvent=JsonParser.Event.VALUE_TRUE;
-                    case OBJECT_FALSE:
+                    case FALSE:
                         return currentEvent=JsonParser.Event.VALUE_FALSE;
-                    case OBJECT_NULL:
+                    case NULL:
                         return currentEvent=JsonParser.Event.VALUE_NULL;
-                    case OBJECT_COMMA:
+                    case COMMA:
                         continue;
                     case END_OBJECT:
                         currentContext = stack.pop();
@@ -212,18 +212,6 @@ public class JsonParserImpl implements JsonParser {
                         stack.push(currentContext);
                         currentContext = new ArrayContext(JsonParserImpl.this);
                         return currentEvent=JsonParser.Event.START_ARRAY;
-                    case ARRAY_STRING:
-                        return currentEvent=JsonParser.Event.VALUE_STRING;
-                    case ARRAY_NUMBER:
-                        return currentEvent=JsonParser.Event.VALUE_NUMBER;
-                    case ARRAY_TRUE:
-                        return currentEvent=JsonParser.Event.VALUE_TRUE;
-                    case ARRAY_FALSE:
-                        return currentEvent=JsonParser.Event.VALUE_FALSE;
-                    case ARRAY_NULL:
-                        return currentEvent=JsonParser.Event.VALUE_NULL;
-                    case ARRAY_COMMA:
-                        continue;
                     case END_ARRAY:
                         currentContext = stack.pop();
                         return currentEvent=JsonParser.Event.END_ARRAY;
@@ -336,36 +324,36 @@ public class JsonParserImpl implements JsonParser {
 
             transition(State.KEY, JsonToken.COLON, State.COLON);
 
-            transition(State.COLON, JsonToken.STRING, State.OBJECT_STRING);
-            transition(State.COLON, JsonToken.NUMBER, State.OBJECT_NUMBER);
-            transition(State.COLON, JsonToken.TRUE, State.OBJECT_TRUE);
-            transition(State.COLON, JsonToken.FALSE, State.OBJECT_FALSE);
-            transition(State.COLON, JsonToken.NULL, State.OBJECT_NULL);
+            transition(State.COLON, JsonToken.STRING, State.STRING);
+            transition(State.COLON, JsonToken.NUMBER, State.NUMBER);
+            transition(State.COLON, JsonToken.TRUE, State.TRUE);
+            transition(State.COLON, JsonToken.FALSE, State.FALSE);
+            transition(State.COLON, JsonToken.NULL, State.NULL);
             transition(State.COLON, JsonToken.CURLYOPEN, State.START_OBJECT);
             transition(State.COLON, JsonToken.SQUAREOPEN, State.START_ARRAY);
 
-            transition(State.OBJECT_STRING, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.OBJECT_STRING, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.STRING, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.STRING, JsonToken.COMMA, State.COMMA);
 
-            transition(State.OBJECT_NUMBER, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.OBJECT_NUMBER, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.NUMBER, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.NUMBER, JsonToken.COMMA, State.COMMA);
 
-            transition(State.OBJECT_TRUE, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.OBJECT_TRUE, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.TRUE, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.TRUE, JsonToken.COMMA, State.COMMA);
 
-            transition(State.OBJECT_FALSE, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.OBJECT_FALSE, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.FALSE, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.FALSE, JsonToken.COMMA, State.COMMA);
 
-            transition(State.OBJECT_NULL, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.OBJECT_NULL, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.NULL, JsonToken.CURLYCLOSE, State.END_OBJECT);
+            transition(State.NULL, JsonToken.COMMA, State.COMMA);
 
-            transition(State.OBJECT_COMMA, JsonToken.STRING, State.KEY);
+            transition(State.COMMA, JsonToken.STRING, State.KEY);
 
             transition(State.END_OBJECT, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.END_OBJECT, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.END_OBJECT, JsonToken.COMMA, State.COMMA);
             transition(State.END_OBJECT, JsonToken.EOF, State.END_DOCUMENT);
 
-            transition(State.END_ARRAY, JsonToken.COMMA, State.OBJECT_COMMA);
+            transition(State.END_ARRAY, JsonToken.COMMA, State.COMMA);
             transition(State.END_ARRAY, JsonToken.CURLYCLOSE, State.END_OBJECT);
         }
 
@@ -400,43 +388,43 @@ public class JsonParserImpl implements JsonParser {
                     TRANSITIONS[i][j] = State.INVALID;
                 }
             }
-            transition(State.START_ARRAY, JsonToken.STRING, State.ARRAY_STRING);
-            transition(State.START_ARRAY, JsonToken.NUMBER, State.ARRAY_NUMBER);
-            transition(State.START_ARRAY, JsonToken.TRUE, State.ARRAY_TRUE);
-            transition(State.START_ARRAY, JsonToken.FALSE, State.ARRAY_FALSE);
-            transition(State.START_ARRAY, JsonToken.NULL, State.ARRAY_NULL);
+            transition(State.START_ARRAY, JsonToken.STRING, State.STRING);
+            transition(State.START_ARRAY, JsonToken.NUMBER, State.NUMBER);
+            transition(State.START_ARRAY, JsonToken.TRUE, State.TRUE);
+            transition(State.START_ARRAY, JsonToken.FALSE, State.FALSE);
+            transition(State.START_ARRAY, JsonToken.NULL, State.NULL);
             transition(State.START_ARRAY, JsonToken.CURLYOPEN, State.START_OBJECT);
             transition(State.START_ARRAY, JsonToken.SQUAREOPEN, State.START_ARRAY);
             transition(State.START_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_STRING, JsonToken.COMMA, State.ARRAY_COMMA);
-            transition(State.ARRAY_STRING, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.STRING, JsonToken.COMMA, State.COMMA);
+            transition(State.STRING, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_NUMBER, JsonToken.COMMA, State.ARRAY_COMMA);
-            transition(State.ARRAY_NUMBER, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.NUMBER, JsonToken.COMMA, State.COMMA);
+            transition(State.NUMBER, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_TRUE, JsonToken.COMMA, State.ARRAY_COMMA);
-            transition(State.ARRAY_TRUE, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.TRUE, JsonToken.COMMA, State.COMMA);
+            transition(State.TRUE, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_FALSE, JsonToken.COMMA, State.ARRAY_COMMA);
-            transition(State.ARRAY_FALSE, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.FALSE, JsonToken.COMMA, State.COMMA);
+            transition(State.FALSE, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_NULL, JsonToken.COMMA, State.ARRAY_COMMA);
-            transition(State.ARRAY_NULL, JsonToken.SQUARECLOSE, State.END_ARRAY);
+            transition(State.NULL, JsonToken.COMMA, State.COMMA);
+            transition(State.NULL, JsonToken.SQUARECLOSE, State.END_ARRAY);
 
-            transition(State.ARRAY_COMMA, JsonToken.STRING, State.ARRAY_STRING);
-            transition(State.ARRAY_COMMA, JsonToken.NUMBER, State.ARRAY_NUMBER);
-            transition(State.ARRAY_COMMA, JsonToken.TRUE, State.ARRAY_TRUE);
-            transition(State.ARRAY_COMMA, JsonToken.FALSE, State.ARRAY_FALSE);
-            transition(State.ARRAY_COMMA, JsonToken.NULL, State.ARRAY_NULL);
-            transition(State.ARRAY_COMMA, JsonToken.CURLYOPEN, State.START_OBJECT);
-            transition(State.ARRAY_COMMA, JsonToken.SQUAREOPEN, State.START_ARRAY);
+            transition(State.COMMA, JsonToken.STRING, State.STRING);
+            transition(State.COMMA, JsonToken.NUMBER, State.NUMBER);
+            transition(State.COMMA, JsonToken.TRUE, State.TRUE);
+            transition(State.COMMA, JsonToken.FALSE, State.FALSE);
+            transition(State.COMMA, JsonToken.NULL, State.NULL);
+            transition(State.COMMA, JsonToken.CURLYOPEN, State.START_OBJECT);
+            transition(State.COMMA, JsonToken.SQUAREOPEN, State.START_ARRAY);
 
             transition(State.END_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
-            transition(State.END_ARRAY, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.END_ARRAY, JsonToken.COMMA, State.COMMA);
             transition(State.END_ARRAY, JsonToken.EOF, State.END_DOCUMENT);
 
-            transition(State.END_OBJECT, JsonToken.COMMA, State.ARRAY_COMMA);
+            transition(State.END_OBJECT, JsonToken.COMMA, State.COMMA);
             transition(State.END_OBJECT, JsonToken.SQUARECLOSE, State.END_ARRAY);
         }
 
@@ -466,24 +454,17 @@ public class JsonParserImpl implements JsonParser {
         START_DOCUMENT,
 
         START_OBJECT,
+        START_ARRAY,
         KEY,
         COLON,
-        OBJECT_STRING,
-        OBJECT_NUMBER,
-        OBJECT_TRUE,
-        OBJECT_FALSE,
-        OBJECT_NULL,
-        OBJECT_COMMA,
-        END_OBJECT,
-
-        START_ARRAY,
-        ARRAY_STRING,
-        ARRAY_NUMBER,
-        ARRAY_TRUE,
-        ARRAY_FALSE,
-        ARRAY_NULL,
-        ARRAY_COMMA,
+        STRING,
+        NUMBER,
+        TRUE,
+        FALSE,
+        NULL,
+        COMMA,
         END_ARRAY,
+        END_OBJECT,
 
         END_DOCUMENT
     }
