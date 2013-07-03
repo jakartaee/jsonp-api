@@ -57,12 +57,62 @@ import java.util.Map;
 class JsonGeneratorImpl implements JsonGenerator {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    protected final GeneratorBufferedWriter writer;
-    protected Context currentContext = new Context(Scope.IN_NONE);
+    private static final char[] INT_MIN_VALUE_CHARS = "-2147483648".toCharArray();
+    private static final int[] INT_CHARS_SIZE_TABLE = { 9, 99, 999, 9999, 99999,
+            999999, 9999999, 99999999, 999999999, Integer.MAX_VALUE };
+
+    private static final char [] DIGIT_TENS = {
+            '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+            '1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
+            '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
+            '3', '3', '3', '3', '3', '3', '3', '3', '3', '3',
+            '4', '4', '4', '4', '4', '4', '4', '4', '4', '4',
+            '5', '5', '5', '5', '5', '5', '5', '5', '5', '5',
+            '6', '6', '6', '6', '6', '6', '6', '6', '6', '6',
+            '7', '7', '7', '7', '7', '7', '7', '7', '7', '7',
+            '8', '8', '8', '8', '8', '8', '8', '8', '8', '8',
+            '9', '9', '9', '9', '9', '9', '9', '9', '9', '9',
+    } ;
+
+    private static final char [] DIGIT_ONES = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    } ;
+
+    /**
+     * All possible chars for representing a number as a String
+     */
+    private static final char[] DIGITS = {
+            '0' , '1' , '2' , '3' , '4' , '5' ,
+            '6' , '7' , '8' , '9'
+    };
+
+    private static enum Scope {
+        IN_NONE,
+        IN_OBJECT,
+        IN_ARRAY
+    }
+
+    private final Writer writer;
+    private Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
 
+    // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
+    // methods. Also, flushBuffer() is useful when you don't want to actually
+    // flush the underlying output source
+    private final char buf[] = new char[4096];  // capacity >= INT_MIN_VALUE_CHARS.length
+    private int len = 0;
+
     JsonGeneratorImpl(Writer writer) {
-        this.writer = new GeneratorBufferedWriter(writer);
+        this.writer = writer;
     }
 
     JsonGeneratorImpl(OutputStream out) {
@@ -75,17 +125,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public void flush() {
-        try {
-            writer.flush();
-        } catch (IOException e) {
-            throw new JsonException("I/O error while flushing JsonGenerator", e);
-        }
-    }
-
-    private static enum Scope {
-        IN_NONE,
-        IN_OBJECT,
-        IN_ARRAY
+        flushBuffer();
     }
 
     @Override
@@ -98,7 +138,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write("{");
+            writeChar('{');
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing start object", ioe);
         }
@@ -114,7 +154,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write("{");
+            writeChar('{');
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing start of object in JSON object", ioe);
         }
@@ -125,8 +165,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     private JsonGenerator writeName(String name) throws IOException {
         writeComma();
-        writeEscapedString(writer, name);
-        writer.write(":");
+        writeEscapedString(name);
+        writeChar(':');
         return this;
     }
 
@@ -137,7 +177,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writeEscapedString(writer, fieldValue);
+            writeEscapedString(fieldValue);
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, String) pair in JSON object", ioe);
         }
@@ -151,7 +191,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(value);
+            writeInt(value);
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, int) pair in JSON object", ioe);
         }
@@ -165,7 +205,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(String.valueOf(value));
+            writeString(String.valueOf(value));
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, long) pair in JSON object",ioe);
         }
@@ -182,7 +222,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(String.valueOf(value));
+            writeString(String.valueOf(value));
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, double) pair in JSON object", ioe);
         }
@@ -196,7 +236,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(String.valueOf(value));
+            writeString(String.valueOf(value));
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, BigInteger) pair in JSON object", ioe);
         }
@@ -210,7 +250,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(String.valueOf(value));
+            writeString(String.valueOf(value));
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, BigDecimal) pair in JSON object", ioe);
         }
@@ -224,7 +264,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write(value? "true" : "false");
+            writeString(value? "true" : "false");
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing (name, boolean) pair in JSON object", ioe);
         }
@@ -238,7 +278,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write("null");
+            writeString("null");
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing null value in JSON object", ioe);
         }
@@ -303,7 +343,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write("[");
+            writeChar('[');
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing start of JSON array", ioe);
         }
@@ -319,7 +359,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeName(name);
-            writer.write("[");
+            writeChar('[');
         } catch(IOException ioe) {
             throw new JsonException("I/O error while writing start of array in JSON object", ioe);
         }
@@ -381,7 +421,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writeEscapedString(writer, value);
+            writeEscapedString(value);
         } catch (IOException e) {
             throw new JsonException("I/O error while writing string value in JSON array", e);
         }
@@ -395,7 +435,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write(value);
+            writeInt(value);
         } catch (IOException e) {
             throw new JsonException("I/O error while writing int value in JSON array", e);
         }
@@ -463,7 +503,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write(value ? "true" : "false");
+            writeString(value ? "true" : "false");
         } catch (IOException e) {
             throw new JsonException("I/O error while writing boolean value in JSON array", e);
         }
@@ -476,7 +516,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         try {
             writeComma();
-            writer.write("null");
+            writeString("null");
         } catch (IOException e) {
             throw new JsonException("I/O error while writing null value in JSON array", e);
         }
@@ -485,22 +525,14 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     private void writeValue(String value) throws IOException {
         writeComma();
-        writer.write(value);
+        writeString(value);
     }
 
     private void writeValue(String name, String value) throws IOException {
         writeComma();
-        writeEscapedString(writer, name);
-        writer.write(':');
-        writer.write(value);
-    }
-
-    void flushBuffer() {
-        try {
-            writer.flushBuffer();
-        } catch (IOException e) {
-            throw new JsonException("I/O error while flushing the buffer", e);
-        }
+        writeEscapedString(name);
+        writeChar(':');
+        writeString(value);
     }
 
     @Override
@@ -509,7 +541,7 @@ class JsonGeneratorImpl implements JsonGenerator {
             throw new JsonGenerationException("writeEnd() cannot be called in no context");
         }
         try {
-            writer.write(currentContext.scope == Scope.IN_ARRAY ? ']' : '}');
+            writeChar(currentContext.scope == Scope.IN_ARRAY ? ']' : '}');
         } catch (IOException e) {
             throw new JsonException("I/O error while writing end of JSON structure", e);
         }
@@ -519,7 +551,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     protected void writeComma() throws IOException {
         if (!currentContext.first) {
-            writer.write(",");
+            writeChar(',');
         }
         currentContext.first = false;
     }
@@ -539,122 +571,100 @@ class JsonGeneratorImpl implements JsonGenerator {
             throw new JsonGenerationException("Generating incomplete JSON");
         }
         try {
+            flushBuffer();
             writer.close();
         } catch (IOException ioe) {
             throw new JsonException("I/O error while closing JsonGenerator", ioe);
         }
     }
 
-    static void writeEscapedString(GeneratorBufferedWriter w, String string) throws IOException {
-        w.write('"');
+    void writeEscapedString(String string) throws IOException {
+        writeChar('"');
         for (int i = 0; i < string.length(); i++) {
             char c = string.charAt(i);
             switch (c) {
                 case '"':
                 case '\\':
-                    w.write('\\');
-                    w.write(c);
+                    writeChar('\\');
+                    writeChar(c);
                     break;
                 case '\b':
-                    w.write("\\b");
+                    writeString("\\b");
                     break;
                 case '\f':
-                    w.write("\\f");
+                    writeString("\\f");
                     break;
                 case '\n':
-                    w.write("\\n");
+                    writeString("\\n");
                     break;
                 case '\r':
-                    w.write("\\r");
+                    writeString("\\r");
                     break;
                 case '\t':
-                    w.write("\\t");
+                    writeString("\\t");
                     break;
                 default:
                     if (c < ' ' || (c >= '\u0080' && c < '\u00a0') || (c >= '\u2000' && c < '\u2100')) {
                         String hex = "000" + Integer.toHexString(c);
-                        w.write("\\u" + hex.substring(hex.length() - 4));
+                        writeString("\\u" + hex.substring(hex.length() - 4));
                     } else {
-                        w.write(c);
+                        writeChar(c);
                     }
             }
         }
-        w.write('"');
+        writeChar('"');
     }
 
-    // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
-    // methods. Also, flushBuffer() is useful when you don't want to actually
-    // flush the underlying output source
-    static final class GeneratorBufferedWriter {
-        private final Writer writer;
-        private final char buf[] = new char[4096];  // capacity >= INT_MIN_VALUE_CHARS.length
-        private int len = 0;
-
-        GeneratorBufferedWriter(Writer writer) {
-            this.writer = writer;
-        }
-
-        void write(String str) throws IOException {
-            int begin = 0, end = str.length();
-            while (begin < end) {       // source begin and end indexes
-                int no = Math.min(buf.length - len, end - begin);
-                str.getChars(begin, begin + no, buf, len);
-                begin += no;            // Increment source index
-                len += no;              // Increment dest index
-                if (len >= buf.length) {
-                    flushBuffer();
-                }
-            }
-        }
-
-        void write(char c) throws IOException {
+    void writeString(String str) throws IOException {
+        int begin = 0, end = str.length();
+        while (begin < end) {       // source begin and end indexes
+            int no = Math.min(buf.length - len, end - begin);
+            str.getChars(begin, begin + no, buf, len);
+            begin += no;            // Increment source index
+            len += no;              // Increment dest index
             if (len >= buf.length) {
                 flushBuffer();
             }
-            buf[len++] = c;
         }
+    }
 
-        // Not using Integer.toString() since it creates intermediary String
-        // Also, we want the chars to be copied to our buffer directly
-        void write(int num) throws IOException {
-            int size;
-            if (num == Integer.MIN_VALUE) {
-                size = INT_MIN_VALUE_CHARS.length;
-            } else {
-                size = (num < 0) ? stringSize(-num) + 1 : stringSize(num);
-            }
-            if (len+size >= buf.length) {
-                flushBuffer();
-            }
-            if (num == Integer.MIN_VALUE) {
-                System.arraycopy(INT_MIN_VALUE_CHARS, 0, buf, len, size);
-            } else {
-                fillIntChars(num, buf, len+size);
-            }
-            len += size;
+    void writeChar(char c) throws IOException {
+        if (len >= buf.length) {
+            flushBuffer();
         }
+        buf[len++] = c;
+    }
 
-        void flushBuffer() throws IOException {
+    // Not using Integer.toString() since it creates intermediary String
+    // Also, we want the chars to be copied to our buffer directly
+    void writeInt(int num) throws IOException {
+        int size;
+        if (num == Integer.MIN_VALUE) {
+            size = INT_MIN_VALUE_CHARS.length;
+        } else {
+            size = (num < 0) ? stringSize(-num) + 1 : stringSize(num);
+        }
+        if (len+size >= buf.length) {
+            flushBuffer();
+        }
+        if (num == Integer.MIN_VALUE) {
+            System.arraycopy(INT_MIN_VALUE_CHARS, 0, buf, len, size);
+        } else {
+            fillIntChars(num, buf, len+size);
+        }
+        len += size;
+    }
+
+    void flushBuffer() {
+        try {
             if (len > 0) {
                 writer.write(buf, 0, len);
                 len = 0;
             }
-        }
-
-        void flush() throws IOException {
-            flushBuffer();
-            writer.flush();
-        }
-
-        void close() throws IOException {
-            flushBuffer();
-            writer.close();
+        } catch (IOException ioe) {
+            throw new JsonException("I/O error while closing JsonGenerator", ioe);
         }
     }
-
-    private static final char[] INT_MIN_VALUE_CHARS = "-2147483648".toCharArray();
-    private static final int [] INT_CHARS_SIZE_TABLE = { 9, 99, 999, 9999, 99999,
-            999999, 9999999, 99999999, 999999999, Integer.MAX_VALUE };
 
     // Requires positive x
     private static int stringSize(int x) {
@@ -705,39 +715,5 @@ class JsonGeneratorImpl implements JsonGenerator {
             buf [--charPos] = sign;
         }
     }
-
-    private static final char [] DIGIT_TENS = {
-            '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-            '1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-            '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
-            '3', '3', '3', '3', '3', '3', '3', '3', '3', '3',
-            '4', '4', '4', '4', '4', '4', '4', '4', '4', '4',
-            '5', '5', '5', '5', '5', '5', '5', '5', '5', '5',
-            '6', '6', '6', '6', '6', '6', '6', '6', '6', '6',
-            '7', '7', '7', '7', '7', '7', '7', '7', '7', '7',
-            '8', '8', '8', '8', '8', '8', '8', '8', '8', '8',
-            '9', '9', '9', '9', '9', '9', '9', '9', '9', '9',
-    } ;
-
-    private static final char [] DIGIT_ONES = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    } ;
-
-    /**
-     * All possible chars for representing a number as a String
-     */
-    private static final char[] DIGITS = {
-            '0' , '1' , '2' , '3' , '4' , '5' ,
-            '6' , '7' , '8' , '9'
-    };
 
 }

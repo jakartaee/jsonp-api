@@ -106,7 +106,7 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
     private void writeIndent() {
         for(int i=0; i < indentLevel; i++) {
             try {
-                writer.write(INDENT);
+                writeString(INDENT);
             } catch (IOException e) {
                 throw new JsonException("I/O error while writing indentation", e);
             }
@@ -116,13 +116,13 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
     @Override
     protected void writeComma() throws IOException {
         super.writeComma();
-        writer.write("\n");
+        writeChar('\n');
         writeIndent();
     }
 
     private void writeNewLine() {
         try {
-            writer.write("\n");
+            writeChar('\n');
         } catch (IOException e) {
             throw new JsonException("I/O error while writing newline", e);
         }
