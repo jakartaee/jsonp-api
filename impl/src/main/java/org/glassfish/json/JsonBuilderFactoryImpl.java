@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
@@ -51,19 +53,21 @@ import java.util.Map;
  */
 class JsonBuilderFactoryImpl implements JsonBuilderFactory {
     private final Map<String, ?> config;
+    private final BufferPool bufferPool;
 
-    JsonBuilderFactoryImpl() {
+    JsonBuilderFactoryImpl(BufferPool bufferPool) {
         this.config = Collections.emptyMap();
+        this.bufferPool = bufferPool;
     }
 
     @Override
     public JsonObjectBuilder createObjectBuilder() {
-        return new JsonObjectBuilderImpl();
+        return new JsonObjectBuilderImpl(bufferPool);
     }
 
     @Override
     public JsonArrayBuilder createArrayBuilder() {
-        return new JsonArrayBuilderImpl();
+        return new JsonArrayBuilderImpl(bufferPool);
     }
 
     @Override

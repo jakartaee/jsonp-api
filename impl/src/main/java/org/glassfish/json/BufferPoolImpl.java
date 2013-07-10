@@ -42,42 +42,57 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.Map;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
+ * char[] pool that pool instances of char[] which are expensive to create.
+ *
  * @author Jitendra Kotamraju
  */
-class JsonReaderFactoryImpl implements JsonReaderFactory {
-    private final Map<String, ?> config = Collections.emptyMap();
-    private final BufferPool bufferPool;
+class BufferPoolImpl implements BufferPool {
 
-    JsonReaderFactoryImpl(BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
-    }
+    // volatile since multiple threads may access queue reference
+    private volatile WeakReference<ConcurrentLinkedQueue<char[]>> queue;
 
+    /**
+     * Gets a new object from the pool.
+     *
+     * <p>
+     * If no object is available in the pool, this method creates a new one.
+     *
+     * @return
+     *      always non-null.
+     */
     @Override
-    public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader, bufferPool);
+    public final char[] take() {
+        char[] t = getQueue().poll();
+        if (t==null)
+            return new char[4096];
+        return t;
     }
 
-    @Override
-    public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in, bufferPool);
+    private ConcurrentLinkedQueue<char[]> getQueue() {
+        WeakReference<ConcurrentLinkedQueue<char[]>> q = queue;
+        if (q != null) {
+            ConcurrentLinkedQueue<char[]> d = q.get();
+            if (d != null)
+                return d;
+        }
+
+        // overwrite the queue
+        ConcurrentLinkedQueue<char[]> d = new ConcurrentLinkedQueue<char[]>();
+        queue = new WeakReference<ConcurrentLinkedQueue<char[]>>(d);
+
+        return d;
     }
 
+    /**
+     * Returns an object back to the pool.
+     */
     @Override
-    public JsonReader createReader(InputStream in, Charset charset) {
-        return new JsonReaderImpl(in, charset, bufferPool);
+    public final void recycle(char[] t) {
+        getQueue().offer(t);
     }
 
-    @Override
-    public Map<String, ?> getConfigInUse() {
-        return config;
-    }
 }

@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
@@ -50,6 +52,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -57,81 +61,143 @@ import java.util.Map;
  */
 public class JsonProviderImpl extends JsonProvider {
 
+    private final BufferPool bufferPool = new BufferPoolImpl();
+
     @Override
     public JsonGenerator createGenerator(Writer writer) {
-        return new JsonGeneratorImpl(writer);
+        return new JsonGeneratorImpl(writer, bufferPool);
     }
-
 
     @Override
     public JsonGenerator createGenerator(OutputStream out) {
-        return new JsonGeneratorImpl(out);
+        return new JsonGeneratorImpl(out, bufferPool);
     }
 
     @Override
     public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader);
+        return new JsonParserImpl(reader, bufferPool);
     }
 
     @Override
     public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in);
+        return new JsonParserImpl(in, bufferPool);
     }
 
     @Override
     public JsonParserFactory createParserFactory(Map<String, ?> config) {
-        // Our provider doesn't support any config
-        return new JsonParserFactoryImpl();
+        BufferPool pool = null;
+        if (config != null && config.containsKey(BufferPool.class.getName())) {
+            pool = (BufferPool)config.get(BufferPool.class.getName());
+        }
+        if (pool == null) {
+            pool = bufferPool;
+        }
+        return new JsonParserFactoryImpl(pool);
     }
 
     @Override
     public JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config) {
-        return new JsonGeneratorFactoryImpl(config);
+        Map<String, Object> providerConfig;
+        boolean prettyPrinting;
+        BufferPool pool;
+        if (config == null) {
+            providerConfig = Collections.emptyMap();
+            prettyPrinting = false;
+            pool = bufferPool;
+        } else {
+            providerConfig = new HashMap<String, Object>();
+            if (prettyPrinting=JsonProviderImpl.isPrettyPrintingEnabled(config)) {
+                providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
+            }
+            pool = (BufferPool)config.get(BufferPool.class.getName());
+            if (pool != null) {
+                providerConfig.put(BufferPool.class.getName(), pool);
+            } else {
+                pool = bufferPool;
+            }
+            providerConfig = Collections.unmodifiableMap(providerConfig);
+        }
+
+        return new JsonGeneratorFactoryImpl(providerConfig, prettyPrinting, pool);
     }
 
     @Override
     public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader);
+        return new JsonReaderImpl(reader, bufferPool);
     }
 
     @Override
     public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in);
+        return new JsonReaderImpl(in, bufferPool);
     }
 
     @Override
     public JsonWriter createWriter(Writer writer) {
-        return new JsonWriterImpl(writer);
+        return new JsonWriterImpl(writer, bufferPool);
     }
 
     @Override
     public JsonWriter createWriter(OutputStream out) {
-        return new JsonWriterImpl(out);
+        return new JsonWriterImpl(out, bufferPool);
     }
 
     @Override
     public JsonWriterFactory createWriterFactory(Map<String, ?> config) {
-        return new JsonWriterFactoryImpl(config);
+        Map<String, Object> providerConfig;
+        boolean prettyPrinting;
+        BufferPool pool;
+        if (config == null) {
+            providerConfig = Collections.emptyMap();
+            prettyPrinting = false;
+            pool = bufferPool;
+        } else {
+            providerConfig = new HashMap<String, Object>();
+            if (prettyPrinting=JsonProviderImpl.isPrettyPrintingEnabled(config)) {
+                providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
+            }
+            pool = (BufferPool)config.get(BufferPool.class.getName());
+            if (pool != null) {
+                providerConfig.put(BufferPool.class.getName(), pool);
+            } else {
+                pool = bufferPool;
+            }
+            providerConfig = Collections.unmodifiableMap(providerConfig);
+        }
+        return new JsonWriterFactoryImpl(providerConfig, prettyPrinting, pool);
     }
 
     @Override
     public JsonReaderFactory createReaderFactory(Map<String, ?> config) {
-        return new JsonReaderFactoryImpl();
+        BufferPool pool = null;
+        if (config != null && config.containsKey(BufferPool.class.getName())) {
+            pool = (BufferPool)config.get(BufferPool.class.getName());
+        }
+        if (pool == null) {
+            pool = bufferPool;
+        }
+        return new JsonReaderFactoryImpl(pool);
     }
 
     @Override
     public JsonObjectBuilder createObjectBuilder() {
-        return new JsonObjectBuilderImpl();
+        return new JsonObjectBuilderImpl(bufferPool);
     }
 
     @Override
     public JsonArrayBuilder createArrayBuilder() {
-        return new JsonArrayBuilderImpl();
+        return new JsonArrayBuilderImpl(bufferPool);
     }
 
     @Override
     public JsonBuilderFactory createBuilderFactory(Map<String,?> config) {
-        return new JsonBuilderFactoryImpl();
+        BufferPool pool = null ;
+        if (config != null && config.containsKey(BufferPool.class.getName())) {
+            pool = (BufferPool)config.get(BufferPool.class.getName());
+        }
+        if (pool == null) {
+            pool = bufferPool;
+        }
+        return new JsonBuilderFactoryImpl(pool);
     }
 
     static boolean isPrettyPrintingEnabled(Map<String, ?> config) {

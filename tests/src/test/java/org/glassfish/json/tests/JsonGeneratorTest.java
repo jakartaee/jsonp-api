@@ -41,12 +41,12 @@
 package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
+import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
-import javax.json.stream.JsonGenerationException;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
+import javax.json.stream.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -410,5 +410,50 @@ public class JsonGeneratorTest extends TestCase {
         }
     }
 
+    public void testBufferPoolFeature() {
+        final JsonParserTest.MyBufferPool bufferPool = new JsonParserTest.MyBufferPool(1024);
+        Map<String, Object> config = new HashMap<String, Object>() {{
+            put(BufferPool.class.getName(), bufferPool);
+        }};
+
+        JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
+        JsonGenerator generator = factory.createGenerator(new StringWriter());
+        generator.writeStartArray();
+        generator.writeEnd();
+        generator.close();
+        assertTrue(bufferPool.isTakeCalled());
+        assertTrue(bufferPool.isRecycleCalled());
+    }
+
+    public void testBufferSizes() {
+        JsonReaderFactory rf = Json.createReaderFactory(null);
+        JsonBuilderFactory bf = Json.createBuilderFactory(null);
+        for(int size=10; size < 1000; size++) {
+            final JsonParserTest.MyBufferPool bufferPool = new JsonParserTest.MyBufferPool(size);
+            Map<String, Object> config = new HashMap<String, Object>() {{
+                put(BufferPool.class.getName(), bufferPool);
+            }};
+            JsonGeneratorFactory gf = Json.createGeneratorFactory(config);
+
+            StringBuilder sb = new StringBuilder();
+            int value = 10;
+            for(int i=0; i < 1500; i++) {
+                sb.append('a');
+                String name = sb.toString();
+                StringWriter sw = new StringWriter();
+                JsonGenerator generator = gf.createGenerator(sw);
+                generator.writeStartObject().write(name, value).writeEnd().close();
+
+                JsonReader reader = rf.createReader(new StringReader(sw.toString()));
+                JsonObject got = reader.readObject();
+                reader.close();
+
+                JsonObject expected = bf.createObjectBuilder().add(name, value).build();
+
+                assertEquals(expected, got);
+            }
+
+        }
+    }
 
 }

@@ -54,6 +54,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import org.glassfish.json.api.BufferPool;
+
 /**
  * JsonParser Tests
  *
@@ -596,6 +598,77 @@ public class JsonParserTest extends TestCase {
             parser.close();
         }
 
+    }
+
+    static class MyBufferPool implements BufferPool {
+        private boolean takeCalled;
+        private boolean recycleCalled;
+        private final char[] buf;
+
+        MyBufferPool(int size) {
+            buf = new char[size];
+        }
+
+        @Override
+        public char[] take() {
+            takeCalled = true;
+            return buf;
+        }
+
+        @Override
+        public void recycle(char[] buf) {
+            recycleCalled = true;
+        }
+
+        boolean isTakeCalled() {
+            return takeCalled;
+        }
+
+        boolean isRecycleCalled() {
+            return recycleCalled;
+        }
+    }
+
+    public void testBufferPoolFeature() {
+        final MyBufferPool bufferPool = new MyBufferPool(1024);
+        Map<String, Object> config = new HashMap<String, Object>() {{
+            put(BufferPool.class.getName(), bufferPool);
+        }};
+
+        JsonParserFactory factory = Json.createParserFactory(config);
+        JsonParser parser = factory.createParser(new StringReader("[]"));
+        parser.next();
+        parser.next();
+        parser.close();
+        assertTrue(bufferPool.isTakeCalled());
+        assertTrue(bufferPool.isRecycleCalled());
+    }
+
+    public void testBufferSizes() {
+        Random r = new Random(System.currentTimeMillis());
+        for(int size=100; size < 1000; size++) {
+            final MyBufferPool bufferPool = new MyBufferPool(size);
+            Map<String, Object> config = new HashMap<String, Object>() {{
+                put(BufferPool.class.getName(), bufferPool);
+            }};
+            JsonParserFactory factory = Json.createParserFactory(config);
+
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < 1000; i++) {
+                sb.append('a');
+                String name = sb.toString();
+                long num = i%2 == 0 ? r.nextInt() : r.nextLong();
+                String str = "{\""+name+"\":["+num+"]}";
+                JsonParser parser = factory.createParser(new StringReader(str));
+                parser.next();
+                parser.next();
+                assertEquals("Fails for " + str, name, parser.getString());
+                parser.next();
+                parser.next();
+                assertEquals("Fails for "+str, new BigDecimal(num).intValue(), parser.getInt());
+                parser.close();
+            }
+        }
     }
 
 }

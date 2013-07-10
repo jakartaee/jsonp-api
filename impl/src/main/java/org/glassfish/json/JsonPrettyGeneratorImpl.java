@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
 import java.io.IOException;
@@ -54,16 +56,16 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
     private int indentLevel;
     private static final String INDENT = "    ";
 
-    public JsonPrettyGeneratorImpl(Writer writer) {
-        super(writer);
+    public JsonPrettyGeneratorImpl(Writer writer, BufferPool bufferPool) {
+        super(writer, bufferPool);
     }
 
-    public JsonPrettyGeneratorImpl(OutputStream out) {
-        super(out);
+    public JsonPrettyGeneratorImpl(OutputStream out, BufferPool bufferPool) {
+        super(out, bufferPool);
     }
 
-    public JsonPrettyGeneratorImpl(OutputStream out, Charset encoding) {
-        super(out, encoding);
+    public JsonPrettyGeneratorImpl(OutputStream out, Charset encoding, BufferPool bufferPool) {
+        super(out, encoding, bufferPool);
     }
 
     @Override

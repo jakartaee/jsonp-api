@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -51,6 +53,11 @@ import java.util.List;
 
 class JsonArrayBuilderImpl implements JsonArrayBuilder {
     private ArrayList<JsonValue> valueList;
+    private final BufferPool bufferPool;
+
+    JsonArrayBuilderImpl(BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
+    }
 
     public JsonArrayBuilder add(JsonValue value) {
         validateValue(value);
@@ -129,7 +136,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
             snapshot = Collections.unmodifiableList(valueList);
         }
         valueList = null;
-        return new JsonArrayImpl(snapshot);
+        return new JsonArrayImpl(snapshot, bufferPool);
     }
 
     private void addValueList(JsonValue value) {
@@ -147,9 +154,11 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private static final class JsonArrayImpl extends AbstractList<JsonValue> implements JsonArray {
         private final List<JsonValue> valueList;    // Unmodifiable
+        private final BufferPool bufferPool;
 
-        JsonArrayImpl(List<JsonValue> valueList) {
+        JsonArrayImpl(List<JsonValue> valueList, BufferPool bufferPool) {
             this.valueList = valueList;
+            this.bufferPool = bufferPool;
         }
 
         @Override
@@ -250,7 +259,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         @Override
         public String toString() {
             StringWriter sw = new StringWriter();
-            JsonWriter jw = new JsonWriterImpl(sw);
+            JsonWriter jw = new JsonWriterImpl(sw, bufferPool);
             jw.write(this);
             jw.close();
             return sw.toString();

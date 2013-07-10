@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParserFactory;
@@ -55,20 +57,25 @@ import java.util.Map;
  */
 class JsonParserFactoryImpl implements JsonParserFactory {
     private final Map<String, ?> config = Collections.emptyMap();
+    private final BufferPool bufferPool;
+
+    JsonParserFactoryImpl(BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
+    }
 
     @Override
     public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader);
+        return new JsonParserImpl(reader, bufferPool);
     }
 
     @Override
     public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in);
+        return new JsonParserImpl(in, bufferPool);
     }
 
     @Override
     public JsonParser createParser(InputStream in, Charset charset) {
-        return new JsonParserImpl(in, charset);
+        return new JsonParserImpl(in, charset, bufferPool);
     }
 
     @Override

@@ -50,6 +50,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
+import org.glassfish.json.api.BufferPool;
 
 /**
  * JSON parser using a state machine.
@@ -67,19 +68,19 @@ public class JsonParserImpl implements JsonParser {
     private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
 
-    public JsonParserImpl(Reader reader) {
-        tokenizer = new JsonTokenizer(reader);
+    public JsonParserImpl(Reader reader, BufferPool bufferPool) {
+        tokenizer = new JsonTokenizer(reader, bufferPool);
         stateIterator = new StateIterator();
     }
 
-    public JsonParserImpl(InputStream in) {
+    public JsonParserImpl(InputStream in, BufferPool bufferPool) {
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
-        tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()));
+        tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
         stateIterator = new StateIterator();
     }
 
-    public JsonParserImpl(InputStream in, Charset encoding) {
-        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding));
+    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
+        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
         stateIterator = new StateIterator();
     }
 

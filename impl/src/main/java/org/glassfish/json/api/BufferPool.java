@@ -38,46 +38,29 @@
  * holder.
  */
 
-package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
-
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.Map;
+package org.glassfish.json.api;
 
 /**
+ * char[] pool that pool instances of char[] which are expensive to create.
+ *
  * @author Jitendra Kotamraju
  */
-class JsonReaderFactoryImpl implements JsonReaderFactory {
-    private final Map<String, ?> config = Collections.emptyMap();
-    private final BufferPool bufferPool;
+public interface BufferPool {
 
-    JsonReaderFactoryImpl(BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
-    }
+    /**
+     * Gets a new char[] object from the pool.
+     *
+     * <p>
+     * If no object is available in the pool, this method creates a new one.
+     *
+     * @return
+     *      always non-null.
+     */
+    char[] take();
 
-    @Override
-    public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader, bufferPool);
-    }
+    /**
+     * Returns an object back to the pool.
+     */
+    void recycle(char[] buf);
 
-    @Override
-    public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in, bufferPool);
-    }
-
-    @Override
-    public JsonReader createReader(InputStream in, Charset charset) {
-        return new JsonReaderImpl(in, charset, bufferPool);
-    }
-
-    @Override
-    public Map<String, ?> getConfigInUse() {
-        return config;
-    }
 }

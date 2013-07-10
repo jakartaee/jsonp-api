@@ -40,13 +40,13 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -55,37 +55,35 @@ import java.util.Map;
 class JsonGeneratorFactoryImpl implements JsonGeneratorFactory {
 
     private final boolean prettyPrinting;
-    private final Map<String, Object> config;
+    private final Map<String, ?> config;    // unmodifiable map
+    private final BufferPool bufferPool;
 
-    JsonGeneratorFactoryImpl(Map<String, ?> config) {
-        prettyPrinting = config != null
-                && JsonProviderImpl.isPrettyPrintingEnabled(config);
-        Map<String, Object> providerConfig = new HashMap<String, Object>();
-        if (prettyPrinting) {
-            providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
-        }
-        this.config = Collections.unmodifiableMap(providerConfig);
+    JsonGeneratorFactoryImpl(Map<String, ?> config, boolean prettyPrinting,
+            BufferPool bufferPool) {
+        this.config = config;
+        this.prettyPrinting = prettyPrinting;
+        this.bufferPool = bufferPool;
     }
 
     @Override
     public JsonGenerator createGenerator(Writer writer) {
         return prettyPrinting
-                ? new JsonPrettyGeneratorImpl(writer)
-                : new JsonGeneratorImpl(writer);
+                ? new JsonPrettyGeneratorImpl(writer, bufferPool)
+                : new JsonGeneratorImpl(writer, bufferPool);
     }
 
     @Override
     public JsonGenerator createGenerator(OutputStream out) {
         return prettyPrinting
-                ? new JsonPrettyGeneratorImpl(out)
-                : new JsonGeneratorImpl(out);
+                ? new JsonPrettyGeneratorImpl(out, bufferPool)
+                : new JsonGeneratorImpl(out, bufferPool);
     }
 
     @Override
     public JsonGenerator createGenerator(OutputStream out, Charset charset) {
         return prettyPrinting
-                ? new JsonPrettyGeneratorImpl(out, charset)
-                : new JsonGeneratorImpl(out, charset);
+                ? new JsonPrettyGeneratorImpl(out, charset, bufferPool)
+                : new JsonGeneratorImpl(out, charset, bufferPool);
     }
 
     @Override

@@ -40,45 +40,43 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
-import javax.json.stream.JsonGenerator;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
  */
 class JsonWriterFactoryImpl implements JsonWriterFactory {
-    private final Map<String, ?> config;
+    private final Map<String, ?> config;        // unmodifiable map
+    private final boolean prettyPrinting;
+    private final BufferPool bufferPool;
 
-    JsonWriterFactoryImpl(Map<String, ?> config) {
-        boolean prettyPrinting = config != null
-                && JsonProviderImpl.isPrettyPrintingEnabled(config);
-        Map<String, Object> providerConfig = new HashMap<String, Object>();
-        if (prettyPrinting) {
-            providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
-        }
-        this.config = Collections.unmodifiableMap(providerConfig);
+    JsonWriterFactoryImpl(Map<String, ?> config, boolean prettyPrinting,
+            BufferPool bufferPool) {
+        this.config = config;
+        this.prettyPrinting = prettyPrinting;
+        this.bufferPool = bufferPool;
     }
 
     @Override
     public JsonWriter createWriter(Writer writer) {
-        return new JsonWriterImpl(writer, config);
+        return new JsonWriterImpl(writer, prettyPrinting, bufferPool);
     }
 
     @Override
     public JsonWriter createWriter(OutputStream out) {
-        return new JsonWriterImpl(out, config);
+        return new JsonWriterImpl(out, prettyPrinting, bufferPool);
     }
 
     @Override
     public JsonWriter createWriter(OutputStream out, Charset charset) {
-        return new JsonWriterImpl(out, charset, config);
+        return new JsonWriterImpl(out, charset, prettyPrinting, bufferPool);
     }
 
     @Override

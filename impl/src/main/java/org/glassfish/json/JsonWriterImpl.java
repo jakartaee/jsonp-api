@@ -40,11 +40,12 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.Collections;
 import java.util.Map;
 
 class JsonWriterImpl implements JsonWriter {
@@ -53,30 +54,29 @@ class JsonWriterImpl implements JsonWriter {
     private final JsonGeneratorImpl generator;
     private boolean writeDone;
 
-    JsonWriterImpl(Writer writer) {
-        this(writer, Collections.<String, Object>emptyMap());
+    JsonWriterImpl(Writer writer, BufferPool bufferPool) {
+        this(writer, false, bufferPool);
     }
 
-    JsonWriterImpl(Writer writer, Map<String, ?> config) {
-        boolean prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+    JsonWriterImpl(Writer writer, boolean prettyPrinting, BufferPool bufferPool) {
         generator = prettyPrinting
-                ? new JsonPrettyGeneratorImpl(writer)
-                : new JsonGeneratorImpl(writer);
+                ? new JsonPrettyGeneratorImpl(writer, bufferPool)
+                : new JsonGeneratorImpl(writer, bufferPool);
     }
 
-    JsonWriterImpl(OutputStream out) {
-        this(out, UTF_8, Collections.<String, Object>emptyMap());
+    JsonWriterImpl(OutputStream out, BufferPool bufferPool) {
+        this(out, UTF_8, false, bufferPool);
     }
 
-    JsonWriterImpl(OutputStream out, Map<String, ?> config) {
-        this(out, UTF_8, config);
+    JsonWriterImpl(OutputStream out, boolean prettyPrinting, BufferPool bufferPool) {
+        this(out, UTF_8, prettyPrinting, bufferPool);
     }
 
-    JsonWriterImpl(OutputStream out, Charset charset, Map<String, ?> config) {
-        boolean prettyPrinting = JsonProviderImpl.isPrettyPrintingEnabled(config);
+    JsonWriterImpl(OutputStream out, Charset charset,
+                   boolean prettyPrinting, BufferPool bufferPool) {
         generator = prettyPrinting
-                ? new JsonPrettyGeneratorImpl(out, charset)
-                : new JsonGeneratorImpl(out, charset);
+                ? new JsonPrettyGeneratorImpl(out, charset, bufferPool)
+                : new JsonGeneratorImpl(out, charset, bufferPool);
     }
 
     @Override

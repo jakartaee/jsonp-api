@@ -40,41 +40,33 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import javax.json.stream.JsonParser;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.Map;
 
 class JsonReaderImpl implements JsonReader {
     private final JsonParser parser;
     private boolean readDone;
+    private final BufferPool bufferPool;
 
-    JsonReaderImpl(Reader reader) {
-        this(reader, Collections.<String, Object>emptyMap());
+    JsonReaderImpl(Reader reader, BufferPool bufferPool) {
+        parser = new JsonParserImpl(reader, bufferPool);
+        this.bufferPool = bufferPool;
     }
 
-    private JsonReaderImpl(Reader reader, Map<String, ?> config) {
-        parser = new JsonParserImpl(reader);
+    JsonReaderImpl(InputStream in, BufferPool bufferPool) {
+        parser = new JsonParserImpl(in, bufferPool);
+        this.bufferPool = bufferPool;
     }
 
-    JsonReaderImpl(InputStream in) {
-        this(in, Collections.<String, Object>emptyMap());
-    }
-
-    private JsonReaderImpl(InputStream in, Map<String, ?> config) {
-        parser = new JsonParserImpl(in);
-    }
-
-    JsonReaderImpl(InputStream in, Charset charset) {
-        this(in, charset, Collections.<String, Object>emptyMap());
-    }
-
-    private JsonReaderImpl(InputStream in, Charset charset, Map<String, ?> config) {
-        parser = new JsonParserImpl(in, charset);
+    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool) {
+        parser = new JsonParserImpl(in, charset, bufferPool);
+        this.bufferPool = bufferPool;
     }
 
     @Override
@@ -86,9 +78,9 @@ class JsonReaderImpl implements JsonReader {
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_ARRAY) {
-                return readArray(new JsonArrayBuilderImpl());
+                return readArray(new JsonArrayBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_OBJECT) {
-                return readObject(new JsonObjectBuilderImpl());
+                return readObject(new JsonObjectBuilderImpl(bufferPool));
             } else {
                 throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
             }
@@ -105,7 +97,7 @@ class JsonReaderImpl implements JsonReader {
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_OBJECT) {
-                return readObject(new JsonObjectBuilderImpl());
+                return readObject(new JsonObjectBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_ARRAY) {
                 throw new JsonException("Cannot read JSON object, found JSON array");
             } else {
@@ -124,7 +116,7 @@ class JsonReaderImpl implements JsonReader {
         if (parser.hasNext()) {
             JsonParser.Event e = parser.next();
             if (e == JsonParser.Event.START_ARRAY) {
-                return readArray(new JsonArrayBuilderImpl());
+                return readArray(new JsonArrayBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_OBJECT) {
                 throw new JsonException("Cannot read JSON array, found JSON object");
             } else {
@@ -145,11 +137,11 @@ class JsonReaderImpl implements JsonReader {
             JsonParser.Event e = parser.next();
             switch (e) {
                 case START_ARRAY:
-                    JsonArray array = readArray(new JsonArrayBuilderImpl());
+                    JsonArray array = readArray(new JsonArrayBuilderImpl(bufferPool));
                     builder.add(array);
                     break;
                 case START_OBJECT:
-                    JsonObject object = readObject(new JsonObjectBuilderImpl());
+                    JsonObject object = readObject(new JsonObjectBuilderImpl(bufferPool));
                     builder.add(object);
                     break;
                 case VALUE_STRING:
@@ -184,11 +176,11 @@ class JsonReaderImpl implements JsonReader {
             JsonParser.Event e = parser .next();
             switch (e) {
                 case START_ARRAY:
-                    JsonArray array = readArray(new JsonArrayBuilderImpl());
+                    JsonArray array = readArray(new JsonArrayBuilderImpl(bufferPool));
                     builder.add(key, array);
                     break;
                 case START_OBJECT:
-                    JsonObject object = readObject(new JsonObjectBuilderImpl());
+                    JsonObject object = readObject(new JsonObjectBuilderImpl(bufferPool));
                     builder.add(key, object);
                     break;
                 case KEY_NAME:

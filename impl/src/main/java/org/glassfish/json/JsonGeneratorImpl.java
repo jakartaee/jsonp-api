@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.*;
 import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
@@ -101,6 +103,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         IN_ARRAY
     }
 
+    private final BufferPool bufferPool;
     private final Writer writer;
     private Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<Context>();
@@ -108,19 +111,21 @@ class JsonGeneratorImpl implements JsonGenerator {
     // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
     // methods. Also, flushBuffer() is useful when you don't want to actually
     // flush the underlying output source
-    private final char buf[] = new char[4096];  // capacity >= INT_MIN_VALUE_CHARS.length
+    private final char buf[];     // capacity >= INT_MIN_VALUE_CHARS.length
     private int len = 0;
 
-    JsonGeneratorImpl(Writer writer) {
+    JsonGeneratorImpl(Writer writer, BufferPool bufferPool) {
         this.writer = writer;
+        this.bufferPool = bufferPool;
+        this.buf = bufferPool.take();
     }
 
-    JsonGeneratorImpl(OutputStream out) {
-        this(out, UTF_8);
+    JsonGeneratorImpl(OutputStream out, BufferPool bufferPool) {
+        this(out, UTF_8, bufferPool);
     }
 
-    JsonGeneratorImpl(OutputStream out, Charset encoding) {
-        this(new OutputStreamWriter(out, encoding));
+    JsonGeneratorImpl(OutputStream out, Charset encoding, BufferPool bufferPool) {
+        this(new OutputStreamWriter(out, encoding), bufferPool);
     }
 
     @Override
@@ -576,6 +581,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         } catch (IOException ioe) {
             throw new JsonException("I/O error while closing JsonGenerator", ioe);
         }
+        bufferPool.recycle(buf);
     }
 
     void writeEscapedString(String string) throws IOException {

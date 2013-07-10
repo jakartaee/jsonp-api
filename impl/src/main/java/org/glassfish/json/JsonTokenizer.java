@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.JsonException;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParsingException;
@@ -53,6 +55,7 @@ import java.util.Arrays;
  * @author Jitendra Kotamraju
  */
 final class JsonTokenizer implements Closeable {
+    private final BufferPool bufferPool;
 
     private boolean unread;
     private int prevChar;
@@ -62,7 +65,7 @@ final class JsonTokenizer implements Closeable {
 
     private final Reader reader;
 
-    private char[] buf = new char[4096];
+    private char[] buf;
     // XXXssssssssssssXXXXXXXXXXXXXXXXXXXXXXrrrrrrrrrrrrrrXXXXXX
     //    ^           ^                     ^             ^
     //    |           |                     |             |
@@ -85,8 +88,10 @@ final class JsonTokenizer implements Closeable {
         EOF
     }
 
-    JsonTokenizer(Reader reader) {
+    JsonTokenizer(Reader reader, BufferPool bufferPool) {
         this.reader = reader;
+        this.bufferPool = bufferPool;
+        buf = bufferPool.take();
     }
 
     private int read() {
@@ -367,7 +372,9 @@ final class JsonTokenizer implements Closeable {
             if (readBegin == readEnd) {     // need to fill the buffer
                 if ((storeEnd-storeBegin) == buf.length) {
                     // buffer is full, double the capacity
-                    buf = Arrays.copyOf(buf, 2* buf.length);
+                    char[] doubleBuf = Arrays.copyOf(buf, 2* buf.length);
+                    bufferPool.recycle(buf);
+                    buf = doubleBuf;
                 } else {
                     // Left shift all the required data to make space
                     if (storeEnd-storeBegin > 0) {
@@ -436,6 +443,7 @@ final class JsonTokenizer implements Closeable {
     @Override
     public void close() throws IOException {
         reader.close();
+        bufferPool.recycle(buf);
     }
     
 }

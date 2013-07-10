@@ -40,6 +40,8 @@
 
 package org.glassfish.json;
 
+import org.glassfish.json.api.BufferPool;
+
 import javax.json.JsonArrayBuilder;
 import javax.json.*;
 import java.io.StringWriter;
@@ -49,6 +51,11 @@ import java.util.*;
 
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
     private Map<String, JsonValue> valueMap;
+    private final BufferPool bufferPool;
+
+    JsonObjectBuilderImpl(BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
+    }
 
     public JsonObjectBuilder add(String name, JsonValue value) {
         validateName(name);
@@ -133,7 +140,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
                 ? Collections.<String, JsonValue>emptyMap()
                 : Collections.unmodifiableMap(valueMap);
         valueMap = null;
-        return new JsonObjectImpl(snapshot);
+        return new JsonObjectImpl(snapshot, bufferPool);
     }
 
     private void putValueMap(String name, JsonValue value) {
@@ -157,9 +164,11 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
     private static final class JsonObjectImpl extends AbstractMap<String, JsonValue> implements JsonObject {
         private final Map<String, JsonValue> valueMap;      // unmodifiable
+        private final BufferPool bufferPool;
 
-        JsonObjectImpl(Map<String, JsonValue> valueMap) {
+        JsonObjectImpl(Map<String, JsonValue> valueMap, BufferPool bufferPool) {
             this.valueMap = valueMap;
+            this.bufferPool = bufferPool;
         }
 
         @Override
@@ -251,7 +260,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         @Override
         public String toString() {
             StringWriter sw = new StringWriter();
-            JsonWriter jw = new JsonWriterImpl(sw);
+            JsonWriter jw = new JsonWriterImpl(sw, bufferPool);
             jw.write(this);
             jw.close();
             return sw.toString();
