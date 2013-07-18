@@ -456,4 +456,32 @@ public class JsonGeneratorTest extends TestCase {
         }
     }
 
+    public void testString() throws Exception {
+        escapedString("");
+        escapedString("abc");
+        escapedString("abc\f");
+        escapedString("abc\na");
+        escapedString("abc\tabc");
+        escapedString("abc\n\tabc");
+        escapedString("abc\n\tabc\r");
+        escapedString("\n\tabc\r");
+        escapedString("\bab\tb\rc\\\"\ftesting1234");
+        escapedString("\f\babcdef\tb\rc\\\"\ftesting1234");
+    }
+
+    void escapedString(String expected) throws Exception {
+        StringWriter sw = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sw);
+        generator.writeStartArray().write(expected).writeEnd();
+        generator.close();
+        sw.close();
+
+        JsonReader jr = Json.createReader(new StringReader(sw.toString()));
+        JsonArray array = jr.readArray();
+        String got = array.getString(0);
+        jr.close();
+
+        assertEquals(expected, got);
+    }
+
 }

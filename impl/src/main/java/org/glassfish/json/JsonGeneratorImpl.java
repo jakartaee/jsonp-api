@@ -584,45 +584,66 @@ class JsonGeneratorImpl implements JsonGenerator {
         bufferPool.recycle(buf);
     }
 
+    // begin, end-1 indexes represent characters that need not
+    // be escaped
+    //
+    // XXXssssssssssssXXXXXXXXXXXXXXXXXXXXXXrrrrrrrrrrrrrrXXXXXX
+    //    ^           ^                     ^             ^
+    //    |           |                     |             |
+    //   begin       end                   begin         end
     void writeEscapedString(String string) throws IOException {
         writeChar('"');
-        for (int i = 0; i < string.length(); i++) {
+        int len = string.length();
+        for(int i = 0; i < len; i++) {
+            int begin = i, end = i;
             char c = string.charAt(i);
+            // find all the characters that need not be escaped
+            // unescaped = %x20-21 | %x23-5B | %x5D-10FFFF
+            while(c >= 0x20 && c <= 0x10ffff && c != 0x22 && c != 0x5c) {
+                i++; end = i;
+                if (i < len) {
+                    c = string.charAt(i);
+                } else {
+                    break;
+                }
+            }
+            // Write characters without escaping
+            if (begin < end) {
+                writeString(string, begin, end);
+                if (i == len) {
+                    break;
+                }
+            }
+
             switch (c) {
                 case '"':
                 case '\\':
-                    writeChar('\\');
-                    writeChar(c);
+                    writeChar('\\'); writeChar(c);
                     break;
                 case '\b':
-                    writeString("\\b");
+                    writeChar('\\'); writeChar('b');
                     break;
                 case '\f':
-                    writeString("\\f");
+                    writeChar('\\'); writeChar('f');
                     break;
                 case '\n':
-                    writeString("\\n");
+                    writeChar('\\'); writeChar('n');
                     break;
                 case '\r':
-                    writeString("\\r");
+                    writeChar('\\'); writeChar('r');
                     break;
                 case '\t':
-                    writeString("\\t");
+                    writeChar('\\'); writeChar('t');
                     break;
                 default:
-                    if (c < ' ' || (c >= '\u0080' && c < '\u00a0') || (c >= '\u2000' && c < '\u2100')) {
-                        String hex = "000" + Integer.toHexString(c);
-                        writeString("\\u" + hex.substring(hex.length() - 4));
-                    } else {
-                        writeChar(c);
-                    }
+                    String hex = "000" + Integer.toHexString(c);
+                    writeString("\\u" + hex.substring(hex.length() - 4));
             }
         }
         writeChar('"');
     }
 
-    void writeString(String str) throws IOException {
-        int begin = 0, end = str.length();
+    void writeString(String str, int begin, int end) throws IOException {
         while (begin < end) {       // source begin and end indexes
             int no = Math.min(buf.length - len, end - begin);
             str.getChars(begin, begin + no, buf, len);
@@ -632,6 +653,10 @@ class JsonGeneratorImpl implements JsonGenerator {
                 flushBuffer();
             }
         }
+    }
+
+    void writeString(String str) throws IOException {
+        writeString(str, 0, str.length());
     }
 
     void writeChar(char c) throws IOException {
