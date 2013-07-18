@@ -47,16 +47,15 @@
     <parent>
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.glassfish</groupId>
     <artifactId>json-bundles</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1-SNAPSHOT</version>
-    <name>JSR 353 (JSON Processing) API</name>
-    <description>API module of JSR 353:Java API for Processing JSON</description>
+    <name>JSR 353 (JSON Processing) bundles</name>
+    <description>JSON Processing bundles</description>
     <url>http://json-processing-spec.java.net</url>
 
     <modules>
