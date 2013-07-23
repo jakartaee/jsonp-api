@@ -744,16 +744,26 @@ public class JsonParserTest extends TestCase {
                     JsonParser parser = factory.createParser(new StringReader(str));
                     parser.next();
                     parser.next();
-                    assertEquals("Fails for size="+i, name, parser.getString());
+                    assertEquals("name fails for buffer size="+size+" name length="+i, name, parser.getString());
                     location = parser.getLocation();
-                    assertEquals("Fails for size="+i, name.length()+3, location.getStreamOffset());
+                    assertEquals("Stream offset fails for buffer size="+size+" name length="+i,
+                            name.length()+3, location.getStreamOffset());
+                    assertEquals("Column value fails for buffer size="+size+" name length="+i,
+                            name.length()+4, location.getColumnNumber());
+                    assertEquals("Line value fails for buffer size="+size+" name length="+i,
+                            1, location.getLineNumber());
+
                     parser.next();
-                    assertEquals("Fails for size="+i, name, parser.getString());
+                    assertEquals("value fails for buffer size="+size+" name length="+i, name, parser.getString());
                     location = parser.getLocation();
-                    assertEquals("Fails for size="+i, 2*name.length()+6, location.getStreamOffset());
+                    assertEquals("Stream offset fails for buffer size="+size+" name length="+i, 2*name.length()+6, location.getStreamOffset());
+                    assertEquals("Column value fails for buffer size="+size+" name length="+i,
+                            2*name.length()+7, location.getColumnNumber());
+                    assertEquals("Line value fails for buffer size="+size+" name length="+i,
+                            1, location.getLineNumber());
                     parser.close();
                 } catch (AssertionError e) {
-                    throw new AssertionError("Failed for size="+i, e);
+                    throw new AssertionError("Failed for buffer size="+size+" name length="+i, e);
                 }
             }
         }
