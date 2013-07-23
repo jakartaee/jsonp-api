@@ -43,6 +43,7 @@ package org.glassfish.json.tests;
 import junit.framework.TestCase;
 
 import javax.json.*;
+import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
@@ -667,6 +668,93 @@ public class JsonParserTest extends TestCase {
                 parser.next();
                 assertEquals("Fails for "+str, new BigDecimal(num).intValue(), parser.getInt());
                 parser.close();
+            }
+        }
+    }
+
+    // Tests for string starting on buffer boundary (JSONP-15)
+    // xxxxxxx"xxxxxxxxx"
+    //        ^
+    //        |
+    //       4096
+    public void testStringUsingStandardBuffer() {
+        JsonParserFactory factory = Json.createParserFactory(null);
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < 40000; i++) {
+            sb.append('a');
+            String name = sb.toString();
+            String str = "{\""+name+"\":\""+name+"\"}";
+            try {
+                JsonParser parser = factory.createParser(new StringReader(str));
+                parser.next();
+                parser.next();
+                assertEquals("Fails for size="+i, name, parser.getString());
+                parser.next();
+                assertEquals("Fails for size="+i, name, parser.getString());
+                parser.close();
+            } catch (AssertionError e) {
+                throw new AssertionError("Failed for size="+i, e);
+            }
+        }
+    }
+
+    // Tests for int starting on buffer boundary
+    // xxxxxxx"xxxxxxxxx"
+    //        ^
+    //        |
+    //       4096
+    public void testIntegerUsingStandardBuffer() {
+        Random r = new Random(System.currentTimeMillis());
+        JsonParserFactory factory = Json.createParserFactory(null);
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < 40000; i++) {
+            sb.append('a');
+            String name = sb.toString();
+            int num = r.nextInt();
+            String str = "{\""+name+"\":"+num+"}";
+            try {
+                JsonParser parser = factory.createParser(new StringReader(str));
+                parser.next();
+                parser.next();
+                assertEquals("Fails for size="+i, name, parser.getString());
+                parser.next();
+                assertEquals("Fails for size="+i, num, parser.getInt());
+                parser.close();
+            } catch (AssertionError e) {
+                throw new AssertionError("Failed for size="+i, e);
+            }
+        }
+    }
+
+    public void testStringUsingBuffers() {
+        for(int size=20; size < 500; size++) {
+            final MyBufferPool bufferPool = new MyBufferPool(size);
+            Map<String, Object> config = new HashMap<String, Object>() {{
+                put(BufferPool.class.getName(), bufferPool);
+            }};
+            JsonParserFactory factory = Json.createParserFactory(config);
+
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < 1000; i++) {
+                sb.append('a');
+                String name = sb.toString();
+                String str = "{\""+name+"\":\""+name+"\"}";
+                JsonLocation location;
+                try {
+                    JsonParser parser = factory.createParser(new StringReader(str));
+                    parser.next();
+                    parser.next();
+                    assertEquals("Fails for size="+i, name, parser.getString());
+                    location = parser.getLocation();
+                    assertEquals("Fails for size="+i, name.length()+3, location.getStreamOffset());
+                    parser.next();
+                    assertEquals("Fails for size="+i, name, parser.getString());
+                    location = parser.getLocation();
+                    assertEquals("Fails for size="+i, 2*name.length()+6, location.getStreamOffset());
+                    parser.close();
+                } catch (AssertionError e) {
+                    throw new AssertionError("Failed for size="+i, e);
+                }
             }
         }
     }

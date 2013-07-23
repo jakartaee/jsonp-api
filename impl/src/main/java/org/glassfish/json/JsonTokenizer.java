@@ -370,17 +370,23 @@ final class JsonTokenizer implements Closeable {
     private int readChar() {
         try {
             if (readBegin == readEnd) {     // need to fill the buffer
-                if ((storeEnd-storeBegin) == buf.length) {
-                    // buffer is full, double the capacity
-                    char[] doubleBuf = Arrays.copyOf(buf, 2* buf.length);
-                    bufferPool.recycle(buf);
-                    buf = doubleBuf;
-                } else {
-                    // Left shift all the required data to make space
-                    if (storeEnd-storeBegin > 0) {
-                        System.arraycopy(buf, storeBegin, buf, 0, storeEnd-storeBegin);
-                        storeEnd = storeEnd - storeBegin;
-                        storeBegin = 0;
+                if (storeEnd != 0) {
+                    int storeLen = storeEnd-storeBegin;
+                    if (storeLen > 0) {
+                        // there is some store data
+                        if (storeLen == buf.length) {
+                            // buffer is full, double the capacity
+                            char[] doubleBuf = Arrays.copyOf(buf, 2* buf.length);
+                            bufferPool.recycle(buf);
+                            buf = doubleBuf;
+                        } else {
+                            // Left shift all the stored data to make space
+                            System.arraycopy(buf, storeBegin, buf, 0, storeLen);
+                            storeEnd = storeLen;
+                            storeBegin = 0;
+                        }
+                    } else {
+                        storeBegin = storeEnd = 0;
                     }
                 }
                 // Fill the rest of the buf
