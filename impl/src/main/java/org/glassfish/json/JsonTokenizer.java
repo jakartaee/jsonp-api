@@ -57,13 +57,14 @@ import java.util.Arrays;
 final class JsonTokenizer implements Closeable {
     private final BufferPool bufferPool;
 
-    private long lineNo = 1;
-    private long columnNo = 1;
-    private long streamOffset = 0;
-
     private final Reader reader;
 
+    // Internal buffer that is used for parsing. It is also used
+    // for storing current string and number value token
     private char[] buf;
+
+    // Indexes in buffer
+    //
     // XXXssssssssssssXXXXXXXXXXXXXXXXXXXXXXrrrrrrrrrrrrrrXXXXXX
     //    ^           ^                     ^             ^
     //    |           |                     |             |
@@ -72,9 +73,24 @@ final class JsonTokenizer implements Closeable {
     private int readEnd;
     private int storeBegin;
     private int storeEnd;
+
+    // line number of the current pointer of parsing char
+    private long lineNo = 1;
+
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    // ^
+    // |
+    // bufferOffset
+    //
+    // offset of the last \r\n or \n. will be used to calculate column number
+    // of a token or an error. This may be outside of the buffer.
+    private long lastLineOffset = 0;
+    // offset in the stream for the start of the buffer, will be used in
+    // calculating JsonLocation's stream offset, column no.
+    private long bufferOffset = 0;
+
     private boolean minus;
     private boolean fracOrExp;
-
     private String value;
     private BigDecimal bd;
 
@@ -93,7 +109,6 @@ final class JsonTokenizer implements Closeable {
     }
 
     private int read() {
-        ++columnNo;
         return readChar();
     }
 
@@ -225,7 +240,6 @@ final class JsonTokenizer implements Closeable {
             }
         }
         readBegin--;
-        columnNo--;
     }
 
     private void readTrue() {
@@ -288,14 +302,14 @@ final class JsonTokenizer implements Closeable {
                 ++lineNo;
                 ch = read();
                 if (ch == '\n') {
-                    columnNo = 1;
+                    lastLineOffset = bufferOffset+readBegin;
                 } else {
-                    columnNo = 2;
+                    lastLineOffset = bufferOffset+readBegin-1;
                     continue;
                 }
             } else if (ch == '\n') {
                 ++lineNo;
-                columnNo = 1;
+                lastLineOffset = bufferOffset+readBegin;
             }
             ch = read();
         }
@@ -349,12 +363,12 @@ final class JsonTokenizer implements Closeable {
     // JsonParsingException.getLocation
     JsonLocation getLastCharLocation() {
         // Already read the char, so subtracting -1
-        return new JsonLocationImpl(lineNo, columnNo-1, streamOffset+readBegin-1);
+        return new JsonLocationImpl(lineNo, bufferOffset +readBegin-lastLineOffset, bufferOffset +readBegin-1);
     }
 
     // Gives the parser location. Used for JsonParser.getLocation
     JsonLocation getLocation() {
-        return new JsonLocationImpl(lineNo, columnNo, streamOffset+readBegin);
+        return new JsonLocationImpl(lineNo, bufferOffset +readBegin-lastLineOffset+1, bufferOffset +readBegin);
     }
 
     private int readChar() {
@@ -374,14 +388,14 @@ final class JsonTokenizer implements Closeable {
                             System.arraycopy(buf, storeBegin, buf, 0, storeLen);
                             storeEnd = storeLen;
                             storeBegin = 0;
-                            streamOffset += readBegin-storeEnd;
+                            bufferOffset += readBegin-storeEnd;
                         }
                     } else {
                         storeBegin = storeEnd = 0;
-                        streamOffset += readBegin;
+                        bufferOffset += readBegin;
                     }
                 } else {
-                    streamOffset += readBegin;
+                    bufferOffset += readBegin;
                 }
                 // Fill the rest of the buf
                 int len = reader.read(buf, storeEnd, buf.length-storeEnd);
