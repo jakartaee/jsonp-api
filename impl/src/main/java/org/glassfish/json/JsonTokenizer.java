@@ -108,79 +108,98 @@ final class JsonTokenizer implements Closeable {
         buf = bufferPool.take();
     }
 
-    private int read() {
-        return readChar();
-    }
-
     private void readString() {
+        // when inPlace is true, no need to copy chars
+        boolean inPlace = true;
         storeBegin = storeEnd = readBegin;
-        boolean escaped = false;
-        int ch;
+
         do {
-            ch = read();
-            switch (ch) {
-                case -1:
-                    throw new JsonException("Unexpected EOF");
-                case '\\':
-                    escaped = true;
-                    int ch2 = read();
-                    switch (ch2) {
-                        case 'b':
-                            buf[storeEnd++] = '\b';
-                            break;
-                        case 't':
-                            buf[storeEnd++] = '\t';
-                            break;
-                        case 'n':
-                            buf[storeEnd++] = '\n';
-                            break;
-                        case 'f':
-                            buf[storeEnd++] = '\f';
-                            break;
-                        case 'r':
-                            buf[storeEnd++] = '\r';
-                            break;
-                        case '"':
-                        case '\\':
-                        case '/':
-                            buf[storeEnd++] = (char)ch2;
-                            break;
-                        case 'u': {
-                            char unicode = 0;
-                            for (int i = 0; i < 4; i++) {
-                                int ch3 = read();
-                                unicode <<= 4;
-                                if (ch3 >= '0' && ch3 <= '9') {
-                                    unicode |= ((char) ch3) - '0';
-                                } else if (ch3 >= 'a' && ch3 <= 'f') {
-                                    unicode |= (((char) ch3) - 'a') + 0xA;
-                                } else if (ch3 >= 'A' && ch3 <= 'F') {
-                                    unicode |= (((char) ch3) - 'A') + 0xA;
-                                } else {
-                                    throw new JsonParsingException("Unexpected Char="+ch3, getLastCharLocation());
-                                }
-                            }
-                            buf[storeEnd++] = (char) (unicode & 0xffff);
-                            break;
-                        }
-                        default:
-                            throw new JsonParsingException("Unexpected Char="+ch2, getLastCharLocation());
+            // Write unescaped char block within the current buffer
+            if (inPlace && readBegin < readEnd) {
+                do {
+                    int ch = buf[readBegin];
+                    if (ch >= 0x20 && ch <= 0x10ffff && ch != 0x22 && ch != 0x5c) {
+                        readBegin++;        // consume unescaped char
+                    } else if (ch == '"') {
+                        storeEnd = readBegin;
+                        readBegin++;        // consume quote char
+                        return;             // Got the entire string
+                    } else {
+                        break;              // escaped char
                     }
+                } while(readBegin < readEnd);
+                storeEnd = readBegin;
+            }
+
+            // string may be crossing buffer boundaries and may contain
+            // escaped characters.
+            int ch = read();
+            if (ch >= 0x20 && ch <= 0x10ffff && ch != 0x22 && ch != 0x5c) {
+                if (!inPlace) {
+                    buf[storeEnd] = (char)ch;
+                }
+                storeEnd++;
+                continue;
+            }
+            switch (ch) {
+                case '\\':
+                    inPlace = false;        // Now onwards need to copy chars
+                    unescape();
                     break;
                 case '"':
-                    break;
+                    return;
+                case -1:
+                    throw new JsonException("Unexpected EOF");
                 default:
-                    if ((ch >= 0x0000 && ch <= 0x001F) ||
-                            (ch >= 0x007F && ch <= 0x009F)) {
-                        throw new JsonException("Unexpected Char="+ch);
-                    }
-                    if (!escaped) {
-                        storeEnd++;
-                    } else {
-                        buf[storeEnd++] = (char)ch;
-                    }
+                    throw new JsonParsingException("Unexpected Char="+ch, getLastCharLocation());
             }
-        } while (ch != '"');
+        } while (true);
+    }
+
+    private void unescape() {
+        int ch = read();
+        switch (ch) {
+            case 'b':
+                buf[storeEnd++] = '\b';
+                break;
+            case 't':
+                buf[storeEnd++] = '\t';
+                break;
+            case 'n':
+                buf[storeEnd++] = '\n';
+                break;
+            case 'f':
+                buf[storeEnd++] = '\f';
+                break;
+            case 'r':
+                buf[storeEnd++] = '\r';
+                break;
+            case '"':
+            case '\\':
+            case '/':
+                buf[storeEnd++] = (char)ch;
+                break;
+            case 'u': {
+                char unicode = 0;
+                for (int i = 0; i < 4; i++) {
+                    int ch3 = read();
+                    unicode <<= 4;
+                    if (ch3 >= '0' && ch3 <= '9') {
+                        unicode |= ((char) ch3) - '0';
+                    } else if (ch3 >= 'a' && ch3 <= 'f') {
+                        unicode |= (((char) ch3) - 'a') + 0xA;
+                    } else if (ch3 >= 'A' && ch3 <= 'F') {
+                        unicode |= (((char) ch3) - 'A') + 0xA;
+                    } else {
+                        throw new JsonParsingException("Unexpected Char="+ch3, getLastCharLocation());
+                    }
+                }
+                buf[storeEnd++] = (char) (unicode & 0xffff);
+                break;
+            }
+            default:
+                throw new JsonParsingException("Unexpected Char="+ch, getLastCharLocation());
+        }
     }
 
     private void readNumber(int ch)  {
@@ -371,34 +390,10 @@ final class JsonTokenizer implements Closeable {
         return new JsonLocationImpl(lineNo, bufferOffset +readBegin-lastLineOffset+1, bufferOffset +readBegin);
     }
 
-    private int readChar() {
+    private int read() {
         try {
             if (readBegin == readEnd) {     // need to fill the buffer
-                if (storeEnd != 0) {
-                    int storeLen = storeEnd-storeBegin;
-                    if (storeLen > 0) {
-                        // there is some store data
-                        if (storeLen == buf.length) {
-                            // buffer is full, double the capacity
-                            char[] doubleBuf = Arrays.copyOf(buf, 2* buf.length);
-                            bufferPool.recycle(buf);
-                            buf = doubleBuf;
-                        } else {
-                            // Left shift all the stored data to make space
-                            System.arraycopy(buf, storeBegin, buf, 0, storeLen);
-                            storeEnd = storeLen;
-                            storeBegin = 0;
-                            bufferOffset += readBegin-storeEnd;
-                        }
-                    } else {
-                        storeBegin = storeEnd = 0;
-                        bufferOffset += readBegin;
-                    }
-                } else {
-                    bufferOffset += readBegin;
-                }
-                // Fill the rest of the buf
-                int len = reader.read(buf, storeEnd, buf.length-storeEnd);
+                int len = fillBuf();
                 if (len == -1) {
                     return -1;
                 }
@@ -410,6 +405,34 @@ final class JsonTokenizer implements Closeable {
         } catch (IOException ioe) {
             throw new JsonException("I/O error while tokenizing JSON", ioe);
         }
+    }
+
+    private int fillBuf() throws IOException {
+        if (storeEnd != 0) {
+            int storeLen = storeEnd-storeBegin;
+            if (storeLen > 0) {
+                // there is some store data
+                if (storeLen == buf.length) {
+                    // buffer is full, double the capacity
+                    char[] doubleBuf = Arrays.copyOf(buf, 2 * buf.length);
+                    bufferPool.recycle(buf);
+                    buf = doubleBuf;
+                } else {
+                    // Left shift all the stored data to make space
+                    System.arraycopy(buf, storeBegin, buf, 0, storeLen);
+                    storeEnd = storeLen;
+                    storeBegin = 0;
+                    bufferOffset += readBegin-storeEnd;
+                }
+            } else {
+                storeBegin = storeEnd = 0;
+                bufferOffset += readBegin;
+            }
+        } else {
+            bufferOffset += readBegin;
+        }
+        // Fill the rest of the buf
+        return reader.read(buf, storeEnd, buf.length-storeEnd);
     }
 
     private void reset() {
