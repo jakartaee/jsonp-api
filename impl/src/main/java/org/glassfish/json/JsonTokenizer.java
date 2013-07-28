@@ -202,14 +202,26 @@ final class JsonTokenizer implements Closeable {
         }
     }
 
+    // Reads a number char. If the char is within the buffer, directly
+    // reads from the buffer. Otherwise, uses read() which takes care
+    // of resizing, filling up the buf, adjusting the pointers
+    private int readNumberChar() {
+        int ch;
+        if (readBegin < readEnd) {
+            ch = buf[readBegin++];
+        } else {
+            storeEnd = readBegin;
+            ch = read();
+        }
+        return ch;
+    }
+
     private void readNumber(int ch)  {
         storeBegin = storeEnd = readBegin-1;
         // sign
         if (ch == '-') {
-            storeEnd++;
             this.minus = true;
-
-            ch = read();
+            ch = readNumberChar();
             if (ch < '0' || ch >'9') {
                 throw new JsonParsingException("Unexpected Char="+ch, getLastCharLocation());
             }
@@ -217,12 +229,10 @@ final class JsonTokenizer implements Closeable {
 
         // int
         if (ch == '0') {
-            storeEnd++;
-            ch = read();
+            ch = readNumberChar();
         } else {
             do {
-                storeEnd++;
-                ch = read();
+                ch = readNumberChar();
             } while (ch >= '0' && ch <= '9');
         }
 
@@ -231,8 +241,7 @@ final class JsonTokenizer implements Closeable {
             this.fracOrExp = true;
             int count = 0;
             do {
-                storeEnd++;
-                ch = read();
+                ch = readNumberChar();
                 count++;
             } while (ch >= '0' && ch <= '9');
             if (count == 1) {
@@ -242,23 +251,21 @@ final class JsonTokenizer implements Closeable {
 
         // exp
         if (ch == 'e' || ch == 'E') {
-            storeEnd++;
             this.fracOrExp = true;
-            ch = read();
+            ch = readNumberChar();
             if (ch == '+' || ch == '-') {
-                storeEnd++;
-                ch = read();
+                ch = readNumberChar();
             }
             int count;
             for (count = 0; ch >= '0' && ch <= '9'; count++) {
-                storeEnd++;
-                ch = read();
+                ch = readNumberChar();
             }
             if (count == 0) {
                 throw new JsonParsingException("Unexpected Char="+ch, getLastCharLocation());
             }
         }
         readBegin--;
+        storeEnd = readBegin;
     }
 
     private void readTrue() {
