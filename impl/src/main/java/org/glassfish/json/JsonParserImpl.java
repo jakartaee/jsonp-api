@@ -59,9 +59,7 @@ import org.glassfish.json.api.BufferPool;
  */
 public class JsonParserImpl implements JsonParser {
 
-    private State currentState = State.START_DOCUMENT;
-    private Context currentContext = new NoneContext(this);
-
+    private Context currentContext = new NoneContext();
     private Event currentEvent;
 
     private final Deque<Context> stack = new ArrayDeque<Context>();
@@ -151,19 +149,19 @@ public class JsonParserImpl implements JsonParser {
         return stateIterator.next();
     }
 
-    private class StateIterator implements  Iterator<JsonParser.Event> {
-
-        private JsonToken nextToken() {
-            try {
-                return tokenizer.nextToken();
-            } catch(IOException ioe) {
-                throw new JsonException("I/O error while moving parser to next state", ioe);
-            }
+    private JsonToken nextToken() {
+        try {
+            return tokenizer.nextToken();
+        } catch(IOException ioe) {
+            throw new JsonException("I/O error while moving parser to next state", ioe);
         }
+    }
+
+    private class StateIterator implements  Iterator<JsonParser.Event> {
 
         @Override
         public boolean hasNext() {
-            if (stack.isEmpty() && (currentState == State.END_ARRAY || currentState == State.END_OBJECT)) {
+            if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
                 JsonToken token = nextToken();
                 if (token != JsonToken.EOF) {
                     throw new JsonParsingException("Expected EOF, but got="+token,
@@ -179,47 +177,7 @@ public class JsonParserImpl implements JsonParser {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            while (true) {
-                JsonToken token = nextToken();
-                currentState = currentContext.getTransition(currentState, token);
-
-                switch (currentState) {
-                    case START_DOCUMENT:
-                        continue;
-                    case START_OBJECT:
-                        stack.push(currentContext);
-                        currentContext = new ObjectContext(JsonParserImpl.this);
-                        return currentEvent=JsonParser.Event.START_OBJECT;
-                    case KEY:
-                        return currentEvent=JsonParser.Event.KEY_NAME;
-                    case COLON:
-                        continue;
-                    case STRING:
-                        return currentEvent=JsonParser.Event.VALUE_STRING;
-                    case NUMBER:
-                        return currentEvent=JsonParser.Event.VALUE_NUMBER;
-                    case TRUE:
-                        return currentEvent=JsonParser.Event.VALUE_TRUE;
-                    case FALSE:
-                        return currentEvent=JsonParser.Event.VALUE_FALSE;
-                    case NULL:
-                        return currentEvent=JsonParser.Event.VALUE_NULL;
-                    case COMMA:
-                        continue;
-                    case END_OBJECT:
-                        currentContext = stack.pop();
-                        return currentEvent=JsonParser.Event.END_OBJECT;
-                    case START_ARRAY:
-                        stack.push(currentContext);
-                        currentContext = new ArrayContext(JsonParserImpl.this);
-                        return currentEvent=JsonParser.Event.START_ARRAY;
-                    case END_ARRAY:
-                        currentContext = stack.pop();
-                        return currentEvent=JsonParser.Event.END_ARRAY;
-                    case END_DOCUMENT:
-                        break;
-                }
-            }
+            return currentEvent = currentContext.getNextEvent();
         }
 
         @Override
@@ -236,238 +194,131 @@ public class JsonParserImpl implements JsonParser {
         }
     }
 
+    private interface Context {
+        Event getNextEvent();
+    }
 
-    private static abstract class Context {
-        final JsonParserImpl parser;
-
-        Context(JsonParserImpl parser) {
-            this.parser = parser;
-        }
-
-        abstract State[][] getTransitions();
-
-        abstract EnumMap<State, Set<JsonToken>> getExpectedTokens();
-
-        State getTransition(State current, JsonToken token) {
-            State state = getTransitions()[current.ordinal()][token.ordinal()];
-            if (state == State.INVALID) {
-                throw new JsonParsingException(
-                        "Invalid token "+token+" at "+parser.getLastCharLocation()+", "+
-                        "Expected Tokens "+ getExpectedTokens().get(current), parser.getLastCharLocation());
+    private final class NoneContext implements Context {
+        @Override
+        public Event getNextEvent() {
+            JsonToken token = nextToken();
+            if (token == JsonToken.CURLYOPEN) {
+                stack.push(currentContext);
+                currentContext = new ObjectContext();
+                return Event.START_OBJECT;
+            } else if (token == JsonToken.SQUAREOPEN) {
+                stack.push(currentContext);
+                currentContext = new ArrayContext();
+                return Event.START_ARRAY;
+            } else {
+                JsonLocation location = getLastCharLocation();
+                throw new JsonParsingException("Invalid token="+token+" at "+location+
+                        " Expected tokens are: [CURLYOPEN, SQUAREOPEN]", location);
             }
-            return state;
-        }
-
-        // Using 2-dimensional array (may be better than
-        // EnumMap<State, EnumMap<JsonToken, State>> )
-        static void transition(State[][] TRANSITIONS, EnumMap<State,
-                Set<JsonToken>> EXPECTED_TOKENS,
-                State current, JsonToken token, State next) {
-            TRANSITIONS[current.ordinal()][token.ordinal()] = next;
-            Set<JsonToken> allowed =  EXPECTED_TOKENS.get(current);
-            if (allowed == null) {
-                allowed = EnumSet.noneOf(JsonToken.class);
-                EXPECTED_TOKENS.put(current, allowed);
-            }
-            allowed.add(token);
         }
     }
 
-    private static class NoneContext extends Context {
-        private static final State[][] TRANSITIONS =
-                new State[State.values().length][JsonToken.values().length];
-        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
-                new EnumMap<State, Set<JsonToken>>(State.class);
+    private final class ObjectContext implements Context {
+        private boolean firstValue = true;
 
-        static {
-            for(int i=0; i < TRANSITIONS.length; i++) {
-                for(int j=0; j < TRANSITIONS[i].length; j++) {
-                    TRANSITIONS[i][j] = State.INVALID;
+        // Handle 1. }   2. name:value   3. ,name:value
+        @Override
+        public Event getNextEvent() {
+            JsonToken token = nextToken();
+            if (currentEvent == Event.KEY_NAME) {
+                if (token != JsonToken.COLON) {
+                    JsonLocation location = getLastCharLocation();
+                    throw new JsonParsingException("Invalid token="+token+" at "
+                            +location+" Expected tokens are: [COLON]", location);
                 }
-            }
-            transition(State.START_DOCUMENT, JsonToken.CURLYOPEN, State.START_OBJECT);
-            transition(State.START_DOCUMENT, JsonToken.SQUAREOPEN, State.START_ARRAY);
-        }
-
-        NoneContext(JsonParserImpl parser) {
-            super(parser);
-        }
-
-        @Override
-        State[][] getTransitions() {
-            return TRANSITIONS;
-        }
-
-        @Override
-        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
-            return EXPECTED_TOKENS;
-        }
-
-        static void transition(State current, JsonToken token, State next) {
-            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
-        }
-    }
-
-    private static class ObjectContext extends Context {
-        private static final State[][] TRANSITIONS =
-                new State[State.values().length][JsonToken.values().length];
-        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
-                new EnumMap<State, Set<JsonToken>>(State.class);
-
-        static {
-            for(int i=0; i < TRANSITIONS.length; i++) {
-                for(int j=0; j < TRANSITIONS[i].length; j++) {
-                    TRANSITIONS[i][j] = State.INVALID;
+                token = nextToken();
+                Event event = token.getEvent();
+                if (token.isValue()) {
+                    return event;
                 }
-            }
-            transition(State.START_OBJECT, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.START_OBJECT, JsonToken.STRING, State.KEY);
-
-            transition(State.KEY, JsonToken.COLON, State.COLON);
-
-            transition(State.COLON, JsonToken.STRING, State.STRING);
-            transition(State.COLON, JsonToken.NUMBER, State.NUMBER);
-            transition(State.COLON, JsonToken.TRUE, State.TRUE);
-            transition(State.COLON, JsonToken.FALSE, State.FALSE);
-            transition(State.COLON, JsonToken.NULL, State.NULL);
-            transition(State.COLON, JsonToken.CURLYOPEN, State.START_OBJECT);
-            transition(State.COLON, JsonToken.SQUAREOPEN, State.START_ARRAY);
-
-            transition(State.STRING, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.STRING, JsonToken.COMMA, State.COMMA);
-
-            transition(State.NUMBER, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.NUMBER, JsonToken.COMMA, State.COMMA);
-
-            transition(State.TRUE, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.TRUE, JsonToken.COMMA, State.COMMA);
-
-            transition(State.FALSE, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.FALSE, JsonToken.COMMA, State.COMMA);
-
-            transition(State.NULL, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.NULL, JsonToken.COMMA, State.COMMA);
-
-            transition(State.COMMA, JsonToken.STRING, State.KEY);
-
-            transition(State.END_OBJECT, JsonToken.CURLYCLOSE, State.END_OBJECT);
-            transition(State.END_OBJECT, JsonToken.COMMA, State.COMMA);
-            transition(State.END_OBJECT, JsonToken.EOF, State.END_DOCUMENT);
-
-            transition(State.END_ARRAY, JsonToken.COMMA, State.COMMA);
-            transition(State.END_ARRAY, JsonToken.CURLYCLOSE, State.END_OBJECT);
-        }
-
-        ObjectContext(JsonParserImpl parser) {
-            super(parser);
-        }
-
-        static void transition(State current, JsonToken token, State next) {
-            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
-        }
-
-        @Override
-        State[][] getTransitions() {
-            return TRANSITIONS;
-        }
-
-        @Override
-        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
-            return EXPECTED_TOKENS;
-        }
-    }
-
-    private static class ArrayContext extends Context {
-        private static final State[][] TRANSITIONS =
-                new State[State.values().length][JsonToken.values().length];
-        private static final EnumMap<State, Set<JsonToken>> EXPECTED_TOKENS =
-                new EnumMap<State, Set<JsonToken>>(State.class);
-
-        static {
-            for(int i=0; i < TRANSITIONS.length; i++) {
-                for(int j=0; j < TRANSITIONS[i].length; j++) {
-                    TRANSITIONS[i][j] = State.INVALID;
+                switch (token) {
+                    case CURLYOPEN:
+                        stack.push(currentContext);
+                        currentContext = new ObjectContext();
+                        break;
+                    case SQUAREOPEN:
+                        stack.push(currentContext);
+                        currentContext = new ArrayContext();
+                        break;
+                    default:
+                        JsonLocation location = getLastCharLocation();
+                        throw new JsonParsingException("Invalid token="+token
+                                +" at "+location, location);
                 }
+                return event;
+            } else {
+                if (token == JsonToken.CURLYCLOSE) {
+                    currentContext = stack.pop();
+                    return Event.END_OBJECT;
+                }
+                if (firstValue) {
+                    firstValue = false;
+                } else {
+                    if (token != JsonToken.COMMA) {
+                        JsonLocation location = getLastCharLocation();
+                        throw new JsonParsingException("Invalid token="+token+" at "
+                                +location+" Expected tokens are: [COMMA]", location);
+                    }
+                    token = nextToken();
+                }
+                if (token == JsonToken.STRING) {
+                    return Event.KEY_NAME;
+                }
+                JsonLocation location = getLastCharLocation();
+                throw new JsonParsingException("Invalid token="+token+" at "+location+
+                        " Expected tokens are: [STRING]", location);
             }
-            transition(State.START_ARRAY, JsonToken.STRING, State.STRING);
-            transition(State.START_ARRAY, JsonToken.NUMBER, State.NUMBER);
-            transition(State.START_ARRAY, JsonToken.TRUE, State.TRUE);
-            transition(State.START_ARRAY, JsonToken.FALSE, State.FALSE);
-            transition(State.START_ARRAY, JsonToken.NULL, State.NULL);
-            transition(State.START_ARRAY, JsonToken.CURLYOPEN, State.START_OBJECT);
-            transition(State.START_ARRAY, JsonToken.SQUAREOPEN, State.START_ARRAY);
-            transition(State.START_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.STRING, JsonToken.COMMA, State.COMMA);
-            transition(State.STRING, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.NUMBER, JsonToken.COMMA, State.COMMA);
-            transition(State.NUMBER, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.TRUE, JsonToken.COMMA, State.COMMA);
-            transition(State.TRUE, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.FALSE, JsonToken.COMMA, State.COMMA);
-            transition(State.FALSE, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.NULL, JsonToken.COMMA, State.COMMA);
-            transition(State.NULL, JsonToken.SQUARECLOSE, State.END_ARRAY);
-
-            transition(State.COMMA, JsonToken.STRING, State.STRING);
-            transition(State.COMMA, JsonToken.NUMBER, State.NUMBER);
-            transition(State.COMMA, JsonToken.TRUE, State.TRUE);
-            transition(State.COMMA, JsonToken.FALSE, State.FALSE);
-            transition(State.COMMA, JsonToken.NULL, State.NULL);
-            transition(State.COMMA, JsonToken.CURLYOPEN, State.START_OBJECT);
-            transition(State.COMMA, JsonToken.SQUAREOPEN, State.START_ARRAY);
-
-            transition(State.END_ARRAY, JsonToken.SQUARECLOSE, State.END_ARRAY);
-            transition(State.END_ARRAY, JsonToken.COMMA, State.COMMA);
-            transition(State.END_ARRAY, JsonToken.EOF, State.END_DOCUMENT);
-
-            transition(State.END_OBJECT, JsonToken.COMMA, State.COMMA);
-            transition(State.END_OBJECT, JsonToken.SQUARECLOSE, State.END_ARRAY);
         }
 
-        ArrayContext(JsonParserImpl parser) {
-            super(parser);
-        }
-
-        static void transition(State current, JsonToken token, State next) {
-            transition(TRANSITIONS, EXPECTED_TOKENS, current, token, next);
-        }
-
-        @Override
-        State[][] getTransitions() {
-            return TRANSITIONS;
-        }
-
-        @Override
-        EnumMap<State, Set<JsonToken>> getExpectedTokens() {
-            return EXPECTED_TOKENS;
-        }
     }
 
+    private final class ArrayContext implements Context {
+        private boolean firstValue = true;
 
-    private enum State {
-        INVALID,
+        // Handle 1. ]   2. value   3. ,value
+        @Override
+        public Event getNextEvent() {
+            JsonToken token = nextToken();
+            if (token == JsonToken.SQUARECLOSE) {
+                currentContext = stack.pop();
+                return Event.END_ARRAY;
+            }
+            if (firstValue) {
+                firstValue = false;
+            } else {
+                if (token != JsonToken.COMMA) {
+                    JsonLocation location = getLastCharLocation();
+                    throw new JsonParsingException("Invalid token="+token+" at "
+                            +location+" Expected tokens are: [COMMA]", location);
+                }
+                token = nextToken();
+            }
+            Event event = token.getEvent();
+            if (token.isValue()) {
+                return event;
+            }
+            switch (token) {
+                case CURLYOPEN:
+                    stack.push(currentContext);
+                    currentContext = new ObjectContext();
+                    break;
+                case SQUAREOPEN:
+                    stack.push(currentContext);
+                    currentContext = new ArrayContext();
+                    break;
+                default:
+                    JsonLocation location = getLastCharLocation();
+                    throw new JsonParsingException("Invalid token="+token
+                            +" at "+location, location);
+            }
+            return event;
+        }
 
-        START_DOCUMENT,
-
-        START_OBJECT,
-        START_ARRAY,
-        KEY,
-        COLON,
-        STRING,
-        NUMBER,
-        TRUE,
-        FALSE,
-        NULL,
-        COMMA,
-        END_ARRAY,
-        END_OBJECT,
-
-        END_DOCUMENT
     }
-    
+
 }

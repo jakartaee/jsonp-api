@@ -44,10 +44,13 @@ import org.glassfish.json.api.BufferPool;
 
 import javax.json.JsonException;
 import javax.json.stream.JsonLocation;
+import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParsingException;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
+
+import javax.json.stream.JsonParser.Event;
 
 /**
  * JSON Tokenizer
@@ -95,11 +98,34 @@ final class JsonTokenizer implements Closeable {
     private BigDecimal bd;
 
     enum JsonToken {
-        CURLYOPEN,  SQUAREOPEN,
-        COLON, COMMA,
-        STRING, NUMBER, TRUE, FALSE, NULL,
-        CURLYCLOSE, SQUARECLOSE,
-        EOF
+        CURLYOPEN(Event.START_OBJECT, false),
+        SQUAREOPEN(Event.START_ARRAY, false),
+        COLON(null, false),
+        COMMA(null, false),
+        STRING(Event.VALUE_STRING, true),
+        NUMBER(Event.VALUE_NUMBER, true),
+        TRUE(Event.VALUE_TRUE, true),
+        FALSE(Event.VALUE_FALSE, true),
+        NULL(Event.VALUE_NULL, true),
+        CURLYCLOSE(Event.END_OBJECT, false),
+        SQUARECLOSE(Event.END_ARRAY, false),
+        EOF(null, false);
+
+        private final JsonParser.Event event;
+        private final boolean value;
+
+        JsonToken(JsonParser.Event event, boolean value) {
+            this.event = event;
+            this.value = value;
+        }
+
+        JsonParser.Event getEvent() {
+            return event;
+        }
+
+        boolean isValue() {
+            return value;
+        }
     }
 
     JsonTokenizer(Reader reader, BufferPool bufferPool) {
@@ -318,7 +344,6 @@ final class JsonTokenizer implements Closeable {
     }
 
     JsonToken nextToken() throws IOException {
-        
         reset();
         int ch = read();
 
