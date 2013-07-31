@@ -98,7 +98,8 @@ public class JsonObjectTest extends TestCase {
         assertEquals(2, fax.size());
         assertEquals("fax", fax.getString("type"));
         assertEquals("646 555-4567", fax.getString("number"));
-        assertEquals("646 555-4567", fax.getString("number"));
+
+        assertEquals("\"646 555-4567\"", fax.getJsonString("number").toString());
     }
 
     static void testEmpty(JsonObject empty) {

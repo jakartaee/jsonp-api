@@ -81,7 +81,9 @@ final class JsonStringImpl implements JsonString {
 
     @Override
     public String toString() {
-        return value;
+        StringBuilder sb = new StringBuilder();
+        sb.append('"').append(value).append('"');
+        return sb.toString();
     }
 }
 
