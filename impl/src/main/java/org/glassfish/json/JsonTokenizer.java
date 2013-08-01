@@ -467,13 +467,16 @@ final class JsonTokenizer implements Closeable {
         return reader.read(buf, storeEnd, buf.length-storeEnd);
     }
 
+    // state associated with the current token is no more valid
     private void reset() {
-        storeBegin = 0;
-        storeEnd = 0;
-        value = null;
-        bd = null;
-        minus = false;
-        fracOrExp = false;
+        if (storeEnd != 0) {
+            storeBegin = 0;
+            storeEnd = 0;
+            value = null;
+            bd = null;
+            minus = false;
+            fracOrExp = false;
+        }
     }
 
     String getValue() {
