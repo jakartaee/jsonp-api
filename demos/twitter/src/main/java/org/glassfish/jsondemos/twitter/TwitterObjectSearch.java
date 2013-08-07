@@ -64,12 +64,13 @@ import java.util.*;
  * @author Jitendra Kotamraju
  */
 public class TwitterObjectSearch {
-    private static final String searchHash = "java";
+    //private static final String searchStr = "#java";
+    private static final String searchStr = "#java";
+    private static final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json";
 
     public static void main(String... args) throws Exception {
-
-        URL url = new URL("https://api.twitter.com/1.1/search/tweets.json?" +
-                "q=%23"+searchHash+"&count=100");
+        URL url = new URL(searchUrl+"?q="+URLEncoder.encode(searchStr, "UTF-8")+
+                "&count=100");
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.addRequestProperty("Authorization", getAuthorization());
 
@@ -96,52 +97,69 @@ public class TwitterObjectSearch {
         final String consumerSecret = (String)config.get("consumer-secret");
         final String accessToken = (String)config.get("access-token");
         final String accessTokenSecret = (String)config.get("access-token-secret");
-
         final int timestamp = (int)(System.currentTimeMillis()/1000);
 
         Map<String, String> map = new TreeMap<String, String>() {{
+            put("count", "100");
             put("oauth_consumer_key", consumerKey);
             put("oauth_nonce", "4b25256957d75b6370f33a4501dc5e7e"); // TODO
             put("oauth_signature_method", "HMAC-SHA1");
             put("oauth_timestamp", ""+timestamp);
             put("oauth_token", accessToken);
             put("oauth_version", "1.0");
+            put("q", searchStr);
         }};
-        StringBuilder sb1 = new StringBuilder();
-        sb1.append("GET&https%3A%2F%2Fapi.twitter.com%2F1.1%2Fsearch%2Ftweets.json&count%3D100");
-        for(Map.Entry<String, String> e : map.entrySet()) {
-            sb1.append("%26");
-            sb1.append(e.getKey());
-            sb1.append("%3D");
-            sb1.append(e.getValue());
-        }
-        sb1.append("%26q%3D%2523"+searchHash);
-        String signatureBasedString = sb1.toString();
 
+        // Builds param string
+        StringBuilder paramsBuilder = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> e : map.entrySet()) {
+            if (!first) {
+                paramsBuilder.append('&');
+            }
+            first = false;
+            paramsBuilder.append(e.getKey());
+            paramsBuilder.append("=");
+            paramsBuilder.append(URLEncoder.encode(e.getValue(), "UTF-8"));
+        }
+        String paramsString = paramsBuilder.toString();
+
+        // builds signature string
+        StringBuilder signatureBuilder = new StringBuilder();
+        signatureBuilder.append("GET");
+        signatureBuilder.append('&');
+        signatureBuilder.append(URLEncoder.encode(searchUrl, "UTF-8"));
+        signatureBuilder.append('&');
+        signatureBuilder.append(URLEncoder.encode(paramsString, "UTF-8"));
+        String signatureBasedString = signatureBuilder.toString();
+
+        // Create authorization signature
         Mac m = Mac.getInstance("HmacSHA1");
         m.init(new SecretKeySpec((consumerSecret+"&"+accessTokenSecret).getBytes(), "HmacSHA1"));
         m.update(signatureBasedString.getBytes());
         byte[] res = m.doFinal();
         final String oauthSig = URLEncoder.encode(DatatypeConverter.printBase64Binary(res), "UTF-8");
         map.put("oauth_signature", oauthSig);
+        map.remove("count");
+        map.remove("q");
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("OAuth ");
-        boolean first = true;
+        // Build Authorization header
+        StringBuilder authorizationBuilder = new StringBuilder();
+        authorizationBuilder.append("OAuth ");
+        first = true;
         for(Map.Entry<String, String> e : map.entrySet()) {
             if (!first) {
-                sb.append(',');
-                sb.append(' ');
+                authorizationBuilder.append(',');
+                authorizationBuilder.append(' ');
             }
             first = false;
-            sb.append(e.getKey());
-            sb.append('=');
-            sb.append('"');
-            sb.append(e.getValue());
-            sb.append('"');
+            authorizationBuilder.append(e.getKey());
+            authorizationBuilder.append('=');
+            authorizationBuilder.append('"');
+            authorizationBuilder.append(e.getValue());
+            authorizationBuilder.append('"');
         }
-
-        return sb.toString();
+        return authorizationBuilder.toString();
     }
 
 }
