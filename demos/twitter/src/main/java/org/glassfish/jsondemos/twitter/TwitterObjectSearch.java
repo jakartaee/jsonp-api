@@ -54,41 +54,44 @@ import java.util.*;
  * Parses JSON from twitter search REST API using object model API.
  * JSON would like :
  *
- * TODO update
- * ... { ... "from_user" : "xxx", ..., "text: "yyy", ... } ...
+ * {
+ "   statuses": [
+ *     { ..., "user" : { "name" : "xxx", ...}, "text: "yyy", ... },
+ *     { ..., "user" : { "name" : "ppp", ...}, "text: "qqq", ... },
+ *     ...
+ *   ],
+ *   ...
+ * }
  *
  * This codes writes the tweets to output as follows:
  * xxx: yyy
+ * --------
+ * ppp: qqq
  * --------
  *
  * @author Jitendra Kotamraju
  */
 public class TwitterObjectSearch {
-    //private static final String searchStr = "#java";
-    private static final String searchStr = "#java";
-    private static final String searchUrl = "https://api.twitter.com/1.1/search/tweets.json";
 
     public static void main(String... args) throws Exception {
-        URL url = new URL(searchUrl+"?q="+URLEncoder.encode(searchStr, "UTF-8")+
-                "&count=100");
-        HttpURLConnection con = (HttpURLConnection)url.openConnection();
-        con.addRequestProperty("Authorization", getAuthorization());
-
-        try (InputStream is = con.getInputStream();
+        try (InputStream is = getSearchStream();
              JsonReader rdr = Json.createReader(is)) {
 
             JsonObject obj = rdr.readObject();
             JsonArray results = obj.getJsonArray("statuses");
             for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-//                System.out.print(result.get("from_user"));
-//                System.out.print(": ");
+                System.out.print(result.getJsonObject("user").getString("name", "anonymous"));
+                System.out.print(": ");
                 System.out.println(result.get("text"));
                 System.out.println("-----------");
             }
         }
     }
 
-    private static String getAuthorization() throws Exception {
+    static InputStream getSearchStream() throws Exception {
+        final String searchStr = "#telugu";
+        String searchUrl = "https://api.twitter.com/1.1/search/tweets.json";
+
         Properties config = new Properties();
         config.load(TwitterObjectSearch.class.getResourceAsStream(
                 "/twitterconfig.properties"));
@@ -159,7 +162,13 @@ public class TwitterObjectSearch {
             authorizationBuilder.append(e.getValue());
             authorizationBuilder.append('"');
         }
-        return authorizationBuilder.toString();
+
+        // Gets the search stream
+        URL url = new URL(searchUrl+"?q="+URLEncoder.encode(searchStr, "UTF-8")+
+                "&count=100");
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.addRequestProperty("Authorization", authorizationBuilder.toString());
+        return con.getInputStream();
     }
 
 }

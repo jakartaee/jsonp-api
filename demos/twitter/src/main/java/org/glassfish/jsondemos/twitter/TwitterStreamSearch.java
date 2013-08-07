@@ -44,40 +44,66 @@ import javax.json.*;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Parses JSON from twitter search REST API using streaming API.
  * JSON would like :
  *
- * ... { ... "from_user" : "xxx", ..., "text: "yyy", ... } ...
+ * {
+ "   statuses": [
+ *     { ..., "user" : { "name" : "xxx", ...}, "text: "yyy", ... },
+ *     { ..., "user" : { "name" : "ppp", ...}, "text: "qqq", ... },
+ *     ...
+ *   ],
+ *   ...
+ * }
  *
  * This codes writes the tweets to output as follows:
  * xxx: yyy
  * --------
+ * ppp: qqq
+ * --------
+ *
+ * TODO need to do better, also the last tweet is repeated !
  *
  * @author Jitendra Kotamraju
  */
 public class TwitterStreamSearch {
 
     public static void main(String... args) throws Exception {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
-        try (InputStream is = url.openStream();
+        try (InputStream is = TwitterObjectSearch.getSearchStream();
              JsonParser parser = Json.createParser(is)) {
+            int depth = 0;
+            String name = null;
+            String text = null;
             while (parser.hasNext()) {
                 Event e = parser.next();
                 if (e == Event.KEY_NAME) {
                     switch (parser.getString()) {
-                        case "from_user":
+                        case "name":
+                            if (depth == 3) {
                             parser.next();
-                            System.out.print(parser.getString());
-                            System.out.print(": ");
+                            name = parser.getString();
+                            }
                             break;
                         case "text":
+                            if (depth == 2) {
                             parser.next();
-                            System.out.println(parser.getString());
-                            System.out.println("---------");
+                            text = parser.getString();
+                            }
                             break;
+                    }
+                } else if (e == Event.START_OBJECT) {
+                    ++depth;
+                } else if (e == Event.END_OBJECT) {
+                    --depth;
+                    if (depth == 1) {
+                        System.out.println(name+": "+text);
+                        System.out.println("-----------");
+
                     }
                 }
             }
