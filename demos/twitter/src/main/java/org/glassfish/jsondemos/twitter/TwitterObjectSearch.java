@@ -40,14 +40,21 @@
 
 package org.glassfish.jsondemos.twitter;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.json.*;
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * Parses JSON from twitter search REST API using object model API.
  * JSON would like :
  *
+ * TODO update
  * ... { ... "from_user" : "xxx", ..., "text: "yyy", ... } ...
  *
  * This codes writes the tweets to output as follows:
@@ -57,21 +64,84 @@ import java.net.URL;
  * @author Jitendra Kotamraju
  */
 public class TwitterObjectSearch {
+    private static final String searchHash = "java";
 
     public static void main(String... args) throws Exception {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
-        try (InputStream is = url.openStream();
+
+        URL url = new URL("https://api.twitter.com/1.1/search/tweets.json?" +
+                "q=%23"+searchHash+"&count=100");
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.addRequestProperty("Authorization", getAuthorization());
+
+        try (InputStream is = con.getInputStream();
              JsonReader rdr = Json.createReader(is)) {
 
             JsonObject obj = rdr.readObject();
-            JsonArray results = obj.getJsonArray("results");
+            JsonArray results = obj.getJsonArray("statuses");
             for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-                System.out.print(result.get("from_user"));
-                System.out.print(": ");
+//                System.out.print(result.get("from_user"));
+//                System.out.print(": ");
                 System.out.println(result.get("text"));
                 System.out.println("-----------");
             }
         }
+    }
+
+    private static String getAuthorization() throws Exception {
+        Properties config = new Properties();
+        config.load(TwitterObjectSearch.class.getResourceAsStream(
+                "/twitterconfig.properties"));
+
+        final String consumerKey = (String)config.get("consumer-key");
+        final String consumerSecret = (String)config.get("consumer-secret");
+        final String accessToken = (String)config.get("access-token");
+        final String accessTokenSecret = (String)config.get("access-token-secret");
+
+        final int timestamp = (int)(System.currentTimeMillis()/1000);
+
+        Map<String, String> map = new TreeMap<String, String>() {{
+            put("oauth_consumer_key", consumerKey);
+            put("oauth_nonce", "4b25256957d75b6370f33a4501dc5e7e"); // TODO
+            put("oauth_signature_method", "HMAC-SHA1");
+            put("oauth_timestamp", ""+timestamp);
+            put("oauth_token", accessToken);
+            put("oauth_version", "1.0");
+        }};
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append("GET&https%3A%2F%2Fapi.twitter.com%2F1.1%2Fsearch%2Ftweets.json&count%3D100");
+        for(Map.Entry<String, String> e : map.entrySet()) {
+            sb1.append("%26");
+            sb1.append(e.getKey());
+            sb1.append("%3D");
+            sb1.append(e.getValue());
+        }
+        sb1.append("%26q%3D%2523"+searchHash);
+        String signatureBasedString = sb1.toString();
+
+        Mac m = Mac.getInstance("HmacSHA1");
+        m.init(new SecretKeySpec((consumerSecret+"&"+accessTokenSecret).getBytes(), "HmacSHA1"));
+        m.update(signatureBasedString.getBytes());
+        byte[] res = m.doFinal();
+        final String oauthSig = URLEncoder.encode(DatatypeConverter.printBase64Binary(res), "UTF-8");
+        map.put("oauth_signature", oauthSig);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("OAuth ");
+        boolean first = true;
+        for(Map.Entry<String, String> e : map.entrySet()) {
+            if (!first) {
+                sb.append(',');
+                sb.append(' ');
+            }
+            first = false;
+            sb.append(e.getKey());
+            sb.append('=');
+            sb.append('"');
+            sb.append(e.getValue());
+            sb.append('"');
+        }
+
+        return sb.toString();
     }
 
 }
