@@ -131,6 +131,11 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public void flush() {
         flushBuffer();
+        try {
+            writer.flush();
+        } catch (IOException ioe) {
+            throw new JsonException("I/O error while flushing generated JSON", ioe);
+        }
     }
 
     @Override

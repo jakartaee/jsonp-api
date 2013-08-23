@@ -46,7 +46,6 @@ import org.glassfish.json.api.BufferPool;
 import javax.json.*;
 import javax.json.stream.*;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -482,6 +481,15 @@ public class JsonGeneratorTest extends TestCase {
         jr.close();
 
         assertEquals(expected, got);
+    }
+
+    public void testFlush() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        JsonGenerator gen = Json.createGenerator(baos);
+        gen.writeStartObject().writeEnd();
+        gen.flush();
+
+        assertEquals("{}", baos.toString("UTF-8"));
     }
 
 }
