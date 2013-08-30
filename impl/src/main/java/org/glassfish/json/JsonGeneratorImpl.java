@@ -691,6 +691,10 @@ class JsonGeneratorImpl implements JsonGenerator {
         len += size;
     }
 
+    // flushBuffer writes the buffered contents to writer. But incase of
+    // byte stream, an OuputStreamWriter is created and that buffers too.
+    // We may need to call OutputStreamWriter#flushBuffer() using
+    // reflection if that is really required (commented out below)
     void flushBuffer() {
         try {
             if (len > 0) {
@@ -701,6 +705,28 @@ class JsonGeneratorImpl implements JsonGenerator {
             throw new JsonException("I/O error while closing JsonGenerator", ioe);
         }
     }
+
+//    private static final Method flushBufferMethod;
+//    static {
+//        Method m = null;
+//        try {
+//            m = OutputStreamWriter.class.getDeclaredMethod("flushBuffer");
+//            m.setAccessible(true);
+//        } catch (Exception e) {
+//            // no-op
+//        }
+//        flushBufferMethod = m;
+//    }
+//    void flushBufferOSW() {
+//        flushBuffer();
+//        if (writer instanceof OutputStreamWriter) {
+//            try {
+//                flushBufferMethod.invoke(writer);
+//            } catch (Exception e) {
+//                // no-op
+//            }
+//        }
+//    }
 
     // Requires positive x
     private static int stringSize(int x) {

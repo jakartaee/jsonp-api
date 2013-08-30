@@ -134,4 +134,14 @@ public class JsonWriterTest extends TestCase {
         }
         writer.close();
     }
+
+// Doesn't work. We expect JsonWriter#close() to be called
+//
+//    public void testFlushBuffer() throws Exception {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        JsonWriter writer = Json.createWriter(baos);
+//        writer.write(Json.createObjectBuilder().build());
+//        // not calling writer.close() intentionally
+//        assertEquals("{}", baos.toString("UTF-8"));
+//    }
 }

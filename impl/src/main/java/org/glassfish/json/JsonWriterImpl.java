@@ -90,6 +90,8 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(value);
         }
         generator.writeEnd();
+        // may not flush the generated contents to output source, as an
+        // intermediary like OutputStreamWriter may buffer
         generator.flushBuffer();
     }
 
@@ -104,6 +106,8 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(e.getKey(), e.getValue());
         }
         generator.writeEnd();
+        // may not flush the generated contents to output source, as an
+        // intermediary like OutputStreamWriter may buffer
         generator.flushBuffer();
     }
 
