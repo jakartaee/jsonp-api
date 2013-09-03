@@ -82,7 +82,42 @@ final class JsonStringImpl implements JsonString {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append('"').append(value).append('"');
+        sb.append('"');
+
+        for(int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            // unescaped = %x20-21 | %x23-5B | %x5D-10FFFF
+            if (c >= 0x20 && c <= 0x10ffff && c != 0x22 && c != 0x5c) {
+                sb.append(c);
+            } else {
+                switch (c) {
+                    case '"':
+                    case '\\':
+                        sb.append('\\'); sb.append(c);
+                        break;
+                    case '\b':
+                        sb.append('\\'); sb.append('b');
+                        break;
+                    case '\f':
+                        sb.append('\\'); sb.append('f');
+                        break;
+                    case '\n':
+                        sb.append('\\'); sb.append('n');
+                        break;
+                    case '\r':
+                        sb.append('\\'); sb.append('r');
+                        break;
+                    case '\t':
+                        sb.append('\\'); sb.append('t');
+                        break;
+                    default:
+                        String hex = "000" + Integer.toHexString(c);
+                        sb.append("\\u").append(hex.substring(hex.length() - 4));
+                }
+            }
+        }
+
+        sb.append('"');
         return sb.toString();
     }
 }
