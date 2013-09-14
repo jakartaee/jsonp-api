@@ -210,11 +210,10 @@ public class JsonParserImpl implements JsonParser {
                 stack.push(currentContext);
                 currentContext = new ArrayContext();
                 return Event.START_ARRAY;
-            } else {
-                JsonLocation location = getLastCharLocation();
-                throw new JsonParsingException("Invalid token="+token+" at "+location+
-                        " Expected tokens are: [CURLYOPEN, SQUAREOPEN]", location);
             }
+            JsonLocation location = getLastCharLocation();
+            throw new JsonParsingException("Invalid token="+token+" at "+location+
+                    " Expected tokens are: [CURLYOPEN, SQUAREOPEN]", location);
         }
     }
 
@@ -232,25 +231,20 @@ public class JsonParserImpl implements JsonParser {
                             +location+" Expected tokens are: [COLON]", location);
                 }
                 token = nextToken();
-                Event event = token.getEvent();
                 if (token.isValue()) {
-                    return event;
+                    return token.getEvent();
+                } else if (token == JsonToken.CURLYOPEN) {
+                    stack.push(currentContext);
+                    currentContext = new ObjectContext();
+                    return Event.START_OBJECT;
+                } else if (token == JsonToken.SQUAREOPEN) {
+                    stack.push(currentContext);
+                    currentContext = new ArrayContext();
+                    return Event.START_ARRAY;
                 }
-                switch (token) {
-                    case CURLYOPEN:
-                        stack.push(currentContext);
-                        currentContext = new ObjectContext();
-                        break;
-                    case SQUAREOPEN:
-                        stack.push(currentContext);
-                        currentContext = new ArrayContext();
-                        break;
-                    default:
-                        JsonLocation location = getLastCharLocation();
-                        throw new JsonParsingException("Invalid token="+token
-                                +" at "+location, location);
-                }
-                return event;
+                JsonLocation location = getLastCharLocation();
+                throw new JsonParsingException("Invalid token="+token
+                        +" at "+location, location);
             } else {
                 if (token == JsonToken.CURLYCLOSE) {
                     currentContext = stack.pop();
@@ -298,25 +292,20 @@ public class JsonParserImpl implements JsonParser {
                 }
                 token = nextToken();
             }
-            Event event = token.getEvent();
             if (token.isValue()) {
-                return event;
+                return token.getEvent();
+            } else if (token == JsonToken.CURLYOPEN) {
+                stack.push(currentContext);
+                currentContext = new ObjectContext();
+                return Event.START_OBJECT;
+            } else if (token == JsonToken.SQUAREOPEN) {
+                stack.push(currentContext);
+                currentContext = new ArrayContext();
+                return Event.START_ARRAY;
             }
-            switch (token) {
-                case CURLYOPEN:
-                    stack.push(currentContext);
-                    currentContext = new ObjectContext();
-                    break;
-                case SQUAREOPEN:
-                    stack.push(currentContext);
-                    currentContext = new ArrayContext();
-                    break;
-                default:
-                    JsonLocation location = getLastCharLocation();
-                    throw new JsonParsingException("Invalid token="+token
-                            +" at "+location, location);
-            }
-            return event;
+            JsonLocation location = getLastCharLocation();
+            throw new JsonParsingException("Invalid token="+token
+                    +" at "+location, location);
         }
 
     }
