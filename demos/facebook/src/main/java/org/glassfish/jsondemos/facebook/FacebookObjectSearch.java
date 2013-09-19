@@ -68,14 +68,17 @@ import java.net.URL;
 public class FacebookObjectSearch {
 
     public static void main(String... args) throws Exception {
-        URL url = new URL("https://graph.facebook.com/search?q=java&type=post");
+        URL url = new URL("https://graph.facebook.com/search?q=tamil&type=post&access_token=");
         try (InputStream is = url.openStream();
              JsonReader rdr = Json.createReader(is)) {
 
             JsonObject obj = rdr.readObject();
             JsonArray results = obj.getJsonArray("data");
             for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-                System.out.print(result.getJsonObject("from").getString("name"));
+                JsonValue value = result.get("from");
+                if (value != null && value instanceof JsonObject) {
+                    System.out.print(((JsonObject)value).getString("name", "anon"));
+                }
                 System.out.print(": ");
                 System.out.println(result.getString("message", ""));
                 System.out.println("-----------");
