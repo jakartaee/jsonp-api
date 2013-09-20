@@ -62,7 +62,7 @@ public class JsonParserImpl implements JsonParser {
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
-    private final Deque<Context> stack = new ArrayDeque<Context>();
+    private final Stack stack = new Stack();
     private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
 
@@ -194,11 +194,36 @@ public class JsonParserImpl implements JsonParser {
         }
     }
 
-    private interface Context {
-        Event getNextEvent();
+    // Using the optimized stack impl as we don't require other things
+    // like iterator etc.
+    private static final class Stack {
+        private Context head;
+
+        private void push(Context context) {
+            context.next = head;
+            head = context;
+        }
+
+        private Context pop() {
+            if (head == null) {
+                throw new NoSuchElementException();
+            }
+            Context temp = head;
+            head = head.next;
+            return temp;
+        }
+
+        private boolean isEmpty() {
+            return head == null;
+        }
     }
 
-    private final class NoneContext implements Context {
+    private abstract class Context {
+        Context next;
+        abstract Event getNextEvent();
+    }
+
+    private final class NoneContext extends Context {
         @Override
         public Event getNextEvent() {
             JsonToken token = nextToken();
@@ -217,7 +242,7 @@ public class JsonParserImpl implements JsonParser {
         }
     }
 
-    private final class ObjectContext implements Context {
+    private final class ObjectContext extends Context {
         private boolean firstValue = true;
 
         // Handle 1. }   2. name:value   3. ,name:value
@@ -271,7 +296,7 @@ public class JsonParserImpl implements JsonParser {
 
     }
 
-    private final class ArrayContext implements Context {
+    private final class ArrayContext extends Context {
         private boolean firstValue = true;
 
         // Handle 1. ]   2. value   3. ,value
