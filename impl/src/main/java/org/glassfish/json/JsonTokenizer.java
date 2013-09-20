@@ -232,14 +232,12 @@ final class JsonTokenizer implements Closeable {
     // reads from the buffer. Otherwise, uses read() which takes care
     // of resizing, filling up the buf, adjusting the pointers
     private int readNumberChar() {
-        int ch;
         if (readBegin < readEnd) {
-            ch = buf[readBegin++];
+            return buf[readBegin++];
         } else {
             storeEnd = readBegin;
-            ch = read();
+            return read();
         }
-        return ch;
     }
 
     private void readNumber(int ch)  {
