@@ -44,7 +44,6 @@ import javax.json.*;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import java.io.*;
-import java.net.URL;
 
 /**
  * Parses JSON from facebook graph API using streaming API.
@@ -70,8 +69,7 @@ import java.net.URL;
 public class FacebookStreamSearch {
 
     public static void main(String... args) throws Exception {
-        URL url = new URL("https://graph.facebook.com/search?q=java&type=post");
-        try (InputStream is = url.openStream();
+        try (InputStream is = FacebookObjectSearch.getSearchStream();
              JsonParser parser = Json.createParser(is)) {
             while (parser.hasNext()) {
                 Event e = parser.next();
