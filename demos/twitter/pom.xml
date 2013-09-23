@@ -51,7 +51,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <url>http://maven.apache.org</url>
     <artifactId>jsondemos-twitter</artifactId>
 
@@ -79,7 +79,6 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-<!-- mvn exec:java
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -92,10 +91,9 @@
                     </execution>
                 </executions>
 				<configuration>
-					<mainClass>org.glassfish.jsondemos.twitter.TwitterStreamSearch</mainClass>
+					<mainClass>org.glassfish.jsondemos.twitter.TwitterObjectSearch</mainClass>
 				</configuration>
 			</plugin>
--->
         </plugins>
     </build>
 </project>

@@ -85,11 +85,17 @@ public class TwitterObjectSearch {
                 System.out.println(result.get("text"));
                 System.out.println("-----------");
             }
+
+//            All the tweets are collected into Stream<String> and printed
+//            obj.getJsonArray("statuses").getValuesAs(JsonObject.class)
+//                    .stream()
+//                    .map(v -> v.getString("text"))
+//                    .forEach(s -> { System.out.println(s); } );
         }
     }
 
     static InputStream getSearchStream() throws Exception {
-        final String searchStr = "#telugu";
+        final String searchStr = "#javaone";
         String searchUrl = "https://api.twitter.com/1.1/search/tweets.json";
 
         Properties config = new Properties();
