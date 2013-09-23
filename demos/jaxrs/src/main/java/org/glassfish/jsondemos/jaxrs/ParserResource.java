@@ -51,7 +51,18 @@ import java.io.*;
 import java.net.URL;
 
 /**
- * Filters JSON from twitter search REST API
+ * Filters JSON from flicker photo search REST API
+ *
+ * {
+ *    photos : {
+ *        photo: [
+ *           { id: "9889087315", secret: "40aeb70c83", server: "3818",farm: 4, ..},
+ *           { id: "9889087315", secret: "40aeb70c83", server: "3818",farm: 4, ..}
+ *           ...
+ *        ],
+ *        ...
+ *    }
+ * }
  *
  * @author Jitendra Kotamraju
  */
@@ -59,45 +70,53 @@ import java.net.URL;
 public class ParserResource {
 
     @GET
-    @Produces("text/plain")
+    @Produces("text/html")
     public StreamingOutput doGet() {
         return new StreamingOutput() {
             public void write(OutputStream os) throws IOException {
-                writeTwitterFeed(os);
+                writeFlickerFeed(os);
             }
         };
     }
 
-    /**
-     * Parses JSON from twitter search REST API
-     *
-     * ... { ... "from_user" : "xxx", ..., "text: "yyy", ... } ...
-     *
-     * then writes to HTTP output stream as follows:
-     *
-     * xxx: yyy
-     * --------
-     */
-    private void writeTwitterFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://search.twitter.com/search.json?q=%23java&rpp=100");
+    private void writeFlickerFeed(OutputStream os) throws IOException {
+        URL url = new URL("http://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=c1c65f33ade56454c77fc56e66226637&format=json&nojsoncallback=1&per_page=20");
         try(InputStream is = url.openStream();
             JsonParser parser = Json.createParser(is);
             PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
+            String id = null;
+            String farm = null;
+            String server = null;
+            String secret = null;
 
+            ps.println("<html><body>");
             while(parser.hasNext()) {
                 Event e = parser.next();
                 if (e == Event.KEY_NAME) {
-                    if (parser.getString().equals("from_user")) {
-                        parser.next();
-                        ps.print(parser.getString());
-                        ps.print(": ");
-                    } else if (parser.getString().equals("text")) {
-                        parser.next();
-                        ps.println(parser.getString());
-                        ps.println("---------");
+                    String str = parser.getString();
+                    switch (str) {
+                        case "id" :
+                            parser.next();
+                            id = parser.getString();
+                            break;
+                        case "farm" :
+                            parser.next();
+                            farm = parser.getString();
+                            ps.println("<img src=\"http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+".jpg\">");
+                            break;
+                        case "server" :
+                            parser.next();
+                            server = parser.getString();
+                            break;
+                        case "secret" :
+                            parser.next();
+                            secret = parser.getString();
+                            break;
                     }
                 }
             }
+            ps.println("</body></html>");
+            ps.flush();
         }
 	}
 
