@@ -80,12 +80,11 @@ public class ParserResource {
     }
 
     private void writeFlickerFeed(OutputStream os) throws IOException {
-        URL url = new URL("http://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=c1c65f33ade56454c77fc56e66226637&format=json&nojsoncallback=1&per_page=20");
+        URL url = new URL("http://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=221160312e1c22ec60ecf336951b0e77&format=json&nojsoncallback=1&per_page=20");
         try(InputStream is = url.openStream();
             JsonParser parser = Json.createParser(is);
             PrintWriter ps = new PrintWriter(new OutputStreamWriter(os, "UTF-8"))) {
             String id = null;
-            String farm = null;
             String server = null;
             String secret = null;
 
@@ -101,7 +100,7 @@ public class ParserResource {
                             break;
                         case "farm" :
                             parser.next();
-                            farm = parser.getString();
+                            String farm = parser.getString();
                             ps.println("<img src=\"http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+".jpg\">");
                             break;
                         case "server" :
