@@ -341,7 +341,11 @@ final class JsonTokenizer implements Closeable {
         }
     }
 
-    JsonToken nextToken() throws IOException {
+    /*
+     * Could be optimized if the parser uses separate methods to match colon
+     * etc (that would avoid the switch statement cost in certain cases)
+     */
+    JsonToken nextToken() {
         reset();
         int ch = read();
 

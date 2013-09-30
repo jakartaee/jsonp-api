@@ -53,7 +53,8 @@ import org.glassfish.json.JsonTokenizer.JsonToken;
 import org.glassfish.json.api.BufferPool;
 
 /**
- * JSON parser using a state machine.
+ * JSON parser implementation. NoneContext, ArrayContext, ObjectContext is used
+ * to go to next parser state.
  *
  * @author Jitendra Kotamraju
  */
@@ -149,20 +150,12 @@ public class JsonParserImpl implements JsonParser {
         return stateIterator.next();
     }
 
-    private JsonToken nextToken() {
-        try {
-            return tokenizer.nextToken();
-        } catch(IOException ioe) {
-            throw new JsonException("I/O error while moving parser to next state", ioe);
-        }
-    }
-
     private class StateIterator implements  Iterator<JsonParser.Event> {
 
         @Override
         public boolean hasNext() {
             if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
-                JsonToken token = nextToken();
+                JsonToken token = tokenizer.nextToken();
                 if (token != JsonToken.EOF) {
                     throw new JsonParsingException("Expected EOF, but got="+token,
                             getLastCharLocation());
@@ -226,7 +219,8 @@ public class JsonParserImpl implements JsonParser {
     private final class NoneContext extends Context {
         @Override
         public Event getNextEvent() {
-            JsonToken token = nextToken();
+            // Handle 1. {     2. [
+            JsonToken token = tokenizer.nextToken();
             if (token == JsonToken.CURLYOPEN) {
                 stack.push(currentContext);
                 currentContext = new ObjectContext();
@@ -245,17 +239,25 @@ public class JsonParserImpl implements JsonParser {
     private final class ObjectContext extends Context {
         private boolean firstValue = true;
 
-        // Handle 1. }   2. name:value   3. ,name:value
+        /*
+         * Some more things could be optimized. For example, instead
+         * tokenizer.nextToken(), one could use tokenizer.matchColonToken() to
+         * match ':'. That might optimize a bit, but will fragment nextToken().
+         * I think the current one is more readable.
+         *
+         */
         @Override
         public Event getNextEvent() {
-            JsonToken token = nextToken();
+            // Handle 1. }   2. name:value   3. ,name:value
+            JsonToken token = tokenizer.nextToken();
             if (currentEvent == Event.KEY_NAME) {
+                // Handle 1. :value
                 if (token != JsonToken.COLON) {
                     JsonLocation location = getLastCharLocation();
                     throw new JsonParsingException("Invalid token="+token+" at "
                             +location+" Expected tokens are: [COLON]", location);
                 }
-                token = nextToken();
+                token = tokenizer.nextToken();
                 if (token.isValue()) {
                     return token.getEvent();
                 } else if (token == JsonToken.CURLYOPEN) {
@@ -271,6 +273,7 @@ public class JsonParserImpl implements JsonParser {
                 throw new JsonParsingException("Invalid token="+token
                         +" at "+location, location);
             } else {
+                // Handle 1. }   2. name   3. ,name
                 if (token == JsonToken.CURLYCLOSE) {
                     currentContext = stack.pop();
                     return Event.END_OBJECT;
@@ -283,7 +286,7 @@ public class JsonParserImpl implements JsonParser {
                         throw new JsonParsingException("Invalid token="+token+" at "
                                 +location+" Expected tokens are: [COMMA]", location);
                     }
-                    token = nextToken();
+                    token = tokenizer.nextToken();
                 }
                 if (token == JsonToken.STRING) {
                     return Event.KEY_NAME;
@@ -302,7 +305,7 @@ public class JsonParserImpl implements JsonParser {
         // Handle 1. ]   2. value   3. ,value
         @Override
         public Event getNextEvent() {
-            JsonToken token = nextToken();
+            JsonToken token = tokenizer.nextToken();
             if (token == JsonToken.SQUARECLOSE) {
                 currentContext = stack.pop();
                 return Event.END_ARRAY;
@@ -315,7 +318,7 @@ public class JsonParserImpl implements JsonParser {
                     throw new JsonParsingException("Invalid token="+token+" at "
                             +location+" Expected tokens are: [COMMA]", location);
                 }
-                token = nextToken();
+                token = tokenizer.nextToken();
             }
             if (token.isValue()) {
                 return token.getEvent();
