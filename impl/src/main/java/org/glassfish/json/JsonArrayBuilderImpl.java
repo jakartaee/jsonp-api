@@ -73,28 +73,28 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     public JsonArrayBuilder add(BigDecimal value) {
         validateValue(value);
-        addValueList(new JsonNumberImpl(value));
+        addValueList(JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonArrayBuilder add(BigInteger value) {
         validateValue(value);
-        addValueList(new JsonNumberImpl(value));
+        addValueList(JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonArrayBuilder add(int value) {
-        addValueList(new JsonNumberImpl(value));
+        addValueList(JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonArrayBuilder add(long value) {
-        addValueList(new JsonNumberImpl(value));
+        addValueList(JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonArrayBuilder add(double value) {
-        addValueList(new JsonNumberImpl(value));
+        addValueList(JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 

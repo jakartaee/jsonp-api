@@ -74,32 +74,32 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
     public JsonObjectBuilder add(String name, BigInteger value) {
         validateName(name);
         validateValue(value);
-        putValueMap(name, new JsonNumberImpl(value));
+        putValueMap(name, JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, BigDecimal value) {
         validateName(name);
         validateValue(value);
-        putValueMap(name, new JsonNumberImpl(value));
+        putValueMap(name, JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, int value) {
         validateName(name);
-        putValueMap(name, new JsonNumberImpl(value));
+        putValueMap(name, JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, long value) {
         validateName(name);
-        putValueMap(name, new JsonNumberImpl(value));
+        putValueMap(name, JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
     public JsonObjectBuilder add(String name, double value) {
         validateName(name);
-        putValueMap(name, new JsonNumberImpl(value));
+        putValueMap(name, JsonNumberImpl.getJsonNumber(value));
         return this;
     }
 
