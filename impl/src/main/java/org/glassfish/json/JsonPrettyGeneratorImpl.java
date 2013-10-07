@@ -42,9 +42,7 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.*;
 import javax.json.stream.JsonGenerator;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -107,26 +105,18 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
 
     private void writeIndent() {
         for(int i=0; i < indentLevel; i++) {
-            try {
-                writeString(INDENT);
-            } catch (IOException e) {
-                throw new JsonException("I/O error while writing indentation", e);
-            }
+            writeString(INDENT);
         }
     }
 
     @Override
-    protected void writeComma() throws IOException {
+    protected void writeComma() {
         super.writeComma();
         writeChar('\n');
         writeIndent();
     }
 
     private void writeNewLine() {
-        try {
-            writeChar('\n');
-        } catch (IOException e) {
-            throw new JsonException("I/O error while writing newline", e);
-        }
+        writeChar('\n');
     }
 }

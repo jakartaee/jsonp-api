@@ -88,17 +88,15 @@ public class JsonParserImpl implements JsonParser {
                 || currentEvent == Event.VALUE_NUMBER) {
             return tokenizer.getValue();
         }
-        throw new IllegalStateException("JsonParser#getString() is valid only "+
-                "KEY_NAME, VALUE_STRING, VALUE_NUMBER parser states. "+
-                "But current parser state is "+currentEvent);
+        throw new IllegalStateException(
+                JsonMessages.PARSER_GETSTRING_ERR(currentEvent));
     }
 
     @Override
     public boolean isIntegralNumber() {
         if (currentEvent != Event.VALUE_NUMBER) {
-            throw new IllegalStateException("JsonParser#isIntegralNumber() is valid only "+
-                    "VALUE_NUMBER parser state. "+
-                    "But current parser state is "+currentEvent);
+            throw new IllegalStateException(
+                    JsonMessages.PARSER_ISINTEGRALNUMBER_ERR(currentEvent));
         }
         return tokenizer.isIntegral();
     }
@@ -106,9 +104,8 @@ public class JsonParserImpl implements JsonParser {
     @Override
     public int getInt() {
         if (currentEvent != Event.VALUE_NUMBER) {
-            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
-                    "VALUE_NUMBER parser state. "+
-                    "But current parser state is "+currentEvent);
+            throw new IllegalStateException(
+                    JsonMessages.PARSER_GETINT_ERR(currentEvent));
         }
         return tokenizer.getInt();
     }
@@ -116,9 +113,8 @@ public class JsonParserImpl implements JsonParser {
     @Override
     public long getLong() {
         if (currentEvent != Event.VALUE_NUMBER) {
-            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
-                    "VALUE_NUMBER parser state. "+
-                    "But current parser state is "+currentEvent);
+            throw new IllegalStateException(
+                    JsonMessages.PARSER_GETLONG_ERR(currentEvent));
         }
         return tokenizer.getBigDecimal().longValue();
     }
@@ -126,9 +122,8 @@ public class JsonParserImpl implements JsonParser {
     @Override
     public BigDecimal getBigDecimal() {
         if (currentEvent != Event.VALUE_NUMBER) {
-            throw new IllegalStateException("JsonParser#getNumberType() is valid only "+
-                    "VALUE_NUMBER parser state. "+
-                    "But current parser state is "+currentEvent);
+            throw new IllegalStateException(
+                    JsonMessages.PARSER_GETBIGDECIMAL_ERR(currentEvent));
         }
         return tokenizer.getBigDecimal();
     }
@@ -157,7 +152,7 @@ public class JsonParserImpl implements JsonParser {
             if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
                 JsonToken token = tokenizer.nextToken();
                 if (token != JsonToken.EOF) {
-                    throw new JsonParsingException("Expected EOF, but got="+token,
+                    throw new JsonParsingException(JsonMessages.PARSER_EXPECTED_EOF(token),
                             getLastCharLocation());
                 }
                 return false;
@@ -183,7 +178,7 @@ public class JsonParserImpl implements JsonParser {
         try {
             tokenizer.close();
         } catch (IOException e) {
-            throw new JsonException("I/O error while closing JSON tokenizer", e);
+            throw new JsonException(JsonMessages.PARSER_TOKENIZER_CLOSE_IO(), e);
         }
     }
 
@@ -231,8 +226,8 @@ public class JsonParserImpl implements JsonParser {
                 return Event.START_ARRAY;
             }
             JsonLocation location = getLastCharLocation();
-            throw new JsonParsingException("Invalid token="+token+" at "+location+
-                    " Expected tokens are: [CURLYOPEN, SQUAREOPEN]", location);
+            throw new JsonParsingException(
+                    JsonMessages.PARSER_INVALID_TOKEN(token, location, "[CURLYOPEN, SQUAREOPEN]"), location);
         }
     }
 
@@ -254,8 +249,8 @@ public class JsonParserImpl implements JsonParser {
                 // Handle 1. :value
                 if (token != JsonToken.COLON) {
                     JsonLocation location = getLastCharLocation();
-                    throw new JsonParsingException("Invalid token="+token+" at "
-                            +location+" Expected tokens are: [COLON]", location);
+                    throw new JsonParsingException(
+                            JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COLON]"), location);
                 }
                 token = tokenizer.nextToken();
                 if (token.isValue()) {
@@ -270,8 +265,8 @@ public class JsonParserImpl implements JsonParser {
                     return Event.START_ARRAY;
                 }
                 JsonLocation location = getLastCharLocation();
-                throw new JsonParsingException("Invalid token="+token
-                        +" at "+location, location);
+                throw new JsonParsingException(JsonMessages.PARSER_INVALID_TOKEN(token, location,
+                        "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]"), location);
             } else {
                 // Handle 1. }   2. name   3. ,name
                 if (token == JsonToken.CURLYCLOSE) {
@@ -283,8 +278,8 @@ public class JsonParserImpl implements JsonParser {
                 } else {
                     if (token != JsonToken.COMMA) {
                         JsonLocation location = getLastCharLocation();
-                        throw new JsonParsingException("Invalid token="+token+" at "
-                                +location+" Expected tokens are: [COMMA]", location);
+                        throw new JsonParsingException(
+                                JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COMMA]"), location);
                     }
                     token = tokenizer.nextToken();
                 }
@@ -292,8 +287,8 @@ public class JsonParserImpl implements JsonParser {
                     return Event.KEY_NAME;
                 }
                 JsonLocation location = getLastCharLocation();
-                throw new JsonParsingException("Invalid token="+token+" at "+location+
-                        " Expected tokens are: [STRING]", location);
+                throw new JsonParsingException(
+                        JsonMessages.PARSER_INVALID_TOKEN(token, location, "[STRING]"), location);
             }
         }
 
@@ -315,8 +310,8 @@ public class JsonParserImpl implements JsonParser {
             } else {
                 if (token != JsonToken.COMMA) {
                     JsonLocation location = getLastCharLocation();
-                    throw new JsonParsingException("Invalid token="+token+" at "
-                            +location+" Expected tokens are: [COMMA]", location);
+                    throw new JsonParsingException(
+                            JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COMMA]"), location);
                 }
                 token = tokenizer.nextToken();
             }
@@ -332,8 +327,8 @@ public class JsonParserImpl implements JsonParser {
                 return Event.START_ARRAY;
             }
             JsonLocation location = getLastCharLocation();
-            throw new JsonParsingException("Invalid token="+token
-                    +" at "+location, location);
+            throw new JsonParsingException(JsonMessages.PARSER_INVALID_TOKEN(token, location,
+                    "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]"), location);
         }
 
     }
