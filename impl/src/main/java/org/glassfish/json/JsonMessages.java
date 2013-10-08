@@ -130,6 +130,34 @@ final class JsonMessages {
         return localize("reader.expected.object.got.array");
     }
 
+    static String OBJBUILDER_NAME_NULL() {
+        return localize("objbuilder.name.null");
+    }
+
+    static String OBJBUILDER_VALUE_NULL() {
+        return localize("objbuilder.value.null");
+    }
+
+    static String OBJBUILDER_OBJECT_BUILDER_NULL() {
+        return localize("objbuilder.object.builder.null");
+    }
+
+    static String OBJBUILDER_ARRAY_BUILDER_NULL() {
+        return localize("objbuilder.array.builder.null");
+    }
+
+    static String ARRBUILDER_VALUE_NULL() {
+        return localize("arrbuilder.value.null");
+    }
+
+    static String ARRBUILDER_OBJECT_BUILDER_NULL() {
+        return localize("arrbuilder.object.builder.null");
+    }
+
+    static String ARRBUILDER_ARRAY_BUILDER_NULL() {
+        return localize("arrbuilder.array.builder.null");
+    }
+
     private static String localize(String key, Object ... args) {
         try {
             String msg = BUNDLE.getString(key);

@@ -110,8 +110,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     public JsonArrayBuilder add(JsonObjectBuilder builder) {
         if (builder == null) {
-            throw new NullPointerException(
-                    "Object builder that is used to add a value to JSON array cannot be null");
+            throw new NullPointerException(JsonMessages.ARRBUILDER_OBJECT_BUILDER_NULL());
         }
         addValueList(builder.build());
         return this;
@@ -119,8 +118,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     public JsonArrayBuilder add(JsonArrayBuilder builder) {
         if (builder == null) {
-            throw new NullPointerException(
-                    "Array builder that is used to add a value to JSON array cannot be null");
+            throw new NullPointerException(JsonMessages.ARRBUILDER_ARRAY_BUILDER_NULL());
         }
         addValueList(builder.build());
         return this;
@@ -148,7 +146,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private void validateValue(Object value) {
         if (value == null) {
-            throw new NullPointerException("JsonArray's value cannot be null");
+            throw new NullPointerException(JsonMessages.ARRBUILDER_VALUE_NULL());
         }
     }
 

@@ -118,8 +118,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
     public JsonObjectBuilder add(String name, JsonObjectBuilder builder) {
         validateName(name);
         if (builder == null) {
-            throw new NullPointerException(
-                    "Object builder that is used to create a value in JsonObject's name/value pair cannot be null");
+            throw new NullPointerException(JsonMessages.OBJBUILDER_OBJECT_BUILDER_NULL());
         }
         putValueMap(name, builder.build());
         return this;
@@ -128,8 +127,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
     public JsonObjectBuilder add(String name, JsonArrayBuilder builder) {
         validateName(name);
         if (builder == null) {
-            throw new NullPointerException(
-                    "Array builder that is used to create a value in JsonObject's name/value pair cannot be null");
+            throw new NullPointerException(JsonMessages.OBJBUILDER_ARRAY_BUILDER_NULL());
         }
         putValueMap(name, builder.build());
         return this;
@@ -152,13 +150,13 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
     private void validateName(String name) {
         if (name == null) {
-            throw new NullPointerException("Name in JsonObject's name/value pair cannot be null");
+            throw new NullPointerException(JsonMessages.OBJBUILDER_NAME_NULL());
         }
     }
 
     private void validateValue(Object value) {
         if (value == null) {
-            throw new NullPointerException("Value in JsonObject's name/value pair cannot be null");
+            throw new NullPointerException(JsonMessages.OBJBUILDER_VALUE_NULL());
         }
     }
 
