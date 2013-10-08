@@ -85,6 +85,7 @@ final class JsonMessages {
         return localize("parser.invalid.token", token, location, expectedTokens);
     }
 
+
     static String GENERATOR_FLUSH_IO_ERR() {
         return localize("generator.flush.io.err");
     }
@@ -95,6 +96,38 @@ final class JsonMessages {
 
     static String GENERATOR_WRITE_IO_ERR() {
         return localize("generator.write.io.err");
+    }
+
+    static String GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT() {
+        return localize("generator.method.legal.in.object.context");
+    }
+
+    static String GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT() {
+        return localize("generator.method.legal.in.array.context");
+    }
+
+    static String GENERATOR_DOUBLE_INFINITE_NAN() {
+        return localize("generator.double.infinite.nan");
+    }
+
+    static String GENERATOR_INCOMPLETE_JSON() {
+        return localize("generator.incomplete.json");
+    }
+
+    static String WRITER_WRITE_ALREADY_CALLED() {
+        return localize("writer.write.already.called");
+    }
+
+    static String READER_READ_ALREADY_CALLED() {
+        return localize("reader.read.already.called");
+    }
+
+    static String READER_EXPECTED_ARRAY_GOT_OBJECT() {
+        return localize("reader.expected.array.got.object");
+    }
+
+    static String READER_EXPECTED_OBJECT_GOT_ARRAY() {
+        return localize("reader.expected.object.got.array");
     }
 
     private static String localize(String key, Object ... args) {

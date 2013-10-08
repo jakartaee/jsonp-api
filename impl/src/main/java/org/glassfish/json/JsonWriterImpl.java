@@ -82,7 +82,7 @@ class JsonWriterImpl implements JsonWriter {
     @Override
     public void writeArray(JsonArray array) {
         if (writeDone) {
-            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+            throw new IllegalStateException(JsonMessages.WRITER_WRITE_ALREADY_CALLED());
         }
         writeDone = true;
         generator.writeStartArray();
@@ -98,7 +98,7 @@ class JsonWriterImpl implements JsonWriter {
     @Override
     public void writeObject(JsonObject object) {
         if (writeDone) {
-            throw new IllegalStateException("write/writeObject/writeArray/close method is already called.");
+            throw new IllegalStateException(JsonMessages.WRITER_WRITE_ALREADY_CALLED());
         }
         writeDone = true;
         generator.writeStartObject();

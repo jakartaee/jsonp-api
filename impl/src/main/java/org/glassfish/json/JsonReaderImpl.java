@@ -72,7 +72,7 @@ class JsonReaderImpl implements JsonReader {
     @Override
     public JsonStructure read() {
         if (readDone) {
-            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+            throw new IllegalStateException(JsonMessages.READER_READ_ALREADY_CALLED());
         }
         readDone = true;
         if (parser.hasNext()) {
@@ -81,17 +81,15 @@ class JsonReaderImpl implements JsonReader {
                 return readArray(new JsonArrayBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_OBJECT) {
                 return readObject(new JsonObjectBuilderImpl(bufferPool));
-            } else {
-                throw new JsonException("Cannot read JSON, parsing error. Parsing Event="+e);
             }
         }
-        throw new JsonException("Cannot read JSON, possibly empty stream");
+        throw new JsonException("Internal Error");
     }
 
     @Override
     public JsonObject readObject() {
         if (readDone) {
-            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+            throw new IllegalStateException(JsonMessages.READER_READ_ALREADY_CALLED());
         }
         readDone = true;
         if (parser.hasNext()) {
@@ -99,18 +97,16 @@ class JsonReaderImpl implements JsonReader {
             if (e == JsonParser.Event.START_OBJECT) {
                 return readObject(new JsonObjectBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_ARRAY) {
-                throw new JsonException("Cannot read JSON object, found JSON array");
-            } else {
-                throw new JsonException("Cannot read JSON object, parsing error. Parsing Event="+e);
+                throw new JsonException(JsonMessages.READER_EXPECTED_OBJECT_GOT_ARRAY());
             }
         }
-        throw new JsonException("Cannot read JSON object, possibly empty stream");
+        throw new JsonException("Internal Error");
     }
 
     @Override
     public JsonArray readArray() {
         if (readDone) {
-            throw new IllegalStateException("read/readObject/readArray/close method is already called.");
+            throw new IllegalStateException(JsonMessages.READER_READ_ALREADY_CALLED());
         }
         readDone = true;
         if (parser.hasNext()) {
@@ -118,12 +114,10 @@ class JsonReaderImpl implements JsonReader {
             if (e == JsonParser.Event.START_ARRAY) {
                 return readArray(new JsonArrayBuilderImpl(bufferPool));
             } else if (e == JsonParser.Event.START_OBJECT) {
-                throw new JsonException("Cannot read JSON array, found JSON object");
-            } else {
-                throw new JsonException("Cannot read JSON array, parsing error. Parsing Event="+e);
+                throw new JsonException(JsonMessages.READER_EXPECTED_ARRAY_GOT_OBJECT());
             }
         }
-        throw new JsonException("Cannot read JSON array, possibly empty stream");
+        throw new JsonException("Internal Error");
     }
 
     @Override

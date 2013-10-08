@@ -156,7 +156,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator writeStartObject(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("writeStartObject(String) can only be called in object context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeChar('{');
@@ -175,7 +176,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, String fieldValue) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, String) can only be called in object context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeEscapedString(fieldValue);
@@ -185,7 +187,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, int value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, int) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeInt(value);
@@ -195,7 +198,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, long value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, long) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -205,10 +209,11 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, double value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, double) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         if (Double.isInfinite(value) || Double.isNaN(value)) {
-            throw new NumberFormatException("write(String, double) value cannot be Infinite or NaN");
+            throw new NumberFormatException(JsonMessages.GENERATOR_DOUBLE_INFINITE_NAN());
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -218,7 +223,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, BigInteger value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, BigInteger) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -228,7 +234,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, BigDecimal value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, BigDecimal) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -238,7 +245,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, boolean value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, boolean) can only be called in object context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeString(value? "true" : "false");
@@ -248,7 +256,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator writeNull(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("writeNull(String) can only be called in object context");
+            throw new JsonGenerationException(
+                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeString("null");
@@ -258,7 +267,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(JsonValue value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(JsonValue) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         switch (value.getValueType()) {
             case ARRAY:
@@ -317,7 +327,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator writeStartArray(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("writeStartArray(String) can only be called in object context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         writeName(name);
         writeChar('[');
@@ -329,7 +340,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(String name, JsonValue value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException("write(String, JsonValue) can only be called in object context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
         }
         switch (value.getValueType()) {
             case ARRAY:
@@ -371,7 +383,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     public JsonGenerator write(String value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(String) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeComma();
         writeEscapedString(value);
@@ -381,7 +394,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     public JsonGenerator write(int value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(int) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeComma();
         writeInt(value);
@@ -391,7 +405,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(long value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(long) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeValue(String.valueOf(value));
         return this;
@@ -400,10 +415,11 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(double value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(double) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         if (Double.isInfinite(value) || Double.isNaN(value)) {
-            throw new NumberFormatException("write(double) value cannot be Infinite or NaN");
+            throw new NumberFormatException(JsonMessages.GENERATOR_DOUBLE_INFINITE_NAN());
         }
         writeValue(String.valueOf(value));
         return this;
@@ -412,7 +428,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(BigInteger value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(BigInteger) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeValue(value.toString());
         return this;
@@ -421,7 +438,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(BigDecimal value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(BigDecimal) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeValue(value.toString());
         return this;
@@ -429,7 +447,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     public JsonGenerator write(boolean value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("write(boolean) can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeComma();
         writeString(value ? "true" : "false");
@@ -438,7 +457,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     public JsonGenerator writeNull() {
         if (currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException("writeNull() can only be called in array context");
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
         }
         writeComma();
         writeString("null");
@@ -486,7 +506,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     public void close() {
         if (currentContext.scope != Scope.IN_NONE || currentContext.first) {
-            throw new JsonGenerationException("Generating incomplete JSON");
+            throw new JsonGenerationException(JsonMessages.GENERATOR_INCOMPLETE_JSON());
         }
         flushBuffer();
         try {
