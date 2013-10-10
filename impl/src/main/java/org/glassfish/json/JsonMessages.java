@@ -53,6 +53,17 @@ final class JsonMessages {
     private static final ResourceBundle BUNDLE =
             ResourceBundle.getBundle("org.glassfish.json.messages");
 
+    // tokenizer messages
+    static String TOKENIZER_UNEXPECTED_CHAR(Object ch) {
+        return localize("tokenizer.unexpected.char", ch);
+    }
+
+    static String TOKENIZER_IO_ERR() {
+        return localize("tokenizer.io.err");
+    }
+
+
+    // parser messages
     static String PARSER_GETSTRING_ERR(Object arg0) {
         return localize("parser.getString.err", arg0);
     }
@@ -86,6 +97,7 @@ final class JsonMessages {
     }
 
 
+    // generator messages
     static String GENERATOR_FLUSH_IO_ERR() {
         return localize("generator.flush.io.err");
     }
@@ -114,10 +126,14 @@ final class JsonMessages {
         return localize("generator.incomplete.json");
     }
 
+
+    // writer messages
     static String WRITER_WRITE_ALREADY_CALLED() {
         return localize("writer.write.already.called");
     }
 
+
+    // reader messages
     static String READER_READ_ALREADY_CALLED() {
         return localize("reader.read.already.called");
     }
@@ -130,6 +146,8 @@ final class JsonMessages {
         return localize("reader.expected.object.got.array");
     }
 
+
+    // obj builder messages
     static String OBJBUILDER_NAME_NULL() {
         return localize("objbuilder.name.null");
     }
@@ -146,6 +164,8 @@ final class JsonMessages {
         return localize("objbuilder.array.builder.null");
     }
 
+
+    // array builder messages
     static String ARRBUILDER_VALUE_NULL() {
         return localize("arrbuilder.value.null");
     }
@@ -157,6 +177,7 @@ final class JsonMessages {
     static String ARRBUILDER_ARRAY_BUILDER_NULL() {
         return localize("arrbuilder.array.builder.null");
     }
+
 
     private static String localize(String key, Object ... args) {
         try {
