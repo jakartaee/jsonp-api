@@ -58,6 +58,10 @@ final class JsonMessages {
         return localize("tokenizer.unexpected.char", ch);
     }
 
+    static String TOKENIZER_EXPECTED_CHAR(char unexp, char exp) {
+        return localize("tokenizer.expected.char", unexp, exp);
+    }
+
     static String TOKENIZER_IO_ERR() {
         return localize("tokenizer.io.err");
     }
