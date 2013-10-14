@@ -41,6 +41,8 @@
 package org.glassfish.json;
 
 
+import javax.json.stream.JsonLocation;
+import javax.json.stream.JsonParser;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
@@ -54,7 +56,7 @@ final class JsonMessages {
             ResourceBundle.getBundle("org.glassfish.json.messages");
 
     // tokenizer messages
-    static String TOKENIZER_UNEXPECTED_CHAR(Object ch) {
+    static String TOKENIZER_UNEXPECTED_CHAR(int ch) {
         return localize("tokenizer.unexpected.char", ch);
     }
 
@@ -68,35 +70,35 @@ final class JsonMessages {
 
 
     // parser messages
-    static String PARSER_GETSTRING_ERR(Object arg0) {
-        return localize("parser.getString.err", arg0);
+    static String PARSER_GETSTRING_ERR(JsonParser.Event event) {
+        return localize("parser.getString.err", event);
     }
 
-    static String PARSER_ISINTEGRALNUMBER_ERR(Object arg0) {
-        return localize("parser.isIntegralNumber.err", arg0);
+    static String PARSER_ISINTEGRALNUMBER_ERR(JsonParser.Event event) {
+        return localize("parser.isIntegralNumber.err", event);
     }
 
-    static String PARSER_GETINT_ERR(Object arg0) {
-        return localize("parser.getInt.err", arg0);
+    static String PARSER_GETINT_ERR(JsonParser.Event event) {
+        return localize("parser.getInt.err", event);
     }
 
-    static String PARSER_GETLONG_ERR(Object arg0) {
-        return localize("parser.getLong.err", arg0);
+    static String PARSER_GETLONG_ERR(JsonParser.Event event) {
+        return localize("parser.getLong.err", event);
     }
 
-    static String PARSER_GETBIGDECIMAL_ERR(Object arg0) {
-        return localize("parser.getBigDecimal.err", arg0);
+    static String PARSER_GETBIGDECIMAL_ERR(JsonParser.Event event) {
+        return localize("parser.getBigDecimal.err", event);
     }
 
-    static String PARSER_EXPECTED_EOF(Object arg0) {
-        return localize("parser.expected.eof", arg0);
+    static String PARSER_EXPECTED_EOF(JsonTokenizer.JsonToken token) {
+        return localize("parser.expected.eof", token);
     }
 
     static String PARSER_TOKENIZER_CLOSE_IO() {
         return localize("parser.tokenizer.close.io");
     }
 
-    static String PARSER_INVALID_TOKEN(Object token, Object location, Object expectedTokens) {
+    static String PARSER_INVALID_TOKEN(JsonTokenizer.JsonToken token, JsonLocation location, String expectedTokens) {
         return localize("parser.invalid.token", token, location, expectedTokens);
     }
 
@@ -114,12 +116,8 @@ final class JsonMessages {
         return localize("generator.write.io.err");
     }
 
-    static String GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT() {
-        return localize("generator.method.legal.in.object.context");
-    }
-
-    static String GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT() {
-        return localize("generator.method.legal.in.array.context");
+    static String GENERATOR_ILLEGAL_METHOD(Object scope) {
+        return localize("generator.illegal.method", scope);
     }
 
     static String GENERATOR_DOUBLE_INFINITE_NAN() {
@@ -129,6 +127,11 @@ final class JsonMessages {
     static String GENERATOR_INCOMPLETE_JSON() {
         return localize("generator.incomplete.json");
     }
+
+    static String GENERATOR_ILLEGAL_MULTIPLE_TEXT() {
+        return localize("generator.illegal.multiple.text");
+    }
+
 
 
     // writer messages

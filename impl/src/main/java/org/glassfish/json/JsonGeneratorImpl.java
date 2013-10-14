@@ -141,10 +141,10 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator writeStartObject() {
         if (currentContext.scope == Scope.IN_OBJECT) {
-            throw new JsonGenerationException("writeStartObject() cannot be called in object context");
+            throw new JsonGenerationException(JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         if (currentContext.scope == Scope.IN_NONE && !currentContext.first) {
-            throw new JsonGenerationException("writeStartObject() cannot be called in no context more than once");
+            throw new JsonGenerationException(JsonMessages.GENERATOR_ILLEGAL_MULTIPLE_TEXT());
         }
         writeComma();
         writeChar('{');
@@ -157,7 +157,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator writeStartObject(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeChar('{');
@@ -177,7 +177,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, String fieldValue) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeEscapedString(fieldValue);
@@ -188,7 +188,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, int value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeInt(value);
@@ -199,7 +199,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, long value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -210,7 +210,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, double value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         if (Double.isInfinite(value) || Double.isNaN(value)) {
             throw new NumberFormatException(JsonMessages.GENERATOR_DOUBLE_INFINITE_NAN());
@@ -224,7 +224,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, BigInteger value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -235,7 +235,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, BigDecimal value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeString(String.valueOf(value));
@@ -246,7 +246,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, boolean value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeString(value? "true" : "false");
@@ -257,7 +257,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator writeNull(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeString("null");
@@ -268,7 +268,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(JsonValue value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         switch (value.getValueType()) {
             case ARRAY:
@@ -312,10 +312,10 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator writeStartArray() {
         if (currentContext.scope == Scope.IN_OBJECT) {
-            throw new JsonGenerationException("writeStartArray() cannot be called in object context");
+            throw new JsonGenerationException(JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         if (currentContext.scope == Scope.IN_NONE && !currentContext.first) {
-            throw new JsonGenerationException("writeStartArray() cannot be called in no context more than once");
+            throw new JsonGenerationException(JsonMessages.GENERATOR_ILLEGAL_MULTIPLE_TEXT());
         }
         writeComma();
         writeChar('[');
@@ -328,7 +328,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator writeStartArray(String name) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
         writeChar('[');
@@ -341,7 +341,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String name, JsonValue value) {
         if (currentContext.scope != Scope.IN_OBJECT) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_OBJECT_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         switch (value.getValueType()) {
             case ARRAY:
@@ -384,7 +384,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(String value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeComma();
         writeEscapedString(value);
@@ -395,7 +395,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(int value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeComma();
         writeInt(value);
@@ -406,7 +406,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(long value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeValue(String.valueOf(value));
         return this;
@@ -416,7 +416,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(double value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         if (Double.isInfinite(value) || Double.isNaN(value)) {
             throw new NumberFormatException(JsonMessages.GENERATOR_DOUBLE_INFINITE_NAN());
@@ -429,7 +429,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(BigInteger value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeValue(value.toString());
         return this;
@@ -439,7 +439,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(BigDecimal value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeValue(value.toString());
         return this;
@@ -448,7 +448,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator write(boolean value) {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeComma();
         writeString(value ? "true" : "false");
@@ -458,7 +458,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     public JsonGenerator writeNull() {
         if (currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_METHOD_LEGAL_IN_ARRAY_CONTEXT());
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeComma();
         writeString("null");
