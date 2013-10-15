@@ -127,7 +127,6 @@ public class JsonGeneratorTest extends TestCase {
                 .writeEnd()
                 .writeEnd();
         generator.close();
-        System.out.println(sw.toString());
     }
 
     // tests JsonGenerator when JsonValue is used for generation
@@ -262,6 +261,7 @@ public class JsonGeneratorTest extends TestCase {
             generator.writeStartObject();
             fail("Expected JsonGenerationException, writeStartObject() cannot be called more than once");
         } catch (JsonGenerationException je) {
+            je.printStackTrace();
             // Expected exception
         }
     }
@@ -308,6 +308,30 @@ public class JsonGeneratorTest extends TestCase {
         try {
             generator.close();
             fail("Expected JsonGenerationException, writeEnd() is not called");
+        } catch (JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException6() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartObject().writeEnd();
+        try {
+            generator.writeStartObject();
+            fail("Expected JsonGenerationException, cannot generate one more JSON text");
+        } catch (JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException7() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(writer);
+        generator.writeStartArray().writeEnd();
+        try {
+            generator.writeStartArray();
+            fail("Expected JsonGenerationException, cannot generate one more JSON text");
         } catch (JsonGenerationException je) {
             // Expected exception
         }
