@@ -261,7 +261,6 @@ public class JsonGeneratorTest extends TestCase {
             generator.writeStartObject();
             fail("Expected JsonGenerationException, writeStartObject() cannot be called more than once");
         } catch (JsonGenerationException je) {
-            je.printStackTrace();
             // Expected exception
         }
     }
