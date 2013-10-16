@@ -49,8 +49,13 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
+/**
+ * JsonReader impl using parser and builders.
+ *
+ * @author Jitendra Kotamraju
+ */
 class JsonReaderImpl implements JsonReader {
-    private final JsonParser parser;
+    private final JsonParserImpl parser;
     private boolean readDone;
     private final BufferPool bufferPool;
 
@@ -139,18 +144,20 @@ class JsonReaderImpl implements JsonReader {
                     builder.add(object);
                     break;
                 case VALUE_STRING:
-                    String  string = parser.getString();
-                    builder.add(string);
+                    builder.add(parser.getString());
                     break;
                 case VALUE_NUMBER:
-                    BigDecimal bd = parser.getBigDecimal();
-                    builder.add(bd);
+                    if (parser.isDefinitelyInt()) {
+                        builder.add(parser.getInt());
+                    } else {
+                        builder.add(parser.getBigDecimal());
+                    }
                     break;
                 case VALUE_TRUE:
-                    builder.add(true);
+                    builder.add(JsonValue.TRUE);
                     break;
                 case VALUE_FALSE:
-                    builder.add(false);
+                    builder.add(JsonValue.FALSE);
                     break;
                 case VALUE_NULL:
                     builder.addNull();
@@ -181,18 +188,20 @@ class JsonReaderImpl implements JsonReader {
                     key = parser.getString();
                     break;
                 case VALUE_STRING:
-                    String  string = parser.getString();
-                    builder.add(key, string);
+                    builder.add(key, parser.getString());
                     break;
                 case VALUE_NUMBER:
-                    BigDecimal bd = parser.getBigDecimal();
-                    builder.add(key, bd);
+                    if (parser.isDefinitelyInt()) {
+                        builder.add(key, parser.getInt());
+                    } else {
+                        builder.add(key, parser.getBigDecimal());
+                    }
                     break;
                 case VALUE_TRUE:
-                    builder.add(key, true);
+                    builder.add(key, JsonValue.TRUE);
                     break;
                 case VALUE_FALSE:
-                    builder.add(key, false);
+                    builder.add(key, JsonValue.FALSE);
                     break;
                 case VALUE_NULL:
                     builder.addNull(key);

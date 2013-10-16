@@ -110,6 +110,10 @@ public class JsonParserImpl implements JsonParser {
         return tokenizer.getInt();
     }
 
+    boolean isDefinitelyInt() {
+        return tokenizer.isDefinitelyInt();
+    }
+
     @Override
     public long getLong() {
         if (currentEvent != Event.VALUE_NUMBER) {

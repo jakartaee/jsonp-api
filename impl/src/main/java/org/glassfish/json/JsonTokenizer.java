@@ -531,6 +531,13 @@ final class JsonTokenizer implements Closeable {
         }
     }
 
+    // returns true for common integer values (1-9 digits).
+    // So there are cases it will return false even though the number is int
+    boolean isDefinitelyInt() {
+        int storeLen = storeEnd-storeBegin;
+        return !fracOrExp && (storeLen <= 9 || (minus && storeLen == 10));
+    }
+
     boolean isIntegral() {
         return !fracOrExp || getBigDecimal().scale() == 0;
     }
