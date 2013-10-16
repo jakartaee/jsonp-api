@@ -49,6 +49,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * JsonObjectBuilder impl
+ *
+ * @author Jitendra Kotamraju
+ */
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
     private Map<String, JsonValue> valueMap;
     private final BufferPool bufferPool;

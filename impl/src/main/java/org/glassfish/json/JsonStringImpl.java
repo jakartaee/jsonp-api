@@ -42,11 +42,16 @@ package org.glassfish.json;
 
 import javax.json.JsonString;
 
+/**
+ * JsonString impl
+ *
+ * @author Jitendra Kotamraju
+ */
 final class JsonStringImpl implements JsonString {
 
     private final String value;
 
-    public JsonStringImpl(String value) {
+    JsonStringImpl(String value) {
         this.value = value;
     }
 

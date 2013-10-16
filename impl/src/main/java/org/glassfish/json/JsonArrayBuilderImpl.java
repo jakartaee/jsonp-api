@@ -51,6 +51,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * JsonArrayBuilder impl
+ *
+ * @author Jitendra Kotamraju
+ */
 class JsonArrayBuilderImpl implements JsonArrayBuilder {
     private ArrayList<JsonValue> valueList;
     private final BufferPool bufferPool;

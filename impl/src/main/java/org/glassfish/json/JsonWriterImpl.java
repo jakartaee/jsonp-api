@@ -48,6 +48,11 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Map;
 
+/**
+ * JsonWriter impl using generator.
+ *
+ * @author Jitendra Kotamraju
+ */
 class JsonWriterImpl implements JsonWriter {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 

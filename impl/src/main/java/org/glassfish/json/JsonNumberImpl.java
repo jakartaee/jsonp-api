@@ -44,6 +44,12 @@ import javax.json.JsonNumber;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * JsonNumber impl. Subclasses provide optimized implementations
+ * when backed by int, long, BigDecimal
+ *
+ * @author Jitendra Kotamraju
+ */
 abstract class JsonNumberImpl implements JsonNumber {
 
     static JsonNumber getJsonNumber(int num) {
