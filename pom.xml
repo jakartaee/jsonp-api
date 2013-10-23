@@ -242,16 +242,6 @@
 
     <profiles>
         <profile>
-            <id>tests</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>impl</module>
-                <module>tests</module>
-            </modules>
-        </profile>
-        <profile>
             <id>release</id>
             <modules>
                 <!--
@@ -263,6 +253,21 @@
         </profile>
         <profile>
             <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>api</module>
+                <module>impl</module>
+                <module>jaxrs</module>
+                <module>tests</module>
+                <module>gf</module>
+                <module>demos</module>
+                <module>bundles</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>licensee</id>
             <modules>
                 <module>api</module>
                 <module>impl</module>

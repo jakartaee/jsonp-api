@@ -60,6 +60,13 @@
 
     <modules>
         <module>ri</module>
-        <module>licensee</module>
     </modules>
+    <profiles>
+        <profile>
+            <id>licensee</id>
+            <modules>
+                <module>licensee</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
