@@ -79,32 +79,6 @@
 				</executions>
 			</plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <stripVersion>false</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.glassfish</groupId>
-                                    <artifactId>javax.json</artifactId>
-                                    <type>jar</type>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${assembly.directory}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <finalName>javax.json-ri-${impl_version}-src-licensee</finalName>

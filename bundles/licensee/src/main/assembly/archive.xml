@@ -46,10 +46,16 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>target/assembly</directory>
+            <directory>../..</directory>
             <includes>
-                <include>*.jar</include>
+                <include>api/**</include>
+                <include>impl/**</include>
             </includes>
+            <excludes>
+                <exclude>api/target/**</exclude>
+                <exclude>impl/target/**</exclude>
+                <exclude>**/*.iml</exclude>
+            </excludes>
         	<outputDirectory/>
         </fileSet>
         <fileSet>
