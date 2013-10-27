@@ -41,6 +41,7 @@
 package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
+import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
 import java.io.*;
@@ -73,7 +74,7 @@ public class JsonReaderTest extends TestCase {
         Map<String, Object> config = new HashMap<String, Object>();
         config.put("foo", true);
         JsonReaderFactory factory = Json.createReaderFactory(config);
-        JsonReader reader = factory.createReader(new StringReader("{}"));
+        factory.createReader(new StringReader("{}"));
         Map<String, ?> config1 = factory.getConfigInUse();
         if (config1.size() > 0) {
             fail("Shouldn't have any config in use");
@@ -82,7 +83,7 @@ public class JsonReaderTest extends TestCase {
 
     public void testIllegalStateExcepton() throws Exception {
         JsonReader reader = Json.createReader(new StringReader("{}"));
-        JsonObject obj = reader.readObject();
+        reader.readObject();
         try {
             reader.readObject();
         } catch (IllegalStateException expected) {
@@ -91,7 +92,7 @@ public class JsonReaderTest extends TestCase {
         reader.close();
 
         reader = Json.createReader(new StringReader("[]"));
-        JsonArray array = reader.readArray();
+        reader.readArray();
         try {
             reader.readArray();
         } catch (IllegalStateException expected) {
@@ -100,7 +101,7 @@ public class JsonReaderTest extends TestCase {
         reader.close();
 
         reader = Json.createReader(new StringReader("{}"));
-        JsonStructure struct = reader.read();
+        reader.read();
         try {
             reader.read();
         } catch (IllegalStateException expected) {
@@ -109,16 +110,69 @@ public class JsonReaderTest extends TestCase {
         reader.close();
     }
 
-
     static JsonObject readPerson() throws Exception {
-
         Reader wikiReader = new InputStreamReader(JsonReaderTest.class.getResourceAsStream("/wiki.json"));
         JsonReader reader = Json.createReader(wikiReader);
         JsonValue value = reader.readObject();
         reader.close();
-
-        assertTrue(value instanceof JsonObject);
         return (JsonObject) value;
+    }
+
+    // JSONP-23 cached empty string is not reset
+    public void testEmptyStringUsingStandardBuffer() throws Throwable {
+        JsonReaderFactory factory = Json.createReaderFactory(null);
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < 40000; i++) {
+            sb.append('a');
+            String name = sb.toString();
+            String str = "[1, \"\", \""+name+"\", \"\", \""+name+"\", \"\", 100]";
+            try {
+                JsonReader reader = factory.createReader(new StringReader(str));
+                JsonArray array = reader.readArray();
+                assertEquals(1, array.getInt(0));
+                assertEquals("", array.getString(1));
+                assertEquals(name, array.getString(2));
+                assertEquals("", array.getString(3));
+                assertEquals(name, array.getString(4));
+                assertEquals("", array.getString(5));
+                assertEquals(100, array.getInt(6));
+                reader.close();
+            } catch (Throwable t) {
+                throw new Throwable("Failed for name length="+i, t);
+            }
+        }
+    }
+
+    // JSONP-23 cached empty string is not reset
+    public void testEmptyStringUsingBuffers() throws Throwable {
+        for(int size=20; size < 500; size++) {
+            final JsonParserTest.MyBufferPool bufferPool = new JsonParserTest.MyBufferPool(size);
+            Map<String, Object> config = new HashMap<String, Object>() {{
+                put(BufferPool.class.getName(), bufferPool);
+            }};
+            JsonReaderFactory factory = Json.createReaderFactory(config);
+
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < 1000; i++) {
+                sb.append('a');
+                String name = sb.toString();
+                String str = "[1, \"\", \""+name+"\", \"\", \""+name+"\", \"\", 100]";
+                try {
+                    JsonReader reader = factory.createReader(new StringReader(str));
+                    JsonArray array = reader.readArray();
+                    assertEquals(1, array.getInt(0));
+                    assertEquals("", array.getString(1));
+                    assertEquals(name, array.getString(2));
+                    assertEquals("", array.getString(3));
+                    assertEquals(name, array.getString(4));
+                    assertEquals("", array.getString(5));
+                    assertEquals(100, array.getInt(6));
+                    reader.close();
+                } catch (Throwable t) {
+                    throw new Throwable("Failed for buffer size="+size+" name length="+i, t);
+                }
+            }
+        }
     }
 
 }

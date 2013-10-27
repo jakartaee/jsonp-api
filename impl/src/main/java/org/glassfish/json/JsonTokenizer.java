@@ -94,7 +94,6 @@ final class JsonTokenizer implements Closeable {
 
     private boolean minus;
     private boolean fracOrExp;
-    private String value;
     private BigDecimal bd;
 
     enum JsonToken {
@@ -495,7 +494,6 @@ final class JsonTokenizer implements Closeable {
         if (storeEnd != 0) {
             storeBegin = 0;
             storeEnd = 0;
-            value = null;
             bd = null;
             minus = false;
             fracOrExp = false;
@@ -503,10 +501,7 @@ final class JsonTokenizer implements Closeable {
     }
 
     String getValue() {
-        if (value == null) {
-            value = new String(buf, storeBegin, storeEnd-storeBegin);
-        }
-        return value;
+        return new String(buf, storeBegin, storeEnd-storeBegin);
     }
 
     BigDecimal getBigDecimal() {
