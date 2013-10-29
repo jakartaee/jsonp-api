@@ -95,6 +95,25 @@ public class JsonParsingExceptionTest extends TestCase {
         testMalformedJson("{ \"a\" : {}, \"b\": [] ]", null);
     }
 
+    public void testWrongUnicode() {
+        testMalformedJson("[ \"\\uX00F\" ]", null);
+        testMalformedJson("[ \"\\u000Z\" ]", null);
+        testMalformedJson("[ \"\\u000\" ]", null);
+        testMalformedJson("[ \"\\u00\" ]", null);
+        testMalformedJson("[ \"\\u0\" ]", null);
+        testMalformedJson("[ \"\\u\" ]", null);
+        testMalformedJson("[ \"\\u\"", null);
+        testMalformedJson("[ \"\\", null);
+    }
+
+    public void testControlChar() {
+        testMalformedJson("[ \"\u0000\" ]", null);
+        testMalformedJson("[ \"\u000c\" ]", null);
+        testMalformedJson("[ \"\u000f\" ]", null);
+        testMalformedJson("[ \"\u001F\" ]", null);
+        testMalformedJson("[ \"\u001f\" ]", null);
+    }
+
     public void testLocation1() {
         testMalformedJson("x", new MyLocation(1, 1, 0));
         testMalformedJson("{]", new MyLocation(1, 2, 1));

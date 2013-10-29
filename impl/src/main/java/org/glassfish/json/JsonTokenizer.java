@@ -58,6 +58,22 @@ import javax.json.stream.JsonParser.Event;
  * @author Jitendra Kotamraju
  */
 final class JsonTokenizer implements Closeable {
+    // Table to look up hex ch -> value (for e.g HEX['F'] = 15, HEX['5'] = 5)
+    private final static int[] HEX = new int[128];
+    static {
+        Arrays.fill(HEX, -1);
+        for (int i='0'; i <= '9'; i++) {
+            HEX[i] = i-'0';
+        }
+        for (int i='A'; i <= 'F'; i++) {
+            HEX[i] = 10+i-'A';
+        }
+        for (int i='a'; i <= 'f'; i++) {
+            HEX[i] = 10+i-'a';
+        }
+    }
+    private final static int HEX_LENGTH = HEX.length;
+
     private final BufferPool bufferPool;
 
     private final Reader reader;
@@ -203,21 +219,16 @@ final class JsonTokenizer implements Closeable {
                 buf[storeEnd++] = (char)ch;
                 break;
             case 'u': {
-                char unicode = 0;
+                int unicode = 0;
                 for (int i = 0; i < 4; i++) {
                     int ch3 = read();
-                    unicode <<= 4;
-                    if (ch3 >= '0' && ch3 <= '9') {
-                        unicode |= ((char) ch3) - '0';
-                    } else if (ch3 >= 'a' && ch3 <= 'f') {
-                        unicode |= (((char) ch3) - 'a') + 0xA;
-                    } else if (ch3 >= 'A' && ch3 <= 'F') {
-                        unicode |= (((char) ch3) - 'A') + 0xA;
-                    } else {
+                    int digit = (ch3 >= 0 && ch3 < HEX_LENGTH) ? HEX[ch3] : -1;
+                    if (digit < 0) {
                         throw new JsonParsingException(JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch3), getLastCharLocation());
                     }
+                    unicode = (unicode << 4)|digit;
                 }
-                buf[storeEnd++] = (char) (unicode & 0xffff);
+                buf[storeEnd++] = (char)unicode;
                 break;
             }
             default:
