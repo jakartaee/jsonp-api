@@ -41,6 +41,8 @@
 package org.glassfish.json.tests;
 
 import javax.json.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
@@ -135,13 +137,57 @@ public class JsonWriterTest extends TestCase {
         writer.close();
     }
 
-// Doesn't work. We expect JsonWriter#close() to be called
-//
-//    public void testFlushBuffer() throws Exception {
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        JsonWriter writer = Json.createWriter(baos);
-//        writer.write(Json.createObjectBuilder().build());
-//        // not calling writer.close() intentionally
-//        assertEquals("{}", baos.toString("UTF-8"));
-//    }
+    public void testNoCloseWriteObjectToStream() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        JsonWriter writer = Json.createWriter(baos);
+        writer.write(Json.createObjectBuilder().build());
+        // not calling writer.close() intentionally
+        assertEquals("{}", baos.toString("UTF-8"));
+    }
+
+    public void testNoCloseWriteObjectToWriter() throws Exception {
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.write(Json.createObjectBuilder().build());
+        // not calling writer.close() intentionally
+        assertEquals("{}", sw.toString());
+    }
+
+    public void testNoCloseWriteArrayToStream() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        JsonWriter writer = Json.createWriter(baos);
+        writer.write(Json.createArrayBuilder().build());
+        // not calling writer.close() intentionally
+        assertEquals("[]", baos.toString("UTF-8"));
+    }
+
+    public void testNoCloseWriteArrayToWriter() throws Exception {
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.write(Json.createArrayBuilder().build());
+        // not calling writer.close() intentionally
+        assertEquals("[]", sw.toString());
+    }
+
+    public void testClose() throws Exception {
+        MyByteStream baos = new MyByteStream();
+        JsonWriter writer = Json.createWriter(baos);
+        writer.write(Json.createObjectBuilder().build());
+        writer.close();
+        assertEquals("{}", baos.toString("UTF-8"));
+        assertTrue(baos.isClosed());
+    }
+
+    private static final class MyByteStream extends ByteArrayOutputStream {
+        boolean closed;
+
+        boolean isClosed() {
+            return closed;
+        }
+
+        public void close() throws IOException {
+            super.close();
+            closed = true;
+        }
+    }
 }

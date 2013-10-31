@@ -43,6 +43,8 @@ package org.glassfish.json;
 import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
+import java.io.FilterOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -58,6 +60,7 @@ class JsonWriterImpl implements JsonWriter {
 
     private final JsonGeneratorImpl generator;
     private boolean writeDone;
+    private final NoFlushOutputStream os;
 
     JsonWriterImpl(Writer writer, BufferPool bufferPool) {
         this(writer, false, bufferPool);
@@ -67,6 +70,7 @@ class JsonWriterImpl implements JsonWriter {
         generator = prettyPrinting
                 ? new JsonPrettyGeneratorImpl(writer, bufferPool)
                 : new JsonGeneratorImpl(writer, bufferPool);
+        os = null;
     }
 
     JsonWriterImpl(OutputStream out, BufferPool bufferPool) {
@@ -79,9 +83,12 @@ class JsonWriterImpl implements JsonWriter {
 
     JsonWriterImpl(OutputStream out, Charset charset,
                    boolean prettyPrinting, BufferPool bufferPool) {
+        // Decorating the given stream, so that buffered contents can be
+        // written without actually flushing the stream.
+        this.os = new NoFlushOutputStream(out);
         generator = prettyPrinting
-                ? new JsonPrettyGeneratorImpl(out, charset, bufferPool)
-                : new JsonGeneratorImpl(out, charset, bufferPool);
+                ? new JsonPrettyGeneratorImpl(os, charset, bufferPool)
+                : new JsonGeneratorImpl(os, charset, bufferPool);
     }
 
     @Override
@@ -95,9 +102,15 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(value);
         }
         generator.writeEnd();
-        // may not flush the generated contents to output source, as an
-        // intermediary like OutputStreamWriter may buffer
+        // Flush the generator's buffered contents. This won't work for byte
+        // streams as intermediary OutputStreamWriter buffers.
         generator.flushBuffer();
+        // Flush buffered contents but not the byte stream. generator.flush()
+        // does OutputStreamWriter#flushBuffer (package private) and underlying
+        // byte stream#flush(). Here underlying stream's flush() is no-op.
+        if (os != null) {
+            generator.flush();
+        }
     }
 
     @Override
@@ -111,9 +124,15 @@ class JsonWriterImpl implements JsonWriter {
             generator.write(e.getKey(), e.getValue());
         }
         generator.writeEnd();
-        // may not flush the generated contents to output source, as an
-        // intermediary like OutputStreamWriter may buffer
+        // Flush the generator's buffered contents. This won't work for byte
+        // streams as intermediary OutputStreamWriter buffers.
         generator.flushBuffer();
+        // Flush buffered contents but not the byte stream. generator.flush()
+        // does OutputStreamWriter#flushBuffer (package private) and underlying
+        // byte stream#flush(). Here underlying stream's flush() is no-op.
+        if (os != null) {
+            generator.flush();
+        }
     }
 
     @Override
@@ -129,6 +148,22 @@ class JsonWriterImpl implements JsonWriter {
     public void close() {
         writeDone = true;
         generator.close();
+    }
+
+    private static final class NoFlushOutputStream extends FilterOutputStream {
+        public NoFlushOutputStream(OutputStream out) {
+            super(out);
+        }
+
+        @Override
+        public void write(byte b[], int off, int len) throws IOException {
+            out.write(b, off ,len);
+        }
+
+        @Override
+        public void flush() {
+            // no-op
+        }
     }
 
 }
