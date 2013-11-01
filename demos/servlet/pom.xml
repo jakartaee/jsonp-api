@@ -2,7 +2,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2012 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -45,16 +45,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.glassfish</groupId>
-        <artifactId>json</artifactId>
+        <groupId>org.glassfish.jsonp</groupId>
+        <artifactId>demos</artifactId>
         <version>1.0.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
     <url>http://maven.apache.org</url>
-    <groupId>org.glassfish.jsonp</groupId>
-    <artifactId>demos</artifactId>
+    <artifactId>jsondemos-servlet</artifactId>
+
+    <name>jsondemos-servlet</name>
 
     <dependencies>
         <dependency>
@@ -68,11 +69,22 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <modules>
-		<module>jaxrs</module>
-		<module>twitter</module>
-		<module>facebook</module>
-		<module>jsonpointer</module>
-		<module>servlet</module>
-    </modules>
+    <build>
+        <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <finalName>jsondemos-servlet</finalName>
+    </build>
 </project>
