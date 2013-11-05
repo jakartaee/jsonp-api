@@ -56,12 +56,12 @@ final class JsonMessages {
             ResourceBundle.getBundle("org.glassfish.json.messages");
 
     // tokenizer messages
-    static String TOKENIZER_UNEXPECTED_CHAR(int ch) {
-        return localize("tokenizer.unexpected.char", ch);
+    static String TOKENIZER_UNEXPECTED_CHAR(int unexpected, JsonLocation location) {
+        return localize("tokenizer.unexpected.char", unexpected, location);
     }
 
-    static String TOKENIZER_EXPECTED_CHAR(char unexp, char exp) {
-        return localize("tokenizer.expected.char", unexp, exp);
+    static String TOKENIZER_EXPECTED_CHAR(int unexpected, JsonLocation location, char expected) {
+        return localize("tokenizer.expected.char", unexpected, location, expected);
     }
 
     static String TOKENIZER_IO_ERR() {

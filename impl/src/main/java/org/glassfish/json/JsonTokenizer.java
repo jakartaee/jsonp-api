@@ -190,7 +190,7 @@ final class JsonTokenizer implements Closeable {
                 case '"':
                     return;
                 default:
-                    throw new JsonParsingException(JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch), getLastCharLocation());
+                    throw unexpectedChar(ch);
             }
         } while (true);
     }
@@ -224,7 +224,7 @@ final class JsonTokenizer implements Closeable {
                     int ch3 = read();
                     int digit = (ch3 >= 0 && ch3 < HEX_LENGTH) ? HEX[ch3] : -1;
                     if (digit < 0) {
-                        throw new JsonParsingException(JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch3), getLastCharLocation());
+                        throw unexpectedChar(ch3);
                     }
                     unicode = (unicode << 4)|digit;
                 }
@@ -232,7 +232,7 @@ final class JsonTokenizer implements Closeable {
                 break;
             }
             default:
-                throw new JsonParsingException(JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch), getLastCharLocation());
+                throw unexpectedChar(ch);
         }
     }
 
@@ -255,8 +255,7 @@ final class JsonTokenizer implements Closeable {
             this.minus = true;
             ch = readNumberChar();
             if (ch < '0' || ch >'9') {
-                throw new JsonParsingException(
-                    JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch), getLastCharLocation());
+                throw unexpectedChar(ch);
             }
         }
 
@@ -278,8 +277,7 @@ final class JsonTokenizer implements Closeable {
                 count++;
             } while (ch >= '0' && ch <= '9');
             if (count == 1) {
-                throw new JsonParsingException(
-                    JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch), getLastCharLocation());
+                throw unexpectedChar(ch);
             }
         }
 
@@ -295,8 +293,7 @@ final class JsonTokenizer implements Closeable {
                 ch = readNumberChar();
             }
             if (count == 0) {
-                throw new JsonParsingException(
-                    JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch), getLastCharLocation());
+                throw unexpectedChar(ch);
             }
         }
         readBegin--;
@@ -304,71 +301,51 @@ final class JsonTokenizer implements Closeable {
     }
 
     private void readTrue() {
-        char ch1 = (char) read();
+        int ch1 = read();
         if (ch1 != 'r') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch1, 'r'),
-                getLastCharLocation());
+            throw expectedChar(ch1, 'r');
         }
-        char ch2 = (char) read();
+        int ch2 = read();
         if (ch2 != 'u') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch2, 'u'),
-                getLastCharLocation());
+            throw expectedChar(ch2, 'u');
         }
-        char ch3 = (char) read();
+        int ch3 = read();
         if (ch3 != 'e') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch3, 'e'),
-                getLastCharLocation());
+            throw expectedChar(ch3, 'e');
         }
     }
 
     private void readFalse() {
-        char ch1 = (char) read();
+        int ch1 = read();
         if (ch1 != 'a') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch1, 'a'),
-                getLastCharLocation());
+            throw expectedChar(ch1, 'a');
         }
-        char ch2 = (char) read();
+        int ch2 = read();
         if (ch2 != 'l') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch2, 'l'),
-                getLastCharLocation());
+            throw expectedChar(ch2, 'l');
         }
-        char ch3 = (char) read();
+        int ch3 = read();
         if (ch3 != 's') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch3, 's'),
-                getLastCharLocation());
+            throw expectedChar(ch3, 's');
         }
-        char ch4 = (char) read();
+        int ch4 = read();
         if (ch4 != 'e') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch4, 'e'),
-                getLastCharLocation());
+            throw expectedChar(ch4, 'e');
         }
     }
 
     private void readNull() {
-        char ch1 = (char) read();
+        int ch1 = read();
         if (ch1 != 'u') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch1, 'u'),
-                getLastCharLocation());
+            throw expectedChar(ch1, 'u');
         }
-        char ch2 = (char) read();
+        int ch2 = read();
         if (ch2 != 'l') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch2, 'l'),
-                getLastCharLocation());
+            throw expectedChar(ch2, 'l');
         }
-        char ch3 = (char) read();
+        int ch3 = read();
         if (ch3 != 'l') {
-            throw new JsonParsingException(
-                JsonMessages.TOKENIZER_EXPECTED_CHAR(ch3, 'l'),
-                getLastCharLocation());
+            throw expectedChar(ch3, 'l');
         }
     }
 
@@ -439,7 +416,7 @@ final class JsonTokenizer implements Closeable {
             case -1:
                 return JsonToken.EOF;
             default:
-                throw new JsonParsingException(JsonMessages.TOKENIZER_UNEXPECTED_CHAR((char)ch), getLastCharLocation());
+                throw unexpectedChar(ch);
         }
     }
 
@@ -552,6 +529,18 @@ final class JsonTokenizer implements Closeable {
     public void close() throws IOException {
         reader.close();
         bufferPool.recycle(buf);
+    }
+
+    private JsonParsingException unexpectedChar(int ch) {
+        JsonLocation location = getLastCharLocation();
+        return new JsonParsingException(
+            JsonMessages.TOKENIZER_UNEXPECTED_CHAR(ch, location), location);
+    }
+
+    private JsonParsingException expectedChar(int unexpected, char expected) {
+        JsonLocation location = getLastCharLocation();
+        return new JsonParsingException(
+                JsonMessages.TOKENIZER_EXPECTED_CHAR(unexpected, location, expected), location);
     }
     
 }
