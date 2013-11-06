@@ -156,19 +156,15 @@ final class JsonTokenizer implements Closeable {
 
         do {
             // Write unescaped char block within the current buffer
-            if (inPlace && readBegin < readEnd) {
-                do {
-                    int ch = buf[readBegin];
-                    if (ch >= 0x20 && ch != 0x22 && ch != 0x5c) {
-                        readBegin++;        // consume unescaped char
-                    } else if (ch == '"') {
-                        storeEnd = readBegin;
-                        readBegin++;        // consume quote char
-                        return;             // Got the entire string
-                    } else {
-                        break;              // escaped char
+            if (inPlace) {
+                int ch;
+                while(readBegin < readEnd && ((ch=buf[readBegin]) >= 0x20) && ch != '\\') {
+                    if (ch == '"') {
+                        storeEnd = readBegin++; // ++ to consume quote char
+                        return;                 // Got the entire string
                     }
-                } while(readBegin < readEnd);
+                    readBegin++;                // consume unescaped char
+                }
                 storeEnd = readBegin;
             }
 
