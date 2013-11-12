@@ -677,7 +677,7 @@ public class JsonParserTest extends TestCase {
     //        ^
     //        |
     //       4096
-    public void testStringUsingStandardBuffer() {
+    public void testStringUsingStandardBuffer() throws Throwable {
         JsonParserFactory factory = Json.createParserFactory(null);
         StringBuilder sb = new StringBuilder();
         for(int i=0; i < 40000; i++) {
@@ -692,8 +692,8 @@ public class JsonParserTest extends TestCase {
                 parser.next();
                 assertEquals("Fails for size="+i, name, parser.getString());
                 parser.close();
-            } catch (AssertionError e) {
-                throw new AssertionError("Failed for size="+i, e);
+            } catch (Throwable e) {
+                throw new Throwable("Failed for size="+i, e);
             }
         }
     }
@@ -703,7 +703,7 @@ public class JsonParserTest extends TestCase {
     //        ^
     //        |
     //       4096
-    public void testIntegerUsingStandardBuffer() {
+    public void testIntegerUsingStandardBuffer() throws Throwable {
         Random r = new Random(System.currentTimeMillis());
         JsonParserFactory factory = Json.createParserFactory(null);
         StringBuilder sb = new StringBuilder();
@@ -720,13 +720,13 @@ public class JsonParserTest extends TestCase {
                 parser.next();
                 assertEquals("Fails for size="+i, num, parser.getInt());
                 parser.close();
-            } catch (AssertionError e) {
-                throw new AssertionError("Failed for size="+i, e);
+            } catch (Throwable e) {
+                throw new Throwable("Failed for size="+i, e);
             }
         }
     }
 
-    public void testStringUsingBuffers() {
+    public void testStringUsingBuffers() throws Throwable {
         for(int size=20; size < 500; size++) {
             final MyBufferPool bufferPool = new MyBufferPool(size);
             Map<String, Object> config = new HashMap<String, Object>() {{
@@ -762,8 +762,8 @@ public class JsonParserTest extends TestCase {
                     assertEquals("Line value fails for buffer size="+size+" name length="+i,
                             1, location.getLineNumber());
                     parser.close();
-                } catch (AssertionError e) {
-                    throw new AssertionError("Failed for buffer size="+size+" name length="+i, e);
+                } catch (Throwable e) {
+                    throw new Throwable("Failed for buffer size="+size+" name length="+i, e);
                 }
             }
         }
