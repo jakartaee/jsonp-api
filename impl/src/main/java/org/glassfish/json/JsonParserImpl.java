@@ -229,10 +229,14 @@ public class JsonParserImpl implements JsonParser {
                 currentContext = new ArrayContext();
                 return Event.START_ARRAY;
             }
-            JsonLocation location = getLastCharLocation();
-            throw new JsonParsingException(
-                    JsonMessages.PARSER_INVALID_TOKEN(token, location, "[CURLYOPEN, SQUAREOPEN]"), location);
+            throw parsingException(token, "[CURLYOPEN, SQUAREOPEN]");
         }
+    }
+
+    private JsonParsingException parsingException(JsonToken token, String expectedTokens) {
+        JsonLocation location = getLastCharLocation();
+        return new JsonParsingException(
+                JsonMessages.PARSER_INVALID_TOKEN(token, location, expectedTokens), location);
     }
 
     private final class ObjectContext extends Context {
@@ -252,9 +256,7 @@ public class JsonParserImpl implements JsonParser {
             if (currentEvent == Event.KEY_NAME) {
                 // Handle 1. :value
                 if (token != JsonToken.COLON) {
-                    JsonLocation location = getLastCharLocation();
-                    throw new JsonParsingException(
-                            JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COLON]"), location);
+                    throw parsingException(token, "[COLON]");
                 }
                 token = tokenizer.nextToken();
                 if (token.isValue()) {
@@ -268,9 +270,7 @@ public class JsonParserImpl implements JsonParser {
                     currentContext = new ArrayContext();
                     return Event.START_ARRAY;
                 }
-                JsonLocation location = getLastCharLocation();
-                throw new JsonParsingException(JsonMessages.PARSER_INVALID_TOKEN(token, location,
-                        "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]"), location);
+                throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
             } else {
                 // Handle 1. }   2. name   3. ,name
                 if (token == JsonToken.CURLYCLOSE) {
@@ -281,18 +281,14 @@ public class JsonParserImpl implements JsonParser {
                     firstValue = false;
                 } else {
                     if (token != JsonToken.COMMA) {
-                        JsonLocation location = getLastCharLocation();
-                        throw new JsonParsingException(
-                                JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COMMA]"), location);
+                        throw parsingException(token, "[COMMA]");
                     }
                     token = tokenizer.nextToken();
                 }
                 if (token == JsonToken.STRING) {
                     return Event.KEY_NAME;
                 }
-                JsonLocation location = getLastCharLocation();
-                throw new JsonParsingException(
-                        JsonMessages.PARSER_INVALID_TOKEN(token, location, "[STRING]"), location);
+                throw parsingException(token, "[STRING]");
             }
         }
 
@@ -313,9 +309,7 @@ public class JsonParserImpl implements JsonParser {
                 firstValue = false;
             } else {
                 if (token != JsonToken.COMMA) {
-                    JsonLocation location = getLastCharLocation();
-                    throw new JsonParsingException(
-                            JsonMessages.PARSER_INVALID_TOKEN(token, location, "[COMMA]"), location);
+                    throw parsingException(token, "[COMMA]");
                 }
                 token = tokenizer.nextToken();
             }
@@ -330,9 +324,7 @@ public class JsonParserImpl implements JsonParser {
                 currentContext = new ArrayContext();
                 return Event.START_ARRAY;
             }
-            JsonLocation location = getLastCharLocation();
-            throw new JsonParsingException(JsonMessages.PARSER_INVALID_TOKEN(token, location,
-                    "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]"), location);
+            throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
         }
 
     }
