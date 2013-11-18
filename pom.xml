@@ -53,7 +53,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>JSR 353 (JSON Processing) RI</name>
     <description>JSR 353:Java API for Processing JSON RI</description>
     <url>http://jsonp.java.net</url>
@@ -62,7 +62,7 @@
         <connection>scm:git:git://java.net/jsonp~git/api</connection>
         <developerConnection>scm:git:ssh://jitu@git.java.net/jsonp~git/</developerConnection>
         <url>http://java.net/projects/jsonp/sources/git/show</url>
-      <tag>jsonp-1.0.4</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <licenses>
@@ -97,7 +97,7 @@
         <impl_namespace>org.glassfish</impl_namespace>
         <spec_version>1.0</spec_version>
         <spec_impl_version>1.0</spec_impl_version>
-        <impl_version>1.0.4</impl_version>
+        <impl_version>1.0.5-SNAPSHOT</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
     </properties>
