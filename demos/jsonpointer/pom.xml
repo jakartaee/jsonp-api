@@ -47,7 +47,7 @@
     <parent>
         <groupId>org.glassfish.jsonp</groupId>
         <artifactId>demos</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
