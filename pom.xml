@@ -260,6 +260,7 @@
                 <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
+                <module>jaxrs-1x</module>
                 <module>tests</module>
                 <module>gf</module>
                 <module>demos</module>
@@ -272,6 +273,7 @@
                 <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
+                <module>jaxrs-1x</module>
                 <module>tests</module>
                 <module>gf</module>
                 <module>demos</module>
