@@ -50,7 +50,6 @@ import java.io.Closeable;
  * input sources ({@link java.io.InputStream} and {@link java.io.Reader}).
  *
  * <p>
- * <a id="JsonReaderExample1"/>
  * The following example demonstrates how to read an empty JSON array from
  * a string:
  * <pre>

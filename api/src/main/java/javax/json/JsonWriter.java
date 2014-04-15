@@ -50,7 +50,6 @@ import java.io.Closeable;
  * output sources ({@link java.io.OutputStream} and {@link java.io.Writer}).
  *
  * <p>
- * <a id="JsonWriterExample1"/>
  * The following example demonstrates how write an empty JSON object:
  * <pre>
  * <code>

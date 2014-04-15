@@ -97,8 +97,6 @@ import java.math.BigDecimal;
  * </pre>
  *
  * <p>
- * <a id="JsonParserExample2"/>
- * <p>
  * <b>For example</b>, for the following JSON:
  * <pre>
  * {
@@ -113,7 +111,6 @@ import java.math.BigDecimal;
  * <p>calls to the method {@code next()} result in parse events at the specified
  * locations below (marked in bold):
  *
- * <p>
  * <pre>
  * {<B>START_OBJECT</B>
  *   "firstName"<B>KEY_NAME</B>: "John"<B>VALUE_STRING</B>, "lastName"<B>KEY_NAME</B>: "Smith"<B>VALUE_STRING</B>, "age"<B>KEY_NAME</B>: 25<B>VALUE_NUMBER</B>,
@@ -124,13 +121,11 @@ import java.math.BigDecimal;
  * }<B>END_OBJECT</B>
  * </pre>
  *
- * <p>
  * The methods {@code next()} and {@code hasNext()} enable iteration over
  * parser events to process JSON data. {@code JsonParser} provides get methods
  * to obtain the value at the current state of the parser. For example, the
  * following code shows how to obtain the value "John" from the JSON above:
  *
- * <p>
  * <pre>
  * <code>
  * Event event = parser.next(); // START_OBJECT
@@ -222,6 +217,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws JsonParsingException if the parser encounters invalid JSON
      * when advancing to next state.
      * @throws java.util.NoSuchElementException if there are no more parsing
+     * @return the event for the next parsing state
      * states.
      */
     Event next();

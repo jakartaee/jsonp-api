@@ -76,6 +76,7 @@ public interface JsonGeneratorFactory {
      * The generator is configured with the factory configuration.
      *
      * @param writer i/o writer to which JSON is written
+     * @return the created JSON generator
      */
     JsonGenerator createGenerator(Writer writer);
 
@@ -85,6 +86,7 @@ public interface JsonGeneratorFactory {
      * The generator is configured with the factory's configuration.
      *
      * @param out i/o stream to which JSON is written
+     * @return the created JSON generator
      */
     JsonGenerator createGenerator(OutputStream out);
 
@@ -95,6 +97,7 @@ public interface JsonGeneratorFactory {
      *
      * @param out i/o stream to which JSON is written
      * @param charset a charset
+     * @return the created JSON generator
      */
     JsonGenerator createGenerator(OutputStream out, Charset charset);
 

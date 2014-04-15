@@ -50,11 +50,11 @@ import java.math.BigInteger;
  * Implementations may use a {@link BigDecimal} object to store the numeric
  * value internally.
  * The {@code BigDecimal} object can be constructed from the following types:
- * {@link BigDecimal#BigDecimal(int) <code>int</code>},
- * {@link BigDecimal#BigDecimal(long) <code>long</code>},
- * {@link BigDecimal#BigDecimal(BigInteger) <code>BigInteger</code>},
- * {@link BigDecimal#valueOf(double) <code>double</code>}, and
- * {@link BigDecimal#BigDecimal(String) <code>String</code>}.
+ * <code>int</code> {@link BigDecimal#BigDecimal(int)},
+ * <code>long</code> {@link BigDecimal#BigDecimal(long)},
+ * <code>BigInteger</code> {@link BigDecimal#BigDecimal(BigInteger)},
+ * <code>double</code> {@link BigDecimal#valueOf(double)}, and
+ * <code>String</code> {@link BigDecimal#BigDecimal(String)}.
  * Some of the method semantics in this class are defined using the
  * {@code BigDecimal} semantics.
  *

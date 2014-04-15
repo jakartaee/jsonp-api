@@ -77,6 +77,7 @@ public interface JsonParserFactory {
      * Creates a JSON parser from a character stream.
      *
      * @param reader a i/o reader from which JSON is to be read
+     * @return the created JSON parser
      */
     JsonParser createParser(Reader reader);
 
@@ -86,6 +87,7 @@ public interface JsonParserFactory {
      * as specified in <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
      *
      * @param in i/o stream from which JSON is to be read
+     * @return the created JSON parser
      * @throws javax.json.JsonException if encoding cannot be determined
      *         or i/o error (IOException would be cause of JsonException)
      */
@@ -98,6 +100,7 @@ public interface JsonParserFactory {
      *
      * @param in i/o stream from which JSON is to be read
      * @param charset a charset
+     * @return the created JSON parser
      */
     JsonParser createParser(InputStream in, Charset charset);
 
@@ -105,6 +108,7 @@ public interface JsonParserFactory {
      * Creates a JSON parser from the specified JSON object.
      *
      * @param obj a JSON object
+     * @return the created JSON parser
      */
     JsonParser createParser(JsonObject obj);
 
@@ -112,6 +116,7 @@ public interface JsonParserFactory {
      * Creates a JSON parser from the specified JSON array.
      *
      * @param array a JSON array
+     * @return the created JSON parser
      */
     JsonParser createParser(JsonArray array);
 

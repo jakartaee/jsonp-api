@@ -64,7 +64,6 @@ import java.math.BigInteger;
  * multiple builder instances with the same configuration. This the preferred
  * way to create multiple instances.
  *
- * <a id="JsonObjectBuilderExample1"/>
  * The example code below shows how to build a {@code JsonObject} model that
  * represents the following JSON object:
  *

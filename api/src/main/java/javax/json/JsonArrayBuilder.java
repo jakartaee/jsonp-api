@@ -63,7 +63,6 @@ import java.math.BigInteger;
  * multiple builder instances with the same configuration. This the preferred
  * way to create multiple instances.
  *
- * <a id="JsonArrayBuilderExample1"/>
  * The example code below shows how to build a {@code JsonArray} object
  * that represents the following JSON array:
  *
