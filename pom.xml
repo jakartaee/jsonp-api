@@ -53,14 +53,14 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.1</version>
     <name>JSR 353 (JSON Processing) RI</name>
     <description>JSR 353:Java API for Processing JSON RI</description>
     <url>http://jsonp.java.net</url>
 
     <scm>
         <connection>scm:git:git://java.net/jsonp~git/api</connection>
-        <developerConnection>scm:git:ssh://jitu@git.java.net/jsonp~git/</developerConnection>
+        <developerConnection>scm:git:ssh://kchung@git.java.net/jsonp~git/</developerConnection>
         <url>http://java.net/projects/jsonp/sources/git/show</url>
       <tag>HEAD</tag>
   </scm>
@@ -82,9 +82,8 @@
 
     <developers>
         <developer>
-            <id>jitu</id>
-            <name>Jitendra Kotamraju</name>
-            <url>http://weblogs.java.net/blog/jitu</url>
+            <id>kchung</id>
+            <name>Kin-man Chung</name>
             <organization>Oracle</organization>
             <roles>
                 <role>lead</role>
@@ -95,9 +94,9 @@
     <properties>
         <api_package>javax.json</api_package>
         <impl_namespace>org.glassfish</impl_namespace>
-        <spec_version>1.0</spec_version>
-        <spec_impl_version>1.0</spec_impl_version>
-        <impl_version>1.0.5-SNAPSHOT</impl_version>
+        <spec_version>1.1</spec_version>
+        <spec_impl_version>1.1.0-SNAPSHOT</spec_impl_version>
+        <impl_version>1.1.0-SNAPSHOT</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
     </properties>
@@ -171,8 +170,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.5.1</version>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
                 <plugin>
