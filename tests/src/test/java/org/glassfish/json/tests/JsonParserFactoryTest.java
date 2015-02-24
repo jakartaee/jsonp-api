@@ -69,7 +69,7 @@ public class JsonParserFactoryTest extends TestCase {
     }
 
     public void testParserFactoryWithConfig() {
-        Map<String, ?> config = new HashMap<String, Object>();
+        Map<String, ?> config = new HashMap<>();
         JsonParserFactory parserFactory = Json.createParserFactory(config);
         JsonParser parser1 = parserFactory.createParser(new StringReader("[]"));
         parser1.close();

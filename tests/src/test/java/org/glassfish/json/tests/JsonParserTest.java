@@ -137,7 +137,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStreamWithConfig() {
-        Map<String, ?> config = new HashMap<String, Object>();
+        Map<String, ?> config = new HashMap<>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 new ByteArrayInputStream(new byte[]{'[', ']'}));
         testEmptyArray(parser);
@@ -152,7 +152,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStructureWithConfig() {
-        Map<String, ?> config = new HashMap<String, Object>();
+        Map<String, ?> config = new HashMap<>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 Json.createArrayBuilder().build());
         testEmptyArray(parser);
@@ -269,7 +269,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyObjectStructureWithConfig() {
-        Map<String, ?> config = new HashMap<String, Object>();
+        Map<String, ?> config = new HashMap<>();
         JsonParser parser = Json.createParserFactory(config).createParser(
                 Json.createObjectBuilder().build());
         testEmptyObject(parser);

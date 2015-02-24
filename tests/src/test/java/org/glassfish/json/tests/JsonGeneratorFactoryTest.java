@@ -73,7 +73,7 @@ public class JsonGeneratorFactoryTest extends TestCase {
     }
 
     public void testGeneratorFactoryWithConfig() {
-        Map<String, Object> config = new HashMap<String, Object>();
+        Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
         Map<String, ?> config1 = generatorFactory.getConfigInUse();
