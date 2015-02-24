@@ -105,7 +105,7 @@ public class JsonProviderImpl extends JsonProvider {
             prettyPrinting = false;
             pool = bufferPool;
         } else {
-            providerConfig = new HashMap<String, Object>();
+            providerConfig = new HashMap<>();
             if (prettyPrinting=JsonProviderImpl.isPrettyPrintingEnabled(config)) {
                 providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
             }
@@ -151,7 +151,7 @@ public class JsonProviderImpl extends JsonProvider {
             prettyPrinting = false;
             pool = bufferPool;
         } else {
-            providerConfig = new HashMap<String, Object>();
+            providerConfig = new HashMap<>();
             if (prettyPrinting=JsonProviderImpl.isPrettyPrintingEnabled(config)) {
                 providerConfig.put(JsonGenerator.PRETTY_PRINTING, true);
             }

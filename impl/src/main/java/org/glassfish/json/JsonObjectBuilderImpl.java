@@ -148,7 +148,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
     private void putValueMap(String name, JsonValue value) {
         if (valueMap == null) {
-            this.valueMap = new LinkedHashMap<String, JsonValue>();
+            this.valueMap = new LinkedHashMap<>();
         }
         valueMap.put(name, value);
     }

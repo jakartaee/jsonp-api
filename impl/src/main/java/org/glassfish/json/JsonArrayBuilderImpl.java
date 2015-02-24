@@ -144,7 +144,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private void addValueList(JsonValue value) {
         if (valueList == null) {
-            valueList = new ArrayList<JsonValue>();
+            valueList = new ArrayList<>();
         }
         valueList.add(value);
     }
