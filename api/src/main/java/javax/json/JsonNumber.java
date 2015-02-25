@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -137,7 +137,7 @@ public interface JsonNumber extends JsonValue {
     BigInteger bigIntegerValue();
 
     /**
-     * Returns this JSON number as a {@link BigDecimal} object. This is a
+     * Returns this JSON number as a {@link BigInteger} object. This is a
      * convenience method for {@code bigDecimalValue().toBigIntegerExact()}.
      *
      * @return a {@link BigInteger} representation of the JSON number

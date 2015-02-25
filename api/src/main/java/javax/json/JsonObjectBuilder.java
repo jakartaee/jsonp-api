@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -265,6 +265,30 @@ public interface JsonObjectBuilder {
      * @throws NullPointerException if the specified name or builder is null
      */
     JsonObjectBuilder add(String name, JsonArrayBuilder builder);
+
+    /**
+     * Adds all name/value pairs in the JSON object associated with the specified
+     * object builder to the JSON object associated with this object builder.
+     * The newly added name/value pair will replace any existing name/value pair with
+     * the same name.
+     *
+     * @param builder the specified object builder
+     * @return this object builder
+     * @throws NullPointerException if the specified builder is null
+     * @since 1.1
+     */
+    JsonObjectBuilder addAll(JsonObjectBuilder builder);
+
+    /**
+     * Remove the name/value pair from the JSON object associated with this
+     * object builder if it is present.
+     *
+     * @param name the name in the name/value pair to be removed
+     * @return this object builder
+     * @throws NullPointerException if the specified name is null
+     * @since 1.1
+     */
+    JsonObjectBuilder remove(String name);
 
     /**
      * Returns the JSON object associated with this object builder. 

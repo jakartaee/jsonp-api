@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -42,6 +42,8 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
+import javax.json.JsonObject;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
@@ -64,10 +66,20 @@ class JsonBuilderFactoryImpl implements JsonBuilderFactory {
     public JsonObjectBuilder createObjectBuilder() {
         return new JsonObjectBuilderImpl(bufferPool);
     }
+ 
+    @Override
+    public JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        return new JsonObjectBuilderImpl(bufferPool);
+    }
 
     @Override
     public JsonArrayBuilder createArrayBuilder() {
         return new JsonArrayBuilderImpl(bufferPool);
+    }
+
+    @Override
+    public JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        return new JsonArrayBuilderImpl(array, bufferPool);
     }
 
     @Override

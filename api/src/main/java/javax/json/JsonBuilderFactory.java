@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -84,12 +84,30 @@ public interface JsonBuilderFactory {
     JsonObjectBuilder createObjectBuilder();
 
     /**
+     * Creates a {@code JsonObjectBuilder} instance, initialized with an object 
+     *
+     * @param object the initial object in the builder
+     * @return a JSON object builder
+     * @since 1.1
+     */
+    JsonObjectBuilder createObjectBuilder(JsonObject object);
+
+    /**
      * Creates a {@code JsonArrayBuilder} instance that is used to build
      * {@link JsonArray}
      *
      * @return a JSON array builder
      */
     JsonArrayBuilder createArrayBuilder();
+
+    /**
+     * Creates a {@code JsonArrayBuilder} instance, initialized with an array.
+     *
+     * @param array the initial array in the builder
+     * @return a JSON array builder
+     * @since 1.1
+     */
+    JsonArrayBuilder createArrayBuilder(JsonArray array);
 
     /**
      * Returns read-only map of supported provider specific configuration

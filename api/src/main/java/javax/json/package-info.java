@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -50,9 +50,9 @@
  * {@code JsonArray} provides a {@link java.util.List} view to access the
  * ordered sequence of zero or more values from the model.
  *
- * <p>The object model API uses builder patterns to create these object models. 
- * The classes {@link javax.json.JsonObjectBuilder} and 
- * {@link javax.json.JsonArrayBuilder} provide methods to create models
+ * <p>The object model API uses builder patterns to create and modify
+ * these object models. The classes {@link javax.json.JsonObjectBuilder} and 
+ * {@link javax.json.JsonArrayBuilder} provide methods to create and modify models
  * of type {@code JsonObject} and {@code JsonArray} respectively.
  *
  * <p>These object models can also be created from an input source using

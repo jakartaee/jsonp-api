@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -74,6 +74,7 @@ import java.util.Map;
  * threads.
  *
  * @author Jitendra Kotamraju
+ * @author Kin-man Chung
  */
 public class Json {
 
@@ -258,12 +259,36 @@ public class Json {
     }
 
     /**
+     * Creates a JSON array builder, initialized with the specified array
+     *
+     * @param array the initial array in the builder
+     * @return a JSON array builder
+     *
+     * @since 1.1
+     */
+    public static JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        return JsonProvider.provider().createArrayBuilder(array);
+    }
+
+    /**
      * Creates a JSON object builder
      *
      * @return a JSON object builder
      */
     public static JsonObjectBuilder createObjectBuilder() {
         return JsonProvider.provider().createObjectBuilder();
+    }
+
+    /**
+     * Creates a JSON object builder, initialized with the specified object.
+     *
+     * @param object the initial object in the builder
+     * @return a JSON object builder
+     *
+     * @since 1.1
+     */
+    public static JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        return JsonProvider.provider().createObjectBuilder(object);
     }
 
     /**
@@ -281,5 +306,4 @@ public class Json {
             Map<String, ?> config) {
         return JsonProvider.provider().createBuilderFactory(config);
     }
-
 }

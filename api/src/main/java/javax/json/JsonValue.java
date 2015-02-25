@@ -252,6 +252,26 @@ public interface JsonValue {
     ValueType getValueType();
 
     /**
+     * Return the JsonValue as a JsonObject
+     *
+     * @return the JsonValue as a JsonObject
+     * @throws ClassCastException if the JsonValue is not a JsonObject
+     */
+    default JsonObject asJsonObject() {
+        return JsonObject.class.cast(this);
+    }
+
+    /**
+     * Return the JsonValue as a JsonArray
+     *
+     * @return the JsonValue as a JsonArray
+     * @throws ClassCastException if the JsonValue is not a JsonArray
+     */
+    default JsonArray asJsonArray() {
+        return JsonArray.class.cast(this);
+    }
+
+    /**
      * Returns JSON text for this JSON value.
      *
      * @return JSON text
