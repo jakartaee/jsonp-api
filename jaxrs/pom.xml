@@ -55,8 +55,8 @@
     <artifactId>jsonp-jaxrs</artifactId>
     <packaging>bundle</packaging>
     <version>1.0</version>
-    <name>JSR 353 (JSON Processing) Media for JAX-RS</name>
-    <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonObject/JsonArray/JsonStructure API of JSR 353:Java API for Processing JSON</description>
+    <name>JSR 374 (JSON Processing) Media for JAX-RS</name>
+    <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonObject/JsonArray/JsonStructure API of JSR 374:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
     <build>
         <plugins>

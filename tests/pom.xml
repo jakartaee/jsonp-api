@@ -53,7 +53,7 @@
 
     <artifactId>jsonp-tests</artifactId>
     <packaging>jar</packaging>
-    <name>JSR 353 (JSON Processing) Tests</name>
+    <name>JSR 374 (JSON Processing) Tests</name>
 
     <dependencies>
         <dependency>

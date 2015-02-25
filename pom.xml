@@ -3,7 +3,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -54,8 +54,8 @@
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
     <version>1.1</version>
-    <name>JSR 353 (JSON Processing) RI</name>
-    <description>JSR 353:Java API for Processing JSON RI</description>
+    <name>JSR 374 (JSON Processing) RI</name>
+    <description>JSR 374:Java API for Processing JSON RI</description>
     <url>http://jsonp.java.net</url>
 
     <scm>
@@ -168,10 +168,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
+                    <version>3.1</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
+                        <compilerArgument>-Xlint:all</compilerArgument>
                     </configuration>
                 </plugin>
                 <plugin>
