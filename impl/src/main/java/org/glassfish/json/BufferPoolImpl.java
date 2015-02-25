@@ -81,8 +81,8 @@ class BufferPoolImpl implements BufferPool {
         }
 
         // overwrite the queue
-        ConcurrentLinkedQueue<char[]> d = new ConcurrentLinkedQueue<char[]>();
-        queue = new WeakReference<ConcurrentLinkedQueue<char[]>>(d);
+        ConcurrentLinkedQueue<char[]> d = new ConcurrentLinkedQueue<>();
+        queue = new WeakReference<>(d);
 
         return d;
     }

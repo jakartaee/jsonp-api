@@ -46,7 +46,6 @@ import javax.json.*;
 import javax.json.stream.JsonParser;
 import java.io.InputStream;
 import java.io.Reader;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
 /**

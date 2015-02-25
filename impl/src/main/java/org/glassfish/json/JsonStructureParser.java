@@ -55,7 +55,7 @@ class JsonStructureParser implements JsonParser {
 
     private Scope current;
     private Event state;
-    private final Deque<Scope> scopeStack = new ArrayDeque<Scope>();
+    private final Deque<Scope> scopeStack = new ArrayDeque<>();
 
     JsonStructureParser(JsonArray array) {
         current = new ArrayScope(array);

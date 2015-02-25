@@ -41,7 +41,6 @@
 package javax.json.stream;
 
 
-import javax.json.JsonNumber;
 import java.io.Closeable;
 import java.math.BigDecimal;
 

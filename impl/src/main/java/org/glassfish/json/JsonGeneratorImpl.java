@@ -106,7 +106,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     private final BufferPool bufferPool;
     private final Writer writer;
     private Context currentContext = new Context(Scope.IN_NONE);
-    private final Deque<Context> stack = new ArrayDeque<Context>();
+    private final Deque<Context> stack = new ArrayDeque<>();
 
     // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
     // methods. Also, flushBuffer() is useful when you don't want to actually

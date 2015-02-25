@@ -71,7 +71,7 @@ public class JsonReaderTest extends TestCase {
     }
 
     public void testUnknownFeature() throws Exception {
-        Map<String, Object> config = new HashMap<String, Object>();
+        Map<String, Object> config = new HashMap<>();
         config.put("foo", true);
         JsonReaderFactory factory = Json.createReaderFactory(config);
         factory.createReader(new StringReader("{}"));

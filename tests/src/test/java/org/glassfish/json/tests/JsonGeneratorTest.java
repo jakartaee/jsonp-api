@@ -222,7 +222,7 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectWriter() throws Exception {
         StringWriter writer = new StringWriter();
-        Map<String, Object> config = new HashMap<String, Object>();
+        Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGenerator generator = Json.createGeneratorFactory(config)
                 .createGenerator(writer);
@@ -237,7 +237,7 @@ public class JsonGeneratorTest extends TestCase {
 
     public void testPrettyObjectStream() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Map<String, Object> config = new HashMap<String, Object>();
+        Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGenerator generator = Json.createGeneratorFactory(config)
                 .createGenerator(out);
