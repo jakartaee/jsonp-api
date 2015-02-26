@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -61,6 +61,7 @@ import java.util.ServiceLoader;
  *
  * @see ServiceLoader
  * @author Jitendra Kotamraju
+ * @author Kin-man Chung
  */
 public abstract class JsonProvider {
 
@@ -267,11 +268,33 @@ public abstract class JsonProvider {
     public abstract JsonObjectBuilder createObjectBuilder();
 
     /**
+     * Creates a JSON object builder, initialized with the specified object.
+     *
+     * @param object the initial JSON object in the builder
+     * @return a JSON object builder
+     * @since 1.1
+     */
+    public JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        return null;
+    }
+
+    /**
      * Creates a JSON array builder
      *
      * @return a JSON array builder
      */
     public abstract JsonArrayBuilder createArrayBuilder();
+
+    /**
+     * Creates a JSON array builder, initialized with the specified array
+     *
+     * @param array the initial JSON array in the builder
+     * @return a JSON array builder
+     * @since 1.1
+     */
+    public JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        return null;
+    }
 
     /**
      * Creates a builder factory for creating {@link JsonArrayBuilder}
@@ -285,5 +308,4 @@ public abstract class JsonProvider {
      * @return a JSON builder factory
      */
     public abstract JsonBuilderFactory createBuilderFactory(Map<String,?> config);
-
 }
