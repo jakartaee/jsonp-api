@@ -45,6 +45,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A filter stream that detects the unicode encoding for the original
@@ -53,9 +54,7 @@ import java.nio.charset.Charset;
  * @author Jitendra Kotamraju
  */
 class UnicodeDetectingInputStream extends FilterInputStream {
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
-    private static final Charset UTF_16BE = Charset.forName("UTF-16BE");
-    private static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+
     private static final Charset UTF_32LE = Charset.forName("UTF-32LE");
     private static final Charset UTF_32BE = Charset.forName("UTF-32BE");
 
@@ -139,26 +138,26 @@ class UnicodeDetectingInputStream extends FilterInputStream {
                 return UTF_32LE;
             } else if (buf[0] == FE && buf[1] == FF) {
                 curIndex = 2;
-                return UTF_16BE;
+                return StandardCharsets.UTF_16BE;
             } else if (buf[0] == FF && buf[1] == FE) {
                 curIndex = 2;
-                return UTF_16LE;
+                return StandardCharsets.UTF_16LE;
             } else if (buf[0] == EF && buf[1] == BB && buf[2] == BF) {
                 curIndex = 3;
-                return UTF_8;
+                return StandardCharsets.UTF_8;
             }
             // No BOM, just use JSON RFC's encoding algo to auto-detect
             if (buf[0] == NUL && buf[1] == NUL && buf[2] == NUL) {
                 return UTF_32BE;
             } else if (buf[0] == NUL && buf[2] == NUL) {
-                return UTF_16BE;
+                return StandardCharsets.UTF_16BE;
             } else if (buf[1] == NUL && buf[2] == NUL && buf[3] == NUL) {
                 return UTF_32LE;
             } else if (buf[1] == NUL && buf[3] == NUL) {
-                return UTF_16LE;
+                return StandardCharsets.UTF_16LE;
             }
         }
-        return UTF_8;
+        return StandardCharsets.UTF_8;
     }
 
     @Override

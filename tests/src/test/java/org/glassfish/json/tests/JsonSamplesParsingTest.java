@@ -47,7 +47,7 @@ import javax.json.JsonException;
 import javax.json.stream.JsonParser;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * JsonParser tests for sample files
@@ -55,7 +55,6 @@ import java.nio.charset.Charset;
  * @author Jitendra Kotamraju
  */
 public class JsonSamplesParsingTest extends TestCase {
-    static final Charset UTF_8 = Charset.forName("UTF-8");
 
     public void testSampleFiles() {
         String[] fileNames = {
@@ -73,7 +72,7 @@ public class JsonSamplesParsingTest extends TestCase {
 
     private void testSampleFile(String fileName) {
         Reader reader = new InputStreamReader(
-                JsonSamplesParsingTest.class.getResourceAsStream("/"+fileName), UTF_8);
+                JsonSamplesParsingTest.class.getResourceAsStream("/"+fileName), StandardCharsets.UTF_8);
         JsonParser parser = null;
         try {
             parser = Json.createParser(reader);

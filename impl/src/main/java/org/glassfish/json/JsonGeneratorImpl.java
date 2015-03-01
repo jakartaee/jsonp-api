@@ -49,6 +49,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
@@ -57,7 +58,6 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 class JsonGeneratorImpl implements JsonGenerator {
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private static final char[] INT_MIN_VALUE_CHARS = "-2147483648".toCharArray();
     private static final int[] INT_CHARS_SIZE_TABLE = { 9, 99, 999, 9999, 99999,
@@ -121,7 +121,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     JsonGeneratorImpl(OutputStream out, BufferPool bufferPool) {
-        this(out, UTF_8, bufferPool);
+        this(out, StandardCharsets.UTF_8, bufferPool);
     }
 
     JsonGeneratorImpl(OutputStream out, Charset encoding, BufferPool bufferPool) {

@@ -50,6 +50,7 @@ import javax.json.stream.JsonParserFactory;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -63,10 +64,6 @@ import org.glassfish.json.api.BufferPool;
  * @author Jitendra Kotamraju
  */
 public class JsonParserTest extends TestCase {
-    static final Charset UTF_8 = Charset.forName("UTF-8");
-    static final Charset UTF_16BE = Charset.forName("UTF-16BE");
-    static final Charset UTF_16LE = Charset.forName("UTF-16LE");
-    static final Charset UTF_16 = Charset.forName("UTF-16");
     static final Charset UTF_32LE = Charset.forName("UTF-32LE");
     static final Charset UTF_32BE = Charset.forName("UTF-32BE");
 
@@ -95,21 +92,21 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStreamUTF8() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_8));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_8));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF16LE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16LE));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16LE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
     }
 
     public void testEmptyArrayStreamUTF16BE() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16BE));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16BE));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
@@ -130,7 +127,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayStreamUTF16() {
-        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_16));
+        ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16));
         JsonParser parser = Json.createParser(bin);
         testEmptyArray(parser);
         parser.close();
@@ -394,7 +391,7 @@ public class JsonParserTest extends TestCase {
 
     public void testWikiInputStreamUTF16LE() throws Exception {
         ByteArrayInputStream bin = new ByteArrayInputStream(wikiString()
-                .getBytes(UTF_16LE));
+                .getBytes(StandardCharsets.UTF_16LE));
         JsonParser parser = Json.createParser(bin);
         testWiki(parser);
         parser.close();
@@ -582,7 +579,7 @@ public class JsonParserTest extends TestCase {
 
     static Reader wikiReader() {
         return new InputStreamReader(
-                JsonParserTest.class.getResourceAsStream("/wiki.json"), UTF_8);
+                JsonParserTest.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8);
     }
 
     public void testIntNumber() {

@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -56,7 +57,6 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 class JsonWriterImpl implements JsonWriter {
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private final JsonGeneratorImpl generator;
     private boolean writeDone;
@@ -74,11 +74,11 @@ class JsonWriterImpl implements JsonWriter {
     }
 
     JsonWriterImpl(OutputStream out, BufferPool bufferPool) {
-        this(out, UTF_8, false, bufferPool);
+        this(out, StandardCharsets.UTF_8, false, bufferPool);
     }
 
     JsonWriterImpl(OutputStream out, boolean prettyPrinting, BufferPool bufferPool) {
-        this(out, UTF_8, prettyPrinting, bufferPool);
+        this(out, StandardCharsets.UTF_8, prettyPrinting, bufferPool);
     }
 
     JsonWriterImpl(OutputStream out, Charset charset,
