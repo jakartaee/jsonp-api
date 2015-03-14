@@ -117,6 +117,9 @@ public interface JsonValue {
          */
         @Override
         public boolean equals(Object obj) {
+            if (this == obj){
+                return true;
+            }
             if (obj instanceof JsonValue) {
                 return getValueType().equals(((JsonValue)obj).getValueType());
             }
@@ -166,6 +169,9 @@ public interface JsonValue {
          */
         @Override
         public boolean equals(Object obj) {
+            if (this == obj){
+                return true;
+            }
             if (obj instanceof JsonValue) {
                 return getValueType().equals(((JsonValue)obj).getValueType());
             }
@@ -215,6 +221,9 @@ public interface JsonValue {
          */
         @Override
         public boolean equals(Object obj) {
+            if (this == obj){
+                return true;
+            }
             if (obj instanceof JsonValue) {
                 return getValueType().equals(((JsonValue)obj).getValueType());
             }

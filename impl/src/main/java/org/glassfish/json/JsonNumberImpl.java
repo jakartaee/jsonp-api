@@ -244,6 +244,9 @@ abstract class JsonNumberImpl implements JsonNumber {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }
         if (!(obj instanceof JsonNumber)) {
             return false;
         }
