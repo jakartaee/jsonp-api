@@ -252,7 +252,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      *
      * @param index index of the JSON boolean value
      * @param defaultValue the boolean value to return if the {@code JsonValue}
-     *    at the specified position is niether TRUE nor FALSE
+     *    at the specified position is neither TRUE nor FALSE
      * @return the boolean value at the specified position,
      * or the specified default value
      */
