@@ -1,0 +1,22 @@
+#Maven noise
+target/
+
+#OSX noise
+.DS_Store
+
+#IntelliJ Idea noise
+.idea
+*.iws
+*.ipr
+*.iml
+
+#Eclipse noise
+.settings/
+.classpath
+.project
+
+#Java noise
+*.class
+api/doc
+*err_pid*.log
+
