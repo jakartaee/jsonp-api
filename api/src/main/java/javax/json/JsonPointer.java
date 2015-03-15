@@ -44,12 +44,12 @@ package javax.json;
  * <p>This class is an immutable representation of a JSON Pointer as specified in
  * <a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>.
  * </p>
- * <p> A JSON Pointer when applied to a target {@link JsonValue},
+ * <p> A JSON Pointer, when applied to a target {@link JsonValue},
  * defines a reference location in the target.
  * <p> An empty JSON Pointer string defines a reference to the target itself.</p>
- * <p> If the JSON Pointer string is non-emplty, it must be a sequence
+ * <p> If the JSON Pointer string is non-empty, it must be a sequence
  * of '/' prefixed tokens, and the target must either be a {@link JsonArray}
- * or {@link JsonObject}.  If the target is a {@code JsonArray}, the pointer
+ * or {@link JsonObject}. If the target is a {@code JsonArray}, the pointer
  * defines a reference to an array element, and the last token specifies the index.
  * If the target is a {@link JsonObject}, the pointer defines a reference to a
  * name/value pair, and the last token specifies the name.
@@ -62,7 +62,7 @@ package javax.json;
  * @since 1.1
  */
 
-public class JsonPointer {
+public final class JsonPointer {
 
     private final String[] tokens;
 
@@ -88,8 +88,20 @@ public class JsonPointer {
      * @return true if the given object is a {@code JsonPointer} with the same
      * reference tokens as this one, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return false;
+    }
+
+    /**
+     * Returns the hash code value for this {@code JsonPointer} object.
+     * The hash code of this object is defined by the hash codes of it's reference tokens.
+     *
+     * @return the hash code value for this {@code JsonPointer} object
+     */
+    @Override
+    public int hashCode() {
+        return -1;
     }
 
     /**
@@ -176,7 +188,7 @@ public class JsonPointer {
      * @param value the value to be added
      * @return the transformed {@code target} after the value is added.
      * @throws NullPointerException if {@code target} is {@code null}
-     * @throws JsonException if the reference is an object menter and the
+     * @throws JsonException if the reference is an object element and the
      *     object does not exist.
      */
     public JsonObject add(JsonObject target, JsonValue value) {
