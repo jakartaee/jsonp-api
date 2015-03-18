@@ -62,9 +62,12 @@ package javax.json;
  * @since 1.1
  */
 
+import java.util.function.BiFunction;
+
 public final class JsonPointer {
 
     private final String[] tokens;
+    private final String jsonPointer;
 
     /**
      * Construct and initialize a JsonPointer.
@@ -73,12 +76,27 @@ public final class JsonPointer {
      * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
      */
     public JsonPointer(String jsonPointer) {
+        this.jsonPointer = jsonPointer;
         tokens = jsonPointer.split("/", -1);  // keep the trailing blanks
         if (! "".equals(tokens[0])) {
             throw new JsonException("A non-empty JSON pointer must begin with a '/'");
         }
         for (int i = 1; i < tokens.length; i++) {
-            tokens[i] = tokens[i].replaceAll("~1", "/").replaceAll("~0","~");
+            String token = tokens[i];
+            StringBuilder reftoken = new StringBuilder();
+            for (int j = 0; j < token.length(); j++) {
+                char ch = token.charAt(j);
+                if (ch == '~' && j < token.length() - 1) {
+                    char ch1 = token.charAt(j+1);
+                    if (ch1 == '0') {
+                        ch = '~'; j++;
+                    } else if (ch1 == '1') {
+                        ch = '/'; j++;
+                    }
+                }
+                reftoken.append(ch);
+            }
+            tokens[i] = reftoken.toString();
         }
     }
 
@@ -113,6 +131,15 @@ public final class JsonPointer {
      * @throws JsonException if the referenced value does not exist
      */
     public JsonValue getValue(JsonValue target) {
+        // TODO: handle JsonValue that is not a JsonStructure
+        NodeReference[] refs = getReferences((JsonStructure)target);
+        return refs[0].get();
+    }
+
+    /**
+     * TODO
+     */
+    public JsonValue add(JsonValue target, JsonValue value) {
         return null;
     }
 
@@ -141,8 +168,8 @@ public final class JsonPointer {
      * is out of range ({@code index < 0 || index > array size}), or if the reference is an object member and
      * object does not exist.
      */
-    public JsonValue add(JsonValue target, JsonValue value) {
-        return null;
+    public JsonStructure add(JsonStructure target, JsonValue value) {
+        return execute((r,v)->r.add(v), target, value);
     }
 
     /**
@@ -157,7 +184,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonStructure replace(JsonStructure target, JsonValue value) {
-        return null;
+        return execute((r,v)->r.replace(v), target, value);
     }
 
     /**
@@ -170,7 +197,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonStructure remove(JsonStructure target) {
-        return null;
+        return execute((r,v)->r.remove(), target, null);
     }
 
     /**
@@ -192,7 +219,7 @@ public final class JsonPointer {
      *     object does not exist.
      */
     public JsonObject add(JsonObject target, JsonValue value) {
-        return null;
+        return (JsonObject) add((JsonStructure) target, value);
     }
 
     /**
@@ -219,7 +246,7 @@ public final class JsonPointer {
      * ({@code index < 0 || index > array size})
      */
     public JsonArray add(JsonArray target, JsonValue value) {
-        return null;
+        return (JsonArray) add((JsonStructure) target, value);
     }
 
     /**
@@ -234,7 +261,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonObject replace(JsonObject target, JsonValue value) {
-        return null;
+        return (JsonObject) replace((JsonStructure) target, value);
     }
 
     /**
@@ -249,7 +276,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonArray replace(JsonArray target, JsonValue value) {
-        return null;
+        return (JsonArray) replace((JsonStructure) target, value);
     }
 
     /**
@@ -262,7 +289,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonObject remove(JsonObject target) {
-        return null;
+        return (JsonObject) remove((JsonStructure) target);
     }
 
     /**
@@ -275,6 +302,94 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonArray remove(JsonArray target) {
-        return null;
+        return (JsonArray) remove((JsonStructure) target);
+    }
+
+    /**
+     * Execute the operation
+     * @param op a {code BiFunction} used to specify the operation to execute on
+     *    the leaf node of the Json Pointer
+     * @param target the target JsonStructure for this JsonPointer
+     * @param JsonValue value the JsonValue for add and replace, can be null for getvalue and remove
+     */
+    private JsonStructure execute(BiFunction<NodeReference, JsonValue, JsonStructure> op,
+            JsonStructure target, JsonValue value) {
+
+        NodeReference[] refs = getReferences(target);
+        JsonStructure result = op.apply(refs[0], value);
+        for (int i = 1; i < refs.length; i++) {
+            result = refs[i].replace(result);
+        }
+        return result;
+    }
+
+    /**
+     * Compute the {@code NodeReference}s for each node on the path of
+     * the JSON Pointer, in reverse order, starting from the leaf node
+     */
+    private NodeReference[] getReferences(JsonStructure target) {
+        NodeReference[] references;
+        // First check if this is a reference to a JSON value tree
+        if (tokens.length == 1) {
+            references = new NodeReference[1];
+            references[0] = NodeReference.of(target);
+            return references;
+        }
+
+        references = new NodeReference[tokens.length-1];
+        JsonValue value = target;
+        int s = tokens.length;
+        for (int i = 1; i < s; i++) {
+             // Start with index 1, skipping the "" token
+            switch (value.getValueType()) {
+                case OBJECT:
+                    JsonObject object = (JsonObject) value;
+                    references[s-i-1] = NodeReference.of(object, tokens[i]);
+                    if (i < s-1) {
+                        value = object.get(tokens[i]);
+                        if (value == null) {
+                            // Except for the last name, the mapping must exist
+                            throw new JsonException("The JSON object " + object + " contains no mapping "
+                                 + " for the name " + tokens[i]);
+                        }
+                    }
+                    break;
+                case ARRAY:
+                    int index = getIndex(tokens[i]);
+                    JsonArray array = (JsonArray) value;
+                    references[s-i-1] = NodeReference.of(array, index);
+                    if (i < s-1 && index != -1) {
+                        // The last array index in the path can have index value of -1
+                        // ("-" in the JSON pointer)
+                        value = array.get(index);
+                    }
+                    break;
+                default:
+                    throw new JsonException("The reference value in a Json pointer must be a Json object or a Json array");
+             }
+        }
+        return references;
+    }
+
+    /**
+     * Compute the array index
+     * @param token the input string token
+     * @return the array index. -1 if the token is "-"
+     * @throws JsonException if the string token is not in correct format
+     */
+    static private int getIndex(String token) {
+        if (token == null || token.length() == 0) {
+            throw new JsonException("Array index format error");
+        }
+        if (token.equals("-")) {
+            return -1;
+        }
+        if (token.equals("0")) {
+            return 0;
+        }
+        if (token.charAt(0) == '+' || token.charAt(0) == '-') {
+            throw new JsonException("Array index format error");
+        }
+        return Integer.parseInt(token);
     }
 }
