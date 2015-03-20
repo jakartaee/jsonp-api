@@ -56,6 +56,16 @@ package javax.json;
 public interface JsonValue {
 
     /**
+     * The empty JSON object.
+     */
+    static final JsonObject EMPTY_JSON_OBJECT = Json.createObjectBuilder().build();
+
+    /**
+     * The empty JSON array.
+     */
+    static final JsonArray EMPTY_JSON_ARRAY = Json.createArrayBuilder().build();
+
+    /**
      * Indicates the type of a {@link JsonValue} object.
      */
     enum ValueType {
