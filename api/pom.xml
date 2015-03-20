@@ -56,7 +56,7 @@
     <packaging>bundle</packaging>
     <version>1.1.0-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) API</name>
-    <description>API module of JSR 353:Java API for Processing JSON</description>
+    <description>API module of JSR 374:Java API for Processing JSON</description>
     <url>http://json-processing-spec.java.net</url>
     <build>
         <plugins>
@@ -75,7 +75,7 @@
                         </group>
                     </groups>
                     <bottom>
-<![CDATA[Copyright &#169; 2012-2013,
+<![CDATA[Copyright &#169; 2012-2015,
     <a href="http://www.oracle.com">Oracle</a>
     and/or its affiliates. All Rights Reserved.
     Use is subject to
