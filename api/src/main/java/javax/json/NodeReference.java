@@ -48,6 +48,9 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 
 /**
+ * This class is a helper class for JsonPointer implementation,
+ * and is not part of the API.
+ *
  * This class encapsulates a reference to a JSON node.
  * There are three types of references. 
  * <ol><li>a reference to the root of a JSON tree.</li>
@@ -72,6 +75,7 @@ abstract class NodeReference {
      * Get the value at the referenced location.
      *
      * @return the JSON value referenced
+     * @throws JsonException if the referenced value does not exist
      */
     abstract public JsonValue get();
 
@@ -187,22 +191,25 @@ abstract class NodeReference {
 
         private final JsonObject object;
         private final String key;
-        
+
         ObjectReference(JsonObject object, String key) {
             this.object = object;
             this.key = key;
         }
-        
+
         @Override
         public JsonValue get() {
+            if (! object.containsKey(key)) {
+                throw new JsonException("Cannot get a non-existing name/value pair in the object");
+            }
             return object.get(key);
         }       
-                
+
         @Override
         public JsonObject add(JsonValue value) {
             return Json.createObjectBuilder(object).add(key, value).build();
         }
-    
+
         @Override 
         public JsonObject remove() {
             if (! object.containsKey(key)) {
@@ -210,7 +217,7 @@ abstract class NodeReference {
             }
             return Json.createObjectBuilder(object).remove(key).build();
         }   
-    
+
         @Override
         public JsonObject replace(JsonValue value) {
             if (! object.containsKey(key)) {
@@ -224,17 +231,20 @@ abstract class NodeReference {
      
         private final JsonArray array;
         private final int index; // -1 means "-" in JSON Pointer
-    
+
         ArrayReference(JsonArray array, int index) {
             this.array = array;
             this.index = index;
         }
-    
+ 
         @Override
         public JsonValue get() {
+            if (index == -1 || index >= array.size()) {
+                throw new JsonException("Cannot get an array item with an out of range index: " + index);
+            }
             return array.get(index);
         }
-    
+
         @Override 
         public JsonArray add(JsonValue value) {
             // The spec seems to say index = array.size() is allowed. This is handled as append
@@ -246,10 +256,10 @@ abstract class NodeReference {
             }
             return builder.build();
         }       
-        
+
         @Override
         public JsonArray remove() {
-            if (index >= array.size()) {
+            if (index == -1 || index >= array.size()) {
                 throw new JsonException("Cannot remove an array item with an out of range index: " + index);
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
@@ -258,7 +268,7 @@ abstract class NodeReference {
 
         @Override
         public JsonArray replace(JsonValue value) {
-            if (index >= array.size()) {
+            if (index == -1 || index >= array.size()) {
                 throw new JsonException("Cannot replace an array item with an out of range index: " + index);
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);

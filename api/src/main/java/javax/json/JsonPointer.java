@@ -102,13 +102,17 @@ public final class JsonPointer {
 
     /**
      * Compares this {@code JsonPointer} with another object.
-     * @param object the object to compare this {@code JsonPointer} against
+     * @param obj the object to compare this {@code JsonPointer} against
      * @return true if the given object is a {@code JsonPointer} with the same
      * reference tokens as this one, false otherwise.
      */
     @Override
-    public boolean equals(Object object) {
-        return false;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || obj.getClass() != JsonPointer.class)
+            return false;
+        return jsonPointer.equals(((JsonPointer)obj).jsonPointer);
     }
 
     /**
@@ -119,7 +123,7 @@ public final class JsonPointer {
      */
     @Override
     public int hashCode() {
-        return -1;
+        return jsonPointer.hashCode();
     }
 
     /**
@@ -130,17 +134,9 @@ public final class JsonPointer {
      * @throws NullPointerException if {@code target} is null
      * @throws JsonException if the referenced value does not exist
      */
-    public JsonValue getValue(JsonValue target) {
-        // TODO: handle JsonValue that is not a JsonStructure
-        NodeReference[] refs = getReferences((JsonStructure)target);
+    public JsonValue getValue(JsonStructure target) {
+        NodeReference[] refs = getReferences(target);
         return refs[0].get();
-    }
-
-    /**
-     * TODO
-     */
-    public JsonValue add(JsonValue target, JsonValue value) {
-        return null;
     }
 
     /**
