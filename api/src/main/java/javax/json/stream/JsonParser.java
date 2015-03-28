@@ -136,7 +136,6 @@ import java.math.BigDecimal;
  *
  * @see javax.json.Json
  * @see JsonParserFactory
- * @author Jitendra Kotamraju
  */
 public interface JsonParser extends /*Auto*/Closeable {
 

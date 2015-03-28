@@ -57,8 +57,6 @@ import java.math.BigInteger;
  * <code>String</code> {@link BigDecimal#BigDecimal(String)}.
  * Some of the method semantics in this class are defined using the
  * {@code BigDecimal} semantics.
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonNumber extends JsonValue {
 

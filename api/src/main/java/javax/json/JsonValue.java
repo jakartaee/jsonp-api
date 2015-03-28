@@ -50,8 +50,6 @@ package javax.json;
  * {@code true} ({@link JsonValue#TRUE JsonValue.TRUE}), {@code false} 
  * ({@link JsonValue#FALSE JsonValue.FALSE}),
  * or {@code null} ({@link JsonValue#NULL JsonValue.NULL}).
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonValue {
 

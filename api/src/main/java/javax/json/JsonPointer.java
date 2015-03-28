@@ -40,12 +40,14 @@
 
 package javax.json;
 
+import java.util.function.BiFunction;
+
 /**
  * <p>This class is an immutable representation of a JSON Pointer as specified in
  * <a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>.
  * </p>
  * <p> A JSON Pointer, when applied to a target {@link JsonValue},
- * defines a reference location in the target.
+ * defines a reference location in the target.</p>
  * <p> An empty JSON Pointer string defines a reference to the target itself.</p>
  * <p> If the JSON Pointer string is non-empty, it must be a sequence
  * of '/' prefixed tokens, and the target must either be a {@link JsonArray}
@@ -62,15 +64,13 @@ package javax.json;
  * @since 1.1
  */
 
-import java.util.function.BiFunction;
-
 public final class JsonPointer {
 
     private final String[] tokens;
     private final String jsonPointer;
 
     /**
-     * Construct and initialize a JsonPointer.
+     * Constructs and initializes a JsonPointer.
      * @param jsonPointer the JSON Pointer string
      * @throws NullPointerException if {@code jsonPointer} is {@code null}
      * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
@@ -127,7 +127,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Return the value at the referenced location in the specified {@code target}
+     * Returns the value at the referenced location in the specified {@code target}
      *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the referenced value in the target.
@@ -140,7 +140,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Add or replace a value at the referenced location in the specified
+     * Adds or replaces a value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      * <ol>
      * <li>If the reference is the target (empty JSON Pointer string),
@@ -169,7 +169,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Replace the value at the referenced location in the specified
+     * Replaces the value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      *
      * @param target the target referenced by this {@code JsonPointer}
@@ -184,7 +184,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Remove the value at the reference location in the specified {@code target}
+     * Removes the value at the reference location in the specified {@code target}
      *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
@@ -197,7 +197,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Add or replace a value at the referenced location in the specified
+     * Adds or replaces a value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      * <ol>
      * <li>If the reference is the target (empty JSON Pointer string),
@@ -219,7 +219,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Add or replace a value at the referenced location in the specified
+     * Adds or replaces a value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      * <ol>
      * <li>If the reference is the target (empty JSON Pointer string),
@@ -246,7 +246,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Replace the value at the referenced location in the specified
+     * Replaces the value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      *
      * @param target the target referenced by this {@code JsonPointer}
@@ -261,7 +261,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Replace the value at the referenced location in the specified
+     * Replaces the value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      *
      * @param target the target referenced by this {@code JsonPointer}
@@ -276,7 +276,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Remove the value at the reference location in the specified {@code target}
+     * Removes the value at the reference location in the specified {@code target}
      *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
@@ -289,7 +289,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Remove the value at the reference location in the specified {@code target}
+     * Removes the value at the reference location in the specified {@code target}
      *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
@@ -302,7 +302,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Execute the operation
+     * Executes the operation
      * @param op a {code BiFunction} used to specify the operation to execute on
      *    the leaf node of the Json Pointer
      * @param target the target JsonStructure for this JsonPointer
@@ -320,7 +320,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Compute the {@code NodeReference}s for each node on the path of
+     * Computes the {@code NodeReference}s for each node on the path of
      * the JSON Pointer, in reverse order, starting from the leaf node
      */
     private NodeReference[] getReferences(JsonStructure target) {
@@ -368,7 +368,7 @@ public final class JsonPointer {
     }
 
     /**
-     * Compute the array index
+     * Computes the array index
      * @param token the input string token
      * @return the array index. -1 if the token is "-"
      * @throws JsonException if the string token is not in correct format

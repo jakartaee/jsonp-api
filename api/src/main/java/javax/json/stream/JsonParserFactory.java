@@ -68,8 +68,6 @@ import java.util.Map;
  *
  * <p> All the methods in this class are safe for use by multiple concurrent
  * threads.
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonParserFactory {
 

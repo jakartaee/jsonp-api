@@ -110,8 +110,6 @@ import java.util.List;
  * access to the values in the JSON array. Any attempt to modify the list,
  * whether directly or using its collection views, results in an 
  * {@code UnsupportedOperationException}.
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonArray extends JsonStructure, List<JsonValue> {
 

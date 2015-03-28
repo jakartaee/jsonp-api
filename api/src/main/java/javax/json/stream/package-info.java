@@ -67,6 +67,5 @@
  * implemented using this API.
  *
  * @since JSON Processing 1.0
- * @author Jitendra Kotamraju
  */
 package javax.json.stream;

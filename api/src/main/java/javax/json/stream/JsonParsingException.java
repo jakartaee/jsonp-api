@@ -45,8 +45,6 @@ import javax.json.JsonException;
 /**
  * {@code JsonParsingException} is used when an incorrect JSON is
  * being parsed.
- *
- * @author Jitendra Kotamraju
  */
 public class JsonParsingException extends JsonException {
 

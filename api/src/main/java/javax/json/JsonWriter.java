@@ -72,8 +72,6 @@ import java.io.Closeable;
  * JsonWriter writer2 = factory.createWriter(...);
  * </code>
  * </pre>
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonWriter extends  /*Auto*/Closeable {
 

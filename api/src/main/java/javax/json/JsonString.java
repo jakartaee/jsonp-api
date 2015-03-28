@@ -42,8 +42,6 @@ package javax.json;
 
 /**
  * An immutable JSON string value.
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonString extends JsonValue {
 

@@ -45,8 +45,6 @@ import javax.json.JsonException;
 /**
  * {@code JsonGenerationException} indicates an incorrect JSON is
  * being generated.
- *
- * @author Jitendra Kotamraju
  */
 public class JsonGenerationException extends JsonException {
 

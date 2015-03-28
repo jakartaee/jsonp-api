@@ -51,8 +51,6 @@ package javax.json.stream;
  * {@code JsonParser} is created using
  * {@link javax.json.JsonArray JsonArray} input source, all the methods in
  * this class return -1.
- *
- * @author Jitendra Kotamraju
  * @see JsonParser
  * @see JsonParsingException
  */

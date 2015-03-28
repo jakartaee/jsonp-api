@@ -60,8 +60,6 @@ import java.util.ServiceLoader;
  * threads.
  *
  * @see ServiceLoader
- * @author Jitendra Kotamraju
- * @author Kin-man Chung
  */
 public abstract class JsonProvider {
 

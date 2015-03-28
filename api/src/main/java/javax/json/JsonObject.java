@@ -124,8 +124,6 @@ import java.util.Map;
  * <p>The map object's iteration ordering is based on the order in which
  * name/value pairs are added to the corresponding builder or the order
  * in which name/value pairs appear in the corresponding stream.
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 

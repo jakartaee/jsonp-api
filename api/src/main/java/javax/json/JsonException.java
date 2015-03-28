@@ -43,8 +43,6 @@ package javax.json;
 /**
  * <code>JsonException</code> indicates that some exception happened during
  * JSON processing.
- *
- * @author Jitendra Kotamraju
  */
 public class JsonException extends RuntimeException {
 

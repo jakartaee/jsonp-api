@@ -60,6 +60,5 @@
  * can be written to an output source using the class {@link javax.json.JsonWriter}.
  *
  * @since JSON Processing 1.0
- * @author Jitendra Kotamraju
  */
 package javax.json;

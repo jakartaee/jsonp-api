@@ -41,7 +41,7 @@
 package javax.json;
 
 /**
- * This class is a immutable epresentation of a JSON Pointer as specified in
+ * This class is an immutable representation of a JSON Pointer as specified in
  * <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>.
  */
 
@@ -50,7 +50,7 @@ public class JsonPatch {
     private final JsonArray patch;
 
     /**
-     * Construct a JsonPatch
+     * Constructs a JsonPatch
      * @param patch the JSON Patch
      */
     public JsonPatch(JsonArray patch) {
@@ -84,7 +84,7 @@ public class JsonPatch {
     }
 
     /**
-     * Apply the operations specified in the JSON patch to the specified
+     * Applys the operations specified in the JSON patch to the specified
      * {@code JsonStructure}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonStructure} to apply the patch operations
@@ -107,7 +107,7 @@ public class JsonPatch {
     }
 
     /**
-     * Apply the operations specified in the JSON patch to the specified
+     * Applys the operations specified in the JSON patch to the specified
      * {@code JsonObject}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonObject} to apply the patch operations
@@ -121,7 +121,7 @@ public class JsonPatch {
     }
 
     /**
-     * Apply the operations specified in the JSON patch to the specified
+     * Applys the operations specified in the JSON patch to the specified
      * {@code JsonArray}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonArray} to apply the patch operations
@@ -136,7 +136,7 @@ public class JsonPatch {
 
 
     /**
-     * Generate a JSON Patch from the source and target JsonStructure.
+     * Generate a JSON Patch from the source and target {@code JsonStructure}.
      * The generated JSON Patch need not be unique.
      * @param source the source
      * @param target the target, must be the same type as the source

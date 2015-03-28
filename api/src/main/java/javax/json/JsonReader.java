@@ -73,8 +73,6 @@ import java.io.Closeable;
  * JsonReader reader2 = factory.createReader(...);
  * </code>
  * </pre>
- *
- * @author Jitendra Kotamraju
  */
 public interface JsonReader extends  /*Auto*/Closeable {
 

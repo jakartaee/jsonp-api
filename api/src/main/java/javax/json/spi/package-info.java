@@ -52,6 +52,5 @@
  * <p>The API locates and loads providers using {@link java.util.ServiceLoader}.
  *
  * @since JSON Processing 1.0
- * @author Jitendra Kotamraju
  */
 package javax.json.spi;

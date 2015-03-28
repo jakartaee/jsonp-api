@@ -150,7 +150,6 @@ import java.math.BigInteger;
  *
  * @see javax.json.Json
  * @see JsonGeneratorFactory
- * @author Jitendra Kotamraju
  */
 public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     /**
