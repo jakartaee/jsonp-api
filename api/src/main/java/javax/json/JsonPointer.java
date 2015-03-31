@@ -386,6 +386,10 @@ public final class JsonPointer {
         if (token.charAt(0) == '+' || token.charAt(0) == '-') {
             throw new JsonException("Array index format error");
         }
-        return Integer.parseInt(token);
+        try {
+            return Integer.parseInt(token);
+        } catch (NumberFormatException ex) {
+            throw new JsonException("Illegal integer format ", ex);
+       }
     }
 }

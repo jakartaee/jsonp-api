@@ -159,12 +159,19 @@ public class JsonPatch {
             case "remove":
                 return pointer.remove(target);
             case "copy":
-                checkOverlap(operation);
                 from = getPointer(operation, "from");
                 return pointer.add(target, from.getValue(target));
             case "move":
-                checkOverlap(operation);
                 from = getPointer(operation, "from");
+                if (pointer.equals(from)) {
+                    // nop
+                    return target;
+                }
+                // Check if from is a proper prefix of path
+                if (operation.getString("path").startsWith(operation.getString("from"){
+                    throw new JsonException("The 'from' path of the patch operation "
+                         + "'move' is a proper prefix of the 'path' path");
+                }
                 return pointer.add(from.remove(target), from.getValue(target));
             case "test":
                 if (! getValue(operation).equals(pointer.getValue(target))) {
@@ -195,13 +202,5 @@ public class JsonPatch {
     private void missingMember(String op, String  member) {
         throw new JsonException(String.format("The JSON Patch operation %s must contain a %s member", op, member));
     }
-
-    private void checkOverlap(JsonObject operation) {
-         if (operation.getString("path").startsWith(operation.getString("from"))) {
-             throw new JsonException("The 'from' path of the patch operation " 
-                         + operation.getString("op") + " contains the 'path' path");
-         }
-    }
-
 }
 
