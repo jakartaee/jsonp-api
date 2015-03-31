@@ -84,7 +84,7 @@ public class JsonPatch {
     }
 
     /**
-     * Applys the operations specified in the JSON patch to the specified
+     * Applies the operations specified in the JSON patch to the specified
      * {@code JsonStructure}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonStructure} to apply the patch operations
@@ -107,7 +107,7 @@ public class JsonPatch {
     }
 
     /**
-     * Applys the operations specified in the JSON patch to the specified
+     * Applies the operations specified in the JSON patch to the specified
      * {@code JsonObject}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonObject} to apply the patch operations
@@ -121,7 +121,7 @@ public class JsonPatch {
     }
 
     /**
-     * Applys the operations specified in the JSON patch to the specified
+     * Applies the operations specified in the JSON patch to the specified
      * {@code JsonArray}.  The target is not modified by the patch.
      *
      * @param target the {@code JsonArray} to apply the patch operations
@@ -136,7 +136,7 @@ public class JsonPatch {
 
 
     /**
-     * Generate a JSON Patch from the source and target {@code JsonStructure}.
+     * Generates a JSON Patch from the source and target {@code JsonStructure}.
      * The generated JSON Patch need not be unique.
      * @param source the source
      * @param target the target, must be the same type as the source
