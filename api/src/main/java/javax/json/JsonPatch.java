@@ -168,7 +168,7 @@ public class JsonPatch {
                     return target;
                 }
                 // Check if from is a proper prefix of path
-                if (operation.getString("path").startsWith(operation.getString("from"){
+                if (operation.getString("path").startsWith(operation.getString("from"))){
                     throw new JsonException("The 'from' path of the patch operation "
                          + "'move' is a proper prefix of the 'path' path");
                 }
