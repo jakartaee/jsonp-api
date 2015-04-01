@@ -83,7 +83,7 @@ public class JsonMergePatch {
     /**
      * Generate a JSON Merge Patch from the source and target {@code JsonValue}.
      * @param source the source
-     * @param target the target, must be the same type as the source
+     * @param target the target
      * @return a JSON Patch which when applied to the source, yields the target
      */
     public static JsonValue diff(JsonValue source, JsonValue target) {
