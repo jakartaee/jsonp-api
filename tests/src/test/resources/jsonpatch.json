@@ -1,0 +1,214 @@
+[
+        {
+            "op": { "op": "test", "path": "/a/1", "value": "hello" },
+            "target": { "a": [ null, "hello", "world" ] },
+            "expected": { "a": [ null, "hello", "world" ] }
+        },
+        {
+            "op": { "op": "test", "path": "/x", "value": {} },
+            "target": [ 1, 2 ],
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "test", "path": "", "value": true },
+            "target": [ 1, 2 ],
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "test", "path": "/x", "value": -30.000 },
+            "target": { "x": -29.020 },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "replace", "path": "", "value": false },
+            "target": { "x": { "a": "b", "y": {} } },
+            "expected": false
+        },
+        {
+            "op": { "op": "replace", "path": "/x/y", "value": "hello" },
+            "target": { "x": { "a": "b", "y": {} } },
+            "expected": { "x": { "a": "b", "y": "hello" } }
+        },
+        {
+            "op": { "op": "replace", "path": "/0/2", "value": "x" },
+            "target": [ [ "a", "b", "c"], "d", "e" ],
+            "expected": [ [ "a", "b", "x" ], "d", "e" ]
+        },
+        {
+            "op": { "op": "replace", "path": "/x/0", "value": null },
+            "target": { "x": [ "y", "z" ], "foo": "bar" },
+            "expected": { "x": [ null, "z" ], "foo": "bar" }
+        },
+        {
+            "op": { "op": "replace", "path": "/x/y", "value": 42 },
+            "target": { "x": {} },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "remove", "path": "/x/y" },
+            "target": { "x": { "a": "b", "y": {} } },
+            "expected": { "x": { "a": "b" } }
+        },
+        {
+            "op": { "op": "remove", "path": "/0/2" },
+            "target": [ [ "a", "b", "c"], "d", "e" ],
+            "expected": [ [ "a", "b" ], "d", "e" ]
+        },
+        {
+            "op": { "op": "remove", "path": "/x/0" },
+            "target": { "x": [ "y", "z" ], "foo": "bar" },
+            "expected": { "x": [ "z" ], "foo": "bar" }
+        },
+        {
+            "op": { "op": "remove", "path": "/x/y" },
+            "target": { "x": {} },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "move", "from": "/x/a", "path": "/x/b" },
+            "target": { "x": { "a": "helo" } },
+            "expected": { "x": { "b": "helo" } }
+        },
+        {
+            "op": { "op": "move", "from": "/x/a", "path": "/x/a" },
+            "target": { "x": { "a": "helo" } },
+            "expected": { "x": { "a": "helo" } }
+        },
+        {
+            "op": { "op": "move", "from": "/0", "path": "/0/x" },
+            "target": [ "victim", {}, {} ],
+            "expected": [ { "x": "victim" }, {} ]
+        },
+        {
+            "op": { "op": "move", "from": "/0", "path": "/-" },
+            "target": [ 0, 1, 2 ],
+            "expected": [ 1, 2, 0 ]
+        },
+        {
+            "op": { "op": "move", "from": "/a", "path": "/b/2" },
+            "target": { "a": "helo", "b": [ 1, 2, 3, 4 ] },
+            "expected": { "b": [ 1, 2, "helo", 3, 4 ] }
+        },
+        {
+            "op": { "op": "move", "from": "/a", "path": "/a/b" },
+            "target": {},
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "move", "from": "/a", "path": "/b/c" },
+            "target": { "a": "b" },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "copy", "from": "/a", "path": "/b" },
+            "target": { "a": 1 },
+            "expected": { "a": 1, "b": 1 }
+        },
+        {
+            "op": { "op": "copy", "from": "/a", "path": "/b" },
+            "target": { "a": 1, "b": false },
+            "expected": { "a": 1, "b": 1 }
+        },
+        {
+            "op": { "op": "copy", "from": "/0", "path": "/-" },
+            "target": [ 1, 2, 3, 4 ],
+            "expected": [ 1, 2, 3, 4, 1 ]
+        },
+        {
+            "op": { "op": "copy", "from": "/0", "path": "/0" },
+            "target": [ true ],
+            "expected": [ true, true ]
+        },
+        {
+            "op": { "op": "copy", "from": "/a", "path": "/b" },
+            "target": {},
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "copy", "from": "/a", "path": "/b/c" },
+            "target": { "a": 1 },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/a/b/c", "value": 1 },
+            "target": { "a": "b" },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/~1", "value": 1 },
+            "target": [],
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/3", "value": 1 },
+            "target": [ 1, 2 ],
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/-2", "value": 1 },
+            "target": [ 1, 2 ],
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/foo/f", "value": "bar" },
+            "target": { "foo": "bar" },
+            "exception": "javax.json.JsonException"
+        },
+        {
+            "op": { "op": "add", "path": "/a", "value": "b" },
+            "target": {},
+            "expected": { "a": "b" }
+        },
+        {
+            "op": { "op": "add", "path": "/a", "value": 1 },
+            "target": { "a": "b" },
+            "expected": { "a": 1 }
+        },
+        {
+            "op": { "op": "add", "path": "/array/-", "value": 1 },
+            "target": { "array": [ 2, null, {}, 1 ] },
+            "expected": { "array": [ 2, null, {}, 1, 1 ] }
+        },
+        {
+            "op": { "op": "add", "path": "/array/2", "value": "hello" },
+            "target": { "array": [ 2, null, {}, 1] },
+            "expected": { "array": [ 2, null, "hello", {}, 1 ] }
+        },
+        {
+            "op": { "op": "add", "path": "/obj/inner/b", "value": [ 1, 2 ] },
+            "target": {
+                "obj": {
+                    "inner": {
+                        "a": "hello"
+                    }
+                }
+            },
+            "expected": {
+                "obj": {
+                    "inner": {
+                        "a": "hello",
+                        "b": [ 1, 2 ]
+                    }
+                }
+            }
+        },
+        {
+            "op": { "op": "add", "path": "/obj/inner/b", "value": [ 1, 2 ] },
+            "target": {
+                "obj": {
+                    "inner": {
+                        "a": "hello",
+                        "b": "world"
+                    }
+                }
+            },
+            "expected": {
+                "obj": {
+                    "inner": {
+                        "a": "hello",
+                        "b": [ 1, 2 ]
+                    }
+                }
+            }
+        }
+]
