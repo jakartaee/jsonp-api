@@ -50,7 +50,7 @@ import java.util.Map;
 public class JsonMergePatch {
 
     /**
-     * Applies the specified patch the specified target.
+     * Applies the specified patch to the specified target.
      * The target is not modified by the patch.
      *
      * @param target the {@code JsonValue} to apply the patch operations
@@ -64,19 +64,17 @@ public class JsonMergePatch {
                 target.getValueType() != JsonValue.ValueType.OBJECT) {
             return patch;
         }
-        JsonObject targetObj = (JsonObject) target;
-        JsonObjectBuilder builder = Json.createObjectBuilder(targetObj);
-        for (Map.Entry<String, JsonValue> entry: ((JsonObject)patch).entrySet()) {
-            String key = entry.getKey();
-            JsonValue value = entry.getValue();
+        JsonObjectBuilder builder = 
+            Json.createObjectBuilder(target.asJsonObject());
+        patch.asJsonObject().forEach((key, value) -> {
             if (value == JsonValue.NULL) {
-                if (targetObj.containsKey(key)) {
+                if (target.asJsonObject().containsKey(key)) {
                     builder.remove(key);
                 }
             } else {
-                builder.add(key, mergePatch(targetObj.get(key), value));
+                builder.add(key, mergePatch(target.asJsonObject().get(key), value));
             }
-        }
+        });
         return builder.build();
     }
 
@@ -95,9 +93,7 @@ public class JsonMergePatch {
         JsonObject t = (JsonObject) target;
         JsonObjectBuilder builder = Json.createObjectBuilder();
         // First find members to be replaced or removed
-        for (Map.Entry<String, JsonValue> entry: s.entrySet()) {
-            String key = entry.getKey();
-            JsonValue value = entry.getValue();
+        s.forEach((key, value) -> {
             if (t.containsKey(key)) {
                 // key present in both.
                 if (! s.get(key).equals(t.get(key))) {
@@ -107,14 +103,12 @@ public class JsonMergePatch {
             } else {
                 builder.addNull(key);
             }
-        }
+        });
         // Then find members to be added
-        for (Map.Entry<String, JsonValue> entry: t.entrySet()) {
-            String key = entry.getKey();
-            if (! s.containsKey(key)) {
-                builder.add(key, entry.getValue());
-            }
-        }
+        t.forEach((key, value) -> {
+            if (! s.containsKey(key))
+                builder.add(key, value);
+        });
         return builder.build();
     }
 }
