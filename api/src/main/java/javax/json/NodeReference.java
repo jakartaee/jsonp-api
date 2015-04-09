@@ -253,7 +253,11 @@ abstract class NodeReference {
             if (index == -1 || index == array.size()) {
                 builder.add(value);
             } else {
-                builder.add(index, value);
+                if(index < array.size()) {
+                    builder.add(index, value);
+                } else {
+                    throw new JsonException("Cannot add an array item with an out of range index: " + index);
+                }
             }
             return builder.build();
         }       

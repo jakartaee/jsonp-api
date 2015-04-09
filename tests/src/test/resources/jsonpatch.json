@@ -22,7 +22,7 @@
         {
             "op": { "op": "replace", "path": "", "value": false },
             "target": { "x": { "a": "b", "y": {} } },
-            "expected": false
+            "exception": "javax.json.JsonException"
         },
         {
             "op": { "op": "replace", "path": "/x/y", "value": "hello" },
@@ -77,7 +77,7 @@
         {
             "op": { "op": "move", "from": "/0", "path": "/0/x" },
             "target": [ "victim", {}, {} ],
-            "expected": [ { "x": "victim" }, {} ]
+            "exception": "javax.json.JsonException"
         },
         {
             "op": { "op": "move", "from": "/0", "path": "/-" },

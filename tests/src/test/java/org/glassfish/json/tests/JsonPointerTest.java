@@ -46,7 +46,7 @@ public class JsonPointerTest {
                  {new JsonPointer("/k\"l"), rfc6901Example.getJsonNumber("k\"l"), null},
                  {new JsonPointer("/ "), rfc6901Example.getJsonNumber(" "), null},
                  {new JsonPointer("/notexists"), null, JsonException.class},
-                 {new JsonPointer("/s/t"), null, NumberFormatException.class},
+                 {new JsonPointer("/s/t"), null, JsonException.class},
                  {new JsonPointer("/o"), JsonObject.NULL, null}
            });
     }
