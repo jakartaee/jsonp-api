@@ -165,7 +165,7 @@ public final class JsonPointer {
      * object does not exist.
      */
     public JsonStructure add(JsonStructure target, JsonValue value) {
-        return execute((r,v)->r.add(v), target, value);
+        return execute(NodeReference::add, target, value);
     }
 
     /**
@@ -180,7 +180,7 @@ public final class JsonPointer {
      *    or if the reference is the target.
      */
     public JsonStructure replace(JsonStructure target, JsonValue value) {
-        return execute((r,v)->r.replace(v), target, value);
+        return execute(NodeReference::replace, target, value);
     }
 
     /**
@@ -306,7 +306,7 @@ public final class JsonPointer {
      * @param op a {code BiFunction} used to specify the operation to execute on
      *    the leaf node of the Json Pointer
      * @param target the target JsonStructure for this JsonPointer
-     * @param JsonValue value the JsonValue for add and replace, can be null for getvalue and remove
+     * @param value the JsonValue for add and replace, can be null for getvalue and remove
      */
     private JsonStructure execute(BiFunction<NodeReference, JsonValue, JsonStructure> op,
             JsonStructure target, JsonValue value) {
