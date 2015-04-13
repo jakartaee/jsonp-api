@@ -60,19 +60,29 @@ public class JsonMergePatch {
      */
     public static JsonValue mergePatch(JsonValue target, JsonValue patch) {
 
-        if (patch.getValueType() != JsonValue.ValueType.OBJECT ||
-                target.getValueType() != JsonValue.ValueType.OBJECT) {
+        if (patch.getValueType() != JsonValue.ValueType.OBJECT) {
             return patch;
         }
+
+        JsonValue currentTarget = target;
+        if (target.getValueType() != JsonValue.ValueType.OBJECT) {
+            currentTarget = JsonValue.EMPTY_JSON_OBJECT;
+        }
+
+        JsonObject targetJsonObject = currentTarget.asJsonObject();
         JsonObjectBuilder builder = 
-            Json.createObjectBuilder(target.asJsonObject());
+            Json.createObjectBuilder(targetJsonObject);
         patch.asJsonObject().forEach((key, value) -> {
             if (value == JsonValue.NULL) {
-                if (target.asJsonObject().containsKey(key)) {
+                if (targetJsonObject.containsKey(key)) {
                     builder.remove(key);
                 }
             } else {
-                builder.add(key, mergePatch(target.asJsonObject().get(key), value));
+                if(targetJsonObject.containsKey(key)) {
+                    builder.add(key, mergePatch(targetJsonObject.get(key), value));
+                } else {
+                    builder.add(key, mergePatch(JsonValue.EMPTY_JSON_OBJECT, value));
+                }
             }
         });
         return builder.build();
