@@ -40,9 +40,30 @@
 
 package javax.json;
 
+import java.util.ArrayList;
+
 /**
- * This class is an immutable representation of a JSON Pointer as specified in
+ * This class is an immutable representation of a JSON Patch as specified in
  * <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>.
+ * <p>A {@code JsonPatch} can be instantiated with {@link #JsonPatch(JsonArray)}
+ * by specifying the patch operations in a JSON Patch. Alternately, it
+ * can also be constructed with a {@link JsonPatchBuilder}.
+ * </p>
+ * The following illustrates both approaches.
+ * <p>1. Construct a JsonPatch with a JSON Patch.
+ * <pre>{@code
+ *   JsonArray contacts = ... // The target to be patched
+ *   JsonArray patch = ...  ; // JSON Patch
+ *   JsonPatch jsonpatch = new JsonPatch(patch);
+ *   JsonArray result = jsonpatch.apply(contacts);
+ * } </pre>
+ * 2. Construct a JsonPatch with JsonPatchBuilder.
+ * <pre>{@code
+ *   JsonPatchBuilder builder = new JsonPatchBuilder();
+ *   JsonArray result = builder.add("/John/phones/office", "1234-567")
+ *                             .remove("/Amy/age")
+ *                             .apply(contacts);
+ * } </pre>
  */
 
 public class JsonPatch {
@@ -75,21 +96,28 @@ public class JsonPatch {
     /**
      * Returns the hash code value for this {@code JsonPatch}.
      *
-     * @return the hash code value for this {@code JsonPointer} object
+     * @return the hash code value for this {@code JsonPatch} object
      */
     @Override
     public int hashCode() {
-        // Can be better
         return patch.hashCode();
     }
 
     /**
-     * Applies the operations specified in the JSON patch to the specified
-     * {@code JsonStructure}.  The target is not modified by the patch.
+     * Returns the JSON Patch text
+     * @return the JSON Patch text
+     */
+    @Override
+    public String toString() {
+        return patch.toString();
+    }
+
+    /**
+     * Applies the patch operations to the specified {@code target}.
+     * The target is not modified by the patch.
      *
-     * @param target the {@code JsonStructure} to apply the patch operations
-     * @return the {@code JsonStructure} as the result of applying the patch
-     *    operations on the target.
+     * @param target the target to apply the patch operations
+     * @return the transformed target after the patch
      * @throws JsonException if the supplied JSON Patch is malformed or if
      *    it contains references to non-existing members
      */
@@ -107,12 +135,10 @@ public class JsonPatch {
     }
 
     /**
-     * Applies the operations specified in the JSON patch to the specified
-     * {@code JsonObject}.  The target is not modified by the patch.
+     * Applies the patch operations to the specified {@code target}.
      *
-     * @param target the {@code JsonObject} to apply the patch operations
-     * @return the {@code JsonObject} as the result of applying the patch
-     *    operations on the target.
+     * @param target the target to apply the patch operations
+     * @return the transformed target after the patch
      * @throws JsonException if the supplied JSON Patch is malformed or if
      *    it contains references to non-existing members
      */
@@ -121,19 +147,16 @@ public class JsonPatch {
     }
 
     /**
-     * Applies the operations specified in the JSON patch to the specified
-     * {@code JsonArray}.  The target is not modified by the patch.
+     * Applies the patch operations to the specified {@code target}.
      *
-     * @param target the {@code JsonArray} to apply the patch operations
-     * @return the {@code JsonArray} as the result of applying the patch
-     *    operations on the target.
-     * @throws JsonException if the supplied JSON Patch is malformed or if 
+     * @param target the target to apply the patch operations
+     * @return the transformed target after the patch
+     * @throws JsonException if the supplied JSON Patch is malformed or if
      *    it contains references to non-existing members
      */
     public JsonArray apply(JsonArray target) {
         return (JsonArray) apply((JsonStructure)target);
     }
-
 
     /**
      * Generates a JSON Patch from the source and target {@code JsonStructure}.
@@ -147,6 +170,12 @@ public class JsonPatch {
         return null;
     }
 
+    /**
+     * Applies a JSON Patch operation to the target.
+     * @param target the target to apply the operation
+     * @param operation the JSON Patch operation
+     * @return the target after the patch
+     */
     private JsonStructure apply(JsonStructure target, JsonObject operation) {
 
         JsonPointer pointer = getPointer(operation, "path");

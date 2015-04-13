@@ -160,9 +160,9 @@ public final class JsonPointer {
      * @param value the value to be added
      * @return the transformed {@code target} after the value is added.
      * @throws NullPointerException if {@code target} is {@code null}
-     * @throws JsonException if the reference is an array element and the array does not exist or the index
-     * is out of range ({@code index < 0 || index > array size}), or if the reference is an object member and
-     * object does not exist.
+     * @throws JsonException if the reference is an array element and
+     * the index is out of range ({@code index < 0 || index > array size}),
+     * or if the pointer contains references to non-existing objects or arrays.
      */
     public JsonStructure add(JsonStructure target, JsonValue value) {
         return execute(NodeReference::add, target, value);
@@ -199,20 +199,14 @@ public final class JsonPointer {
     /**
      * Adds or replaces a value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
-     * <ol>
-     * <li>If the reference is the target (empty JSON Pointer string),
-     * the specified {@code value}, which must be a {@code JsonObject},
-     * is returned.</li>
-     * <li>Else the reference is a name/value pair of a {@code JsonObject}.
-     * If the referenced value exists, it is replaced by the specified value.
-     * If it does not exist, a new name/value pair is added to the object.</li>
-     * </ol>
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be added
      * @return the transformed {@code target} after the value is added.
      * @throws NullPointerException if {@code target} is {@code null}
-     * @throws JsonException if the reference is an object element and the
-     *     object does not exist.
+     * @throws JsonException if the reference is an array element and
+     * the index is out of range ({@code index < 0 || index > array size}),
+     * or if the pointer contains references to non-existing objects or arrays.
+     * @see #add(JsonStructure, JsonValue)
      */
     public JsonObject add(JsonObject target, JsonValue value) {
         return (JsonObject) add((JsonStructure) target, value);
@@ -221,25 +215,14 @@ public final class JsonPointer {
     /**
      * Adds or replaces a value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
-     * <ol>
-     * <li>If the reference is the target (empty JSON Pointer string),
-     * the specified {@code value}, which must be a {@code JsonArray},
-     * is returned.</li>
-     * <li>Else the reference is an array element. The specified
-     * {@code value} is inserted into the array, at the referenced index.
-     * The value currently at that location, and any subsequent values,
-     * are shifted to the right (adds one to the indices). Index starts with 0.
-     * If the reference is specified with a "-", or if the index is equal
-     * to the size of the array, the value is appended to the array.</li>
-     * </ol>
-     *
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be added
      * @return the transformed {@code target} after the value is added.
      * @throws NullPointerException if {@code target} is {@code null}
-     * @throws JsonException if the reference is an array element and the
-     * array does not exist or the index is out of range
-     * ({@code index < 0 || index > array size})
+     * @throws JsonException if the reference is an array element and
+     * the index is out of range ({@code index < 0 || index > array size}),
+     * or if the pointer contains references to non-existing objects or arrays.
+     * @see #add(JsonStructure, JsonValue)
      */
     public JsonArray add(JsonArray target, JsonValue value) {
         return (JsonArray) add((JsonStructure) target, value);
@@ -247,14 +230,14 @@ public final class JsonPointer {
 
     /**
      * Replaces the value at the referenced location in the specified
-     * {@code target} with the specified {@code value}.
-     *
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be stored at the referenced location
      * @return the transformed {@code target} after the value is replaced.
      * @throws NullPointerException if {@code target} is {@code null}
      * @throws JsonException if the referenced value does not exist,
      *    or if the reference is the target.
+     * {@code target} with the specified {@code value}.
+     * @see #replace(JsonStructure, JsonValue)
      */
     public JsonObject replace(JsonObject target, JsonValue value) {
         return (JsonObject) replace((JsonStructure) target, value);
@@ -262,14 +245,14 @@ public final class JsonPointer {
 
     /**
      * Replaces the value at the referenced location in the specified
-     * {@code target} with the specified {@code value}.
-     *
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be stored at the referenced location
      * @return the transformed {@code target} after the value is replaced.
      * @throws NullPointerException if {@code target} is {@code null}
      * @throws JsonException if the referenced value does not exist,
      *    or if the reference is the target.
+     * {@code target} with the specified {@code value}.
+     * @see #replace(JsonStructure, JsonValue)
      */
     public JsonArray replace(JsonArray target, JsonValue value) {
         return (JsonArray) replace((JsonStructure) target, value);
@@ -277,12 +260,12 @@ public final class JsonPointer {
 
     /**
      * Removes the value at the reference location in the specified {@code target}
-     *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
      * @throws NullPointerException if {@code target} is {@code null}
      * @throws JsonException if the referenced value does not exist,
      *    or if the reference is the target.
+     * @see #remove(JsonStructure)
      */
     public JsonObject remove(JsonObject target) {
         return (JsonObject) remove((JsonStructure) target);
@@ -290,12 +273,12 @@ public final class JsonPointer {
 
     /**
      * Removes the value at the reference location in the specified {@code target}
-     *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
      * @throws NullPointerException if {@code target} is {@code null}
      * @throws JsonException if the referenced value does not exist,
      *    or if the reference is the target.
+     * @see #remove(JsonStructure)
      */
     public JsonArray remove(JsonArray target) {
         return (JsonArray) remove((JsonStructure) target);
