@@ -120,7 +120,7 @@ public class JsonMergePatchDiffTest {
         this.expectedException = expectedException;
     }
     @Test
-    public void shouldExecuteJsonMergePatchOperationsToJsonDocument() {
+    public void shouldExecuteJsonMergePatchDiffOperationsToJsonDocument() {
         try {
             JsonValue output = JsonMergePatch.diff(original, target);
             assertThat(output, is(expected));
