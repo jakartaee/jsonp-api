@@ -60,16 +60,12 @@ public class JsonMergePatch {
      */
     public static JsonValue mergePatch(JsonValue target, JsonValue patch) {
 
-        if (patch.getValueType() != JsonValue.ValueType.OBJECT) {
+        if (patch.getValueType() != JsonValue.ValueType.OBJECT ||
+                target == null ||
+                target.getValueType() != JsonValue.ValueType.OBJECT) {
             return patch;
         }
-
-        JsonValue currentTarget = target;
-        if (target.getValueType() != JsonValue.ValueType.OBJECT) {
-            currentTarget = JsonValue.EMPTY_JSON_OBJECT;
-        }
-
-        JsonObject targetJsonObject = currentTarget.asJsonObject();
+        JsonObject targetJsonObject = target.asJsonObject();
         JsonObjectBuilder builder = 
             Json.createObjectBuilder(targetJsonObject);
         patch.asJsonObject().forEach((key, value) -> {
@@ -78,11 +74,7 @@ public class JsonMergePatch {
                     builder.remove(key);
                 }
             } else {
-                if(targetJsonObject.containsKey(key)) {
-                    builder.add(key, mergePatch(targetJsonObject.get(key), value));
-                } else {
-                    builder.add(key, mergePatch(JsonValue.EMPTY_JSON_OBJECT, value));
-                }
+                builder.add(key, mergePatch(targetJsonObject.get(key), value));
             }
         });
         return builder.build();
@@ -106,9 +98,9 @@ public class JsonMergePatch {
         s.forEach((key, value) -> {
             if (t.containsKey(key)) {
                 // key present in both.
-                if (! s.get(key).equals(t.get(key))) {
+                if (! value.equals(t.get(key))) {
                     // If the values are equal, nop, else get diff for the values
-                    builder.add(key, diff(s.get(key), t.get(key)));
+                    builder.add(key, diff(value, t.get(key)));
                 }
             } else {
                 builder.addNull(key);

@@ -40,8 +40,6 @@
 
 package javax.json;
 
-import java.util.ArrayList;
-
 /**
  * A builder for constructing a {@link JsonPatch} by adding
  * JSON Patch operations incrementatlly.
