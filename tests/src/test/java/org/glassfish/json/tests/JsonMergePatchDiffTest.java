@@ -52,11 +52,10 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
-import javax.json.JsonPatch;
 import javax.json.JsonReader;
 import javax.json.JsonString;
-import javax.json.JsonStructure;
 import javax.json.JsonValue;
 
 import org.junit.Test;
@@ -70,7 +69,7 @@ import org.junit.runners.Parameterized.Parameters;
  *
  */
 @RunWith(Parameterized.class)
-public class JsonPatchTest {
+public class JsonMergePatchDiffTest {
 
     @Parameters(name = "{index}: ({0})={1}")
     public static Iterable<Object[]> data() throws Exception {
@@ -79,7 +78,7 @@ public class JsonPatchTest {
         for (JsonValue jsonValue : data) {
             JsonObject test = (JsonObject) jsonValue;
             Object[] testData = new Object[4];
-            testData[0] = createPatchArray(test.get("op"));
+            testData[0] = test.get("original");
             testData[1] = test.get("target");
             testData[2] = test.get("expected");
             testData[3] = createExceptionClass((JsonString)test.get("exception"));
@@ -99,37 +98,31 @@ public class JsonPatchTest {
         return null;
     }
 
-    private static JsonArray createPatchArray(JsonValue object) {
-        return Json.createArrayBuilder().add(object).build();
-    }
-
     private static JsonArray loadData() {
         InputStream testData = JsonPatchTest.class
-                .getResourceAsStream("/jsonpatch.json");
+                .getResourceAsStream("/jsonmergepatchdiff.json");
         JsonReader reader = Json.createReader(testData);
         JsonArray data = (JsonArray) reader.read();
         return data;
     }
 
-    private JsonArray patch;
-    private JsonStructure target;
+    private JsonValue original;
+    private JsonValue target;
     private JsonValue expected;
     private Class<? extends Exception> expectedException;
 
-    public JsonPatchTest(JsonArray patch, JsonStructure target,
+    public JsonMergePatchDiffTest(JsonValue original, JsonValue target,
             JsonValue expected, Class<? extends Exception> expectedException) {
         super();
-        this.patch = patch;
+        this.original = original;
         this.target = target;
         this.expected = expected;
         this.expectedException = expectedException;
     }
-
     @Test
-    public void shouldExecuteJsonPatchOperationsToJsonDocument() {
+    public void shouldExecuteJsonMergePatchDiffOperationsToJsonDocument() {
         try {
-            JsonPatch patch = new JsonPatch(this.patch);
-            JsonStructure output = patch.apply(target);
+            JsonValue output = JsonMergePatch.diff(original, target);
             assertThat(output, is(expected));
             assertThat(expectedException, nullValue());
         } catch (Exception e) {
