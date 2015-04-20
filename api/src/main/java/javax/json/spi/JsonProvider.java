@@ -52,6 +52,8 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Service provider for JSON processing objects.
@@ -306,4 +308,78 @@ public abstract class JsonProvider {
      * @return a JSON builder factory
      */
     public abstract JsonBuilderFactory createBuilderFactory(Map<String,?> config);
+
+
+    /**
+     * Creates a JsonString
+     *
+     * @param value a JSON string
+     * @return the JsonString for the string
+     *
+     * @since 1.1
+     */
+    public JsonString createValue(String value) {
+        return null;
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public JsonNumber createValue(int value) {
+        return null;
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public JsonNumber createValue(long value) {
+        return null;
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public JsonNumber createValue(double value) {
+        return null;
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public JsonNumber createValue(BigDecimal value) {
+        return null;
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public JsonNumber createValue(BigInteger value) {
+        return null;
+    }
+
 }

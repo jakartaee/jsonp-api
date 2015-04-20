@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -266,7 +266,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(JsonValue value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -382,7 +382,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator write(String value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -393,7 +393,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
 
     public JsonGenerator write(int value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -404,7 +404,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(long value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -414,7 +414,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(double value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -427,7 +427,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(BigInteger value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -437,7 +437,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(BigDecimal value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -446,7 +446,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator write(boolean value) {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
@@ -456,7 +456,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator writeNull() {
-        if (currentContext.scope != Scope.IN_ARRAY) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }

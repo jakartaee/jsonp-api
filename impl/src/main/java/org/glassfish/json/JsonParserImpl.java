@@ -218,7 +218,7 @@ public class JsonParserImpl implements JsonParser {
     private final class NoneContext extends Context {
         @Override
         public Event getNextEvent() {
-            // Handle 1. {     2. [
+            // Handle 1. {   2. [   3. value
             JsonToken token = tokenizer.nextToken();
             if (token == JsonToken.CURLYOPEN) {
                 stack.push(currentContext);
@@ -228,8 +228,10 @@ public class JsonParserImpl implements JsonParser {
                 stack.push(currentContext);
                 currentContext = new ArrayContext();
                 return Event.START_ARRAY;
+            } else if (token.isValue()) {
+                return token.getEvent();
             }
-            throw parsingException(token, "[CURLYOPEN, SQUAREOPEN]");
+            throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
         }
     }
 

@@ -97,6 +97,16 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
+ * <p>
+ * Other JSON values (that are not JSON objects or arrays) can be created
+ * by calling the appropiate {@code write} methods.
+ * <p>
+ * The following example shows how to generate a JSON string:
+ * <pre><code>
+ * JsonGenerator generator = ...;
+ * generator.write("message").close();
+ * </code></pre>
+ *
  * {@code JsonGenerator} methods can be chained as in the following example:
  * <pre>
  * <code>
@@ -392,7 +402,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context.
+     *      array or root context.
      */
     JsonGenerator write(JsonValue value);
 
@@ -405,7 +415,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      */
     JsonGenerator write(String value);
 
@@ -419,7 +429,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      *
      * @see javax.json.JsonNumber
      */
@@ -435,7 +445,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      *
      * @see javax.json.JsonNumber
      */
@@ -451,7 +461,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      */
     JsonGenerator write(int value);
 
@@ -465,7 +475,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      */
     JsonGenerator write(long value);
 
@@ -479,7 +489,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      * @throws NumberFormatException if the value is Not-a-Number(NaN) or infinity.
      */
     JsonGenerator write(double value);
@@ -494,7 +504,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context.
+     *      array or root context.
      */
     JsonGenerator write(boolean value);
 
@@ -505,7 +515,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an 
-     *      array context
+     *      array or root context.
      */
     JsonGenerator writeNull();
 

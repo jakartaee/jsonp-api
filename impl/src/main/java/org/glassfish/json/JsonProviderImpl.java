@@ -55,9 +55,12 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * @author Jitendra Kotamraju
+ * @author Kin-man Chung
  */
 public class JsonProviderImpl extends JsonProvider {
 
@@ -196,6 +199,36 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonArrayBuilder createArrayBuilder(JsonArray array) {
         return new JsonArrayBuilderImpl(array, bufferPool);
+    }
+
+    @Override
+    public JsonString createValue(String value) {
+        return new JsonStringImpl(value);
+    }
+
+    @Override
+    public JsonNumber createValue(int value) {
+        return JsonNumberImpl.getJsonNumber(value);
+    }
+
+    @Override
+    public JsonNumber createValue(long value) {
+        return JsonNumberImpl.getJsonNumber(value);
+    }
+
+    @Override
+    public JsonNumber createValue(double value) {
+        return JsonNumberImpl.getJsonNumber(value);
+    }
+
+    @Override
+    public JsonNumber createValue(BigInteger value) {
+        return JsonNumberImpl.getJsonNumber(value);
+    }
+
+    @Override
+    public JsonNumber createValue(BigDecimal value) {
+        return JsonNumberImpl.getJsonNumber(value);
     }
 
     @Override

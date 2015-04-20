@@ -292,8 +292,11 @@ final class JsonTokenizer implements Closeable {
                 throw unexpectedChar(ch);
             }
         }
-        readBegin--;
-        storeEnd = readBegin;
+        if (ch != -1) {
+            // Only reset readBegin if eof has not been reached
+            readBegin--;
+            storeEnd = readBegin;
+        }
     }
 
     private void readTrue() {

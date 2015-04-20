@@ -122,6 +122,23 @@ public interface JsonWriter extends  /*Auto*/Closeable {
      * @throws JsonException if an i/o error occurs (IOException would be
      * cause of JsonException)
      */
+
+    /**
+     * Writes the specified {@link JsonValue} to the output source.
+     * method needs to be called only once for a write instance.
+     *
+     * @param value a {@code JsonValue} to be written to the output
+     *              source
+     * @throws JsonException if the specified JSON object cannot be
+     *     written due to i/o error (IOException would be cause of
+     *     JsonException)
+     * @throws IllegalStateException if writeArray, writeObject, write
+     *     or close method is already called
+     *
+     * @since 1.1
+     */
+    void write(JsonValue value);
+
     @Override
     void close();
 

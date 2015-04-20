@@ -125,6 +125,39 @@ class JsonReaderImpl implements JsonReader {
     }
 
     @Override
+    public JsonValue readValue() {
+        if (readDone) {
+            throw new IllegalStateException(JsonMessages.READER_READ_ALREADY_CALLED());
+        }
+        readDone = true;
+        if (parser.hasNext()) {
+            JsonParser.Event e = parser.next();
+            switch (e) {
+                case START_ARRAY:
+                    return readArray(new JsonArrayBuilderImpl(bufferPool));
+                case START_OBJECT:
+                    return readObject(new JsonObjectBuilderImpl(bufferPool));
+                case VALUE_STRING:
+                    return new JsonStringImpl(parser.getString());
+                case VALUE_NUMBER:
+                    if (parser.isDefinitelyInt()) {
+                        return JsonNumberImpl.getJsonNumber(parser.getInt());
+                    }
+                    return JsonNumberImpl.getJsonNumber(parser.getBigDecimal());
+                case VALUE_TRUE:
+                    return JsonValue.TRUE;
+                case VALUE_FALSE:
+                    return JsonValue.FALSE;
+                case VALUE_NULL:
+                    return JsonValue.NULL;
+                default:
+                    throw new JsonException("Internal Error");
+            }
+        }
+        throw new JsonException("Internal Error");
+    }
+
+    @Override
     public void close() {
         readDone = true;
         parser.close();

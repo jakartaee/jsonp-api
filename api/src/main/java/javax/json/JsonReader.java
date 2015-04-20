@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -87,8 +87,8 @@ public interface JsonReader extends  /*Auto*/Closeable {
      * cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON object or array
      *     cannot be created due to incorrect representation
-     * @throws IllegalStateException if read, readObject, readArray or
-     *     close method is already called
+     * @throws IllegalStateException if read, readObject, readArray,
+     *     readValue or close method is already called
      */
     JsonStructure read();
 
@@ -103,8 +103,8 @@ public interface JsonReader extends  /*Auto*/Closeable {
      *     cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON object cannot
      *     be created due to incorrect representation
-     * @throws IllegalStateException if read, readObject, readArray or
-     *     close method is already called
+     * @throws IllegalStateException if read, readObject, readArray,
+     *     readValue or close method is already called
      */
     JsonObject readObject();
 
@@ -119,10 +119,30 @@ public interface JsonReader extends  /*Auto*/Closeable {
      *     cause of JsonException)
      * @throws javax.json.stream.JsonParsingException if a JSON array cannot
      *     be created due to incorrect representation
-     * @throws IllegalStateException if read, readObject, readArray or
-     *     close method is already called
+     * @throws IllegalStateException if read, readObject, readArray,
+     *     readValue or close method is already called
      */
     JsonArray readArray();
+
+    /**
+     * Returns a JSON value that is represented in
+     * the input source. This method needs to be called
+     * only once for a reader instance.
+     *
+     * @return a JSON value
+     * @throws JsonException if a JSON value
+     *     be created due to i/o error (IOException would be
+     *     cause of JsonException)
+     * @throws javax.json.stream.JsonParsingException if a JSON value
+     *     cannot be created due to incorrect representation
+     * @throws IllegalStateException if read, readObject, readArray,
+     *     readValue or close method is already called
+     *
+     * @since 1.1
+     */
+    default JsonValue readValue() {
+        return null;
+    }
 
     /**
      * Closes this reader and frees any resources associated with the

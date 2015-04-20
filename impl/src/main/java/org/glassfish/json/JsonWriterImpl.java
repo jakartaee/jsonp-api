@@ -145,6 +145,24 @@ class JsonWriterImpl implements JsonWriter {
     }
 
     @Override
+    public void write(JsonValue value) {
+        if (value instanceof JsonArray) {
+            writeArray((JsonArray)value);
+        } else if (value instanceof JsonObject) {
+            writeObject((JsonObject)value);
+        }
+        if (writeDone) {
+            throw new IllegalStateException(JsonMessages.WRITER_WRITE_ALREADY_CALLED());
+        }
+        writeDone = true;
+        generator.write(value);
+        generator.flushBuffer();
+        if (os != null) {
+            generator.flush();
+        }
+    }
+
+    @Override
     public void close() {
         writeDone = true;
         generator.close();

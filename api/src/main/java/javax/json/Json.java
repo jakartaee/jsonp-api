@@ -47,6 +47,8 @@ import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.*;
 import java.util.Map;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Factory class for creating JSON processing objects.
@@ -302,5 +304,77 @@ public class Json {
     public static JsonBuilderFactory createBuilderFactory(
             Map<String, ?> config) {
         return JsonProvider.provider().createBuilderFactory(config);
+    }
+
+    /**
+     * Creates a JsonString
+     *
+     * @param value a JSON string
+     * @return the JsonString for the string
+     *
+     * @since 1.1
+     */
+    public static JsonString createValue(String value) {
+        return JsonProvider.provider().createValue(value);
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1
+     */
+    public static JsonNumber createValue(int value) {
+        return JsonProvider.provider().createValue(value);
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1 
+     */ 
+    public static JsonNumber createValue(long value) {
+        return JsonProvider.provider().createValue(value);
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1 
+     */ 
+    public static JsonNumber createValue(double value) {
+        return JsonProvider.provider().createValue(value);
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1 
+     */ 
+    public static JsonNumber createValue(BigDecimal value) {
+        return JsonProvider.provider().createValue(value);
+    }
+
+    /**
+     * Creates a JsonNumber
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 1.1 
+     */ 
+    public static JsonNumber createValue(BigInteger value) {
+        return JsonProvider.provider().createValue(value);
     }
 }
