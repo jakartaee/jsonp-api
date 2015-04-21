@@ -395,7 +395,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON value within
-     * the current array context.
+     * the current array or root context.
      *
      * @param value a value to be written in current JSON array
      * @return this generator
@@ -408,7 +408,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON string value within
-     * the current array context.
+     * the current array or context.
      *
      * @param value a value to be written in current JSON array
      * @return this generator
@@ -421,7 +421,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The specified value's {@code toString()}
+     * the current array or root context. The specified value's {@code toString()}
      * is used as the the text value for writing.
      *
      * @param value a value to be written in current JSON array
@@ -437,7 +437,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The string {@code new BigDecimal(value).toString()}
+     * the current array or root context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
      * @param value a value to be written in current JSON array
@@ -453,7 +453,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The string {@code new BigDecimal(value).toString()}
+     * the current array or root context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
      * @param value a value to be written in current JSON array
@@ -467,7 +467,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within
-     * the current array context. The string {@code new BigDecimal(value).toString()}
+     * the current array or root context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
      * @param value a value to be written in current JSON array
@@ -481,7 +481,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes the specified value as a JSON number value within the current
-     * array context. The string {@code BigDecimal.valueOf(value).toString()}
+     * array or root context. The string {@code BigDecimal.valueOf(value).toString()}
      * is used as the text value for writing.
      *
      * @param value a value to be written in current JSON array
@@ -495,7 +495,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator write(double value);
 
     /**
-     * Writes a JSON true or false value within the current array context.
+     * Writes a JSON true or false value within the current array or root context.
      * If value is true, this method writes the JSON {@code true} value, 
      * otherwise it writes the JSON {@code false} value.
      *
@@ -509,7 +509,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator write(boolean value);
 
     /**
-     * Writes a JSON null value within the current array context.
+     * Writes a JSON null value within the current array or root context.
      *
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException

@@ -141,7 +141,7 @@ public interface JsonReader extends  /*Auto*/Closeable {
      * @since 1.1
      */
     default JsonValue readValue() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -275,7 +275,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonObjectBuilder createObjectBuilder(JsonObject object) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -293,7 +293,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonArrayBuilder createArrayBuilder(JsonArray array) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -319,7 +319,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonString createValue(String value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -331,7 +331,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonNumber createValue(int value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -343,7 +343,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonNumber createValue(long value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -355,7 +355,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonNumber createValue(double value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -367,7 +367,7 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonNumber createValue(BigDecimal value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -379,7 +379,6 @@ public abstract class JsonProvider {
      * @since 1.1
      */
     public JsonNumber createValue(BigInteger value) {
-        return null;
+        throw new UnsupportedOperationException();
     }
-
 }
