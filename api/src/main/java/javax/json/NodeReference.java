@@ -39,14 +39,6 @@
  */
 package javax.json;
 
-import javax.json.Json;
-import javax.json.JsonValue;
-import javax.json.JsonStructure;
-import javax.json.JsonObject;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonException;
-
 /**
  * This class is a helper class for JsonPointer implementation,
  * and is not part of the API.
