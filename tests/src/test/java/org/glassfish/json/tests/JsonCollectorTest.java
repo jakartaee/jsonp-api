@@ -9,7 +9,7 @@
  * may not use this file except in compliance with the License.  You can
  * obtain a copy of the License at
  * https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html
- * or packager/legal/LICENSE.txt.  See the License for the specific
+ * or packager/le se for the specific
  * language governing permissions and limitations under the License.
  *
  * When distributing the software, include this License Header Notice in each
@@ -50,6 +50,7 @@ import javax.json.stream.JsonCollectors;
 import java.util.List;
 
 /**
+ * Some JSON query tests/examples, using Java stream operations, with JSON collectors.
  * @author Kin-man Chung
  */
 public class JsonCollectorTest {
@@ -58,86 +59,127 @@ public class JsonCollectorTest {
 
     @BeforeClass
     public static void setUpClass() {
-        contacts = Json.createArrayBuilder()
-        .add(Json.createObjectBuilder()
-           .add("name", "Duke")
-           .add("age", 18)
-           .add("gender", "M")
-           .add("phones", Json.createObjectBuilder()
-              .add("home", "650-123-4567")
-              .add("mobile", "650-234-5678")))
-         .add(Json.createObjectBuilder()
-            .add("name", "Jane")
-            .add("age", 23)
-            .add("gender", "F")
-            .add("phones", Json.createObjectBuilder()
-               .add("mobile", "707-999-5555")))
-          .add(Json.createObjectBuilder()
-             .add("name", "Joanna")
-             .add("gender", "F")
-             .add("age", 35)
-             .add("phones", Json.createObjectBuilder()
-                 .add("mobile", "505-333-4444")))
-        .build();
+        // The JSON source
+        contacts = (JsonArray) JsonUtil.toJson(
+        "[                                 " +
+        "  { 'name': 'Duke',               " +
+        "    'age': 18,                    " +
+        "    'gender': 'M',                " +
+        "    'phones': {                   " +
+        "       'home': '650-123-4567',    " +
+        "       'mobile': '650-234-5678'}}," +
+        "  { 'name': 'Jane',               " +
+        "    'age': 23,                    " +
+        "    'gender': 'F',                " +
+        "    'phones': {                   " +
+        "       'mobile': '707-999-5555'}}," +
+        "  { 'name': 'Joanna',             " +
+        "    'gender': 'F',                " +
+        "    'phones': {                   " +
+        "       'mobile': '505-333-4444'}} " +
+        " ]");
     }
 
     @Test
     public void testToJsonArray() {
+        /*
+         * Query: retrieve the names of female contacts
+         * Returns a JsonArray of names
+         */
         JsonArray result = contacts.getValuesAs(JsonObject.class).stream()
                    .filter(x->"F".equals(x.getString("gender")))
                    .map(x->((JsonObject)x).get("name"))
                    .collect(JsonCollectors.toJsonArray());
-        JsonArray expected = Json.createArrayBuilder()
-            .add("Jane")
-            .add("Joanna")
-            .build();
-        assertEquals(result, expected);
+        JsonValue expected = JsonUtil.toJson("['Jane','Joanna']");
+        assertEquals(expected, result);
     }
 
     @Test
     public void testToJsonObject() {
+        /*
+         * Query: retrieve the names and mobile phones of female contacts
+         * Returns a JsonObject of name phones pairs
+         */
         JsonObject result = contacts.getValuesAs(JsonObject.class).stream()
                     .filter(x->"F".equals(x.getString("gender")))
                     .collect(JsonCollectors.toJsonObject(
                             x->x.asJsonObject().getString("name"),
                             x->x.asJsonObject().getJsonObject("phones").get("mobile")))
                     ;
-        JsonObject expected = Json.createObjectBuilder()
-                .add("Jane", "707-999-5555")
-                .add("Joanna", "505-333-4444")
-                .build();
-        assertEquals(result, expected);
+        JsonValue expected = JsonUtil.toJson(
+                "{'Jane': '707-999-5555', 'Joanna': '505-333-4444'}");
+        assertEquals(expected, result);
     }
 
     @Test
     public void testGroupBy() {
+        /*
+         * Query: group the contacts according to gender
+         * Returns a JsonObject, with gender/constacts value pairs
+         */
         JsonObject result = contacts.getValuesAs(JsonObject.class).stream()
             .collect(JsonCollectors.groupingBy(x->((JsonObject)x).getString("gender")));
-        JsonObject expected = Json.createObjectBuilder()
-            .add("F", Json.createArrayBuilder()
-                             .add(Json.createObjectBuilder()
-                                .add("name", "Jane")
-                                .add("age", 23)
-                                .add("gender", "F")
-                                .add("phones", Json.createObjectBuilder()
-                                   .add("mobile", "707-999-5555")))
-                             .add(Json.createObjectBuilder()
-                                .add("name", "Joanna")
-                                .add("gender", "F")
-                                .add("age", 35)
-                                .add("phones", Json.createObjectBuilder()
-                                   .add("mobile", "505-333-4444")))
-                              .build())
-            .add("M", Json.createArrayBuilder()
-                              .add(Json.createObjectBuilder()
-                                 .add("name", "Duke")
-                                 .add("age", 18)
-                                 .add("gender", "M")
-                                 .add("phones", Json.createObjectBuilder()
-                                    .add("home", "650-123-4567")
-                                    .add("mobile", "650-234-5678")))
-                               .build())
-            .build();
+        JsonValue expected = JsonUtil.toJson(
+        "{'F':                               " +
+        "  [                                 " +
+        "    { 'name': 'Jane',               " +
+        "      'age': 23,                    " +
+        "      'gender': 'F',                " +
+        "      'phones': {                   " +
+        "         'mobile': '707-999-5555'}}," +
+        "    { 'name': 'Joanna',             " +
+        "      'gender': 'F',                " +
+        "      'phones': {                   " +
+        "         'mobile': '505-333-4444'}} " +
+        "  ],                                " +
+        "'M':                                " +
+        "  [                                 " +
+        "    { 'name': 'Duke',               " +
+        "      'age': 18,                    " +
+        "      'gender': 'M',                " +
+        "      'phones': {                   " +
+        "         'home': '650-123-4567',    " +
+        "         'mobile': '650-234-5678'}} " +
+        "  ]                                 " +
+        "}");
+
         assertEquals(result,expected);
+    }
+
+    static int index; //for keeping track of the array index
+    @Test
+    public void testQueryAndPatch() {
+        /*
+         * Query and patch: Increment the ages of contacts with an age entry
+         * PatchBuilder is used for building the necessary JsonPatch.
+         */
+        index = -1;
+        JsonPatchBuilder builder = new JsonPatchBuilder();
+        contacts.getValuesAs(JsonObject.class).stream()
+            .peek(p->index++)
+            .filter(p->p.containsKey("age"))
+            .forEach(p-> builder.replace("/"+index+"/age", p.getInt("age")+1));
+        JsonArray result = builder.apply(contacts);
+
+        JsonValue expected = (JsonArray) JsonUtil.toJson(
+        "[                                 " +
+        "  { 'name': 'Duke',               " +
+        "    'age': 19,                    " +
+        "    'gender': 'M',                " +
+        "    'phones': {                   " +
+        "       'home': '650-123-4567',    " +
+        "       'mobile': '650-234-5678'}}," +
+        "  { 'name': 'Jane',               " +
+        "    'age': 24,                    " +
+        "    'gender': 'F',                " +
+        "    'phones': {                   " +
+        "       'mobile': '707-999-5555'}}," +
+        "  { 'name': 'Joanna',             " +
+        "    'gender': 'F',                " +
+        "    'phones': {                   " +
+        "       'mobile': '505-333-4444'}} " +
+        " ]");
+ 
+        assertEquals(expected, result);
     }
 }
