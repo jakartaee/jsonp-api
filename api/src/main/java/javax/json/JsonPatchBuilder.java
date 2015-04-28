@@ -40,7 +40,6 @@
 
 package javax.json;
 
-import java.util.ArrayList;
 
 /**
  * A builder for constructing a {@link JsonPatch} by adding
@@ -348,6 +347,14 @@ public class JsonPatchBuilder {
      */
     public JsonPatch build() {
         return new JsonPatch(builder.build());
+    }
+
+    /**
+     * Returns the patch operations in a JsonArray
+     * @return the patch operations in a JsonArray
+     */
+    public JsonArray buildAsArray() {
+        return builder.build();
     }
 }
 
