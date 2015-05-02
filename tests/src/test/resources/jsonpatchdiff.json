@@ -1,0 +1,114 @@
+[
+        {
+            "original": {"a":"b"},
+            "target": {"a":"b"},
+            "expected": []
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": [ 1, 2, 3, 4, 5 ],
+            "expected": [
+                            { "op": "add", "path": "/-", "value": 4 },
+                            { "op": "add", "path": "/-", "value": 5 }
+                        ]
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": [ 1 ],
+            "expected": [
+                            { "op": "remove", "path": "/1" },
+                            { "op": "remove", "path": "/1" }
+                        ]
+        },
+        {
+            "original": { "a": "b", "c": "d" },
+            "target": { "a": "b" },
+            "expected": [
+                            { "op": "remove", "path": "/c" }
+                        ]
+        },
+        {
+            "original": { "a": 1 },
+            "target": { "a": 1, "c": 2, "b": 3, "d": 4 },
+            "expected": [
+                            { "op": "add", "path": "/b", "value": 3 },
+                            { "op": "add", "path": "/c", "value": 2 },
+                            { "op": "add", "path": "/d", "value": 4 }
+                        ]
+        },
+        {
+            "original": { "a": null },
+            "target": { "a": 6 },
+            "expected": [
+                            { "op": "replace", "path": "/a", "value": 6 }
+                        ]
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": { "hello": "world" },
+            "expected": [
+                            { "op": "replace", "path": "", "value": { "hello": "world" } }
+                        ]
+        },
+        {
+            "original": {
+                            "a": "b",
+                            "c": {
+                                    "d": "e"
+                                 }
+                        },
+            "target": {
+                        "a": "b",
+                        "c": {
+                                "d": 1,
+                                "e": "f"
+                             }
+                      },
+            "expected": [
+                            { "op": "add", "path": "/c/e", "value": "f" },
+                            { "op": "replace", "path": "/c/d", "value": 1 }
+                        ]
+        },
+        {
+            "original": {
+                            "a": [ 1, 2, 3 ]
+                        },
+            "target": {
+                        "a": [ "b", 2, 3, 4 ]
+                      },
+            "expected": [
+                            { "op": "replace", "path": "/a/0", "value": "b" },
+                            { "op": "add", "path": "/a/-", "value": 4 }
+                        ]
+        },
+        {
+            "original": [ { "a": "b" }, "foo", { "bar": null } ],
+            "target": [ { "a": "b", "c": "d" }, "foo", { "bar": "baz" } ],
+            "expected": [
+                            { "op": "add", "path": "/0/c", "value": "d" },
+                            { "op": "replace", "path": "/2/bar", "value": "baz" }
+                        ]
+        },
+        {
+            "original": [ 1, [ 2, 3 ], 4 ],
+            "target": [ "x", [ 2, 3, "y" ], 4 ],
+            "expected": [
+                            { "op": "replace", "path": "/0", "value": "x" },
+                            { "op": "add", "path": "/1/-", "value": "y" }
+                        ]
+        },
+        {
+            "original": { "a": "b" },
+            "target": { "c": "b" },
+            "expected": [
+                            { "op": "move", "path": "/c", "from": "/a" }
+                        ]
+        },
+        {
+            "original": {"a": "c"},
+            "target": {"a": "c", "d": "c"},
+            "expected": [
+                            { "op": "copy", "path": "/d", "from": "/a" }
+                        ]
+        }
+]

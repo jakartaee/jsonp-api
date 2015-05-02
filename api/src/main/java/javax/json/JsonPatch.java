@@ -43,7 +43,6 @@ package javax.json;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -197,8 +196,8 @@ public class JsonPatch {
      * @return a JSON Patch which when applied to the source, yields the target
      */
     public static JsonPatch diff(JsonStructure source, JsonStructure target) {
-        Map<String, JsonValue> unchangedValues = getUnchangedValues(source, target);
-        JsonPatchBuilder builder = generateDiffs(unchangedValues, new JsonPatchBuilder(), "", source, target);
+        Map<JsonValue, String> unchangedValues = getUnchangedValues(source, target);
+        JsonPatchBuilder builder = generateDiffs(unchangedValues, new HashMap<JsonValue, String>(), new JsonPatchBuilder(), "", source, target);
         return builder.build();
     }
 
@@ -213,13 +212,13 @@ public class JsonPatch {
      * @return a JSON Patch which when applied to the source, yields the target
      */
     public static JsonArray diffAsArray(JsonStructure source, JsonStructure target) {
-        Map<String, JsonValue> unchangedValues = getUnchangedValues(source, target);
-        JsonPatchBuilder builder = generateDiffs(unchangedValues, new JsonPatchBuilder(), "", source, target);
-        //squash to move
+        Map<JsonValue, String> unchangedValues = getUnchangedValues(source, target);
+        JsonPatchBuilder builder = generateDiffs(unchangedValues, new HashMap<JsonValue, String>(), new JsonPatchBuilder(), "", source, target);
         return builder.buildAsArray();
+
     }
 
-    private static JsonPatchBuilder generateDiffs(final Map<String, JsonValue> unchangedValues, final JsonPatchBuilder builder,
+    private static JsonPatchBuilder generateDiffs(final Map<JsonValue, String> unchangedValues, Map<JsonValue, String> removedValues, final JsonPatchBuilder builder,
             final String pointer, final JsonValue source,
             final JsonValue target) {
 
@@ -231,7 +230,7 @@ public class JsonPatch {
         ValueType secondValueType = target.getValueType();
 
         if (firstValueType != secondValueType) {
-            // TODO can we add JsonPointer in JsonPatchBuilder?
+            // TODO can we add JsonPointer in JsonPatchBuilder as argument?
             builder.replace(pointer, target);
             return builder;
         }
@@ -244,39 +243,50 @@ public class JsonPatch {
         }
 
         if (firstValueType == ValueType.OBJECT) {
-            return generateObjectDiffs(unchangedValues, builder, pointer, (JsonObject) source,
+            return generateObjectDiffs(unchangedValues, removedValues, builder, pointer, (JsonObject) source,
                     (JsonObject) target);
         } else {
             // array
-            return generateArrayDiffs(unchangedValues, builder, pointer, (JsonArray) source,
+            return generateArrayDiffs(unchangedValues, removedValues, builder, pointer, (JsonArray) source,
                     (JsonArray) target);
         }
     }
 
-    private static JsonPatchBuilder generateObjectDiffs(final Map<String, JsonValue> unchangedValues, JsonPatchBuilder builder,
+    private static JsonPatchBuilder generateObjectDiffs(final Map<JsonValue, String> unchangedValues, Map<JsonValue, String> removedValues, JsonPatchBuilder builder,
             final String pointer, final JsonObject source,
             final JsonObject target) {
         final Set<String> firstFields = source.keySet();
         final Set<String> secondFields = target.keySet();
 
         for (final String field : difference(firstFields, secondFields)) {
-            builder.remove(pointer + "/" + field);
+            String objectPointer = pointer + "/" + field;
+            removedValues.put(source.get(field), objectPointer);
+            builder.remove(objectPointer);
         }
 
         for (final String field : difference(secondFields, firstFields)) {
-            //unchanged
-            builder.add(pointer + "/" + field, target.get(field));
+            JsonValue value = target.get(field);
+            if(removedValues.containsKey(value)) {
+              //TODO can we make JsonPatchBuilder implements remove of already set operations.
+                builder.move(pointer + "/" + field, removedValues.get(value));
+            } else {
+                if(unchangedValues.containsKey(value)) {
+                    builder.copy(pointer + "/" + field, unchangedValues.get(value));
+                } else {
+                    builder.add(pointer + "/" + field, value);
+                }
+            }
         }
 
         for (final String field : intersection(firstFields, secondFields)) {
-            builder = generateDiffs(unchangedValues, builder, pointer + "/" + field, source.get(field),
+            builder = generateDiffs(unchangedValues, removedValues, builder, pointer + "/" + field, source.get(field),
                     target.get(field));
         }
 
         return builder;
     }
 
-    private static JsonPatchBuilder generateArrayDiffs(final Map<String, JsonValue> unchangedValues, JsonPatchBuilder builder,
+    private static JsonPatchBuilder generateArrayDiffs(final Map<JsonValue, String> unchangedValues, Map<JsonValue, String> removedValues, JsonPatchBuilder builder,
             final String pointer, final JsonArray source,
             final JsonArray target) {
         final int firstSize = source.size();
@@ -284,17 +294,28 @@ public class JsonPatch {
         final int size = Math.min(firstSize, secondSize);
 
         for (int index = size; index < firstSize; index++) {
-            builder.remove(pointer+ "/" + size);
+            String arrayPointer = pointer+ "/" + size;
+            removedValues.put(source.get(index), arrayPointer);
+            builder.remove(arrayPointer);
         }
 
         for (int index = 0; index < size; index++) {
-            builder = generateDiffs(unchangedValues, builder, pointer + "/" + index, source.get(index),
+            builder = generateDiffs(unchangedValues, removedValues, builder, pointer + "/" + index, source.get(index),
                     target.get(index));
         }
 
         for (int index = size; index < secondSize; index++) {
-            //unchanged
-            builder.add(pointer + "/" + "-", target.get(index));
+            JsonValue value = target.get(index);
+            if(removedValues.containsKey(value)) {
+                //TODO can we make JsonPatchBuilder implements remove of already set operations.
+                builder.move(pointer + "/" + "-", removedValues.get(value));
+            } else {
+                if(unchangedValues.containsKey(value)) {
+                    builder.copy(pointer + "/" + "-", unchangedValues.get(value));
+                } else {
+                    builder.add(pointer + "/" + "-", value);
+                }
+            }
         }
         return builder;
     }
@@ -311,25 +332,20 @@ public class JsonPatch {
         return tmp;
     }
 
-    private String findUnchangedValue(Map<String, JsonValue> unchangedValues, final JsonValue currentValue) {
-        Optional<Entry<String, JsonValue>> findUnchanged = unchangedValues.entrySet().stream().filter(entry -> entry.getValue().equals(currentValue)).findFirst();
-        return findUnchanged.isPresent() ? findUnchanged.get().getKey() : null;
-    }
-
-    private static Map<String, JsonValue> getUnchangedValues(
+    private static Map<JsonValue, String> getUnchangedValues(
             final JsonStructure source, final JsonStructure target) {
-        final Map<String, JsonValue> unchanged = new HashMap<>();
+        final Map<JsonValue, String> unchanged = new HashMap<>();
         findUnchanged(unchanged, "", source, target);
         return unchanged;
     }
 
     private static void findUnchanged(
-            final Map<String, JsonValue> unchanged,
+            final Map<JsonValue, String> unchanged,
             final String pointer, final JsonValue first,
             final JsonValue second) {
 
         if (first.equals(second)) {
-            unchanged.put(pointer, second);
+            unchanged.put(second, pointer);
         }
 
         ValueType firstValueType = first.getValueType();
@@ -353,7 +369,7 @@ public class JsonPatch {
     }
 
     private static void findUnchangedObject(
-            final Map<String, JsonValue> unchanged,
+            final Map<JsonValue, String> unchanged,
             final String pointer, final JsonObject source,
             final JsonObject target) {
         Set<Entry<String, JsonValue>> entries = source.entrySet();
@@ -369,7 +385,7 @@ public class JsonPatch {
     }
 
     private static void findUnchangedArray(
-            final Map<String, JsonValue> unchanged,
+            final Map<JsonValue, String> unchanged,
             final String pointer, final JsonArray source,
             final JsonArray target) {
         final int size = Math.min(source.size(), target.size());
