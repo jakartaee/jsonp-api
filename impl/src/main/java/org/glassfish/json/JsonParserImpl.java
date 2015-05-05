@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -48,6 +48,8 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.*;
+import java.util.function.Consumer;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
 import org.glassfish.json.api.BufferPool;
@@ -57,9 +59,11 @@ import org.glassfish.json.api.BufferPool;
  * to go to next parser state.
  *
  * @author Jitendra Kotamraju
+ * @author Kin-man Chung
  */
 public class JsonParserImpl implements JsonParser {
 
+    private final BufferPool bufferPool;
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
@@ -68,17 +72,20 @@ public class JsonParserImpl implements JsonParser {
     private final JsonTokenizer tokenizer;
 
     public JsonParserImpl(Reader reader, BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
         tokenizer = new JsonTokenizer(reader, bufferPool);
         stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
         tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
         stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
         stateIterator = new StateIterator();
     }
@@ -133,6 +140,163 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
+    public JsonArray getArray() {
+        if (currentEvent != Event.START_ARRAY) {
+            throw new IllegalStateException(
+                JsonMessages.PARSER_GETARRAY_ERR(currentEvent));
+        }
+        return getArray(new JsonArrayBuilderImpl(bufferPool));
+    }
+
+    @Override
+    public JsonObject getObject() {
+        if (currentEvent != Event.START_OBJECT) {
+            throw new IllegalStateException(
+                JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
+        }
+        return getObject(new JsonObjectBuilderImpl(bufferPool));
+    }
+
+    @Override
+    public JsonValue getValue() {
+        switch (currentEvent) {
+            case START_ARRAY:
+                return getArray(new JsonArrayBuilderImpl(bufferPool));
+            case START_OBJECT:
+                return getObject(new JsonObjectBuilderImpl(bufferPool));
+            case VALUE_STRING:
+                return new JsonStringImpl(getString());
+            case VALUE_NUMBER:
+                if (isDefinitelyInt()) {
+                    return JsonNumberImpl.getJsonNumber(getInt());
+                }
+                return JsonNumberImpl.getJsonNumber(getBigDecimal());
+            case VALUE_TRUE:
+                return JsonValue.TRUE;
+            case VALUE_FALSE:
+                return JsonValue.FALSE;
+            case VALUE_NULL:
+                return JsonValue.NULL;
+            default:
+                throw new JsonException("Internal Error");
+        }
+    }
+
+    @Override
+    public Stream<JsonValue> getArrayStream() {
+        Spliterator<JsonValue> spliterator =
+                new Spliterators.AbstractSpliterator<JsonValue>(Long.MAX_VALUE, Spliterator.ORDERED) {
+            @Override
+            public Spliterator<JsonValue> trySplit() {
+                return null;
+            }
+            @Override
+            public boolean tryAdvance(Consumer<? super JsonValue> action) {
+                if (action == null) {
+                    throw new NullPointerException();
+                }
+                if (! hasNext()) {
+                    return false;
+                }
+                if (next() == JsonParser.Event.END_ARRAY) {
+                    return false;
+                }
+                action.accept(getValue());
+                return true;
+            }
+        };
+        return StreamSupport.stream(spliterator, false);
+    }
+
+    @Override
+    public Stream<Map.Entry<String, JsonValue>> getObjectStream() {
+        Spliterator<Map.Entry<String, JsonValue>> spliterator =
+                new Spliterators.AbstractSpliterator<Map.Entry<String, JsonValue>>(Long.MAX_VALUE, Spliterator.ORDERED) {
+            @Override
+            public Spliterator<Map.Entry<String,JsonValue>> trySplit() {
+                return null;
+            }
+            @Override
+            public boolean tryAdvance(Consumer<? super Map.Entry<String, JsonValue>> action) {
+                if (action == null) {
+                    throw new NullPointerException();
+                }
+                if (! hasNext()) {
+                    return false;
+                }
+                JsonParser.Event e = next();
+                if (e == JsonParser.Event.END_OBJECT) {
+                    return false;
+                }
+                if (e != JsonParser.Event.KEY_NAME) {
+                    throw new JsonException("internal error");
+                }
+                String key = getString();
+                if (! hasNext()) {
+                    throw new JsonException("internal error");
+                }
+                next();
+                JsonValue value = getValue();
+                action.accept(new AbstractMap.SimpleImmutableEntry<String, JsonValue>(key, value));
+                return true;
+            }
+        };
+        return StreamSupport.stream(spliterator, false);
+    }
+
+    @Override
+    public void skipArray() {
+        Context previousContext = stack.peep();
+        while (hasNext()) {
+            if (next() == JsonParser.Event.END_ARRAY &&
+                previousContext == currentContext) {
+                    return;
+            }
+        }
+    }
+
+    @Override
+    public void skipObject() {
+        Context previousContext = stack.peep();
+        while (hasNext()) {
+            if (next() == JsonParser.Event.END_OBJECT &&
+                previousContext == currentContext) {
+                    return;
+            }
+        }
+    }
+
+    private JsonArray getArray(JsonArrayBuilder builder) {
+        while(hasNext()) {
+            JsonParser.Event e = next();
+            if (e == JsonParser.Event.END_ARRAY) {
+                return builder.build();
+            }
+            builder.add(getValue());
+        }
+        return null;
+    }
+
+    private JsonObject getObject(JsonObjectBuilder builder) {
+        while(hasNext()) {
+            JsonParser.Event e = next();
+            if (e == JsonParser.Event.END_OBJECT) {
+                return builder.build();
+            }
+            if (e != JsonParser.Event.KEY_NAME) {
+                throw new JsonException("internal error");
+            }
+            String key = getString();
+            if (! hasNext()) {
+                throw new JsonException("internal error");
+            }
+            next();
+            builder.add(key, getValue());
+        }
+        return null;
+    }
+
+    @Override
     public JsonLocation getLocation() {
         return tokenizer.getLocation();
     }
@@ -141,10 +305,12 @@ public class JsonParserImpl implements JsonParser {
         return tokenizer.getLastCharLocation();
     }
 
+    @Override
     public boolean hasNext() {
         return stateIterator.hasNext();
     }
 
+    @Override
     public Event next() {
         return stateIterator.next();
     }
@@ -203,6 +369,10 @@ public class JsonParserImpl implements JsonParser {
             Context temp = head;
             head = head.next;
             return temp;
+        }
+
+        private Context peep() {
+            return head;
         }
 
         private boolean isEmpty() {

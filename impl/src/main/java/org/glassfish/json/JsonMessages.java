@@ -90,6 +90,14 @@ final class JsonMessages {
         return localize("parser.getBigDecimal.err", event);
     }
 
+    static String PARSER_GETARRAY_ERR(JsonParser.Event event) {
+        return localize("parser.getArray.err", event);
+    }
+
+    static String PARSER_GETOBJECT_ERR(JsonParser.Event event) {
+        return localize("parser.getObject.err", event);
+    }
+
     static String PARSER_EXPECTED_EOF(JsonTokenizer.JsonToken token) {
         return localize("parser.expected.eof", token);
     }
@@ -143,14 +151,6 @@ final class JsonMessages {
     // reader messages
     static String READER_READ_ALREADY_CALLED() {
         return localize("reader.read.already.called");
-    }
-
-    static String READER_EXPECTED_ARRAY_GOT_OBJECT() {
-        return localize("reader.expected.array.got.object");
-    }
-
-    static String READER_EXPECTED_OBJECT_GOT_ARRAY() {
-        return localize("reader.expected.object.got.array");
     }
 
 

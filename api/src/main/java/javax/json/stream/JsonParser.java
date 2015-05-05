@@ -43,10 +43,18 @@ package javax.json.stream;
 
 import java.io.Closeable;
 import java.math.BigDecimal;
+import java.util.stream.Stream;
+import java.util.Map;
+
+import javax.json.JsonValue;
+import javax.json.JsonObject;
+import javax.json.JsonArray;
 
 /**
  * Provides forward, read-only access to JSON data in a streaming way. This
- * is the most efficient way for reading JSON data. The class
+ * is the most efficient way for reading JSON data.
+ * This is the only way to JSON data that are too big to be loaded in memory.
+ * <p>The class
  * {@link javax.json.Json} contains methods to create parsers from input
  * sources ({@link java.io.InputStream} and {@link java.io.Reader}).
  *
@@ -120,7 +128,7 @@ import java.math.BigDecimal;
  * }<B>END_OBJECT</B>
  * </pre>
  *
- * The methods {@code next()} and {@code hasNext()} enable iteration over
+ * The methods {@link #next()} and {@link #hasNext()} enable iteration over
  * parser events to process JSON data. {@code JsonParser} provides get methods
  * to obtain the value at the current state of the parser. For example, the
  * following code shows how to obtain the value "John" from the JSON above:
@@ -133,6 +141,41 @@ import java.math.BigDecimal;
  * parser.getString();          // "John"
  * </code>
  * </pre>
+ *
+ * The methods {@link #getArray} and {@link #getObject} can be used to read in
+ * a {@code JsonArray} or {@code JsonObject}.  For example, the following code
+ * shows how to obtain the phoneNumber in a JsonArray, from the JSON above:
+ *
+ * <pre><code>
+ * while (parser.hasNext() {
+ *     Event event = parser.next();
+ *     if (event == JsonParser.Event.KEY_NAME ) {
+ *         String key = getString();
+ *         event = parser.next();
+ *         if (key.equals("phoneNumber") {
+ *             JsonArray phones = parser.getArray();
+ *         }
+ *     }
+ * }
+ * </code></pre>
+ *
+ * The methods {@link #getArrayStream} and {@link #getObjectStream} can be used
+ * to get a stream of the elements of a {@code JsonArray} or {@code JsonObject}.
+ * For example, the following code shows another way to obtain John's phoneNumber
+ * in a {@code JsonArray} :
+ *
+ * <pre>{@code
+ * Event event = parser.next(); // START)OBJECT
+ * JsonArray phones = (JsonArray)
+ *     parser.getObjectStream.filter(e->getKey().equals("phoneNumber"))
+ *                           .map(e->e.getValue())
+ *                           .findFirst()
+ *                           .get();
+ * }</pre>
+ *
+ * The methods {@link #skipArray} and {@link #skipObject} can be used to
+ * skip tokens and position the parser to {@code END_ARRAY} or
+ * {@code END_OBJECT}.
  *
  * @see javax.json.Json
  * @see JsonParserFactory
@@ -313,22 +356,109 @@ public interface JsonParser extends /*Auto*/Closeable {
     JsonLocation getLocation();
 
     /**
-     * getJsonValue(JsonObject.class) is valid in the START_OBJECT state and
-     * moves the cursor to END_OBJECT.
+     * Returns a {@code JsonObject} and advances the parser to the
+     * corresponding {@code END_OBJECT}.
      *
-     * getJsonValue(JsonArray.class) is valid in the START_ARRAY state
-     * and moves the cursor to END_ARRAY.
+     * @return the {@code JsonObject} at the current parser position
      *
-     * getJsonValue(JsonString.class) is valid in the VALUE_STRING state.
-     *
-     * getJsonValue(JsonNumber.class) is valid in the VALUE_NUMBER state.
-     *
-     * @param clazz
-     * @return
-     *
-    public <T extends JsonValue> T getJsonValue(Class<T> clazz);
+     * @throws IllegalStateException when the parser state is not
+     *     {@code START_OBJECT}
+     * @since 1.1
      */
+    default public JsonObject getObject() {
+        throw new UnsupportedOperationException();
+    }
 
+    /**
+     * Returns a {@code JsonValue} at the current parser position.
+     * If the parser state is {@code START_ARRAY}, the behavior is
+     * the same as {@link #getArray}. If the parser state is
+     * {@code START_OBJECT}, the behavior is the same as
+     * {@link #getObject}.  For all other cases, the value is
+     * read and returned, and the parser position is not advanced.
+     *
+     * @return the {@code JsonValue} at the current parser position.
+     *
+     * @since 1.1
+     */
+    default public JsonValue getValue() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a {@code JsonArray} and advance the parser to the
+     * the corresponding {@code END_ARRAY}.
+     *
+     * @return the {@code JsonArray} at the current parser position
+     *
+     * @throws IllegalStateException when the parser state is not
+     *     {@code START_ARRAY}
+     * @since 1.1
+     */
+    default public JsonArray getArray() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a stream of the {@code JsonArray} elements.
+     * The parser state must be {@code START_ARRAY}.
+     * The elements are read lazily, on a as-needed basis, as
+     * required by the stream operations.
+     * If the stream operations do not consume
+     * all of the array elements, {@link skipArray} can be used to
+     * skip the unprocessed array elements.
+     *
+     * @return a stream of elements of the {@code JsonArray}
+     *
+     * @throws IllegalStateException when the parser state is not
+     *     {@code START_ARRAY}
+     */
+    default public Stream<JsonValue> getArrayStream() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a stream of the {@code JsonObject}'s
+     * name/value pairs. The parser state must be {@code START_OBJECT}.
+     * The name/value paris are read lazily, on a as-needed basis, as
+     * required by the stream operations.
+     * If the stream operations do not consume
+     * all of the object's name/value pairs, {@link skipObject} can be
+     * used to skip the unprocessed elements.
+     *
+     * @return a stream of name/value paris of the {@code JsonObject}
+     *
+     * @throws IllegalStateException when the parser state is not
+     *     {@code START_OBJECT}
+     */
+    default public Stream<Map.Entry<String,JsonValue>> getObjectStream() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Advance the parser to {@code END_ARRAY}.
+     * If the parser is in array context, i.e. it has previously
+     * encountered a {@code START_ARRAY} without encountereing the 
+     * corresponding {@code END_ARRAY}, the parser is advanced to
+     * the corresponding {@code END_ARRAY}.
+     * If the parser is not in any array context, nothing happens.
+     */
+    default public void skipArray() {
+        throw new UnsupportedOperationException();
+    }
+ 
+    /**
+     * Advance the parser to {@code END_OBJECT}.
+     * If the parser is in object context, i.e. it has previously
+     * encountered a {@code START_OBJECT} without encountereing the 
+     * corresponding {@code END_OBJECT}, the parser is advanced to
+     * the corresponding {@code END_OBJECT}.
+     * If the parser is not in any object context, nothing happens.
+     */
+    default public void skipObject() {
+        throw new UnsupportedOperationException();
+    }
+ 
     /**
      * Closes this parser and frees any resources associated with the
      * parser. This method closes the underlying input source.
@@ -338,5 +468,4 @@ public interface JsonParser extends /*Auto*/Closeable {
      */
     @Override
     void close();
-
 }
