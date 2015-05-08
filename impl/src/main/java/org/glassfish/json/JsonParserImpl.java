@@ -184,6 +184,10 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public Stream<JsonValue> getArrayStream() {
+        if (currentEvent != Event.START_ARRAY) {
+            throw new IllegalStateException(
+                JsonMessages.PARSER_GETARRAY_ERR(currentEvent));
+        }
         Spliterator<JsonValue> spliterator =
                 new Spliterators.AbstractSpliterator<JsonValue>(Long.MAX_VALUE, Spliterator.ORDERED) {
             @Override
@@ -210,6 +214,10 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public Stream<Map.Entry<String, JsonValue>> getObjectStream() {
+        if (currentEvent != Event.START_OBJECT) {
+            throw new IllegalStateException(
+                JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
+        }
         Spliterator<Map.Entry<String, JsonValue>> spliterator =
                 new Spliterators.AbstractSpliterator<Map.Entry<String, JsonValue>>(Long.MAX_VALUE, Spliterator.ORDERED) {
             @Override

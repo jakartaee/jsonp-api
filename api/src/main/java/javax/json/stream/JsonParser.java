@@ -53,7 +53,7 @@ import javax.json.JsonArray;
 /**
  * Provides forward, read-only access to JSON data in a streaming way. This
  * is the most efficient way for reading JSON data.
- * This is the only way to JSON data that are too big to be loaded in memory.
+ * This is the only way to parse and process JSON data that are too big to be loaded in memory.
  * <p>The class
  * {@link javax.json.Json} contains methods to create parsers from input
  * sources ({@link java.io.InputStream} and {@link java.io.Reader}).
@@ -165,12 +165,12 @@ import javax.json.JsonArray;
  * in a {@code JsonArray} :
  *
  * <pre>{@code
- * Event event = parser.next(); // START)OBJECT
+ * Event event = parser.next(); // START_OBJECT
  * JsonArray phones = (JsonArray)
- *     parser.getObjectStream.filter(e->getKey().equals("phoneNumber"))
- *                           .map(e->e.getValue())
- *                           .findFirst()
- *                           .get();
+ *     parser.getObjectStream().filter(e->e.getKey().equals("phoneNumber"))
+ *                             .map(e->e.getValue())
+ *                             .findFirst()
+ *                             .get();
  * }</pre>
  *
  * The methods {@link #skipArray} and {@link #skipObject} can be used to
