@@ -40,7 +40,6 @@
 
 package javax.json;
 
-import java.util.Map;
 
 /**
  * This class is an implementation of a JSON Merge Patch as specified in

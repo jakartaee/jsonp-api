@@ -101,14 +101,15 @@
             "original": { "a": "b" },
             "target": { "c": "b" },
             "expected": [
-                            { "op": "move", "path": "/c", "from": "/a" }
+                            { "op": "remove", "path": "/a"},
+                            { "op": "add", "path": "/c", "value": "b"}
                         ]
         },
         {
             "original": {"a": "c"},
             "target": {"a": "c", "d": "c"},
             "expected": [
-                            { "op": "copy", "path": "/d", "from": "/a" }
+                            { "op": "add", "path": "/d", "value": "c" }
                         ]
         }
 ]
