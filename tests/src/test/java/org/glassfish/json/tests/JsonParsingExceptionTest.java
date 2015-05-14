@@ -133,13 +133,12 @@ public class JsonParsingExceptionTest extends TestCase {
     }
 
     private void testMalformedJson(String json, JsonLocation expected) {
-        JsonParser parser = Json.createParser(new StringReader(json));
-        try {
-            while(parser.hasNext()) {
+        try (JsonParser parser = Json.createParser(new StringReader(json))) {
+            while (parser.hasNext()) {
                 parser.next();
             }
-            fail("Expected to throw JsonParsingException for "+json);
-        } catch(JsonParsingException je) {
+            fail("Expected to throw JsonParsingException for " + json);
+        } catch (JsonParsingException je) {
             // Expected
             if (expected != null) {
                 JsonLocation got = je.getLocation();
@@ -147,8 +146,6 @@ public class JsonParsingExceptionTest extends TestCase {
                 assertEquals(expected.getColumnNumber(), got.getColumnNumber());
                 assertEquals(expected.getStreamOffset(), got.getStreamOffset());
             }
-        } finally {
-            parser.close();
         }
     }
 

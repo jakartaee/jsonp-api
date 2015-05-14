@@ -74,7 +74,7 @@ public class JsonPatchTest {
 
     @Parameters(name = "{index}: ({0})={1}")
     public static Iterable<Object[]> data() throws Exception {
-        List<Object[]> examples = new ArrayList<Object[]>();
+        List<Object[]> examples = new ArrayList<>();
         JsonArray data = loadData();
         for (JsonValue jsonValue : data) {
             JsonObject test = (JsonObject) jsonValue;
@@ -107,8 +107,7 @@ public class JsonPatchTest {
         InputStream testData = JsonPatchTest.class
                 .getResourceAsStream("/jsonpatch.json");
         JsonReader reader = Json.createReader(testData);
-        JsonArray data = (JsonArray) reader.read();
-        return data;
+        return (JsonArray) reader.read();
     }
 
     private JsonArray patch;

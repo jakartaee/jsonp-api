@@ -79,8 +79,7 @@ public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure>
 
     @PostConstruct
     private void init() {
-        Map<String, Object> props = new HashMap<String, Object>();
-        wf = Json.createWriterFactory(props);
+        wf = Json.createWriterFactory(new HashMap<>());
     }
 
     @Override
@@ -109,11 +108,8 @@ public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure>
                         Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> stringObjectMultivaluedMap,
                         OutputStream outputStream) throws IOException, WebApplicationException {
-        JsonWriter writer = wf.createWriter(outputStream);
-        try {
+        try (JsonWriter writer = wf.createWriter(outputStream)) {
             writer.write(jsonStructure);
-        } finally {
-            writer.close();
         }
     }
 }

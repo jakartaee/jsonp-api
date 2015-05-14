@@ -93,11 +93,8 @@ public class JsonStructureBodyReader implements MessageBodyReader<JsonStructure>
                                   Type type, Annotation[] annotations, MediaType mediaType,
                                   MultivaluedMap<String, String> stringStringMultivaluedMap,
                                   InputStream inputStream) throws IOException, WebApplicationException {
-        JsonReader reader = rf.createReader(inputStream);
-        try {
+        try (JsonReader reader = rf.createReader(inputStream)) {
             return reader.read();
-        } finally {
-            reader.close();
         }
     }
 }

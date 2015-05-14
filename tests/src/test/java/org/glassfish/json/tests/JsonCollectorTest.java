@@ -88,7 +88,7 @@ public class JsonCollectorTest {
          */
         JsonArray result = contacts.getValuesAs(JsonObject.class).stream()
                    .filter(x->"F".equals(x.getString("gender")))
-                   .map(x->((JsonObject)x).get("name"))
+                   .map(x-> x.get("name"))
                    .collect(JsonCollectors.toJsonArray());
         JsonValue expected = JsonUtil.toJson("['Jane','Joanna']");
         assertEquals(expected, result);
