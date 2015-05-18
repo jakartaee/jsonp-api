@@ -41,6 +41,7 @@
 package javax.json;
 
 import java.util.ArrayList;
+import javax.json.JsonValue.ValueType;
 
 /**
  * This class is an immutable representation of a JSON Patch as specified in
@@ -126,7 +127,7 @@ public class JsonPatch {
         JsonStructure result = target;
 
         for (JsonValue operation: patch) {
-            if (operation.getValueType() != JsonValue.ValueType.OBJECT) {
+            if (operation.getValueType() != ValueType.OBJECT) {
                 throw new JsonException("A JSON patch must be an array of JSON objects.");
             }
             result = apply(result, (JsonObject) operation);
@@ -166,8 +167,7 @@ public class JsonPatch {
      * @return a JSON Patch which when applied to the source, yields the target
      */
     public static JsonArray diff(JsonStructure source, JsonStructure target) {
-        // TODO
-        return null;
+        return (new DiffGenerator()).diff(source, target);
     }
 
     /**
@@ -230,6 +230,99 @@ public class JsonPatch {
 
     private void missingMember(String op, String  member) {
         throw new JsonException(String.format("The JSON Patch operation %s must contain a %s member", op, member));
+    }
+
+    static class DiffGenerator {
+        private JsonPatchBuilder builder;
+
+        JsonArray diff(JsonStructure source, JsonStructure target) {
+            builder = new JsonPatchBuilder();
+            diff("", source, target);
+            return builder.build();
+        }
+
+        private void diff(String path, JsonValue source, JsonValue target) {
+            if (source.equals(target)) {
+                return;
+            }
+            ValueType s = source.getValueType();
+            ValueType t = target.getValueType();
+            if (s == ValueType.OBJECT && t == ValueType.OBJECT) {
+                diffObject(path, (JsonObject) source, (JsonObject) target);
+            } else if (s == ValueType.ARRAY && t == ValueType.ARRAY) {
+                diffArray(path, (JsonArray) source, (JsonArray) target);
+            } else {
+                builder.replace(path, target);
+            }
+        }
+
+        private void diffObject(String path, JsonObject source, JsonObject target) {
+            source.forEach((key, value) -> {
+                if (target.containsKey(key)) {
+                    diff(path + '/' + key, value, target.get(key));
+                } else {
+                    builder.remove(path + '/' + key);
+                }
+            });
+            target.forEach((key, value) -> {
+                if (! source.containsKey(key)) {
+                    builder.add(path + '/' + key, value);
+                }
+            });
+        }
+
+        /*
+         * For array element diff, find the longest common subsequence, per
+         * http://en.wikipedia.org/wiki/Longest_common_subsequence_problem .
+         * Note that only add and remove operations are generated here. It may be
+         * possible to generate move and replace operations by examining the patch
+         * operations.
+         */
+        private static int[][] c;
+        private static String curPath;
+        private static JsonArray curSource;
+        private static JsonArray curTarget;
+
+        private void diffArray(String path, JsonArray source, JsonArray target) {
+            curPath = path;
+            curTarget = target;
+
+            /* The array c keeps track of length of the subsequence. To avoid
+             * computing the equality of array elements again in genPatch, we
+             * left shift its value by 1, and use the low order bit to
+             * to mark for the equalilty.
+             */ 
+            int m = source.size();
+            int n = target.size();
+            c = new int[m+1][n+1];
+            for (int i = 0; i < m+1; i++)
+                c[i][0] = 0;
+            for (int i = 0; i < n+1; i++)
+                c[0][i] = 0;
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (source.get(i).equals(target.get(j))) {
+                        c[i+1][j+1] = ((c[i][j]) & ~1) + 3;
+                        // 3 = (1 << 1) & 1;
+                    } else {
+                        c[i+1][j+1] = Math.max(c[i+1][j], c[i][j+1]) & ~1;
+                    }
+                }
+            }
+            genPatch(m, n);
+        }
+
+        private void genPatch(int i, int j) {
+            if (i > 0 && j > 0 && (c[i][j] & 1) == 1) {
+                genPatch(i-1, j-1);
+            } else if (j > 0 && (i == 0 || c[i][j-1] >= c[i-1][j])) {
+                builder.add(curPath + '/' + (j-1), curTarget.get(j-1));
+                genPatch(i, j-1);
+            } else if (i > 0 && (j == 0 || c[i][j-1] < c[i-1][j])) {
+                builder.remove(curPath + '/' + (i-1));
+                genPatch(i-1, j);
+            }
+        }
     }
 }
 

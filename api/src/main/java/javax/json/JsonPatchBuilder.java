@@ -80,7 +80,7 @@ public class JsonPatchBuilder {
     }
 
     /**
-     * A convenience method for {@code build().apply(target) }
+     * A convenience method for {@code new JsonPatch(build()).apply(target) }
      *
      * @param target the target to apply the patch operations
      * @return the transformed target after the patch
@@ -88,7 +88,7 @@ public class JsonPatchBuilder {
      *    it contains references to non-existing members
      */
     public JsonStructure apply(JsonStructure target) {
-        return build().apply(target);
+        return new JsonPatch(build()).apply(target);
     }
 
     /**
@@ -101,7 +101,7 @@ public class JsonPatchBuilder {
      * @see #apply(JsonStructure)
      */
     public JsonObject apply(JsonObject target) {
-        return build().apply(target);
+        return new JsonPatch(build()).apply(target);
     }
 
     /**
@@ -114,7 +114,7 @@ public class JsonPatchBuilder {
      * @see #apply(JsonStructure)
      */
     public JsonArray apply(JsonArray target) {
-        return build().apply(target);
+        return new JsonPatch(build()).apply(target);
     }
 
     /**
@@ -341,11 +341,11 @@ public class JsonPatchBuilder {
     }
 
     /**
-     * Returns the patch operations in a JsonPatch
-     * @return the patch operations in a JsonPatch
+     * Returns the patch operations in a JsonArray
+     * @return the patch operations in a JsonArray
      */
-    public JsonPatch build() {
-        return new JsonPatch(builder.build());
+    public JsonArray build() {
+        return builder.build();
     }
 }
 
