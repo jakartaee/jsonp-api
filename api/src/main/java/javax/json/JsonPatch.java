@@ -274,27 +274,17 @@ public class JsonPatch {
         /*
          * For array element diff, find the longest common subsequence, per
          * http://en.wikipedia.org/wiki/Longest_common_subsequence_problem .
-         * Note that only add and remove operations are generated here. It may be
-         * possible to generate move and replace operations by examining the patch
-         * operations.
+         * We modify the algorithm to generate a replace if possible.
          */
-        private static int[][] c;
-        private static String curPath;
-        private static JsonArray curSource;
-        private static JsonArray curTarget;
-
         private void diffArray(String path, JsonArray source, JsonArray target) {
-            curPath = path;
-            curTarget = target;
-
             /* The array c keeps track of length of the subsequence. To avoid
              * computing the equality of array elements again in genPatch, we
-             * left shift its value by 1, and use the low order bit to
-             * to mark for the equalilty.
+             * left shift its value by 1, and use the low order bit to mark
+             * that two items are equal.
              */ 
             int m = source.size();
             int n = target.size();
-            c = new int[m+1][n+1];
+            int [][] c = new int[m+1][n+1];
             for (int i = 0; i < m+1; i++)
                 c[i][0] = 0;
             for (int i = 0; i < n+1; i++)
@@ -303,24 +293,38 @@ public class JsonPatch {
                 for (int j = 0; j < n; j++) {
                     if (source.get(i).equals(target.get(j))) {
                         c[i+1][j+1] = ((c[i][j]) & ~1) + 3;
-                        // 3 = (1 << 1) & 1;
+                        // 3 = (1 << 1) | 1;
                     } else {
                         c[i+1][j+1] = Math.max(c[i+1][j], c[i][j+1]) & ~1;
                     }
                 }
             }
-            genPatch(m, n);
-        }
 
-        private void genPatch(int i, int j) {
-            if (i > 0 && j > 0 && (c[i][j] & 1) == 1) {
-                genPatch(i-1, j-1);
-            } else if (j > 0 && (i == 0 || c[i][j-1] >= c[i-1][j])) {
-                builder.add(curPath + '/' + (j-1), curTarget.get(j-1));
-                genPatch(i, j-1);
-            } else if (i > 0 && (j == 0 || c[i][j-1] < c[i-1][j])) {
-                builder.remove(curPath + '/' + (i-1));
-                genPatch(i-1, j);
+            int i = m;
+            int j = n;
+            while (i > 0 || j > 0) {
+                if (i == 0) {
+                    j--;
+                    builder.add(path + '/' + j, target.get(j));
+                } else if (j == 0) {
+                    i--;
+                    builder.remove(path + '/' + i);
+                } else if ((c[i][j] & 1) == 1) {
+                    i--; j--;
+                } else {
+                    int f = c[i][j-1] >> 1;
+                    int g = c[i-1][j] >> 1;
+                    if (f > g) {
+                        j--;
+                        builder.add(path + '/' + j, target.get(j));
+                    } else if (f < g) {
+                        i--;
+                        builder.remove(path + '/' + i);
+                    } else { // f == g) {
+                       i--; j--;
+                       diff(path + '/' + i, source.get(i), target.get(j));
+                    }
+                }
             }
         }
     }
