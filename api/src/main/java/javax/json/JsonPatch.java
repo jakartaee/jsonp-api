@@ -278,7 +278,7 @@ public class JsonPatch {
          */
         private void diffArray(String path, JsonArray source, JsonArray target) {
             /* The array c keeps track of length of the subsequence. To avoid
-             * computing the equality of array elements again in genPatch, we
+             * computing the equality of array elements again, we
              * left shift its value by 1, and use the low order bit to mark
              * that two items are equal.
              */ 

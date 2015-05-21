@@ -41,13 +41,13 @@
 package javax.json;
 
 /**
- * A builder for constructing a {@link JsonPatch} by adding
+ * A builder for constructing a JSON Patch by adding
  * JSON Patch operations incrementatlly.
  * <p>
  * The following illustrates the approach.
  * <pre>
  *   JsonPatchBuilder builder = new JsonPatchBuilder();
- *   JsonPath patch = builder.add("/John/phones/office", "1234-567")
+ *   JsonArray patch = builder.add("/John/phones/office", "1234-567")
  *                           .remove("/Amy/age")
  *                           .build();
  * </pre>
