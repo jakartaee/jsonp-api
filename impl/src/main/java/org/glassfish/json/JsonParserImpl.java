@@ -254,7 +254,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public void skipArray() {
-        Context previousContext = stack.peep();
+        Context previousContext = stack.peek();
         while (hasNext()) {
             if (next() == JsonParser.Event.END_ARRAY &&
                 previousContext == currentContext) {
@@ -265,7 +265,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public void skipObject() {
-        Context previousContext = stack.peep();
+        Context previousContext = stack.peek();
         while (hasNext()) {
             if (next() == JsonParser.Event.END_OBJECT &&
                 previousContext == currentContext) {
@@ -291,13 +291,7 @@ public class JsonParserImpl implements JsonParser {
             if (e == JsonParser.Event.END_OBJECT) {
                 return builder.build();
             }
-            if (e != JsonParser.Event.KEY_NAME) {
-                throw new JsonException("internal error");
-            }
             String key = getString();
-            if (! hasNext()) {
-                throw new JsonException("internal error");
-            }
             next();
             builder.add(key, getValue());
         }
@@ -379,7 +373,7 @@ public class JsonParserImpl implements JsonParser {
             return temp;
         }
 
-        private Context peep() {
+        private Context peek() {
             return head;
         }
 
