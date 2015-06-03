@@ -68,26 +68,22 @@ public class JsonParserImpl implements JsonParser {
     private Event currentEvent;
 
     private final Stack stack = new Stack();
-    private final StateIterator stateIterator;
     private final JsonTokenizer tokenizer;
 
     public JsonParserImpl(Reader reader, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         tokenizer = new JsonTokenizer(reader, bufferPool);
-        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
         tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
-        stateIterator = new StateIterator();
     }
 
     public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
-        stateIterator = new StateIterator();
     }
 
     public String getString() {
@@ -309,41 +305,15 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public boolean hasNext() {
-        return stateIterator.hasNext();
+        return tokenizer.hasNextToken();
     }
 
     @Override
     public Event next() {
-        return stateIterator.next();
-    }
-
-    private class StateIterator implements  Iterator<JsonParser.Event> {
-
-        @Override
-        public boolean hasNext() {
-            if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
-                JsonToken token = tokenizer.nextToken();
-                if (token != JsonToken.EOF) {
-                    throw new JsonParsingException(JsonMessages.PARSER_EXPECTED_EOF(token),
-                            getLastCharLocation());
-                }
-                return false;
-            }
-            return true;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
         }
-
-        @Override
-        public JsonParser.Event next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return currentEvent = currentContext.getNextEvent();
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+        return currentEvent = currentContext.getNextEvent();
     }
 
     public void close() {

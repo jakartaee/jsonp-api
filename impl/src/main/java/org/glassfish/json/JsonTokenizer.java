@@ -419,6 +419,49 @@ final class JsonTokenizer implements Closeable {
         }
     }
 
+    boolean hasNextToken() {
+        reset();
+        int ch = peek();
+
+        // whitespace
+        while (ch == 0x20 || ch == 0x09 || ch == 0x0a || ch == 0x0d) {
+            if (ch == '\r') {
+                ++lineNo;
+                ++readBegin;
+                ch = peek();
+                if (ch == '\n') {
+                    lastLineOffset = bufferOffset+readBegin;
+                } else {
+                    lastLineOffset = bufferOffset+readBegin-1;
+                    continue;
+                }
+            } else if (ch == '\n') {
+                ++lineNo;
+                lastLineOffset = bufferOffset+readBegin;
+            }
+            ++readBegin;
+            ch = peek();
+        }
+        return ch != -1;
+    }
+
+    private int peek() {
+        try {
+            if (readBegin == readEnd) {     // need to fill the buffer
+                int len = fillBuf();
+                if (len == -1) {
+                    return -1;
+                }
+                assert len != 0;
+                readBegin = storeEnd;
+                readEnd = readBegin+len;
+            }
+            return buf[readBegin];
+        } catch (IOException ioe) {
+            throw new JsonException(JsonMessages.TOKENIZER_IO_ERR(), ioe);
+        }
+    }
+
     // Gives the location of the last char. Used for
     // JsonParsingException.getLocation
     JsonLocation getLastCharLocation() {
