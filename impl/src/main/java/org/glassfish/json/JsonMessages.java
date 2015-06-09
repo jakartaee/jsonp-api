@@ -98,6 +98,10 @@ final class JsonMessages {
         return localize("parser.getObject.err", event);
     }
 
+    static String PARSER_GETVALUESTREAM_ERR() {
+        return localize("parser.getValueStream.err");
+    }
+
     static String PARSER_EXPECTED_EOF(JsonTokenizer.JsonToken token) {
         return localize("parser.expected.eof", token);
     }
@@ -109,7 +113,6 @@ final class JsonMessages {
     static String PARSER_INVALID_TOKEN(JsonTokenizer.JsonToken token, JsonLocation location, String expectedTokens) {
         return localize("parser.invalid.token", token, location, expectedTokens);
     }
-
 
     // generator messages
     static String GENERATOR_FLUSH_IO_ERR() {

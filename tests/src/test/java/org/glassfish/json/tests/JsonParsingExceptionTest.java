@@ -56,15 +56,15 @@ import java.io.StringReader;
 public class JsonParsingExceptionTest extends TestCase {
 
     public void testWrongJson() {
-        testMalformedJson("", null);
+        // testMalformedJson("", null); Allowed in 1.1
     }
 
     public void testWrongJson1() {
-        testMalformedJson("{}{}", null);
+        // testMalformedJson("{}{}", null);  Allowed in 1.1
     }
 
     public void testWrongJson2() {
-        testMalformedJson("{", null);
+        // testMalformedJson("{", null);  Allowed in 1.1
     }
 
     public void testWrongJson3() {
@@ -121,7 +121,7 @@ public class JsonParsingExceptionTest extends TestCase {
         testMalformedJson("[a", new MyLocation(1, 2, 1));
         testMalformedJson("[nuLl]", new MyLocation(1, 4, 3));
         testMalformedJson("[falsE]", new MyLocation(1, 6, 5));
-        testMalformedJson("[][]", new MyLocation(1, 3, 2));
+        // testMalformedJson("[][]", new MyLocation(1, 3, 2));   allowed in 1.1
         testMalformedJson("[1234L]", new MyLocation(1, 6, 5));
     }
 

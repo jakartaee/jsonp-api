@@ -430,14 +430,14 @@ final class JsonTokenizer implements Closeable {
                 ++readBegin;
                 ch = peek();
                 if (ch == '\n') {
-                    lastLineOffset = bufferOffset+readBegin;
+                    lastLineOffset = bufferOffset+readBegin+1;
                 } else {
-                    lastLineOffset = bufferOffset+readBegin-1;
+                    lastLineOffset = bufferOffset+readBegin;
                     continue;
                 }
             } else if (ch == '\n') {
                 ++lineNo;
-                lastLineOffset = bufferOffset+readBegin;
+                lastLineOffset = bufferOffset+readBegin+1;
             }
             ++readBegin;
             ch = peek();

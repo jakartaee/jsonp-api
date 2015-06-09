@@ -177,6 +177,17 @@ import javax.json.JsonArray;
  * skip tokens and position the parser to {@code END_ARRAY} or
  * {@code END_OBJECT}.
  *
+ * {@code JsonParser} can be used to parse sequence of JSON values that are not
+ * enclosed in a JSON array, e.g. { } { }. The following code demonstrates how
+ * to parse such sequence.
+ * <pre><code>
+ * JsonParser parser = Json.createParser(...);
+ * while (parser.hasNext) {
+ *     parser.next(); // advance parser state
+ *     JsonValue value = parser.getValue();
+ * }
+ * </code></pre>
+ *
  * @see javax.json.Json
  * @see JsonParserFactory
  */
@@ -374,8 +385,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * If the parser state is {@code START_ARRAY}, the behavior is
      * the same as {@link #getArray}. If the parser state is
      * {@code START_OBJECT}, the behavior is the same as
-     * {@link #getObject}.  For all other cases, the value is
-     * read and returned, and the parser position is not advanced.
+     * {@link #getObject}.  For all other cases, the JSON value is
+     * read and returned.
      *
      * @return the {@code JsonValue} at the current parser position.
      *
@@ -402,7 +413,7 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Returns a stream of the {@code JsonArray} elements.
      * The parser state must be {@code START_ARRAY}.
-     * The elements are read lazily, on a as-needed basis, as
+     * The elements are read lazily, on an as-needed basis, as
      * required by the stream operations.
      * If the stream operations do not consume
      * all of the array elements, {@link skipArray} can be used to
@@ -420,7 +431,7 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Returns a stream of the {@code JsonObject}'s
      * name/value pairs. The parser state must be {@code START_OBJECT}.
-     * The name/value paris are read lazily, on a as-needed basis, as
+     * The name/value paris are read lazily, on an as-needed basis, as
      * required by the stream operations.
      * If the stream operations do not consume
      * all of the object's name/value pairs, {@link skipObject} can be
@@ -435,6 +446,20 @@ public interface JsonParser extends /*Auto*/Closeable {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns a stream of {@code JsonValue} from a sequence of
+     * JSON values. The values are read lazily, on an as-needed basis,
+     * as needed by the stream operations.
+     *
+     * @return a Stream of {@code JsonValue}
+     *
+     * @throws IllegalStateException when the parser if the parser is
+     * in an array or object.
+     */
+    default public Stream<JsonValue> getValueStream() {
+        throw new UnsupportedOperationException();
+    }
+    
     /**
      * Advance the parser to {@code END_ARRAY}.
      * If the parser is in array context, i.e. it has previously

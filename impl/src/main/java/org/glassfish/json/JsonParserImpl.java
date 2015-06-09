@@ -249,6 +249,33 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
+    public Stream<JsonValue> getValueStream() {
+        if (! (currentContext instanceof NoneContext)) {
+            throw new IllegalStateException(
+                JsonMessages.PARSER_GETVALUESTREAM_ERR());
+        }
+        Spliterator<JsonValue> spliterator =
+                new Spliterators.AbstractSpliterator<JsonValue>(Long.MAX_VALUE, Spliterator.ORDERED) {
+            @Override
+            public Spliterator<JsonValue> trySplit() {
+                return null;
+            }
+            @Override
+            public boolean tryAdvance(Consumer<? super JsonValue> action) {
+                if (action == null) {
+                    throw new NullPointerException();
+                }
+                if (! hasNext()) {
+                    return false;
+                }
+                action.accept(getValue());
+                return true;
+            }
+        };
+        return StreamSupport.stream(spliterator, false);
+    }
+
+    @Override
     public void skipArray() {
         Context previousContext = stack.peek();
         while (hasNext()) {
