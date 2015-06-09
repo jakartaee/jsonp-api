@@ -268,6 +268,7 @@ public class JsonParserImpl implements JsonParser {
                 if (! hasNext()) {
                     return false;
                 }
+                next();
                 action.accept(getValue());
                 return true;
             }

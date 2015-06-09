@@ -176,7 +176,7 @@ import javax.json.JsonArray;
  * The methods {@link #skipArray} and {@link #skipObject} can be used to
  * skip tokens and position the parser to {@code END_ARRAY} or
  * {@code END_OBJECT}.
- *
+ * <p>
  * {@code JsonParser} can be used to parse sequence of JSON values that are not
  * enclosed in a JSON array, e.g. { } { }. The following code demonstrates how
  * to parse such sequence.
