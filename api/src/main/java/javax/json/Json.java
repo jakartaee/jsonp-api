@@ -93,7 +93,7 @@ public class Json {
     /**
      * Creates a JSON parser from a byte stream.
      * The character encoding of the stream is determined as specified in 
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+     * <a href="http://tools.ietf.org/rfc/rfc7159.txt">RFC 7159</a>.
      *
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
@@ -211,7 +211,7 @@ public class Json {
     /**
      * Creates a JSON reader from a byte stream. The character encoding of
      * the stream is determined as described in
-     * <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+     * <a href="http://tools.ietf.org/rfc/rfc7159.txt">RFC 7159</a>.
      *
      * @param in a byte stream from which JSON is to be read
      * @return a JSON reader

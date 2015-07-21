@@ -58,7 +58,12 @@
  * <p>These object models can also be created from an input source using
  * the class {@link javax.json.JsonReader}. Similarly, these object models
  * can be written to an output source using the class {@link javax.json.JsonWriter}.
- *
- * @since JSON Processing 1.0
+ * <p>
+ * This package includes several classes that implement other JSON related
+ * standards: <a href="http://tools.ietf.org/html/rfc6901">JSON Pointer</a>,
+ * <a Href="http://tools.ietf.org/html/rfc6902">JSON Patch</a>, and
+ * <a Href="http://tools.ietf.org/html/rfc7396">JSON Merge Patch</a>.
+ * They can be used to retrieve, transform or manipulate values in an
+ * object model.
  */
 package javax.json;

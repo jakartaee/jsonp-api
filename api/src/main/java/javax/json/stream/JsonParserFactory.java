@@ -82,7 +82,7 @@ public interface JsonParserFactory {
     /**
      * Creates a JSON parser from the specified byte stream.
      * The character encoding of the stream is determined
-     * as specified in <a href="http://tools.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+     * as specified in <a href="http://tools.ietf.org/rfc/rfc7159.txt">RFC 7159</a>.
      *
      * @param in i/o stream from which JSON is to be read
      * @return the created JSON parser

@@ -88,7 +88,9 @@ public interface JsonBuilderFactory {
      * @return a JSON object builder
      * @since 1.1
      */
-    JsonObjectBuilder createObjectBuilder(JsonObject object);
+    default JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Creates a {@code JsonArrayBuilder} instance that is used to build
@@ -105,7 +107,9 @@ public interface JsonBuilderFactory {
      * @return a JSON array builder
      * @since 1.1
      */
-    JsonArrayBuilder createArrayBuilder(JsonArray array);
+    default JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns read-only map of supported provider specific configuration

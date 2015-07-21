@@ -156,7 +156,7 @@ import java.math.BigInteger;
  * </pre>
  *
  * The generated JSON text must strictly conform to the grammar defined in
- * <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>.
+ * <a href="http://www.ietf.org/rfc/rfc7159.txt">RFC 7159</a>.
  *
  * @see javax.json.Json
  * @see JsonGeneratorFactory

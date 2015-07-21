@@ -142,6 +142,8 @@ import javax.json.JsonArray;
  * </code>
  * </pre>
  *
+ * Starting in version 1.1, it is possible to build a partial JSON object
+ * model from the stream, at the current parser position.
  * The methods {@link #getArray} and {@link #getObject} can be used to read in
  * a {@code JsonArray} or {@code JsonObject}.  For example, the following code
  * shows how to obtain the phoneNumber in a JsonArray, from the JSON above:

@@ -48,8 +48,8 @@ package javax.json;
  * <pre>
  *   JsonPatchBuilder builder = new JsonPatchBuilder();
  *   JsonArray patch = builder.add("/John/phones/office", "1234-567")
- *                           .remove("/Amy/age")
- *                           .build();
+ *                            .remove("/Amy/age")
+ *                            .build();
  * </pre>
  * The result is equivalent to the following JSON Patch.
  * <pre>
