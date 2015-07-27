@@ -55,11 +55,15 @@ public interface JsonValue {
 
     /**
      * The empty JSON object.
+     * 
+     * @since 1.1
      */
     static final JsonObject EMPTY_JSON_OBJECT = Json.createObjectBuilder().build();
 
     /**
      * The empty JSON array.
+     * 
+     * @since 1.1
      */
     static final JsonArray EMPTY_JSON_ARRAY = Json.createArrayBuilder().build();
 

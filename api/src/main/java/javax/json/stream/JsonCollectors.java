@@ -58,6 +58,8 @@ import javax.json.JsonException;
 /**
  * This class contains some implementations of {@code java.util.stream.Collector} for accumulating
  * {@link JsonValue}s into {@link JsonArray} and {@link JsonObject}.
+ * 
+ * @since 1.1
  */
 
 public class JsonCollectors {

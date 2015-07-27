@@ -52,6 +52,8 @@ public interface JsonStructure extends JsonValue {
      * @return the {@code JsonValue} at the referenced location
      * @throws JsonException if the JSON Pointer is malformed, or if it references
      *     a non-existing member or value.
+     *     
+     * @since 1.1
      */
     default public JsonValue getValue(String jsonPointer) {
         return new JsonPointer(jsonPointer).getValue(this);

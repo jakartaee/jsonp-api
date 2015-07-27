@@ -40,7 +40,6 @@
 
 package javax.json;
 
-import java.util.ArrayList;
 import javax.json.JsonValue.ValueType;
 
 /**
@@ -65,6 +64,8 @@ import javax.json.JsonValue.ValueType;
  *                             .remove("/Amy/age")
  *                             .apply(contacts);
  * } </pre>
+ * 
+ * @since 1.1
  */
 
 public class JsonPatch {

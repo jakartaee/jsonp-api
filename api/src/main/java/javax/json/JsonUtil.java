@@ -44,6 +44,8 @@ import java.io.StringReader;
 
 /**
  * A utility class
+ * 
+ * @since 1.1
  */
 public class JsonUtil {
 

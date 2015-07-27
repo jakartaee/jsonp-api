@@ -42,7 +42,7 @@ package javax.json;
 
 /**
  * A builder for constructing a JSON Patch by adding
- * JSON Patch operations incrementatlly.
+ * JSON Patch operations incrementally.
  * <p>
  * The following illustrates the approach.
  * <pre>
@@ -57,6 +57,8 @@ package javax.json;
  *    {"op" = "add", "path" = "/John/phones/office", "value" = "1234-567"},
  *    {"op" = "remove", "path" = "/Amy/age"}
  * ] </pre>
+ * 
+ * @since 1.1
  */
 
 public class JsonPatchBuilder {

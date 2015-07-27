@@ -376,6 +376,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @throws IllegalStateException when the parser state is not
      *     {@code START_OBJECT}
+     *
      * @since 1.1
      */
     default public JsonObject getObject() {
@@ -406,6 +407,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @throws IllegalStateException when the parser state is not
      *     {@code START_ARRAY}
+     *
      * @since 1.1
      */
     default public JsonArray getArray() {
@@ -425,6 +427,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @throws IllegalStateException when the parser state is not
      *     {@code START_ARRAY}
+     *
+     * @since 1.1
      */
     default public Stream<JsonValue> getArrayStream() {
         throw new UnsupportedOperationException();
@@ -443,6 +447,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @throws IllegalStateException when the parser state is not
      *     {@code START_OBJECT}
+     *
+     * @since 1.1
      */
     default public Stream<Map.Entry<String,JsonValue>> getObjectStream() {
         throw new UnsupportedOperationException();
@@ -457,6 +463,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @throws IllegalStateException when the parser if the parser is
      * in an array or object.
+     *
+     * @since 1.1
      */
     default public Stream<JsonValue> getValueStream() {
         throw new UnsupportedOperationException();
@@ -469,6 +477,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * corresponding {@code END_ARRAY}, the parser is advanced to
      * the corresponding {@code END_ARRAY}.
      * If the parser is not in any array context, nothing happens.
+     *
+     * @since 1.1
      */
     default public void skipArray() {
         throw new UnsupportedOperationException();
@@ -481,6 +491,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * corresponding {@code END_OBJECT}, the parser is advanced to
      * the corresponding {@code END_OBJECT}.
      * If the parser is not in any object context, nothing happens.
+     *
+     * @since 1.1
      */
     default public void skipObject() {
         throw new UnsupportedOperationException();

@@ -43,6 +43,8 @@ package javax.json;
 /**
  * This class is an implementation of a JSON Merge Patch as specified in
  * <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>.
+ * 
+ * @since 1.1
  */
 
 public class JsonMergePatch {
