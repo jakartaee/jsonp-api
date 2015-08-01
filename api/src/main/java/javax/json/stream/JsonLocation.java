@@ -57,16 +57,16 @@ package javax.json.stream;
 public interface JsonLocation {
 
     /**
-     * Return the line number for the current JSON event in the input source.
+     * Return the line number (starts with 1 for the first line) for the current JSON event in the input source.
      *
-     * @return the line number or -1 if none is available
+     * @return the line number (starts with 1 for the first line) or -1 if none is available
      */
     long getLineNumber();
 
     /**
-     * Return the column number for the current JSON event in the input source.
+     * Return the column number (starts with 1 for the first column) for the current JSON event in the input source.
      *
-     * @return the column number or -1 if none is available
+     * @return the column number (starts with 1 for the first column) or -1 if none is available
      */
     long getColumnNumber();
 
