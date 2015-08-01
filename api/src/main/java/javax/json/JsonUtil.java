@@ -47,7 +47,10 @@ import java.io.StringReader;
  * 
  * @since 1.1
  */
-public class JsonUtil {
+public final class JsonUtil {
+
+    private JsonUtil() {
+    }
 
     /**
      * Reads the input JSON text and returns a JsonValue.

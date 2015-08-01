@@ -62,7 +62,7 @@ import javax.json.JsonException;
  * @since 1.1
  */
 
-public class JsonCollectors {
+public final class JsonCollectors {
 
     private JsonCollectors() {
     }

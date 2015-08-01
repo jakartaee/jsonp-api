@@ -75,7 +75,7 @@ import java.math.BigInteger;
  * All the methods in this class are safe for use by multiple concurrent
  * threads.
  */
-public class Json {
+public final class Json {
 
     private Json() {
     }

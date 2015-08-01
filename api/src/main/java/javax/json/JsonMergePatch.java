@@ -47,7 +47,10 @@ package javax.json;
  * @since 1.1
  */
 
-public class JsonMergePatch {
+public final class JsonMergePatch {
+
+    private JsonMergePatch() {
+    }
 
     /**
      * Applies the specified patch to the specified target.
