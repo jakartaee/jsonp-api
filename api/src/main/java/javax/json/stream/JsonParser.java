@@ -437,13 +437,13 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Returns a stream of the {@code JsonObject}'s
      * name/value pairs. The parser state must be {@code START_OBJECT}.
-     * The name/value paris are read lazily, on an as-needed basis, as
+     * The name/value pairs are read lazily, on an as-needed basis, as
      * required by the stream operations.
      * If the stream operations do not consume
      * all of the object's name/value pairs, {@link skipObject} can be
      * used to skip the unprocessed elements.
      *
-     * @return a stream of name/value paris of the {@code JsonObject}
+     * @return a stream of name/value pairs of the {@code JsonObject}
      *
      * @throws IllegalStateException when the parser state is not
      *     {@code START_OBJECT}
@@ -473,7 +473,7 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Advance the parser to {@code END_ARRAY}.
      * If the parser is in array context, i.e. it has previously
-     * encountered a {@code START_ARRAY} without encountereing the 
+     * encountered a {@code START_ARRAY} without encountering the 
      * corresponding {@code END_ARRAY}, the parser is advanced to
      * the corresponding {@code END_ARRAY}.
      * If the parser is not in any array context, nothing happens.
@@ -487,7 +487,7 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Advance the parser to {@code END_OBJECT}.
      * If the parser is in object context, i.e. it has previously
-     * encountered a {@code START_OBJECT} without encountereing the 
+     * encountered a {@code START_OBJECT} without encountering the 
      * corresponding {@code END_OBJECT}, the parser is advanced to
      * the corresponding {@code END_OBJECT}.
      * If the parser is not in any object context, nothing happens.
