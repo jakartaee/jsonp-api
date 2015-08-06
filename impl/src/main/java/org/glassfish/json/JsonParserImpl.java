@@ -160,6 +160,7 @@ public class JsonParserImpl implements JsonParser {
                 return getArray(new JsonArrayBuilderImpl(bufferPool));
             case START_OBJECT:
                 return getObject(new JsonObjectBuilderImpl(bufferPool));
+            case KEY_NAME:
             case VALUE_STRING:
                 return new JsonStringImpl(getString());
             case VALUE_NUMBER:
@@ -173,8 +174,10 @@ public class JsonParserImpl implements JsonParser {
                 return JsonValue.FALSE;
             case VALUE_NULL:
                 return JsonValue.NULL;
-            default:
-                throw new JsonException("Internal Error");
+            case END_ARRAY:
+            case END_OBJECT:
+            default:	
+            	throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
         }
     }
 
