@@ -98,6 +98,10 @@ final class JsonMessages {
         return localize("parser.getObject.err", event);
     }
 
+    static String PARSER_GETVALUE_ERR(JsonParser.Event event) {
+        return localize("parser.getValue.err", event);
+    }
+
     static String PARSER_GETVALUESTREAM_ERR() {
         return localize("parser.getValueStream.err");
     }

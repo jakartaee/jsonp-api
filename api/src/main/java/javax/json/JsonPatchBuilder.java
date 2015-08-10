@@ -61,7 +61,7 @@ package javax.json;
  * @since 1.1
  */
 
-public class JsonPatchBuilder {
+public final class JsonPatchBuilder {
 
     private JsonArrayBuilder builder; 
 

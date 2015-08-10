@@ -388,10 +388,12 @@ public interface JsonParser extends /*Auto*/Closeable {
      * If the parser state is {@code START_ARRAY}, the behavior is
      * the same as {@link #getArray}. If the parser state is
      * {@code START_OBJECT}, the behavior is the same as
-     * {@link #getObject}.  For all other cases, the JSON value is
+     * {@link #getObject}. For all other cases, if applicable, the JSON value is
      * read and returned.
      *
      * @return the {@code JsonValue} at the current parser position.
+     * @throws IllegalStateException when the parser state is
+     *     {@code END_ARRAY} or {@code END_ARRAY}
      *
      * @since 1.1
      */
@@ -461,8 +463,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @return a Stream of {@code JsonValue}
      *
-     * @throws IllegalStateException when the parser if the parser is
-     * in an array or object.
+     * @throws IllegalStateException if the parser is in an array or object.
      *
      * @since 1.1
      */
