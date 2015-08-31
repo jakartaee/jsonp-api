@@ -84,7 +84,7 @@
 ]]>
                     </bottom>
                     <links>
-                        <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                        <link>http://docs.oracle.com/javase/8/docs/api/</link>
                     </links>
                 </configuration>
 

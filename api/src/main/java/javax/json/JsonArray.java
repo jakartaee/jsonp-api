@@ -41,6 +41,9 @@
 package javax.json;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * {@code JsonArray} represents an immutable JSON array
@@ -162,7 +165,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
     JsonString getJsonString(int index);
 
     /**
-     * Returns a list a view of the specified type for the array. This method
+     * Returns a list view of the specified type for the array. This method
      * does not verify if there is a value of wrong type in the array. Providing
      * this typesafe view dynamically may cause a program fail with a
      * {@code ClassCastException}, if there is a value of wrong type in this
@@ -171,9 +174,32 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      *
      * @param <T> The type of the List for the array
      * @param clazz a JsonValue type
-     * @return a list view of the  specified type
+     * @return a list view of the specified type
      */
     <T extends JsonValue> List<T> getValuesAs(Class<T> clazz);
+
+    /**
+     * Returns a list view for the array. The value and the type of the elements
+     * in the list is specified by the {@code func} argument.
+     * <p>This method can be used to obtain a list of the unwrapped types, such as
+     * <pre>{@code
+     *     List<String> strings = ary1.getValuesAs(JsonString::getString);
+     *     List<Integer> ints = ary2.getValuesAs(JsonNumber::intValue);
+     * } </pre>
+     * or a list of simple projections, such as
+     * <pre> {@code
+     *     Lsit<Integer> stringsizes = ary1.getValueAs((JsonString v)->v.getString().length();
+     * } </pre>
+     * @param <K> The element type (must be a subtype of JsonValue) of this JsonArray.
+     * @param <T> The element type of the returned List
+     * @param func The function that maps the elements of this JsonArray to the target elements.
+     * @return A List of the specified values and type.
+     * @throws ClassCastException if the {@code JsonArray} contains a value of wrong type
+     */
+    default <T, K extends JsonValue> List<T> getValuesAs(Function<K, T> func) {
+        Stream<K> stream = (Stream<K>) stream();
+        return stream.map(func).collect(Collectors.toList());
+    }
 
     /**
      * A convenience method for
