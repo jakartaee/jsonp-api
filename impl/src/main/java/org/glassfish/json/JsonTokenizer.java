@@ -544,8 +544,23 @@ final class JsonTokenizer implements Closeable {
     int getInt() {
         // no need to create BigDecimal for common integer values (1-9 digits)
         int storeLen = storeEnd-storeBegin;
-        if (!fracOrExp && (storeLen <= 9 || (minus && storeLen == 10))) {
+        if (!fracOrExp && (storeLen <= 9 || (minus && storeLen <= 10))) {
             int num = 0;
+            int i = minus ? 1 : 0;
+            for(; i < storeLen; i++) {
+                num = num * 10 + (buf[storeBegin+i] - '0');
+            }
+            return minus ? -num : num;
+        } else {
+            return getBigDecimal().intValue();
+        }
+    }
+    
+    long getLong() {
+        // no need to create BigDecimal for common integer values (1-18 digits)
+        int storeLen = storeEnd-storeBegin;
+        if (!fracOrExp && (storeLen <= 18 || (minus && storeLen <= 19))) {
+            long num = 0;
             int i = minus ? 1 : 0;
             for(; i < storeLen; i++) {
                 num = num * 10 + (buf[storeBegin+i] - '0');
@@ -560,7 +575,14 @@ final class JsonTokenizer implements Closeable {
     // So there are cases it will return false even though the number is int
     boolean isDefinitelyInt() {
         int storeLen = storeEnd-storeBegin;
-        return !fracOrExp && (storeLen <= 9 || (minus && storeLen == 10));
+        return !fracOrExp && (storeLen <= 9 || (minus && storeLen <= 10));
+    }
+    
+    // returns true for common long values (1-18 digits).
+    // So there are cases it will return false even though the number is long
+    boolean isDefinitelyLong() {
+    	int storeLen = storeEnd-storeBegin;
+    	return !fracOrExp && (storeLen <= 18 || (minus && storeLen <= 19));
     }
 
     boolean isIntegral() {

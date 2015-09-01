@@ -40,13 +40,25 @@
 
 package org.glassfish.json.tests;
 
-import junit.framework.TestCase;
-import org.glassfish.json.api.BufferPool;
-
-import javax.json.*;
-import java.io.*;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonNumber;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+import javax.json.JsonValue;
+
+import org.glassfish.json.api.BufferPool;
+
+import junit.framework.TestCase;
 
 /**
  * @author Jitendra Kotamraju
@@ -68,6 +80,48 @@ public class JsonReaderTest extends TestCase {
         reader.close();
         String str = array.getString(0);
         assertEquals("\u0000\u00ff\u00ff", str);
+    }
+
+    public void testPrimitiveIntNumbers() {
+        String[] borderlineCases = new String[]{
+                "214748364",
+                Integer.toString(Integer.MAX_VALUE),
+                Long.toString(Integer.MAX_VALUE + 1L),
+                "-214748364",
+                Integer.toString(Integer.MIN_VALUE),
+                Long.toString(Integer.MIN_VALUE - 1L)
+        };
+        for (String num : borderlineCases) {
+            JsonReader reader = Json.createReader(new StringReader("["+num+"]"));
+            try {
+                JsonArray array = reader.readArray();
+                JsonNumber value = (JsonNumber) array.get(0);
+                assertEquals("Fails for num="+num, new BigInteger(num).longValue(), value.longValue());
+            } finally {
+                reader.close();
+            }
+        }
+    }
+    
+    public void testPrimitiveLongNumbers() {
+        String[] borderlineCases = new String[]{
+                "922337203685477580",
+                Long.toString(Long.MAX_VALUE),
+                new BigInteger(Long.toString(Long.MAX_VALUE)).add(BigInteger.ONE).toString(),
+                "-922337203685477580",
+                Long.toString(Long.MIN_VALUE),
+                new BigInteger(Long.toString(Long.MIN_VALUE)).subtract(BigInteger.ONE).toString()
+        };
+        for (String num : borderlineCases) {
+            JsonReader reader = Json.createReader(new StringReader("["+num+"]"));
+            try {
+                JsonArray array = reader.readArray();
+                JsonNumber value = (JsonNumber) array.get(0);
+                assertEquals("Fails for num="+num, new BigInteger(num), value.bigIntegerValueExact());
+            } finally {
+                reader.close();
+            }
+        }
     }
 
     public void testUnknownFeature() throws Exception {

@@ -116,6 +116,10 @@ public class JsonParserImpl implements JsonParser {
     boolean isDefinitelyInt() {
         return tokenizer.isDefinitelyInt();
     }
+    
+    boolean isDefinitelyLong() {
+    	return tokenizer.isDefinitelyLong();
+    }
 
     @Override
     public long getLong() {
@@ -123,7 +127,7 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                     JsonMessages.PARSER_GETLONG_ERR(currentEvent));
         }
-        return tokenizer.getBigDecimal().longValue();
+        return tokenizer.getLong();
     }
 
     @Override
@@ -166,6 +170,8 @@ public class JsonParserImpl implements JsonParser {
             case VALUE_NUMBER:
                 if (isDefinitelyInt()) {
                     return JsonNumberImpl.getJsonNumber(getInt());
+                } else if (isDefinitelyLong()) {
+                    return JsonNumberImpl.getJsonNumber(getLong());
                 }
                 return JsonNumberImpl.getJsonNumber(getBigDecimal());
             case VALUE_TRUE:
