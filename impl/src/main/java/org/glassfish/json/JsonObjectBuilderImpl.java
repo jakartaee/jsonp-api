@@ -311,6 +311,21 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         public JsonObject asJsonObject() {
             return this;
         }
+
+        @Override
+        public int size() {
+            return valueMap.size();
+        }
+
+        @Override
+        public JsonValue get(Object key) {
+            return valueMap.get(key);
+        }
+
+        @Override
+        public boolean containsKey(Object key) {
+            return valueMap.containsKey(key);
+        }
     }
 
 }
