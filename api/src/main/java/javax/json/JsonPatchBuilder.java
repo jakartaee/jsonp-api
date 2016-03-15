@@ -90,7 +90,7 @@ public final class JsonPatchBuilder {
      *    it contains references to non-existing members
      */
     public JsonStructure apply(JsonStructure target) {
-        return new JsonPatch(build()).apply(target);
+        return build().apply(target);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class JsonPatchBuilder {
      * @see #apply(JsonStructure)
      */
     public JsonObject apply(JsonObject target) {
-        return new JsonPatch(build()).apply(target);
+        return build().apply(target);
     }
 
     /**
@@ -116,7 +116,7 @@ public final class JsonPatchBuilder {
      * @see #apply(JsonStructure)
      */
     public JsonArray apply(JsonArray target) {
-        return new JsonPatch(build()).apply(target);
+        return build().apply(target);
     }
 
     /**
@@ -346,8 +346,16 @@ public final class JsonPatchBuilder {
      * Returns the patch operations in a JsonArray
      * @return the patch operations in a JsonArray
      */
-    public JsonArray build() {
+    public JsonArray buildAsJsonArray() {
         return builder.build();
+    }
+
+    /**
+     * Returns the patch operation in a JsonPatch
+     * @return the patch operation in a JsonPatch
+     */
+    public JsonPatch build() {
+        return new JsonPatch(buildAsJsonArray());
     }
 }
 
