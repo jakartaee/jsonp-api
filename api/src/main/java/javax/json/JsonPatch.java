@@ -239,7 +239,7 @@ public final class JsonPatch {
         JsonArray diff(JsonStructure source, JsonStructure target) {
             builder = new JsonPatchBuilder();
             diff("", source, target);
-            return builder.build();
+            return builder.buildAsJsonArray();
         }
 
         private void diff(String path, JsonValue source, JsonValue target) {
