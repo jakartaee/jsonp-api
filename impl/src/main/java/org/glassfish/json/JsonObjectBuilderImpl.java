@@ -56,6 +56,7 @@ import java.util.*;
  * @author Kin-man Chung
  */
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
+
     private Map<String, JsonValue> valueMap;
     private final BufferPool bufferPool;
 
@@ -67,6 +68,12 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         this.bufferPool = bufferPool;
         valueMap = new LinkedHashMap<>();
         valueMap.putAll(object);
+    }
+
+    JsonObjectBuilderImpl(Map<String, Object> map, BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
+        valueMap = new LinkedHashMap<>();
+        populate(map);
     }
 
     @Override
@@ -182,6 +189,14 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
                 : Collections.unmodifiableMap(valueMap);
         valueMap = null;
         return new JsonObjectImpl(snapshot, bufferPool);
+    }
+
+    private void populate(Map<String, Object> map) {
+        final Set<String> fields = map.keySet();
+        for (String field : fields) {
+            Object value = map.get(field);
+            this.valueMap.put(field, MapUtil.handle(value, bufferPool));
+        }
     }
 
     private void putValueMap(String name, JsonValue value) {

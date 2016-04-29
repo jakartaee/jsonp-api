@@ -48,8 +48,11 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * JsonArrayBuilder implementation
@@ -70,6 +73,12 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         this.bufferPool = bufferPool;
         valueList = new ArrayList<>();
         valueList.addAll(array);
+    }
+
+    JsonArrayBuilderImpl(Collection<Object> collection, BufferPool bufferPool) {
+        this.bufferPool = bufferPool;
+        valueList = new ArrayList<>();
+        populate(collection);
     }
 
     @Override
@@ -333,6 +342,12 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         }
         valueList = null;
         return new JsonArrayImpl(snapshot, bufferPool);
+    }
+
+    private void populate(Collection<Object> collection) {
+        for (Object value : collection) {
+            this.valueList.add(MapUtil.handle(value, bufferPool));
+        }
     }
 
     private void addValueList(JsonValue value) {

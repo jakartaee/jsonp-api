@@ -43,6 +43,10 @@ package org.glassfish.json.tests;
 import junit.framework.TestCase;
 
 import javax.json.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -78,6 +82,62 @@ public class JsonBuilderTest extends TestCase {
         assertEquals(25, number.intValue());
         assertTrue(number.isIntegral());
         JsonObjectTest.testPerson(person);
+    }
+
+    public void testJsonObjectCopy() {
+        JsonObject person = buildPerson();
+        final JsonObjectBuilder objectBuilder = Json.createObjectBuilder(person);
+        final JsonObject copyPerson = objectBuilder.build();
+
+        JsonNumber number = copyPerson.getJsonNumber("age");
+        assertEquals(25, number.intValueExact());
+        assertEquals(25, number.intValue());
+        assertTrue(number.isIntegral());
+        JsonObjectTest.testPerson(copyPerson);
+
+    }
+
+    public void testJsonObjectMap() {
+        Map<String, Object> person = buildPersonAsMap();
+        final JsonObjectBuilder objectBuilder = Json.createObjectBuilder(person);
+        final JsonObject copyPerson = objectBuilder.build();
+
+        JsonNumber number = copyPerson.getJsonNumber("age");
+        assertEquals(25, number.intValueExact());
+        assertEquals(25, number.intValue());
+        assertTrue(number.isIntegral());
+        JsonObjectTest.testPerson(copyPerson);
+    }
+
+    static Map<String, Object> buildPersonAsMap() {
+        Map<String, Object> person = new HashMap<>();
+        person.put("firstName", "John");
+        person.put("lastName", "Smith");
+        person.put("age", 25);
+
+        Map<String, Object> address = new HashMap<>();
+        address.put("streetAddress", "21 2nd Street");
+        address.put("city", "New York");
+        address.put("state", "NY");
+        address.put("postalCode", "10021");
+
+        person.put("address", address);
+
+        Collection<Map<String, Object>> phones = new ArrayList<>();
+
+        Map<String, Object> phone1 = new HashMap<>();
+        phone1.put("type", "home");
+        phone1.put("number", "212 555-1234");
+        phones.add(phone1);
+
+        Map<String, Object> phone2 = new HashMap<>();
+        phone2.put("type", "fax");
+        phone2.put("number", "646 555-4567");
+        phones.add(phone2);
+
+        person.put("phoneNumber", phones);
+
+        return person;
     }
 
     static JsonObject buildPerson() {

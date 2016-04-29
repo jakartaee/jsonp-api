@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -279,6 +280,15 @@ public abstract class JsonProvider {
     }
 
     /**
+     * Creates a JSON object builder, initialized with the specified Map.
+     * @return a JSON objecct builder
+     * @since 1.1
+     */
+    public JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Creates a JSON array builder
      *
      * @return a JSON array builder
@@ -296,6 +306,17 @@ public abstract class JsonProvider {
         throw new UnsupportedOperationException();
     }
 
+
+    /**
+     * Creates a JSON array builder, initialized with the specified collection.
+     * @param collection the initial JSON collection in builder
+     * @return a JSON array builder
+     * @since 1.1
+     */
+    public JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Creates a builder factory for creating {@link JsonArrayBuilder}
      * and {@link JsonObjectBuilder} objects.
@@ -308,7 +329,6 @@ public abstract class JsonProvider {
      * @return a JSON builder factory
      */
     public abstract JsonBuilderFactory createBuilderFactory(Map<String,?> config);
-
 
     /**
      * Creates a JsonString

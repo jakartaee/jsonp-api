@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -192,6 +193,11 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
+    public JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+        return new JsonObjectBuilderImpl(map, bufferPool);
+    }
+
+    @Override
     public JsonArrayBuilder createArrayBuilder() {
         return new JsonArrayBuilderImpl(bufferPool);
     }
@@ -199,6 +205,11 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonArrayBuilder createArrayBuilder(JsonArray array) {
         return new JsonArrayBuilderImpl(array, bufferPool);
+    }
+
+    @Override
+    public JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
+        return new JsonArrayBuilderImpl(collection, bufferPool);
     }
 
     @Override

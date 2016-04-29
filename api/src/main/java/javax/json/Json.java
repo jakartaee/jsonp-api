@@ -46,6 +46,7 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import java.io.*;
+import java.util.Collection;
 import java.util.Map;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -270,6 +271,18 @@ public final class Json {
     }
 
     /**
+     * Creates a JSON array builder, initialized with the specified array
+     *
+     * @param collection the initial array in the builder
+     * @return a JSON array builder
+     *
+     * @since 1.1
+     */
+    public static JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
+        return JsonProvider.provider().createArrayBuilder(collection);
+    }
+
+    /**
      * Creates a JSON object builder
      *
      * @return a JSON object builder
@@ -287,6 +300,18 @@ public final class Json {
      * @since 1.1
      */
     public static JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        return JsonProvider.provider().createObjectBuilder(object);
+    }
+
+    /**
+     * Creates a JSON object builder, initialized with the specified object.
+     *
+     * @param object the initial object in the builder
+     * @return a JSON object builder
+     *
+     * @since 1.1
+     */
+    public static JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
         return JsonProvider.provider().createObjectBuilder(object);
     }
 
