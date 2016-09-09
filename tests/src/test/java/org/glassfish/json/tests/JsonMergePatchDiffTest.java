@@ -122,7 +122,7 @@ public class JsonMergePatchDiffTest {
     @Test
     public void shouldExecuteJsonMergePatchDiffOperationsToJsonDocument() {
         try {
-            JsonValue output = JsonMergePatch.diff(original, target);
+            JsonValue output = Json.createMergePatch(original, target);
             assertThat(output, is(expected));
             assertThat(expectedException, nullValue());
         } catch (Exception e) {

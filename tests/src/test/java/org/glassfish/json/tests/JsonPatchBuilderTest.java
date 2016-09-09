@@ -58,7 +58,7 @@ public class JsonPatchBuilderTest {
 
     @Test
     public void shouldBuildJsonPatchExpressionUsingJsonPatchBuilder() {
-        JsonPatchBuilder patchBuilder = new JsonPatchBuilder();
+        JsonPatchBuilder patchBuilder = Json.createPatchBuilder();
         JsonObject result = patchBuilder.add("/email", "john@example.com")
                     .replace("/age", 30)
                     .remove("/phoneNumber")

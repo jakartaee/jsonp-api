@@ -316,6 +316,65 @@ public final class Json {
     }
 
     /**
+     * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>).
+     *
+     * @return a JSON Patch builder
+     *
+     * @since 1.1
+     */
+    public static JsonPatchBuilder createPatchBuilder() {
+        return JsonProvider.provider().createPatchBuilder();
+    }
+
+    /**
+     * Creates a JSON Patch builder
+     * (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>), initialized with the specified operations.
+     *
+     * @param array the initial patch operations
+     * @return a JSON Patch builder
+     *
+     * @since 1.1
+     */
+    public static JsonPatchBuilder createPatchBuilder(JsonArray array) {
+        return JsonProvider.provider().createPatchBuilder(array);
+    }
+
+    /**
+     * Generates a JSON Patch from the source and target {@code JsonStructure}.
+     * The generated JSON Patch need not be unique.
+     * @param source the source
+     * @param target the target, must be the same type as the source
+     * @return a JSON Patch which when applied to the source, yields the target
+     */
+    public static JsonPatch createPatch(JsonStructure source, JsonStructure target) {
+        return JsonProvider.provider().createPatch(source, target);
+    }
+
+    /**
+     * Applies the specified Json Merge Patch
+     * <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a> to the specified target.
+     * The target is not modified by the patch.
+     *
+     * @param target the {@code JsonValue} to apply the patch operations
+     * @param patch the patch
+     * @return the {@code JsonValue} as the result of applying the patch
+     *    operations on the target.
+     */
+    public static JsonValue mergePatch(JsonValue target, JsonValue patch) {
+        return JsonProvider.provider().mergePatch(target, patch);
+    }
+
+    /**
+     * Generate a JSON Merge Patch from the source and target {@code JsonValue}.
+     * @param source the source
+     * @param target the target
+     * @return a JSON Patch which when applied to the source, yields the target
+     */
+    public static JsonValue createMergePatch(JsonValue source, JsonValue target) {
+        return JsonProvider.provider().createMergePatch(source, target);
+    }
+
+    /**
      * Creates a builder factory for creating {@link JsonArrayBuilder}
      * and {@link JsonObjectBuilder} objects.
      * The factory is configured with the specified map of provider specific

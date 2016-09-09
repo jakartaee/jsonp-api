@@ -306,6 +306,53 @@ public abstract class JsonProvider {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>).
+     *
+     * @return a JSON Patch buider
+     *
+     * @since 1.1
+     */
+    public abstract JsonPatchBuilder createPatchBuilder();
+
+    /**
+     * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>), initialized with the specified operations.
+     *
+     * @param array the initial patch operations
+     * @return a JSON Patch builder
+     *
+     * @since 1.1
+     */
+    public abstract JsonPatchBuilder createPatchBuilder(JsonArray array);
+
+    /**
+     * Generates a JSON Patch from the source and target {@code JsonStructure}.
+     * The generated JSON Patch need not be unique.
+     * @param source the source
+     * @param target the target, must be the same type as the source
+     * @return a JSON Patch which when applied to the source, yields the target
+     */
+    public abstract JsonPatch createPatch(JsonStructure source, JsonStructure target);
+
+    /**
+     * Applies the specified Json Merge Patch
+     * <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a> to the specified target.
+     * The target is not modified by the patch.
+     *
+     * @param target the {@code JsonValue} to apply the patch operations
+     * @param patch the patch
+     * @return the {@code JsonValue} as the result of applying the patch
+     *    operations on the target.
+     */
+    public abstract JsonValue mergePatch(JsonValue target, JsonValue patch);
+
+    /**
+     * Generate a JSON Merge Patch from the source and target {@code JsonValue}.
+     * @param source the source
+     * @param target the target
+     * @return a JSON Patch which when applied to the source, yields the target
+     */
+    public abstract JsonValue createMergePatch(JsonValue source, JsonValue target);
 
     /**
      * Creates a JSON array builder, initialized with the specified collection.
@@ -316,6 +363,7 @@ public abstract class JsonProvider {
     public JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
         throw new UnsupportedOperationException();
     }
+
 
     /**
      * Creates a builder factory for creating {@link JsonArrayBuilder}

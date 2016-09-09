@@ -65,7 +65,7 @@ import java.util.function.BiFunction;
  * @since 1.1
  */
 
-public final class JsonPointer implements Serializable {
+public class JsonPointer implements Serializable {
 
     private static final long serialVersionUID = -8123110179640843141L;
     private final String[] tokens;

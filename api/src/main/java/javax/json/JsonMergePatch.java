@@ -47,7 +47,7 @@ package javax.json;
  * @since 1.1
  */
 
-public final class JsonMergePatch {
+public class JsonMergePatch {
 
     private JsonMergePatch() {
     }

@@ -127,7 +127,7 @@ public class JsonPatchTest {
     @Test
     public void shouldExecuteJsonPatchOperationsToJsonDocument() {
         try {
-            JsonPatch patch = new JsonPatch(this.patch);
+            JsonPatch patch = Json.createPatchBuilder(this.patch).build();
             JsonStructure output = patch.apply(target);
             assertThat(output, is(expected));
             assertThat(expectedException, nullValue());

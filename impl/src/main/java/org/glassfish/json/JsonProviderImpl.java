@@ -62,6 +62,7 @@ import java.math.BigInteger;
 /**
  * @author Jitendra Kotamraju
  * @author Kin-man Chung
+ * @author Alex Soto
  */
 public class JsonProviderImpl extends JsonProvider {
 
@@ -210,6 +211,31 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
         return new JsonArrayBuilderImpl(collection, bufferPool);
+    }
+
+    @Override
+    public JsonPatchBuilder createPatchBuilder() {
+        return new JsonPatchBuilder();
+    }
+
+    @Override
+    public JsonPatchBuilder createPatchBuilder(JsonArray array) {
+        return new JsonPatchBuilder(array);
+    }
+
+    @Override
+    public JsonPatch createPatch(JsonStructure source, JsonStructure target) {
+        return new JsonPatch(JsonPatch.diff(source, target));
+    }
+
+    @Override
+    public JsonValue mergePatch(JsonValue target, JsonValue patch) {
+        return JsonMergePatch.mergePatch(target, patch);
+    }
+
+    @Override
+    public JsonValue createMergePatch(JsonValue source, JsonValue target) {
+        return JsonMergePatch.diff(source, target);
     }
 
     @Override

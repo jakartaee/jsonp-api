@@ -68,7 +68,7 @@ import javax.json.JsonValue.ValueType;
  * @since 1.1
  */
 
-public final class JsonPatch {
+public class JsonPatch {
 
     private final JsonArray patch;
 
