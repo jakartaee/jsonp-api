@@ -100,6 +100,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     private static enum Scope {
         IN_NONE,
         IN_OBJECT,
+        IN_FIELD,
         IN_ARRAY
     }
 
@@ -266,10 +267,8 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(JsonValue value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
+
         switch (value.getValueType()) {
             case ARRAY:
                 JsonArray array = (JsonArray)value;
@@ -382,86 +381,84 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     public JsonGenerator write(String value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         writeComma();
         writeEscapedString(value);
+        popFieldContext();
         return this;
     }
 
 
     public JsonGenerator write(int value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         writeComma();
         writeInt(value);
+        popFieldContext();
         return this;
     }
 
     @Override
     public JsonGenerator write(long value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         writeValue(String.valueOf(value));
+        popFieldContext();
         return this;
     }
 
     @Override
     public JsonGenerator write(double value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         if (Double.isInfinite(value) || Double.isNaN(value)) {
             throw new NumberFormatException(JsonMessages.GENERATOR_DOUBLE_INFINITE_NAN());
         }
         writeValue(String.valueOf(value));
+        popFieldContext();
         return this;
     }
 
     @Override
     public JsonGenerator write(BigInteger value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
+        checkContextForValue();
+        writeValue(value.toString());
+        popFieldContext();
+        return this;
+    }
+
+    private void checkContextForValue() {
+        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY && currentContext.scope != Scope.IN_FIELD) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
-        writeValue(value.toString());
-        return this;
     }
 
     @Override
     public JsonGenerator write(BigDecimal value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         writeValue(value.toString());
+        popFieldContext();
+
         return this;
     }
 
-    public JsonGenerator write(boolean value) {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
+    private void popFieldContext() {
+        if (currentContext.scope == Scope.IN_FIELD) {
+            currentContext = stack.pop();
         }
+    }
+
+    public JsonGenerator write(boolean value) {
+        checkContextForValue();
         writeComma();
         writeString(value ? "true" : "false");
+        popFieldContext();
         return this;
     }
 
     public JsonGenerator writeNull() {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
+        checkContextForValue();
         writeComma();
         writeString("null");
+        popFieldContext();
         return this;
     }
 
@@ -478,17 +475,31 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     @Override
+    public JsonGenerator writeKey(String name) {
+        if (currentContext.scope != Scope.IN_OBJECT) {
+            throw new JsonGenerationException(
+                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
+        }
+        writeName(name);
+        stack.push(currentContext);
+        currentContext = new Context(Scope.IN_FIELD);
+        currentContext.first = false;
+        return this;
+    }
+
+    @Override
     public JsonGenerator writeEnd() {
         if (currentContext.scope == Scope.IN_NONE) {
             throw new JsonGenerationException("writeEnd() cannot be called in no context");
         }
         writeChar(currentContext.scope == Scope.IN_ARRAY ? ']' : '}');
         currentContext = stack.pop();
+        popFieldContext();
         return this;
     }
 
     protected void writeComma() {
-        if (!currentContext.first) {
+        if (!currentContext.first && currentContext.scope != Scope.IN_FIELD) {
             writeChar(',');
         }
         currentContext.first = false;
