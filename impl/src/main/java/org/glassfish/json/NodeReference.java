@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,14 +37,22 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package javax.json;
+package org.glassfish.json;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonException;
+import javax.json.JsonObject;
+import javax.json.JsonStructure;
+import javax.json.JsonValue;
 
 /**
  * This class is a helper class for JsonPointer implementation,
  * and is not part of the API.
  *
  * This class encapsulates a reference to a JSON node.
- * There are three types of references. 
+ * There are three types of references.
  * <ol><li>a reference to the root of a JSON tree.</li>
  *     <li>a reference to a name/value (possibly non-existing) pair of a JSON object, identified by a name.</li>
  *     <li>a reference to a member value of a JSON array, identified by an index.</li>
@@ -56,7 +64,7 @@ package javax.json;
  * removed.  A new value can be added to a JSON object or
  * inserted into a JSON array</p>
  *
- * <p>Since a {@code JsonObject} or {@code JsonArray} is immutable, these operations 
+ * <p>Since a {@code JsonObject} or {@code JsonArray} is immutable, these operations
  * must not modify the referenced JSON object or array. The methods {@link #add},
  * {@link #replace}, and {@link #remove} returns a new
  * JSON object or array after the execution of the operation.</p>
@@ -124,7 +132,7 @@ abstract class NodeReference {
      *
      * @param object the referenced JSON object
      * @param name the name of the name/pair
-     * @return the {@code NodeReference} 
+     * @return the {@code NodeReference}
      */
     public static NodeReference of(JsonObject object, String name) {
         return new ObjectReference(object, name);
@@ -136,7 +144,7 @@ abstract class NodeReference {
      *
      * @param array the referenced JSON array
      * @param index the index of the member value in the JSON array
-     * @return the {@code NodeReference} 
+     * @return the {@code NodeReference}
      */
     public static NodeReference of(JsonArray array, int index) {
         return new ArrayReference(array, index);
@@ -195,20 +203,20 @@ abstract class NodeReference {
                 throw new JsonException("Cannot get a non-existing name/value pair in the object");
             }
             return object.get(key);
-        }       
+        }
 
         @Override
         public JsonObject add(JsonValue value) {
             return Json.createObjectBuilder(object).add(key, value).build();
         }
 
-        @Override 
+        @Override
         public JsonObject remove() {
             if (! object.containsKey(key)) {
                 throw new JsonException("Cannot remove a non-existing name/value pair in the object");
             }
             return Json.createObjectBuilder(object).remove(key).build();
-        }   
+        }
 
         @Override
         public JsonObject replace(JsonValue value) {
@@ -220,7 +228,7 @@ abstract class NodeReference {
     }
 
     static class ArrayReference extends NodeReference {
-     
+
         private final JsonArray array;
         private final int index; // -1 means "-" in JSON Pointer
 
@@ -228,7 +236,7 @@ abstract class NodeReference {
             this.array = array;
             this.index = index;
         }
- 
+
         @Override
         public JsonValue get() {
             if (index == -1 || index >= array.size()) {
@@ -237,7 +245,7 @@ abstract class NodeReference {
             return array.get(index);
         }
 
-        @Override 
+        @Override
         public JsonArray add(JsonValue value) {
             //TODO should we check for arrayoutofbounds?
             // The spec seems to say index = array.size() is allowed. This is handled as append
@@ -252,7 +260,7 @@ abstract class NodeReference {
                 }
             }
             return builder.build();
-        }       
+        }
 
         @Override
         public JsonArray remove() {

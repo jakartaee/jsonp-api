@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -76,23 +76,23 @@ public class JsonPointerTest {
     public static Iterable<Object[]> data() throws Exception {
         rfc6901Example = JsonPointerTest.readRfc6901Example();
         return Arrays.asList(new Object[][] { 
-                 {new JsonPointer(""), rfc6901Example, null },
-                 {new JsonPointer("/foo"), rfc6901Example.getJsonArray("foo"), null},
-                 {new JsonPointer("/foo/0"), rfc6901Example.getJsonArray("foo").get(0), null},
-                 {new JsonPointer("/foo/5"), null, JsonException.class},
-                 {new JsonPointer("/p/1"), null, JsonException.class},
-                 {new JsonPointer("/"), rfc6901Example.getJsonNumber(""), null},
-                 {new JsonPointer("/a~1b"), rfc6901Example.getJsonNumber("a/b"), null},
-                 {new JsonPointer("/m~0n"), rfc6901Example.getJsonNumber("m~n"), null},
-                 {new JsonPointer("/c%d"), rfc6901Example.getJsonNumber("c%d"), null},
-                 {new JsonPointer("/e^f"), rfc6901Example.getJsonNumber("e^f"), null},
-                 {new JsonPointer("/g|h"), rfc6901Example.getJsonNumber("g|h"), null},
-                 {new JsonPointer("/i\\j"), rfc6901Example.getJsonNumber("i\\j"), null},
-                 {new JsonPointer("/k\"l"), rfc6901Example.getJsonNumber("k\"l"), null},
-                 {new JsonPointer("/ "), rfc6901Example.getJsonNumber(" "), null},
-                 {new JsonPointer("/notexists"), null, JsonException.class},
-                 {new JsonPointer("/s/t"), null, JsonException.class},
-                 {new JsonPointer("/o"), JsonObject.NULL, null}
+                 {Json.createPointer(""), rfc6901Example, null },
+                 {Json.createPointer("/foo"), rfc6901Example.getJsonArray("foo"), null},
+                 {Json.createPointer("/foo/0"), rfc6901Example.getJsonArray("foo").get(0), null},
+                 {Json.createPointer("/foo/5"), null, JsonException.class},
+                 {Json.createPointer("/p/1"), null, JsonException.class},
+                 {Json.createPointer("/"), rfc6901Example.getJsonNumber(""), null},
+                 {Json.createPointer("/a~1b"), rfc6901Example.getJsonNumber("a/b"), null},
+                 {Json.createPointer("/m~0n"), rfc6901Example.getJsonNumber("m~n"), null},
+                 {Json.createPointer("/c%d"), rfc6901Example.getJsonNumber("c%d"), null},
+                 {Json.createPointer("/e^f"), rfc6901Example.getJsonNumber("e^f"), null},
+                 {Json.createPointer("/g|h"), rfc6901Example.getJsonNumber("g|h"), null},
+                 {Json.createPointer("/i\\j"), rfc6901Example.getJsonNumber("i\\j"), null},
+                 {Json.createPointer("/k\"l"), rfc6901Example.getJsonNumber("k\"l"), null},
+                 {Json.createPointer("/ "), rfc6901Example.getJsonNumber(" "), null},
+                 {Json.createPointer("/notexists"), null, JsonException.class},
+                 {Json.createPointer("/s/t"), null, JsonException.class},
+                 {Json.createPointer("/o"), JsonObject.NULL, null}
            });
     }
 

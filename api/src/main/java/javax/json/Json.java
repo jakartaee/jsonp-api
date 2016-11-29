@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -313,6 +313,25 @@ public final class Json {
      */
     public static JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
         return JsonProvider.provider().createObjectBuilder(object);
+    }
+
+    /**
+     * Creates JSON Pointer (<a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>)
+     * from given {@code jsonPointer} string.
+     * <ul>
+     *     <li>An empty {@code jsonPointer} string defines a reference to the target itself.</li>
+     *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '/' prefixed tokens.</li>
+     * </ul>
+     *
+     * @param jsonPointer the JSON Pointer string
+     * @throws NullPointerException if {@code jsonPointer} is {@code null}
+     * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
+     * @return JSON Pointer for {@code jsonPointer} string
+     *
+     * @since 1.1
+     */
+    public static JsonPointer createPointer(String jsonPointer) {
+        return JsonProvider.provider().createPointer(jsonPointer);
     }
 
     /**

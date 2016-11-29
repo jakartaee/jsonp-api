@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -96,7 +96,7 @@ public class JsonPointerReplaceOperationTest {
     @Test
     public void shouldReplaceElementsToExistingJsonDocument() {
         try {
-        JsonPointer pointer = new JsonPointer(pathOperation.getString("path"));
+        JsonPointer pointer = Json.createPointer(pathOperation.getString("path"));
         JsonObject modified = (JsonObject) pointer.replace(target, pathOperation.get("value"));
         assertThat(modified, is(expectedResult));
         assertThat(expectedException, nullValue());
