@@ -359,14 +359,28 @@ public final class Json {
     }
 
     /**
+     * Creates a JSON Patch from the {@code JsonArray}.
+     *
+     * @param array patch operations
+     * @return a JSON Patch
+     *
+     * @since 1.1
+     */
+    public static JsonPatch createPatch(JsonArray array) {
+        return JsonProvider.provider().createPatch(array);
+    }
+
+    /**
      * Generates a JSON Patch from the source and target {@code JsonStructure}.
      * The generated JSON Patch need not be unique.
      * @param source the source
      * @param target the target, must be the same type as the source
      * @return a JSON Patch which when applied to the source, yields the target
+     *
+     * @since 1.1
      */
-    public static JsonPatch createPatch(JsonStructure source, JsonStructure target) {
-        return JsonProvider.provider().createPatch(source, target);
+    public static JsonPatch createDiff(JsonStructure source, JsonStructure target) {
+        return JsonProvider.provider().createDiff(source, target);
     }
 
     /**

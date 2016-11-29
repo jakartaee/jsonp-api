@@ -220,17 +220,22 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonPatchBuilder createPatchBuilder() {
-        return new JsonPatchBuilder();
+        return new JsonPatchBuilderImpl();
     }
 
     @Override
     public JsonPatchBuilder createPatchBuilder(JsonArray array) {
-        return new JsonPatchBuilder(array);
+        return new JsonPatchBuilderImpl(array);
     }
 
     @Override
-    public JsonPatch createPatch(JsonStructure source, JsonStructure target) {
-        return new JsonPatch(JsonPatch.diff(source, target));
+    public JsonPatch createPatch(JsonArray array) {
+        return new JsonPatchImpl(array);
+    }
+
+    @Override
+    public JsonPatch createDiff(JsonStructure source, JsonStructure target) {
+        return new JsonPatchImpl(JsonPatchImpl.diff(source, target));
     }
 
     @Override

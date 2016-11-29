@@ -332,7 +332,9 @@ public abstract class JsonProvider {
      *
      * @since 1.1
      */
-    public abstract JsonPatchBuilder createPatchBuilder();
+    public JsonPatchBuilder createPatchBuilder() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>), initialized with the specified operations.
@@ -342,7 +344,21 @@ public abstract class JsonProvider {
      *
      * @since 1.1
      */
-    public abstract JsonPatchBuilder createPatchBuilder(JsonArray array);
+    public JsonPatchBuilder createPatchBuilder(JsonArray array) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Creates a JSON Patch from the {@code JsonArray}.
+     *
+     * @param array patch operations
+     * @return a JSON Patch
+     *
+     * @since 1.1
+     */
+    public JsonPatch createPatch(JsonArray array) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Generates a JSON Patch from the source and target {@code JsonStructure}.
@@ -350,8 +366,12 @@ public abstract class JsonProvider {
      * @param source the source
      * @param target the target, must be the same type as the source
      * @return a JSON Patch which when applied to the source, yields the target
+     *
+     * @since 1.1
      */
-    public abstract JsonPatch createPatch(JsonStructure source, JsonStructure target);
+    public JsonPatch createDiff(JsonStructure source, JsonStructure target) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Applies the specified Json Merge Patch

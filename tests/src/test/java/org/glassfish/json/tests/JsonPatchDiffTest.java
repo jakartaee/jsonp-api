@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -124,8 +124,8 @@ public class JsonPatchDiffTest {
     @Test
     public void shouldExecuteJsonPatchDiffOperationsToJsonDocument() {
         try {
-            JsonPatch diff = Json.createPatch(this.original, this.target);
-            assertThat(diff, is(new JsonPatch((JsonArray) expected)));
+            JsonPatch diff = Json.createDiff(this.original, this.target);
+            assertThat(diff, is(Json.createPatchBuilder((JsonArray) expected).build()));
             assertThat(expectedException, nullValue());
         } catch (Exception e) {
             if (expectedException == null) {

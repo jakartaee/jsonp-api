@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -40,14 +40,18 @@
 
 package org.glassfish.json.tests;
 
-import org.junit.Test;
 import org.junit.BeforeClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonPatchBuilder;
+import javax.json.JsonUtil;
+import javax.json.JsonValue;
 import javax.json.stream.JsonCollectors;
-import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Some JSON query tests/examples, using Java stream operations, with JSON collectors.
@@ -154,12 +158,12 @@ public class JsonCollectorTest {
          * PatchBuilder is used for building the necessary JsonPatch.
          */
         index = -1;
-        JsonPatchBuilder builder = new JsonPatchBuilder();
+        JsonPatchBuilder builder = Json.createPatchBuilder();
         contacts.getValuesAs(JsonObject.class).stream()
             .peek(p->index++)
             .filter(p->p.containsKey("age"))
             .forEach(p-> builder.replace("/"+index+"/age", p.getInt("age")+1));
-        JsonArray result = builder.apply(contacts);
+        JsonArray result = builder.build().apply(contacts);
 
         JsonValue expected = (JsonArray) JsonUtil.toJson(
         "[                                 " +
