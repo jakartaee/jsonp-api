@@ -374,24 +374,29 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Applies the specified Json Merge Patch
-     * <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a> to the specified target.
-     * The target is not modified by the patch.
+     * Creates JSON Merge Patch (<a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>)
+     * from given {@code JsonValue}.
      *
-     * @param target the {@code JsonValue} to apply the patch operations
      * @param patch the patch
-     * @return the {@code JsonValue} as the result of applying the patch
-     *    operations on the target.
+     * @return a JSON Merge Patch}
+     *
+     * @since 1.1
      */
-    public abstract JsonValue mergePatch(JsonValue target, JsonValue patch);
+    public JsonMergePatch createMergePatch(JsonValue patch) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
-     * Generate a JSON Merge Patch from the source and target {@code JsonValue}.
+     * Generates a JSON Merge Patch from the source and target {@code JsonValue}s.
      * @param source the source
      * @param target the target
-     * @return a JSON Patch which when applied to the source, yields the target
+     * @return a JSON Merge Patch which when applied to the {@code source}, yields the {@code target}
+     *
+     * @since 1.1
      */
-    public abstract JsonValue createMergePatch(JsonValue source, JsonValue target);
+    public JsonMergePatch createMergeDiff(JsonValue source, JsonValue target) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Creates a JSON array builder, initialized with the specified collection.

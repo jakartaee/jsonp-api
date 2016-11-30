@@ -239,13 +239,13 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonValue mergePatch(JsonValue target, JsonValue patch) {
-        return JsonMergePatch.mergePatch(target, patch);
+    public JsonMergePatch createMergePatch(JsonValue patch) {
+        return new JsonMergePatchImpl(patch);
     }
 
     @Override
-    public JsonValue createMergePatch(JsonValue source, JsonValue target) {
-        return JsonMergePatch.diff(source, target);
+    public JsonMergePatch createMergeDiff(JsonValue source, JsonValue target) {
+        return new JsonMergePatchImpl(JsonMergePatchImpl.diff(source, target));
     }
 
     @Override

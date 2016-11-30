@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,87 +37,48 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package javax.json;
 
 /**
- * This class is an implementation of a JSON Merge Patch as specified in
- * <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>.
- * 
+ * <p>This interface represents an implementation of a JSON Merge Patch
+ * as defined by <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>.
+ * </p>
+ * <p>A {@code JsonMergePatch} can be instantiated with {@link Json#createMergePatch(JsonValue)}
+ * by specifying the patch operations in a JSON Merge Patch or using {@link Json#createMergeDiff(JsonValue, JsonValue)}
+ * to create a JSON Merge Patch based on the difference between two {@code JsonValue}s.
+ * </p>
+ * The following illustrates both approaches.
+ * <p>1. Construct a JsonMergePatch with an existing JSON Merge Patch.
+ * <pre>{@code
+ *   JsonValue contacts = ... ; // The target to be patched
+ *   JsonValue patch = ...  ; // JSON Merge Patch
+ *   JsonMergePatch mergePatch = Json.createMergePatch(patch);
+ *   JsonValue result = mergePatch.apply(contacts);
+ * } </pre>
+ * 2. Construct a JsonMergePatch from a difference between two {@code JsonValue}s.
+ * <pre>{@code
+ *   JsonValue source = ... ; // The source object
+ *   JsonValue target = ... ; // The modified object
+ *   JsonMergePatch mergePatch = Json.createMergeDiff(source, target); // The diff between source and target in a Json Merge Patch format
+ * } </pre>
+ *
  * @since 1.1
  */
-
-public class JsonMergePatch {
-
-    private JsonMergePatch() {
-    }
+public interface JsonMergePatch {
 
     /**
-     * Applies the specified patch to the specified target.
+     * Applies the JSON Merge Patch to the specified {@code target}.
      * The target is not modified by the patch.
      *
-     * @param target the {@code JsonValue} to apply the patch operations
-     * @param patch the patch
-     * @return the {@code JsonValue} as the result of applying the patch
-     *    operations on the target.
+     * @param target the target to apply the merge patch
+     * @return the transformed target after the patch
      */
-    public static JsonValue mergePatch(JsonValue target, JsonValue patch) {
-
-        if (patch.getValueType() != JsonValue.ValueType.OBJECT) {
-            return patch;
-        }
-        if (target.getValueType() != JsonValue.ValueType.OBJECT) {
-            target = JsonValue.EMPTY_JSON_OBJECT;
-        }
-        JsonObject targetJsonObject = target.asJsonObject();
-        JsonObjectBuilder builder = 
-            Json.createObjectBuilder(targetJsonObject);
-        patch.asJsonObject().forEach((key, value) -> {
-            if (value == JsonValue.NULL) {
-                if (targetJsonObject.containsKey(key)) {
-                    builder.remove(key);
-                }
-            } else if (targetJsonObject.containsKey(key)) {
-                builder.add(key, mergePatch(targetJsonObject.get(key), value));
-            } else {
-                builder.add(key, mergePatch(JsonValue.EMPTY_JSON_OBJECT, value));
-            }
-        });
-        return builder.build();
-    }
+    JsonValue apply(JsonValue target);
 
     /**
-     * Generate a JSON Merge Patch from the source and target {@code JsonValue}.
-     * @param source the source
-     * @param target the target
-     * @return a JSON Patch which when applied to the source, yields the target
+     * Returns the {@code JsonMergePatch} as {@code JsonValue}.
+     *
+     * @return this {@code JsonMergePatch} as {@code JsonValue}
      */
-    public static JsonValue diff(JsonValue source, JsonValue target) {
-        if (source.getValueType() != JsonValue.ValueType.OBJECT ||
-                target.getValueType() != JsonValue.ValueType.OBJECT) {
-            return target;
-        }
-        JsonObject s = (JsonObject) source;
-        JsonObject t = (JsonObject) target;
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        // First find members to be replaced or removed
-        s.forEach((key, value) -> {
-            if (t.containsKey(key)) {
-                // key present in both.
-                if (! value.equals(t.get(key))) {
-                    // If the values are equal, nop, else get diff for the values
-                    builder.add(key, diff(value, t.get(key)));
-                }
-            } else {
-                builder.addNull(key);
-            }
-        });
-        // Then find members to be added
-        t.forEach((key, value) -> {
-            if (! s.containsKey(key))
-                builder.add(key, value);
-        });
-        return builder.build();
-    }
+    JsonValue toJsonValue();
 }
-

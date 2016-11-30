@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -52,7 +52,6 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonMergePatch;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonString;
@@ -122,7 +121,7 @@ public class JsonMergePatchDiffTest {
     @Test
     public void shouldExecuteJsonMergePatchDiffOperationsToJsonDocument() {
         try {
-            JsonValue output = Json.createMergePatch(original, target);
+            JsonValue output = Json.createMergeDiff(original, target).toJsonValue();
             assertThat(output, is(expected));
             assertThat(expectedException, nullValue());
         } catch (Exception e) {
