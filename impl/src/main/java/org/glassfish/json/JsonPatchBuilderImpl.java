@@ -45,6 +45,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonPatch;
+import javax.json.JsonPatch.Operation;
 import javax.json.JsonPatchBuilder;
 import javax.json.JsonStructure;
 import javax.json.JsonValue;
@@ -135,7 +136,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder add(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "add")
+                           .add("op", Operation.ADD.operationName())
                            .add("path", path)
                            .add("value", value)
                    );
@@ -150,7 +151,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder add(String path, String value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "add")
+                           .add("op", Operation.ADD.operationName())
                            .add("path", path)
                            .add("value", value)
                    );
@@ -165,7 +166,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder add(String path, int value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "add")
+                           .add("op", Operation.ADD.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -180,7 +181,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder add(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "add")
+                           .add("op", Operation.ADD.operationName())
                            .add("path", path)
                            .add("value", value)
                    );
@@ -194,7 +195,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder remove(String path) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "remove")
+                           .add("op", Operation.REMOVE.operationName())
                            .add("path", path)
                     );
         return this;
@@ -208,7 +209,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder replace(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "replace")
+                           .add("op", Operation.REPLACE.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -223,7 +224,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder replace(String path, String value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "replace")
+                           .add("op", Operation.REPLACE.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -238,7 +239,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder replace(String path, int value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "replace")
+                           .add("op", Operation.REPLACE.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -253,7 +254,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder replace(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "replace")
+                           .add("op", Operation.REPLACE.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -268,7 +269,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder move(String path, String from) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "move")
+                           .add("op", Operation.MOVE.operationName())
                            .add("path", path)
                            .add("from", from)
                   );
@@ -283,7 +284,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder copy(String path, String from) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "copy")
+                           .add("op", Operation.COPY.operationName())
                            .add("path", path)
                            .add("from", from)
                   );
@@ -298,7 +299,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder test(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "test")
+                           .add("op", Operation.TEST.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -313,7 +314,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder test(String path, String value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "test")
+                           .add("op", Operation.TEST.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -328,7 +329,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder test(String path, int value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "test")
+                           .add("op", Operation.TEST.operationName())
                            .add("path", path)
                            .add("value", value)
                   );
@@ -343,7 +344,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      */
     public JsonPatchBuilder test(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
-                           .add("op", "test")
+                           .add("op", Operation.TEST.operationName())
                            .add("path", path)
                            .add("value", value)
                   );

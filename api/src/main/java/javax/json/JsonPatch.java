@@ -70,6 +70,47 @@ package javax.json;
 public interface JsonPatch {
 
     /**
+     * This enum represents the list of valid JSON Patch operations
+     * as defined by <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>.
+     */
+    enum Operation {
+        ADD("add"), REMOVE("remove"), REPLACE("replace"),
+        MOVE("move"), COPY("copy"), TEST("test");
+
+        private final String operationName;
+
+        private Operation(String operationName) {
+            this.operationName = operationName;
+        }
+
+        /**
+         * Returns enum constant name as lower case string.
+         *
+         * @return lower case name of the enum constant
+         */
+        public String operationName() {
+            return operationName;
+        }
+
+        /**
+         * Returns the enum constant with the specified name.
+         *
+         * @param operationName {@code operationName} to convert to the enum constant.
+         * @return the enum constant for given {@code operationName}
+         * @throws JsonException if given {@code operationName} is not recognized
+         */
+        public static Operation fromOperationName(String operationName) {
+            for (Operation op : values()) {
+                if (op.operationName().equalsIgnoreCase(operationName)) {
+                    return op;
+                }
+            }
+            throw new JsonException("Illegal value for the operationName of the JSON patch operation: " + operationName);
+        }
+
+    }
+
+    /**
      * Applies the patch operations to the specified {@code target}.
      * The target is not modified by the patch.
      *

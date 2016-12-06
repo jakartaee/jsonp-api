@@ -187,17 +187,17 @@ public class JsonPatchImpl implements JsonPatch {
 
         JsonPointer pointer = getPointer(operation, "path");
         JsonPointer from;
-        switch (operation.getString("op")) {
-            case "add":
+        switch (Operation.fromOperationName(operation.getString("op"))) {
+            case ADD:
                 return pointer.add(target, getValue(operation));
-            case "replace":
+            case REPLACE:
                 return pointer.replace(target, getValue(operation));
-            case "remove":
+            case REMOVE:
                 return pointer.remove(target);
-            case "copy":
+            case COPY:
                 from = getPointer(operation, "from");
                 return pointer.add(target, from.getValue(target));
-            case "move":
+            case MOVE:
                 from = getPointer(operation, "from");
                 if (pointer.equals(from)) {
                     // nop
@@ -209,7 +209,7 @@ public class JsonPatchImpl implements JsonPatch {
                          + "'move' is a proper prefix of the 'path' path");
                 }
                 return pointer.add(from.remove(target), from.getValue(target));
-            case "test":
+            case TEST:
                 if (! getValue(operation).equals(pointer.getValue(target))) {
                     throw new JsonException("The JSON patch operation 'test' failed.");
                 }
