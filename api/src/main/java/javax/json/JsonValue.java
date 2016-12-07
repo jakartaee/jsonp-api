@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -110,160 +110,17 @@ public interface JsonValue {
     /**
      * JSON null value.
      */
-    static final JsonValue NULL = new JsonValue() {
-        @Override
-        public ValueType getValueType() {
-            return ValueType.NULL;
-        }
-
-        /**
-         * Compares the specified object with this {@link JsonValue#NULL}
-         * object for equality. Returns {@code true} if and only if the
-         * specified object is also a {@code JsonValue}, and their
-         * {@link #getValueType()} objects are <i>equal</i>.
-         *
-         * @param obj the object to be compared for equality with this 
-         *      {@code JsonValue}
-         * @return {@code true} if the specified object is equal to this 
-         *      {@code JsonValue}
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj){
-                return true;
-            }
-            if (obj instanceof JsonValue) {
-                return getValueType().equals(((JsonValue)obj).getValueType());
-            }
-            return false;
-        }
-
-        /**
-         * Returns the hash code value for this {@link JsonValue#NULL} object.
-         * The hash code of the {@link JsonValue#NULL} object is defined to be
-         * its {@link #getValueType()} object's hash code.
-         *
-         * @return the hash code value for this JsonString object
-         */
-        @Override
-        public int hashCode() {
-            return ValueType.NULL.hashCode();
-        }
-
-        /**
-         * Returns a "null" string.
-         *
-         * @return "null"
-         */
-        @Override
-        public String toString() {
-            return "null";
-        }
-    };
+    static final JsonValue NULL = new JsonValueImpl(ValueType.NULL);
 
     /**
      * JSON true value.
      */
-    static final JsonValue TRUE = new JsonValue() {
-        @Override
-        public ValueType getValueType() {
-            return ValueType.TRUE;
-        }
-
-        /**
-         * Compares the specified object with this {@link JsonValue#TRUE}
-         * object for equality. Returns {@code true} if and only if the
-         * specified object is also a JsonValue, and their
-         * {@link #getValueType()} objects are <i>equal</i>.
-         *
-         * @param obj the object to be compared for equality with this JsonValue.
-         * @return {@code true} if the specified object is equal to this JsonValue.
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj){
-                return true;
-            }
-            if (obj instanceof JsonValue) {
-                return getValueType().equals(((JsonValue)obj).getValueType());
-            }
-            return false;
-        }
-
-        /**
-         * Returns the hash code value for this {@link JsonValue#TRUE} object.
-         * The hash code of the {@link JsonValue#TRUE} object is defined to be
-         * its {@link #getValueType()} object's hash code.
-         *
-         * @return the hash code value for this JsonString object
-         */
-        @Override
-        public int hashCode() {
-            return ValueType.TRUE.hashCode();
-        }
-
-        /**
-         * Returns "true" string
-         *
-         * @return "true"
-         */
-        @Override
-        public String toString() {
-            return "true";
-        }
-    };
+    static final JsonValue TRUE = new JsonValueImpl(ValueType.TRUE);
 
     /**
-     * JSON false value
+     * JSON false value.
      */
-    static final JsonValue FALSE = new JsonValue() {
-        @Override
-        public ValueType getValueType() {
-            return ValueType.FALSE;
-        }
-
-        /**
-         * Compares the specified object with this {@link JsonValue#FALSE}
-         * object for equality. Returns {@code true} if and only if the
-         * specified object is also a JsonValue, and their
-         * {@link #getValueType()} objects are <i>equal</i>.
-         *
-         * @param obj the object to be compared for equality with this JsonValue
-         * @return {@code true} if the specified object is equal to this JsonValue
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj){
-                return true;
-            }
-            if (obj instanceof JsonValue) {
-                return getValueType().equals(((JsonValue)obj).getValueType());
-            }
-            return false;
-        }
-
-        /**
-         * Returns the hash code value for this {@link JsonValue#FALSE} object.
-         * The hash code of the {@link JsonValue#FALSE} object is defined to be
-         * its {@link #getValueType()} object's hash code.
-         *
-         * @return the hash code value for this JsonString object
-         */
-        @Override
-        public int hashCode() {
-            return ValueType.FALSE.hashCode();
-        }
-
-        /**
-         * Returns "false" string
-         *
-         * @return "false"
-         */
-        @Override
-        public String toString() {
-            return "false";
-        }
-    };
+    static final JsonValue FALSE = new JsonValueImpl(ValueType.FALSE);
 
     /**
      * Returns the value type of this JSON value.
