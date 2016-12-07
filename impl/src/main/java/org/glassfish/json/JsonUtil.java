@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,10 +37,13 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package javax.json;
+package org.glassfish.json;
 
-import javax.json.stream.JsonParsingException;
 import java.io.StringReader;
+import javax.json.Json;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
+import javax.json.stream.JsonParsingException;
 
 /**
  * A utility class

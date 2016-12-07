@@ -47,9 +47,9 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonPatchBuilder;
-import javax.json.JsonUtil;
 import javax.json.JsonValue;
 import javax.json.stream.JsonCollectors;
+import org.glassfish.json.JsonUtil;
 
 import static org.junit.Assert.assertEquals;
 
