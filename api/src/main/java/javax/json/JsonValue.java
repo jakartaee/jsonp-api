@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package javax.json;
 
 /**
@@ -134,6 +133,8 @@ public interface JsonValue {
      *
      * @return the JsonValue as a JsonObject
      * @throws ClassCastException if the JsonValue is not a JsonObject
+     *
+     * @since 1.1
      */
     default JsonObject asJsonObject() {
         return JsonObject.class.cast(this);
@@ -144,6 +145,8 @@ public interface JsonValue {
      *
      * @return the JsonValue as a JsonArray
      * @throws ClassCastException if the JsonValue is not a JsonArray
+     *
+     * @since 1.1
      */
     default JsonArray asJsonArray() {
         return JsonArray.class.cast(this);

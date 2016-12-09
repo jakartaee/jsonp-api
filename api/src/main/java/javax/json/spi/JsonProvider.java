@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package javax.json.spi;
 
 import javax.json.*;
@@ -103,7 +102,6 @@ public abstract class JsonProvider {
     }
 
     /**
-     *
      * Creates a JSON provider object. The provider is loaded using the
      * {@link ServiceLoader#load(Class)} method. If there are no available
      * service providers, this method returns the default service provider.
@@ -262,7 +260,7 @@ public abstract class JsonProvider {
     public abstract JsonReaderFactory createReaderFactory(Map<String,?> config);
 
     /**
-     * Creates a JSON object builder
+     * Creates a JSON object builder.
      *
      * @return a JSON object builder
      */
@@ -273,6 +271,7 @@ public abstract class JsonProvider {
      *
      * @param object the initial JSON object in the builder
      * @return a JSON object builder
+     *
      * @since 1.1
      */
     public JsonObjectBuilder createObjectBuilder(JsonObject object) {
@@ -281,25 +280,29 @@ public abstract class JsonProvider {
 
     /**
      * Creates a JSON object builder, initialized with the specified Map.
-     * @return a JSON objecct builder
+     *
+     * @param object the initial object in the builder
+     * @return a JSON object builder
+     *
      * @since 1.1
      */
-    public JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+    public JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Creates a JSON array builder
+     * Creates a JSON array builder.
      *
      * @return a JSON array builder
      */
     public abstract JsonArrayBuilder createArrayBuilder();
 
     /**
-     * Creates a JSON array builder, initialized with the specified array
+     * Creates a JSON array builder, initialized with the specified array.
      *
      * @param array the initial JSON array in the builder
      * @return a JSON array builder
+     *
      * @since 1.1
      */
     public JsonArrayBuilder createArrayBuilder(JsonArray array) {
@@ -307,17 +310,17 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JSON Pointer (<a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>)
+     * Creates JSON Pointer (<a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>)
      * from given {@code jsonPointer} string.
      * <ul>
      *     <li>An empty {@code jsonPointer} string defines a reference to the target itself.</li>
-     *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '/' prefixed tokens.</li>
+     *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '{@code /}' prefixed tokens.</li>
      * </ul>
      *
      * @param jsonPointer the JSON Pointer string
      * @throws NullPointerException if {@code jsonPointer} is {@code null}
      * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
-     * @return JSON Pointer for {@code jsonPointer} string
+     * @return a JSON Pointer
      *
      * @since 1.1
      */
@@ -328,7 +331,7 @@ public abstract class JsonProvider {
     /**
      * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>).
      *
-     * @return a JSON Patch buider
+     * @return a JSON Patch builder
      *
      * @since 1.1
      */
@@ -337,7 +340,9 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JSON Patch builder (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>), initialized with the specified operations.
+     * Creates a JSON Patch builder
+     * (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>),
+     * initialized with the specified operations.
      *
      * @param array the initial patch operations
      * @return a JSON Patch builder
@@ -349,7 +354,8 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JSON Patch from the {@code JsonArray}.
+     * Creates a JSON Patch (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>)
+     * from the specified operations.
      *
      * @param array patch operations
      * @return a JSON Patch
@@ -361,8 +367,10 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Generates a JSON Patch from the source and target {@code JsonStructure}.
+     * Generates a JSON Patch (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>)
+     * from the source and target {@code JsonStructure}.
      * The generated JSON Patch need not be unique.
+     *
      * @param source the source
      * @param target the target, must be the same type as the source
      * @return a JSON Patch which when applied to the source, yields the target
@@ -375,10 +383,10 @@ public abstract class JsonProvider {
 
     /**
      * Creates JSON Merge Patch (<a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>)
-     * from given {@code JsonValue}.
+     * from specified {@code JsonValue}.
      *
      * @param patch the patch
-     * @return a JSON Merge Patch}
+     * @return a JSON Merge Patch
      *
      * @since 1.1
      */
@@ -387,10 +395,13 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Generates a JSON Merge Patch from the source and target {@code JsonValue}s.
+     * Generates a JSON Merge Patch (<a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>)
+     * from the source and target {@code JsonValue}s
+     * which when applied to the {@code source}, yields the {@code target}.
+     *
      * @param source the source
      * @param target the target
-     * @return a JSON Merge Patch which when applied to the {@code source}, yields the {@code target}
+     * @return a JSON Merge Patch
      *
      * @since 1.1
      */
@@ -400,8 +411,10 @@ public abstract class JsonProvider {
 
     /**
      * Creates a JSON array builder, initialized with the specified collection.
+     *
      * @param collection the initial JSON collection in builder
      * @return a JSON array builder
+     *
      * @since 1.1
      */
     public JsonArrayBuilder createArrayBuilder(Collection<Object> collection) {
@@ -423,7 +436,7 @@ public abstract class JsonProvider {
     public abstract JsonBuilderFactory createBuilderFactory(Map<String,?> config);
 
     /**
-     * Creates a JsonString
+     * Creates a JsonString.
      *
      * @param value a JSON string
      * @return the JsonString for the string
@@ -435,7 +448,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
@@ -447,7 +460,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
@@ -459,7 +472,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
@@ -471,7 +484,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
@@ -483,7 +496,7 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number

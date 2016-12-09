@@ -47,12 +47,13 @@ package javax.json;
 public interface JsonStructure extends JsonValue {
 
     /**
-     * Get the value referenced by the provided JSON Pointer in the JsonStructure
+     * Get the value referenced by the provided JSON Pointer in the JsonStructure.
+     *
      * @param jsonPointer the JSON Pointer
      * @return the {@code JsonValue} at the referenced location
      * @throws JsonException if the JSON Pointer is malformed, or if it references
      *     a non-existing member or value.
-     *     
+     *
      * @since 1.1
      */
     default public JsonValue getValue(String jsonPointer) {

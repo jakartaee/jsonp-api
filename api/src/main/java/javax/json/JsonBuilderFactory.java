@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package javax.json;
 
 import java.util.Map;
@@ -82,10 +81,11 @@ public interface JsonBuilderFactory {
     JsonObjectBuilder createObjectBuilder();
 
     /**
-     * Creates a {@code JsonObjectBuilder} instance, initialized with an object 
+     * Creates a {@code JsonObjectBuilder} instance, initialized with an object.
      *
      * @param object the initial object in the builder
      * @return a JSON object builder
+     *
      * @since 1.1
      */
     default JsonObjectBuilder createObjectBuilder(JsonObject object) {
@@ -105,6 +105,7 @@ public interface JsonBuilderFactory {
      *
      * @param array the initial array in the builder
      * @return a JSON array builder
+     *
      * @since 1.1
      */
     default JsonArrayBuilder createArrayBuilder(JsonArray array) {

@@ -62,6 +62,8 @@ package javax.json;
  *   JsonMergePatch mergePatch = Json.createMergeDiff(source, target); // The diff between source and target in a Json Merge Patch format
  * } </pre>
  *
+ * @see <a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>
+ *
  * @since 1.1
  */
 public interface JsonMergePatch {

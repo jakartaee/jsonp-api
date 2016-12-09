@@ -40,16 +40,19 @@
 
 package javax.json;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Map;
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
-import java.io.*;
-import java.util.Collection;
-import java.util.Map;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
  * Factory class for creating JSON processing objects.
@@ -93,7 +96,7 @@ public final class Json {
 
     /**
      * Creates a JSON parser from a byte stream.
-     * The character encoding of the stream is determined as specified in 
+     * The character encoding of the stream is determined as specified in
      * <a href="http://tools.ietf.org/rfc/rfc7159.txt">RFC 7159</a>.
      *
      * @param in i/o stream from which JSON is to be read
@@ -320,13 +323,13 @@ public final class Json {
      * from given {@code jsonPointer} string.
      * <ul>
      *     <li>An empty {@code jsonPointer} string defines a reference to the target itself.</li>
-     *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '/' prefixed tokens.</li>
+     *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '{@code /}' prefixed tokens.</li>
      * </ul>
      *
      * @param jsonPointer the JSON Pointer string
      * @throws NullPointerException if {@code jsonPointer} is {@code null}
      * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
-     * @return JSON Pointer for {@code jsonPointer} string
+     * @return a JSON Pointer
      *
      * @since 1.1
      */
@@ -347,7 +350,8 @@ public final class Json {
 
     /**
      * Creates a JSON Patch builder
-     * (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>), initialized with the specified operations.
+     * (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>),
+     * initialized with the specified operations.
      *
      * @param array the initial patch operations
      * @return a JSON Patch builder
@@ -359,7 +363,8 @@ public final class Json {
     }
 
     /**
-     * Creates a JSON Patch from the {@code JsonArray}.
+     * Creates a JSON Patch (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>)
+     * from the specified operations.
      *
      * @param array patch operations
      * @return a JSON Patch
@@ -371,8 +376,10 @@ public final class Json {
     }
 
     /**
-     * Generates a JSON Patch from the source and target {@code JsonStructure}.
+     * Generates a JSON Patch (<a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>)
+     * from the source and target {@code JsonStructure}.
      * The generated JSON Patch need not be unique.
+     *
      * @param source the source
      * @param target the target, must be the same type as the source
      * @return a JSON Patch which when applied to the source, yields the target
@@ -385,10 +392,10 @@ public final class Json {
 
     /**
      * Creates JSON Merge Patch (<a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>)
-     * from given {@code JsonValue}.
+     * from specified {@code JsonValue}.
      *
      * @param patch the patch
-     * @return a JSON Merge Patch}
+     * @return a JSON Merge Patch
      *
      * @since 1.1
      */
@@ -397,10 +404,13 @@ public final class Json {
     }
 
     /**
-     * Generates a JSON Merge Patch from the source and target {@code JsonValue}s.
+     * Generates a JSON Merge Patch (<a href="http://tools.ietf.org/html/rfc7396">RFC 7396</a>)
+     * from the source and target {@code JsonValue}s
+     * which when applied to the {@code source}, yields the {@code target}.
+     *
      * @param source the source
      * @param target the target
-     * @return a JSON Merge Patch which when applied to the {@code source}, yields the {@code target}
+     * @return a JSON Merge Patch
      *
      * @since 1.1
      */
@@ -425,7 +435,7 @@ public final class Json {
     }
 
     /**
-     * Creates a JsonString
+     * Creates a JsonString.
      *
      * @param value a JSON string
      * @return the JsonString for the string
@@ -437,7 +447,7 @@ public final class Json {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
@@ -449,49 +459,49 @@ public final class Json {
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
      *
-     * @since 1.1 
-     */ 
+     * @since 1.1
+     */
     public static JsonNumber createValue(long value) {
         return JsonProvider.provider().createValue(value);
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
      *
-     * @since 1.1 
-     */ 
+     * @since 1.1
+     */
     public static JsonNumber createValue(double value) {
         return JsonProvider.provider().createValue(value);
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
      *
-     * @since 1.1 
-     */ 
+     * @since 1.1
+     */
     public static JsonNumber createValue(BigDecimal value) {
         return JsonProvider.provider().createValue(value);
     }
 
     /**
-     * Creates a JsonNumber
+     * Creates a JsonNumber.
      *
      * @param value a JSON number
      * @return the JsonNumber for the number
      *
-     * @since 1.1 
-     */ 
+     * @since 1.1
+     */
     public static JsonNumber createValue(BigInteger value) {
         return JsonProvider.provider().createValue(value);
     }

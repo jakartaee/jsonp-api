@@ -40,7 +40,8 @@
 package javax.json;
 
 /**
- * A builder for constructing a JSON Patch by adding
+ * A builder for constructing a JSON Patch as defined by
+ * <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a> by adding
  * JSON Patch operations incrementally.
  * <p>
  * The following illustrates the approach.
@@ -57,12 +58,15 @@ package javax.json;
  *    {"op" = "remove", "path" = "/Amy/age"}
  * ] </pre>
  *
+ * @see <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>
+ *
  * @since 1.1
  */
 public interface JsonPatchBuilder {
 
     /**
      * Adds an "add" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -70,7 +74,8 @@ public interface JsonPatchBuilder {
     JsonPatchBuilder add(String path, JsonValue value);
 
     /**
-     * Adds an "add" JSON Patch operation
+     * Adds an "add" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -78,7 +83,8 @@ public interface JsonPatchBuilder {
     JsonPatchBuilder add(String path, String value);
 
     /**
-     * Adds an "add" JSON Patch operation
+     * Adds an "add" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -86,7 +92,8 @@ public interface JsonPatchBuilder {
     JsonPatchBuilder add(String path, int value);
 
     /**
-     * Adds an "add" JSON Patch operation
+     * Adds an "add" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -95,6 +102,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "remove" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -102,6 +110,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "replace" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -110,6 +119,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "replace" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -118,6 +128,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "replace" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -126,6 +137,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "replace" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -134,6 +146,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "move" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
@@ -142,6 +155,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "copy" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
@@ -150,6 +164,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "test" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -158,6 +173,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "test" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -166,6 +182,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "test" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -174,6 +191,7 @@ public interface JsonPatchBuilder {
 
     /**
      * Adds a "test" JSON Patch operation.
+     *
      * @param path the "path" member of the operation
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
@@ -182,8 +200,9 @@ public interface JsonPatchBuilder {
 
 
     /**
-     * Returns the patch operation in a JsonPatchImpl
-     * @return the patch operation in a JsonPatchImpl
+     * Returns the JSON Patch.
+     *
+     * @return a JSON Patch
      */
     JsonPatch build();
 

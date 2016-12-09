@@ -58,6 +58,9 @@ package javax.json;
  * and {@link #remove remove()} execute operations specified in
  * <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>. </p>
  *
+ * @see <a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>
+ * @see <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>
+ *
  * @since 1.1
  */
 public interface JsonPointer {
@@ -79,6 +82,7 @@ public interface JsonPointer {
      * If the value does not exist, a new name/value pair is added to the object.</li>
      * </ol>
      *
+     * @param <T> the target type, must be a subtype of {@link JsonValue}
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be added
      * @return the transformed {@code target} after the value is added.
@@ -90,7 +94,9 @@ public interface JsonPointer {
     <T extends JsonStructure> T add(T target, JsonValue value);
 
     /**
-     * Removes the value at the reference location in the specified {@code target}
+     * Removes the value at the reference location in the specified {@code target}.
+     *
+     * @param <T> the target type, must be a subtype of {@link JsonValue}
      * @param target the target referenced by this {@code JsonPointer}
      * @return the transformed {@code target} after the value is removed.
      * @throws NullPointerException if {@code target} is {@code null}
@@ -103,6 +109,7 @@ public interface JsonPointer {
      * Replaces the value at the referenced location in the specified
      * {@code target} with the specified {@code value}.
      *
+     * @param <T> the target type, must be a subtype of {@link JsonValue}
      * @param target the target referenced by this {@code JsonPointer}
      * @param value the value to be stored at the referenced location
      * @return the transformed {@code target} after the value is replaced.
@@ -113,7 +120,7 @@ public interface JsonPointer {
     <T extends JsonStructure> T replace(T target, JsonValue value);
 
     /**
-     * Returns the value at the referenced location in the specified {@code target}
+     * Returns the value at the referenced location in the specified {@code target}.
      *
      * @param target the target referenced by this {@code JsonPointer}
      * @return the referenced value in the target.

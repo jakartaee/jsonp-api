@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package javax.json;
 
 import java.util.List;
@@ -188,15 +187,18 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * } </pre>
      * or a list of simple projections, such as
      * <pre> {@code
-     *     Lsit<Integer> stringsizes = ary1.getValueAs((JsonString v)->v.getString().length();
+     *     List<Integer> stringsizes = ary1.getValueAs((JsonString v)->v.getString().length();
      * } </pre>
      * @param <K> The element type (must be a subtype of JsonValue) of this JsonArray.
      * @param <T> The element type of the returned List
      * @param func The function that maps the elements of this JsonArray to the target elements.
      * @return A List of the specified values and type.
      * @throws ClassCastException if the {@code JsonArray} contains a value of wrong type
+     *
+     * @since 1.1
      */
     default <T, K extends JsonValue> List<T> getValuesAs(Function<K, T> func) {
+        @SuppressWarnings("unchecked")
         Stream<K> stream = (Stream<K>) stream();
         return stream.map(func).collect(Collectors.toList());
     }

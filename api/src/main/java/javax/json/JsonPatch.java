@@ -40,7 +40,6 @@
 package javax.json;
 
 /**
- /**
  * <p>This interface represents an immutable implementation of a JSON Patch
  * as defined by <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>.
  * </p>
@@ -65,6 +64,8 @@ package javax.json;
  *                             .apply(contacts);
  * } </pre>
  *
+ * @see <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>
+ *
  * @since 1.1
  */
 public interface JsonPatch {
@@ -72,10 +73,40 @@ public interface JsonPatch {
     /**
      * This enum represents the list of valid JSON Patch operations
      * as defined by <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>.
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc6902">RFC 6902</a>
      */
     enum Operation {
-        ADD("add"), REMOVE("remove"), REPLACE("replace"),
-        MOVE("move"), COPY("copy"), TEST("test");
+
+        /**
+         * "add" operation.
+         */
+        ADD("add"),
+
+        /**
+         * "remove" operation.
+         */
+        REMOVE("remove"),
+
+        /**
+         * "remove" operation.
+         */
+        REPLACE("replace"),
+
+        /**
+         * "move" operation.
+         */
+        MOVE("move"),
+
+        /**
+         * "copy" operation.
+         */
+        COPY("copy"),
+
+        /**
+         * "test" operation.
+         */
+        TEST("test");
 
         private final String operationName;
 
@@ -107,13 +138,13 @@ public interface JsonPatch {
             }
             throw new JsonException("Illegal value for the operationName of the JSON patch operation: " + operationName);
         }
-
     }
 
     /**
      * Applies the patch operations to the specified {@code target}.
      * The target is not modified by the patch.
      *
+     * @param <T> the target type, must be a subtype of {@link JsonStructure}
      * @param target the target to apply the patch operations
      * @return the transformed target after the patch
      * @throws JsonException if the supplied JSON Patch is malformed or if
