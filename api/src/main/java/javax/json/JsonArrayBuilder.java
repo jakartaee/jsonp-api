@@ -341,7 +341,7 @@ public interface JsonArrayBuilder {
      * @param index the position in the array
      * @param value the number value
      * @return this array builder
-     * @throws NumberFormatException if the value is Not-a-Number(NaN) or
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or
      *      infinity
      * @throws IndexOutOfBoundsException if the index is out of range
      *   {@code (index < 0 || index > array size)}
@@ -539,7 +539,7 @@ public interface JsonArrayBuilder {
      * @param index the position in the array
      * @param value the number value
      * @return this array builder
-     * @throws NumberFormatException if the value is Not-a-Number(NaN) or
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or
      *      infinity
      * @throws IndexOutOfBoundsException if the index is out of range
      *   {@code (index < 0 || index >= array size)}

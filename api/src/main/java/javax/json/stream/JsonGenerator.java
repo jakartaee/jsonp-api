@@ -359,7 +359,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws javax.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws NumberFormatException if the value is Not-a-Number(NaN) or infinity.
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity.
      * @throws JsonGenerationException if this method is not called within an
      *      object context
      */
@@ -508,7 +508,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
      *      array or root context.
-     * @throws NumberFormatException if the value is Not-a-Number(NaN) or infinity.
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity.
      */
     JsonGenerator write(double value);
 

@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -205,7 +205,7 @@ public interface JsonObjectBuilder {
      * @param name name in the name/value pair
      * @param value value in the name/value pair
      * @return this object builder
-     * @throws NumberFormatException if the value is Not-a-Number(NaN) or 
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or 
      * infinity
      * @throws NullPointerException if the specified name is null
      *
