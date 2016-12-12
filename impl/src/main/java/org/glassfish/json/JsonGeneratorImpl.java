@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
@@ -380,6 +379,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         return this;
     }
 
+    @Override
     public JsonGenerator write(String value) {
         checkContextForValue();
         writeComma();
@@ -389,6 +389,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
 
+    @Override
     public JsonGenerator write(int value) {
         checkContextForValue();
         writeComma();
@@ -446,6 +447,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
     }
 
+    @Override
     public JsonGenerator write(boolean value) {
         checkContextForValue();
         writeComma();
@@ -454,6 +456,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         return this;
     }
 
+    @Override
     public JsonGenerator writeNull() {
         checkContextForValue();
         writeComma();
@@ -515,6 +518,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     }
 
+    @Override
     public void close() {
         if (currentContext.scope != Scope.IN_NONE || currentContext.first) {
             throw new JsonGenerationException(JsonMessages.GENERATOR_INCOMPLETE_JSON());

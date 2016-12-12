@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package org.glassfish.json;
 
 import javax.json.*;
@@ -124,6 +123,7 @@ public class JsonPatchImpl implements JsonPatch {
      * @throws JsonException if the supplied JSON Patch is malformed or if
      *    it contains references to non-existing members
      */
+    @Override
     public JsonStructure apply(JsonStructure target) {
 
         JsonStructure result = target;
@@ -135,30 +135,6 @@ public class JsonPatchImpl implements JsonPatch {
             result = apply(result, (JsonObject) operation);
         }
         return result;
-    }
-
-    /**
-     * Applies the patch operations to the specified {@code target}.
-     *
-     * @param target the target to apply the patch operations
-     * @return the transformed target after the patch
-     * @throws JsonException if the supplied JSON Patch is malformed or if
-     *    it contains references to non-existing members
-     */
-    public JsonObject apply(JsonObject target) {
-        return (JsonObject) apply((JsonStructure)target);
-    }
-
-    /**
-     * Applies the patch operations to the specified {@code target}.
-     *
-     * @param target the target to apply the patch operations
-     * @return the transformed target after the patch
-     * @throws JsonException if the supplied JSON Patch is malformed or if
-     *    it contains references to non-existing members
-     */
-    public JsonArray apply(JsonArray target) {
-        return (JsonArray) apply((JsonStructure)target);
     }
 
     @Override

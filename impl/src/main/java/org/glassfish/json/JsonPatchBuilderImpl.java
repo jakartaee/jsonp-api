@@ -72,7 +72,7 @@ import javax.json.JsonValue;
  */
 public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
 
-    private JsonArrayBuilder builder;
+    private final JsonArrayBuilder builder;
 
     /**
      * Creates a JsonPatchBuilderImpl, starting with the specified
@@ -134,6 +134,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder add(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.ADD.operationName())
@@ -149,6 +150,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder add(String path, String value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.ADD.operationName())
@@ -164,6 +166,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder add(String path, int value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.ADD.operationName())
@@ -179,6 +182,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder add(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.ADD.operationName())
@@ -193,6 +197,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param path the "path" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder remove(String path) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.REMOVE.operationName())
@@ -207,6 +212,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder replace(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.REPLACE.operationName())
@@ -222,6 +228,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder replace(String path, String value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.REPLACE.operationName())
@@ -237,6 +244,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder replace(String path, int value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.REPLACE.operationName())
@@ -252,6 +260,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder replace(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.REPLACE.operationName())
@@ -267,6 +276,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder move(String path, String from) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.MOVE.operationName())
@@ -282,6 +292,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder copy(String path, String from) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.COPY.operationName())
@@ -297,6 +308,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder test(String path, JsonValue value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.TEST.operationName())
@@ -312,6 +324,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder test(String path, String value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.TEST.operationName())
@@ -327,6 +340,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder test(String path, int value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.TEST.operationName())
@@ -342,6 +356,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
+    @Override
     public JsonPatchBuilder test(String path, boolean value) {
         builder.add(Json.createObjectBuilder()
                            .add("op", Operation.TEST.operationName())
@@ -363,6 +378,7 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
      * Returns the patch operation in a JsonPatch
      * @return the patch operation in a JsonPatch
      */
+    @Override
     public JsonPatch build() {
         return new JsonPatchImpl(buildAsJsonArray());
     }

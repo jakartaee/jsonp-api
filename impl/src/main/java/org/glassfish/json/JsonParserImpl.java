@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,7 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package org.glassfish.json;
 
 import javax.json.*;
@@ -86,6 +85,7 @@ public class JsonParserImpl implements JsonParser {
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
     }
 
+    @Override
     public String getString() {
         if (currentEvent == Event.KEY_NAME || currentEvent == Event.VALUE_STRING
                 || currentEvent == Event.VALUE_NUMBER) {
@@ -353,6 +353,7 @@ public class JsonParserImpl implements JsonParser {
         return currentEvent = currentContext.getNextEvent();
     }
 
+    @Override
     public void close() {
         try {
             tokenizer.close();
