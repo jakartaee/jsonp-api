@@ -3,7 +3,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -60,24 +60,24 @@
     </dependencies>
     <build>
         <plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>get-license</id>
-						<phase>package</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>${license.url}</url>
-							<fromFile>TLDA_SCSL_Licensees_License_Notice.txt</fromFile>
-							<toDir>${assembly.directory}</toDir>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>get-license</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>download-single</goal>
+                        </goals>
+                        <configuration>
+                            <url>${license.url}</url>
+                            <fromFile>TLDA_SCSL_Licensees_License_Notice.txt</fromFile>
+                            <toDir>${assembly.directory}</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -92,7 +92,7 @@
                         <id>make-assembly</id>
                         <phase>package</phase> 
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>

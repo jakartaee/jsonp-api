@@ -2,7 +2,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -56,23 +56,46 @@
     <groupId>org.glassfish.jsonp</groupId>
     <artifactId>demos</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    <modules>
-		<module>jaxrs</module>
-		<module>twitter</module>
-		<module>facebook</module>
-		<module>jsonpointer</module>
-		<module>servlet</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-web-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.json</groupId>
+                    <artifactId>javax.json-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <modules>
+                <module>jaxrs</module>
+                <module>twitter</module>
+                <module>facebook</module>
+                <module>jsonpointer</module>
+                <module>servlet</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jdk9</id>
+            <activation>
+                <jdk>9</jdk>
+            </activation>
+            <modules>
+                <!-- maven-war-plugin does not work on JDK9 yet
+                due to bug in undelied xstream library -->
+                <!--<module>jaxrs</module>-->
+                <module>twitter</module>
+                <module>facebook</module>
+                <module>jsonpointer</module>
+                <!--<module>servlet</module>-->
+            </modules>
+        </profile>
+    </profiles>
 </project>
