@@ -154,10 +154,6 @@ final class JsonMessages {
         return localize("writer.write.already.called");
     }
 
-    static String WRITER_WRITE_VALUE_NULL() {
-        return localize("writer.write.value.null");
-    }
-
     // reader messages
     static String READER_READ_ALREADY_CALLED() {
         return localize("reader.read.already.called");
