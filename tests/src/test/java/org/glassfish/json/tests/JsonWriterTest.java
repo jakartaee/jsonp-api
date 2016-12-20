@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -65,10 +65,30 @@ public class JsonWriterTest extends TestCase {
         assertEquals("{}", writer.toString());
     }
 
+    public void testEmptyObject() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write(JsonValue.EMPTY_JSON_OBJECT);
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("{}", writer.toString());
+    }
+
     public void testArray() throws Exception {
         StringWriter writer = new StringWriter();
         JsonWriter jsonWriter = Json.createWriter(writer);
         jsonWriter.writeArray(Json.createArrayBuilder().build());
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("[]", writer.toString());
+    }
+
+    public void testEmptyArray() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write(JsonValue.EMPTY_JSON_ARRAY);
         jsonWriter.close();
         writer.close();
 
@@ -103,6 +123,46 @@ public class JsonWriterTest extends TestCase {
         writer.close();
 
         assertEquals("[\"string\"]", writer.toString());
+    }
+
+    public void testObjectAsValue() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write((JsonValue) (Json.createObjectBuilder().build()));
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("{}", writer.toString());
+    }
+
+    public void testNullValue() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write(JsonValue.NULL);
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("null", writer.toString());
+    }
+
+    public void testTrueValue() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write(JsonValue.TRUE);
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("true", writer.toString());
+    }
+
+    public void testFalseValue() throws Exception {
+        StringWriter writer = new StringWriter();
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.write(JsonValue.FALSE);
+        jsonWriter.close();
+        writer.close();
+
+        assertEquals("false", writer.toString());
     }
 
     public void testIllegalStateExcepton() throws Exception {

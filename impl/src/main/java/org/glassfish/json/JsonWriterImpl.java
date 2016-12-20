@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -146,19 +146,23 @@ class JsonWriterImpl implements JsonWriter {
 
     @Override
     public void write(JsonValue value) {
-        if (value instanceof JsonArray) {
-            writeArray((JsonArray)value);
-        } else if (value instanceof JsonObject) {
-            writeObject((JsonObject)value);
-        }
-        if (writeDone) {
-            throw new IllegalStateException(JsonMessages.WRITER_WRITE_ALREADY_CALLED());
-        }
-        writeDone = true;
-        generator.write(value);
-        generator.flushBuffer();
-        if (os != null) {
-            generator.flush();
+        switch (value.getValueType()) {
+            case OBJECT:
+                writeObject((JsonObject) value);
+                return;
+            case ARRAY:
+                writeArray((JsonArray) value);
+                return;
+            default:
+                if (writeDone) {
+                    throw new IllegalStateException(JsonMessages.WRITER_WRITE_ALREADY_CALLED());
+                }
+                writeDone = true;
+                generator.write(value);
+                generator.flushBuffer();
+                if (os != null) {
+                    generator.flush();
+                }
         }
     }
 
