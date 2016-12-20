@@ -37,7 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-module org.glassfish.javax.json {
+module org.glassfish.java.json {
     exports javax.json;
     exports javax.json.spi;
     exports javax.json.stream;

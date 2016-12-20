@@ -37,6 +37,6 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-module org.glassfish.javax.json.demos.facebook {
-    requires org.glassfish.javax.json;
+module org.glassfish.java.json.demos.facebook {
+    requires org.glassfish.java.json;
 }

@@ -37,7 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-module org.glassfish.javax.json.demos.twitter {
+module org.glassfish.java.json.demos.twitter {
     requires java.xml.bind;
-    requires org.glassfish.javax.json;
+    requires org.glassfish.java.json;
 }

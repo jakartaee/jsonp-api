@@ -37,7 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-module javax.json {
+module java.json {
     exports javax.json;
     exports javax.json.spi;
     exports javax.json.stream;
