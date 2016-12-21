@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -271,8 +271,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @throws JsonParsingException if the parser encounters invalid JSON
      * when advancing to next state.
      * @throws java.util.NoSuchElementException if there are no more parsing
-     * @return the event for the next parsing state
      * states.
+     * @return the event for the next parsing state
      */
     Event next();
 
