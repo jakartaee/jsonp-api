@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -598,6 +598,25 @@ public class JsonParserTest extends TestCase {
 
     }
 
+    public void testBigDecimalGetString() {
+        JsonParserFactory f = Json.createParserFactory(null);
+        JsonObject obj = Json.createObjectBuilder().add("a", BigDecimal.ONE).build();
+        JsonParser parser = f.createParser(obj);
+        parser.next();
+        parser.next();
+        parser.next();
+        assertEquals("Fails for BigDecimal=1", "1", parser.getString());
+    }
+
+    public void testIntGetString() {
+        JsonParserFactory f = Json.createParserFactory(null);
+        JsonObject obj = Json.createObjectBuilder().add("a", 5).build();
+        JsonParser parser = f.createParser(obj);
+        parser.next();
+        parser.next();
+        parser.next();
+        assertEquals("Fails for int=5", "5", parser.getString());
+    }
     static class MyBufferPool implements BufferPool {
         private boolean takeCalled;
         private boolean recycleCalled;

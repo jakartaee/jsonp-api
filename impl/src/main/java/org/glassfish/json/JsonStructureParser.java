@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -67,12 +67,16 @@ class JsonStructureParser implements JsonParser {
 
     @Override
     public String getString() {
-        if (state == Event.KEY_NAME) {
-            return ((ObjectScope)current).key;
-        } else if (state == Event.VALUE_STRING) {
-            return ((JsonString)current.getJsonValue()).getString();
+        switch (state) {
+            case KEY_NAME:
+                return ((ObjectScope)current).key;
+            case VALUE_STRING:
+                return ((JsonString)current.getJsonValue()).getString();
+            case VALUE_NUMBER:
+                return ((JsonNumber)current.getJsonValue()).toString();
+            default:
+                throw new IllegalStateException(JsonMessages.PARSER_GETSTRING_ERR(state));
         }
-        throw new IllegalStateException(JsonMessages.PARSER_GETSTRING_ERR(state));
     }
 
     @Override
