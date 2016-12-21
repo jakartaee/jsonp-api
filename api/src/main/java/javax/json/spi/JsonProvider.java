@@ -71,32 +71,6 @@ public abstract class JsonProvider {
      */
     private static final String DEFAULT_PROVIDER
             = "org.glassfish.json.JsonProviderImpl";
-    private static final ThreadLocal<ServiceLoader<JsonProvider>> threadLoader =
-        new ThreadLocal<ServiceLoader<JsonProvider>>() {
-            @Override
-            protected ServiceLoader<JsonProvider> initialValue() {
-                return ServiceLoader.load(JsonProvider.class);
-            }
-        };
-
-    //Lazy initialization holder class idiom
-    private static class JsonProviderHolder {
-        static final JsonProvider defaultJsonProvider = initDefault();
-
-        static JsonProvider initDefault() {
-            try {
-                Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-                return (JsonProvider)clazz.newInstance();
-            } catch (ClassNotFoundException x) {
-                throw new JsonException(
-                        "Provider " + DEFAULT_PROVIDER + " not found", x);
-            } catch (Exception x) {
-                throw new JsonException(
-                        "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
-                        x);
-            }
-        }
-    }
 
     protected JsonProvider() {
     }
@@ -105,17 +79,28 @@ public abstract class JsonProvider {
      * Creates a JSON provider object. The provider is loaded using the
      * {@link ServiceLoader#load(Class)} method. If there are no available
      * service providers, this method returns the default service provider.
+     * Users are recommended to cache the result of this method.
      *
      * @see ServiceLoader
      * @return a JSON provider
      */
     public static JsonProvider provider() {
-        Iterator<JsonProvider> it = threadLoader.get().iterator();
+        ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
+        Iterator<JsonProvider> it = loader.iterator();
         if (it.hasNext()) {
             return it.next();
         }
-
-        return JsonProviderHolder.defaultJsonProvider;
+        try {
+            Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
+            return (JsonProvider) clazz.newInstance();
+        } catch (ClassNotFoundException x) {
+            throw new JsonException(
+                    "Provider " + DEFAULT_PROVIDER + " not found", x);
+        } catch (Exception x) {
+            throw new JsonException(
+                    "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
+                    x);
+        }
     }
 
     /**
