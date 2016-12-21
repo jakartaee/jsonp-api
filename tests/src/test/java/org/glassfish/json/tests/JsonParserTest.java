@@ -40,6 +40,11 @@
 
 package org.glassfish.json.tests;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import junit.framework.TestCase;
 
 import javax.json.*;
@@ -47,7 +52,6 @@ import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
-import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.glassfish.json.api.BufferPool;
 
@@ -79,81 +84,81 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyArrayReader() {
-        JsonParser parser = Json.createParser(new StringReader("[]"));
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("[]"))) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStream() {
-        JsonParser parser = Json.createParser(
-                new ByteArrayInputStream(new byte[]{'[', ']'}));
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(
+                new ByteArrayInputStream(new byte[]{'[', ']'}))) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF8() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_8));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF16LE() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16LE));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF16BE() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16BE));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF32LE() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_32LE));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF32BE() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(UTF_32BE));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamUTF16() {
         ByteArrayInputStream bin = new ByteArrayInputStream("[]".getBytes(StandardCharsets.UTF_16));
-        JsonParser parser = Json.createParser(bin);
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStreamWithConfig() {
         Map<String, ?> config = new HashMap<>();
-        JsonParser parser = Json.createParserFactory(config).createParser(
-                new ByteArrayInputStream(new byte[]{'[', ']'}));
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(config).createParser(
+                new ByteArrayInputStream(new byte[]{'[', ']'}))) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStructure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createArrayBuilder().build());
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createArrayBuilder().build())) {
+            testEmptyArray(parser);
+        }
     }
 
     public void testEmptyArrayStructureWithConfig() {
         Map<String, ?> config = new HashMap<>();
-        JsonParser parser = Json.createParserFactory(config).createParser(
-                Json.createArrayBuilder().build());
-        testEmptyArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(config).createParser(
+                Json.createArrayBuilder().build())) {
+            testEmptyArray(parser);
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -165,16 +170,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyArrayReaderIterator() {
-        JsonParser parser = Json.createParser(new StringReader("[]"));
-        testEmptyArrayIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("[]"))) {
+            testEmptyArrayIterator(parser);
+        }
     }
 
     public void testEmptyArrayStructureIterator() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createArrayBuilder().build());
-        testEmptyArrayIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createArrayBuilder().build())) {
+            testEmptyArrayIterator(parser);
+        }
     }
 
     static void testEmptyArrayIterator(JsonParser parser) {
@@ -197,16 +202,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyArrayIterator2Reader() {
-        JsonParser parser = Json.createParser(new StringReader("[]"));
-        testEmptyArrayIterator2(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("[]"))) {
+            testEmptyArrayIterator2(parser);
+        }
     }
 
     public void testEmptyArrayIterator2Structure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createArrayBuilder().build());
-        testEmptyArrayIterator2(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createArrayBuilder().build())) {
+            testEmptyArrayIterator2(parser);
+        }
     }
 
     static void testEmptyArrayIterator2(JsonParser parser) {
@@ -220,16 +225,16 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testEmptyArrayIterator3Reader() {
-        JsonParser parser = Json.createParser(new StringReader("[]"));
-        testEmptyArrayIterator3(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("[]"))) {
+            testEmptyArrayIterator3(parser);
+        }
     }
 
     public void testEmptyArrayIterator3Structure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createArrayBuilder().build());
-        testEmptyArrayIterator3(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createArrayBuilder().build())) {
+            testEmptyArrayIterator3(parser);
+        }
     }
 
     static void testEmptyArrayIterator3(JsonParser parser) {
@@ -246,31 +251,31 @@ public class JsonParserTest extends TestCase {
 
     // Tests empty object
     public void testEmptyObjectReader() {
-        JsonParser parser = Json.createParser(new StringReader("{}"));
-        testEmptyObject(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("{}"))) {
+            testEmptyObject(parser);
+        }
     }
 
     public void testEmptyObjectStream() {
-        JsonParser parser = Json.createParser(
-                new ByteArrayInputStream(new byte[]{'{', '}'}));
-        testEmptyObject(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(
+                new ByteArrayInputStream(new byte[]{'{', '}'}))) {
+            testEmptyObject(parser);
+        }
     }
 
     public void testEmptyObjectStructure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createObjectBuilder().build());
-        testEmptyObject(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createObjectBuilder().build())) {
+            testEmptyObject(parser);
+        }
     }
 
     public void testEmptyObjectStructureWithConfig() {
         Map<String, ?> config = new HashMap<>();
-        JsonParser parser = Json.createParserFactory(config).createParser(
-                Json.createObjectBuilder().build());
-        testEmptyObject(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(config).createParser(
+                Json.createObjectBuilder().build())) {
+            testEmptyObject(parser);
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -282,16 +287,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyObjectIteratorReader() {
-        JsonParser parser = Json.createParser(new StringReader("{}"));
-        testEmptyObjectIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("{}"))) {
+            testEmptyObjectIterator(parser);
+        }
     }
 
     public void testEmptyObjectIteratorStructure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createObjectBuilder().build());
-        testEmptyObjectIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createObjectBuilder().build())) {
+            testEmptyObjectIterator(parser);
+        }
     }
 
     static void testEmptyObjectIterator(JsonParser parser) {
@@ -314,16 +319,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyObjectIterator2Reader() {
-        JsonParser parser = Json.createParser(new StringReader("{}"));
-        testEmptyObjectIterator2(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("{}"))) {
+            testEmptyObjectIterator2(parser);
+        }
     }
 
     public void testEmptyObjectIterator2Structure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createObjectBuilder().build());
-        testEmptyObjectIterator2(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createObjectBuilder().build())) {
+            testEmptyObjectIterator2(parser);
+        }
     }
 
     static void testEmptyObjectIterator2(JsonParser parser) {
@@ -338,16 +343,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testEmptyObjectIterator3Reader() {
-        JsonParser parser = Json.createParser(new StringReader("{}"));
-        testEmptyObjectIterator3(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("{}"))) {
+            testEmptyObjectIterator3(parser);
+        }
     }
 
     public void testEmptyObjectIterator3Structure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                Json.createObjectBuilder().build());
-        testEmptyObjectIterator3(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                Json.createObjectBuilder().build())) {
+            testEmptyObjectIterator3(parser);
+        }
     }
 
     static void testEmptyObjectIterator3(JsonParser parser) {
@@ -364,16 +369,16 @@ public class JsonParserTest extends TestCase {
 
 
     public void testWikiIteratorReader() throws Exception {
-        JsonParser parser = Json.createParser(wikiReader());
-        testWikiIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(wikiReader())) {
+            testWikiIterator(parser);
+        }
     }
 
     public void testWikiIteratorStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                JsonBuilderTest.buildPerson());
-        testWikiIterator(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                JsonBuilderTest.buildPerson())) {
+            testWikiIterator(parser);
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -384,30 +389,30 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testWikiInputStream() throws Exception {
-        JsonParser parser = Json.createParser(wikiStream());
-        testWiki(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(wikiStream())) {
+            testWiki(parser);
+        }
     }
 
     public void testWikiInputStreamUTF16LE() throws Exception {
         ByteArrayInputStream bin = new ByteArrayInputStream(wikiString()
                 .getBytes(StandardCharsets.UTF_16LE));
-        JsonParser parser = Json.createParser(bin);
-        testWiki(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(bin)) {
+            testWiki(parser);
+        }
     }
 
     public void testWikiReader() throws Exception {
-        JsonParser parser = Json.createParser(wikiReader());
-        testWiki(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(wikiReader())) {
+            testWiki(parser);
+        }
     }
 
     public void testWikiStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                JsonBuilderTest.buildPerson());
-        testWiki(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                JsonBuilderTest.buildPerson())) {
+            testWiki(parser);
+        }
     }
 
     static void testWiki(JsonParser parser) {
@@ -482,20 +487,20 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testNestedArrayReader() {
-        JsonParser parser = Json.createParser(new StringReader("[[],[[]]]"));
-        testNestedArray(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(new StringReader("[[],[[]]]"))) {
+            testNestedArray(parser);
+        }
     }
 
     public void testNestedArrayStructure() {
-        JsonParser parser = Json.createParserFactory(null).createParser(
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
                 Json.createArrayBuilder()
                         .add(Json.createArrayBuilder())
                         .add(Json.createArrayBuilder()
                                 .add(Json.createArrayBuilder()))
-                        .build());
-        testNestedArray(parser);
-        parser.close();
+                        .build())) {
+            testNestedArray(parser);
+        }
     }
 
     static void testNestedArray(JsonParser parser) {
@@ -512,16 +517,16 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testExceptionsReader() throws Exception {
-        JsonParser parser = Json.createParser(wikiReader());
-        testExceptions(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParser(wikiReader())) {
+            testExceptions(parser);
+        }
     }
 
     public void testExceptionsStructure() throws Exception {
-        JsonParser parser = Json.createParserFactory(null).createParser(
-                JsonBuilderTest.buildPerson());
-        testExceptions(parser);
-        parser.close();
+        try (JsonParser parser = Json.createParserFactory(null).createParser(
+                JsonBuilderTest.buildPerson())) {
+            testExceptions(parser);
+        }
     }
 
     static void testExceptions(JsonParser parser) {
@@ -566,10 +571,11 @@ public class JsonParserTest extends TestCase {
     }
 
     static String wikiString() {
-        java.util.Scanner scanner = new java.util.Scanner(wikiReader())
-                .useDelimiter("\\A");
-        String str = scanner.hasNext() ? scanner.next() : "";
-        scanner.close();
+        String str;
+        try (Scanner scanner = new Scanner(wikiReader())
+                .useDelimiter("\\A")) {
+            str = scanner.hasNext() ? scanner.next() : "";
+        }
         return str;
     }
 
@@ -589,11 +595,11 @@ public class JsonParserTest extends TestCase {
 
         for(int i=0; i < 100000; i++) {
             long num = i%2 == 0 ? r.nextInt() : r.nextLong();
-            JsonParser parser = factory.createParser(new StringReader("["+num+"]"));
-            parser.next();
-            parser.next();
-            assertEquals("Fails for num="+num, new BigDecimal(num).intValue(), parser.getInt());
-            parser.close();
+            try (JsonParser parser = factory.createParser(new StringReader("["+num+"]"))) {
+                parser.next();
+                parser.next();
+                assertEquals("Fails for num="+num, new BigDecimal(num).intValue(), parser.getInt());
+            }
         }
 
     }
@@ -601,21 +607,23 @@ public class JsonParserTest extends TestCase {
     public void testBigDecimalGetString() {
         JsonParserFactory f = Json.createParserFactory(null);
         JsonObject obj = Json.createObjectBuilder().add("a", BigDecimal.ONE).build();
-        JsonParser parser = f.createParser(obj);
-        parser.next();
-        parser.next();
-        parser.next();
-        assertEquals("Fails for BigDecimal=1", "1", parser.getString());
+        try (JsonParser parser = f.createParser(obj)) {
+            parser.next();
+            parser.next();
+            parser.next();
+            assertEquals("Fails for BigDecimal=1", "1", parser.getString());
+        }
     }
 
     public void testIntGetString() {
         JsonParserFactory f = Json.createParserFactory(null);
         JsonObject obj = Json.createObjectBuilder().add("a", 5).build();
-        JsonParser parser = f.createParser(obj);
-        parser.next();
-        parser.next();
-        parser.next();
-        assertEquals("Fails for int=5", "5", parser.getString());
+        try (JsonParser parser = f.createParser(obj)) {
+            parser.next();
+            parser.next();
+            parser.next();
+            assertEquals("Fails for int=5", "5", parser.getString());
+        }
     }
     static class MyBufferPool implements BufferPool {
         private boolean takeCalled;
@@ -653,10 +661,10 @@ public class JsonParserTest extends TestCase {
         }};
 
         JsonParserFactory factory = Json.createParserFactory(config);
-        JsonParser parser = factory.createParser(new StringReader("[]"));
-        parser.next();
-        parser.next();
-        parser.close();
+        try (JsonParser parser = factory.createParser(new StringReader("[]"))) {
+            parser.next();
+            parser.next();
+        }
         assertTrue(bufferPool.isTakeCalled());
         assertTrue(bufferPool.isRecycleCalled());
     }
@@ -676,14 +684,14 @@ public class JsonParserTest extends TestCase {
                 String name = sb.toString();
                 long num = i%2 == 0 ? r.nextInt() : r.nextLong();
                 String str = "{\""+name+"\":["+num+"]}";
-                JsonParser parser = factory.createParser(new StringReader(str));
-                parser.next();
-                parser.next();
-                assertEquals("Fails for " + str, name, parser.getString());
-                parser.next();
-                parser.next();
-                assertEquals("Fails for "+str, new BigDecimal(num).intValue(), parser.getInt());
-                parser.close();
+                try (JsonParser parser = factory.createParser(new StringReader(str))) {
+                    parser.next();
+                    parser.next();
+                    assertEquals("Fails for " + str, name, parser.getString());
+                    parser.next();
+                    parser.next();
+                    assertEquals("Fails for "+str, new BigDecimal(num).intValue(), parser.getInt());
+                }
             }
         }
     }
@@ -700,16 +708,14 @@ public class JsonParserTest extends TestCase {
             sb.append('a');
             String name = sb.toString();
             String str = "{\""+name+"\":\""+name+"\"}";
-            try {
-                JsonParser parser = factory.createParser(new StringReader(str));
+            try (JsonParser parser = factory.createParser(new StringReader(str))) {
                 parser.next();
                 parser.next();
-                assertEquals("Fails for size="+i, name, parser.getString());
+                assertEquals("Fails for size=" + i, name, parser.getString());
                 parser.next();
-                assertEquals("Fails for size="+i, name, parser.getString());
-                parser.close();
+                assertEquals("Fails for size=" + i, name, parser.getString());
             } catch (Throwable e) {
-                throw new Throwable("Failed for size="+i, e);
+                throw new Throwable("Failed for size=" + i, e);
             }
         }
     }
@@ -727,17 +733,15 @@ public class JsonParserTest extends TestCase {
             sb.append('a');
             String name = sb.toString();
             int num = r.nextInt();
-            String str = "{\""+name+"\":"+num+"}";
-            try {
-                JsonParser parser = factory.createParser(new StringReader(str));
+            String str = "{\"" + name + "\":" + num + "}";
+            try (JsonParser parser = factory.createParser(new StringReader(str))) {
                 parser.next();
                 parser.next();
-                assertEquals("Fails for size="+i, name, parser.getString());
+                assertEquals("Fails for size=" + i, name, parser.getString());
                 parser.next();
-                assertEquals("Fails for size="+i, num, parser.getInt());
-                parser.close();
+                assertEquals("Fails for size=" + i, num, parser.getInt());
             } catch (Throwable e) {
-                throw new Throwable("Failed for size="+i, e);
+                throw new Throwable("Failed for size=" + i, e);
             }
         }
     }
@@ -756,30 +760,28 @@ public class JsonParserTest extends TestCase {
                 String name = sb.toString();
                 String str = "{\""+name+"\":\""+name+"\"}";
                 JsonLocation location;
-                try {
-                    JsonParser parser = factory.createParser(new StringReader(str));
+                try (JsonParser parser = factory.createParser(new StringReader(str))) {
                     parser.next();
                     parser.next();
-                    assertEquals("name fails for buffer size="+size+" name length="+i, name, parser.getString());
+                    assertEquals("name fails for buffer size=" + size + " name length=" + i, name, parser.getString());
                     location = parser.getLocation();
-                    assertEquals("Stream offset fails for buffer size="+size+" name length="+i,
-                            name.length()+3, location.getStreamOffset());
-                    assertEquals("Column value fails for buffer size="+size+" name length="+i,
-                            name.length()+4, location.getColumnNumber());
-                    assertEquals("Line value fails for buffer size="+size+" name length="+i,
+                    assertEquals("Stream offset fails for buffer size=" + size + " name length=" + i,
+                            name.length() + 3, location.getStreamOffset());
+                    assertEquals("Column value fails for buffer size=" + size + " name length=" + i,
+                            name.length() + 4, location.getColumnNumber());
+                    assertEquals("Line value fails for buffer size=" + size + " name length=" + i,
                             1, location.getLineNumber());
 
                     parser.next();
-                    assertEquals("value fails for buffer size="+size+" name length="+i, name, parser.getString());
+                    assertEquals("value fails for buffer size=" + size + " name length=" + i, name, parser.getString());
                     location = parser.getLocation();
-                    assertEquals("Stream offset fails for buffer size="+size+" name length="+i, 2*name.length()+6, location.getStreamOffset());
-                    assertEquals("Column value fails for buffer size="+size+" name length="+i,
-                            2*name.length()+7, location.getColumnNumber());
-                    assertEquals("Line value fails for buffer size="+size+" name length="+i,
+                    assertEquals("Stream offset fails for buffer size=" + size + " name length=" + i, 2 * name.length() + 6, location.getStreamOffset());
+                    assertEquals("Column value fails for buffer size=" + size + " name length=" + i,
+                            2 * name.length() + 7, location.getColumnNumber());
+                    assertEquals("Line value fails for buffer size=" + size + " name length=" + i,
                             1, location.getLineNumber());
-                    parser.close();
                 } catch (Throwable e) {
-                    throw new Throwable("Failed for buffer size="+size+" name length="+i, e);
+                    throw new Throwable("Failed for buffer size=" + size + " name length=" + i, e);
                 }
             }
         }
