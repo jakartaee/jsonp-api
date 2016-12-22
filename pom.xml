@@ -57,7 +57,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.1</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) RI</name>
     <description>JSR 374:Java API for Processing JSON RI</description>
     <url>http://jsonp.java.net</url>
@@ -99,8 +99,8 @@
         <api_package>javax.json</api_package>
         <impl_namespace>org.glassfish</impl_namespace>
         <spec_version>1.1</spec_version>
-        <spec_impl_version>1.1.0-SNAPSHOT</spec_impl_version>
-        <impl_version>1.1.0-SNAPSHOT</impl_version>
+        <spec_impl_version>${project.version}</spec_impl_version>
+        <impl_version>${project.version}</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
     </properties>
@@ -307,22 +307,10 @@
         </profile>
 
         <profile>
-            <id>jdk9</id>
+            <id>jdk9-setup</id>
             <activation>
                 <jdk>9</jdk>
             </activation>
-            <modules>
-                <module>api</module>
-                <module>impl</module>
-                <module>jaxrs</module>
-                <module>jaxrs-1x</module>
-                <module>tests</module>
-                <!-- maven-war-plugin does not work on JDK9 yet
-                     due to bug in undelied xstream library -->
-                <!--<module>gf</module>-->
-                <module>demos</module>
-                <module>bundles</module>
-            </modules>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -386,6 +374,25 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>jdk9-all</id>
+            <activation>
+                <jdk>9</jdk>
+            </activation>
+            <modules>
+                <module>api</module>
+                <module>impl</module>
+                <module>jaxrs</module>
+                <module>jaxrs-1x</module>
+                <module>tests</module>
+                <!-- maven-war-plugin does not work on JDK9 yet
+                     due to bug in undelied xstream library -->
+                <!--<module>gf</module>-->
+                <module>demos</module>
+                <module>bundles</module>
+            </modules>
         </profile>
 
         <profile>
