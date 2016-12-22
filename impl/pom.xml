@@ -76,7 +76,7 @@
                                 <artifactItem>
                                     <groupId>javax.json</groupId>
                                     <artifactId>javax.json-api</artifactId>
-                                    <version>${spec_impl_version}</version>
+                                    <version>${project.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/sources</outputDirectory>
