@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -169,7 +169,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     private JsonGenerator writeName(String name) {
         writeComma();
         writeEscapedString(name);
-        writeChar(':');
+        writeColon();
         return this;
     }
 
@@ -473,7 +473,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     private void writeValue(String name, String value) {
         writeComma();
         writeEscapedString(name);
-        writeChar(':');
+        writeColon();
         writeString(value);
     }
 
@@ -506,6 +506,10 @@ class JsonGeneratorImpl implements JsonGenerator {
             writeChar(',');
         }
         currentContext.first = false;
+    }
+
+    protected void writeColon() {
+        writeChar(':');
     }
 
     private static class Context {
