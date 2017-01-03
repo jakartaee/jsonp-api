@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -51,8 +51,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * JsonArrayBuilder implementation
@@ -324,7 +322,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
     @Override
     public JsonArrayBuilder remove(int index) {
         if (valueList == null) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(JsonMessages.ARRBUILDER_VALUELIST_NULL(index, 0));
         }
         valueList.remove(index);
         return this;
@@ -366,7 +364,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private void setValueList(int index, JsonValue value) {
         if (valueList == null) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(JsonMessages.ARRBUILDER_VALUELIST_NULL(index, 0));
         }
         valueList.set(index, value);
     }
