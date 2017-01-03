@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -85,6 +85,7 @@ public interface JsonBuilderFactory {
      *
      * @param object the initial object in the builder
      * @return a JSON object builder
+     * @throws NullPointerException if specified object is {@code null}
      *
      * @since 1.1
      */
@@ -105,6 +106,7 @@ public interface JsonBuilderFactory {
      *
      * @param array the initial array in the builder
      * @return a JSON array builder
+     * @throws NullPointerException if specified array is {@code null}
      *
      * @since 1.1
      */

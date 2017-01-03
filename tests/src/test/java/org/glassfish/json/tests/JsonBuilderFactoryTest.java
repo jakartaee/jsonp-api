@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013-2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -37,53 +37,56 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
+package org.glassfish.json.tests;
 
-package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
-
-import javax.json.JsonObject;
-import javax.json.JsonArray;
+import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
-import java.util.Collections;
-import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * @author Jitendra Kotamraju
+ *
+ * @author lukas
  */
-class JsonBuilderFactoryImpl implements JsonBuilderFactory {
-    private final Map<String, ?> config;
-    private final BufferPool bufferPool;
-
-    JsonBuilderFactoryImpl(BufferPool bufferPool) {
-        this.config = Collections.emptyMap();
-        this.bufferPool = bufferPool;
+public class JsonBuilderFactoryTest {
+    
+    @Test
+    public void testArrayBuilder() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        Assert.assertNotNull(builderFactory.createArrayBuilder());
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testArrayBuilderNPE() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        builderFactory.createArrayBuilder(null);
     }
 
-    @Override
-    public JsonObjectBuilder createObjectBuilder() {
-        return new JsonObjectBuilderImpl(bufferPool);
-    }
- 
-    @Override
-    public JsonObjectBuilder createObjectBuilder(JsonObject object) {
-        return new JsonObjectBuilderImpl(object, bufferPool);
+    @Test
+    public void testArrayBuilderFromArray() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        JsonArrayBuilder builder = builderFactory.createArrayBuilder(JsonBuilderTest.buildPhone());
+        Assert.assertEquals(JsonBuilderTest.buildPhone(), builder.build());
     }
 
-    @Override
-    public JsonArrayBuilder createArrayBuilder() {
-        return new JsonArrayBuilderImpl(bufferPool);
+    @Test
+    public void testObjectBuilder() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        Assert.assertNotNull(builderFactory.createObjectBuilder());
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testObjectBuilderNPE() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        builderFactory.createObjectBuilder(null);
     }
 
-    @Override
-    public JsonArrayBuilder createArrayBuilder(JsonArray array) {
-        return new JsonArrayBuilderImpl(array, bufferPool);
-    }
-
-    @Override
-    public Map<String, ?> getConfigInUse() {
-        return config;
+    @Test
+    public void testObjectBuilderFromObject() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        JsonObjectBuilder builder = builderFactory.createObjectBuilder(JsonBuilderTest.buildPerson());
+        Assert.assertEquals(JsonBuilderTest.buildPerson(), builder.build());
     }
 }
