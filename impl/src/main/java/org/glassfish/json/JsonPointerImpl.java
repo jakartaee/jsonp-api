@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -86,7 +86,7 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
         this.jsonPointer = jsonPointer;
         tokens = jsonPointer.split("/", -1);  // keep the trailing blanks
         if (! "".equals(tokens[0])) {
-            throw new JsonException("A non-empty JSON pointer must begin with a '/'");
+            throw new JsonException(JsonMessages.POINTER_FORMAT_INVALID());
         }
         for (int i = 1; i < tokens.length; i++) {
             String token = tokens[i];
@@ -251,8 +251,7 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
                         value = object.get(tokens[i]);
                         if (value == null) {
                             // Except for the last name, the mapping must exist
-                            throw new JsonException("The JSON object " + object + " contains no mapping "
-                                 + " for the name " + tokens[i]);
+                            throw new JsonException(JsonMessages.POINTER_MAPPING_MISSING(object, tokens[i]));
                         }
                     }
                     break;
@@ -267,7 +266,7 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
                     }
                     break;
                 default:
-                    throw new JsonException("The reference value in a Json pointer must be a Json object or a Json array");
+                    throw new JsonException(JsonMessages.POINTER_REFERENCE_INVALID(value.getValueType()));
              }
         }
         return references;
@@ -281,7 +280,7 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
      */
     static private int getIndex(String token) {
         if (token == null || token.length() == 0) {
-            throw new JsonException("Array index format error");
+            throw new JsonException(JsonMessages.POINTER_ARRAY_INDEX_ERR(token));
         }
         if (token.equals("-")) {
             return -1;
@@ -290,12 +289,12 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
             return 0;
         }
         if (token.charAt(0) == '+' || token.charAt(0) == '-') {
-            throw new JsonException("Array index format error");
+            throw new JsonException(JsonMessages.POINTER_ARRAY_INDEX_ERR(token));
         }
         try {
             return Integer.parseInt(token);
         } catch (NumberFormatException ex) {
-            throw new JsonException("Illegal integer format ", ex);
+            throw new JsonException(JsonMessages.POINTER_ARRAY_INDEX_ILLEGAL(token), ex);
        }
     }
 }

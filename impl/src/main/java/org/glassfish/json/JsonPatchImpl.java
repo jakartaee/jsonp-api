@@ -130,7 +130,7 @@ public class JsonPatchImpl implements JsonPatch {
 
         for (JsonValue operation: patch) {
             if (operation.getValueType() != ValueType.OBJECT) {
-                throw new JsonException("A JSON patch must be an array of JSON objects.");
+                throw new JsonException(JsonMessages.PATCH_MUST_BE_ARRAY());
             }
             result = apply(result, (JsonObject) operation);
         }
@@ -178,16 +178,14 @@ public class JsonPatchImpl implements JsonPatch {
                 String dest = operation.getString("path");
                 String src = operation.getString("from");
                 if (dest.startsWith(src) && src.length() < dest.length()) {
-                    throw new JsonException("The 'from' path of the patch operation "
-                         + "'move' is a proper prefix of the 'path' path");
+                    throw new JsonException(JsonMessages.PATCH_MOVE_PROPER_PREFIX(src, dest));
                 }
                 from = getPointer(operation, "from");
                 // Check if 'from' exists in target object
                 try {
                      from.getValue(target);
                 } catch (JsonException je) {
-                    throw new JsonException("The 'from' path of the patch operation "
-                         + "'move' does not exist in target object.");
+                    throw new JsonException(JsonMessages.PATCH_MOVE_TARGET_NULL(src));
                 }
                 if (pointer.equals(from)) {
                     // nop
@@ -196,11 +194,11 @@ public class JsonPatchImpl implements JsonPatch {
                 return pointer.add(from.remove(target), from.getValue(target));
             case TEST:
                 if (! getValue(operation).equals(pointer.getValue(target))) {
-                    throw new JsonException("The JSON patch operation 'test' failed.");
+                    throw new JsonException(JsonMessages.PATCH_TEST_FAILED());
                 }
                 return target;
             default:
-                throw new JsonException("Illegal value for the op member of the JSON patch operation: " + operation.getString("op"));
+                throw new JsonException(JsonMessages.PATCH_ILLEGAL_OPERATION(operation.getString("op")));
         }
     }
 
@@ -221,7 +219,7 @@ public class JsonPatchImpl implements JsonPatch {
     }
 
     private void missingMember(String op, String  member) {
-        throw new JsonException(String.format("The JSON Patch operation %s must contain a %s member", op, member));
+        throw new JsonException(JsonMessages.PATCH_MEMBER_MISSING(op, member));
     }
 
     static class DiffGenerator {

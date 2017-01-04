@@ -45,6 +45,8 @@ import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 
 /**
  * Defines string formatting method for each constant in the resource file
@@ -54,6 +56,11 @@ import java.util.ResourceBundle;
 final class JsonMessages {
     private static final ResourceBundle BUNDLE =
             ResourceBundle.getBundle("org.glassfish.json.messages");
+
+    // global/shared messages
+    static String INTERNAL_ERROR() {
+        return localize("internal.error");
+    }
 
     // tokenizer messages
     static String TOKENIZER_UNEXPECTED_CHAR(int unexpected, JsonLocation location) {
@@ -116,6 +123,22 @@ final class JsonMessages {
 
     static String PARSER_INVALID_TOKEN(JsonTokenizer.JsonToken token, JsonLocation location, String expectedTokens) {
         return localize("parser.invalid.token", token, location, expectedTokens);
+    }
+
+    static String PARSER_STATE_ERR(JsonValue.ValueType type) {
+        return localize("parser.state.err", type);
+    }
+
+    static String PARSER_SCOPE_ERR(JsonValue value) {
+        return localize("parser.scope.err", value);
+    }
+
+    static String PARSER_INPUT_ENC_DETECT_FAILED() {
+        return localize("parser.input.enc.detect.failed");
+    }
+
+    static String PARSER_INPUT_ENC_DETECT_IOERR() {
+        return localize("parser.input.enc.detect.ioerr");
     }
 
     // generator messages
@@ -193,6 +216,69 @@ final class JsonMessages {
 
     static String ARRBUILDER_VALUELIST_NULL(int index, int size) {
         return localize("arrbuilder.valuelist.null", index, size);
+    }
+
+    // json pointer messages
+    static String POINTER_FORMAT_INVALID() {
+        return localize("pointer.format.invalid");
+    }
+
+    static String POINTER_MAPPING_MISSING(JsonObject object, String key) {
+        return localize("pointer.mapping.missing", object, key);
+    }
+
+    static String POINTER_REFERENCE_INVALID(JsonValue.ValueType type) {
+        return localize("pointer.reference.invalid", type.name());
+    }
+
+    static String POINTER_ARRAY_INDEX_ERR(String token) {
+        return localize("pointer.array.index.err", token);
+    }
+
+    static String POINTER_ARRAY_INDEX_ILLEGAL(String token) {
+        return localize("pointer.array.index.illegal", token);
+    }
+
+    // nodereference messages
+    static String NODEREF_VALUE_ADD_ERR() {
+        return localize("noderef.value.add.err");
+    }
+
+    static String NODEREF_VALUE_CANNOT_REMOVE() {
+        return localize("noderef.value.cannot.remove");
+    }
+
+    static String NODEREF_OBJECT_MISSING(String key) {
+        return localize("noderef.object.missing", key);
+    }
+
+    static String NODEREF_ARRAY_INDEX_ERR(int index, int size) {
+        return localize("noderef.array.index.err", index, size);
+    }
+
+    // json patch messages
+    static String PATCH_MUST_BE_ARRAY() {
+        return localize("patch.must.be.array");
+    }
+
+    static String PATCH_MOVE_PROPER_PREFIX(String from, String path) {
+        return localize("patch.move.proper.prefix", from, path);
+    }
+
+    static String PATCH_MOVE_TARGET_NULL(String from) {
+        return localize("patch.move.target.null", from);
+    }
+
+    static String PATCH_TEST_FAILED() {
+        return localize("patch.test.failed");
+    }
+
+    static String PATCH_ILLEGAL_OPERATION(String operation) {
+        return localize("patch.illegal.operation", operation);
+    }
+
+    static String PATCH_MEMBER_MISSING(String operation, String member) {
+        return localize("patch.member.missing", operation, member);
     }
 
 

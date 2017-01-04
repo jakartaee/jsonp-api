@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2012-2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -120,14 +120,14 @@ class UnicodeDetectingInputStream extends FilterInputStream {
             buf[2] = (byte)b3;
             buf[3] = (byte)b4;
         } catch (IOException ioe) {
-            throw new JsonException("I/O error while auto-detecting the encoding of stream", ioe);
+            throw new JsonException(JsonMessages.PARSER_INPUT_ENC_DETECT_IOERR(), ioe);
         }
     }
 
     private Charset detectEncoding() {
         fillBuf();
         if (bufLen < 2) {
-            throw new JsonException("Cannot auto-detect encoding, not enough chars");
+            throw new JsonException(JsonMessages.PARSER_INPUT_ENC_DETECT_FAILED());
         } else if (bufLen == 4) {
             // Use BOM to detect encoding
             if (buf[0] == NUL && buf[1] == NUL && buf[2] == FE && buf[3] == FF) {

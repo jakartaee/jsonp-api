@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -171,14 +171,14 @@ abstract class NodeReference {
                     this.root = (JsonStructure) value;
                     break;
                 default:
-                    throw new JsonException("The root value only allows adding a JSON object or array");
+                    throw new JsonException(JsonMessages.NODEREF_VALUE_ADD_ERR());
             }
             return root;
         }
 
         @Override
         public JsonStructure remove() {
-            throw new JsonException("The JSON value at the root cannot be removed;");
+            throw new JsonException(JsonMessages.NODEREF_VALUE_CANNOT_REMOVE());
         }
 
         @Override
@@ -200,7 +200,7 @@ abstract class NodeReference {
         @Override
         public JsonValue get() {
             if (! object.containsKey(key)) {
-                throw new JsonException("Cannot get a non-existing name/value pair in the object");
+                throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return object.get(key);
         }
@@ -213,7 +213,7 @@ abstract class NodeReference {
         @Override
         public JsonObject remove() {
             if (! object.containsKey(key)) {
-                throw new JsonException("Cannot remove a non-existing name/value pair in the object");
+                throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return Json.createObjectBuilder(object).remove(key).build();
         }
@@ -221,7 +221,7 @@ abstract class NodeReference {
         @Override
         public JsonObject replace(JsonValue value) {
             if (! object.containsKey(key)) {
-                throw new JsonException("Cannot replace a non-existing name/value pair in the object");
+                throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return add(value);
         }
@@ -240,7 +240,7 @@ abstract class NodeReference {
         @Override
         public JsonValue get() {
             if (index == -1 || index >= array.size()) {
-                throw new JsonException("Cannot get an array item with an out of range index: " + index);
+                throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             return array.get(index);
         }
@@ -256,7 +256,7 @@ abstract class NodeReference {
                 if(index < array.size()) {
                     builder.add(index, value);
                 } else {
-                    throw new JsonException("Cannot add an array item with an out of range index: " + index);
+                    throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
                 }
             }
             return builder.build();
@@ -265,7 +265,7 @@ abstract class NodeReference {
         @Override
         public JsonArray remove() {
             if (index == -1 || index >= array.size()) {
-                throw new JsonException("Cannot remove an array item with an out of range index: " + index);
+                throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
             return builder.remove(index).build();
@@ -274,7 +274,7 @@ abstract class NodeReference {
         @Override
         public JsonArray replace(JsonValue value) {
             if (index == -1 || index >= array.size()) {
-                throw new JsonException("Cannot replace an array item with an out of range index: " + index);
+                throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
             return builder.set(index, value).build();
