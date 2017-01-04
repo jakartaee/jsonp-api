@@ -100,6 +100,11 @@
             "exception": "javax.json.JsonException"
         },
         {
+            "op": { "op": "move", "from": "/x/a", "path": "/x/c" },
+            "target": { "x": { "b": "helo" } },
+            "exception": "javax.json.JsonException"
+        },
+        {
             "op": { "op": "copy", "from": "/a", "path": "/b" },
             "target": { "a": 1 },
             "expected": { "a": 1, "b": 1 }

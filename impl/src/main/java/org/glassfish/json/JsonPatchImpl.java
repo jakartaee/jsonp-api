@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -174,15 +174,24 @@ public class JsonPatchImpl implements JsonPatch {
                 from = getPointer(operation, "from");
                 return pointer.add(target, from.getValue(target));
             case MOVE:
+                // Check if from is a proper prefix of path
+                String dest = operation.getString("path");
+                String src = operation.getString("from");
+                if (dest.startsWith(src) && src.length() < dest.length()) {
+                    throw new JsonException("The 'from' path of the patch operation "
+                         + "'move' is a proper prefix of the 'path' path");
+                }
                 from = getPointer(operation, "from");
+                // Check if 'from' exists in target object
+                try {
+                     from.getValue(target);
+                } catch (JsonException je) {
+                    throw new JsonException("The 'from' path of the patch operation "
+                         + "'move' does not exist in target object.");
+                }
                 if (pointer.equals(from)) {
                     // nop
                     return target;
-                }
-                // Check if from is a proper prefix of path
-                if (operation.getString("path").startsWith(operation.getString("from"))){
-                    throw new JsonException("The 'from' path of the patch operation "
-                         + "'move' is a proper prefix of the 'path' path");
                 }
                 return pointer.add(from.remove(target), from.getValue(target));
             case TEST:
