@@ -64,7 +64,7 @@
 
     <scm>
         <connection>scm:git:git://java.net/jsonp~git/api</connection>
-        <developerConnection>scm:git:ssh://kchung@git.java.net/jsonp~git/</developerConnection>
+        <developerConnection>scm:git:ssh://git.java.net/jsonp~git/</developerConnection>
         <url>http://java.net/projects/jsonp/sources/git/show</url>
         <tag>HEAD</tag>
     </scm>
