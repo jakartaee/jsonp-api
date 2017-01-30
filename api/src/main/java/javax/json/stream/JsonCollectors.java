@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -58,7 +58,7 @@ import javax.json.JsonException;
 /**
  * This class contains some implementations of {@code java.util.stream.Collector} for accumulating
  * {@link JsonValue}s into {@link JsonArray} and {@link JsonObject}.
- * 
+ *
  * @since 1.1
  */
 
@@ -79,6 +79,20 @@ public final class JsonCollectors {
                 JsonArrayBuilder::add,
                 JsonArrayBuilder::addAll,
                 JsonArrayBuilder::build);
+    }
+
+    /**
+     * Constructs a {@code java.util.stream.Collector} that accumulates the input {@code Map.Entry<String,JsonValue>}
+     * elements into a {@code JsonObject}.
+     *
+     * @return the constructed Collector
+     */
+    public static Collector<Map.Entry<String, JsonValue>, JsonObjectBuilder, JsonObject> toJsonObject() {
+        return Collector.of(
+                Json::createObjectBuilder,
+                (JsonObjectBuilder b, Map.Entry<String, JsonValue> v) -> b.add(v.getKey(), v.getValue()),
+                JsonObjectBuilder::addAll,
+                JsonObjectBuilder::build);
     }
 
     /**
@@ -125,7 +139,7 @@ public final class JsonCollectors {
                     throw new JsonException("element cannot be mapped to a null key");
                 }
                 // Build a map of key to JsonArrayBuilder
-                JsonArrayBuilder arrayBuilder = 
+                JsonArrayBuilder arrayBuilder =
                     map.computeIfAbsent(key, v->downstream.supplier().get());
                 // Add elements from downstream Collector to the arrayBuilder.
                 downstream.accumulator().accept(arrayBuilder, value);
