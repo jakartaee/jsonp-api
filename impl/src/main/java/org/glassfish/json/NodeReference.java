@@ -72,6 +72,13 @@ import javax.json.JsonValue;
 abstract class NodeReference {
 
     /**
+     * Return {@code true} if a reference points to a valid value, {@code false} otherwise.
+     *
+     * @return {@code true} if a reference points to a value
+     */
+    abstract public boolean contains();
+
+    /**
      * Get the value at the referenced location.
      *
      * @return the JSON value referenced
@@ -159,6 +166,11 @@ abstract class NodeReference {
         }
 
         @Override
+        public boolean contains() {
+            return root != null;
+        }
+
+        @Override
         public JsonValue get() {
             return root;
         }
@@ -198,8 +210,13 @@ abstract class NodeReference {
         }
 
         @Override
+        public boolean contains() {
+            return object != null && object.containsKey(key);
+        }
+
+        @Override
         public JsonValue get() {
-            if (! object.containsKey(key)) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return object.get(key);
@@ -212,7 +229,7 @@ abstract class NodeReference {
 
         @Override
         public JsonObject remove() {
-            if (! object.containsKey(key)) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return Json.createObjectBuilder(object).remove(key).build();
@@ -220,7 +237,7 @@ abstract class NodeReference {
 
         @Override
         public JsonObject replace(JsonValue value) {
-            if (! object.containsKey(key)) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
             return add(value);
@@ -238,8 +255,13 @@ abstract class NodeReference {
         }
 
         @Override
+        public boolean contains() {
+            return array != null && index > -1 && index < array.size();
+        }
+
+        @Override
         public JsonValue get() {
-            if (index == -1 || index >= array.size()) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             return array.get(index);
@@ -264,7 +286,7 @@ abstract class NodeReference {
 
         @Override
         public JsonArray remove() {
-            if (index == -1 || index >= array.size()) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
@@ -273,7 +295,7 @@ abstract class NodeReference {
 
         @Override
         public JsonArray replace(JsonValue value) {
-            if (index == -1 || index >= array.size()) {
+            if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
             JsonArrayBuilder builder = Json.createArrayBuilder(this.array);

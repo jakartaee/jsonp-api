@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -118,6 +118,14 @@ public interface JsonPointer {
      *    or if the reference is the target.
      */
     <T extends JsonStructure> T replace(T target, JsonValue value);
+
+    /**
+     * Returns {@code true} if there is a value at the referenced location in the specified {@code target}.
+     *
+     * @param target the target referenced by this {@code JsonPointer}
+     * @return {@code true} if this pointer points to a value in a specified {@code target}.
+     */
+    boolean containsValue(JsonStructure target);
 
     /**
      * Returns the value at the referenced location in the specified {@code target}.

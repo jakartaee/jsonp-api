@@ -134,6 +134,18 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
     }
 
     /**
+     * Returns {@code true} if there is a value at the referenced location in the specified {@code target}.
+     *
+     * @param target the target referenced by this {@code JsonPointer}
+     * @return {@code true} if this pointer points to a value in a specified {@code target}.
+     */
+    @Override
+    public boolean containsValue(JsonStructure target) {
+        NodeReference[] refs = getReferences(target);
+        return refs[0].contains();
+    }
+
+    /**
      * Returns the value at the referenced location in the specified {@code target}
      *
      * @param target the target referenced by this {@code JsonPointer}
