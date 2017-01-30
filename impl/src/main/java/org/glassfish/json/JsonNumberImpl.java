@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2013-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -125,6 +125,11 @@ abstract class JsonNumberImpl implements JsonNumber {
         }
 
         @Override
+        public Number numberValue() {
+            return num;
+        }
+
+        @Override
         public String toString() {
             return Integer.toString(num);
         }
@@ -181,6 +186,11 @@ abstract class JsonNumberImpl implements JsonNumber {
         }
 
         @Override
+        public Number numberValue() {
+            return num;
+        }
+
+        @Override
         public String toString() {
             return Long.toString(num);
         }
@@ -198,6 +208,11 @@ abstract class JsonNumberImpl implements JsonNumber {
         @Override
         public BigDecimal bigDecimalValue() {
             return bigDecimal;
+        }
+
+        @Override
+        public Number numberValue() {
+            return bigDecimalValue();
         }
 
     }

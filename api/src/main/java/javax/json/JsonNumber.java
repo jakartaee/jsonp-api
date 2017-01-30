@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -164,6 +164,17 @@ public interface JsonNumber extends JsonValue {
     BigDecimal bigDecimalValue();
 
     /**
+     * Returns this JSON number as a {@link Number} object.
+     *
+     * @return a {@link Number} representation of the JSON number
+     *
+     * @since 1.1
+     */
+    default Number numberValue() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Returns a JSON text representation of the JSON number. The
      * representation is equivalent to {@link BigDecimal#toString()}.
      *
@@ -178,9 +189,9 @@ public interface JsonNumber extends JsonValue {
      * object is also {@code JsonNumber} and their {@link #bigDecimalValue()}
      * objects are <i>equal</i>
      *
-     * @param obj the object to be compared for equality with 
+     * @param obj the object to be compared for equality with
      *      this {@code JsonNumber}
-     * @return {@code true} if the specified object is equal to this 
+     * @return {@code true} if the specified object is equal to this
      *      {@code JsonNumber}
      */
     @Override
