@@ -250,7 +250,7 @@ public class JsonParserImpl implements JsonParser {
                 }
                 next();
                 JsonValue value = getValue();
-                action.accept(new AbstractMap.SimpleImmutableEntry<String, JsonValue>(key, value));
+                action.accept(new AbstractMap.SimpleImmutableEntry<>(key, value));
                 return true;
             }
         };
@@ -287,23 +287,17 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public void skipArray() {
-        Context previousContext = stack.peek();
-        while (hasNext()) {
-            if (next() == JsonParser.Event.END_ARRAY &&
-                previousContext == currentContext) {
-                    return;
-            }
+        if (currentEvent == Event.START_ARRAY) {
+            currentContext.skip();
+            currentContext = stack.pop();
         }
     }
 
     @Override
     public void skipObject() {
-        Context previousContext = stack.peek();
-        while (hasNext()) {
-            if (next() == JsonParser.Event.END_OBJECT &&
-                previousContext == currentContext) {
-                    return;
-            }
+        if (currentEvent == Event.START_OBJECT) {
+            currentContext.skip();
+            currentContext = stack.pop();
         }
     }
 
@@ -393,6 +387,7 @@ public class JsonParserImpl implements JsonParser {
     private abstract class Context {
         Context next;
         abstract Event getNextEvent();
+        abstract void skip();
     }
 
     private final class NoneContext extends Context {
@@ -412,6 +407,11 @@ public class JsonParserImpl implements JsonParser {
                 return token.getEvent();
             }
             throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
+        }
+
+        @Override
+        void skip() {
+            // no-op
         }
     }
 
@@ -474,6 +474,23 @@ public class JsonParserImpl implements JsonParser {
             }
         }
 
+        @Override
+        void skip() {
+            JsonToken token;
+            int depth = 1;
+            do {
+                token = tokenizer.nextToken();
+                switch (token) {
+                    case CURLYCLOSE:
+                        depth--;
+                        break;
+                    case CURLYOPEN:
+                        depth++;
+                        break;
+                }
+            } while (!(token == JsonToken.CURLYCLOSE && depth == 0));
+        }
+
     }
 
     private final class ArrayContext extends Context {
@@ -509,6 +526,22 @@ public class JsonParserImpl implements JsonParser {
             throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
         }
 
+        @Override
+        void skip() {
+            JsonToken token;
+            int depth = 1;
+            do {
+                token = tokenizer.nextToken();
+                switch (token) {
+                    case SQUARECLOSE:
+                        depth--;
+                        break;
+                    case SQUAREOPEN:
+                        depth++;
+                        break;
+                }
+            } while (!(token == JsonToken.SQUARECLOSE && depth == 0));
+        }
     }
 
 }

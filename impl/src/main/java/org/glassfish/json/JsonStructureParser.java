@@ -177,6 +177,62 @@ class JsonStructureParser implements JsonParser {
         // no-op
     }
 
+    @Override
+    public void skipObject() {
+        if (current instanceof ObjectScope) {
+            int depth = 1;
+            do {
+                if (state == Event.KEY_NAME) {
+                    state = getState(current.getJsonValue());
+                    switch (state) {
+                        case START_OBJECT:
+                            depth++;
+                            break;
+                        case END_OBJECT:
+                            depth--;
+                            break;
+                        default:
+                            //no-op
+                    }
+                } else {
+                    if (current.hasNext()) {
+                        current.next();
+                        state = Event.KEY_NAME;
+                    } else {
+                        state = Event.END_OBJECT;
+                        depth--;
+                    }
+                }
+            } while (state != Event.END_OBJECT && depth > 0);
+        }
+    }
+
+    @Override
+    public void skipArray() {
+        if (current instanceof ArrayScope) {
+            int depth = 1;
+            do {
+                if (current.hasNext()) {
+                    current.next();
+                    state = getState(current.getJsonValue());
+                    switch (state) {
+                        case START_ARRAY:
+                            depth++;
+                            break;
+                        case END_ARRAY:
+                            depth--;
+                            break;
+                        default:
+                            //no-op
+                    }
+                } else {
+                    state = Event.END_ARRAY;
+                    depth--;
+                }
+            } while (!(state == Event.END_ARRAY && depth == 0));
+        }
+    }
+
     private static Event getState(JsonValue value) {
         switch (value.getValueType()) {
             case ARRAY:
