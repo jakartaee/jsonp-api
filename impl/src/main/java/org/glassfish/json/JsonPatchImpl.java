@@ -182,9 +182,7 @@ public class JsonPatchImpl implements JsonPatch {
                 }
                 from = getPointer(operation, "from");
                 // Check if 'from' exists in target object
-                try {
-                     from.getValue(target);
-                } catch (JsonException je) {
+                if (!from.containsValue(target)) {
                     throw new JsonException(JsonMessages.PATCH_MOVE_TARGET_NULL(src));
                 }
                 if (pointer.equals(from)) {
