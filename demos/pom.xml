@@ -82,5 +82,18 @@
                 <module>servlet</module>
             </modules>
         </profile>
+        <profile>
+            <id>jdk9-all</id>
+            <activation>
+                <jdk>9</jdk>
+            </activation>
+            <modules>
+                <module>jaxrs</module>
+                <module>twitter</module>
+                <module>facebook</module>
+                <module>jsonpointer</module>
+                <module>servlet</module>
+            </modules>
+        </profile>
     </profiles>
 </project>

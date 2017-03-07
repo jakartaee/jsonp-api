@@ -375,6 +375,22 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>jdk9-all</id>
+            <activation>
+                <jdk>9</jdk>
+            </activation>
+            <modules>
+                <module>api</module>
+                <module>impl</module>
+                <module>jaxrs</module>
+                <module>jaxrs-1x</module>
+                <module>tests</module>
+                <module>gf</module>
+                <module>demos</module>
+                <module>bundles</module>
+            </modules>
+        </profile>
 
         <profile>
             <id>all</id>

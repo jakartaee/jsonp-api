@@ -73,7 +73,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         valueList.addAll(array);
     }
 
-    JsonArrayBuilderImpl(Collection<Object> collection, BufferPool bufferPool) {
+    JsonArrayBuilderImpl(Collection<?> collection, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         valueList = new ArrayList<>();
         populate(collection);
@@ -342,7 +342,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         return new JsonArrayImpl(snapshot, bufferPool);
     }
 
-    private void populate(Collection<Object> collection) {
+    private void populate(Collection<?> collection) {
         for (Object value : collection) {
             this.valueList.add(MapUtil.handle(value, bufferPool));
         }
