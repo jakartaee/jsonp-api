@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 2015-2016 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -43,7 +43,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
-import javax.json.JsonObject;
 import javax.json.JsonPatch;
 import javax.json.JsonPatch.Operation;
 import javax.json.JsonPatchBuilder;
@@ -91,40 +90,16 @@ public final class JsonPatchBuilderImpl implements JsonPatchBuilder {
     }
 
     /**
-     * A convenience method for {@code new JsonPatchImpl(build()).apply(target) }
+     * A convenience method for {@code new JsonPatchImpl(build()).apply(target)}.
+     * The target is not modified by the patch.
      *
+     * @param <T> the target type, must be a subtype of {@link JsonStructure}
      * @param target the target to apply the patch operations
      * @return the transformed target after the patch
      * @throws JsonException if the supplied JSON Patch is malformed or if
      *    it contains references to non-existing members
      */
-    public JsonStructure apply(JsonStructure target) {
-        return build().apply(target);
-    }
-
-    /**
-     * A convenience method for {@code build().apply(target) }
-     *
-     * @param target the target to apply the patch operations
-     * @return the transformed target after the patch
-     * @throws JsonException if the supplied JSON Patch is malformed or if
-     *    it contains references to non-existing members
-     * @see #apply(JsonStructure)
-     */
-    public JsonObject apply(JsonObject target) {
-        return build().apply(target);
-    }
-
-    /**
-     * A convenience method for {@code build().apply(target) }
-     *
-     * @param target the target to apply the patch operations
-     * @return the transformed target after the patch
-     * @throws JsonException if the supplied JSON Patch is malformed or if
-     *    it contains references to non-existing members
-     * @see #apply(JsonStructure)
-     */
-    public JsonArray apply(JsonArray target) {
+    public <T extends JsonStructure> T apply(T target) {
         return build().apply(target);
     }
 
