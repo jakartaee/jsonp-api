@@ -3,7 +3,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2011-2016 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011-2017 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -374,25 +374,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-
-        <profile>
-            <id>jdk9-all</id>
-            <activation>
-                <jdk>9</jdk>
-            </activation>
-            <modules>
-                <module>api</module>
-                <module>impl</module>
-                <module>jaxrs</module>
-                <module>jaxrs-1x</module>
-                <module>tests</module>
-                <!-- maven-war-plugin does not work on JDK9 yet
-                     due to bug in undelied xstream library -->
-                <!--<module>gf</module>-->
-                <module>demos</module>
-                <module>bundles</module>
-            </modules>
         </profile>
 
         <profile>
