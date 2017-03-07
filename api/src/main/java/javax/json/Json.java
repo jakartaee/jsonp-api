@@ -327,7 +327,7 @@ public final class Json {
      *     <li>If the {@code jsonPointer} string is non-empty, it must be a sequence of '{@code /}' prefixed tokens.</li>
      * </ul>
      *
-     * @param jsonPointer the JSON Pointer string
+     * @param jsonPointer the valid escaped JSON Pointer string
      * @throws NullPointerException if {@code jsonPointer} is {@code null}
      * @throws JsonException if {@code jsonPointer} is not a valid JSON Pointer
      * @return a JSON Pointer

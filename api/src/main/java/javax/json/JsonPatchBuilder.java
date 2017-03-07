@@ -68,7 +68,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds an "add" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -77,7 +77,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds an "add" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -86,7 +86,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds an "add" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -95,7 +95,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds an "add" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -104,7 +104,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "remove" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @return this JsonPatchBuilder
      */
     JsonPatchBuilder remove(String path);
@@ -112,7 +112,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "replace" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -121,7 +121,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "replace" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -130,7 +130,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "replace" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -139,7 +139,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "replace" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -148,7 +148,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "move" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -157,7 +157,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "copy" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param from the "from" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -166,7 +166,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "test" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -175,7 +175,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "test" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -184,7 +184,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "test" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
@@ -193,7 +193,7 @@ public interface JsonPatchBuilder {
     /**
      * Adds a "test" JSON Patch operation.
      *
-     * @param path the "path" member of the operation
+     * @param path the "path" member of the operation. Must be a valid escaped JSON-Pointer string.
      * @param value the "value" member of the operation
      * @return this JsonPatchBuilder
      */
