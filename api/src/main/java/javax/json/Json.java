@@ -274,9 +274,10 @@ public final class Json {
     }
 
     /**
-     * Creates a JSON array builder, initialized with the specified array
+     * Creates a JSON array builder,
+     * initialized with the content of specified collection.
      *
-     * @param collection the initial array in the builder
+     * @param collection the initial data for the builder
      * @return a JSON array builder
      *
      * @since 1.1

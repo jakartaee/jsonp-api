@@ -39,9 +39,11 @@
  */
 package org.glassfish.json.tests;
 
+import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -80,7 +82,13 @@ public class JsonBuilderFactoryTest {
     @Test(expected = NullPointerException.class)
     public void testObjectBuilderNPE() {
         JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
-        builderFactory.createObjectBuilder(null);
+        builderFactory.createObjectBuilder((JsonObject) null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testObjectBuilderNPE_map() {
+        JsonBuilderFactory builderFactory = Json.createBuilderFactory(null);
+        builderFactory.createObjectBuilder((Map<String, Object>) null);
     }
 
     @Test

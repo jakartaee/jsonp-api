@@ -39,6 +39,7 @@
  */
 package javax.json;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -94,6 +95,19 @@ public interface JsonBuilderFactory {
     }
 
     /**
+     * Creates a {@code JsonObjectBuilder} instance, initialized with the specified object.
+     *
+     * @param object the initial object in the builder
+     * @return a JSON object builder
+     * @throws NullPointerException if specified object is {@code null}
+     *
+     * @since 1.1
+     */
+    default JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Creates a {@code JsonArrayBuilder} instance that is used to build
      * {@link JsonArray}
      *
@@ -111,6 +125,20 @@ public interface JsonBuilderFactory {
      * @since 1.1
      */
     default JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Creates a {@code JsonArrayBuilder} instance,
+     * initialized with the content of specified collection.
+     *
+     * @param collection the initial data for the builder
+     * @return a JSON array builder
+     * @throws NullPointerException if specified collection is {@code null}
+     *
+     * @since 1.1
+     */
+    default JsonArrayBuilder createArrayBuilder(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 

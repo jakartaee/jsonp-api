@@ -40,6 +40,7 @@
 
 package org.glassfish.json;
 
+import java.util.Collection;
 import org.glassfish.json.api.BufferPool;
 
 import javax.json.JsonObject;
@@ -73,6 +74,11 @@ class JsonBuilderFactoryImpl implements JsonBuilderFactory {
     }
 
     @Override
+    public JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
+        return new JsonObjectBuilderImpl(object, bufferPool);
+    }
+
+    @Override
     public JsonArrayBuilder createArrayBuilder() {
         return new JsonArrayBuilderImpl(bufferPool);
     }
@@ -80,6 +86,11 @@ class JsonBuilderFactoryImpl implements JsonBuilderFactory {
     @Override
     public JsonArrayBuilder createArrayBuilder(JsonArray array) {
         return new JsonArrayBuilderImpl(array, bufferPool);
+    }
+
+    @Override
+    public JsonArrayBuilder createArrayBuilder(Collection<?> collection) {
+        return new JsonArrayBuilderImpl(collection, bufferPool);
     }
 
     @Override
