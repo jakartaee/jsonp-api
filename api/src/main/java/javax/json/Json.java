@@ -506,4 +506,27 @@ public final class Json {
     public static JsonNumber createValue(BigInteger value) {
         return JsonProvider.provider().createValue(value);
     }
+
+    /**
+     * Encodes (escapes) a passed string as defined by <a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>.
+     * This method doesn't validate the passed JSON-pointer string.
+     *
+     * @param pointer the JSON-pointer string to encode
+     * @return encoded JSON-pointer string
+     */
+    public static String encodePointer(String pointer) {
+        return pointer.replace("~", "~0").replace("/", "~1");
+    }
+
+    /**
+     * Decodes a passed JSON-pointer string as defined by <a href="http://tools.ietf.org/html/rfc6901">RFC 6901</a>.
+     * This method doesn't validate the passed JSON-pointer string.
+     *
+     * @param escaped the JSON-pointer string to decode
+     * @return decoded JSON-pointer string
+     */
+    public static String decodePointer(String escaped) {
+        return escaped.replace("~1", "/").replace("~0", "~");
+    }
+
 }
