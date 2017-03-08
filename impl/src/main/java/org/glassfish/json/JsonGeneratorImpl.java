@@ -427,7 +427,8 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     private void checkContextForValue() {
-        if (!currentContext.first && currentContext.scope != Scope.IN_ARRAY && currentContext.scope != Scope.IN_FIELD) {
+        if ((!currentContext.first && currentContext.scope != Scope.IN_ARRAY && currentContext.scope != Scope.IN_FIELD)
+                || (currentContext.first && currentContext.scope == Scope.IN_OBJECT)) {
             throw new JsonGenerationException(
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }

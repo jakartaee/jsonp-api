@@ -336,6 +336,31 @@ public class JsonGeneratorTest extends TestCase {
         }
     }
 
+
+    public void testGenerationException8() throws Exception {
+        StringWriter sWriter = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sWriter);
+        generator.writeStartObject();
+        try {
+            generator.write(JsonValue.TRUE);
+            fail("Expected JsonGenerationException, cannot generate one more JSON text");
+        } catch (JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
+    public void testGenerationException9() throws Exception {
+        StringWriter sWriter = new StringWriter();
+        JsonGenerator generator = Json.createGenerator(sWriter);
+        generator.writeStartObject();
+        try {
+            generator.write("name");
+            fail("Expected JsonGenerationException, cannot generate one more JSON text");
+        } catch (JsonGenerationException je) {
+            // Expected exception
+        }
+    }
+
     public void testGeneratorArrayDouble() throws Exception {
         StringWriter writer = new StringWriter();
         JsonGenerator generator = Json.createGenerator(writer);
