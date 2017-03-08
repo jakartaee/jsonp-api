@@ -379,9 +379,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public JsonObject getObject() {
-        throw new UnsupportedOperationException();
-    }
+    JsonObject getObject();
 
     /**
      * Returns a {@code JsonValue} at the current parser position.
@@ -397,9 +395,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public JsonValue getValue() {
-        throw new UnsupportedOperationException();
-    }
+    JsonValue getValue();
 
     /**
      * Returns a {@code JsonArray} and advance the parser to the
@@ -412,9 +408,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public JsonArray getArray() {
-        throw new UnsupportedOperationException();
-    }
+    JsonArray getArray();
 
     /**
      * Returns a stream of the {@code JsonArray} elements.
@@ -422,7 +416,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * The elements are read lazily, on an as-needed basis, as
      * required by the stream operations.
      * If the stream operations do not consume
-     * all of the array elements, {@link skipArray} can be used to
+     * all of the array elements, {@link #skipArray()} can be used to
      * skip the unprocessed array elements.
      *
      * @return a stream of elements of the {@code JsonArray}
@@ -432,9 +426,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public Stream<JsonValue> getArrayStream() {
-        throw new UnsupportedOperationException();
-    }
+    Stream<JsonValue> getArrayStream();
 
     /**
      * Returns a stream of the {@code JsonObject}'s
@@ -442,7 +434,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      * The name/value pairs are read lazily, on an as-needed basis, as
      * required by the stream operations.
      * If the stream operations do not consume
-     * all of the object's name/value pairs, {@link skipObject} can be
+     * all of the object's name/value pairs, {@link #skipObject()} can be
      * used to skip the unprocessed elements.
      *
      * @return a stream of name/value pairs of the {@code JsonObject}
@@ -452,9 +444,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public Stream<Map.Entry<String,JsonValue>> getObjectStream() {
-        throw new UnsupportedOperationException();
-    }
+    Stream<Map.Entry<String,JsonValue>> getObjectStream();
 
     /**
      * Returns a stream of {@code JsonValue} from a sequence of
@@ -467,9 +457,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public Stream<JsonValue> getValueStream() {
-        throw new UnsupportedOperationException();
-    }
+    Stream<JsonValue> getValueStream();
     
     /**
      * Advance the parser to {@code END_ARRAY}.
@@ -481,9 +469,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public void skipArray() {
-        throw new UnsupportedOperationException();
-    }
+    void skipArray();
  
     /**
      * Advance the parser to {@code END_OBJECT}.
@@ -495,9 +481,7 @@ public interface JsonParser extends /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default public void skipObject() {
-        throw new UnsupportedOperationException();
-    }
+    void skipObject();
  
     /**
      * Closes this parser and frees any resources associated with the

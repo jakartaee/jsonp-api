@@ -137,9 +137,7 @@ public interface JsonWriter extends  /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default void write(JsonValue value) {
-        throw new UnsupportedOperationException();
-    }
+    void write(JsonValue value);
 
     @Override
     void close();

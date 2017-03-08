@@ -216,9 +216,7 @@ public interface JsonArrayBuilder {
      *
      @since 1.1
      */
-    default JsonArrayBuilder addAll(JsonArrayBuilder builder) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder addAll(JsonArrayBuilder builder);
 
     /**
      * Inserts a value to the array at the specified position. Shifts the value
@@ -234,9 +232,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, JsonValue value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, JsonValue value);
 
     /**
      * Adds a value to the array as a {@link JsonString} at the specified position.
@@ -252,9 +248,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, String value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, String value);
 
     /**
      * Adds a value to the array as a {@link JsonNumber} at the specified position.
@@ -272,9 +266,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, BigDecimal value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, BigDecimal value);
 
     /**
      * Adds a value to the array as a {@link JsonNumber} at the specified position.
@@ -292,9 +284,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, BigInteger value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, BigInteger value);
 
     /**
      * Adds a value to the array as a {@link JsonNumber} at the specified position.
@@ -311,9 +301,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, int value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, int value);
 
     /**
      * Adds a value to the array as a {@link JsonNumber} at the specified position.
@@ -330,9 +318,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, long value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, long value);
 
     /**
      * Adds a value to the array as a {@link JsonNumber} at the specified position.
@@ -351,9 +337,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, double value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, double value);
 
     /**
      * Adds a {@link JsonValue#TRUE}  or {@link JsonValue#FALSE} value to the
@@ -369,9 +353,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, boolean value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, boolean value);
 
     /**
      * Adds a {@link JsonValue#NULL} value to the array at the specified position.
@@ -385,9 +367,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder addNull(int index) {
-        return add(index, JsonValue.NULL);
-    }
+    JsonArrayBuilder addNull(int index);
 
     /**
      * Adds a {@link JsonObject} from an object builder to the array at the specified position.
@@ -403,9 +383,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, JsonObjectBuilder builder) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, JsonObjectBuilder builder);
 
     /**
      * Adds a {@link JsonArray} from an array builder to the array at the specified position.
@@ -421,9 +399,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder add(int index, JsonArrayBuilder builder) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder add(int index, JsonArrayBuilder builder);
 
     /**
      * Replaces a value in the array with the specified value at the
@@ -438,9 +414,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, JsonValue value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, JsonValue value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -455,9 +429,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, String value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, String value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -474,9 +446,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, BigDecimal value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, BigDecimal value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -493,9 +463,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, BigInteger value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, BigInteger value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -511,9 +479,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, int value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, int value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -529,9 +495,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, long value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, long value);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -549,9 +513,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, double value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, double value);
 
     /**
      * Replaces a value in the array with
@@ -566,9 +528,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, boolean value) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, boolean value);
 
     /**
      * Replaces a value in the array with
@@ -581,9 +541,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder setNull(int index) {
-        return set(index, JsonValue.NULL);
-    }
+    JsonArrayBuilder setNull(int index);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -598,9 +556,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, JsonObjectBuilder builder) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, JsonObjectBuilder builder);
 
     /**
      * Replaces a value in the array with the specified value as a
@@ -615,9 +571,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder set(int index, JsonArrayBuilder builder) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder set(int index, JsonArrayBuilder builder);
 
     /**
      * Remove the value in the array at the specified position.
@@ -631,9 +585,7 @@ public interface JsonArrayBuilder {
      *
      * @since 1.1
      */
-    default JsonArrayBuilder remove(int index) {
-        throw new UnsupportedOperationException();
-    }
+    JsonArrayBuilder remove(int index);
 
     /**
      * Returns the current array.

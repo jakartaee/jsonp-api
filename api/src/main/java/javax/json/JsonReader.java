@@ -140,9 +140,7 @@ public interface JsonReader extends  /*Auto*/Closeable {
      *
      * @since 1.1
      */
-    default JsonValue readValue() {
-        throw new UnsupportedOperationException();
-    }
+    JsonValue readValue();
 
     /**
      * Closes this reader and frees any resources associated with the

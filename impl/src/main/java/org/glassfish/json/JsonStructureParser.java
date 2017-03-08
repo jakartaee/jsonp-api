@@ -49,6 +49,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 /**
  * {@link JsonParser} implementation on top of JsonArray/JsonObject
@@ -118,6 +119,36 @@ class JsonStructureParser implements JsonParser {
     @Override
     public JsonLocation getLocation() {
         return JsonLocationImpl.UNKNOWN;
+    }
+
+    @Override
+    public JsonObject getObject() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public JsonValue getValue() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public JsonArray getArray() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Stream<JsonValue> getArrayStream() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Stream<Map.Entry<String, JsonValue>> getObjectStream() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Stream<JsonValue> getValueStream() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

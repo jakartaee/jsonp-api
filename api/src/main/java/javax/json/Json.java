@@ -513,6 +513,8 @@ public final class Json {
      *
      * @param pointer the JSON-pointer string to encode
      * @return encoded JSON-pointer string
+     *
+     * @since 1.1
      */
     public static String encodePointer(String pointer) {
         return pointer.replace("~", "~0").replace("/", "~1");
@@ -524,6 +526,8 @@ public final class Json {
      *
      * @param escaped the JSON-pointer string to decode
      * @return decoded JSON-pointer string
+     *
+     * @since 1.1
      */
     public static String decodePointer(String escaped) {
         return escaped.replace("~1", "/").replace("~0", "~");
