@@ -123,28 +123,29 @@ public final class JsonCollectors {
      * downstream {@code Collector}. For each group, the key and the results of the reduction operation
      * become the name/value pairs of the resultant {@code JsonObject}.
      *
+     * @param <T> the intermediate accumulation {@code JsonArrayBuilder} of the downstream collector
      * @param classifier a function mapping the input {@code JsonValue}s to a String, producing keys
      * @param downstream a {@code Collector} that implements a reduction operation on the
      *        {@code JsonValue}s in each group.
      * @return the constructed {@code Collector}
      */
-    public static Collector<JsonValue, Map<String, JsonArrayBuilder>, JsonObject>
+    public static <T extends JsonArrayBuilder> Collector<JsonValue, Map<String, T>, JsonObject>
                 groupingBy(Function<JsonValue, String> classifier,
-                           Collector<JsonValue, JsonArrayBuilder, JsonArray> downstream) {
+                           Collector<JsonValue, T, JsonArray> downstream) {
 
-        BiConsumer<Map<String, JsonArrayBuilder>, JsonValue> accumulator =
+        BiConsumer<Map<String, T>, JsonValue> accumulator =
             (map, value) -> {
                 String key = classifier.apply(value);
                 if (key == null) {
                     throw new JsonException("element cannot be mapped to a null key");
                 }
                 // Build a map of key to JsonArrayBuilder
-                JsonArrayBuilder arrayBuilder =
+                T arrayBuilder =
                     map.computeIfAbsent(key, v->downstream.supplier().get());
                 // Add elements from downstream Collector to the arrayBuilder.
                 downstream.accumulator().accept(arrayBuilder, value);
             };
-        Function<Map<String, JsonArrayBuilder>, JsonObject> finisher =
+        Function<Map<String, T>, JsonObject> finisher =
             map -> {
                 // transform the map of name: JsonArrayBuilder to
                 //                      name: JsonArray
@@ -156,7 +157,7 @@ public final class JsonCollectors {
                 });
                 return objectBuilder.build();
             };
-        BinaryOperator<Map<String, JsonArrayBuilder>> combiner =
+        BinaryOperator<Map<String, T>> combiner =
             (map1, map2) -> {
                 map1.putAll(map2);
                 return map1;
