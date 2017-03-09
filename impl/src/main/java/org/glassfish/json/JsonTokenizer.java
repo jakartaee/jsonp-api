@@ -567,7 +567,7 @@ final class JsonTokenizer implements Closeable {
             }
             return minus ? -num : num;
         } else {
-            return getBigDecimal().intValue();
+            return getBigDecimal().longValue();
         }
     }
 
