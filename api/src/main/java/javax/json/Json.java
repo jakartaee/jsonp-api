@@ -513,7 +513,7 @@ public final class Json {
      *
      * @param pointer the JSON-pointer string to encode
      * @return encoded JSON-pointer string
-     *
+     * 
      * @since 1.1
      */
     public static String encodePointer(String pointer) {
@@ -526,7 +526,7 @@ public final class Json {
      *
      * @param escaped the JSON-pointer string to decode
      * @return decoded JSON-pointer string
-     *
+     *     
      * @since 1.1
      */
     public static String decodePointer(String escaped) {

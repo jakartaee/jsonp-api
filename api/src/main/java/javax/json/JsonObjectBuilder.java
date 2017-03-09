@@ -277,7 +277,9 @@ public interface JsonObjectBuilder {
      * @throws NullPointerException if the specified builder is null
      * @since 1.1
      */
-    JsonObjectBuilder addAll(JsonObjectBuilder builder);
+    default JsonObjectBuilder addAll(JsonObjectBuilder builder) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Remove the name/value pair from the JSON object associated with this
@@ -288,7 +290,9 @@ public interface JsonObjectBuilder {
      * @throws NullPointerException if the specified name is null
      * @since 1.1
      */
-    JsonObjectBuilder remove(String name);
+    default JsonObjectBuilder remove(String name) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns the JSON object associated with this object builder. 

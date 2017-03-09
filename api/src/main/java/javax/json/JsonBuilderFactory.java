@@ -91,7 +91,9 @@ public interface JsonBuilderFactory {
      *
      * @since 1.1
      */
-    JsonObjectBuilder createObjectBuilder(JsonObject object);
+    default JsonObjectBuilder createObjectBuilder(JsonObject object) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Creates a {@code JsonObjectBuilder} instance, initialized with the specified object.
@@ -123,7 +125,9 @@ public interface JsonBuilderFactory {
      *
      * @since 1.1
      */
-    JsonArrayBuilder createArrayBuilder(JsonArray array);
+    default JsonArrayBuilder createArrayBuilder(JsonArray array) {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Creates a {@code JsonArrayBuilder} instance,

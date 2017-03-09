@@ -170,7 +170,9 @@ public interface JsonNumber extends JsonValue {
      *
      * @since 1.1
      */
-    Number numberValue();
+    default Number numberValue() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns a JSON text representation of the JSON number. The
