@@ -195,7 +195,12 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         final Set<String> fields = map.keySet();
         for (String field : fields) {
             Object value = map.get(field);
-            this.valueMap.put(field, MapUtil.handle(value, bufferPool));
+            if (value != null && value instanceof Optional) {
+                ((Optional<?>) value).ifPresent(v ->
+                        this.valueMap.put(field, MapUtil.handle(v, bufferPool)));
+            } else {
+                this.valueMap.put(field, MapUtil.handle(value, bufferPool));
+            }
         }
     }
 

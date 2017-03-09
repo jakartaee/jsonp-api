@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JsonArrayBuilder implementation
@@ -344,7 +345,12 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private void populate(Collection<?> collection) {
         for (Object value : collection) {
-            this.valueList.add(MapUtil.handle(value, bufferPool));
+            if (value != null && value instanceof Optional) {
+                ((Optional<?>) value).ifPresent(v ->
+                        this.valueList.add(MapUtil.handle(v, bufferPool)));
+            } else {
+                this.valueList.add(MapUtil.handle(value, bufferPool));
+            }
         }
     }
 

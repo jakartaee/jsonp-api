@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Jitendra Kotamraju
@@ -115,13 +116,14 @@ public class JsonBuilderTest extends TestCase {
         person.put("lastName", "Smith");
         person.put("age", 25);
 
-        Map<String, Object> address = new HashMap<>();
+        Map<String, Object> address = Optional.of(new HashMap<String, Object>()).get();
         address.put("streetAddress", "21 2nd Street");
         address.put("city", "New York");
         address.put("state", "NY");
         address.put("postalCode", "10021");
 
         person.put("address", address);
+        person.put("mailingAddress", Optional.empty());
 
         Collection<Map<String, Object>> phones = new ArrayList<>();
 

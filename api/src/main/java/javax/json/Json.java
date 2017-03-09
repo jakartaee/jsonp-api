@@ -48,6 +48,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
@@ -274,11 +275,14 @@ public final class Json {
     }
 
     /**
-     * Creates a JSON array builder,
-     * initialized with the content of specified collection.
+     * Creates a JSON array builder, initialized with the content of specified {@code collection}.
+     * If the @{code collection} contains {@link Optional}s then resulting JSON array builder
+     * contains the value from the {@code collection} only if the {@link Optional} is not empty.
      *
      * @param collection the initial data for the builder
      * @return a JSON array builder
+     * @exception IllegalArgumentException if the value from the {@code collection} cannot be converted
+     *            to the corresponding {@link JsonValue}
      *
      * @since 1.1
      */
@@ -308,15 +312,19 @@ public final class Json {
     }
 
     /**
-     * Creates a JSON object builder, initialized with the specified object.
+     * Creates a JSON object builder, initialized with the data from specified {@code map}.
+     * If the @{code map} contains {@link Optional}s then resulting JSON object builder
+     * contains the key from the {@code map} only if the {@link Optional} is not empty.
      *
-     * @param object the initial object in the builder
+     * @param map the initial object in the builder
      * @return a JSON object builder
+     * @exception IllegalArgumentException if the value from the {@code map} cannot be converted
+     *            to the corresponding {@link JsonValue}
      *
      * @since 1.1
      */
-    public static JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
-        return JsonProvider.provider().createObjectBuilder(object);
+    public static JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+        return JsonProvider.provider().createObjectBuilder(map);
     }
 
     /**

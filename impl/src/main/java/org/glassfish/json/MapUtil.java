@@ -48,9 +48,7 @@ import javax.json.JsonValue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * Util for transforming a Map to a Json objects.
@@ -77,7 +75,7 @@ public final class MapUtil {
             } else {
                 if ( value instanceof Boolean) {
                     Boolean b = (Boolean) value;
-                    return b.booleanValue() ? JsonValue.TRUE : JsonValue.FALSE;
+                    return b ? JsonValue.TRUE : JsonValue.FALSE;
                 } else {
                     if (value instanceof Double) {
                         return JsonNumberImpl.getJsonNumber((Double) value);
@@ -92,12 +90,14 @@ public final class MapUtil {
                                     return new JsonStringImpl((String) value);
                                 } else {
                                     if (value instanceof Collection) {
-                                        Collection<Object> collection = (Collection) value;
+                                        @SuppressWarnings("unchecked")
+                                        Collection<?> collection = (Collection<?>) value;
                                         JsonArrayBuilder jsonArrayBuilder = new JsonArrayBuilderImpl(collection, bufferPool);
                                         return jsonArrayBuilder.build();
                                     } else {
                                         if (value instanceof Map) {
-                                            JsonObjectBuilder object = new JsonObjectBuilderImpl((Map) value, bufferPool);
+                                            @SuppressWarnings("unchecked")
+                                            JsonObjectBuilder object = new JsonObjectBuilderImpl((Map<String, Object>) value, bufferPool);
                                             return object.build();
                                         }
                                     }
