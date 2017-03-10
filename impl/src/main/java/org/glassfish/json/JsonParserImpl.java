@@ -40,16 +40,31 @@
 
 package org.glassfish.json;
 
-import javax.json.*;
-import javax.json.stream.JsonLocation;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParsingException;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.*;
-import java.util.stream.*;
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonException;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
+import javax.json.stream.JsonLocation;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParser.Event;
+import javax.json.stream.JsonParsingException;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
 import org.glassfish.json.api.BufferPool;
@@ -117,7 +132,7 @@ public class JsonParserImpl implements JsonParser {
     boolean isDefinitelyInt() {
         return tokenizer.isDefinitelyInt();
     }
-    
+
     boolean isDefinitelyLong() {
     	return tokenizer.isDefinitelyLong();
     }
@@ -183,7 +198,7 @@ public class JsonParserImpl implements JsonParser {
                 return JsonValue.NULL;
             case END_ARRAY:
             case END_OBJECT:
-            default:	
+            default:
             	throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
         }
     }
@@ -310,7 +325,7 @@ public class JsonParserImpl implements JsonParser {
             }
             builder.add(getValue());
         }
-        return null;
+        throw parsingException(JsonToken.EOF, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL, SQUARECLOSE]");
     }
 
     private JsonObject getObject(JsonObjectBuilder builder) {
@@ -323,7 +338,7 @@ public class JsonParserImpl implements JsonParser {
             next();
             builder.add(key, getValue());
         }
-        return null;
+        throw parsingException(JsonToken.EOF, "[STRING, CURLYCLOSE]");
     }
 
     @Override

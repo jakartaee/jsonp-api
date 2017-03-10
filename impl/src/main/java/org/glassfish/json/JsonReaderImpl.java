@@ -42,11 +42,17 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.*;
-import javax.json.stream.JsonParser;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import javax.json.JsonArray;
+import javax.json.JsonException;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonStructure;
+import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParsingException;
 
 /**
  * JsonReader impl using parser and builders.
@@ -80,11 +86,15 @@ class JsonReaderImpl implements JsonReader {
         }
         readDone = true;
         if (parser.hasNext()) {
-            JsonParser.Event e = parser.next();
-            if (e == JsonParser.Event.START_ARRAY) {
-                return parser.getArray();
-            } else if (e == JsonParser.Event.START_OBJECT) {
-                return parser.getObject();
+            try {
+                JsonParser.Event e = parser.next();
+                if (e == JsonParser.Event.START_ARRAY) {
+                    return parser.getArray();
+                } else if (e == JsonParser.Event.START_OBJECT) {
+                    return parser.getObject();
+                }
+            } catch (IllegalStateException ise) {
+                throw new JsonParsingException(ise.getMessage(), ise, parser.getLastCharLocation());
             }
         }
         throw new JsonException(JsonMessages.INTERNAL_ERROR());
@@ -97,8 +107,12 @@ class JsonReaderImpl implements JsonReader {
         }
         readDone = true;
         if (parser.hasNext()) {
-            parser.next();
-            return parser.getObject();
+            try {
+                parser.next();
+                return parser.getObject();
+            } catch (IllegalStateException ise) {
+                throw new JsonParsingException(ise.getMessage(), ise, parser.getLastCharLocation());
+            }
         }
         throw new JsonException(JsonMessages.INTERNAL_ERROR());
     }
@@ -110,8 +124,12 @@ class JsonReaderImpl implements JsonReader {
         }
         readDone = true;
         if (parser.hasNext()) {
-            parser.next();
-            return parser.getArray();
+            try {
+                parser.next();
+                return parser.getArray();
+            } catch (IllegalStateException ise) {
+                throw new JsonParsingException(ise.getMessage(), ise, parser.getLastCharLocation());
+            }
         }
         throw new JsonException(JsonMessages.INTERNAL_ERROR());
     }
@@ -123,8 +141,12 @@ class JsonReaderImpl implements JsonReader {
         }
         readDone = true;
         if (parser.hasNext()) {
-            parser.next();
-            return parser.getValue();
+            try {
+                parser.next();
+                return parser.getValue();
+            } catch (IllegalStateException ise) {
+                throw new JsonParsingException(ise.getMessage(), ise, parser.getLastCharLocation());
+            }
         }
         throw new JsonException(JsonMessages.INTERNAL_ERROR());
     }
