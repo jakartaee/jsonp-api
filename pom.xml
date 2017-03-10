@@ -100,7 +100,9 @@
         <impl_namespace>org.glassfish</impl_namespace>
         <spec_version>1.0</spec_version>
         <new_spec_version>1.1</new_spec_version>
+        <new_spec_impl_version>1.1.0</new_spec_impl_version>
         <impl_version>1.0.4</impl_version>
+        <new_impl_version>1.1.0</new_impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
         <non.final>false</non.final>

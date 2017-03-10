@@ -114,9 +114,9 @@
                         <jarType>impl</jarType>
                         <specVersion>${spec_version}</specVersion>
                         <newSpecVersion>${new_spec_version}</newSpecVersion>
-                        <specImplVersion>${project.version}</specImplVersion>
+                        <specImplVersion>${new_spec_impl_version}</specImplVersion>
                         <implVersion>${impl_version}</implVersion>
-                        <newImplVersion>${project.version}</newImplVersion>
+                        <newImplVersion>${new_impl_version}</newImplVersion>
                         <apiPackage>javax.json</apiPackage>
                         <implNamespace>org.glassfish</implNamespace>
                     </spec>
@@ -170,10 +170,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <!-- TODO: is it spec plugin bug ? the spec.bundle.version returns 1.0 ?
-                                                <Bundle-Version>${spec.bundle.version}</Bundle-Version>
-                        -->
-                        <Bundle-Version>${spec.implementation.version}</Bundle-Version>
+                        <Bundle-Version>${spec.bundle.version}</Bundle-Version>
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
                         <Extension-Name>${spec.extension.name}</Extension-Name>
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>

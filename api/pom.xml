@@ -105,7 +105,7 @@
                         <nonFinal>${non.final}</nonFinal>
                         <jarType>api</jarType>
                         <specVersion>${spec_version}</specVersion>
-                        <specImplVersion>${project.version}</specImplVersion>
+                        <specImplVersion>${new_spec_impl_version}</specImplVersion>
                         <newSpecVersion>${new_spec_version}</newSpecVersion>
                         <apiPackage>${api_package}</apiPackage>
                     </spec>
@@ -137,6 +137,7 @@
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
+                        <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec.version}</Bundle-Description>
                     </instructions>
                 </configuration>
             </plugin>
