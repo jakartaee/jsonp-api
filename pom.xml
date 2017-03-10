@@ -98,9 +98,9 @@
     <properties>
         <api_package>javax.json</api_package>
         <impl_namespace>org.glassfish</impl_namespace>
-        <spec_version>1.1</spec_version>
-        <spec_impl_version>1.1.0-SNAPSHOT</spec_impl_version>
-        <impl_version>1.1.0-SNAPSHOT</impl_version>
+        <spec_version>1.0</spec_version>
+        <new_spec_version>1.1</new_spec_version>
+        <impl_version>1.0.4</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
         <non.final>false</non.final>
@@ -275,12 +275,12 @@
             <dependency>
                 <groupId>javax.json</groupId>
                 <artifactId>javax.json-api</artifactId>
-                <version>${spec_impl_version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>javax.json</artifactId>
-                <version>${impl_version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>

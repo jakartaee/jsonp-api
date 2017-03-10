@@ -105,7 +105,8 @@
                         <nonFinal>${non.final}</nonFinal>
                         <jarType>api</jarType>
                         <specVersion>${spec_version}</specVersion>
-                        <specImplVersion>${spec_impl_version}</specImplVersion>
+                        <specImplVersion>${project.version}</specImplVersion>
+                        <newSpecVersion>${new_spec_version}</newSpecVersion>
                         <apiPackage>${api_package}</apiPackage>
                     </spec>
                 </configuration>

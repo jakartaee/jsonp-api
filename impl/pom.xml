@@ -113,8 +113,10 @@
                         <nonFinal>${non.final}</nonFinal>
                         <jarType>impl</jarType>
                         <specVersion>${spec_version}</specVersion>
-                        <specImplVersion>${spec_impl_version}</specImplVersion>
+                        <newSpecVersion>${new_spec_version}</newSpecVersion>
+                        <specImplVersion>${project.version}</specImplVersion>
                         <implVersion>${impl_version}</implVersion>
+                        <newImplVersion>${project.version}</newImplVersion>
                         <apiPackage>javax.json</apiPackage>
                         <implNamespace>org.glassfish</implNamespace>
                     </spec>
