@@ -110,7 +110,7 @@
                 <artifactId>spec-version-maven-plugin</artifactId>
                 <configuration>
                     <spec>
-                        <nonFinal>false</nonFinal>
+                        <nonFinal>${non.final}</nonFinal>
                         <jarType>impl</jarType>
                         <specVersion>${spec_version}</specVersion>
                         <specImplVersion>${spec_impl_version}</specImplVersion>

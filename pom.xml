@@ -103,6 +103,7 @@
         <impl_version>1.1.0-SNAPSHOT</impl_version>
         <packages.private>org.glassfish.*</packages.private>
         <packages.export>javax.json.*</packages.export>
+        <non.final>false</non.final>
     </properties>
 
     <build>
