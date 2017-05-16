@@ -40,26 +40,24 @@
 
 package org.glassfish.json.jaxrs;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import javax.json.Json;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
-import javax.json.JsonStructure;
+import javax.json.JsonValue;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 
 /**
- * JAX-RS MessageBodyReader for JsonStructure. This allows
- * JsonStructure, JsonArray and JsonObject to be a parameter of a
- * resource method.
+ * JAX-RS MessageBodyReader for JsonValue. This allows JsonValue
+ * to be a parameter of a resource method.
  *
  * @author Jitendra Kotamraju
  * @author Blaise Doughan
@@ -67,7 +65,7 @@ import java.lang.reflect.Type;
  */
 @Provider
 @Consumes({"application/json", "text/json", "*/*"})
-public class JsonStructureBodyReader implements MessageBodyReader<JsonStructure> {
+public class JsonStructureBodyReader implements MessageBodyReader<JsonValue> {
     private final JsonReaderFactory rf = Json.createReaderFactory(null);
 
     private static final String JSON = "json";
@@ -76,7 +74,7 @@ public class JsonStructureBodyReader implements MessageBodyReader<JsonStructure>
     @Override
     public boolean isReadable(Class<?> aClass, Type type,
             Annotation[] annotations, MediaType mediaType) {
-        return JsonStructure.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
+        return JsonValue.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
     }
 
     /**
@@ -88,7 +86,7 @@ public class JsonStructureBodyReader implements MessageBodyReader<JsonStructure>
     }
 
     @Override
-    public JsonStructure readFrom(Class<JsonStructure> jsonStructureClass,
+    public JsonValue readFrom(Class<JsonValue> jsonValueClass,
             Type type, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, String> stringStringMultivaluedMap,
             InputStream inputStream) throws IOException, WebApplicationException {

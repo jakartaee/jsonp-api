@@ -40,27 +40,30 @@
 
 package org.glassfish.json.jaxrs;
 
-import javax.annotation.PostConstruct;
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Configuration;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.json.Json;
+import javax.json.JsonValue;
+import javax.json.JsonWriter;
+import javax.json.JsonWriterFactory;
+import javax.json.stream.JsonGenerator;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Configuration;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 /**
- * JAX-RS MessageBodyWriter for JsonStructure. This allows
- * JsonStructure, JsonArray and JsonObject to be return type of a
- * resource method.
+ * JAX-RS MessageBodyWriter for JsonValue. This allows JsonValue
+ * to be return type of a resource method.
  *
  * @author Jitendra Kotamraju
  * @author Blaise Doughan
@@ -68,7 +71,7 @@ import java.util.Map;
  */
 @Provider
 @Produces({"application/json", "text/json", "*/*"})
-public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure> {
+public class JsonStructureBodyWriter implements MessageBodyWriter<JsonValue> {
     private static final String JSON = "json";
     private static final String PLUS_JSON = "+json";
 
@@ -89,7 +92,7 @@ public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure>
     @Override
     public boolean isWriteable(Class<?> aClass,
             Type type, Annotation[] annotations, MediaType mediaType) {
-        return JsonStructure.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
+        return JsonValue.class.isAssignableFrom(aClass) && supportsMediaType(mediaType);
     }
 
     /**
@@ -101,19 +104,19 @@ public class JsonStructureBodyWriter implements MessageBodyWriter<JsonStructure>
     }
 
     @Override
-    public long getSize(JsonStructure jsonStructure, Class<?> aClass,
+    public long getSize(JsonValue jsonValue, Class<?> aClass,
             Type type, Annotation[] annotations, MediaType mediaType) {
 
         return -1;
     }
 
     @Override
-    public void writeTo(JsonStructure jsonStructure, Class<?> aClass, Type type,
+    public void writeTo(JsonValue jsonValue, Class<?> aClass, Type type,
             Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, Object> stringObjectMultivaluedMap,
             OutputStream outputStream) throws IOException, WebApplicationException {
         try (JsonWriter writer = wf.createWriter(outputStream)) {
-            writer.write(jsonStructure);
+            writer.write(jsonValue);
         }
     }
 }
