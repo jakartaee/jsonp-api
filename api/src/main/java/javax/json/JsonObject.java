@@ -263,7 +263,7 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      * {@code JsonValue.NULL}.
      *
      * @param name name whose associated value is checked
-     * @return return true if the associated value is {@code JsonValue.NUL},
+     * @return return true if the associated value is {@code JsonValue.NULL},
      * otherwise false
      * @throws NullPointerException if the specified name doesn't have any
      * mapping
