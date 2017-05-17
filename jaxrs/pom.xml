@@ -57,7 +57,7 @@
     <version>1.1.0-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) Media for JAX-RS</name>
     <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonValue API of JSR 374:Java API for Processing JSON</description>
-    <url>http://json-processing-spec.java.net</url>
+    <url>https://javaee.github.io/json-processing-spec</url>
     <build>
         <plugins>
             <plugin>
