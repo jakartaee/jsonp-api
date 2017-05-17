@@ -15,8 +15,10 @@ target/
 .classpath
 .project
 
+#NetBeans noise
+nbproject/
+
 #Java noise
 *.class
 api/doc
 *err_pid*.log
-
