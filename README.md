@@ -18,11 +18,11 @@ mvn -U -C clean install -Dnon.final=true
 
 Commercial use:
 
-The RI will be available for commercial use under the [CDDL 1.1](http://glassfish.java.net/public/CDDL+GPL_1_1.html) open source license, the [GPLv2 with Classpath Exception](http://glassfish.java.net/public/CDDL+GPL_1_1.html) open source license, or this [license](https://jcp.org/aboutJava/communityprocess/licenses/jsr374/OCSL-JSR_374-Java_API_for_JSON_Processing-1.1-AttachD-11.25.14.pdf).
+The RI will be available for commercial use under the [CDDL 1.1](https://oss.oracle.com/licenses/CDDL+GPL-1.1) open source license, the [GPLv2 with Classpath Exception](https://oss.oracle.com/licenses/CDDL+GPL-1.1) open source license, or this [license](https://jcp.org/aboutJava/communityprocess/licenses/jsr374/OCSL-JSR_374-Java_API_for_JSON_Processing-1.1-AttachD-11.25.14.pdf).
 
 Non-Commercial use:
 
-The RI will be available for non-Commercial use under the [CDDL 1.1](http://glassfish.java.net/public/CDDL+GPL_1_1.html) open source license or the [GPLv2 with Classpath Exception](http://glassfish.java.net/public/CDDL+GPL_1_1.html) open source license.
+The RI will be available for non-Commercial use under the [CDDL 1.1](https://oss.oracle.com/licenses/CDDL+GPL-1.1) open source license or the [GPLv2 with Classpath Exception](https://oss.oracle.com/licenses/CDDL+GPL-1.1) open source license.
 
 
 ## Links
