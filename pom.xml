@@ -57,7 +57,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1</version>
     <name>JSR 374 (JSON Processing) RI</name>
     <description>JSR 374:Java API for Processing JSON RI</description>
     <url>https://json-p.github.io/</url>
@@ -66,7 +66,7 @@
         <connection>scm:git:git://github.com/javaee/jsonp.git</connection>
         <developerConnection>scm:git:git@github.com:javaee/jsonp.git</developerConnection>
         <url>https://github.com/javaee/jsonp</url>
-        <tag>HEAD</tag>
+        <tag>jsonp-1.1</tag>
     </scm>
 
     <licenses>
