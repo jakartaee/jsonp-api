@@ -47,14 +47,14 @@
     <parent>
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.glassfish</groupId>
     <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <name>JSR 374 (JSON Processing) Default Provider</name>
     <description>Default provider for JSR 374:Java API for Processing JSON</description>
     <url>https://json-p.github.io/</url>
