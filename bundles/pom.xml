@@ -56,7 +56,7 @@
     <packaging>pom</packaging>
     <name>JSR 374 (JSON Processing) bundles</name>
     <description>JSON Processing bundles</description>
-    <url>https://javaee.github.io/json-processing-spec</url>
+    <url>https://javaee.github.io/jsonp</url>
 
     <modules>
         <module>ri</module>

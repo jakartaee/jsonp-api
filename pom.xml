@@ -60,7 +60,7 @@
     <version>1.2-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) RI</name>
     <description>JSR 374:Java API for Processing JSON RI</description>
-    <url>https://json-p.github.io/</url>
+    <url>https://javaee.github.io/jsonp</url>
 
     <scm>
         <connection>scm:git:git://github.com/javaee/jsonp.git</connection>
@@ -86,8 +86,8 @@
 
     <developers>
         <developer>
-            <id>kchung</id>
-            <name>Kin-man Chung</name>
+            <id>lukasj</id>
+            <name>Lukas Jungmann</name>
             <organization>Oracle</organization>
             <roles>
                 <role>lead</role>
