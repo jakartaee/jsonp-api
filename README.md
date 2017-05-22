@@ -26,5 +26,5 @@ The RI will be available for non-Commercial use under the [CDDL 1.1](https://oss
 
 
 ## Links
-- JSON-P official web site: https://json-p.github.io
+- JSON-P official web site: https://javaee.github.io/jsonp
 - JSR-374 page on JCP site: https://jcp.org/en/jsr/detail?id=374
