@@ -42,5 +42,6 @@ module org.glassfish.java.json {
     exports javax.json;
     exports javax.json.spi;
     exports javax.json.stream;
+    exports org.glassfish.json.api;
     uses javax.json.spi.JsonProvider;
 }
