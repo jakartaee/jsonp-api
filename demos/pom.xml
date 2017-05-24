@@ -92,6 +92,7 @@
                 <module>facebook</module>
                 <module>jsonpointer</module>
                 <module>servlet</module>
+                <module>customprovider-jdk9</module>
             </modules>
         </profile>
     </profiles>
