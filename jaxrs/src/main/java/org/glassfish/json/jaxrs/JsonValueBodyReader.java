@@ -65,7 +65,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Consumes({"application/json", "text/json", "*/*"})
-public class JsonStructureBodyReader implements MessageBodyReader<JsonValue> {
+public class JsonValueBodyReader implements MessageBodyReader<JsonValue> {
     private final JsonReaderFactory rf = Json.createReaderFactory(null);
 
     private static final String JSON = "json";
@@ -91,7 +91,7 @@ public class JsonStructureBodyReader implements MessageBodyReader<JsonValue> {
             MultivaluedMap<String, String> stringStringMultivaluedMap,
             InputStream inputStream) throws IOException, WebApplicationException {
         try (JsonReader reader = rf.createReader(inputStream)) {
-            return reader.read();
+            return reader.readValue();
         }
     }
 }

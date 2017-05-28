@@ -71,7 +71,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 @Produces({"application/json", "text/json", "*/*"})
-public class JsonStructureBodyWriter implements MessageBodyWriter<JsonValue> {
+public class JsonValueBodyWriter implements MessageBodyWriter<JsonValue> {
     private static final String JSON = "json";
     private static final String PLUS_JSON = "+json";
 
