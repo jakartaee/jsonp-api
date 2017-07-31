@@ -64,12 +64,6 @@ import javax.json.JsonWriterFactory;
  */
 public class TestProvider extends JsonProvider {
 
-    // need to override this here otherwise JsonProvider.provider()
-    // would be called indefinetly leading to StackOverfolwError
-    public static JsonProvider provider() {
-        return new TestProvider();
-    }
-
     @Override
     public JsonGenerator createGenerator(Writer writer) {
         return new TestGenerator(writer);
