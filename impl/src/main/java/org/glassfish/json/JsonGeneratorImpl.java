@@ -293,6 +293,7 @@ class JsonGeneratorImpl implements JsonGenerator {
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;
                 writeValue(number.toString());
+                popFieldContext();
                 break;
             case TRUE:
                 write(true);
