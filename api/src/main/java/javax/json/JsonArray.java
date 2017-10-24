@@ -291,7 +291,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      *
      * @param index index of the JSON null value
      * @return return true if the value at the specified location is
-     * {@code JsonValue.NUL}, otherwise false
+     * {@code JsonValue.NULL}, otherwise false
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     boolean isNull(int index);
