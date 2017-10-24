@@ -193,7 +193,7 @@ public class JsonPatchImpl implements JsonPatch {
                 return pointer.add(from.remove(target), from.getValue(target));
             case TEST:
                 if (! getValue(operation).equals(pointer.getValue(target))) {
-                    throw new JsonException(JsonMessages.PATCH_TEST_FAILED());
+                    throw new JsonException(JsonMessages.PATCH_TEST_FAILED(operation.getString("path"), getValue(operation).toString()));
                 }
                 return target;
             default:

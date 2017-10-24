@@ -269,8 +269,8 @@ final class JsonMessages {
         return localize("patch.move.target.null", from);
     }
 
-    static String PATCH_TEST_FAILED() {
-        return localize("patch.test.failed");
+    static String PATCH_TEST_FAILED(String path, String value) {
+        return localize("patch.test.failed", path, value);
     }
 
     static String PATCH_ILLEGAL_OPERATION(String operation) {
