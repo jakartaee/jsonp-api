@@ -97,6 +97,7 @@ public class JsonValueTest {
         JsonValue.EMPTY_JSON_ARRAY.isNull(0);
     }
 
+    @Test
     public void arrayMethods() {
         Assert.assertEquals(JsonValue.ValueType.ARRAY, JsonValue.EMPTY_JSON_ARRAY.getValueType());
         Assert.assertEquals(Collections.<JsonObject>emptyList(), JsonValue.EMPTY_JSON_ARRAY.getValuesAs(JsonObject.class));
@@ -131,6 +132,7 @@ public class JsonValueTest {
         JsonValue.EMPTY_JSON_OBJECT.isNull("???");
     }
 
+    @Test
     public void objectMethods() {
         Assert.assertNull(JsonValue.EMPTY_JSON_OBJECT.getJsonArray("pole"));
         Assert.assertNull(JsonValue.EMPTY_JSON_OBJECT.getJsonObject("objekt"));
