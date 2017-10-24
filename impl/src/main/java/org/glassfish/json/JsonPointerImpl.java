@@ -273,6 +273,9 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
                     JsonArray array = (JsonArray) value;
                     references[s-i-1] = NodeReference.of(array, index);
                     if (i < s-1 && index != -1) {
+                        if (index >= array.size()) {
+                            throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
+                        }
                         // The last array index in the path can have index value of -1
                         // ("-" in the JSON pointer)
                         value = array.get(index);
