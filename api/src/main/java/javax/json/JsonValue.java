@@ -43,11 +43,11 @@ package javax.json;
 /**
  * <code>JsonValue</code> represents an immutable JSON value.
  *
- * 
+ *
  * <p>A JSON value is one of the following:
  * an object ({@link JsonObject}), an array ({@link JsonArray}),
  * a number ({@link JsonNumber}), a string ({@link JsonString}),
- * {@code true} ({@link JsonValue#TRUE JsonValue.TRUE}), {@code false} 
+ * {@code true} ({@link JsonValue#TRUE JsonValue.TRUE}), {@code false}
  * ({@link JsonValue#FALSE JsonValue.FALSE}),
  * or {@code null} ({@link JsonValue#NULL JsonValue.NULL}).
  */
@@ -55,17 +55,17 @@ public interface JsonValue {
 
     /**
      * The empty JSON object.
-     * 
+     *
      * @since 1.1
      */
-    static final JsonObject EMPTY_JSON_OBJECT = Json.createObjectBuilder().build();
+    static final JsonObject EMPTY_JSON_OBJECT = new EmptyObject();
 
     /**
      * The empty JSON array.
-     * 
+     *
      * @since 1.1
      */
-    static final JsonArray EMPTY_JSON_ARRAY = Json.createArrayBuilder().build();
+    static final JsonArray EMPTY_JSON_ARRAY = new EmptyArray();
 
     /**
      * Indicates the type of a {@link JsonValue} object.
