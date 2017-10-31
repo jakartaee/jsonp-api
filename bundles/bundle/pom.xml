@@ -3,7 +3,7 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 2011-2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -48,14 +48,14 @@
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
         <version>1.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>org.glassfish</groupId>
-    <artifactId>java.json</artifactId>
+    <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
     <version>1.2-SNAPSHOT</version>
-    <name>JSR 374 (JSON Processing) Default Provider</name>
+    <name>JSR 374 (JSON Processing) API + Impl Bundle</name>
     <description>Default provider for JSR 374:Java API for Processing JSON</description>
     <url>https://javaee.github.io/jsonp</url>
 
@@ -66,6 +66,68 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-dependency-src</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-sources/jsonp-src</outputDirectory>
+                            <classifier>sources</classifier>
+                            <excludes>module-info.java,META-INF/**,**/*.properties</excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-dependency-resrc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-sources/jsonp-resources</outputDirectory>
+                            <classifier>sources</classifier>
+                            <excludes>**/*.java,META-INF/**</excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/jsonp-src</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/generated-sources/jsonp-resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.glassfish.build</groupId>
                 <artifactId>spec-version-maven-plugin</artifactId>
@@ -114,6 +176,7 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <excludeDependencies>true</excludeDependencies>
                     <instructions>
                         <Bundle-Version>${spec.bundle.version}</Bundle-Version>
                         <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
@@ -131,6 +194,12 @@
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>java.json</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -142,21 +211,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <!--
-                               workaround for https://issues.apache.org/jira/browse/MJAVADOC-489
-                            -->
-                            <additionalJOptions>
-                                <additionalJOption>--add-modules</additionalJOption>
-                                <additionalJOption>java.json</additionalJOption>
-                                <additionalJOption>--module-path</additionalJOption>
-                                <additionalJOption>${project.build.directory}/../../api/target/javax.json-api-${project.version}.jar</additionalJOption>
-                            </additionalJOptions>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.felix</groupId>
                         <artifactId>maven-bundle-plugin</artifactId>

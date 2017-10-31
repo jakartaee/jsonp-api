@@ -58,6 +58,11 @@
     <name>JSR 374 (JSON Processing) API</name>
     <description>API module of JSR 374:Java API for Processing JSON</description>
     <url>https://javaee.github.io/jsonp</url>
+
+    <properties>
+        <packages.export>javax.json.*</packages.export>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -138,7 +143,7 @@
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
-                        <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec.version}</Bundle-Description>
+                        <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec_version}</Bundle-Description>
                     </instructions>
                 </configuration>
             </plugin>

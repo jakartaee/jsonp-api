@@ -39,7 +39,7 @@
  */
 
 module org.glassfish.java.json.demos.customprovider {
-    requires org.glassfish.java.json;
+    requires transitive java.json;
     exports org.glassfish.json.customprovider;
     provides javax.json.spi.JsonProvider with org.glassfish.json.customprovider.TestProvider;
 }

@@ -59,6 +59,7 @@
     <url>https://javaee.github.io/jsonp</url>
 
     <modules>
+        <module>bundle</module>
         <module>ri</module>
     </modules>
     <profiles>
