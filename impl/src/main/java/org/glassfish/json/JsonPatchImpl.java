@@ -289,42 +289,32 @@ public class JsonPatchImpl implements JsonPatch {
                 }
             }
 
-            emit(path, source, target, c, m, n);
-        }
-
-        private void emit(final String path,
-                          final JsonArray source,
-                          final JsonArray target,
-                          final int[][] c,
-                          final int i,
-                          final int j) {
-           if (i == 0) {
-               if (j > 0) {
-                   emit(path, source, target, c, i, j - 1);
-                   builder.add(path + '/' + (j - 1), target.get(j - 1));
-               }
-           } else if (j == 0) {
-               if (i > 0) {
-                   builder.remove(path + '/' + (i - 1));
-                   emit(path, source, target, c, i - 1, j);
-               }
-           } else if ((c[i][j] & 1) == 1) {
-               emit(path, source, target, c, i - 1, j - 1);
-           } else {
-               final int f = c[i][j-1] >> 1;
-               final int g = c[i-1][j] >> 1;
-               if (f > g) {
-                   emit(path, source, target, c, i, j - 1);
-                   builder.add(path + '/' + (j - 1), target.get(j - 1));
-               } else if (f < g) {
-                   builder.remove(path + '/' + (i - 1));
-                   emit(path, source, target, c, i - 1, j);
-               } else { // f == g) {
-                   diff(path + '/' + (i - 1), source.get(i - 1),
-                     target.get(j - 1));
-                   emit(path, source, target, c, i - 1, j - 1);
-               }
-           }
+            int i = m;
+            int j = n;
+            while (i > 0 || j > 0) {
+                if (i == 0) {
+                    j--;
+                    builder.add(path + '/' + j, target.get(j));
+                } else if (j == 0) {
+                    i--;
+                    builder.remove(path + '/' + i);
+                } else if ((c[i][j] & 1) == 1) {
+                    i--; j--;
+                } else {
+                    int f = c[i][j-1] >> 1;
+                    int g = c[i-1][j] >> 1;
+                    if (f > g) {
+                        j--;
+                        builder.add(path + '/' + j, target.get(j));
+                    } else if (f < g) {
+                        i--;
+                        builder.remove(path + '/' + i);
+                    } else { // f == g) {
+                       i--; j--;
+                       diff(path + '/' + i, source.get(i), target.get(j));
+                    }
+                }
+            }
         }
     }
 }
