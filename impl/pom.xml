@@ -61,7 +61,7 @@
 
     <properties>
         <packages.private>org.glassfish.json</packages.private>
-        <packages.export>javax.json.*,org.glassfish.json.api</packages.export>
+        <packages.export>org.glassfish.json.api</packages.export>
     </properties>
 
     <build>
