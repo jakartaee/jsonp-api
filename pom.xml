@@ -315,7 +315,6 @@
             <modules>
                 <module>api</module>
                 <module>impl</module>
-                <module>bundles/bundle</module>
                 <module>jaxrs</module>
             </modules>
         </profile>

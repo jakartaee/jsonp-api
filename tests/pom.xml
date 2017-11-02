@@ -62,7 +62,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>java.json</artifactId>
+            <artifactId>javax.json</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

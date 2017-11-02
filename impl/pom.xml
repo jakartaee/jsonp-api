@@ -52,7 +52,7 @@
     </parent>
 
     <groupId>org.glassfish</groupId>
-    <artifactId>java.json</artifactId>
+    <artifactId>javax.json</artifactId>
     <packaging>bundle</packaging>
     <version>1.1.2-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) Default Provider</name>

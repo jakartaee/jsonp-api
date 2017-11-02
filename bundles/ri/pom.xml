@@ -55,6 +55,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
         </dependency>
@@ -69,19 +73,11 @@
                         <id>copy</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <stripVersion>false</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.glassfish</groupId>
-                                    <artifactId>javax.json</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${assembly.directory}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
+                            <outputDirectory>${assembly.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
