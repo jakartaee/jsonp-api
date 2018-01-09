@@ -1,0 +1,160 @@
+[
+        {
+            "original": {"a":"b"},
+            "target": {"a":"b"},
+            "expected": []
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": [ 1, 2, 3, 4, 5 ],
+            "expected": [
+                            {"op":"add","path":"/3","value":4},
+                            {"op":"add","path":"/4","value":5}
+                        ]
+        },
+        {
+            "original": [1,2,3,4,5],
+            "target": [1,3,4],
+            "expected": [
+                            { "op": "remove", "path": "/4"},
+                            { "op": "remove", "path": "/1"}
+                        ]
+        },
+        {
+            "original": [1,2,3,4,5,6],
+            "target": [1,7,3,4,8,5],
+            "expected": [
+                            { "op": "remove", "path": "/5"},
+                            { "op": "replace", "path": "/1", "value": 7},
+                            { "op": "add", "path": "/4", "value": 8}
+                        ]
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": [ 1 ],
+            "expected": [
+                            { "op": "remove", "path": "/2" },
+                            { "op": "remove", "path": "/1" }
+                        ]
+        },
+        {
+            "original": { "a": "b", "c": "d" },
+            "target": { "a": "b" },
+            "expected": [
+                            { "op": "remove", "path": "/c" }
+                        ]
+        },
+        {
+            "original": { "a": 1 },
+            "target": { "a": 1, "c": 2, "b": 3, "d": 4 },
+            "expected": [
+                            { "op": "add", "path": "/c", "value": 2 },
+                            { "op": "add", "path": "/b", "value": 3 },
+                            { "op": "add", "path": "/d", "value": 4 }
+                        ]
+        },
+        {
+            "original": { "a": null },
+            "target": { "a": 6 },
+            "expected": [
+                            { "op": "replace", "path": "/a", "value": 6 }
+                        ]
+        },
+        {
+            "original": [ 1, 2, 3 ],
+            "target": { "hello": "world" },
+            "expected": [
+                            { "op": "replace", "path": "", "value": { "hello": "world" } }
+                        ]
+        },
+        {
+            "original": {
+                            "a": "b",
+                            "c": {
+                                    "d": "e"
+                                 }
+                        },
+            "target": {
+                        "a": "b",
+                        "c": {
+                                "d": 1,
+                                "e": "f"
+                             }
+                      },
+            "expected": [
+                            { "op": "replace", "path": "/c/d", "value": 1 },
+                            { "op": "add", "path": "/c/e", "value": "f" }
+                        ]
+        },
+        {
+            "original": {
+                            "a": [ 1, 2, 3 ]
+                        },
+            "target": {
+                        "a": [ "b", 2, 3, 4 ]
+                      },
+            "expected": [
+                            { "op": "replace", "path": "/a/0", "value":"b" },
+                            { "op": "add", "path": "/a/3", "value":4 }
+                        ]
+        },
+        {
+            "original": [ { "a": "b" }, "foo", { "bar": null } ],
+            "target": [ { "a": "b", "c": "d" }, "foo", { "bar": "baz" } ],
+            "expected": [
+                            { "op": "replace", "path": "/2/bar", "value": "baz" },
+                            { "op": "add", "path": "/0/c", "value": "d" }
+                        ]
+        },
+        {
+            "original": [ 1, [ 2, 3 ], 4 ],
+            "target": [ "x", [ 2, 3, "y" ], 4 ],
+            "expected": [
+                            { "op": "add", "path": "/1/2", "value": "y" },
+                            { "op": "replace", "path": "/0", "value": "x" }
+                        ]
+        },
+        {
+            "original": { "a": "b" },
+            "target": { "c": "b" },
+            "expected": [
+                            { "op": "remove", "path": "/a"},
+                            { "op": "add", "path": "/c", "value": "b"}
+                        ]
+        },
+        {
+            "original": {"a": "c"},
+            "target": {"a": "c", "d": "c"},
+            "expected": [
+                            { "op": "add", "path": "/d", "value": "c" }
+                        ]
+        },
+        {
+            "original": [-1, 0, 1, 3, 4],
+            "target": [5, 0],
+            "expected": [
+                            { "path" : "/4", "op" : "remove"},
+                            { "path" : "/3", "op" : "remove"},
+                            { "path" : "/2", "op" : "remove"},
+                            { "value" : 5, "path" : "/0", "op" : "replace" }
+                        ]
+        },
+        {
+            "original": [0],
+            "target": [0, 1, 2, 3, 4],
+            "expected": [
+                            { "path" : "/1", "value" : 1, "op" : "add" },
+                            { "path" : "/2", "value" : 2, "op" : "add" },
+                            { "value" : 3, "path" : "/3", "op" : "add" },
+                            { "op" : "add", "path" : "/4", "value" : 4 }
+                        ]
+        },
+        {
+            "original": [0, 2, 4],
+            "target": [0, 1, 2, 3, 4],
+            "expected": [
+                            { "path" : "/1", "value" : 1, "op" : "add" },
+                            { "value" : 3, "op" : "add", "path" : "/3" }
+                        ]
+        }
+]

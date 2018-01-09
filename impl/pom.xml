@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.glassfish</groupId>
+        <artifactId>json</artifactId>
+        <version>1.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>org.glassfish</groupId>
+    <artifactId>javax.json</artifactId>
+    <packaging>bundle</packaging>
+    <version>1.2-SNAPSHOT</version>
+    <name>JSR 374 (JSON Processing) Default Provider</name>
+    <description>Default provider for JSR 374:Java API for Processing JSON</description>
+    <url>https://javaee.github.io/jsonp</url>
+
+    <properties>
+        <packages.private>org.glassfish.json</packages.private>
+        <packages.export>org.glassfish.json.api</packages.export>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.glassfish.build</groupId>
+                <artifactId>spec-version-maven-plugin</artifactId>
+                <configuration>
+                    <spec>
+                        <nonFinal>${non.final}</nonFinal>
+                        <jarType>impl</jarType>
+                        <specVersion>${spec_version}</specVersion>
+                        <newSpecVersion>${new_spec_version}</newSpecVersion>
+                        <specImplVersion>${new_spec_impl_version}</specImplVersion>
+                        <implVersion>${impl_version}</implVersion>
+                        <newImplVersion>${new_impl_version}</newImplVersion>
+                        <apiPackage>${api_package}</apiPackage>
+                        <implNamespace>${impl_namespace}</implNamespace>
+                    </spec>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-spec-properties</goal>
+                            <goal>check-module</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+              This plugin is reponsible for packaging artifacts
+              as OSGi bundles.  Please refer to
+              http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+              for more information about how to use this plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-Version>${spec.bundle.version}</Bundle-Version>
+                        <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
+                        <Extension-Name>${spec.extension.name}</Extension-Name>
+                        <Implementation-Version>${spec.implementation.version}</Implementation-Version>
+                        <Specification-Version>${spec.specification.version}</Specification-Version>
+                        <Export-Package>${packages.export}</Export-Package>
+                        <Private-Package>${packages.private}</Private-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jdk9-setup</id>
+            <activation>
+                <jdk>9</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <!--
+                               workaround for https://issues.apache.org/jira/browse/MJAVADOC-489
+                            -->
+                            <additionalJOptions>
+                                <additionalJOption>--add-modules</additionalJOption>
+                                <additionalJOption>java.json</additionalJOption>
+                                <additionalJOption>--module-path</additionalJOption>
+                                <additionalJOption>${project.build.directory}/../../api/target/javax.json-api-${project.version}.jar</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>maven-bundle-plugin</artifactId>
+                        <configuration>
+                            <instructions>
+                                <Include-Resource>target/classes/module-info.class</Include-Resource>
+                            </instructions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

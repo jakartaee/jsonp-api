@@ -1,0 +1,103 @@
+[
+        {
+            "target": {},
+            "patch": {"a": {"b":"c"}},
+            "expected": {"a":{"b":"c"}}
+        },
+        {
+            "target": {},
+            "patch": {"a":{"bb":{"ccc":null}}},
+            "expected": {"a":{"bb":{}}}
+        },
+        {
+            "target": {"a":"foo"},
+            "patch": "bar",
+            "expected": "bar"
+        },
+        {
+            "target": {"a":"foo"},
+            "patch": null,
+            "expected": null
+        },
+        {
+            "target": {"a": {"b":"c"}},
+            "patch": {"a": {"b":"d", "c":null}},
+            "expected": {"a": {"b":"d"}}
+        },
+        {
+            "target": { "c": "d" },
+            "patch": { "a": "b" },
+            "expected": { "a": "b", "c": "d" }
+        }, 
+        {
+            "target": { "a": { "d": 2 } },
+            "patch": { "a": { "d": 1 } },
+            "expected": { "a": { "d": 1 } }
+        }, 
+        {
+            "target": { "a": "b", "c": "d" },
+            "patch": { "c": null },
+            "expected": { "a": "b" }
+        }, 
+        {
+            "target": { "a": { "b": "c", "d": null} },
+            "patch": { "a": { "d": null} },
+            "expected": { "a": { "b": "c" } }
+        }, 
+        {
+            "target": {
+              "a": { "b": "c" },
+              "d": "e"
+            },
+            "patch": {
+              "a": 1000010002020389.8787987983
+            },
+            "expected": {
+              "a": 1000010002020389.8787987983,
+              "d": "e"
+            }
+        }, 
+        {
+            "target": { "a": "b" },
+            "patch": { "c": [ null ] },
+            "expected": { "a": "b", "c": [ null ] }
+        }, 
+        {
+            "target": { "a": { "b": null, "d": 3}, "e": -1 },
+            "patch": { "a": { "b": "c", "d": null } },
+            "expected": { "a": { "b": "c" }, "e": -1 }
+        }, 
+        {
+            "target": [1,2],
+            "patch": { "a": "b", "c": null },
+            "expected": { "a": "b"}
+        }, 
+        {
+            "target": {
+              "title": "Goodbye!",
+              "author": {
+                "givenName": "John",
+                "familyName": "Doe"
+              },
+              "tags": [ "example", "sample" ],
+              "content": "This will be unchanged"
+            },
+            "patch": {
+              "title": "Hello!",
+              "phoneNumber": "+01-123-456-7890",
+              "author": {
+                  "familyName": null
+              },
+            "tags": [ "example" ]
+            },
+            "expected": {
+            "title": "Hello!",
+            "author": {
+                "givenName": "John"
+            },
+            "tags": [ "example" ],
+            "content": "This will be unchanged",
+            "phoneNumber": "+01-123-456-7890"
+            }
+        }
+]
