@@ -1,17 +1,17 @@
 {
    "data": [
       {
-         "id": "122422087906853_227097804105947",
+         "id": "123_1",
          "from": {
             "category": "Bank/financial institution",
-            "name": "Aig loan fast",
-            "id": "122422087906853"
+            "name": "Group 1",
+            "id": "1"
          },
-         "message": "fda approved viagra generic http://fda.approved.viagra.generic.medoonll4.appspot.com/#fda-approved-viagra-generic\nviagra effects on heart http://viagra.effects.on.heart.medoonll4.appspot.com/#viagra-effects-on-heart\nviagra pediatric patients http://viagra.pediatric.patients.medoonll4.appspot.com/#viagra-pediatric-patients\nviagra to last longer http://viagra.to.last.longer.medoonll4.appspot.com/#viagra-to-last-longer\ncialis maximum dosage http://cialis.maximum.dosage.medoonll4.appspot.com/#cialis-maximum-dosage\nviagra y sus efectos http://viagra.y.sus.efectos.medoonll4.appspot.com/#viagra-y-sus-efectos\nnew viagra ad http://new.viagra.ad.medoonll4.appspot.com/#new-viagra-ad\nlevitra cozaar interaction http://levitra.cozaar.interaction.medoonll4.appspot.com/#levitra-cozaar-interaction\nviagra superdrug http://viagra.superdrug.medoonll4.appspot.com/#viagra-superdrug\ndoes viagra work safe http://does.viagra.work.safe.medoonll4.appspot.com/#does-viagra-work-safe\nviagra interaction atenolol http://viagra.interaction.atenolol.medoonll4.appspot.com/#viagra-interaction-atenolol\nviagra drug pfizer http://viagra.drug.pfizer.medoonll4.appspot.com/#viagra-drug-pfizer\nviagra use in young men http://viagra.use.in.young.men.medoonll4.appspot.com/#viagra-use-in-young-men\nviagra atlanta ga http://viagra.atlanta.ga.medoonll4.appspot.com/#viagra-atlanta-ga\nimpotence hernia surgery http://impotence.hernia.surgery.medoonll4.appspot.com/#impotence-hernia-surgery\ncialis powder soluble http://cialis.powder.soluble.medoonll4.appspot.com/#cialis-powder-soluble\nimpotence causes gynecomastia http://impotence.causes.gynecomastia.medoonll4.appspot.com/#impotence-causes-gynecomastia\nviagra reject http://viagra.reject.medoonll4.appspot.com/#viagra-reject\nviagra sponsorship http://viagra.sponsorship.medoonll4.appspot.com/#viagra-sponsorship\ncomprar viagra espa\u0441a sevilla http://comprar.viagra.espa\u0441a.sevilla.medoonll4.appspot.com/#comprar-viagra-espa\u0441a-sevilla\nviagra aus china http://viagra.aus.china.medoonll4.appspot.com/#viagra-aus-china\nbuying viagra from france http://buying.viagra.from.france.medoonll4.appspot.com/#buying-viagra-from-france\ndoes counterfeit viagra work http://does.counterfeit.viagra.work.medoonll4.appspot.com/#does-counterfeit-viagra-work\ndoes viagra help last longer http://does.viagra.help.last.longer.medoonll4.appspot.com/#does-viagra-help-last-longer\nvardenafil bayer http://vardenafil.bayer.medoonll4.appspot.com/#vardenafil-bayer",
+         "message": "Dummy message Group 1",
          "actions": [
             {
                "name": "Comment",
-               "link": "https://www.facebook.com/122422087906853/posts/227097804105947"
+               "link": "https://custom.url/123/1"
             }
          ],
          "privacy": {
@@ -20,18 +20,18 @@
          "type": "status",
          "application": {
             "name": "Seesmic",
-            "id": "23723376453"
+            "id": "23456"
          },
          "created_time": "2013-07-26T22:45:54+0000",
          "updated_time": "2013-07-26T22:45:54+0000"
       },
       {
-         "id": "1666380100_4883502259849",
+         "id": "123_2",
          "from": {
-            "name": "Nigel Alexander Hector Cox",
-            "id": "1666380100"
+            "name": "Person 2",
+            "id": "2"
          },
-         "message": "Oh the world is silly. I'm \"writing\" this on a machine I know had a direct hand in the shithole-growth on what we call Africa, and most likely caused the handlessness of a few small children in China, and one politician quietly murdered for some grant for some factory.\n\nFood for thought.",
+         "message": "Dummy message Person 2",
          "privacy": {
             "value": ""
          },
@@ -40,7 +40,7 @@
          "updated_time": "2013-07-26T22:45:52+0000"
       },
       {
-         "id": "110599592396837_375832709206856",
+         "id": "123_3",
          "from": {
             "category": "Outdoor gear/sporting goods",
             "category_list": [
@@ -49,14 +49,14 @@
                   "name": "Outdoor Gear/Sporting Goods"
                }
             ],
-            "name": "TheSurvivalPlace.com",
-            "id": "110599592396837"
+            "name": "Store 3",
+            "id": "3"
          },
-         "message": "http://thesurvivalplaceblog.com/2013/07/22/strong-earthquake-kills-at-least-20-injures-291-in-china/",
+         "message": "https://shop.url/123/3",
          "actions": [
             {
                "name": "Comment",
-               "link": "https://www.facebook.com/110599592396837/posts/375832709206856"
+               "link": "https://custom.url/123/3"
             }
          ],
          "privacy": {
@@ -67,51 +67,51 @@
          "updated_time": "2013-07-26T22:45:51+0000"
       },
       {
-         "id": "100003106280210_432881790158693",
+         "id": "123_4",
          "from": {
-            "name": "Ana Tirado",
-            "id": "100003106280210"
+            "name": "Person 4",
+            "id": "4"
          },
-         "message": "Aqi biendo como la china le parrcha la bici a su ermano lolo todo aprende q bien t qiero mi ni\u00f1a",
+         "message": "Dummy message Person 4",
          "privacy": {
             "value": ""
          },
          "type": "status",
          "application": {
             "name": "Mobile",
-            "id": "2915120374"
+            "id": "123456"
          },
          "created_time": "2013-07-26T22:45:50+0000",
          "updated_time": "2013-07-26T22:45:50+0000"
       },
       {
-         "id": "100003229064633_416569718460660",
+         "id": "123_5",
          "from": {
-            "name": "Knock Cozzolino",
-            "id": "100003229064633"
+            "name": "Person 5",
+            "id": "5"
          },
          "to": {
             "data": [
                {
-                  "name": "Diego Gimenez",
-                  "id": "685962347"
+                  "name": "Person 2",
+                  "id": "2"
                },
                {
-                  "name": "Jorge Dario Arias",
-                  "id": "100004471920716"
+                  "name": "Person 99",
+                  "id": "99"
                },
                {
-                  "name": "Mauro Javier Munoz",
-                  "id": "100002279697654"
+                  "name": "Person 98",
+                  "id": "98"
                }
             ]
          },
-         "message": "EL EQUIPO DE MAURICIO MU\u00d1OZ EN CHINA, Diego Gimenez, Jorge Dario Arias y Mauro Javier Munoz",
+         "message": "Dummy message Person 5",
          "message_tags": {
             "38": [
                {
-                  "id": "685962347",
-                  "name": "Diego Gimenez",
+                  "id": "2",
+                  "name": "Person 2",
                   "type": "user",
                   "offset": 38,
                   "length": 13
@@ -119,8 +119,8 @@
             ],
             "53": [
                {
-                  "id": "100004471920716",
-                  "name": "Jorge Dario Arias",
+                  "id": "99",
+                  "name": "Person 99",
                   "type": "user",
                   "offset": 53,
                   "length": 17
@@ -128,20 +128,20 @@
             ],
             "73": [
                {
-                  "id": "100002279697654",
-                  "name": "Mauro Javier Munoz",
+                  "id": "98",
+                  "name": "Person 98",
                   "type": "user",
                   "offset": 73,
                   "length": 18
                }
             ]
          },
-         "story": "Knock Cozzolino shared Mauro Javier Munoz's photo.",
+         "story": "Dummy story Person 5",
          "story_tags": {
             "0": [
                {
-                  "id": "100003229064633",
-                  "name": "Knock Cozzolino",
+                  "id": "97",
+                  "name": "Person 97",
                   "offset": 0,
                   "length": 15,
                   "type": "user"
@@ -149,49 +149,49 @@
             ],
             "23": [
                {
-                  "id": "100002279697654",
-                  "name": "Mauro Javier Munoz",
+                  "id": "96",
+                  "name": "Person 96",
                   "offset": 23,
                   "length": 18,
                   "type": "user"
                }
             ]
          },
-         "picture": "https://photos-b.xx.fbcdn.net/hphotos-frc3/1000522_486002284819090_2134343969_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=486002284819090&set=p.486002284819090&type=1",
-         "name": "Mauro Javier Munoz's Photos",
+         "picture": "https://custom.url/123/5.jpg",
+         "link": "https://profile.url/123/5",
+         "name": "Person 5 Photos",
          "properties": [
             {
                "name": "By",
-               "text": "Mauro Javier Munoz",
-               "href": "https://www.facebook.com/mauro.j.munoz"
+               "text": "Person 5",
+               "href": "https://profile.url/123/5"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/5.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "486002284819090",
+         "object_id": "123",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "1234"
          },
          "created_time": "2013-07-26T22:45:45+0000",
          "updated_time": "2013-07-26T22:45:45+0000"
       },
       {
-         "id": "122010004502691_551826251521062",
+         "id": "123_6",
          "from": {
             "category": "Public figure",
-            "name": "Honduras........ acusa, accuses, klagt an!!!!",
-            "id": "122010004502691"
+            "name": "Person 6",
+            "id": "6"
          },
-         "message": "10 claves del caso Snowden\n\nKeymer \u00c1vila\n\n\u201cGuerra es Paz, Libertad es Esclavitud, Ignorancia es Fuerza\u201d\nGeorge Orwell, 1984.\n\nDesde hace m\u00e1s de un mes Snowden ha ocupado los primeros lugares de la agenda medi\u00e1tica global, generando debates que van desde la preocupaci\u00f3n por la vigilancia y el control orwelliano estadounidense sobre todos nosotros, pasando por la digna respuesta de los pa\u00edses que integran el ALBA y el MERCOSUR ante las agresiones en contra de Evo Morales, hasta llegar a las propuestas de matrimonio de una atractiva ex esp\u00eda rusa. \u00bfCu\u00e1les son los principales aspectos que hay que considerar sobre este caso?\n\n1. Snowden no es el primero que destapa este tipo de ollas (que en el fondo todos conocen), \u00e9l viene a ser una especie de D'Artagnan, para convertirse en el cuarto miembro de un grupo de ciudadanos que han denunciado los excesos del imperio norteamericano desde sus propias entra\u00f1as, conformado por: 1) Philip Agee, ex agente de la CIA quien despu\u00e9s de su retiro en 1968 cuestion\u00f3 duramente a esta agencia, le anularon su pasaporte, fue perseguido por todo el mundo, en especial por Bush padre, y termin\u00f3 radic\u00e1ndose en Cuba hasta el final de sus d\u00edas; 2) Bradley Manning, ex militar estadounidense detenido en condiciones violatorias a sus DDHH desde 2010, por denunciar las masacres llevadas a cabo por EEUU en Irak y Afganist\u00e1n; y m\u00e1s recientemente, 3) el australiano Julian Assange, el \u00fanico de este cuarteto que no es estadounidense, quien ya tiene casi un a\u00f1o asilado en la embajada de Ecuador en Londres, por su trabajo en WikiLeaks.\n\n2. El 6 de junio el peri\u00f3dico brit\u00e1nico The Guardian public\u00f3 que la Agencia de Seguridad Nacional (NSA por sus siglas en ingl\u00e9s) ten\u00eda acceso a registros telef\u00f3nicos y de internet de millones de usuarios de la operadora de telefon\u00eda Verizon en EEUU, para justificarse la Casa Blanca defiende la necesidad de registrar las llamadas telef\u00f3nicas de sus conciudadanos. Al d\u00eda siguiente, los diarios The Guardian y The Washington Post revelan informaci\u00f3n clasificada sobre dos programas de espionaje masivo que ejecuta el gobierno estadounidense: el primero (PRISM) le permite a la NSA y al FBI acceder a los servidores de Microsoft, Google, Apple, PalTalk, AOL, YouTube, Skype, Yahoo y Facebook de manera ilimitada y obtener as\u00ed informaci\u00f3n personal de sus usuarios, monitorear correos electr\u00f3nicos y el tr\u00e1fico de internet; el segundo, es una herramienta que les permite rastrear y registrar datos (Boundless Informant) de llamadas en EEUU, con el apoyo de redes satelitales incluidas las que operan el \u00e1mbito comercial. El 9 de junio Snowden revela que \u00e9l es la fuente de ambos diarios, para ese momento se encontraba escondido en Hong Kong, desde donde hab\u00eda llegado procedente de Hawai. Tres d\u00edas antes hab\u00eda hecho el famoso video en el que es entrevistado por The Guardian.\n\n3. El 13 de junio se inicia p\u00fablicamente la cacer\u00eda de EEUU en contra de Snowden, se le persigue penalmente por espionaje, hurto y utilizaci\u00f3n ilegal de bienes gubernamentales, justificando los programas de vigilancia con la lucha contra el terrorismo. Temen que el ex agente filtre datos a China. Snowden, haci\u00e9ndole un gui\u00f1o a los chinos, denuncia el espionaje estadounidense en contra de su gobierno. Este \u00faltimo da un tratamiento parco y prudente al caso, asegurando que actuara conforme a la ley.\n\n4. El 22 de junio, el gobierno de EUU solicita formalmente a Hong Kong la extradici\u00f3n de Snowden. Al d\u00eda siguiente el ex t\u00e9cnico llega a Rusia e inicia contactos con el gobierno ecuatoriano, el cual, entre presiones e interceptaci\u00f3n de sus comunicaciones internas, no puede materializar su asilo.\n\n5. Gobiernos europeos, entre los que destaca el alem\u00e1n, conoc\u00edan de los programas de espionaje y algunos han consentido su uso, de all\u00ed la actitud c\u00f3mplice y servil de Espa\u00f1a, Portugal, Francia e Italia, quienes agredieron al Presidente Evo Morales, por la sospecha infundada de que Snowden se encontraba junto a \u00e9l en su avi\u00f3n. Parad\u00f3jicamente, estos dos \u00faltimos pa\u00edses se encuentran entre los gobiernos que han sido objeto de espionaje por los EEUU.\n\n6. Snowden solicita asilo a m\u00e1s de 20 pa\u00edses, m\u00e1s de la mitad rechaz\u00f3 formalmente recibirlo. Algunos de ellos se escudaron en la excusa t\u00e9cnica de no poder estudiar el caso por no encontrarse el solicitante dentro de su territorio, resaltan por sus implicaciones con el caso de Evo Morales: Francia, Italia y Espa\u00f1a.\n\n7. Como respuesta a las agresiones en contra de Evo Morales, Nicaragua, Venezuela y Bolivia ofrecen asilo al ex agente de la CIA. Ante tales ofertas EEUU evita pronunciarse. En contraste, Mercosur se solidariza con los tres pa\u00edses del ALBA y reivindica el derecho de asilo pol\u00edtico.\n\n8. A pesar del acercamiento entre Kerry y el canciller venezolano en Guatemala, en el que se hab\u00edan manifestado el inicio de relaciones de respeto rec\u00edproco, Kerry realiza llamados amenazantes al gobierno venezolano para que \u00e9ste no le diera asilo a Snowden. Antes, otros funcionarios tambi\u00e9n hab\u00edan intentado amedrentar a Rafael Correa, Presidente de Ecuador. Tras Snowden se lanzan p\u00fablicamente desde Obama, pasando por el vicepresidente Biden y el canciller Kerry, hasta l\u00edderes del Senado y del Congreso, al igual que voceros del poder judicial. Posteriormente, el 17 de julio, Samantha Power, ratifica estas posiciones arremetiendo contra Venezuela, Cuba, Rusia e Ir\u00e1n al catalogarlos como \u201creg\u00edmenes opresivos\u201d, es esa su campa\u00f1a para representar a los EEUU ante la ONU.\n\n9. Luego de haber anulado una primera solicitud de asilo a Rusia (el 25 de junio), debido a la condici\u00f3n que Putin le impuso de no realizar actividades hostiles en contra de sus \u201csocios estadounidenses\u201d, al sortear las dificultades de su ruta de vuelo hacia Am\u00e9rica Latina, el 16 de julio, Snowden acepta las condiciones y solicita formalmente el asilo a Rusia. Por otra parte, este pa\u00eds tambi\u00e9n ha afirmado que no lo extraditar\u00eda a EEUU aduciendo la ausencia de acuerdos bilaterales entre ambas potencias sobre esta materia, adem\u00e1s de actuar rec\u00edprocamente, ya que EEUU no le ha entregado esp\u00edas a Rusia en circunstancias similares.\n\n10. Despu\u00e9s de un mes de la llegada de Snowden a Rusia las informaciones sobre la posibilidad de salir del aeropuerto moscovita de Sherem\u00e9tievo y regularizar su condici\u00f3n de asilado temporal son a\u00fan contradictorias y adornadas con excusas burocr\u00e1ticas. En estos momentos las presiones que ha ejercido EEUU a nivel global por este caso, junto a las informaciones sobre su espionaje a m\u00faltiples gobiernos, comienzan a incomodar a diversos pa\u00edses (Brasil, Chile, China, Colombia, El Salvador, Irlanda, Islandia, M\u00e9xico, Per\u00fa, Rusia, entre otros) a los que les costar\u00e1 un poco seguir siendo solidarios con el Imperio sin sortear las reacciones negativas de sus espiados conciudadanos. Ya diversas organizaciones, entre las que destacan las rusas y las alemanas, as\u00ed como diversas personalidades, han manifestado abierta y materialmente su apoyo al ex agente de la CIA.\n\nEs tragic\u00f3mico que EEUU, despu\u00e9s de todos sus esfuerzos, argumente que Snowden no lleg\u00f3 a acceder a la \u201cinformaci\u00f3n m\u00e1s confidencial\u201d, de ser esto cierto \u00bfse imaginan qu\u00e9 es lo \u201cm\u00e1s confidencial\u201d a lo que el ex t\u00e9cnico no tuvo acceso?\n\n\u0040Keymer_Avila\n\nURL de este art\u00edculo: http://alainet.org/active/65973",
+         "message": "Dummy message Person 6",
          "actions": [
             {
                "name": "Comment",
-               "link": "https://www.facebook.com/122010004502691/posts/551826251521062"
+               "link": "https://custom.url/123/6"
             }
          ],
          "privacy": {
@@ -202,37 +202,37 @@
          "updated_time": "2013-07-26T22:45:44+0000"
       },
       {
-         "id": "100004367196754_215172981971607",
+         "id": "123_7",
          "from": {
-            "name": "Kunkudj Prados Ecatepec",
-            "id": "100004367196754"
+            "name": "Person 7",
+            "id": "7"
          },
          "to": {
             "data": [
                {
-                  "name": "Ana Laura Lara Rubio",
-                  "id": "1734864003"
+                  "name": "Person 89",
+                  "id": "89"
                }
             ]
          },
-         "message": "Tema deidcado a LA China DE Prados Sibonera de Coraza!",
+         "message": "Dummy message Person 7",
          "message_tags": {
             "16": [
                {
-                  "id": "1734864003",
-                  "name": "LA China DE Prados",
+                  "id": "987",
+                  "name": "Person 987",
                   "type": "user",
                   "offset": 16,
                   "length": 18
                }
             ]
          },
-         "picture": "https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDYVhgFOAp_DAfD&w=130&h=130&url=http\u00253A\u00252F\u00252Fi1.ytimg.com\u00252Fvi\u00252FkAXSDN-7UoM\u00252Fhqdefault.jpg\u00253Ffeature\u00253Dog",
-         "link": "http://www.youtube.com/watch?v=kAXSDN-7UoM&feature=c4-overview&list=UUHmfBBElcAKW-dFWDcpKlKQ",
-         "source": "http://www.youtube.com/v/kAXSDN-7UoM?version=3&autohide=1&autoplay=1",
-         "name": "Angelica Maria - Cumbia Pe\u00f1onera - Sonido Siboney",
-         "description": "los Ritmos Mas contagiantes de la cabina",
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yj/r/v2OnaTyTQZE.gif",
+         "picture": "https://custom.url/123/7.jpg",
+         "link": "https://custom.url/123/7",
+         "source": "https://source.url/123/7",
+         "name": "Link name person 7",
+         "description": "Description Person 7",
+         "icon": "https://custom.url/123/7.gif",
          "privacy": {
             "value": ""
          },
@@ -241,53 +241,53 @@
          "updated_time": "2013-07-26T22:45:44+0000"
       },
       {
-         "id": "1540166294_10201686839482997",
+         "id": "123_8",
          "from": {
-            "name": "Paolita Cudris Pc",
-            "id": "1540166294"
+            "name": "Person 8",
+            "id": "8"
          },
          "to": {
             "data": [
                {
-                  "name": "Elvin Josue Carrillo Mor\u00f3n",
-                  "id": "1507666078"
+                  "name": "Person 1",
+                  "id": "1"
                },
                {
-                  "name": "Jose Miguel",
-                  "id": "613794554"
+                  "name": "Person 2",
+                  "id": "2"
                },
                {
-                  "name": "Erika Becerra",
-                  "id": "823349493"
+                  "name": "Person 3",
+                  "id": "3"
                },
                {
-                  "name": "Yuyiiz ZTefannii Piiko",
-                  "id": "100001601847641"
+                  "name": "Person 4",
+                  "id": "4"
                },
                {
-                  "name": "Maritza Paez Beltran",
-                  "id": "632626664"
+                  "name": "Person 5",
+                  "id": "5"
                },
                {
-                  "name": "Little China",
-                  "id": "100002591925985"
+                  "name": "Person 99",
+                  "id": "99"
                },
                {
-                  "name": "C Johan Morantes",
-                  "id": "1132217007"
+                  "name": "Person 98",
+                  "id": "98"
                },
                {
-                  "name": "Shaddai Barbosa Riobo",
-                  "id": "100000895847288"
+                  "name": "Person 69",
+                  "id": "69"
                }
             ]
          },
-         "message": "Cambia de color el face! lo puse aca! , [ http://tinyurl.com/naw3zjv ] \n \n \n Elvin Josue Carrillo Mor\u00f3n Jose Miguel Erika Becerra Yuyiiz ZTefannii Piiko Maritza Paez Beltran Little China C Johan Morantes Shaddai Barbosa Riobo",
+         "message": "Dummy message Person 8",
          "message_tags": {
             "77": [
                {
-                  "id": "1507666078",
-                  "name": "Elvin Josue Carrillo Mor\u00f3n",
+                  "id": "1",
+                  "name": "Person 1",
                   "type": "user",
                   "offset": 77,
                   "length": 26
@@ -295,8 +295,8 @@
             ],
             "104": [
                {
-                  "id": "613794554",
-                  "name": "Jose Miguel",
+                  "id": "2",
+                  "name": "Person 2",
                   "type": "user",
                   "offset": 104,
                   "length": 11
@@ -304,8 +304,8 @@
             ],
             "116": [
                {
-                  "id": "823349493",
-                  "name": "Erika Becerra",
+                  "id": "3",
+                  "name": "Person 3",
                   "type": "user",
                   "offset": 116,
                   "length": 13
@@ -313,8 +313,8 @@
             ],
             "130": [
                {
-                  "id": "100001601847641",
-                  "name": "Yuyiiz ZTefannii Piiko",
+                  "id": "4",
+                  "name": "Person 4",
                   "type": "user",
                   "offset": 130,
                   "length": 22
@@ -322,8 +322,8 @@
             ],
             "153": [
                {
-                  "id": "632626664",
-                  "name": "Maritza Paez Beltran",
+                  "id": "5",
+                  "name": "Person 5",
                   "type": "user",
                   "offset": 153,
                   "length": 20
@@ -331,8 +331,8 @@
             ],
             "174": [
                {
-                  "id": "100002591925985",
-                  "name": "Little China",
+                  "id": "99",
+                  "name": "Person 99",
                   "type": "user",
                   "offset": 174,
                   "length": 12
@@ -340,8 +340,8 @@
             ],
             "187": [
                {
-                  "id": "1132217007",
-                  "name": "C Johan Morantes",
+                  "id": "98",
+                  "name": "Person 98",
                   "type": "user",
                   "offset": 187,
                   "length": 16
@@ -349,8 +349,8 @@
             ],
             "204": [
                {
-                  "id": "100000895847288",
-                  "name": "Shaddai Barbosa Riobo",
+                  "id": "69",
+                  "name": "Person 69",
                   "type": "user",
                   "offset": 204,
                   "length": 21
@@ -365,53 +365,53 @@
          "updated_time": "2013-07-26T22:45:41+0000"
       },
       {
-         "id": "100000665277344_615242961841207",
+         "id": "123_9",
          "from": {
-            "name": "Adam Bucks",
-            "id": "100000665277344"
+            "name": "Person 9",
+            "id": "9"
          },
-         "message": "Selling my Ddrum Defiant drum set. Asking 2500.00. Its a 7 peace metallic blue set with evens ec2 heads. Bass drum has Evans emad heads with kick port. The Drum pedals are pearl demon drive double bass pedals with slug beaters. HiHat is a signature series pasty 14 inch sitting on a Iron Cobra pedal. 8\" bell. 18\" Wuhan China crash brand new and a 22\" signature series pasty dark ride. The whole drum set sits on a Gilraltar are three 3 sided Rack. Serious inquires only please and no payments. Like I said 2500 or best offer.",
-         "story": "Adam Bucks added 9 photos.",
+         "message": "Dummy message Person 9",
+         "story": "Story Person 9",
          "story_tags": {
             "0": [
                {
-                  "id": "100000665277344",
-                  "name": "Adam Bucks",
+                  "id": "8",
+                  "name": "Person 8",
                   "offset": 0,
                   "length": 10,
                   "type": "user"
                }
             ]
          },
-         "picture": "https://fbcdn-photos-b-a.akamaihd.net/hphotos-ak-ash4/1004890_615242605174576_1287468617_t.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=615242605174576&set=pcb.615242961841207&type=1&relevant_count=9",
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/og8V99JVf8G.gif",
+         "picture": "https://custom.url/123/9.jpg",
+         "link": "https://custom.url/123/9",
+         "icon": "https://custom.url/123/9.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "615242605174576",
+         "object_id": "456_8",
          "application": {
             "name": "Facebook for Android",
             "namespace": "fbandroid",
-            "id": "350685531728"
+            "id": "34567"
          },
          "created_time": "2013-07-26T22:45:33+0000",
          "updated_time": "2013-07-26T22:45:33+0000"
       },
       {
-         "id": "100002254483609_494575483960930",
+         "id": "123_9",
          "from": {
-            "name": "Paulo Roberto",
-            "id": "100002254483609"
+            "name": "Person 9",
+            "id": "9"
          },
-         "message": "Hey voc\u00ea! Isso voc\u00ea mesmo! \nEst\u00e1 desempregada? Suas contas est\u00e3o se acumulando e j\u00e1 n\u00e3o sabe mais o que fazer? \nSeus problemas acabaram! V\u00e1 trabalhar na China.............kkkkkkkkk................",
-         "story": "Paulo Roberto shared Rodarte Rodarte Vajalegre's photo.",
+         "message": "Dummy message Person 9",
+         "story": "Story Person 9",
          "story_tags": {
             "0": [
                {
-                  "id": "100002254483609",
-                  "name": "Paulo Roberto",
+                  "id": "6",
+                  "name": "Person 6",
                   "offset": 0,
                   "length": 13,
                   "type": "user"
@@ -419,51 +419,51 @@
             ],
             "21": [
                {
-                  "id": "1695923199",
-                  "name": "Rodarte Rodarte Vajalegre",
+                  "id": "7",
+                  "name": "Person 7",
                   "offset": 21,
                   "length": 25,
                   "type": "user"
                }
             ]
          },
-         "picture": "https://photos-b.xx.fbcdn.net/hphotos-prn2/969179_3346674681104_1612467651_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=3346674681104&set=p.3346674681104&type=1",
-         "name": "Rodarte Rodarte Vajalegre's Photos",
-         "caption": "PRAS DESEMPREGADAS!!\r\nEsta foto \u00e9 real. \u00c9 de um banco de esperma na Rep\u00fablica Popular da China! E esta profiss\u00e3o, \"punheteira\", existe mesmo! N\u00e3o s\u00e3o enfermeiras, n\u00e3o s\u00e3o t\u00e9cnicas de sa\u00fade... chamam-se mesmo punheteiras! \u00e9 uma profiss\u00e3o reconhecida l\u00e1.\r\nCom o desemprego que por aqui h\u00e1... quem sabe se n\u00e3o poderia ser criada, tamb\u00e9m por c\u00e1, esta bonita carreira... punheteira...",
+         "picture": "https://custom.url/123/9.jpg",
+         "link": "https://custom.url/123/9",
+         "name": "Link Person 9",
+         "caption": "Caption Person 9",
          "properties": [
             {
                "name": "By",
-               "text": "Rodarte Rodarte Vajalegre",
-               "href": "https://www.facebook.com/rvajalegre"
+               "text": "Person 9",
+               "href": "https://custom.url/123/9"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/9.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "3346674681104",
+         "object_id": "456_9",
          "application": {
             "name": "Links",
-            "id": "2309869772"
+            "id": "951753"
          },
          "created_time": "2013-07-26T22:45:33+0000",
          "updated_time": "2013-07-26T22:45:33+0000"
       },
       {
-         "id": "100003046176727_395443013900568",
+         "id": "123_10",
          "from": {
-            "name": "Erivan Bezerra Nogueira Sq\u00e9",
-            "id": "100003046176727"
+            "name": "Person 10",
+            "id": "10"
          },
-         "message": "Nem aqui,nem na china, nem nos quintos dos infernos o Feliciano se parece ou tem atitudes parecidas com o Papa Francisco. A diferen\u00e7a maior \u00e9 que  o Papa \u00e9 POP e o Feliciano \u00e9 BOFE enrustido amargurado \u00e9 um Felix da vida.",
-         "story": "Erivan Bezerra Nogueira Sq\u00e9 shared VEJA's photo.",
+         "message": "Dummy message Person 10",
+         "story": "Story Person 10",
          "story_tags": {
             "0": [
                {
-                  "id": "100003046176727",
-                  "name": "Erivan Bezerra Nogueira Sq\u00e9",
+                  "id": "3",
+                  "name": "Person 3",
                   "offset": 0,
                   "length": 27,
                   "type": "user"
@@ -471,45 +471,45 @@
             ],
             "35": [
                {
-                  "id": "109597815616",
-                  "name": "VEJA",
+                  "id": "79",
+                  "name": "Page 79",
                   "offset": 35,
                   "length": 4,
                   "type": "page"
                }
             ]
          },
-         "picture": "https://fbcdn-photos-a-a.akamaihd.net/hphotos-ak-prn1/1012031_10151581119795617_2038524269_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=10151581119795617&set=a.437129710616.201723.109597815616&type=1",
+         "picture": "https://custom.url/123/10.jpg",
+         "link": "https://link.url/123/10",
          "name": "Timeline Photos",
-         "caption": "Via Radar On-line - Lauro Jardim\r\n\r\nFeliciano diz ter opini\u00f5es id\u00eanticas \u00e0s do papa, afirma sofrer discrimina\u00e7\u00e3o religiosa e dispara contra a Globo \r\n\r\nhttp://abr.ai/19myD9U",
+         "caption": "Caption link Person 10",
          "properties": [
             {
                "name": "By",
-               "text": "VEJA",
-               "href": "https://www.facebook.com/Veja?ref=stream"
+               "text": "Page 79",
+               "href": "https://custom.url/123/79"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/10.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "10151581119795617",
+         "object_id": "456_10",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "3456"
          },
          "created_time": "2013-07-26T22:45:31+0000",
          "updated_time": "2013-07-26T22:45:31+0000"
       },
       {
-         "id": "1497407200_10201694734198935",
+         "id": "123_11",
          "from": {
-            "name": "Ce Bo",
-            "id": "1497407200"
+            "name": "Person 11",
+            "id": "11"
          },
-         "message": "Finally fight day! Feels like I have been here for an eternity. One more night in China, then the real fun and adventure begins.",
+         "message": "Dummy message Person 11",
          "privacy": {
             "value": ""
          },
@@ -517,36 +517,36 @@
          "application": {
             "name": "Facebook for iPhone",
             "namespace": "fbiphone",
-            "id": "6628568379"
+            "id": "23456"
          },
          "created_time": "2013-07-26T22:45:25+0000",
          "updated_time": "2013-07-26T22:45:25+0000"
       },
       {
-         "id": "100003501063649_365536560239710",
+         "id": "123_12",
          "from": {
-            "name": "Arinanxspenza Ygcllalucintadamai",
-            "id": "100003501063649"
+            "name": "Person 12",
+            "id": "12"
          },
-         "message": "KISAH HUMOR\n\nCowo : sayang.. cintamu ke aku seperti apa sih?\n \n\nCewe : cintaku padamu bagaikan..\naku HP, dan kamu itu kartu nya :) jadi tanpa mu aku tidak ada arti nya sayang.\n\nCowo  : so sweet..kmu memang plg bisa beb.\n\nCewe : (dlm hati) trima kasih ya allah dia ga tau klo hp CHINA biza dua kartu : D\nJdi masih biza tuk selingkuh...",
+         "message": "Dummy message Person 12",
          "privacy": {
             "value": ""
          },
          "type": "status",
          "application": {
             "name": "Mobile",
-            "id": "2915120374"
+            "id": "3456"
          },
          "created_time": "2013-07-26T22:45:20+0000",
          "updated_time": "2013-07-26T22:45:20+0000"
       },
       {
-         "id": "100001365510268_529312920457554",
+         "id": "123_13",
          "from": {
-            "name": "Sai Naits",
-            "id": "100001365510268"
+            "name": "Person 13",
+            "id": "13"
          },
-         "message": "God made everything that has life, rest everything is made in China :)",
+         "message": "Dummy message person 13",
          "privacy": {
             "value": ""
          },
@@ -555,12 +555,12 @@
          "updated_time": "2013-07-26T22:45:18+0000"
       },
       {
-         "id": "524393002_10151606435213003",
+         "id": "123_14",
          "from": {
-            "name": "Brian Lee",
-            "id": "524393002"
+            "name": "Person 14",
+            "id": "14"
          },
-         "message": "Prepare for MALAYSIA TOUR SOON.\nPrepare for TAIWAN TOUR Aug \nPrepare for CHINA GZ TOUR Aug \nPrepare for THE FLIT NEW ALBUM PROMOTION.",
+         "message": "Dummy message Person 14",
          "privacy": {
             "value": ""
          },
@@ -569,12 +569,12 @@
          "updated_time": "2013-07-26T22:45:17+0000"
       },
       {
-         "id": "1023318038_10200667959914417",
+         "id": "123_15",
          "from": {
-            "name": "David J. Derrick",
-            "id": "1023318038"
+            "name": "Person 15",
+            "id": "15"
          },
-         "message": "THERMITE BERMITES!\n\n  BITES HOES ASSES  AND HAGS TOO THEE HAIG!\n\nSILVER STTEN GOES WITH ALL GOLD \n\nONE BUSHEB ZEMMERMAN!\n\nI  MAN THE SUPER MAN ON THEE  HIGH SEEG HIEL!\n \nTOO ALL HAIG  JUDGES AND BUILD  7  BERMITE & COMPANY SKUNK WORKS DRONMES BUZZ BOMBS\n\nAND ALL   JUDGMENTS TOO THE GREATFUL DEAD OF BLOODY  UNIONS  AND  ALL STEWARDS !\n\nOF ALL  BERMITES !!\n\n ! ON DIIS! DOCKET DOCUMENTED \n\nAND DOCTOR OF ROCK DOCTORS!\nE.L.P.!\n\n DEMENTOS ROARING  ON THESE ROTOS  ALSO!\n\nAN INDIAN GERONIMO POE IS ON THIS BUSS!?\n\nTHE THERMITE GROPE OF INDIANS!\n\nHUSH  HUSH! \n\nJOHN LORDS  A GHOST!\n\nAND DONT HOST THIS TO MANY !\n\nONLY THE HAIG!\n\nLORDS JUDGE THIS GOLD!\n\nFOR ALL BABYS!\n\nAND I ROPE THESE  MEN AND WOMEN ! \n\nIN\n FEMAS DISH SAUCE NOT'S ! DIISED HONOR'S!\n\n FOR THE SS!  ADOLFED ATE UP HITLER BUSH !\n\n YOU BOATED CONGRESS! !\n\nAND A HANGING SO VIEN! FOR FUEL!\n\nA KING SADAMM! THIS IS  FOR HIS SOUL FUSE  ANGST!!\n\nI  SEEK A BUSH!\n\nA CREWED UP TUSH\n\nOF MANY BUSHES!\nAND NOOKS OF HOOKS!\n\nHOED DOWN NORAD RADAR CATT THIS BAY OF PIGS!\n\nAS HITLERS DESCENDANTS TO THEY TOP COMS!\n\nI SEND  THIS KISS  MESSAGE GOLD BEFORE THEM!\n \nFOR EVERY PLANET WAR CHEMICAL KILLED  BABY HERE 1!\n\nAND THEY GO HAIGED  FOR THE TRUTHSON\n\nAND I AM A HITLERSON ?\n\nI'M GEN ISENHOWER AND  BLESS THIS A HAIGS !\n JUDGES BABY!\n \nAND THAT BABY WAS JUSTICE OF JUDAS!\n\nAND\nNAMED  ANNA A BLUE ANGEL PILATE!?\n \n\nNAMED THIS  BABY  JUSTICE  !\n\nAND A HAIG JUDGES BABY!\n\n IS  NAMED WORLD JUSTICE  BORN!\n\n((((((((((((((((((((((((((((((!UFO!)))))))))))))))))))))))))))))))))))))))))\n\nICON!\nO FIRE!\nMAVERICK \nABBEY DESK!\nROAD ABBEY ROADIES!~!\nPAULY \nRINGO!\nLOLA CICCONE\nDEE JAY VEEJUR\nWILLIAM SHATNER\nJOAN JETTNER!\nDR, DEMENTO ROTO ROOTER!\nJOHN JIMI JACK ROGER OZZY ONE HOPHNER!\nBADFINGER!\n\nTHEE QUUEN OF ENGLAND TOO QUEENLANDS \nSTROONE HENGES ON TOO CHINA!\nAND ALSO !\nTHEE PYHONS AVENEGER' S OF STEEDS AND EMMA !\nOORSONS AND  ERNIES !AND \nAND LOVES PEEL THEE APPLE BONNKERS ALL ZOMBIED MIKE MYERS  RANDY\nFOR   KING  AND QUEENS  ALL OF GOT ROCK AND POP! POP! POP! \nBUP!  AND  BUP! BUP! BUP! BUP!\n\nAND ALWAYS BUMP BUP THIS UP !\n FOR THEE PYTHONS IN THEE QUEENS!\nON THE FLY BOAC \nALL HARRYS AND PUSSYS\nLOVE YA ! \n1776! !ON  B.B.C.!",
+         "message": "Dummy message Person 15",
          "privacy": {
             "value": ""
          },
@@ -583,30 +583,30 @@
          "updated_time": "2013-07-26T22:45:16+0000"
       },
       {
-         "id": "100006366426692_1394277100794491",
+         "id": "123_16",
          "from": {
-            "name": "Sohaib Khan",
-            "id": "100006366426692"
+            "name": "Person 16",
+            "id": "16"
          },
-         "message": "Pappu China Ke Tour Pe Gayatha\nWaha Usne Ek X-ray Chashma Liya.\nChashma Lagane Se Har Koi Nanga Nazar\nAata Tha :P\nPappu Ghar Aaya To Wife Ko Apne Ek Dost\nKe Sath Apne Bed Pe Nanga Dekha,\nUsne Foran Chashme Ko Utara,\nPhir Bhi Dono Nange Nazar Aaye,\nPappu Gusse Se Chashma Fenkta Hua Bola:\nYe Hi Musibat Hai China Ke Saman Ki,\nKoi Guarranty Nahi Hoti,\nJaldi Kharab Ho Jati Hai\nHa Ha Ha , Thoko Like",
+         "message": "Dummy message Person 16",
          "privacy": {
             "value": ""
          },
          "type": "status",
          "application": {
             "name": "Mobile",
-            "id": "2915120374"
+            "id": "3456"
          },
          "created_time": "2013-07-26T22:45:15+0000",
          "updated_time": "2013-07-26T22:45:15+0000"
       },
       {
-         "id": "100000560416322_667722833256391",
+         "id": "123_17",
          "from": {
-            "name": "Marta Georgina Vasquez",
-            "id": "100000560416322"
+            "name": "Person 17",
+            "id": "17"
          },
-         "message": "El Mundo y la Argentina\nVersi\u00f3n para imprimir  Versi\u00f3n para imprimir\n\nDos noticias de extraordinaria envergadura conmovieron al mundo de los agronegocios. La primera, la venta de Smithfield Foods, la mayor empresa dedicada a la producci\u00f3n de cerdos en los Estados Unidos, a Suanghui International Holdings Ltd, la mayor distribuidora de alimentos de la provincia china de Henan. La segunda se concret\u00f3 en Brasil: all\u00ed, JBS adquiri\u00f3 la operaci\u00f3n av\u00edcola de su competidora, Marfrig.\n\nLas dos operaciones tienen un com\u00fan denominador: involucran a las prote\u00ednas animales, en sus dos rubros m\u00e1s din\u00e1micos, aves y cerdos. En el caso de Smithfield Food, los chinos pagaron 38 d\u00f3lares por acci\u00f3n, 7.000 millones de d\u00f3lares. Es la mayor compra de una compa\u00f1\u00eda estadounidense por parte de una china, sin discriminar rubros. Hist\u00f3rico.\n\nPor su parte, JBS pag\u00f3 por Seara la friolera de 2.750 millones de d\u00f3lares. Lo interesante es que estos fondos son aportados por el equivalente a nuestra Anses, en lo que implica un claro apoyo del Estado brasile\u00f1o a la producci\u00f3n y exportaci\u00f3n de alimentos.\n\nLa cuesti\u00f3n es que entre ambas operaciones, esta semana se transaron compa\u00f1\u00edas de pollos y cerdos por 10.000 millones.\n\nDurante la crisis financiera internacional del 2008, Goldman Sachs, uno de los grandes bancos de inversi\u00f3n de los EE.UU., anunci\u00f3 que iba a invertir de 200 a 300 millones de d\u00f3lares en la compra de una docena de granjas de cerdos de China. Apenas cinco a\u00f1os despu\u00e9s, son los chinos los que adquieren compa\u00f1\u00edas de cerdos de los Estados Unidos.\n\nLa mayor empresa gastron\u00f3mica a nivel mundial es la china Yum, cuyo negocio se basa en dos franquicias emblem\u00e1ticas del \u201cfast food\u201d: Kentucky Fried Chicken y Pizza Hut. Abre un local cada 19 horas en alguna ciudad de la Rep\u00fablica Popular China, cuya poblaci\u00f3n atraviesa una incontenible transici\u00f3n diet\u00e9tica.\n\nLa avidez por el pollo y el cerdo han convertido al gigante asi\u00e1tico en una aspiradora de insumos para la elaboraci\u00f3n de alimentos balanceados. Hace apenas quince a\u00f1os China era exportadora de soja, la leguminosa de origen asi\u00e1tico. Hoy, siguen produciendo 15 millones de toneladas, pero importan cuatro veces esa cifra. Ahora empiezan a importar tambi\u00e9n ma\u00edz. Ya navegan con rumbo a los puertos chinos los primeros cargos del cereal forrajero, cuyo ingreso fue destrabado hace pocos d\u00edas despu\u00e9s de una larga negociaci\u00f3n.\n\nEstados Unidos y Brasil pusieron hace tiempo la mira en este mercado gigantesco. El pollo y el cerdo no son m\u00e1s que ma\u00edz y soja con valor agregado.\n\nLa Argentina, que tiene el mismo potencial, viene mucho m\u00e1s atr\u00e1s. Hasta ahora, se especializ\u00f3 en proveer los insumos para que m\u00e1s de cien pa\u00edses desarrollen su propia producci\u00f3n de prote\u00ednas animales. Una especializaci\u00f3n muy plausible, porque se edific\u00f3 sobre la base de la competitividad tecnol\u00f3gica desde el campo hasta las f\u00e1bricas en los puertos, potenciados por el dragado y balizamiento de la hidrov\u00eda del Paran\u00e1.Sin embargo, esta competitividad tecnol\u00f3gica se diluye cuando prevalecen las chicanas o las restricciones que impone el modelo.\n\nAhora las complicaciones fiscales est\u00e1n generando un atraso creciente en la devoluci\u00f3n del IVA, lo que encarece la prefinanciaci\u00f3n de exportaciones y erosiona el capital de trabajo de las procesadoras. Estas compa\u00f1\u00edas tienen que pagar el 10,5\u0025 de IVA cuando compran la materia prima (soja), y cuando embarcan perciben la devoluci\u00f3n. Pero con argucias insostenibles el gobierno escatima los reintegros, acumulando ya una deuda de 600 millones de pesos.\n\nEl contraste queda subrayado por gruesos trazos de evidencias. El mundo quiere prote\u00ednas animales. La Argentina se especializ\u00f3 en proveer los insumos estrat\u00e9gicos para producirlas. Sin plan alguno, sin medidas de apoyo concretas. Muchas veces, con el lastre de un Estado que, lejos de facilitar el camino, s\u00f3lo ve al sector como una fuente inagotable de recursos fiscales. Se agota.\n \n\nAutor H\u00e9ctor Huergo",
+         "message": "Dummy message Person 17",
          "privacy": {
             "value": ""
          },
@@ -615,36 +615,36 @@
          "updated_time": "2013-07-26T22:45:12+0000"
       },
       {
-         "id": "1057554989_10201127331719566",
+         "id": "123_18",
          "from": {
-            "name": "Jimoff Foxytrail",
-            "id": "1057554989"
+            "name": "Person 18",
+            "id": "18"
          },
-         "message": "From China with love\nRK3188 tha ultimate powah",
-         "picture": "https://fbcdn-photos-h-a.akamaihd.net/hphotos-ak-prn2/971398_10201127310479035_1515442909_t.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=10201127310479035&set=pcb.10201127331719566&type=1&relevant_count=2",
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yz/r/StEh3RhPvjk.gif",
+         "message": "Dummy message Person 18",
+         "picture": "https://custom.url/123/18.jpg",
+         "link": "https://link.url/123/18",
+         "icon": "https://custom.url/123/18.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "10201127310479035",
+         "object_id": "456_18",
          "created_time": "2013-07-26T22:45:11+0000",
          "updated_time": "2013-07-26T22:45:11+0000"
       },
       {
-         "id": "100000795753342_548363101866877",
+         "id": "123_19",
          "from": {
-            "name": "Natashia Dunn",
-            "id": "100000795753342"
+            "name": "Person 19",
+            "id": "19"
          },
-         "message": "\"Did you know in China it remains illegal for anyone to worship outside of the state controlled official churches? And in 2012, the Chinese government spent more money on policing and monitoring its own people than on the entire Chinese military? This alarming development, which began in 2010, is indicative of the ever-rising level of surveillance, restrictions, and control over the Chinese population that keeps true religious freedom for the countries millions of Christians a distant dream.\"\n\nDownload your FREE Special Report on China, and learn how the country is still persecuting Christians: http://ow.ly/nfqWs",
-         "story": "Natashia Dunn shared International Christian Concern's photo.",
+         "message": "Dummy message Person 19",
+         "story": "Person 19 Story",
          "story_tags": {
             "0": [
                {
-                  "id": "100000795753342",
-                  "name": "Natashia Dunn",
+                  "id": "19",
+                  "name": "Person 19",
                   "offset": 0,
                   "length": 13,
                   "type": "user"
@@ -652,93 +652,93 @@
             ],
             "21": [
                {
-                  "id": "19437907453",
-                  "name": "International Christian Concern",
+                  "id": "75",
+                  "name": "Person 75",
                   "offset": 21,
                   "length": 31,
                   "type": "page"
                }
             ]
          },
-         "picture": "https://fbcdn-photos-g-a.akamaihd.net/hphotos-ak-frc1/999080_10151959662667454_487300395_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=10151959662667454&set=a.154879247453.116636.19437907453&type=1",
-         "name": "Timeline Photos",
-         "caption": "ICC SPECIAL REPORT | Is #China Still Persecuting Christians? \n\nDid you know in China it remains illegal for anyone to worship outside of the state controlled official churches? And in 2012, the Chinese government spent more money on policing and monitoring its own people than on the entire Chinese military? This alarming development, which began in 2010, is indicative of the ever-rising level of surveillance, restrictions, and control over the Chinese population that keeps true religious freedom for the countries millions of Christians a distant dream. \n\nDownload your FREE Special Report on China, and learn how the country is still persecuting Christians: http://ow.ly/nfqWs",
+         "picture": "https://custom.url/123/19.jpg",
+         "link": "https://link.url/123/19",
+         "name": "Person 19 Photos",
+         "caption": "Caption Person 19",
          "properties": [
             {
                "name": "By",
-               "text": "International Christian Concern",
-               "href": "https://www.facebook.com/persecuted?ref=stream"
+               "text": "Group 89",
+               "href": "https://custom.url/123/19"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/19.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "10151959662667454",
+         "object_id": "456_19",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "12375"
          },
          "created_time": "2013-07-26T22:45:07+0000",
          "updated_time": "2013-07-26T22:45:07+0000"
       },
       {
-         "id": "100000474770512_696412553717897",
+         "id": "123_20",
          "from": {
-            "name": "Hiram Guevara Mireles",
-            "id": "100000474770512"
+            "name": "Person 20",
+            "id": "20"
          },
-         "message": "Jane y la china...",
-         "story": "Hiram Guevara Mireles shared a photo.",
+         "message": "Dummy message Person 20",
+         "story": "Person 20 shared a photo.",
          "story_tags": {
             "0": [
                {
-                  "id": "100000474770512",
-                  "name": "Hiram Guevara Mireles",
+                  "id": "20",
+                  "name": "Person 20",
                   "offset": 0,
                   "length": 21,
                   "type": "user"
                }
             ]
          },
-         "picture": "https://fbcdn-photos-c-a.akamaihd.net/hphotos-ak-ash3/45072_696397510386068_1206903966_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=696397510386068&set=p.696397510386068&type=1",
-         "name": "Hiram Guevara Mireles's Photos",
+         "picture": "https://custom.url/123/20.jpg",
+         "link": "https://link.url/123/23",
+         "name": "Person 20's Photos",
          "properties": [
             {
                "name": "By",
-               "text": "Hiram Guevara Mireles",
-               "href": "https://www.facebook.com/elchee.guevaramireles"
+               "text": "Person 20",
+               "href": "https://custom.url/123/20"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/20.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "696397510386068",
+         "object_id": "456_20",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "45678"
          },
          "created_time": "2013-07-26T22:45:00+0000",
          "updated_time": "2013-07-26T22:45:00+0000"
       },
       {
-         "id": "100000776749057_545215052181048",
+         "id": "123_21",
          "from": {
-            "name": "Gloria Tadili-Gamo",
-            "id": "100000776749057"
+            "name": "Person 21",
+            "id": "21"
          },
-         "message": "CHINA",
-         "story": "Gloria Tadili-Gamo shared Mysterious Things in The World's photo.",
+         "message": "Dummy message Person 21",
+         "story": "Person 21 shared something.",
          "story_tags": {
             "0": [
                {
-                  "id": "100000776749057",
-                  "name": "Gloria Tadili-Gamo",
+                  "id": "21",
+                  "name": "Person 21",
                   "offset": 0,
                   "length": 18,
                   "type": "user"
@@ -746,51 +746,51 @@
             ],
             "26": [
                {
-                  "id": "257620137692376",
-                  "name": "Mysterious Things in The World",
+                  "id": "67",
+                  "name": "Group 67",
                   "offset": 26,
                   "length": 30,
                   "type": "page"
                }
             ]
          },
-         "picture": "https://photos-a.xx.fbcdn.net/hphotos-prn2/1075732_401373079983747_1793775658_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=401373079983747&set=a.257929444328112.60568.257620137692376&type=1",
+         "picture": "https://custom.url/123/21.jpg",
+         "link": "https://link.url/123/21",
          "name": "Timeline Photos",
-         "caption": "Houses in Sichuan, China.",
+         "caption": "Person 21 Caption",
          "properties": [
             {
                "name": "By",
-               "text": "Mysterious Things in The World",
-               "href": "https://www.facebook.com/pages/Mysterious-Things-in-The-World/257620137692376?ref=stream"
+               "text": "Group 75",
+               "href": "https://custom.url/123/75"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/21.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "401373079983747",
+         "object_id": "456_21",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "123456"
          },
          "created_time": "2013-07-26T22:44:58+0000",
          "updated_time": "2013-07-26T22:44:58+0000"
       },
       {
-         "id": "100006362920608_1394283104127107",
+         "id": "123_22",
          "from": {
-            "name": "Tim NetherlandsMogens",
-            "id": "100006362920608"
+            "name": "Person 22",
+            "id": "22"
          },
-         "message": "(GOD DAMN IT... Slept with Austria cause im awesome... I WAS ONE DAY AWAY FROM ICELAND OR PRUSSIA!!! *FLIPS EUROPE*)\nCooked with China because he got all Pedo? O.o.... well okaaayyy... ",
-         "story": "Tim NetherlandsMogens shared Hetalia Yaoi's photo.",
+         "message": "Dummy message Person 22",
+         "story": "Person 22 shared photo.",
          "story_tags": {
             "0": [
                {
-                  "id": "100006362920608",
-                  "name": "Tim NetherlandsMogens",
+                  "id": "22",
+                  "name": "Person 22",
                   "offset": 0,
                   "length": 21,
                   "type": "user"
@@ -798,50 +798,50 @@
             ],
             "29": [
                {
-                  "id": "533981726665359",
-                  "name": "Hetalia Yaoi",
+                  "id": "88",
+                  "name": "Person 88",
                   "offset": 29,
                   "length": 12,
                   "type": "page"
                }
             ]
          },
-         "picture": "https://photos-a.xx.fbcdn.net/hphotos-ash4/1045214_556988204364711_219381721_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=556988204364711&set=a.534003813329817.1073741829.533981726665359&type=1",
+         "picture": "https://custom.url/123/22.jpg",
+         "link": "https://link.url/123/22",
          "name": "Timeline Photos",
-         "caption": "( got handcuffed for life with England because he was scared ) - admin niiko",
+         "caption": "Person 22 caption",
          "properties": [
             {
                "name": "By",
-               "text": "Hetalia Yaoi",
-               "href": "https://www.facebook.com/pages/Hetalia-Yaoi/533981726665359?ref=stream"
+               "text": "Person 45",
+               "href": "https://custom.url/123/45"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/22.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "556988204364711",
+         "object_id": "456_22",
          "application": {
             "name": "Photos",
-            "id": "2305272732"
+            "id": "123456"
          },
          "created_time": "2013-07-26T22:44:58+0000",
          "updated_time": "2013-07-26T22:44:58+0000"
       },
       {
-         "id": "143419139071479_515030865243636",
+         "id": "123_23",
          "from": {
             "category": "Teacher",
-            "name": "Profesor Gonzalo Rodrigo Mel\u00e9ndez",
-            "id": "143419139071479"
+            "name": "Person 23",
+            "id": "23"
          },
-         "message": "Se conmemora el 60 aniversario del Asalto al Cuartel Moncada (1953), primer gran acto del proceso insurreccional del Movimiento 26 de julio que posibilit\u00f3 el triunfo revolucionario en Cuba 6 a\u00f1os m\u00e1s tarde....\n \nSe conmemora el 60 aniversario del Asalto al Cuartel Moncada (1953), primer gran acto del proceso insurreccional del Movimiento 26 de julio que posibilit\u00f3 el triunfo revolucionario en Cuba 6 a\u00f1os m\u00e1s tarde. Lo primero que queremos destacar es el profundo significado de aquella fecha para las revolucionarias y revolucionarios organizados de dentro y fuera de Cuba. Y nada mejor para ello que recordar las maravillosas palabras que el Che escribi\u00f3 en su diario en julio de 1967 en la selva boliviana: \"Por la noche di una peque\u00f1a charla sobre el significado del 26 de julio: rebeli\u00f3n contra las oligarqu\u00edas y contra los dogmas revolucionarios.\u201d Pero m\u00e1s all\u00e1 de las ense\u00f1anzas concretas que se extraen de aquel hecho hist\u00f3rico y del Movimiento que gener\u00f3, en lo que refiere al \u201cdeber de todo revolucionario [de] hacer la revoluci\u00f3n\u201d (Fidel), queremos aprovechar esta conmemoraci\u00f3n para reflexionar sobre el alcance que ha tenido la construcci\u00f3n socialista en Cuba que aquellos acontecimientos posibilitaron. Y ya no s\u00f3lo en clave nacional de aquel querido pa\u00eds, sino en lo que nos muestra e ilumina en el terreno internacional, a\u00fan m\u00e1s si tenemos en cuenta la grav\u00edsima crisis sist\u00e9mica actual de un capitalismo que est\u00e1 llevando al centro mismo del sistema una verdadera guerra social contra los pueblos con especial incidencia en pa\u00edses como el nuestro.\nEfectivamente, vivimos tiempos en que la crisis estructural del sistema capitalista est\u00e1 agudizando progresivamente las contradicciones propias de la lucha de clases. En momentos como estos, en los que todos los derechos sociales y laborales del pueblo trabajador est\u00e1n siendo saqueados por la oligarqu\u00eda que detenta el poder econ\u00f3mico y pol\u00edtico real, es importante que reafirmemos que no existe otro capitalismo posible, pero que otro mundo s\u00ed es posible sin capitalismo. Pues bien, no nos cabe duda de que la Revoluci\u00f3n Cubana ha demostrado ser uno de los pilares m\u00e1s s\u00f3lidos de la lucha mundial del pueblo trabajador por conquistar su libertad. Los logros obtenidos por el pueblo cubano son m\u00e1s relevantes a\u00fan si tenemos en cuenta que se han conseguido perteneciendo al campo hist\u00f3rico de pa\u00edses expoliados del llamado Tercer Mundo. Ese bienestar de Cuba a\u00fan se realza m\u00e1s relativamente cuando reparamos en que no es resultado de ninguno de esos \u201cestados del bienestar\u201d que se han dado en el campo de pa\u00edses desarrollados e imperialistas y que, en buena parte, son producto criminal de la explotaci\u00f3n y opresi\u00f3n \u2013remota y presente, colonial y neocolonial- contra pa\u00edses precisamente como Cuba. Una explotaci\u00f3n que es de largo alcance en el pasado y que no puede dejar de marcar por mucho tiempo a\u00fan tras los procesos de liberaci\u00f3n que se dan en ese tipo de pa\u00edses.\nAdem\u00e1s, en el caso particular de Cuba, todav\u00eda se realzan m\u00e1s sus conquistas por el marco geoestrat\u00e9gico en que se encuentra: est\u00e1 situada a s\u00f3lo 90 millas de Estados Unidos, el pa\u00eds imperialista con m\u00e1s potencia armament\u00edstica y el que m\u00e1s intervenciones militares contra otros pa\u00edses ha efectuado en la historia, especialmente en Am\u00e9rica Latina.\nLa Rep\u00fablica de Cuba siempre ha estado marcada por la relaci\u00f3n mantenida con EEUU, incluso desde antes del triunfo de la Revoluci\u00f3n. Desde la \u201cindependencia\u201d de Cuba en 1901 hasta 1933 exist\u00eda en la Constituci\u00f3n cubana una cl\u00e1usula que permit\u00eda legalmente la intervenci\u00f3n militar estadounidense en determinadas circunstancias1. A principios de los a\u00f1os 50, las empresas norteamericanas controlaban la mayor parte de la producci\u00f3n econ\u00f3mica de la isla, como por ejemplo el 90\u0025 de la electricidad y telefon\u00eda, el 100\u0025 de la producci\u00f3n de n\u00edquel o casi el 50\u0025 de la industria azucarera. Con esos datos en la mano, puede verse c\u00f3mo, pese a que Cuba era nominalmente independiente, en la pr\u00e1ctica estaba bajo el dominio del imperialismo norteamericano.\nBajo la dictadura militar de Fulgencio Batista, lacayo de EEUU, se agrava el cuadro de desolaci\u00f3n y de crisis \u00e9tica y pol\u00edtico-social del pa\u00eds. El golpe militar hab\u00eda agudizado todas las contradicciones de la isla y hab\u00eda puesto de manifiesto el vac\u00edo de direcci\u00f3n nacional frente a la dictadura y la incapacidad de los partidos pol\u00edticos, enredados en in\u00fatiles divergencias y sin visi\u00f3n hist\u00f3rica de aquel momento crucial. Fue en medio de esa oscuridad cuando, precisamente el 26 de julio de 1953 que hoy conmemoramos, un centenar de j\u00f3venes llevaron a cabo el asalto al cuartel de Moncada, con el que intentaban iniciar el derrocamiento del dictador. Aunque esa acci\u00f3n fracas\u00f3 militarmente, la heroicidad de los combatientes repercuti\u00f3 de manera decisiva en la situaci\u00f3n pol\u00edtica y social de toda la Isla. Algunos de los participantes exiliados volvieron a Cuba en 1956. Hab\u00eda sonado el comienzo de la Revoluci\u00f3n Cubana. El foco guerrillero inicial fue convirti\u00e9ndose con el tiempo en todo un ej\u00e9rcito rebelde, que con el apoyo del pueblo trabajador derroc\u00f3 a las fuerzas de Batista en 1959.\nDesde ese momento, comenz\u00f3 un proceso de transformaci\u00f3n social que dura hasta hoy a pesar de todos los intentos del imperialismo (desde desestabilizaciones sutiles hasta invasiones directas) por impedir que la riqueza de la isla y el poder est\u00e9n en manos del pueblo.\nAunque los intentos de asesinato de Fidel Castro por parte de EEUU se cuentan por centenares2, la estrategia general ha sido asfixiar a la isla mediante un bloqueo econ\u00f3mico que dura ya m\u00e1s de cincuenta a\u00f1os. Durante mucho tiempo, el \u00fanico soporte econ\u00f3mico para la Rep\u00fablica de Cuba fue el respaldo de la Uni\u00f3n Sovi\u00e9tica, por lo que tras el colapso del bloque del Este la isla se vio inmersa en la peor crisis econ\u00f3mica de su historia, con una ca\u00edda del PIB del 30\u0025, EEUU recrudeci\u00f3 el embargo, creyendo que era el fin del proceso socialista en Cuba. Sin embargo, la voluntad firme del pueblo y su apoyo incondicional a la Revoluci\u00f3n consiguieron que Cuba saliese a flote.\nEs importante se\u00f1alar, ahora que todos nuestros derechos est\u00e1n siendo aniquilados con el pretexto de que es \u201cinevitable\u201d recortar a causa de la crisis, que en Cuba el gasto en Sanidad o Educaci\u00f3n no disminuy\u00f3 un \u00e1pice en esos a\u00f1os duros3, por lo que no se produjo el salvaje aumento de mortalidad que s\u00ed se ha producido en otros pa\u00edses que han privatizado los servicios p\u00fablicos como respuesta a una crisis, como Grecia, y que es esperable que se produzca en el Estado espa\u00f1ol.\nMientras vemos c\u00f3mo la edad de jubilaci\u00f3n se prolonga hasta los 67 a\u00f1os, c\u00f3mo los recortes y las privatizaciones causan que haya cada vez m\u00e1s familias trabajadoras desahuciadas, gente con enfermedades cr\u00f3nicas sin posibilidad de acceder a los medicamentos que necesitan, o cada vez menos personas puedan acceder a los estudios universitarios por el aumento de las tasas, los logros conseguidos por la revoluci\u00f3n cubana brillan por s\u00ed mismos.\nSeg\u00fan la ONU, UNICEF, ONEC, WWF o UNESCO, entidades que consideramos poco sospechosas parcialidad pro-cubana:\n\u2022 Cuba es el \u00fanico pa\u00eds de Am\u00e9rica Latina sin desnutrici\u00f3n infantil o problemas de drogas.\n\u2022 No existen personas analfabetas en Cuba. El \u00edndice de escolarizaci\u00f3n primaria es del 100\u0025. El de educaci\u00f3n secundaria, un 99.7\u0025 (mientras que el promedio en otros pa\u00edses latinoamericanos ronda el 50\u0025) y la ense\u00f1anza es totalmente gratuita, incluido los libros, desde la escuela infantil a la universidad.\n\u2022 Es el \u00fanico pa\u00eds del mundo que cumple los criterios de sostenibilidad ecol\u00f3gica. -Es el pa\u00eds que m\u00e1s n\u00famero de m\u00e9dicos tiene por habitante en todo el mundo, aproximadamente el doble que Reino Unido.\n\u2022 En Am\u00e9rica Latina, un 20\u0025 de la poblaci\u00f3n (aproximadamente 102 millones) subsiste en la completa indigencia. Ninguna de esas personas vive en Cuba.\n\u2022 El \u00cdndice de Desarrollo Humano4 en Cuba es de 0.8 sobre 1.\n\u2022 Posee la tasa de mortalidad m\u00e1s baja de Am\u00e9rica Latina.\n\u2022 Su tasa de mortalidad infantil es inferior a la de muchas zonas de EEUU.\nSi, tal como ya hemos hecho menci\u00f3n, tenemos en cuenta los l\u00edmites hist\u00f3ricos y las agresiones sufridas por Cuba, y que de aqu\u00ed partir\u00edamos de un nivel superior de desarrollo material, los ejemplos citados demuestran que es posible crear una sociedad donde la econom\u00eda sea planificada para cubrir las necesidades reales de la poblaci\u00f3n, y no para el enriquecimiento de una minor\u00eda.\nPero no s\u00f3lo la Rep\u00fablica de Cuba garantiza los derechos sociales necesarios para su poblaci\u00f3n. En medio de provocaciones y de agresiones continuas, que no pueden dejar de limitar el ejercicio realmente democr\u00e1tico a que toda aut\u00e9ntica revoluci\u00f3n aspira, en Cuba hay elecciones no partidistas, en las que cualquier persona puede presentarse cada 5 o cada 2 a\u00f1os (dependiendo de si son generales o locales). Sin embargo, es tachada de dictadura por EEUU, el \u00fanico pa\u00eds que ha usado armas nucleares contra poblaci\u00f3n civil y el que m\u00e1s naciones ha invadido y expoliado en toda la historia de la humanidad.\nAunque estos datos por s\u00ed solos hacen que cualquier persona en sus cabales defienda el sistemacubano, los logros del socialismo en la isla van m\u00e1s all\u00e1 de unas meras cifras, por muy importantes que sean.\nPor ejemplo, en el campo de la izquierda revolucionaria y las fuerzas anti-imperialistas, Cuba es un modelo a seguir por su apoyo firme a todos los procesos enmancipadores y su rechazo incondicional a toda dominaci\u00f3n imperialista. Este compromiso de Cuba se expres\u00f3, en el plano militar, como ayuda directa a los pa\u00edses que luchaban por su liberaci\u00f3n.\nLa Cuba revolucionaria fue, y sigue siendo en gran medida, un ejemplo de internacionalismo real, al apoyar con todos sus medios la creaci\u00f3n de focos guerrilleros en Nicaragua, Colombia, Bolivia, el Congo y muchos otros lugares; y al contribuir igualmente en la resistencia antiimperialista de pa\u00edses como Argelia, Angola o Vietnam. Cabe destacar la decisiva participaci\u00f3n cubana, junto a las tropas angole\u00f1as en la derrota de la Sud\u00e1frica del Apartheid en Angola, donde menci\u00f3n especial merece la batalla de Cuito Cuanavale.\nPero, adem\u00e1s, hay que destacar que la Revoluci\u00f3n Cubana, desde sus inicios hasta ahora mismo, ha enviado ayuda sanitaria y formado m\u00e9dicos para pa\u00edses de \u00c1frica, Asia y Am\u00e9rica Latina, incluso en circunstancias extremadamente dif\u00edciles. Ya m\u00e1s actualmente, sin Cuba no puede entenderse la emergencia de la Revoluci\u00f3n Bolivariana en Venezuela, germinando una semilla de libertad que sigue rebrotando en toda Latinoam\u00e9rica.\nPor otro lado, hay que valorar los logros cubanos en materia de g\u00e9nero. Desde Red Roja afirmamos que el socialismo no trae autom\u00e1ticamente la liberaci\u00f3n de las mujeres (aunque sea un requisito para la misma). Si bien sabemos, como no pod\u00eda ser de otra manera, que la lucha antipatriarcal en Cuba est\u00e1 lejos de terminar, podemos sostener que se han producido importantes avances feministas gracias al socialismo cubano: un indicador entre otros es que, actualmente, m\u00e1s de la mitad de las personas electas como representantes del pueblo en la Asamblea General del Poder Popular, el parlamentocubano, son mujeres5. Adem\u00e1s todos los m\u00e9todos de planificaci\u00f3n familiar, incluido el aborto, son libres y gratuitos para toda la poblaci\u00f3n.\nPara Red Roja, la defensa de la Revoluci\u00f3n y el socialismo en Cuba es una cuesti\u00f3n de principios, por m\u00e1s que no seamos acr\u00edticos con el devenir de la Rep\u00fablica de Cuba, dado que eso ser\u00eda hacer un flaco favor tanto al pueblo cubano como a nosotras y nosotros mismos. Muy al contrario, nuestra postura nos permite aprender tanto de sus victorias como de sus errores; aunque siempre mantendremos esa posici\u00f3n desde el apoyo firme desde un lineamiento antiimperialista, el nuestro, que no pone el acento en el agredido sino en el agresor.\nEn definitiva, adem\u00e1s de la importancia indudable que tiene en su marco estatal concreto, Cuba, al igual que cualquier otra experiencia socialista o revolucionaria como lo fueron la URSS o la China Popular, o como lo son los destacamentos guerrilleros de Colombia o la India, es algo m\u00e1s. Su mayor importancia es la aportaci\u00f3n que realiza al campo de la lucha revolucionaria anticapitalista a escala mundial, y las ense\u00f1anzas que podemos extraer de estas experiencias concretas a la hora de poner en marcha la construcci\u00f3n del socialismo y el desarrollo del comunismo en todos los lugares del mundo. De ah\u00ed que, 60 a\u00f1os despu\u00e9s de aquel glorioso 26 de Julio de 1953, queramos destacar la dimensi\u00f3n internacional y la proyecci\u00f3n de largo alcance hist\u00f3rico de aquella fecha. Y que podamos gritar:\nSiempre es 26 de Julio.\nComo siempre es 8 de Marzo.\nComo siempre es 1 de Mayo.\nViva la revoluci\u00f3n cubana.\nViva la lucha de la clase obrera.",
+         "message": "Dummy message Person 23",
          "actions": [
             {
                "name": "Comment",
-               "link": "https://www.facebook.com/143419139071479/posts/515030865243636"
+               "link": "https://custom.url/123/23"
             }
          ],
          "privacy": {
@@ -852,18 +852,18 @@
          "updated_time": "2013-07-26T22:44:57+0000"
       },
       {
-         "id": "596665924_10151496285490925",
+         "id": "24_10151496285490925",
          "from": {
-            "name": "Julio Cesar Mendivil Moroyoqui",
-            "id": "596665924"
+            "name": "Person 24",
+            "id": "24"
          },
-         "message": "COMIDA CHINA PLAZA SENDERO!!!!!!",
-         "story": "Julio Cesar Mendivil Moroyoqui shared Karlita Vargas's photo.",
+         "message": "Dummy message Person 24",
+         "story": "Person 24 shared photo.",
          "story_tags": {
             "0": [
                {
-                  "id": "596665924",
-                  "name": "Julio Cesar Mendivil Moroyoqui",
+                  "id": "24",
+                  "name": "Person 24",
                   "offset": 0,
                   "length": 30,
                   "type": "user"
@@ -871,41 +871,41 @@
             ],
             "38": [
                {
-                  "id": "100002045694903",
-                  "name": "Karlita Vargas",
+                  "id": "86",
+                  "name": "Person 86",
                   "offset": 38,
                   "length": 14,
                   "type": "user"
                }
             ]
          },
-         "picture": "https://photos-a.xx.fbcdn.net/hphotos-prn1/59203_491218377623014_476883201_s.jpg",
-         "link": "https://www.facebook.com/photo.php?fbid=491218377623014&set=p.491218377623014&type=1",
-         "name": "Karlita Vargas's Photos",
-         "caption": "Compartan, es lo que sirven de comer en la COMIDA CHINA en PLAZA SENDERO... Compartan por favor",
+         "picture": "https://custom.url/123/24.jpg",
+         "link": "https://link.url/123/23",
+         "name": "Person 86 Photos",
+         "caption": "Person 24 Caption",
          "properties": [
             {
                "name": "By",
-               "text": "Karlita Vargas",
-               "href": "https://www.facebook.com/karlita.vargas.397"
+               "text": "Person 86",
+               "href": "https://custom.url/123/86"
             }
          ],
-         "icon": "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif",
+         "icon": "https://custom.url/123/24.gif",
          "privacy": {
             "value": ""
          },
          "type": "photo",
-         "object_id": "491218377623014",
+         "object_id": "456_24",
          "application": {
             "name": "Links",
-            "id": "2309869772"
+            "id": "654321"
          },
          "created_time": "2013-07-26T22:44:50+0000",
          "updated_time": "2013-07-26T22:44:50+0000"
       }
    ],
    "paging": {
-      "previous": "https://graph.facebook.com/search?q=china&type=post&access_token=CAADysJa3mtcBADbzkQdT8LjgTNAJEZAZC36Ol7PwArlMIwLlDeDv1bn415WRGYIg3TCOlGMDpmtA7tWhFkSHZBuqtkUivghE7ZBtNSDabwFUt9hRZCeqA3uh5ttXBahQJAbCjrONcmfu9Kf4KQKUl&limit=25&since=1374878754&__previous=1",
-      "next": "https://graph.facebook.com/search?q=china&type=post&access_token=CAADysJa3mtcBADbzkQdT8LjgTNAJEZAZC36Ol7PwArlMIwLlDeDv1bn415WRGYIg3TCOlGMDpmtA7tWhFkSHZBuqtkUivghE7ZBtNSDabwFUt9hRZCeqA3uh5ttXBahQJAbCjrONcmfu9Kf4KQKUl&limit=25&until=1374878689"
+      "previous": "https://custom.url/previous",
+      "next": "https://custom.url/next"
    }
 }
