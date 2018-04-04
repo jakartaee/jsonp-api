@@ -1,4 +1,4 @@
 language: java
 
 script:
- - mvn -U -C -Dnon.final=true clean package
+- mvn -U -C -Dnon.final=true clean package
