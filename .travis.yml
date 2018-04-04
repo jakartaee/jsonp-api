@@ -1,13 +1,10 @@
 language: java
 
-
 jdk:
   - oraclejdk8
+  - oraclejdk9
 
 install: true
-
-before_script:
-  - env | sort
 
 script:
   - mvn -U -C -Dnon.final=true clean package
