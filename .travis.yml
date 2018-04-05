@@ -4,7 +4,12 @@ jdk:
   - oraclejdk8
   - oraclejdk9
 
+cache:
+  directories:
+    - .autoconf
+    - $HOME/.m2
+
 install: true
 
 script:
-  - mvn -U -C -Dnon.final=true clean package
+  - mvn -U -C -Dnon.final=true clean verify
