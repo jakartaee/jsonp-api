@@ -1,3 +1,5 @@
+<p align="center">[![Build Status](https://travis-ci.org/eclipse-ee4j/jsonp.svg?branch=master)](https://travis-ci.org/eclipse-ee4j/jsonp)</p>
+
 # JSON Processing (JSON-P)
 
 This projects contains API and Reference Implementation (RI) of JSR-374. 
