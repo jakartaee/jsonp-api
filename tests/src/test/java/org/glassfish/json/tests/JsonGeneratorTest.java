@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -209,6 +209,32 @@ public class JsonGeneratorTest extends TestCase {
         JsonReader reader = Json.createReader(new StringReader(writer.toString()));
         JsonObject person = reader.readObject();
         JsonObjectTest.testPerson(person);
+    }
+
+    public void testPrettyPrinting() throws Exception {
+        String[][] lines = {{"firstName", "John"}, {"lastName", "Smith"}};
+        StringWriter writer = new StringWriter();
+        Map<String, Object> config = new HashMap<>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonGenerator generator = Json.createGeneratorFactory(config)
+                .createGenerator(writer);
+        generator.writeStartObject()
+                .write("firstName", "John")
+                .write("lastName", "Smith")
+                .writeEnd();
+        generator.close();
+        writer.close();
+
+        BufferedReader reader = new BufferedReader(new StringReader(writer.toString().trim()));
+        int numberOfLines = 0;
+        String line;
+        while ((line = reader.readLine()) != null) {
+            numberOfLines++;
+            if (numberOfLines > 1 && numberOfLines < 4) {
+                assertTrue(line.contains("\"" + lines[numberOfLines - 2][0] + "\": \"" + lines[numberOfLines - 2][1] + "\""));
+            }
+        }
+        assertEquals(4, numberOfLines);
     }
 
     public void testPrettyObjectStream() throws Exception {
