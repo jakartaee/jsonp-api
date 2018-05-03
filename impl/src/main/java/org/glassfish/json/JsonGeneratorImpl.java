@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -481,10 +481,14 @@ class JsonGeneratorImpl implements JsonGenerator {
     }
 
     protected void writeComma() {
-        if (!currentContext.first && currentContext.scope != Scope.IN_FIELD) {
+        if (isCommaAllowed()) {
             writeChar(',');
         }
         currentContext.first = false;
+    }
+
+    boolean isCommaAllowed() {
+        return !currentContext.first && currentContext.scope != Scope.IN_FIELD;
     }
 
     protected void writeColon() {
