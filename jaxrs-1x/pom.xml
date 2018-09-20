@@ -84,7 +84,7 @@
         <profile>
             <id>jdk9-setup</id>
             <activation>
-                <jdk>9</jdk>
+                <jdk>[9,)</jdk>
             </activation>
             <build>
                 <plugins>
@@ -95,6 +95,7 @@
                             <execution>
                                 <id>default-compile</id>
                                 <configuration>
+                                    <target>9</target>
                                     <compilerArgs>
                                         <arg>--add-modules</arg>
                                         <arg>java.xml.ws.annotation</arg>
