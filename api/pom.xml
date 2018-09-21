@@ -79,7 +79,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.glassfish.build</groupId>
                 <artifactId>spec-version-maven-plugin</artifactId>
                 <configuration>
@@ -96,11 +96,11 @@
                     <execution>
                         <goals>
                             <goal>set-spec-properties</goal>
-                            <goal>check-module</goal>
+                            <!-- <goal>check-module</goal>-->
                         </goals>
                     </execution>
                 </executions>
-            </plugin> -->
+            </plugin>
             <!--
               This plugin is reponsible for packaging artifacts
               as OSGi bundles.  Please refer to
