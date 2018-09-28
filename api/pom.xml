@@ -97,7 +97,7 @@
                     <execution>
                         <goals>
                             <goal>set-spec-properties</goal>
-                            <goal>check-module</goal>
+                            <!-- <goal>check-module</goal>-->
                         </goals>
                     </execution>
                 </executions>
