@@ -138,7 +138,7 @@
                         <artifactId>maven-bundle-plugin</artifactId>
                         <configuration>
                             <instructions>
-                                <Include-Resource>target/classes/module-info.class</Include-Resource>
+                                <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
                             </instructions>
                         </configuration>
                     </plugin>
