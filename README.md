@@ -2,7 +2,7 @@
 
 # JSON Processing (JSON-P)
 
-This projects contains API and Reference Implementation (RI) of JSR-374. 
+This projects contains the API and Reference Implementation (RI) of JSR-374. 
 The Java API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents.
 
 ## Build
@@ -21,3 +21,7 @@ mvn -U -C clean install -Dnon.final=true
 
 - JSON-P official web site: https://javaee.github.io/jsonp
 - JSR-374 page on JCP site: https://jcp.org/en/jsr/detail?id=374
+
+## Alternative implementations of this API
+
+- [Apache Johnzon](https://johnzon.apache.org)
