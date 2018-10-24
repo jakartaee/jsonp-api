@@ -360,6 +360,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
     private static final class JsonArrayImpl extends AbstractList<JsonValue> implements JsonArray {
         private final List<JsonValue> valueList;    // Unmodifiable
         private final BufferPool bufferPool;
+        private int hashCode;
 
         JsonArrayImpl(List<JsonValue> valueList, BufferPool bufferPool) {
             this.valueList = valueList;
@@ -459,6 +460,14 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         @Override
         public JsonValue get(int index) {
             return valueList.get(index);
+        }
+
+        @Override
+        public int hashCode() {
+            if (hashCode == 0) {
+                hashCode = super.hashCode();
+            }
+            return hashCode;
         }
 
         @Override

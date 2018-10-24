@@ -206,5 +206,14 @@ public class JsonNumberTest extends TestCase {
         }
     }
 
+    public void testHashCode() {
+        JsonNumber jsonNumber1 = Json.createValue(1);
+        assertTrue(jsonNumber1.hashCode() == jsonNumber1.bigDecimalValue().hashCode());
+
+        JsonNumber jsonNumber2 = Json.createValue(1);
+
+        assertTrue(jsonNumber1.equals(jsonNumber2));
+        assertTrue(jsonNumber1.hashCode() == jsonNumber2.hashCode());
+    }
 
 }

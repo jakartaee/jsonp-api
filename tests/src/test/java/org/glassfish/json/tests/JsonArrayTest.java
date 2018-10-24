@@ -111,4 +111,18 @@ public class JsonArrayTest extends TestCase {
         }
     }
 
+    public void testHashCode() {
+        JsonArray array1 = Json.createArrayBuilder().add(1).add(2).add(3).build();
+        assertTrue(array1.hashCode() == array1.hashCode()); //1st call compute hashCode, 2nd call returns cached value
+
+        JsonArray array2 = Json.createArrayBuilder().add(1).add(2).add(3).build();
+        assertTrue(array1.hashCode() == array2.hashCode());
+
+        JsonArray array3 = Json.createArrayBuilder().build(); //org.glassfish.json.JsonArrayBuilderImpl.JsonArrayImpl
+        JsonArray array4 = JsonValue.EMPTY_JSON_ARRAY; //javax.json.EmptyArray
+
+        assertTrue(array3.equals(array4));
+        assertTrue(array3.hashCode() == array4.hashCode()); //equal instances have same hashCode
+    }
+
 }

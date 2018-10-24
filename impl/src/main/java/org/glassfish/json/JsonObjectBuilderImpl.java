@@ -202,6 +202,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
     private static final class JsonObjectImpl extends AbstractMap<String, JsonValue> implements JsonObject {
         private final Map<String, JsonValue> valueMap;      // unmodifiable
         private final BufferPool bufferPool;
+        private int hashCode;
 
         JsonObjectImpl(Map<String, JsonValue> valueMap, BufferPool bufferPool) {
             this.valueMap = valueMap;
@@ -292,6 +293,14 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         @Override
         public Set<Entry<String, JsonValue>> entrySet() {
             return valueMap.entrySet();
+        }
+
+        @Override
+        public int hashCode() {
+            if (hashCode == 0) {
+                hashCode = super.hashCode();
+            }
+            return hashCode;
         }
 
         @Override

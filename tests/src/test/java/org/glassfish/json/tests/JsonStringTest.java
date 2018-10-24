@@ -45,6 +45,18 @@ public class JsonStringTest extends TestCase {
         escapedString("abc\"\\/abc");
     }
 
+    public void testHashCode() {
+        String string1 = new String("a");
+        JsonString jsonString1 = Json.createValue(string1);
+        assertTrue(jsonString1.hashCode() == jsonString1.getString().hashCode());
+
+        String string2 = new String("a");
+        JsonString jsonString2 = Json.createValue(string2);
+
+        assertTrue(jsonString1.equals(jsonString2));
+        assertTrue(jsonString1.hashCode() == jsonString2.hashCode());
+    }
+
     void escapedString(String str) throws Exception {
         JsonArray exp = Json.createArrayBuilder().add(str).build();
         String parseStr = "["+exp.get(0).toString()+"]";

@@ -28,6 +28,8 @@ import java.math.BigInteger;
  */
 abstract class JsonNumberImpl implements JsonNumber {
 
+    private int hashCode;
+
     static JsonNumber getJsonNumber(int num) {
         return new JsonIntNumber(num);
     }
@@ -240,7 +242,10 @@ abstract class JsonNumberImpl implements JsonNumber {
 
     @Override
     public int hashCode() {
-        return bigDecimalValue().hashCode();
+        if (hashCode == 0) {
+            hashCode = bigDecimalValue().hashCode();
+        }
+        return hashCode;
     }
 
     @Override
