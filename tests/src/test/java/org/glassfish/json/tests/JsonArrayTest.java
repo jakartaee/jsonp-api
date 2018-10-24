@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -109,6 +109,20 @@ public class JsonArrayTest extends TestCase {
         } catch(NullPointerException e) {
             // Expected
         }
+    }
+
+    public void testHashCode() {
+        JsonArray array1 = Json.createArrayBuilder().add(1).add(2).add(3).build();
+        assertTrue(array1.hashCode() == array1.hashCode()); //1st call compute hashCode, 2nd call returns cached value
+
+        JsonArray array2 = Json.createArrayBuilder().add(1).add(2).add(3).build();
+        assertTrue(array1.hashCode() == array2.hashCode());
+
+        JsonArray array3 = Json.createArrayBuilder().build(); //org.glassfish.json.JsonArrayBuilderImpl.JsonArrayImpl
+        JsonArray array4 = JsonValue.EMPTY_JSON_ARRAY; //javax.json.EmptyArray
+
+        assertTrue(array3.equals(array4));
+        assertTrue(array3.hashCode() == array4.hashCode()); //equal instances have same hashCode
     }
 
 }
