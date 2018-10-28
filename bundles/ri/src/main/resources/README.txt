@@ -4,8 +4,8 @@
 
 for APIs:
   <dependency>
-      <groupId>javax.json</groupId>
-      <artifactId>javax.json-api</artifactId>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
       <version>${project.version}</version>
   </dependency>
 

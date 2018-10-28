@@ -119,6 +119,10 @@
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
                         <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec_version}</Bundle-Description>
+                        <Require-Capability>
+                            osgi.extender;filter:=&quot;(osgi.extender=osgi.serviceloader.processor)&quot;
+                            osgi.serviceloader;filter:=&quot;(osgi.serviceloader=javax.json.spi.JsonProvider)&quot;;cardinality:=multiple
+                        </Require-Capability>
                     </instructions>
                 </configuration>
             </plugin>

@@ -98,6 +98,8 @@
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
                         <Private-Package>${packages.private}</Private-Package>
+                        <Require-Capability>osgi.extender;filter:=&quot;(osgi.extender=osgi.serviceloader.registrar)&quot;</Require-Capability>
+                        <Provide-Capability>osgi.serviceloader;osgi.serviceloader=javax.json.spi.JsonProvider</Provide-Capability>
                     </instructions>
                 </configuration>
             </plugin>
