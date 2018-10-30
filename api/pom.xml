@@ -57,11 +57,8 @@
                         </group>
                     </groups>
                     <bottom>
-<![CDATA[Copyright &#169; 2012-2018,
-    <a href="http://www.oracle.com">Oracle</a>
-    and/or its affiliates. All Rights Reserved.
-    <br>Comments to : jsonp-dev@eclipse.org
-]]>
+                        <![CDATA[Copyright &#169; {inceptionYear}&#x2013;{currentYear} {organizationName}.
+                        All rights reserved.<br>Comments to : <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.]]>
                     </bottom>
                     <links>
                         <link>http://docs.oracle.com/javase/8/docs/api/</link>
@@ -119,10 +116,6 @@
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
                         <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec_version}</Bundle-Description>
-                        <Require-Capability>
-                            osgi.extender;filter:=&quot;(osgi.extender=osgi.serviceloader.processor)&quot;
-                            osgi.serviceloader;filter:=&quot;(osgi.serviceloader=javax.json.spi.JsonProvider)&quot;;cardinality:=multiple
-                        </Require-Capability>
                     </instructions>
                 </configuration>
             </plugin>

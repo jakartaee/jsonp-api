@@ -74,8 +74,14 @@
             </activation>
             <dependencies>
                 <dependency>
+                    <groupId>jakarta.json</groupId>
+                    <artifactId>jakarta.json-api</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>javax.json</artifactId>
+                    <classifier>module</classifier>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
