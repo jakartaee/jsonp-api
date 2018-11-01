@@ -40,11 +40,6 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <classifier>module</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
             <artifactId>jsonp-jaxrs</artifactId>
         </dependency>
     </dependencies>
