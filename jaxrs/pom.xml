@@ -62,6 +62,7 @@
                     <instructions>
                         <Bundle-Version>${impl_version}</Bundle-Version>
                         <Export-Package>org.glassfish.json.jaxrs</Export-Package>
+                        <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                     </instructions>
                 </configuration>
             </plugin>
@@ -87,35 +88,13 @@
             <activation>
                 <jdk>[9,)</jdk>
             </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-compile</id>
-                                <configuration>
-                                    <compilerArgs>
-                                        <arg>--add-modules</arg>
-                                        <arg>java.xml.ws.annotation</arg>
-                                    </compilerArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalJOptions>
-                                <additionalJOption>--add-modules</additionalJOption>
-                                <additionalJOption>java.xml.ws.annotation</additionalJOption>
-                            </additionalJOptions>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>jakarta.annotation</groupId>
+                    <artifactId>jakarta.annotation-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

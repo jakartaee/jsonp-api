@@ -64,7 +64,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>javax.json-ri-jdk8-${impl_version}</finalName>
+                                    <finalName>jakarta.json-ri-jdk8-${impl_version}</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/archive-jdk8.xml</descriptor>
                                     </descriptors>
@@ -101,7 +101,7 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>javax.json-ri-${impl_version}</finalName>
+                                    <finalName>jakarta.json-ri-${impl_version}</finalName>
                                     <descriptors>
                                         <descriptor>src/main/assembly/archive.xml</descriptor>
                                     </descriptors>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -178,6 +178,7 @@
                                 <Private-Package>${packages.private}</Private-Package>
                                 <Automatic-Module-Name>java.json</Automatic-Module-Name>
                                 <_donotcopy>.*services.*</_donotcopy>
+                                <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                             </instructions>
                         </configuration>
                     </execution>
@@ -221,6 +222,7 @@
                                         <Export-Package>org.glassfish.json.api</Export-Package>
                                         <Private-Package>${packages.private}</Private-Package>
                                         <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
+                                        <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                                     </instructions>
                                 </configuration>
                             </execution>
