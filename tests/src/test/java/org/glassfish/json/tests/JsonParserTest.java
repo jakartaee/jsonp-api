@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
+import javax.json.stream.JsonParsingException;
 
 import org.glassfish.json.api.BufferPool;
 
@@ -763,4 +764,57 @@ public class JsonParserTest extends TestCase {
         }
     }
 
+    public void testExceptionsFromHasNext() {
+        checkExceptionFromHasNext("{");
+        checkExceptionFromHasNext("{\"key\"");
+        checkExceptionFromHasNext("{\"name\" : \"prop\"");
+        checkExceptionFromHasNext("{\"name\" : 3");
+        checkExceptionFromHasNext("{\"name\" : true");
+        checkExceptionFromHasNext("{\"name\" : null");
+        checkExceptionFromHasNext("{\"name\" : {\"$eq\":\"cdc\"}");
+        checkExceptionFromHasNext("{\"name\" : [{\"$eq\":\"cdc\"}]");
+        checkExceptionFromHasNext("[");
+        checkExceptionFromHasNext("{\"name\" : [{\"key\" : [[{\"a\" : 1}]");
+        checkExceptionFromHasNext("{\"unique\":true,\"name\":\"jUnitTestIndexNeg005\", \"fields\":[{\"order\":-1,\"path\":\"city.zip\"}");
+    }
+
+    public void testExceptionsFromNext() {
+        checkExceptionFromNext("{\"name\" : fal");
+        checkExceptionFromNext("{\"name\" : nu");
+        checkExceptionFromNext("{\"name\" : \"pro");
+        checkExceptionFromNext("{\"key\":");
+        checkExceptionFromNext("fal");
+    }
+
+    private void checkExceptionFromHasNext(String input) {
+        try (JsonParser parser = Json.createParser(new StringReader(input))) {
+            try {
+                while (parser.hasNext()) {
+                    try {
+                        parser.next();
+                    } catch (Throwable t1) {
+                        fail("Exception should occur from hasNext() for '" + input + "'");
+                    }
+                }
+            } catch (JsonParsingException t) {
+                //this is OK
+                return;
+            }
+        }
+        fail();
+    }
+
+    private void checkExceptionFromNext(String input) {
+        try (JsonParser parser = Json.createParser(new StringReader(input))) {
+            while (parser.hasNext()) {
+                try {
+                    parser.next();
+                } catch (JsonParsingException t) {
+                    //this is OK
+                    return;
+                }
+            }
+        }
+        fail();
+    }
 }
