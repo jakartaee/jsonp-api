@@ -178,6 +178,7 @@
                                 <Private-Package>${packages.private}</Private-Package>
                                 <Automatic-Module-Name>java.json</Automatic-Module-Name>
                                 <_donotcopy>.*services.*</_donotcopy>
+                                <Specification-Vendor>${vendor.name}</Specification-Vendor>
                                 <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                             </instructions>
                         </configuration>
