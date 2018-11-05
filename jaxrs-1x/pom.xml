@@ -61,7 +61,6 @@
                     <instructions>
                         <Bundle-Version>${impl_version}</Bundle-Version>
                         <Export-Package>org.glassfish.json.jaxrs1x</Export-Package>
-                        <Implementation-Vendor>${vendor.name}</Implementation-Vendor>
                     </instructions>
                 </configuration>
             </plugin>

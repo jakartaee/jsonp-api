@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -113,11 +113,13 @@ public class TestGenerator implements JsonGenerator {
         return null;
     }
 
+    @Override
     public JsonGenerator write(String value) {
         return null;
     }
 
 
+    @Override
     public JsonGenerator write(int value) {
         return null;
     }
@@ -142,10 +144,12 @@ public class TestGenerator implements JsonGenerator {
         return null;
     }
 
+    @Override
     public JsonGenerator write(boolean value) {
         return null;
     }
 
+    @Override
     public JsonGenerator writeNull() {
         return null;
     }
@@ -160,12 +164,18 @@ public class TestGenerator implements JsonGenerator {
         return this;
     }
 
+    @Override
     public void close() {
         try {
             writer.close();
         } catch(IOException ioe) {
             throw new JsonException("I/O error", ioe);
         }
+    }
+
+    @Override
+    public JsonGenerator writeKey(String name) {
+        return null;
     }
 
 }
