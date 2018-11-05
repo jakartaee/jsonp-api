@@ -70,7 +70,7 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * <p>This class does <em>not</em> allow <tt>null</tt> to be used as a
+ * <p>This class does <em>not</em> allow <code>null</code> to be used as a
  * value while building the JSON array
  *
  * @see JsonObjectBuilder

@@ -2,7 +2,7 @@ language: java
 
 jdk:
   - oraclejdk8
-  - oraclejdk9
+  - openjdk11
 
 cache:
   directories:
@@ -12,4 +12,4 @@ cache:
 install: true
 
 script:
-  - mvn -U -C -Dnon.final=true clean verify
+  - mvn -U -C -Pstaging -Dnon.final=true clean verify
