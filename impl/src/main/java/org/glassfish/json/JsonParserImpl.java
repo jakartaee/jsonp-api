@@ -282,6 +282,7 @@ public class JsonParserImpl implements JsonParser {
         if (currentEvent == Event.START_ARRAY) {
             currentContext.skip();
             currentContext = stack.pop();
+            currentEvent = Event.END_ARRAY;
         }
     }
 
@@ -290,6 +291,7 @@ public class JsonParserImpl implements JsonParser {
         if (currentEvent == Event.START_OBJECT) {
             currentContext.skip();
             currentContext = stack.pop();
+            currentEvent = Event.END_OBJECT;
         }
     }
 
@@ -328,10 +330,15 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public boolean hasNext() {
-        if (!tokenizer.hasNextToken()) {
-            if (!stack.isEmpty()) {
-                currentContext.getNextEvent();
+        if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
+            JsonToken token = tokenizer.nextToken();
+            if (token != JsonToken.EOF) {
+                throw new JsonParsingException(JsonMessages.PARSER_EXPECTED_EOF(token),
+                        getLastCharLocation());
             }
+            return false;
+        } else if (!stack.isEmpty() && !tokenizer.hasNextToken()) {
+            currentEvent = currentContext.getNextEvent();
             return false;
         }
         return true;
