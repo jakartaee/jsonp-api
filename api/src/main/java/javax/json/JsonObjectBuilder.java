@@ -86,7 +86,7 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * <p>This class does <em>not</em> allow <tt>null</tt> to be used as a name or
+ * <p>This class does <em>not</em> allow <code>null</code> to be used as a name or
  * value while building the JSON object
  *
  * @see JsonArrayBuilder
