@@ -780,6 +780,9 @@ public class JsonParserTest extends TestCase {
 
     public void testEOFFromHasNext() {
         checkExceptionFromHasNext("{ \"d\" : 1 } 2 3 4");
+        checkExceptionFromHasNext("[ {\"d\" : 1 }] 2 3 4");
+        checkExceptionFromHasNext("1 2 3 4");
+        checkExceptionFromHasNext("null 2 3 4");
     }
 
     public void testExceptionsFromNext() {
