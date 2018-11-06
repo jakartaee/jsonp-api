@@ -330,7 +330,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public boolean hasNext() {
-        if (stack.isEmpty() && (currentEvent == Event.END_ARRAY || currentEvent == Event.END_OBJECT)) {
+        if (stack.isEmpty() && (currentEvent != null && currentEvent.compareTo(Event.KEY_NAME) > 0)) {
             JsonToken token = tokenizer.nextToken();
             if (token != JsonToken.EOF) {
                 throw new JsonParsingException(JsonMessages.PARSER_EXPECTED_EOF(token),
