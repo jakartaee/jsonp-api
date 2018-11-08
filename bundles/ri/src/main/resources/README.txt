@@ -1,10 +1,10 @@
-* standalone/javax.json-${project.version}.jar contains both "JSR 374 : Java API for JSON Processing 1.1" API
+* standalone/jakarta.json-${project.version}.jar contains both "JSR 374 : Java API for JSON Processing 1.1" API
   and its default provider implementation. Keep it in classpath for both compiling and running your application.
   Automatic module name is: 'java.json'
 
 For running on JPMS, following modules are provided:
 * mods/jakarta.json-api-${project.version}.jar - 'java.json' module containing only API classes
-* mods/javax.json-${project.version}-module.jar - 'org.glassfish.java.json' module containing implementation
+* mods/jakarta.json-${project.version}-module.jar - 'org.glassfish.java.json' module containing implementation
 
 Integration with JAX-RS: Java API for RESTful Web Services (JAX-RS) is provided through
 * jaxrs/jsonp-jaxrs-${project.version}.jar
@@ -18,7 +18,7 @@ IMPORTANT NOTE: module names are not yet final and may change in the future rele
 for standalone reference implementation which includes APIs and implementation classes:
   <dependency>
       <groupId>org.glassfish</groupId>
-      <artifactId>javax.json</artifactId>
+      <artifactId>jakarta.json</artifactId>
       <version>${project.version}</version>
   </dependency>
 
@@ -32,7 +32,7 @@ for APIs:
 for implementation only:
   <dependency>
       <groupId>org.glassfish</groupId>
-      <artifactId>javax.json</artifactId>
+      <artifactId>jakarta.json</artifactId>
       <classifier>module</classifier>
       <version>${project.version}</version>
   </dependency>

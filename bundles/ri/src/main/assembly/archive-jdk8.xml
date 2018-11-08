@@ -44,10 +44,10 @@
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>standalone</outputDirectory>
             <includes>
-                <include>org.glassfish:javax.json</include>
+                <include>org.glassfish:jakarta.json</include>
             </includes>
             <excludes>
-                <exclude>org.glassfish:javax.json:jar:module:*</exclude>
+                <exclude>org.glassfish:jakarta.json:jar:module:*</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
