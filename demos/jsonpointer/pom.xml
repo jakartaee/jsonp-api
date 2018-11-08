@@ -42,7 +42,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.glassfish</groupId>
-                    <artifactId>javax.json</artifactId>
+                    <artifactId>jakarta.json</artifactId>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>
@@ -80,7 +80,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.glassfish</groupId>
-                    <artifactId>javax.json</artifactId>
+                    <artifactId>jakarta.json</artifactId>
                     <classifier>module</classifier>
                     <scope>compile</scope>
                 </dependency>
@@ -105,7 +105,7 @@
                                     <goal>copy-dependencies</goal>
                                 </goals>
                                 <configuration>
-                                    <includeArtifactIds>javax.json</includeArtifactIds>
+                                    <includeArtifactIds>jakarta.json</includeArtifactIds>
                                 </configuration>
                             </execution>
                             <execution>
