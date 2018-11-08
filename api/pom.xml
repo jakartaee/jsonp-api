@@ -125,6 +125,7 @@
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
                         <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec_version}</Bundle-Description>
+                        <Specification-Vendor>Oracle</Specification-Vendor>
                     </instructions>
                 </configuration>
             </plugin>
