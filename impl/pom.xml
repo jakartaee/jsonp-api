@@ -28,7 +28,7 @@
     </parent>
 
     <groupId>org.glassfish</groupId>
-    <artifactId>javax.json</artifactId>
+    <artifactId>jakarta.json</artifactId>
     <packaging>bundle</packaging>
     <version>1.2-SNAPSHOT</version>
     <name>JSR 374 (JSON Processing) Default Provider</name>
@@ -62,7 +62,11 @@
                     <execution>
                         <goals>
                             <goal>set-spec-properties</goal>
-                            <goal>check-module</goal>
+                            <!-- TODO:
+                            glassfish-spec-version-maven-plugin needs to be updated
+                            in order to check 'jakarta.' prefixed values in manifest entries
+                            -->
+                            <!--<goal>check-module</goal>-->
                         </goals>
                     </execution>
                 </executions>
@@ -182,6 +186,7 @@
                                 <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
                                 <Extension-Name>${spec.extension.name}</Extension-Name>
                                 <Implementation-Version>${spec.implementation.version}</Implementation-Version>
+                                <Specification-Vendor>Oracle</Specification-Vendor>
                                 <Specification-Version>${spec.specification.version}</Specification-Version>
                                 <Export-Package>${packages.export}</Export-Package>
                                 <Private-Package>${packages.private}</Private-Package>
