@@ -38,17 +38,17 @@
             <outputDirectory>mods</outputDirectory>
             <includes>
                 <include>jakarta.json:jakarta.json-api:*</include>
-                <include>org.glassfish:javax.json:jar:module:*</include>
+                <include>org.glassfish:jakarta.json:jar:module:*</include>
             </includes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>standalone</outputDirectory>
             <includes>
-                <include>org.glassfish:javax.json</include>
+                <include>org.glassfish:jakarta.json</include>
             </includes>
             <excludes>
-                <exclude>org.glassfish:javax.json:jar:module:*</exclude>
+                <exclude>org.glassfish:jakarta.json:jar:module:*</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
