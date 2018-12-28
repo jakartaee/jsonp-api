@@ -23,14 +23,14 @@
     <parent>
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.glassfish</groupId>
     <artifactId>jsonp-jaxrs</artifactId>
     <packaging>bundle</packaging>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.5</version>
     <name>JSR 374 (JSON Processing) Media for JAX-RS</name>
     <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonValue API of JSR 374:Java API for Processing JSON</description>
     <url>https://javaee.github.io/jsonp</url>
