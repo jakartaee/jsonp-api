@@ -19,6 +19,7 @@ package org.glassfish.json.tests;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParsingException;
 import junit.framework.TestCase;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -112,5 +113,23 @@ public class JsonParserSkipTest extends TestCase {
         assertEquals(JsonParser.Event.VALUE_NUMBER, parser.next());
         assertEquals(JsonParser.Event.END_OBJECT, parser.next());
         assertEquals(false, parser.hasNext());
+    }
+
+    public void testSkipArrayNotClosed() {
+        try (JsonParser parser = Json.createParser(new StringReader("["))) {
+            parser.next();
+            parser.skipArray();
+            fail();
+        } catch (JsonParsingException expected) {
+        }
+    }
+
+    public void testSkipObjectNotClosed() {
+        try (JsonParser parser = Json.createParser(new StringReader("{"))) {
+            parser.next();
+            parser.skipObject();
+            fail();
+        } catch (JsonParsingException expected) {
+        }
     }
 }

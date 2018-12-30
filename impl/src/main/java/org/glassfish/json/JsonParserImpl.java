@@ -501,6 +501,10 @@ public class JsonParserImpl implements JsonParser {
                     case CURLYOPEN:
                         depth++;
                         break;
+                    case EOF:
+                        throw parsingException(JsonToken.EOF, "[CURLYCLOSE]");
+                    default:
+                        break;
                 }
             } while (!(token == JsonToken.CURLYCLOSE && depth == 0));
         }
@@ -560,6 +564,10 @@ public class JsonParserImpl implements JsonParser {
                         break;
                     case SQUAREOPEN:
                         depth++;
+                        break;
+                    case EOF:
+                        throw parsingException(JsonToken.EOF, "[SQUARECLOSE]");
+                    default:
                         break;
                 }
             } while (!(token == JsonToken.SQUARECLOSE && depth == 0));
