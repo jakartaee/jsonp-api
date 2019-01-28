@@ -1,23 +1,15 @@
-[![Build Status](https://travis-ci.org/eclipse-ee4j/jsonp.svg?branch=master)](https://travis-ci.org/eclipse-ee4j/jsonp)
-
-# JSON Processing (JSON-P)
+<br/>
 
 This projects contains API and Reference Implementation (RI) of JSR-374. 
 The Java API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents.
 
-## Build
+# <a name="Latest_News"></a>Latest News
 
-Use the following command:
-```bash 
-mvn -U -C clean install -Dnon.final=true
-```
+## December 28, 2018 - JSON-P 1.1.5 Final Release ##
 
-## Licensing
+The 1.1.5 release is the first release of the Eclipse project for JSON-P
+and includes no bug fixes or enhancements. It does include changes to the Maven
+coordinates.
 
-- [Eclipse Public License 2.0](https://projects.eclipse.org/license/epl-2.0)
-- [GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
-
-## Links
-
-- JSON-P official web site: https://javaee.github.io/jsonp
-- JSR-374 page on JCP site: https://jcp.org/en/jsr/detail?id=374
+The main API jar file is now located at jakarta.json:jakarta.json-api and
+the main RI jar file is now located at org.glassfish:jakarta.json.

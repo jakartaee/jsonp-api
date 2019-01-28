@@ -1,0 +1,14 @@
+remote_theme: jakartaee/jekyll-theme-jakarta-ee
+
+title: [JSON Processing (JSON-P)]
+description: [API and Reference Implementation (RI) of JSR-374]
+
+links:
+  source: https://github.com/eclipse-ee4j/jsonp
+  #docs: documentation
+  javadocs: 
+    API: docs/api/
+    RI: docs/impl/
+  download: https://github.com/eclipse-ee4j/jsonp/releases
+  mailinglist: https://accounts.eclipse.org/mailing-list/jsonp-dev
+  #faq: FAQ
