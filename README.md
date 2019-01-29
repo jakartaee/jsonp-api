@@ -19,5 +19,5 @@ the main RI jar file is now located at org.glassfish:jakarta.json.
 # <a name="Links"></a>Links #
 - [JSON-P project page](https://projects.eclipse.org/projects/ee4j.jsonp)
 - [JSR-374 page on JCP site](https://jcp.org/en/jsr/detail?id=374)
-- [API Javadoc][docs/api/?overview-summary.html]
-- [RI Javadoc][docs/impl/?overview-summary.html]
+- [API Javadoc](docs/api/?overview-summary.html)
+- [RI Javadoc](docs/impl/?overview-summary.html)
