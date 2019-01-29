@@ -1,0 +1,5 @@
+javax.json
+javax.json.spi
+javax.json.stream
+org.glassfish.json
+org.glassfish.json.api

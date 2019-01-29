@@ -1,0 +1,1 @@
+packageSearchIndex = [{"m":"java.json","l":"javax.json"},{"m":"java.json","l":"javax.json.spi"},{"m":"java.json","l":"javax.json.stream"}]

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"m":"java.json","l":"javax.json"},{"m":"java.json","l":"javax.json.spi"},{"m":"java.json","l":"javax.json.stream"},{"m":"org.glassfish.java.json","l":"org.glassfish.json"},{"m":"org.glassfish.java.json","l":"org.glassfish.json.api"}]
