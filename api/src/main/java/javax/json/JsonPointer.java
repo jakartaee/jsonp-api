@@ -113,4 +113,13 @@ public interface JsonPointer {
      * @throws JsonException if the referenced value does not exist
      */
     JsonValue getValue(JsonStructure target);
+
+    /**
+     * Returns the string representation of this JSON Pointer.
+     * The value to be returned is an empty string or a sequence of '{@code /}' prefixed tokens.
+     *
+     * @return the valid escaped JSON Pointer string.
+     */
+    @Override
+    String toString();
 }
