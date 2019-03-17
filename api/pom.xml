@@ -65,9 +65,6 @@
     <br>Comments to : jsonp-dev@eclipse.org
 ]]>
                     </bottom>
-                    <links>
-                        <link>http://docs.oracle.com/javase/8/docs/api/</link>
-                    </links>
                 </configuration>
 
                 <executions>
