@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -224,14 +224,14 @@ public class JsonPatchImpl implements JsonPatch {
         private void diffObject(String path, JsonObject source, JsonObject target) {
             source.forEach((key, value) -> {
                 if (target.containsKey(key)) {
-                    diff(path + '/' + key, value, target.get(key));
+                    diff(path + '/' + Json.encodePointer(key), value, target.get(key));
                 } else {
-                    builder.remove(path + '/' + key);
+                    builder.remove(path + '/' + Json.encodePointer(key));
                 }
             });
             target.forEach((key, value) -> {
                 if (! source.containsKey(key)) {
-                    builder.add(path + '/' + key, value);
+                    builder.add(path + '/' + Json.encodePointer(key), value);
                 }
             });
         }

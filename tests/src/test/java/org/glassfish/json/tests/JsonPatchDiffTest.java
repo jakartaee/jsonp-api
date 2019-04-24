@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,8 +50,8 @@ public class JsonPatchDiffTest {
 
     @Parameters(name = "{index}: ({0})={1}")
     public static Iterable<Object[]> data() throws Exception {
-        List<Object[]> examples = new ArrayList<Object[]>();
-        JsonArray data = loadData();
+        List<Object[]> examples = new ArrayList<>();
+        JsonArray data = JsonPatchDiffTest.loadData();
         for (JsonValue jsonValue : data) {
             JsonObject test = (JsonObject) jsonValue;
             Object[] testData = new Object[4];
@@ -78,8 +78,12 @@ public class JsonPatchDiffTest {
     private static JsonArray loadData() {
         InputStream testData = JsonPatchTest.class
                 .getResourceAsStream("/jsonpatchdiff.json");
-        JsonReader reader = Json.createReader(testData);
-        JsonArray data = (JsonArray) reader.read();
+
+        JsonArray data;
+        try(JsonReader reader = Json.createReader(testData)){
+            data = (JsonArray) reader.read();
+        }
+
         return data;
     }
 

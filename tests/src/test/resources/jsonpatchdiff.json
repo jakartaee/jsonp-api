@@ -156,5 +156,14 @@
                             { "path" : "/1", "value" : 1, "op" : "add" },
                             { "value" : 3, "op" : "add", "path" : "/3" }
                         ]
+        },
+        {
+          "original": {"a/b": "c", "e/f":  "i"},
+          "target": {"a/b": "d", "f/g":  "i"},
+          "expected": [
+            { "op": "replace", "path": "/a~1b", "value": "d" },
+            { "op": "remove", "path":"/e~1f" },
+            { "op": "add", "path":"/f~1g", "value":"i" }
+          ]
         }
 ]
