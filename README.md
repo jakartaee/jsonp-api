@@ -1,9 +1,8 @@
 [![Build Status](https://travis-ci.org/eclipse-ee4j/jsonp.svg?branch=master)](https://travis-ci.org/eclipse-ee4j/jsonp)
 
-# JSON Processing (JSON-P)
+# Jakarta JSON Processing (JSON-P)
 
-This projects contains API and Reference Implementation (RI) of JSR-374. 
-The Java API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents.
+Jakarta API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. The project is an evolution of [JSR-374](https://jcp.org/en/jsr/detail?id=374) under Jakarta EE umbrella. 
 
 ## Build
 
@@ -19,5 +18,5 @@ mvn -U -C clean install -Dnon.final=true
 
 ## Links
 
-- JSON-P official web site: https://javaee.github.io/jsonp
-- JSR-374 page on JCP site: https://jcp.org/en/jsr/detail?id=374
+- Official [web site](https://eclipse-ee4j.github.io/jsonp/)
+- [Eclipse Project](https://projects.eclipse.org/projects/ee4j.jsonp/)
