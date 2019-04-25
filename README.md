@@ -2,7 +2,7 @@
 
 # Jakarta JSON Processing (JSON-P)
 
-Jakarta API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. The project is an evolution of [JSR-374](https://jcp.org/en/jsr/detail?id=374) under Jakarta EE umbrella. 
+Jakarta API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. The project is an evolution of [JSR-374](https://jcp.org/en/jsr/detail?id=374) under Jakarta EE umbrella and contains API and a compatible implementation. 
 
 ## Build
 
