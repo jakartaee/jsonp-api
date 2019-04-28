@@ -66,7 +66,7 @@ public interface JsonPatch {
         REMOVE("remove"),
 
         /**
-         * "remove" operation.
+         * "replace" operation.
          */
         REPLACE("replace"),
 
