@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  */
 
 package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
 import java.io.StringWriter;
@@ -38,20 +36,20 @@ import java.util.Optional;
 
 class JsonArrayBuilderImpl implements JsonArrayBuilder {
     private ArrayList<JsonValue> valueList;
-    private final BufferPool bufferPool;
+    private final JsonConfig config;
 
-    JsonArrayBuilderImpl(BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
+    JsonArrayBuilderImpl(JsonConfig config) {
+        this.config = config;
     }
 
-    JsonArrayBuilderImpl(JsonArray array, BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
+    JsonArrayBuilderImpl(JsonArray array, JsonConfig config) {
+        this.config = config;
         valueList = new ArrayList<>();
         valueList.addAll(array);
     }
 
-    JsonArrayBuilderImpl(Collection<?> collection, BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
+    JsonArrayBuilderImpl(Collection<?> collection, JsonConfig config) {
+        this.config = config;
         valueList = new ArrayList<>();
         populate(collection);
     }
@@ -316,16 +314,16 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
             snapshot = Collections.unmodifiableList(valueList);
         }
         valueList = null;
-        return new JsonArrayImpl(snapshot, bufferPool);
+        return new JsonArrayImpl(snapshot, config);
     }
 
     private void populate(Collection<?> collection) {
         for (Object value : collection) {
             if (value != null && value instanceof Optional) {
                 ((Optional<?>) value).ifPresent(v ->
-                        this.valueList.add(MapUtil.handle(v, bufferPool)));
+                        this.valueList.add(MapUtil.handle(v, config)));
             } else {
-                this.valueList.add(MapUtil.handle(value, bufferPool));
+                this.valueList.add(MapUtil.handle(value, config));
             }
         }
     }
@@ -359,11 +357,11 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
 
     private static final class JsonArrayImpl extends AbstractList<JsonValue> implements JsonArray {
         private final List<JsonValue> valueList;    // Unmodifiable
-        private final BufferPool bufferPool;
+        private final JsonConfig config;
 
-        JsonArrayImpl(List<JsonValue> valueList, BufferPool bufferPool) {
+        JsonArrayImpl(List<JsonValue> valueList, JsonConfig config) {
             this.valueList = valueList;
-            this.bufferPool = bufferPool;
+            this.config = config;
         }
 
         @Override
@@ -464,7 +462,7 @@ class JsonArrayBuilderImpl implements JsonArrayBuilder {
         @Override
         public String toString() {
             StringWriter sw = new StringWriter();
-            try (JsonWriter jw = new JsonWriterImpl(sw, bufferPool)) {
+            try (JsonWriter jw = new JsonWriterImpl(sw, config)) {
                 jw.write(this);
             }
             return sw.toString();

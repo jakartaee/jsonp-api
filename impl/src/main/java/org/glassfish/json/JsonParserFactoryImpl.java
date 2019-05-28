@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,6 @@
 
 package org.glassfish.json;
 
-import org.glassfish.json.api.BufferPool;
-
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParserFactory;
@@ -25,33 +23,31 @@ import javax.json.stream.JsonParser;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.Collections;
 import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
  */
 class JsonParserFactoryImpl implements JsonParserFactory {
-    private final Map<String, ?> config = Collections.emptyMap();
-    private final BufferPool bufferPool;
+    private final JsonConfig config;
 
-    JsonParserFactoryImpl(BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
+    JsonParserFactoryImpl(JsonConfig config) {
+        this.config = config;
     }
 
     @Override
     public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader, bufferPool);
+        return new JsonParserImpl(reader, config);
     }
 
     @Override
     public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in, bufferPool);
+        return new JsonParserImpl(in, config);
     }
 
     @Override
     public JsonParser createParser(InputStream in, Charset charset) {
-        return new JsonParserImpl(in, charset, bufferPool);
+        return new JsonParserImpl(in, charset, config);
     }
 
     @Override
@@ -61,7 +57,7 @@ class JsonParserFactoryImpl implements JsonParserFactory {
 
     @Override
     public Map<String, ?> getConfigInUse() {
-        return config;
+        return config.toConfigInUse();
     }
 
     @Override

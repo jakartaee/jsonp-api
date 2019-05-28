@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  */
 
 package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
 
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
@@ -37,7 +35,7 @@ public final class MapUtil {
         super();
     }
 
-    static JsonValue handle(Object value, BufferPool bufferPool) {
+    static JsonValue handle(Object value, JsonConfig config) {
 
         if (value == null) {
             return JsonValue.NULL;
@@ -68,12 +66,12 @@ public final class MapUtil {
                                     if (value instanceof Collection) {
                                         @SuppressWarnings("unchecked")
                                         Collection<?> collection = (Collection<?>) value;
-                                        JsonArrayBuilder jsonArrayBuilder = new JsonArrayBuilderImpl(collection, bufferPool);
+                                        JsonArrayBuilder jsonArrayBuilder = new JsonArrayBuilderImpl(collection, config);
                                         return jsonArrayBuilder.build();
                                     } else {
                                         if (value instanceof Map) {
                                             @SuppressWarnings("unchecked")
-                                            JsonObjectBuilder object = new JsonObjectBuilderImpl((Map<String, Object>) value, bufferPool);
+                                            JsonObjectBuilder object = new JsonObjectBuilderImpl((Map<String, Object>) value, config);
                                             return object.build();
                                         }
                                     }

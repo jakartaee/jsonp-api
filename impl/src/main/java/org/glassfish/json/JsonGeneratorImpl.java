@@ -18,10 +18,18 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.*;
+import javax.json.JsonArray;
+import javax.json.JsonException;
+import javax.json.JsonNumber;
+import javax.json.JsonObject;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 import javax.json.stream.JsonGenerationException;
 import javax.json.stream.JsonGenerator;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -84,6 +92,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     private final Writer writer;
     private Context currentContext = new Context(Scope.IN_NONE);
     private final Deque<Context> stack = new ArrayDeque<>();
+    private final NumberStrategy numberStrategy;
 
     // Using own buffering mechanism as JDK's BufferedWriter uses synchronized
     // methods. Also, flushBuffer() is useful when you don't want to actually
@@ -91,18 +100,30 @@ class JsonGeneratorImpl implements JsonGenerator {
     private final char buf[];     // capacity >= INT_MIN_VALUE_CHARS.length
     private int len = 0;
 
-    JsonGeneratorImpl(Writer writer, BufferPool bufferPool) {
+    JsonGeneratorImpl(Writer writer, JsonConfig config) {
         this.writer = writer;
-        this.bufferPool = bufferPool;
+        this.bufferPool = config.getBufferPool();
         this.buf = bufferPool.take();
+        this.numberStrategy = getNumberStrategy(config.getBigNumberStrategy());
     }
 
-    JsonGeneratorImpl(OutputStream out, BufferPool bufferPool) {
-        this(out, StandardCharsets.UTF_8, bufferPool);
+    JsonGeneratorImpl(OutputStream out, JsonConfig config) {
+        this(out, StandardCharsets.UTF_8, config);
     }
 
-    JsonGeneratorImpl(OutputStream out, Charset encoding, BufferPool bufferPool) {
-        this(new OutputStreamWriter(out, encoding), bufferPool);
+    JsonGeneratorImpl(OutputStream out, Charset encoding, JsonConfig config) {
+        this(new OutputStreamWriter(out, encoding), config);
+    }
+
+    private NumberStrategy getNumberStrategy(String numberStrategy) {
+        switch (numberStrategy) {
+            case NumberStrategy.JSON_NUMBER:
+                return new DefaultNumberStrategy(this);
+            case NumberStrategy.JSON_STRING:
+                return new AlwaysStringStrategy(this);
+                default:
+                    throw new JsonGenerationException("Unknown number strategy: " + numberStrategy);
+        }
     }
 
     @Override
@@ -179,7 +200,7 @@ class JsonGeneratorImpl implements JsonGenerator {
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
-        writeString(String.valueOf(value));
+        numberStrategy.write(value);
         return this;
     }
 
@@ -204,7 +225,7 @@ class JsonGeneratorImpl implements JsonGenerator {
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
-        writeString(String.valueOf(value));
+        numberStrategy.write(value);
         return this;
     }
 
@@ -215,7 +236,7 @@ class JsonGeneratorImpl implements JsonGenerator {
                     JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
         }
         writeName(name);
-        writeString(String.valueOf(value));
+        numberStrategy.write(value);
         return this;
     }
 
@@ -379,7 +400,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(long value) {
         checkContextForValue();
-        writeValue(String.valueOf(value));
+        numberStrategy.write(value);
         popFieldContext();
         return this;
     }
@@ -398,7 +419,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(BigInteger value) {
         checkContextForValue();
-        writeValue(value.toString());
+        numberStrategy.write(value);
         popFieldContext();
         return this;
     }
@@ -414,7 +435,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     @Override
     public JsonGenerator write(BigDecimal value) {
         checkContextForValue();
-        writeValue(value.toString());
+        numberStrategy.write(value);
         popFieldContext();
 
         return this;
@@ -578,6 +599,12 @@ class JsonGeneratorImpl implements JsonGenerator {
         writeChar('"');
     }
 
+    private void writeNonEscapedString(String str) {
+        writeChar('"');
+        writeString(str, 0, str.length());
+        writeChar('"');
+    }
+
     void writeString(String str, int begin, int end) {
         while (begin < end) {       // source begin and end indexes
             int no = Math.min(buf.length - len, end - begin);
@@ -705,6 +732,65 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
         if (sign != 0) {
             buf [--charPos] = sign;
+        }
+    }
+
+    /**
+     * Writes number values without quotation.
+     */
+    private static final class DefaultNumberStrategy implements NumberStrategy {
+
+        private final JsonGeneratorImpl generator;
+
+        public DefaultNumberStrategy(JsonGeneratorImpl generator) {
+            this.generator = generator;
+        }
+
+        @Override
+        public void write(Long value) {
+            generator.writeComma();
+            generator.writeString(String.valueOf(value));
+        }
+
+        @Override
+        public void write(BigInteger value) {
+            generator.writeComma();
+            generator.writeString(String.valueOf(value));
+        }
+
+        @Override
+        public void write(BigDecimal value) {
+            generator.writeComma();
+            generator.writeString(String.valueOf(value));
+        }
+    }
+
+    /**
+     * Quotes the number values, only for types out of IEEE754 64bit range.
+     */
+    private static final class AlwaysStringStrategy implements NumberStrategy {
+        private final JsonGeneratorImpl generator;
+
+        public AlwaysStringStrategy(JsonGeneratorImpl generator) {
+            this.generator = generator;
+        }
+
+        @Override
+        public void write(Long value) {
+            generator.writeComma();
+            generator.writeNonEscapedString(String.valueOf(value));
+        }
+
+        @Override
+        public void write(BigInteger value) {
+            generator.writeComma();
+            generator.writeNonEscapedString(String.valueOf(value));
+        }
+
+        @Override
+        public void write(BigDecimal value) {
+            generator.writeComma();
+            generator.writeNonEscapedString(String.valueOf(value));
         }
     }
 

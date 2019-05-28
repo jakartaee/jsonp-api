@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,13 +16,9 @@
 
 package org.glassfish.json.tests;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import junit.framework.TestCase;
+import org.glassfish.json.NumberStrategy;
+import org.glassfish.json.api.BufferPool;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -31,10 +27,13 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 import javax.json.JsonValue;
-
-import org.glassfish.json.api.BufferPool;
-
-import junit.framework.TestCase;
+import javax.json.stream.JsonGenerator;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jitendra Kotamraju
@@ -106,9 +105,15 @@ public class JsonReaderTest extends TestCase {
         JsonReaderFactory factory = Json.createReaderFactory(config);
         factory.createReader(new StringReader("{}"));
         Map<String, ?> config1 = factory.getConfigInUse();
-        if (config1.size() > 0) {
-            fail("Shouldn't have any config in use");
-        }
+        Boolean prettyPrinting = (Boolean) config1.get(JsonGenerator.PRETTY_PRINTING);
+        assertNotNull(prettyPrinting);
+        assertFalse(prettyPrinting);
+
+        BufferPool bufferPool = (BufferPool) config1.get(BufferPool.class.getName());
+        assertEquals("org.glassfish.json.BufferPoolImpl", bufferPool.getClass().getName());
+
+        String bigNumberStrategy = (String) config1.get(NumberStrategy.class.getName());
+        assertEquals(NumberStrategy.JSON_NUMBER, bigNumberStrategy);
     }
 
     public void testIllegalStateExcepton() throws Exception {

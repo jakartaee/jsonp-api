@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,11 +39,9 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParsingException;
 
 import org.glassfish.json.JsonTokenizer.JsonToken;
-import org.glassfish.json.api.BufferPool;
 
 /**
  * JSON parser implementation. NoneContext, ArrayContext, ObjectContext is used
@@ -54,27 +52,27 @@ import org.glassfish.json.api.BufferPool;
  */
 public class JsonParserImpl implements JsonParser {
 
-    private final BufferPool bufferPool;
+    private final JsonConfig config;
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
     private final Stack stack = new Stack();
     private final JsonTokenizer tokenizer;
 
-    public JsonParserImpl(Reader reader, BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
-        tokenizer = new JsonTokenizer(reader, bufferPool);
+    public JsonParserImpl(Reader reader, JsonConfig config) {
+        this.config = config;
+        tokenizer = new JsonTokenizer(reader, config.getBufferPool());
     }
 
-    public JsonParserImpl(InputStream in, BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
+    public JsonParserImpl(InputStream in, JsonConfig config) {
+        this.config = config;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
-        tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
+        tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), config.getBufferPool());
     }
 
-    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
-        this.bufferPool = bufferPool;
-        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
+    public JsonParserImpl(InputStream in, Charset encoding, JsonConfig config) {
+        this.config = config;
+        tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), config.getBufferPool());
     }
 
     @Override
@@ -115,7 +113,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public long getLong() {
-        if (currentEvent != Event.VALUE_NUMBER) {
+        if (currentEvent != Event.VALUE_NUMBER && currentEvent != Event.VALUE_STRING) {
             throw new IllegalStateException(
                     JsonMessages.PARSER_GETLONG_ERR(currentEvent));
         }
@@ -124,7 +122,7 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public BigDecimal getBigDecimal() {
-        if (currentEvent != Event.VALUE_NUMBER) {
+        if (currentEvent != Event.VALUE_NUMBER && currentEvent != Event.VALUE_STRING) {
             throw new IllegalStateException(
                     JsonMessages.PARSER_GETBIGDECIMAL_ERR(currentEvent));
         }
@@ -137,7 +135,7 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                 JsonMessages.PARSER_GETARRAY_ERR(currentEvent));
         }
-        return getArray(new JsonArrayBuilderImpl(bufferPool));
+        return getArray(new JsonArrayBuilderImpl(config));
     }
 
     @Override
@@ -146,16 +144,16 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                 JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
         }
-        return getObject(new JsonObjectBuilderImpl(bufferPool));
+        return getObject(new JsonObjectBuilderImpl(config));
     }
 
     @Override
     public JsonValue getValue() {
         switch (currentEvent) {
             case START_ARRAY:
-                return getArray(new JsonArrayBuilderImpl(bufferPool));
+                return getArray(new JsonArrayBuilderImpl(config));
             case START_OBJECT:
-                return getObject(new JsonObjectBuilderImpl(bufferPool));
+                return getObject(new JsonObjectBuilderImpl(config));
             case KEY_NAME:
             case VALUE_STRING:
                 return new JsonStringImpl(getString());

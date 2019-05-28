@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,6 +17,8 @@
 package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
+import org.glassfish.json.NumberStrategy;
+import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
 import javax.json.stream.JsonGenerator;
@@ -53,10 +55,16 @@ public class JsonGeneratorFactoryTest extends TestCase {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonGeneratorFactory generatorFactory = Json.createGeneratorFactory(config);
         Map<String, ?> config1 = generatorFactory.getConfigInUse();
-        if (config1.size() != 1) {
-            throw new JsonException("Expecting no of properties=1, got="+config1.size());
-        }
-        assertTrue(config1.containsKey(JsonGenerator.PRETTY_PRINTING));
+
+        Boolean prettyPrinting = (Boolean) config1.get(JsonGenerator.PRETTY_PRINTING);
+        assertNotNull(prettyPrinting);
+        assertTrue(prettyPrinting);
+
+        BufferPool bufferPool = (BufferPool) config1.get(BufferPool.class.getName());
+        assertEquals("org.glassfish.json.BufferPoolImpl", bufferPool.getClass().getName());
+
+        String bigNumberStrategy = (String) config1.get(NumberStrategy.class.getName());
+        assertEquals(NumberStrategy.JSON_NUMBER, bigNumberStrategy);
 
         JsonGenerator generator1 = generatorFactory.createGenerator(new StringWriter());
         generator1.writeStartArray().writeEnd();

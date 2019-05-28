@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,6 @@
 
 package org.glassfish.json;
 
-import org.glassfish.json.api.BufferPool;
-
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import java.io.OutputStream;
@@ -29,34 +27,30 @@ import java.util.Map;
  * @author Jitendra Kotamraju
  */
 class JsonWriterFactoryImpl implements JsonWriterFactory {
-    private final Map<String, ?> config;        // unmodifiable map
-    private final boolean prettyPrinting;
-    private final BufferPool bufferPool;
 
-    JsonWriterFactoryImpl(Map<String, ?> config, boolean prettyPrinting,
-            BufferPool bufferPool) {
+    private final JsonConfig config;
+
+    JsonWriterFactoryImpl(JsonConfig config) {
         this.config = config;
-        this.prettyPrinting = prettyPrinting;
-        this.bufferPool = bufferPool;
     }
 
     @Override
     public JsonWriter createWriter(Writer writer) {
-        return new JsonWriterImpl(writer, prettyPrinting, bufferPool);
+        return new JsonWriterImpl(writer, config);
     }
 
     @Override
     public JsonWriter createWriter(OutputStream out) {
-        return new JsonWriterImpl(out, prettyPrinting, bufferPool);
+        return new JsonWriterImpl(out, config);
     }
 
     @Override
     public JsonWriter createWriter(OutputStream out, Charset charset) {
-        return new JsonWriterImpl(out, charset, prettyPrinting, bufferPool);
+        return new JsonWriterImpl(out, charset, config);
     }
 
     @Override
     public Map<String, ?> getConfigInUse() {
-        return config;
+        return config.toConfigInUse();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  */
 
 package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
 
 import javax.json.*;
 import java.io.FilterOutputStream;
@@ -38,33 +36,24 @@ class JsonWriterImpl implements JsonWriter {
     private boolean writeDone;
     private final NoFlushOutputStream os;
 
-    JsonWriterImpl(Writer writer, BufferPool bufferPool) {
-        this(writer, false, bufferPool);
-    }
-
-    JsonWriterImpl(Writer writer, boolean prettyPrinting, BufferPool bufferPool) {
-        generator = prettyPrinting
-                ? new JsonPrettyGeneratorImpl(writer, bufferPool)
-                : new JsonGeneratorImpl(writer, bufferPool);
+    JsonWriterImpl(Writer writer, JsonConfig config) {
+        generator = config.isPrettyPrinting()
+                ? new JsonPrettyGeneratorImpl(writer, config)
+                : new JsonGeneratorImpl(writer, config);
         os = null;
     }
 
-    JsonWriterImpl(OutputStream out, BufferPool bufferPool) {
-        this(out, StandardCharsets.UTF_8, false, bufferPool);
+    JsonWriterImpl(OutputStream out, JsonConfig config) {
+        this(out, StandardCharsets.UTF_8, config);
     }
 
-    JsonWriterImpl(OutputStream out, boolean prettyPrinting, BufferPool bufferPool) {
-        this(out, StandardCharsets.UTF_8, prettyPrinting, bufferPool);
-    }
-
-    JsonWriterImpl(OutputStream out, Charset charset,
-                   boolean prettyPrinting, BufferPool bufferPool) {
+    JsonWriterImpl(OutputStream out, Charset charset, JsonConfig config) {
         // Decorating the given stream, so that buffered contents can be
         // written without actually flushing the stream.
         this.os = new NoFlushOutputStream(out);
-        generator = prettyPrinting
-                ? new JsonPrettyGeneratorImpl(os, charset, bufferPool)
-                : new JsonGeneratorImpl(os, charset, bufferPool);
+        generator = config.isPrettyPrinting()
+                ? new JsonPrettyGeneratorImpl(os, charset, config)
+                : new JsonGeneratorImpl(os, charset, config);
     }
 
     @Override

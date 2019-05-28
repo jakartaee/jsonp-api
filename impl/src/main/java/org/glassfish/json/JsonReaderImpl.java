@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  */
 
 package org.glassfish.json;
-
-import org.glassfish.json.api.BufferPool;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -38,21 +36,17 @@ import javax.json.stream.JsonParsingException;
 class JsonReaderImpl implements JsonReader {
     private final JsonParserImpl parser;
     private boolean readDone;
-    private final BufferPool bufferPool;
 
-    JsonReaderImpl(Reader reader, BufferPool bufferPool) {
-        parser = new JsonParserImpl(reader, bufferPool);
-        this.bufferPool = bufferPool;
+    JsonReaderImpl(Reader reader, JsonConfig config) {
+        parser = new JsonParserImpl(reader, config);
     }
 
-    JsonReaderImpl(InputStream in, BufferPool bufferPool) {
-        parser = new JsonParserImpl(in, bufferPool);
-        this.bufferPool = bufferPool;
+    JsonReaderImpl(InputStream in, JsonConfig config) {
+        parser = new JsonParserImpl(in, config);
     }
 
-    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool) {
-        parser = new JsonParserImpl(in, charset, bufferPool);
-        this.bufferPool = bufferPool;
+    JsonReaderImpl(InputStream in, Charset charset, JsonConfig config) {
+        parser = new JsonParserImpl(in, charset, config);
     }
 
     @Override
