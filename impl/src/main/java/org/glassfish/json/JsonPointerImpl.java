@@ -197,6 +197,14 @@ public final class JsonPointerImpl implements JsonPointer, Serializable {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return jsonPointer;
+    }
+
+    /**
      * Executes the operation
      * @param op a {code BiFunction} used to specify the operation to execute on
      *    the leaf node of the Json Pointer
