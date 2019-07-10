@@ -1,7 +1,7 @@
 <html>
 <!--
 
-    Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,7 @@
 -->
 
 <body>
-The Java API for JSON Processing provides portable APIs to parse,
+Jakarta JSON Processing provides portable APIs to parse,
 generate, transform, and query <a href="http://json.org/">JSON</a> using the
 streaming API or the object model API.
 
@@ -41,68 +41,68 @@ it is often not as efficient as the streaming model and requires more memory.
 The object model generates JSON output by navigating the entire tree at once.
 
 <h2>The Streaming API</h2>
-<p>The streaming API is similar to the StAX API for XML and consists of the 
-interfaces {@link javax.json.stream.JsonParser} and 
-{@link javax.json.stream.JsonGenerator}. {@code JsonParser} 
-contains methods to parse JSON data using the streaming model. 
+<p>The streaming API is similar to the StAX API for XML and consists of the
+interfaces {@link javax.json.stream.JsonParser} and
+{@link javax.json.stream.JsonGenerator}. {@code JsonParser}
+contains methods to parse JSON data using the streaming model.
 {@code JsonGenerator} contains methods to write JSON data to an ouptut source.
 
-<p>{@code JsonParser} provides forward, read-only access to 
-JSON data using the pull parsing programming model. In this model the 
-application code controls the thread and calls methods in the parser interface 
-to move the parser forward or to obtain JSON data from the current state of 
-the parser. Refer to 
-<a href="javax/json/stream/JsonParser.html#JsonParserExample2">this example</a> 
-for more details. 
+<p>{@code JsonParser} provides forward, read-only access to
+JSON data using the pull parsing programming model. In this model the
+application code controls the thread and calls methods in the parser interface
+to move the parser forward or to obtain JSON data from the current state of
+the parser. Refer to
+<a href="javax/json/stream/JsonParser.html#JsonParserExample2">this example</a>
+for more details.
 
-<p>{@code JsonGenerator} provides methods to write JSON to a stream. The 
+<p>{@code JsonGenerator} provides methods to write JSON to a stream. The
 generator writes name/value pairs in JSON objects and values in JSON arrays.
-Refer to 
-<a href="javax/json/stream/JsonGenerator.html#JsonGeneratorExample3">this 
-example</a> for more details. 
+Refer to
+<a href="javax/json/stream/JsonGenerator.html#JsonGeneratorExample3">this
+example</a> for more details.
 
-<p>The streaming API is a low-level API designed to process large amounts of 
-JSON data efficiently. Other JSON frameworks (such as JSON binding) can be 
-implemented using this API.</p> 
+<p>The streaming API is a low-level API designed to process large amounts of
+JSON data efficiently. Other JSON frameworks (such as JSON binding) can be
+implemented using this API.</p>
 
 <h2>The Object Model API</h2>
-<p>The object model API is similar to the DOM API for XML. It is a high-level 
-API that provides immutable object models for JSON object and array structures. 
-These JSON structures are represented as object models using the Java types 
-{@link javax.json.JsonObject} and {@link javax.json.JsonArray}. 
-{@code JsonObject} provides a {@link java.util.Map} view to access the unordered 
+<p>The object model API is similar to the DOM API for XML. It is a high-level
+API that provides immutable object models for JSON object and array structures.
+These JSON structures are represented as object models using the Java types
+{@link javax.json.JsonObject} and {@link javax.json.JsonArray}.
+{@code JsonObject} provides a {@link java.util.Map} view to access the unordered
 collection of zero or more name/value pairs from the model. Similarly,
-{@code JsonArray} provides a {@link java.util.List} view to access the ordered 
-sequence of zero or more values from the model. 
+{@code JsonArray} provides a {@link java.util.List} view to access the ordered
+sequence of zero or more values from the model.
 
-<p>The object model API uses builder patterns to create these object models. 
+<p>The object model API uses builder patterns to create these object models.
 Application code can use the interface {@link javax.json.JsonObjectBuilder}
-to create models that represent JSON objects. The resulting model is of type 
-{@code JsonObject}. Refer to 
-<a href="javax/json/JsonObjectBuilder.html#JsonObjectBuilderExample1">this example</a> 
+to create models that represent JSON objects. The resulting model is of type
+{@code JsonObject}. Refer to
+<a href="javax/json/JsonObjectBuilder.html#JsonObjectBuilderExample1">this example</a>
 for more details. Application code can use the interface
-{@link javax.json.JsonArrayBuilder} to create models that represent JSON arrays. 
-The resulting model is of type {@code JsonArray}. Refer to 
-<a href="javax/json/JsonArrayBuilder.html#JsonArrayBuilderExample1">this example</a> 
-for more details. 
+{@link javax.json.JsonArrayBuilder} to create models that represent JSON arrays.
+The resulting model is of type {@code JsonArray}. Refer to
+<a href="javax/json/JsonArrayBuilder.html#JsonArrayBuilderExample1">this example</a>
+for more details.
 
-<p>These object models can also be created from an input source (such as 
+<p>These object models can also be created from an input source (such as
 {@link java.io.InputStream} or {@link java.io.Reader}) using the interface
-{@link javax.json.JsonReader}. 
-<a href="javax/json/JsonReader.html#JsonReaderExample1">This example</a> shows 
+{@link javax.json.JsonReader}.
+<a href="javax/json/JsonReader.html#JsonReaderExample1">This example</a> shows
 how to read and create an empty {@code JsonArray} model using the interface
-{@code JsonReader}. Similarly, these object models can be written to an output 
-source (such as {@link java.io.OutputStream} or {@link java.io.Writer}) using 
-the class {@link javax.json.JsonWriter}. 
-<a href="javax/json/JsonWriter.html#JsonWriterExample1">This example</a> shows 
+{@code JsonReader}. Similarly, these object models can be written to an output
+source (such as {@link java.io.OutputStream} or {@link java.io.Writer}) using
+the class {@link javax.json.JsonWriter}.
+<a href="javax/json/JsonWriter.html#JsonWriterExample1">This example</a> shows
 how to write an empty {@code JsonObject} model using the interface
 {@code JsonWriter}.
 
 <h2>JSON Pointer, JSON Patch, and JSON Merge Patch</h2>
-The Java API for JSON Processing supports the latest standard on 
+The Java API for JSON Processing supports the latest standard on
 <a href="http://tools.ietf.org/html/rfc6901">JSON Pointer</a>,
 <a Href="http://tools.ietf.org/html/rfc6902">JSON Patch</a>, and
 <a Href="http://tools.ietf.org/html/rfc7396">JSON Merge Patch</a>.
- 
+
 </body>
 </html>

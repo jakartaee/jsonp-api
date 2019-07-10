@@ -1,4 +1,4 @@
-* standalone/jakarta.json-${project.version}.jar contains both "JSR 374 : Java API for JSON Processing 1.1" API
+* standalone/jakarta.json-${project.version}.jar contains both "Jakarta JSON Processing 1.1" API
   and its default provider implementation. Keep it in classpath for both compiling and running your application.
   Automatic module name is: 'java.json'
 

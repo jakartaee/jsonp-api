@@ -2,12 +2,12 @@
 
 # Jakarta JSON Processing (JSON-P)
 
-Jakarta API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. The project is an evolution of [JSR-374](https://jcp.org/en/jsr/detail?id=374) under Jakarta EE umbrella and contains API and a compatible implementation. 
+Jakarta JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. This project contains Jakarta JSON Processing specification, API and a compatible implementation.
 
 ## Build
 
 Use the following command:
-```bash 
+```bash
 mvn -U -C clean install -Dnon.final=true
 ```
 
@@ -18,5 +18,5 @@ mvn -U -C clean install -Dnon.final=true
 
 ## Links
 
-- Official [web site](https://eclipse-ee4j.github.io/jsonp/)
-- [Eclipse Project](https://projects.eclipse.org/projects/ee4j.jsonp/)
+- [JSON-P official web site](https://eclipse-ee4j.github.io/jsonp)
+- [Jakarta JSON Processing @ Eclipse](https://projects.eclipse.org/projects/ee4j.jsonp)
