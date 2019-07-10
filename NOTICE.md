@@ -1,13 +1,12 @@
-# Notices for Eclipse Project for JSON Processing
+# Notices for Jakarta JSON Processing
 
-This content is produced and maintained by the Eclipse Project for JSON
-Processing project.
+This content is produced and maintained by the Jakarta JSON Processing project.
 
 * Project home: https://projects.eclipse.org/projects/ee4j.jsonp
 
 ## Trademarks
 
-Eclipse Project for JSON Processing is a trademark of the Eclipse Foundation.
+Jakarta JSON Processing is a trademark of the Eclipse Foundation.
 
 ## Copyright
 
