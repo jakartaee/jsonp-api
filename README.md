@@ -2,7 +2,7 @@
 
 # Jakarta JSON Processing (JSON-P)
 
-The Java API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. This projects contains Jakarta JSON Processing specification, API and a compatible implementation.
+The Java API for JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents. This project contains Jakarta JSON Processing specification, API and a compatible implementation.
 
 ## Build
 
