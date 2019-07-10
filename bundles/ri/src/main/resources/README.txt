@@ -6,7 +6,7 @@ For running on JPMS, following modules are provided:
 * mods/jakarta.json-api-${project.version}.jar - 'java.json' module containing only API classes
 * mods/jakarta.json-${project.version}-module.jar - 'org.glassfish.java.json' module containing implementation
 
-Integration with Jakarta RESTful Web Services: Jakarta RESTful Web Services is provided through
+Integration with Jakarta RESTful Web Services:
 * jaxrs/jsonp-jaxrs-${project.version}.jar
 
 
