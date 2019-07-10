@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,9 +31,9 @@
     <artifactId>jakarta.json-api</artifactId>
     <packaging>bundle</packaging>
     <version>1.1.6-SNAPSHOT</version>
-    <name>JSR 374 (JSON Processing) API</name>
-    <description>API module of JSR 374:Java API for Processing JSON</description>
-    <url>https://javaee.github.io/jsonp</url>
+    <name>Jakarta JSON Processing API</name>
+    <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
+    <url>https://github.com/eclipse-ee4j/jsonp</url>
 
     <properties>
         <packages.export>javax.json.*</packages.export>
@@ -124,7 +124,7 @@
                         <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
-                        <Bundle-Description>Java API for JSON Processing (JSON-P) ${spec_version}</Bundle-Description>
+                        <Bundle-Description>Jakarta JSON Processing API ${spec_version}</Bundle-Description>
                         <Specification-Vendor>Oracle</Specification-Vendor>
                     </instructions>
                 </configuration>
