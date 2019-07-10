@@ -31,8 +31,8 @@
     <artifactId>jsonp-jaxrs</artifactId>
     <packaging>bundle</packaging>
     <version>1.2-SNAPSHOT</version>
-    <name>Jakarta JSON Processing Media for JAX-RS</name>
-    <description>JAX-RS MessageBodyReader and MessageBodyWriter to support JsonValue API of Jakarta JSON Processing</description>
+    <name>Jakarta JSON Processing Media for Jakarta RESTful Web Services</name>
+    <description>Jakarta RESTful Web Services MessageBodyReader and MessageBodyWriter to support JsonValue API of Jakarta JSON Processing</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
     <build>
         <plugins>
