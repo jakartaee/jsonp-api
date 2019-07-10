@@ -1,4 +1,4 @@
-# Contributing to Eclipse Project for JSON Processing
+# Contributing to Jakarta JSON Processing
 
 Thanks for your interest in this project.
 
