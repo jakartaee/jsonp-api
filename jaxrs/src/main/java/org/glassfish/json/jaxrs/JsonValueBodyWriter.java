@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,8 +38,8 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 /**
- * JAX-RS MessageBodyWriter for JsonValue. This allows JsonValue
- * to be return type of a resource method.
+ * Jakarta RESTful Web Services MessageBodyWriter for JsonValue.
+ * This allows JsonValue to be return type of a resource method.
  *
  * @author Jitendra Kotamraju
  * @author Blaise Doughan
