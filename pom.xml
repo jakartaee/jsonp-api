@@ -185,7 +185,23 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <source>8</source>
+                        <additionalJOptions combine.children="append">
+                            <JOption>-J-Dhttp.agent=maven-javadoc-plugin</JOption>
+                        </additionalJOptions>
+                        <sourceFileExcludes>
+                            <sourceFileExclude>**/module-info.java</sourceFileExclude>
+                            <sourceFileExclude>target/**/*.java</sourceFileExclude>
+                        </sourceFileExcludes>
+                        <docfilessubdirs>true</docfilessubdirs>
+                        <links>
+                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                        </links>
+                        <detectJavaApiLink>false</detectJavaApiLink>
+                        <detectOfflineLinks>false</detectOfflineLinks>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
