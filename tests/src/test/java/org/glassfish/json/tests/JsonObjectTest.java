@@ -48,6 +48,39 @@ public class JsonObjectTest extends TestCase {
         assertEquals(person1, person2);
     }
 
+    public void testGetStringOrDefault() throws Exception {
+        JsonObject object = Json.createObjectBuilder()
+                .add("string", "value")
+                .add("number", 25)
+                .add("boolean", false)
+                .build();
+        assertEquals("value", object.getString("string", "default"));
+        assertEquals("default", object.getString("missing", "default"));
+        assertEquals("default", object.getString("number", "default"));
+    }
+
+    public void testGetIntOrDefault() throws Exception {
+        JsonObject object = Json.createObjectBuilder()
+                .add("string", "value")
+                .add("number", 25)
+                .add("boolean", false)
+                .build();
+        assertEquals(25, object.getInt("number", 10));
+        assertEquals(10, object.getInt("missing", 10));
+        assertEquals(10, object.getInt("string", 10));
+    }
+
+    public void testGetBooleanOrDefault() throws Exception {
+        JsonObject object = Json.createObjectBuilder()
+                .add("string", "value")
+                .add("number", 25)
+                .add("boolean", false)
+                .build();
+        assertFalse(object.getBoolean("boolean", true));
+        assertTrue(object.getBoolean("missing", true));
+        assertTrue(object.getBoolean("string", true));
+    }
+
     static void testPerson(JsonObject person) {
         assertEquals(5, person.size());
         assertEquals("John", person.getString("firstName"));
