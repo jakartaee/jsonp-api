@@ -27,7 +27,7 @@
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-spec</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <name>Jakarta JSON Processing Specification</name>
 
     <properties>
@@ -37,8 +37,6 @@
         <asciidoctorj.version>1.6.2</asciidoctorj.version>
         <asciidoctorj.pdf.version>1.5.0-alpha.16</asciidoctorj.pdf.version>
         <jruby.version>9.2.6.0</jruby.version>
-        <!-- status: DRAFT, BETA, etc., or blank for final -->
-        <status>DRAFT</status>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
     </properties>
@@ -76,6 +74,51 @@
                                     <message>You need JDK8 or higher</message>
                                 </requireJavaVersion>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.7.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>2.5.7</version>
+                        <type>pom</type>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>set-specification-status</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <scripts>
+                                <!-- status: DRAFT, BETA, etc., or blank for final,
+                                    given project.version = major.minor[-qualifier]:
+                                    status = 'Final Release' if no qualifier,
+                                    status = 'DRAFT' if qualifier == SNAPSHOT,
+                                    status = 'qualifier' otherwise
+                                    to override, use '-Dstatus=whatever' on cmd line -->
+                                <script><![CDATA[
+                                    ver  = "${project.version}"
+                                    i = ver.indexOf("-")
+                                    if (i < 0) {
+                                        status = "Final Release"
+                                    } else {
+                                        status = (ver.contains("SNAPSHOT")) ? "DRAFT" : ver.substring(i + 1)
+                                    }
+                                    project.properties.setProperty('status', status)
+                                    log.info("Specification status is: " + project.properties['status'])
+                                    ]]>
+                                </script>
+                            </scripts>
                         </configuration>
                     </execution>
                 </executions>
