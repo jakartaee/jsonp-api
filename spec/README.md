@@ -11,9 +11,13 @@ Prerequisites:
 * JDK8+
 * Maven 3.0.3+
 
-Run the full build:
+Run the full build with DRAFT status:
 
 `mvn install`
+
+Run the full build with custom status (ex. "Final Release"):
+
+`mvn install -Dstatus=“Final Release”` 
 
 Locate the html files:
 - `target/generated-docs/jsonp-spec-<version>.html`
