@@ -4,7 +4,7 @@ Thanks for your interest in this project.
 
 ## Project description
 
-Eclipse Project for JSON-P is a Java API to process (e.g. parse, generate,
+Jakarta JSON Processing is a Java API to process (e.g. parse, generate,
 transform and query) JSON documents. It produces and consumes JSON in a
 streaming fashion (similar to StAX API for XML) and allows to build a Java
 object model for JSON using API classes (similar to DOM API for XML).
