@@ -236,9 +236,10 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
         @Override
         public String getString(String name, String defaultValue) {
-            try {
-                return getString(name);
-            } catch (Exception e) {
+            JsonValue value = get(name);
+            if (value instanceof JsonString) {
+                return ((JsonString) value).getString();
+            } else {
                 return defaultValue;
             }
         }
@@ -250,9 +251,10 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
         @Override
         public int getInt(String name, int defaultValue) {
-            try {
-                return getInt(name);
-            } catch (Exception e) {
+            JsonValue value = get(name);
+            if (value instanceof JsonNumber) {
+                return ((JsonNumber) value).intValue();
+            } else {
                 return defaultValue;
             }
         }
@@ -273,9 +275,12 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
         @Override
         public boolean getBoolean(String name, boolean defaultValue) {
-            try {
-                return getBoolean(name);
-            } catch (Exception e) {
+            JsonValue value = get(name);
+            if (value == JsonValue.TRUE) {
+                return true;
+            } else if (value == JsonValue.FALSE) {
+                return false;
+            } else {
                 return defaultValue;
             }
         }
