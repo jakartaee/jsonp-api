@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -206,5 +206,14 @@ public class JsonNumberTest extends TestCase {
         }
     }
 
+    public void testHashCode() {
+        JsonNumber jsonNumber1 = Json.createValue(1);
+        assertTrue(jsonNumber1.hashCode() == jsonNumber1.bigDecimalValue().hashCode());
+
+        JsonNumber jsonNumber2 = Json.createValue(1);
+
+        assertTrue(jsonNumber1.equals(jsonNumber2));
+        assertTrue(jsonNumber1.hashCode() == jsonNumber2.hashCode());
+    }
 
 }
