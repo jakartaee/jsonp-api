@@ -304,8 +304,10 @@ public class JsonParserImpl implements JsonParser {
         if (currentEvent != Event.START_OBJECT) {
             return;
         }
+        Event event = Event.START_OBJECT;
         while (hasNext()) {
-            switch (next()) {
+            event = next();
+            switch (event) {
             case START_ARRAY:
                 skipArray();
                 break;
@@ -318,7 +320,11 @@ public class JsonParserImpl implements JsonParser {
                 break;
             }
         }
-        throw parsingException(JsonToken.EOF, "[STRING, CURLYCLOSE]");
+        if (event == Event.KEY_NAME) {
+            throw parsingException(JsonToken.EOF, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
+        } else {
+            throw parsingException(JsonToken.EOF, "[STRING, CURLYCLOSE]");
+        }
     }
 
     private JsonArray getArray(JsonArrayBuilder builder) {
