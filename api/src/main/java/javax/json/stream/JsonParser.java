@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -455,6 +455,11 @@ public interface JsonParser extends /*Auto*/Closeable {
      * the corresponding {@code END_ARRAY}.
      * If the parser is not in any array context, nothing happens.
      *
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
+     *
      * @since 1.1
      */
     default public void skipArray() {
@@ -468,6 +473,11 @@ public interface JsonParser extends /*Auto*/Closeable {
      * corresponding {@code END_OBJECT}, the parser is advanced to
      * the corresponding {@code END_OBJECT}.
      * If the parser is not in any object context, nothing happens.
+     *
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
      *
      * @since 1.1
      */

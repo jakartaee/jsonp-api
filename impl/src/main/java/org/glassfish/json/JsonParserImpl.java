@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -279,20 +279,46 @@ public class JsonParserImpl implements JsonParser {
 
     @Override
     public void skipArray() {
-        if (currentEvent == Event.START_ARRAY) {
-            currentContext.skip();
-            currentContext = stack.pop();
-            currentEvent = Event.END_ARRAY;
+        if (currentEvent != Event.START_ARRAY) {
+            return;
         }
+        while (hasNext()) {
+            switch (next()) {
+            case START_ARRAY:
+                skipArray();
+                break;
+            case START_OBJECT:
+                skipObject();
+                break;
+            case END_ARRAY:
+                return;
+            default:
+                break;
+            }
+        }
+        throw parsingException(JsonToken.EOF, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL, SQUARECLOSE]");
     }
 
     @Override
     public void skipObject() {
-        if (currentEvent == Event.START_OBJECT) {
-            currentContext.skip();
-            currentContext = stack.pop();
-            currentEvent = Event.END_OBJECT;
+        if (currentEvent != Event.START_OBJECT) {
+            return;
         }
+        while (hasNext()) {
+            switch (next()) {
+            case START_ARRAY:
+                skipArray();
+                break;
+            case START_OBJECT:
+                skipObject();
+                break;
+            case END_OBJECT:
+                return;
+            default:
+                break;
+            }
+        }
+        throw parsingException(JsonToken.EOF, "[STRING, CURLYCLOSE]");
     }
 
     private JsonArray getArray(JsonArrayBuilder builder) {
@@ -392,7 +418,6 @@ public class JsonParserImpl implements JsonParser {
     private abstract class Context {
         Context next;
         abstract Event getNextEvent();
-        abstract void skip();
     }
 
     private final class NoneContext extends Context {
@@ -412,11 +437,6 @@ public class JsonParserImpl implements JsonParser {
                 return token.getEvent();
             }
             throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
-        }
-
-        @Override
-        void skip() {
-            // no-op
         }
     }
 
@@ -487,28 +507,6 @@ public class JsonParserImpl implements JsonParser {
                 throw parsingException(token, "[STRING]");
             }
         }
-
-        @Override
-        void skip() {
-            JsonToken token;
-            int depth = 1;
-            do {
-                token = tokenizer.nextToken();
-                switch (token) {
-                    case CURLYCLOSE:
-                        depth--;
-                        break;
-                    case CURLYOPEN:
-                        depth++;
-                        break;
-                    case EOF:
-                        throw parsingException(JsonToken.EOF, "[CURLYCLOSE]");
-                    default:
-                        break;
-                }
-            } while (!(token == JsonToken.CURLYCLOSE && depth == 0));
-        }
-
     }
 
     private final class ArrayContext extends Context {
@@ -550,27 +548,6 @@ public class JsonParserImpl implements JsonParser {
                 return Event.START_ARRAY;
             }
             throw parsingException(token, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL]");
-        }
-
-        @Override
-        void skip() {
-            JsonToken token;
-            int depth = 1;
-            do {
-                token = tokenizer.nextToken();
-                switch (token) {
-                    case SQUARECLOSE:
-                        depth--;
-                        break;
-                    case SQUAREOPEN:
-                        depth++;
-                        break;
-                    case EOF:
-                        throw parsingException(JsonToken.EOF, "[SQUARECLOSE]");
-                    default:
-                        break;
-                }
-            } while (!(token == JsonToken.SQUARECLOSE && depth == 0));
         }
     }
 
