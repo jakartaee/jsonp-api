@@ -1,3 +1,11 @@
+***********************************************************************************
+***                        TCK bundle information                               ***
+*** Name:       eclipse-jsonp-tck-1.1.0.zip                                     ***
+*** Date and size: date: 2019-07-29 09:37:00.000000000, size(b): 8070581        ***
+*** SHA256SUM: b12cce3f121b4e4cd6d02729b9c421eb6cc431a1aadc35fbb614627f6b875e81 ***
+***                                                                             ***
+***********************************************************************************
+***                        TCK results summary                                  ***
 [javatest.batch] Number of Tests Passed      = 169
 [javatest.batch] Number of Tests Failed      = 0
 [javatest.batch] Number of Tests with Errors = 0
@@ -172,9 +180,7 @@
 [javatest.batch] PASSED........com/sun/ts/tests/jsonp/api/pointertests/PointerTests.java#jsonPointerResolveTest_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/signaturetest/jsonp/JSONPSigTest.java#signatureTest_from_standalone
 [javatest.batch] 
-[javatest.batch] Jul 30, 2019 12:47:04 PM Finished executing all tests, wait for cleanup...
-[javatest.batch] Jul 30, 2019 12:47:04 PM Harness done with cleanup from test run.
-[javatest.batch] Total time = 247s
+[javatest.batch] Total time = 271s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 169
@@ -256,52 +262,52 @@ runclient:
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:05:  Harness - Use BinaryTestFinder...
-[javatest.batch] Jul 30, 2019 12:47:05 PM Harness starting test run with configuration "ts_unix"...
-[javatest.batch] Starting tests
-[javatest.batch] 07-30-2019 12:47:05:  Harness - startingTestRun - keywords set to:  all
-[javatest.batch] 07-30-2019 12:47:05:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:41:  Harness - Use BinaryTestFinder...
+[javatest.batch] Jul 31, 2019 9:17:42 AM Harness starting test run with configuration "ts_unix"...Starting tests
+[javatest.batch] 07-31-2019 09:17:42:  Harness - startingTestRun - keywords set to:  all
+[javatest.batch] 07-31-2019 09:17:42:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 
 [javatest.batch] ********************************************************************************
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest1_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:05:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:05:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:05:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:05:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:42:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:42:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:42:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:42:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest1 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ** IN getRunMethod: testname=jsonProviderTest1
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: **runmethod=jsonProviderTest1
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest1_setup
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest1_cleanup
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  setup ok
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:05:  provider class=com.sun.ts.tests.jsonp.provider.MyJsonProvider
-[javatest.batch] 07-30-2019 12:47:05:  Current provider is my provider - expected.
-[javatest.batch] 07-30-2019 12:47:05:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ** IN getRunMethod: testname=jsonProviderTest1
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: **runmethod=jsonProviderTest1
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest1_setup
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest1_cleanup
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  setup ok
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:42:  provider class=com.sun.ts.tests.jsonp.provider.MyJsonProvider
+[javatest.batch] 07-31-2019 09:17:42:  Current provider is my provider - expected.
+[javatest.batch] 07-31-2019 09:17:42:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:43:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -313,43 +319,43 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest10_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:06:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:06:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:06:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:43:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:43:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:43:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest10 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ** IN getRunMethod: testname=jsonProviderTest10
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: **runmethod=jsonProviderTest10
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest10_setup
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest10_cleanup
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  setup ok
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:06:  Calling SPI provider method: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:06:  TRACE: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:06:  Caught expected JsonException: javax.json.JsonException: encoding or i/o error
-[javatest.batch] 07-30-2019 12:47:06:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:07:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ** IN getRunMethod: testname=jsonProviderTest10
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: **runmethod=jsonProviderTest10
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest10_setup
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest10_cleanup
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  setup ok
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:44:  Calling SPI provider method: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:17:44:  TRACE: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:17:44:  Caught expected JsonException: javax.json.JsonException: encoding or i/o error
+[javatest.batch] 07-31-2019 09:17:44:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -361,46 +367,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest11_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:08:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:08:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:08:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:45:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:45:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:45:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest11 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ** IN getRunMethod: testname=jsonProviderTest11
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: **runmethod=jsonProviderTest11
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest11_setup
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest11_cleanup
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  setup ok
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:08:  Calling SPI provider method: public JsonArrayBuilder createArrayBuilder()
-[javatest.batch] 07-30-2019 12:47:08:  TRACE: public JsonArrayBuilder createArrayBuilder()
-[javatest.batch] 07-30-2019 12:47:08:  Verify SPI provider method was called: public JsonArrayBuilder createArrayBuilder()
-[javatest.batch] 07-30-2019 12:47:08:  String match
-[javatest.batch] 07-30-2019 12:47:08:  Expected: public JsonArrayBuilder createArrayBuilder()
-[javatest.batch] 07-30-2019 12:47:08:  Actual:   public JsonArrayBuilder createArrayBuilder()
-[javatest.batch] 07-30-2019 12:47:08:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ** IN getRunMethod: testname=jsonProviderTest11
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: **runmethod=jsonProviderTest11
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest11_setup
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest11_cleanup
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  setup ok
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:45:  Calling SPI provider method: public JsonArrayBuilder createArrayBuilder()
+[javatest.batch] 07-31-2019 09:17:45:  TRACE: public JsonArrayBuilder createArrayBuilder()
+[javatest.batch] 07-31-2019 09:17:45:  Verify SPI provider method was called: public JsonArrayBuilder createArrayBuilder()
+[javatest.batch] 07-31-2019 09:17:45:  String match
+[javatest.batch] 07-31-2019 09:17:45:  Expected: public JsonArrayBuilder createArrayBuilder()
+[javatest.batch] 07-31-2019 09:17:45:  Actual:   public JsonArrayBuilder createArrayBuilder()
+[javatest.batch] 07-31-2019 09:17:45:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:46:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -412,46 +418,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest12_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:09:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:09:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:09:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:46:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:46:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:46:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest12 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ** IN getRunMethod: testname=jsonProviderTest12
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: **runmethod=jsonProviderTest12
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest12_setup
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest12_cleanup
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  setup ok
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:09:  Calling SPI provider method: public JsonObjectBuilder createObjectBuilder()
-[javatest.batch] 07-30-2019 12:47:09:  TRACE: public JsonObjectBuilder createObjectBuilder()
-[javatest.batch] 07-30-2019 12:47:09:  Verify SPI provider method was called: public JsonObjectBuilder createObjectBuilder()
-[javatest.batch] 07-30-2019 12:47:09:  String match
-[javatest.batch] 07-30-2019 12:47:09:  Expected: public JsonObjectBuilder createObjectBuilder()
-[javatest.batch] 07-30-2019 12:47:09:  Actual:   public JsonObjectBuilder createObjectBuilder()
-[javatest.batch] 07-30-2019 12:47:09:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:10:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ** IN getRunMethod: testname=jsonProviderTest12
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: **runmethod=jsonProviderTest12
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest12_setup
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest12_cleanup
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  setup ok
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:47:  Calling SPI provider method: public JsonObjectBuilder createObjectBuilder()
+[javatest.batch] 07-31-2019 09:17:47:  TRACE: public JsonObjectBuilder createObjectBuilder()
+[javatest.batch] 07-31-2019 09:17:47:  Verify SPI provider method was called: public JsonObjectBuilder createObjectBuilder()
+[javatest.batch] 07-31-2019 09:17:47:  String match
+[javatest.batch] 07-31-2019 09:17:47:  Expected: public JsonObjectBuilder createObjectBuilder()
+[javatest.batch] 07-31-2019 09:17:47:  Actual:   public JsonObjectBuilder createObjectBuilder()
+[javatest.batch] 07-31-2019 09:17:47:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -463,47 +469,47 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest13_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:11:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:11:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:11:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:48:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:48:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:48:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest13 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ** IN getRunMethod: testname=jsonProviderTest13
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: **runmethod=jsonProviderTest13
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest13_setup
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest13_cleanup
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  setup ok
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:11:  Calling SPI provider method: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:11:  getEmptyConfig
-[javatest.batch] 07-30-2019 12:47:11:  TRACE: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:11:  Verify SPI provider method was called: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:11:  String match
-[javatest.batch] 07-30-2019 12:47:11:  Expected: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:11:  Actual:   public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:11:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ** IN getRunMethod: testname=jsonProviderTest13
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: **runmethod=jsonProviderTest13
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest13_setup
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest13_cleanup
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  setup ok
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:48:  Calling SPI provider method: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:48:  getEmptyConfig
+[javatest.batch] 07-31-2019 09:17:48:  TRACE: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:48:  Verify SPI provider method was called: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:48:  String match
+[javatest.batch] 07-31-2019 09:17:48:  Expected: public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:48:  Actual:   public JsonBuilderFactory createBuilderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:48:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:49:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -515,46 +521,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest14_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:12:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:12:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:12:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:50:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:50:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:50:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest14 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ** IN getRunMethod: testname=jsonProviderTest14
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: **runmethod=jsonProviderTest14
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest14_setup
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest14_cleanup
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  setup ok
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:12:  Calling SPI provider method: public JsonReader createReader(Reader)
-[javatest.batch] 07-30-2019 12:47:12:  TRACE: public JsonReader createReader(Reader)
-[javatest.batch] 07-30-2019 12:47:12:  Verify SPI provider method was called: public JsonReader createReader(Reader)
-[javatest.batch] 07-30-2019 12:47:12:  String match
-[javatest.batch] 07-30-2019 12:47:12:  Expected: public JsonReader createReader(Reader)
-[javatest.batch] 07-30-2019 12:47:12:  Actual:   public JsonReader createReader(Reader)
-[javatest.batch] 07-30-2019 12:47:12:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:13:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ** IN getRunMethod: testname=jsonProviderTest14
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: **runmethod=jsonProviderTest14
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest14_setup
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest14_cleanup
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  setup ok
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:50:  Calling SPI provider method: public JsonReader createReader(Reader)
+[javatest.batch] 07-31-2019 09:17:50:  TRACE: public JsonReader createReader(Reader)
+[javatest.batch] 07-31-2019 09:17:50:  Verify SPI provider method was called: public JsonReader createReader(Reader)
+[javatest.batch] 07-31-2019 09:17:50:  String match
+[javatest.batch] 07-31-2019 09:17:50:  Expected: public JsonReader createReader(Reader)
+[javatest.batch] 07-31-2019 09:17:50:  Actual:   public JsonReader createReader(Reader)
+[javatest.batch] 07-31-2019 09:17:50:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -566,46 +572,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest15_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:14:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:14:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:14:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:51:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:51:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:51:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest15 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ** IN getRunMethod: testname=jsonProviderTest15
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: **runmethod=jsonProviderTest15
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest15_setup
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest15_cleanup
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  setup ok
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:14:  Calling SPI provider method: public JsonReader createReader(InputStream)
-[javatest.batch] 07-30-2019 12:47:14:  TRACE: public JsonReader createReader(InputStream)
-[javatest.batch] 07-30-2019 12:47:14:  Verify SPI provider method was called: public JsonReader createReader(InputStream)
-[javatest.batch] 07-30-2019 12:47:14:  String match
-[javatest.batch] 07-30-2019 12:47:14:  Expected: public JsonReader createReader(InputStream)
-[javatest.batch] 07-30-2019 12:47:14:  Actual:   public JsonReader createReader(InputStream)
-[javatest.batch] 07-30-2019 12:47:14:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ** IN getRunMethod: testname=jsonProviderTest15
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: **runmethod=jsonProviderTest15
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest15_setup
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest15_cleanup
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  setup ok
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:51:  Calling SPI provider method: public JsonReader createReader(InputStream)
+[javatest.batch] 07-31-2019 09:17:51:  TRACE: public JsonReader createReader(InputStream)
+[javatest.batch] 07-31-2019 09:17:51:  Verify SPI provider method was called: public JsonReader createReader(InputStream)
+[javatest.batch] 07-31-2019 09:17:51:  String match
+[javatest.batch] 07-31-2019 09:17:51:  Expected: public JsonReader createReader(InputStream)
+[javatest.batch] 07-31-2019 09:17:51:  Actual:   public JsonReader createReader(InputStream)
+[javatest.batch] 07-31-2019 09:17:51:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:52:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -617,46 +623,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest16_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:15:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:15:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:15:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:53:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:53:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:53:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest16 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ** IN getRunMethod: testname=jsonProviderTest16
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: **runmethod=jsonProviderTest16
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest16_setup
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest16_cleanup
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  setup ok
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:15:  Calling SPI provider method: public JsonWriter createWriter(Writer)
-[javatest.batch] 07-30-2019 12:47:15:  TRACE: public JsonWriter createWriter(Writer)
-[javatest.batch] 07-30-2019 12:47:15:  Verify SPI provider method was called: public JsonWriter createWriter(Writer)
-[javatest.batch] 07-30-2019 12:47:15:  String match
-[javatest.batch] 07-30-2019 12:47:15:  Expected: public JsonWriter createWriter(Writer)
-[javatest.batch] 07-30-2019 12:47:15:  Actual:   public JsonWriter createWriter(Writer)
-[javatest.batch] 07-30-2019 12:47:15:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ** IN getRunMethod: testname=jsonProviderTest16
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: **runmethod=jsonProviderTest16
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest16_setup
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest16_cleanup
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  setup ok
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:53:  Calling SPI provider method: public JsonWriter createWriter(Writer)
+[javatest.batch] 07-31-2019 09:17:53:  TRACE: public JsonWriter createWriter(Writer)
+[javatest.batch] 07-31-2019 09:17:53:  Verify SPI provider method was called: public JsonWriter createWriter(Writer)
+[javatest.batch] 07-31-2019 09:17:53:  String match
+[javatest.batch] 07-31-2019 09:17:53:  Expected: public JsonWriter createWriter(Writer)
+[javatest.batch] 07-31-2019 09:17:53:  Actual:   public JsonWriter createWriter(Writer)
+[javatest.batch] 07-31-2019 09:17:53:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -668,46 +674,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest17_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:16:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:16:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:16:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:54:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:54:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:54:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest17 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ** IN getRunMethod: testname=jsonProviderTest17
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: **runmethod=jsonProviderTest17
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest17_setup
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest17_cleanup
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  setup ok
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:16:  Calling SPI provider method: public JsonWriter createWriter(OutputStream)
-[javatest.batch] 07-30-2019 12:47:16:  TRACE: public JsonWriter createWriter(OutputStream)
-[javatest.batch] 07-30-2019 12:47:16:  Verify SPI provider method was called: public JsonWriter createWriter(OutputStream)
-[javatest.batch] 07-30-2019 12:47:16:  String match
-[javatest.batch] 07-30-2019 12:47:16:  Expected: public JsonWriter createWriter(OutputStream)
-[javatest.batch] 07-30-2019 12:47:16:  Actual:   public JsonWriter createWriter(OutputStream)
-[javatest.batch] 07-30-2019 12:47:16:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:17:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ** IN getRunMethod: testname=jsonProviderTest17
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: **runmethod=jsonProviderTest17
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest17_setup
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest17_cleanup
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  setup ok
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:54:  Calling SPI provider method: public JsonWriter createWriter(OutputStream)
+[javatest.batch] 07-31-2019 09:17:54:  TRACE: public JsonWriter createWriter(OutputStream)
+[javatest.batch] 07-31-2019 09:17:54:  Verify SPI provider method was called: public JsonWriter createWriter(OutputStream)
+[javatest.batch] 07-31-2019 09:17:54:  String match
+[javatest.batch] 07-31-2019 09:17:54:  Expected: public JsonWriter createWriter(OutputStream)
+[javatest.batch] 07-31-2019 09:17:54:  Actual:   public JsonWriter createWriter(OutputStream)
+[javatest.batch] 07-31-2019 09:17:54:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:55:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -719,47 +725,47 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest18_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:18:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:18:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:18:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:56:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:56:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:56:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest18 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ** IN getRunMethod: testname=jsonProviderTest18
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: **runmethod=jsonProviderTest18
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest18_setup
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest18_cleanup
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  setup ok
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:18:  Calling SPI provider method: public JsonReaderFactory createReaderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:18:  getEmptyConfig
-[javatest.batch] 07-30-2019 12:47:18:  TRACE: public JsonReaderFactory createReaderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:18:  Verify SPI provider method was called: public JsonReaderFactory createReaderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:18:  String match
-[javatest.batch] 07-30-2019 12:47:18:  Expected: public JsonReaderFactory createReaderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:18:  Actual:   public JsonReaderFactory createReaderFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:18:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ** IN getRunMethod: testname=jsonProviderTest18
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: **runmethod=jsonProviderTest18
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest18_setup
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest18_cleanup
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  setup ok
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:56:  Calling SPI provider method: public JsonReaderFactory createReaderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:56:  getEmptyConfig
+[javatest.batch] 07-31-2019 09:17:56:  TRACE: public JsonReaderFactory createReaderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:56:  Verify SPI provider method was called: public JsonReaderFactory createReaderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:56:  String match
+[javatest.batch] 07-31-2019 09:17:56:  Expected: public JsonReaderFactory createReaderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:56:  Actual:   public JsonReaderFactory createReaderFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:17:56:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -771,51 +777,51 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest2_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:19:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:19:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:19:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:57:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:57:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:57:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest2 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ** IN getRunMethod: testname=jsonProviderTest2
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: **runmethod=jsonProviderTest2
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest2_setup
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest2_cleanup
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  setup ok
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:19:  Calling SPI provider method: public JsonGenerator createGenerator(Writer)
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: public JsonGenerator createGenerator(Writer)
-[javatest.batch] 07-30-2019 12:47:19:  Verify SPI provider method was called: public JsonGenerator createGenerator(Writer)
-[javatest.batch] 07-30-2019 12:47:19:  String match
-[javatest.batch] 07-30-2019 12:47:19:  Expected: public JsonGenerator createGenerator(Writer)
-[javatest.batch] 07-30-2019 12:47:19:  Actual:   public JsonGenerator createGenerator(Writer)
-[javatest.batch] 07-30-2019 12:47:19:  TRACE: public JsonGenerator writeStartArray()
-[javatest.batch] 07-30-2019 12:47:19:  Verify SPI generator method was called: public JsonGenerator writeStartArray()
-[javatest.batch] 07-30-2019 12:47:19:  String match
-[javatest.batch] 07-30-2019 12:47:19:  Expected: public JsonGenerator writeStartArray()
-[javatest.batch] 07-30-2019 12:47:19:  Actual:   public JsonGenerator writeStartArray()
-[javatest.batch] 07-30-2019 12:47:19:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:20:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ** IN getRunMethod: testname=jsonProviderTest2
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: **runmethod=jsonProviderTest2
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest2_setup
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest2_cleanup
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  setup ok
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:57:  Calling SPI provider method: public JsonGenerator createGenerator(Writer)
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: public JsonGenerator createGenerator(Writer)
+[javatest.batch] 07-31-2019 09:17:57:  Verify SPI provider method was called: public JsonGenerator createGenerator(Writer)
+[javatest.batch] 07-31-2019 09:17:57:  String match
+[javatest.batch] 07-31-2019 09:17:57:  Expected: public JsonGenerator createGenerator(Writer)
+[javatest.batch] 07-31-2019 09:17:57:  Actual:   public JsonGenerator createGenerator(Writer)
+[javatest.batch] 07-31-2019 09:17:57:  TRACE: public JsonGenerator writeStartArray()
+[javatest.batch] 07-31-2019 09:17:57:  Verify SPI generator method was called: public JsonGenerator writeStartArray()
+[javatest.batch] 07-31-2019 09:17:57:  String match
+[javatest.batch] 07-31-2019 09:17:57:  Expected: public JsonGenerator writeStartArray()
+[javatest.batch] 07-31-2019 09:17:57:  Actual:   public JsonGenerator writeStartArray()
+[javatest.batch] 07-31-2019 09:17:57:  cleanup ok
+[javatest.batch] 07-31-2019 09:17:58:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -827,51 +833,51 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest3_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:21:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:21:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:21:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:17:59:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:17:59:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:17:59:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest3 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ** IN getRunMethod: testname=jsonProviderTest3
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: **runmethod=jsonProviderTest3
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest3_setup
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest3_cleanup
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  setup ok
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:21:  Calling SPI provider method: public JsonGenerator createGenerator(OutputStream)
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: public JsonGenerator createGenerator(OutputStream)
-[javatest.batch] 07-30-2019 12:47:21:  Verify SPI provider method was called: public JsonGenerator createGenerator(OutputStream)
-[javatest.batch] 07-30-2019 12:47:21:  String match
-[javatest.batch] 07-30-2019 12:47:21:  Expected: public JsonGenerator createGenerator(OutputStream)
-[javatest.batch] 07-30-2019 12:47:21:  Actual:   public JsonGenerator createGenerator(OutputStream)
-[javatest.batch] 07-30-2019 12:47:21:  TRACE: public JsonGenerator writeStartObject()
-[javatest.batch] 07-30-2019 12:47:21:  Verify SPI generator method was called: public JsonGenerator writeStartObject()
-[javatest.batch] 07-30-2019 12:47:21:  String match
-[javatest.batch] 07-30-2019 12:47:21:  Expected: public JsonGenerator writeStartObject()
-[javatest.batch] 07-30-2019 12:47:21:  Actual:   public JsonGenerator writeStartObject()
-[javatest.batch] 07-30-2019 12:47:21:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ** IN getRunMethod: testname=jsonProviderTest3
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: **runmethod=jsonProviderTest3
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest3_setup
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest3_cleanup
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  setup ok
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:17:59:  Calling SPI provider method: public JsonGenerator createGenerator(OutputStream)
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: public JsonGenerator createGenerator(OutputStream)
+[javatest.batch] 07-31-2019 09:17:59:  Verify SPI provider method was called: public JsonGenerator createGenerator(OutputStream)
+[javatest.batch] 07-31-2019 09:17:59:  String match
+[javatest.batch] 07-31-2019 09:17:59:  Expected: public JsonGenerator createGenerator(OutputStream)
+[javatest.batch] 07-31-2019 09:17:59:  Actual:   public JsonGenerator createGenerator(OutputStream)
+[javatest.batch] 07-31-2019 09:17:59:  TRACE: public JsonGenerator writeStartObject()
+[javatest.batch] 07-31-2019 09:17:59:  Verify SPI generator method was called: public JsonGenerator writeStartObject()
+[javatest.batch] 07-31-2019 09:17:59:  String match
+[javatest.batch] 07-31-2019 09:17:59:  Expected: public JsonGenerator writeStartObject()
+[javatest.batch] 07-31-2019 09:17:59:  Actual:   public JsonGenerator writeStartObject()
+[javatest.batch] 07-31-2019 09:17:59:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:00:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -883,46 +889,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest4_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:22:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:22:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:22:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:00:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:00:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:00:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest4 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ** IN getRunMethod: testname=jsonProviderTest4
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: **runmethod=jsonProviderTest4
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest4_setup
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest4_cleanup
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  setup ok
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:22:  Calling SPI provider method: public JsonParser createParser(Reader)
-[javatest.batch] 07-30-2019 12:47:22:  TRACE: public JsonParser createParser(Reader)
-[javatest.batch] 07-30-2019 12:47:22:  Verify SPI provider method was called: public JsonParser createParser(Reader)
-[javatest.batch] 07-30-2019 12:47:22:  String match
-[javatest.batch] 07-30-2019 12:47:22:  Expected: public JsonParser createParser(Reader)
-[javatest.batch] 07-30-2019 12:47:22:  Actual:   public JsonParser createParser(Reader)
-[javatest.batch] 07-30-2019 12:47:22:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:23:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ** IN getRunMethod: testname=jsonProviderTest4
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: **runmethod=jsonProviderTest4
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest4_setup
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest4_cleanup
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  setup ok
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:01:  Calling SPI provider method: public JsonParser createParser(Reader)
+[javatest.batch] 07-31-2019 09:18:01:  TRACE: public JsonParser createParser(Reader)
+[javatest.batch] 07-31-2019 09:18:01:  Verify SPI provider method was called: public JsonParser createParser(Reader)
+[javatest.batch] 07-31-2019 09:18:01:  String match
+[javatest.batch] 07-31-2019 09:18:01:  Expected: public JsonParser createParser(Reader)
+[javatest.batch] 07-31-2019 09:18:01:  Actual:   public JsonParser createParser(Reader)
+[javatest.batch] 07-31-2019 09:18:01:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -934,46 +940,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest5_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:23:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:23:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:23:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:02:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:02:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:02:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest5 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ** IN getRunMethod: testname=jsonProviderTest5
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: **runmethod=jsonProviderTest5
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest5_setup
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest5_cleanup
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  setup ok
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:24:  Calling SPI provider method: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:24:  TRACE: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:24:  Verify SPI provider method was called: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:24:  String match
-[javatest.batch] 07-30-2019 12:47:24:  Expected: public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:24:  Actual:   public JsonParser createParser(InputStream)
-[javatest.batch] 07-30-2019 12:47:24:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ** IN getRunMethod: testname=jsonProviderTest5
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: **runmethod=jsonProviderTest5
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest5_setup
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest5_cleanup
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  setup ok
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:02:  Calling SPI provider method: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:18:02:  TRACE: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:18:02:  Verify SPI provider method was called: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:18:02:  String match
+[javatest.batch] 07-31-2019 09:18:02:  Expected: public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:18:02:  Actual:   public JsonParser createParser(InputStream)
+[javatest.batch] 07-31-2019 09:18:02:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:03:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -985,47 +991,47 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest6_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:25:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:25:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:25:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:03:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:03:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:03:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest6 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ** IN getRunMethod: testname=jsonProviderTest6
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: **runmethod=jsonProviderTest6
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest6_setup
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest6_cleanup
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  setup ok
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:25:  Calling SPI provider method: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:25:  getEmptyConfig
-[javatest.batch] 07-30-2019 12:47:25:  TRACE: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:25:  Verify SPI provider method was called: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:25:  String match
-[javatest.batch] 07-30-2019 12:47:25:  Expected: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:25:  Actual:   public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:25:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ** IN getRunMethod: testname=jsonProviderTest6
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: **runmethod=jsonProviderTest6
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest6_setup
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest6_cleanup
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  setup ok
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:04:  Calling SPI provider method: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:04:  getEmptyConfig
+[javatest.batch] 07-31-2019 09:18:04:  TRACE: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:04:  Verify SPI provider method was called: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:04:  String match
+[javatest.batch] 07-31-2019 09:18:04:  Expected: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:04:  Actual:   public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:04:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -1037,46 +1043,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest7_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:26:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:26:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:26:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:05:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:05:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:05:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest7 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ** IN getRunMethod: testname=jsonProviderTest7
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: **runmethod=jsonProviderTest7
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest7_setup
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest7_cleanup
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  setup ok
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:26:  Calling SPI provider method: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:26:  TRACE: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:26:  Verify SPI provider method was called: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:26:  String match
-[javatest.batch] 07-30-2019 12:47:26:  Expected: public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:26:  Actual:   public JsonParserFactory createParserFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:26:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:27:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ** IN getRunMethod: testname=jsonProviderTest7
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: **runmethod=jsonProviderTest7
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest7_setup
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest7_cleanup
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  setup ok
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:05:  Calling SPI provider method: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:05:  TRACE: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:05:  Verify SPI provider method was called: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:05:  String match
+[javatest.batch] 07-31-2019 09:18:05:  Expected: public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:05:  Actual:   public JsonParserFactory createParserFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:05:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:06:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -1088,46 +1094,46 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest8_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:28:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:28:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:28:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:06:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:06:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:06:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest8 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ** IN getRunMethod: testname=jsonProviderTest8
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: **runmethod=jsonProviderTest8
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest8_setup
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest8_cleanup
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  setup ok
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:28:  Calling SPI provider method: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:28:  TRACE: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:28:  Verify SPI provider method was called: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:28:  String match
-[javatest.batch] 07-30-2019 12:47:28:  Expected: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:28:  Actual:   public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:28:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ** IN getRunMethod: testname=jsonProviderTest8
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: **runmethod=jsonProviderTest8
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest8_setup
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest8_cleanup
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  setup ok
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:07:  Calling SPI provider method: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:07:  TRACE: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:07:  Verify SPI provider method was called: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:07:  String match
+[javatest.batch] 07-31-2019 09:18:07:  Expected: public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:07:  Actual:   public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:07:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
@@ -1139,50 +1145,50 @@ runclient:
 [javatest.batch] Beginning Test:  com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest9_from_standalone
 [javatest.batch] ********************************************************************************
 [javatest.batch] 
-[javatest.batch] 07-30-2019 12:47:29:  Harness - harness.executeMode is set to "2"
-[javatest.batch] 07-30-2019 12:47:29:  Harness - keywords (to be passed to tests) set to:  all
-[javatest.batch] 07-30-2019 12:47:29:  Harness - sClassPathFromExecProps = 
+[javatest.batch] 07-31-2019 09:18:08:  Harness - harness.executeMode is set to "2"
+[javatest.batch] 07-31-2019 09:18:08:  Harness - keywords (to be passed to tests) set to:  all
+[javatest.batch] 07-31-2019 09:18:08:  Harness - sClassPathFromExecProps = 
 [javatest.batch] command: com.sun.ts.lib.harness.ExecTSTestCmd CLASSPATH=:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/tsharness.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/sigtest.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonptck.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../classes:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../lib/jsonp_alternate_provider.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../src/com/sun/ts/tests/jsonp/resources:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/cdi-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.ejb-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.inject.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.json-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.persistence.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.servlet-api.jar:/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../../glassfish5/glassfish/modules/jakarta.transaction-api.jar DISPLAY=:0.0 HOME=/home/jenkins windir= SYSTEMROOT= /opt/tools/java/oracle/jdk-8/1.8.0_202/jre/bin/java -Djava.security.policy=/home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../bin/harness.policy -Djava.security.manager -Ddeliverable.class=com.sun.ts.lib.deliverable.jsonp.JSONPDeliverable com.sun.ts.tests.common.vehicle.VehicleClient -p /home/jenkins/workspace/TCK_JSONP_run/jsonp-tck/bin/xml/../../tmp/tstest.jte -t jsonProviderTest9 -vehicle standalone
 [javatest.batch] ************************************************************
 [javatest.batch] * props file set to "/tmp/default-cts-props.txt"
 [javatest.batch] ************************************************************
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: #######  Value of harness.socket.retry.count is "10"
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: #######  Value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: #######  Actual bind value of harness.log.port is "2000"
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: in ServiceEETest.run() method
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: Vehicle to be used for this test is:  standalone
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: in custom vehicle so call on EETest.
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: *** in EETest.run(argv,p)
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ** IN getRunMethod: testname=jsonProviderTest9
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ** GOT RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: **runmethod=jsonProviderTest9
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ABOUT TO GET SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: No setupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest9_setup
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: getSetupMethod - checking for default class specific setup method
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: GOT SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: No cleanupMethod annotation present
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest9_cleanup
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: getCleanupMethod - checking for default class specific cleanup method
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: GOT CLEANUP METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ABOUT TO INVOKE SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  setup ok
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: INVOKED SETUP METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
-[javatest.batch] 07-30-2019 12:47:29:  Calling SPI provider method: public JsonWriterFactory createWriterFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:29:  getEmptyConfig
-[javatest.batch] 07-30-2019 12:47:29:  TRACE: public JsonWriterFactory createWriterFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:29:  Verify SPI provider method was called: public JsonWriterFactory createWriterFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:29:  String match
-[javatest.batch] 07-30-2019 12:47:29:  Expected: public JsonWriterFactory createWriterFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:29:  Actual:   public JsonWriterFactory createWriterFactory(Map<String, ?>)
-[javatest.batch] 07-30-2019 12:47:29:  cleanup ok
-[javatest.batch] 07-30-2019 12:47:30:  TRACE: SLEPT FOR:  1000
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: #######  Value of harness.socket.retry.count is "10"
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: #######  Value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: #######  Actual bind value of harness.log.port is "2000"
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: in ServiceEETest.run() method
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: Vehicle to be used for this test is:  standalone
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: in custom vehicle so call on EETest.
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: *** in EETest.run(argv,p)
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: TESTCLASS=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ** IN getRunMethod: testClass=com.sun.ts.tests.jsonp.pluggability.jsonprovidertests.Client
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ** IN getRunMethod: testname=jsonProviderTest9
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ** GOT RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: **runmethod=jsonProviderTest9
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ABOUT TO GET SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: No setupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: getSetupMethod - checking for testcase specific setup method:  jsonProviderTest9_setup
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: getSetupMethod - checking for default class specific setup method
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: GOT SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: No cleanupMethod annotation present
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: getCleanupMethod - checking for testcase specific cleanup method:  jsonProviderTest9_cleanup
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: getCleanupMethod - checking for default class specific cleanup method
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: GOT CLEANUP METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ABOUT TO INVOKE SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  setup ok
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: INVOKED SETUP METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: ABOUT TO INVOKE EETEST RUN METHOD!
+[javatest.batch] 07-31-2019 09:18:08:  Calling SPI provider method: public JsonWriterFactory createWriterFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:08:  getEmptyConfig
+[javatest.batch] 07-31-2019 09:18:08:  TRACE: public JsonWriterFactory createWriterFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:08:  Verify SPI provider method was called: public JsonWriterFactory createWriterFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:08:  String match
+[javatest.batch] 07-31-2019 09:18:08:  Expected: public JsonWriterFactory createWriterFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:08:  Actual:   public JsonWriterFactory createWriterFactory(Map<String, ?>)
+[javatest.batch] 07-31-2019 09:18:08:  cleanup ok
+[javatest.batch] 07-31-2019 09:18:09:  TRACE: SLEPT FOR:  1000
 [javatest.batch] STATUS:Passed.
-[javatest.batch] Jul 30, 2019 12:47:31 PM Finished executing all tests, wait for cleanup...
-[javatest.batch] Jul 30, 2019 12:47:31 PM Harness done with cleanup from test run.
+[javatest.batch] Jul 31, 2019 9:18:09 AM Finished executing all tests, wait for cleanup...
+[javatest.batch] Jul 31, 2019 9:18:09 AM Harness done with cleanup from test run.
 [javatest.batch] Passed.
 [javatest.batch] ********************************************************************************
 [javatest.batch] Finished Test:  PASSED........com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest9_from_standalone
@@ -1214,7 +1220,7 @@ runclient:
 [javatest.batch] PASSED........com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest8_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/jsonp/pluggability/jsonprovidertests/Client.java#jsonProviderTest9_from_standalone
 [javatest.batch] 
-[javatest.batch] Total time = 25s
+[javatest.batch] Total time = 27s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 18
@@ -1252,7 +1258,7 @@ report:
 [javatest.report] ************************************************************
 [javatest.report] * props file set to "/tmp/default-cts-props.txt"
 [javatest.report] ************************************************************
-[javatest.report] 07-30-2019 12:47:31:  Harness - Use BinaryTestFinder...
+[javatest.report] 07-31-2019 09:18:10:  Harness - Use BinaryTestFinder...
 [javatest.report] Report written to /home/jenkins/workspace/TCK_JSONP_run/JTreportjsonp
      [echo] com/sun/ts/tests/jsonp/api/collectortests/CollectorTests.java#jsonCollectorTest_from_standalone...................Passed.
      [echo] com/sun/ts/tests/jsonp/api/exceptiontests/Client.java#jsonExceptionConstructorTest1_from_standalone...............Passed.
@@ -1449,4 +1455,4 @@ report:
      [echo] ********************************************************************************
 
 BUILD SUCCESSFUL
-Total time: 4 minutes 35 seconds
+Total time: 5 minutes 6 seconds
