@@ -62,7 +62,7 @@
                     </header>
                     <bottom><![CDATA[
 Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<br>
-Copyright &#169; 2012&#x2013;{currentYear} Oracle and/or its affiliates. All rights reserved.<br>
+Copyright &#169; 2019 Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                 </configuration>
@@ -121,7 +121,7 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                         <Specification-Version>${spec.specification.version}</Specification-Version>
                         <Export-Package>${packages.export}</Export-Package>
                         <Bundle-Description>Jakarta JSON Processing API ${spec_version}</Bundle-Description>
-                        <Specification-Vendor>Oracle</Specification-Vendor>
+                        <Specification-Vendor>Eclipse Foundation</Specification-Vendor>
                     </instructions>
                 </configuration>
             </plugin>
