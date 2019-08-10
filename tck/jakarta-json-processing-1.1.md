@@ -5,16 +5,16 @@ As required by the
 [Eclipse Foundation Technology Compatibility Kit License](https://www.eclipse.org/legal/tck.php),
 following is a summary of the TCK results for releases of Jakarta JSON Processing.
 
-# 1.1.6 Certification Request
+# 1.1.5 Certification Request
 
 - [x] Organization Name ("Organization") and, if applicable, URL\
   Eclipse Foundation
 - [x] Product Name, Version and download URL (if applicable)\
-  [Eclipse JSON Processing 1.1.6](../index.html)
+  [Eclipse JSON Processing 1.1.5](../index.html)
 - [x] Specification Name, Version and download URL\
    [Jakarta JSON Processing 1.1](https://jakarta.ee/specifications/jsonp/1.1/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL\
-  [Jakarta JSON Processing TCK 1.1.0](http://download.eclipse.org/ee4j/jakartaee-tck/jakartaee8-eftl/promoted/eclipse-jsonp-tck-1.1.0.zip), SHA-256: b12cce3f121b4e4cd6d02729b9c421eb6cc431a1aadc35fbb614627f6b875e81
+  [Jakarta JSON Processing TCK 1.1.0](http://download.eclipse.org/ee4j/jakartaee-tck/jakartaee8-eftl/promoted/eclipse-jsonp-tck-1.1.0.zip), SHA-256: 6b0ee9bfba9c72f9a78d9c074f8c4014c8fccfb57e43302dc8ad64378fc9a29c
 - [x] Public URL of TCK Results Summary\
   [TCK results summary](jakarta-json-processing-1.1.html)
 - [x] Any Additional Specification Certification Requirements\
