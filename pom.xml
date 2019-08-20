@@ -33,7 +33,7 @@
     <groupId>org.glassfish</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.6</version>
+    <version>1.1.7-SNAPSHOT</version>
     <name>Jakarta JSON Processing</name>
     <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>

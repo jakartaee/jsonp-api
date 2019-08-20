@@ -23,13 +23,13 @@
     <parent>
         <groupId>org.glassfish</groupId>
         <artifactId>json</artifactId>
-        <version>1.1.6</version>
+        <version>1.1.7-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>jsonp-jaxrs-1x</artifactId>
     <packaging>bundle</packaging>
-    <version>1.1.6</version>
+    <version>1.1.7-SNAPSHOT</version>
     <name>Jakarta JSON Processing Media for JAX-RS 1.1</name>
     <description>JAX-RS 1.1 MessageBodyReader and MessageBodyWriter to support JsonObject/JsonArray/JsonStructure API of Jakarta JSON Processing</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
