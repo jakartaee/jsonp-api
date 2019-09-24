@@ -18,13 +18,13 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.Json;
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-import javax.json.stream.JsonGenerationException;
-import javax.json.stream.JsonGenerator;
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonGenerationException;
+import jakarta.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;

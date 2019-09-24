@@ -21,8 +21,8 @@ import org.junit.BeforeClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
+import jakarta.json.*;
+import jakarta.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.io.StringReader;
 
