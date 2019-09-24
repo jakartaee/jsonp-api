@@ -18,8 +18,8 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonWriter;
-import javax.json.JsonWriterFactory;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;

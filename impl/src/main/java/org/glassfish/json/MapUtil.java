@@ -18,9 +18,9 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;

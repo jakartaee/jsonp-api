@@ -16,7 +16,7 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonException;
+import jakarta.json.JsonException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
