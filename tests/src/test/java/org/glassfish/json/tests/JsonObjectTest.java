@@ -18,7 +18,7 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.*;
+import jakarta.json.*;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -223,7 +223,7 @@ public class JsonObjectTest extends TestCase {
         assertTrue(object1.hashCode() == object2.hashCode());
 
         JsonObject object3 = Json.createObjectBuilder().build(); //org.glassfish.json.JsonArrayBuilderImpl.JsonArrayImpl
-        JsonObject object4 = JsonValue.EMPTY_JSON_OBJECT; //javax.json.EmptyObject
+        JsonObject object4 = JsonValue.EMPTY_JSON_OBJECT; //jakarta.json.EmptyObject
 
         assertTrue(object3.equals(object4));
         assertTrue(object3.hashCode() == object4.hashCode()); //equal instances have same hashCode

@@ -18,9 +18,9 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.Json;
-import javax.json.JsonException;
-import javax.json.stream.JsonParser;
+import jakarta.json.Json;
+import jakarta.json.JsonException;
+import jakarta.json.stream.JsonParser;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;

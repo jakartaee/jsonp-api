@@ -22,8 +22,8 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Arrays;
 
-import javax.json.Json;
-import javax.json.JsonPointer;
+import jakarta.json.Json;
+import jakarta.json.JsonPointer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
