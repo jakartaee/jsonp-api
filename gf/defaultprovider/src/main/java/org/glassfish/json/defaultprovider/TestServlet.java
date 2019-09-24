@@ -20,8 +20,8 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import javax.servlet.*;
 import java.io.IOException;
-import javax.json.*;
-import javax.json.stream.*;
+import jakarta.json.*;
+import jakarta.json.stream.*;
 import java.io.*;
 
 /**
