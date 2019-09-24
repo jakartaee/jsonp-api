@@ -10,7 +10,7 @@
 
 package org.glassfish.jsondemos.facebook;
 
-import javax.json.*;
+import jakarta.json.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
