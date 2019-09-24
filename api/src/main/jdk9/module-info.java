@@ -18,8 +18,8 @@
  * Jakarta JSON Processing API.
  */
 module java.json {
-    exports javax.json;
-    exports javax.json.spi;
-    exports javax.json.stream;
-    uses javax.json.spi.JsonProvider;
+    exports jakarta.json;
+    exports jakarta.json.spi;
+    exports jakarta.json.stream;
+    uses jakarta.json.spi.JsonProvider;
 }
