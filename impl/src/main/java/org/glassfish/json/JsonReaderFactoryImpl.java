@@ -18,8 +18,8 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;

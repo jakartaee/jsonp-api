@@ -16,9 +16,9 @@
 
 package org.glassfish.json;
 
-import javax.json.*;
-import javax.json.stream.JsonLocation;
-import javax.json.stream.JsonParser;
+import jakarta.json.*;
+import jakarta.json.stream.JsonLocation;
+import jakarta.json.stream.JsonParser;
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.Deque;

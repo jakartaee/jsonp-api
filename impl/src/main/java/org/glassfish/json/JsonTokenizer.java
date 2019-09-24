@@ -18,15 +18,15 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonException;
-import javax.json.stream.JsonLocation;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParsingException;
+import jakarta.json.JsonException;
+import jakarta.json.stream.JsonLocation;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParsingException;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import javax.json.stream.JsonParser.Event;
+import jakarta.json.stream.JsonParser.Event;
 
 /**
  * JSON Tokenizer

@@ -16,8 +16,8 @@
 
 package org.glassfish.json;
 
-import javax.json.*;
-import javax.json.JsonValue.ValueType;
+import jakarta.json.*;
+import jakarta.json.JsonValue.ValueType;
 
 /**
  * This class is an immutable representation of a JSON Patch as specified in

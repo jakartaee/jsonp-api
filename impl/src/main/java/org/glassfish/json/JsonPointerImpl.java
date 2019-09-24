@@ -16,12 +16,12 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonArray;
-import javax.json.JsonException;
-import javax.json.JsonObject;
-import javax.json.JsonPointer;
-import javax.json.JsonStructure;
-import javax.json.JsonValue;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonException;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonPointer;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonValue;
 import java.io.Serializable;
 import java.util.function.BiFunction;
 

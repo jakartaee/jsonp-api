@@ -17,10 +17,10 @@
 package org.glassfish.json;
 
 import java.io.StringReader;
-import javax.json.Json;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
-import javax.json.stream.JsonParsingException;
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonParsingException;
 
 /**
  * A utility class
