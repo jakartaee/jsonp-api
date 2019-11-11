@@ -10,7 +10,7 @@
 
 package org.glassfish.jsondemos.jaxrs;
 
-import javax.json.*;
+import jakarta.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 

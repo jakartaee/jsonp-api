@@ -16,7 +16,7 @@
 
 package org.glassfish.json.tests;
 
-import javax.json.*;
+import jakarta.json.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;

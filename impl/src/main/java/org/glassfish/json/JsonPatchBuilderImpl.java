@@ -16,15 +16,15 @@
 
 package org.glassfish.json;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonException;
-import javax.json.JsonPatch;
-import javax.json.JsonPatch.Operation;
-import javax.json.JsonPatchBuilder;
-import javax.json.JsonStructure;
-import javax.json.JsonValue;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonException;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonPatch.Operation;
+import jakarta.json.JsonPatchBuilder;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonValue;
 
 /**
  * A builder for constructing a JSON Patch by adding

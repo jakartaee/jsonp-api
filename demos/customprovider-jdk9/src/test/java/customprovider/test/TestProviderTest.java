@@ -10,8 +10,8 @@
 
 package customprovider.test;
 
-import javax.json.Json;
-import javax.json.stream.JsonGenerator;
+import jakarta.json.Json;
+import jakarta.json.stream.JsonGenerator;
 import org.glassfish.json.customprovider.TestGenerator;
 import org.junit.Assert;
 import org.junit.Test;

@@ -17,12 +17,12 @@
 package org.glassfish.json;
 
 
-import javax.json.stream.JsonLocation;
-import javax.json.stream.JsonParser;
+import jakarta.json.stream.JsonLocation;
+import jakarta.json.stream.JsonParser;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 
 /**
  * Defines string formatting method for each constant in the resource file

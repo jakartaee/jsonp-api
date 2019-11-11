@@ -18,7 +18,7 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.*;
+import jakarta.json.*;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
@@ -119,7 +119,7 @@ public class JsonArrayTest extends TestCase {
         assertTrue(array1.hashCode() == array2.hashCode());
 
         JsonArray array3 = Json.createArrayBuilder().build(); //org.glassfish.json.JsonArrayBuilderImpl.JsonArrayImpl
-        JsonArray array4 = JsonValue.EMPTY_JSON_ARRAY; //javax.json.EmptyArray
+        JsonArray array4 = JsonValue.EMPTY_JSON_ARRAY; //jakarta.json.EmptyArray
 
         assertTrue(array3.equals(array4));
         assertTrue(array3.hashCode() == array4.hashCode()); //equal instances have same hashCode

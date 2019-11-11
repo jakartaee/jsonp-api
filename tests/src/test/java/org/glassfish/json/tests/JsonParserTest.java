@@ -23,11 +23,11 @@ import java.io.Reader;
 import java.io.StringReader;
 import junit.framework.TestCase;
 
-import javax.json.*;
-import javax.json.stream.JsonLocation;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
-import javax.json.stream.JsonParserFactory;
+import jakarta.json.*;
+import jakarta.json.stream.JsonLocation;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParser.Event;
+import jakarta.json.stream.JsonParserFactory;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
-import javax.json.stream.JsonParsingException;
+import jakarta.json.stream.JsonParsingException;
 
 import org.glassfish.json.api.BufferPool;
 

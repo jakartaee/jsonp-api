@@ -18,7 +18,7 @@ package org.glassfish.json.tests;
 
 import org.junit.Test;
 
-import javax.json.Json;
+import jakarta.json.Json;
 
 import static org.junit.Assert.assertEquals;
 

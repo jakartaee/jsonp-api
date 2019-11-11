@@ -16,7 +16,7 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonString;
+import jakarta.json.JsonString;
 
 /**
  * JsonString impl

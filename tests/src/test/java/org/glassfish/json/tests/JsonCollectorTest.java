@@ -19,12 +19,12 @@ package org.glassfish.json.tests;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonPatchBuilder;
-import javax.json.JsonValue;
-import javax.json.stream.JsonCollectors;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonPatchBuilder;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonCollectors;
 import org.glassfish.json.JsonUtil;
 
 import static org.junit.Assert.assertEquals;

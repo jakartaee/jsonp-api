@@ -18,8 +18,8 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.*;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.*;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;

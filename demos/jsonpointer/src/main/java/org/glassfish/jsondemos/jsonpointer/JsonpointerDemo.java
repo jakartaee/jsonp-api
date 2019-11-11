@@ -10,7 +10,7 @@
 
 package org.glassfish.jsondemos.jsonpointer;
 
-import javax.json.*;
+import jakarta.json.*;
 import java.io.*;
 
 /**
