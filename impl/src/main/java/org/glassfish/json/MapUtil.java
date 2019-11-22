@@ -18,14 +18,13 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Map;
-
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 
 /**
  * Util for transforming a Map to a Json objects.
