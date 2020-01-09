@@ -144,9 +144,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <includeDependencySources>true</includeDependencySources>
+                    <includeDependencySources>false</includeDependencySources>
                     <bottom>
-<![CDATA[Copyright &#169; 2012-2018,
+<![CDATA[Copyright &#169; 2012-2020,
     <a href="http://www.oracle.com">Oracle</a>
     and/or its affiliates. All Rights Reserved.
     Use is subject to
