@@ -16,7 +16,7 @@
 
 package org.glassfish.json;
 
-import javax.json.JsonNumber;
+import jakarta.json.JsonNumber;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 

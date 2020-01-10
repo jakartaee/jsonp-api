@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,14 +26,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonPatch;
-import javax.json.JsonReader;
-import javax.json.JsonString;
-import javax.json.JsonStructure;
-import javax.json.JsonValue;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonValue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,8 +50,8 @@ public class JsonPatchDiffTest {
 
     @Parameters(name = "{index}: ({0})={1}")
     public static Iterable<Object[]> data() throws Exception {
-        List<Object[]> examples = new ArrayList<Object[]>();
-        JsonArray data = loadData();
+        List<Object[]> examples = new ArrayList<>();
+        JsonArray data = JsonPatchDiffTest.loadData();
         for (JsonValue jsonValue : data) {
             JsonObject test = (JsonObject) jsonValue;
             Object[] testData = new Object[4];
@@ -78,8 +78,12 @@ public class JsonPatchDiffTest {
     private static JsonArray loadData() {
         InputStream testData = JsonPatchTest.class
                 .getResourceAsStream("/jsonpatchdiff.json");
-        JsonReader reader = Json.createReader(testData);
-        JsonArray data = (JsonArray) reader.read();
+
+        JsonArray data;
+        try(JsonReader reader = Json.createReader(testData)){
+            data = (JsonArray) reader.read();
+        }
+
         return data;
     }
 

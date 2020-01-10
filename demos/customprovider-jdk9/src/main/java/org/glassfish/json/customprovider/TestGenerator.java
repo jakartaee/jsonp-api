@@ -10,9 +10,9 @@
 
 package org.glassfish.json.customprovider;
 
-import javax.json.JsonException;
-import javax.json.JsonValue;
-import javax.json.stream.JsonGenerator;
+import jakarta.json.JsonException;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonGenerator;
 import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;

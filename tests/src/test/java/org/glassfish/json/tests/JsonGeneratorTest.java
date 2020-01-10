@@ -19,8 +19,8 @@ package org.glassfish.json.tests;
 import junit.framework.TestCase;
 import org.glassfish.json.api.BufferPool;
 
-import javax.json.*;
-import javax.json.stream.*;
+import jakarta.json.*;
+import jakarta.json.stream.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;

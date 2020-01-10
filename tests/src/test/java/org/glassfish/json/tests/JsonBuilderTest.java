@@ -18,7 +18,7 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.*;
+import jakarta.json.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
