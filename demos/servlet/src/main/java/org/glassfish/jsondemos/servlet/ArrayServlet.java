@@ -10,7 +10,7 @@
 
 package org.glassfish.jsondemos.servlet;
 
-import javax.json.*;
+import jakarta.json.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;

@@ -18,10 +18,10 @@ package org.glassfish.json.tests;
 
 import org.junit.Test;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonValue;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonValue;
 
 import org.glassfish.json.JsonUtil;
 

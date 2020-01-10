@@ -18,9 +18,9 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
-import javax.json.*;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
+import jakarta.json.*;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParser.Event;
 import java.io.*;
 import java.net.URL;
 

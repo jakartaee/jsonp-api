@@ -7,22 +7,22 @@
         {
             "op": { "op": "test", "path": "/x", "value": {} },
             "target": [ 1, 2 ],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "test", "path": "", "value": true },
             "target": [ 1, 2 ],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "test", "path": "/x", "value": -30.000 },
             "target": { "x": -29.020 },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "replace", "path": "", "value": false },
             "target": { "x": { "a": "b", "y": {} } },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "replace", "path": "/x/y", "value": "hello" },
@@ -42,7 +42,7 @@
         {
             "op": { "op": "replace", "path": "/x/y", "value": 42 },
             "target": { "x": {} },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "remove", "path": "/x/y" },
@@ -62,7 +62,7 @@
         {
             "op": { "op": "remove", "path": "/x/y" },
             "target": { "x": {} },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "move", "from": "/x/a", "path": "/x/b" },
@@ -77,7 +77,7 @@
         {
             "op": { "op": "move", "from": "/0", "path": "/0/x" },
             "target": [ "victim", {}, {} ],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "move", "from": "/0", "path": "/-" },
@@ -92,17 +92,17 @@
         {
             "op": { "op": "move", "from": "/a", "path": "/a/b" },
             "target": {},
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "move", "from": "/a", "path": "/b/c" },
             "target": { "a": "b" },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "move", "from": "/x/a", "path": "/x/c" },
             "target": { "x": { "b": "helo" } },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "copy", "from": "/a", "path": "/b" },
@@ -127,37 +127,37 @@
         {
             "op": { "op": "copy", "from": "/a", "path": "/b" },
             "target": {},
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "copy", "from": "/a", "path": "/b/c" },
             "target": { "a": 1 },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/a/b/c", "value": 1 },
             "target": { "a": "b" },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/~1", "value": 1 },
             "target": [],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/3", "value": 1 },
             "target": [ 1, 2 ],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/-2", "value": 1 },
             "target": [ 1, 2 ],
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/foo/f", "value": "bar" },
             "target": { "foo": "bar" },
-            "exception": "javax.json.JsonException"
+            "exception": "jakarta.json.JsonException"
         },
         {
             "op": { "op": "add", "path": "/a", "value": "b" },

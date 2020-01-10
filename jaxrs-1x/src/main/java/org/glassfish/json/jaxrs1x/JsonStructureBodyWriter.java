@@ -23,10 +23,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.JsonStructure;
-import javax.json.JsonWriter;
-import javax.json.JsonWriterFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Produces;

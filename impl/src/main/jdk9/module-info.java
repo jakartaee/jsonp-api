@@ -17,5 +17,5 @@
 module org.glassfish.java.json {
     requires transitive java.json;
     exports org.glassfish.json.api;
-    provides javax.json.spi.JsonProvider with org.glassfish.json.JsonProviderImpl;
+    provides jakarta.json.spi.JsonProvider with org.glassfish.json.JsonProviderImpl;
 }

@@ -16,10 +16,10 @@
 
 package org.glassfish.json.tests;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonException;
-import javax.json.JsonPatch;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonException;
+import jakarta.json.JsonPatch;
 import org.junit.Test;
 
 /**

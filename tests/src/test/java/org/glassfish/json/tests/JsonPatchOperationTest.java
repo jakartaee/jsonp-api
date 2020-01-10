@@ -16,8 +16,8 @@
 
 package org.glassfish.json.tests;
 
-import javax.json.JsonException;
-import javax.json.JsonPatch.Operation;
+import jakarta.json.JsonException;
+import jakarta.json.JsonPatch.Operation;
 import org.junit.Assert;
 import org.junit.Test;
 

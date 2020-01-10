@@ -16,7 +16,7 @@
 
 package org.glassfish.json;
 
-import javax.json.stream.JsonLocation;
+import jakarta.json.stream.JsonLocation;
 
 /**
  * @author Jitendra Kotamraju
