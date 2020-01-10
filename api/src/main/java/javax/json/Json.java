@@ -22,9 +22,15 @@ import java.io.Reader;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.WeakHashMap;
+
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
@@ -57,8 +63,56 @@ import javax.json.stream.JsonParserFactory;
  * threads.
  */
 public final class Json {
-
+    private static final Map<ClassLoader, JsonProvider> providerCache = Collections.synchronizedMap(new WeakHashMap<>());
+    
     private Json() {
+    }
+    
+    /**
+     * Sets the provider instance used by this factory class. The provider returned is associated with the context 
+     * class loader for the current thread (if one exists).
+     * 
+     * <p>Clients are encouraged to use this method to cache the desired provider instance, thus preventing 
+     * unnecessary ServiceLoader interactions (which may be costly).
+     * 
+     * @param provider a JsonProvider instance
+     */
+    public static void setProvider(JsonProvider provider) {
+        providerCache.put(getContextClassLoader(), Objects.requireNonNull(provider));
+    }
+    
+    /**
+     * Returns the provider instance associated with the context class loader for the current thread (if one exists). 
+     * Otherwise, uses the service loader to find a provider implementation on the class path.
+     * 
+     * @return a JsonProvider instance
+     */
+    private static JsonProvider provider() {
+        return providerCache.getOrDefault(getContextClassLoader(), JsonProvider.provider());
+    }
+    
+    /**
+     * Returns the context class loader for the current thread (if one exists).
+     * 
+     * @return a ClassLoader instance or null
+     */
+    private static ClassLoader getContextClassLoader() {
+        if (System.getSecurityManager() == null) {
+        	// the security manager has not been established
+            return Thread.currentThread().getContextClassLoader();
+        }
+        // use a doPrivileged block to access the context class loader for the current thread
+        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            @Override
+            public ClassLoader run() {
+                try {
+                    return Thread.currentThread().getContextClassLoader();
+                } catch (SecurityException e) {
+                	// ignore
+                }
+                return null;
+            }
+        });
     }
 
     /**
@@ -68,7 +122,7 @@ public final class Json {
      * @return a JSON parser
      */
     public static JsonParser createParser(Reader reader) {
-        return JsonProvider.provider().createParser(reader);
+        return provider().createParser(reader);
     }
 
     /**
@@ -82,7 +136,7 @@ public final class Json {
      * @return a JSON parser
      */
     public static JsonParser createParser(InputStream in) {
-        return JsonProvider.provider().createParser(in);
+        return provider().createParser(in);
     }
 
     /**
@@ -92,7 +146,7 @@ public final class Json {
      * @return a JSON generator
      */
     public static JsonGenerator createGenerator(Writer writer) {
-        return JsonProvider.provider().createGenerator(writer);
+        return provider().createGenerator(writer);
     }
 
     /**
@@ -102,7 +156,7 @@ public final class Json {
      * @return a JSON generator
      */
     public static JsonGenerator createGenerator(OutputStream out) {
-        return JsonProvider.provider().createGenerator(out);
+        return provider().createGenerator(out);
     }
 
     /**
@@ -111,7 +165,7 @@ public final class Json {
      * @return JSON parser factory.
      *
     public static JsonParserFactory createParserFactory() {
-        return JsonProvider.provider().createParserFactory();
+        return provider().createParserFactory();
     }
      */
 
@@ -126,7 +180,7 @@ public final class Json {
      * @return JSON parser factory
      */
     public static JsonParserFactory createParserFactory(Map<String, ?> config) {
-        return JsonProvider.provider().createParserFactory(config);
+        return provider().createParserFactory(config);
     }
 
     /**
@@ -135,7 +189,7 @@ public final class Json {
      * @return JSON generator factory
      *
     public static JsonGeneratorFactory createGeneratorFactory() {
-        return JsonProvider.provider().createGeneratorFactory();
+        return provider().createGeneratorFactory();
     }
     */
 
@@ -151,7 +205,7 @@ public final class Json {
      */
     public static JsonGeneratorFactory createGeneratorFactory(
             Map<String, ?> config) {
-        return JsonProvider.provider().createGeneratorFactory(config);
+        return provider().createGeneratorFactory(config);
     }
 
     /**
@@ -163,7 +217,7 @@ public final class Json {
      * @return a JSON writer
      */
     public static JsonWriter createWriter(Writer writer) {
-        return JsonProvider.provider().createWriter(writer);
+        return provider().createWriter(writer);
     }
 
     /**
@@ -176,7 +230,7 @@ public final class Json {
      * @return a JSON writer
      */
     public static JsonWriter createWriter(OutputStream out) {
-        return JsonProvider.provider().createWriter(out);
+        return provider().createWriter(out);
     }
 
     /**
@@ -186,7 +240,7 @@ public final class Json {
      * @return a JSON reader
      */
     public static JsonReader createReader(Reader reader) {
-        return JsonProvider.provider().createReader(reader);
+        return provider().createReader(reader);
     }
 
     /**
@@ -198,7 +252,7 @@ public final class Json {
      * @return a JSON reader
      */
     public static JsonReader createReader(InputStream in) {
-        return JsonProvider.provider().createReader(in);
+        return provider().createReader(in);
     }
 
     /**
@@ -212,7 +266,7 @@ public final class Json {
      * @return a JSON reader factory
      */
     public static JsonReaderFactory createReaderFactory(Map<String, ?> config) {
-        return JsonProvider.provider().createReaderFactory(config);
+        return provider().createReaderFactory(config);
     }
 
     /**
@@ -226,7 +280,7 @@ public final class Json {
      * @return a JSON writer factory
      */
     public static JsonWriterFactory createWriterFactory(Map<String, ?> config) {
-        return JsonProvider.provider().createWriterFactory(config);
+        return provider().createWriterFactory(config);
     }
 
     /**
@@ -235,7 +289,7 @@ public final class Json {
      * @return a JSON array builder
      */
     public static JsonArrayBuilder createArrayBuilder() {
-        return JsonProvider.provider().createArrayBuilder();
+        return provider().createArrayBuilder();
     }
 
     /**
@@ -247,7 +301,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonArrayBuilder createArrayBuilder(JsonArray array) {
-        return JsonProvider.provider().createArrayBuilder(array);
+        return provider().createArrayBuilder(array);
     }
 
     /**
@@ -263,7 +317,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonArrayBuilder createArrayBuilder(Collection<?> collection) {
-        return JsonProvider.provider().createArrayBuilder(collection);
+        return provider().createArrayBuilder(collection);
     }
 
     /**
@@ -272,7 +326,7 @@ public final class Json {
      * @return a JSON object builder
      */
     public static JsonObjectBuilder createObjectBuilder() {
-        return JsonProvider.provider().createObjectBuilder();
+        return provider().createObjectBuilder();
     }
 
     /**
@@ -284,7 +338,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonObjectBuilder createObjectBuilder(JsonObject object) {
-        return JsonProvider.provider().createObjectBuilder(object);
+        return provider().createObjectBuilder(object);
     }
 
     /**
@@ -300,7 +354,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
-        return JsonProvider.provider().createObjectBuilder(map);
+        return provider().createObjectBuilder(map);
     }
 
     /**
@@ -319,7 +373,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonPointer createPointer(String jsonPointer) {
-        return JsonProvider.provider().createPointer(jsonPointer);
+        return provider().createPointer(jsonPointer);
     }
 
     /**
@@ -330,7 +384,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonPatchBuilder createPatchBuilder() {
-        return JsonProvider.provider().createPatchBuilder();
+        return provider().createPatchBuilder();
     }
 
     /**
@@ -344,7 +398,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonPatchBuilder createPatchBuilder(JsonArray array) {
-        return JsonProvider.provider().createPatchBuilder(array);
+        return provider().createPatchBuilder(array);
     }
 
     /**
@@ -357,7 +411,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonPatch createPatch(JsonArray array) {
-        return JsonProvider.provider().createPatch(array);
+        return provider().createPatch(array);
     }
 
     /**
@@ -372,7 +426,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonPatch createDiff(JsonStructure source, JsonStructure target) {
-        return JsonProvider.provider().createDiff(source, target);
+        return provider().createDiff(source, target);
     }
 
     /**
@@ -385,7 +439,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonMergePatch createMergePatch(JsonValue patch) {
-        return JsonProvider.provider().createMergePatch(patch);
+        return provider().createMergePatch(patch);
     }
 
     /**
@@ -400,7 +454,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonMergePatch createMergeDiff(JsonValue source, JsonValue target) {
-        return JsonProvider.provider().createMergeDiff(source, target);
+        return provider().createMergeDiff(source, target);
     }
 
     /**
@@ -416,7 +470,7 @@ public final class Json {
      */
     public static JsonBuilderFactory createBuilderFactory(
             Map<String, ?> config) {
-        return JsonProvider.provider().createBuilderFactory(config);
+        return provider().createBuilderFactory(config);
     }
 
     /**
@@ -428,7 +482,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonString createValue(String value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
@@ -440,7 +494,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonNumber createValue(int value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
@@ -452,7 +506,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonNumber createValue(long value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
@@ -464,7 +518,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonNumber createValue(double value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
@@ -476,7 +530,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonNumber createValue(BigDecimal value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
@@ -488,7 +542,7 @@ public final class Json {
      * @since 1.1
      */
     public static JsonNumber createValue(BigInteger value) {
-        return JsonProvider.provider().createValue(value);
+        return provider().createValue(value);
     }
 
     /**
