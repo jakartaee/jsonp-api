@@ -17,7 +17,7 @@
 /**
  * Jakarta JSON Processing API.
  */
-module java.json {
+module jakarta.json {
     exports jakarta.json;
     exports jakarta.json.spi;
     exports jakarta.json.stream;
