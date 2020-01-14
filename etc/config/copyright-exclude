@@ -3,5 +3,6 @@
 speclicense.html
 MANIFEST.MF
 /META-INF/services/
-/etc/config/
+/etc/config/copyright-exclude
+/etc/config/copyright.txt
 /bundles/ri/src/main/resources/README.txt
