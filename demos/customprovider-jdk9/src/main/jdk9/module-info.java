@@ -9,7 +9,7 @@
  */
 
 module org.glassfish.java.json.demos.customprovider {
-    requires transitive java.json;
+    requires transitive jakarta.json;
     exports org.glassfish.json.customprovider;
     provides jakarta.json.spi.JsonProvider with org.glassfish.json.customprovider.TestProvider;
 }
