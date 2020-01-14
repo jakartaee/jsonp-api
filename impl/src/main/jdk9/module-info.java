@@ -15,7 +15,7 @@
  */
 
 module org.glassfish.java.json {
-    requires transitive java.json;
+    requires transitive jakarta.json;
     exports org.glassfish.json.api;
     provides jakarta.json.spi.JsonProvider with org.glassfish.json.JsonProviderImpl;
 }
