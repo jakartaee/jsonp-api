@@ -88,24 +88,52 @@
         <non.final>false</non.final>
         <legal.doc.source>${maven.multiModuleProjectDirectory}</legal.doc.source>
         <javadoc.link.jdk>http://docs.oracle.com/javase/8/docs/api</javadoc.link.jdk>
+        <copyright.config.dir>${project.root.location}/etc/config</copyright.config.dir>
     </properties>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>directory-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>find-project-root</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>highest-basedir</goal>
+                        </goals>
+                        <configuration>
+                            <property>project.root.location</property>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+            <!-- Requires validate target to initialize copyright.config.dir properly -->
+            <!-- e.g. mvn validate glassfish-copyright:repair -->
             <plugin>
                 <groupId>org.glassfish.copyright</groupId>
                 <artifactId>glassfish-copyright-maven-plugin</artifactId>
                 <configuration>
-                    <templateFile>copyright.txt</templateFile>
-                    <excludeFile>copyright-exclude</excludeFile>
+                    <templateFile>${copyright.config.dir}/epl-copyright.txt</templateFile>
+                    <bsdTemplateFile>${copyright.config.dir}/edl-copyright.txt</bsdTemplateFile>
+                    <excludeFile>${copyright.config.dir}/copyright-exclude</excludeFile>
                     <scm>git</scm>
                     <scmOnly>true</scmOnly>
                     <warn>false</warn>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -158,6 +186,11 @@
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.commonjava.maven.plugins</groupId>
+                    <artifactId>directory-maven-plugin</artifactId>
+                    <version>0.3.1</version>
+                </plugin>
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
                     <artifactId>spec-version-maven-plugin</artifactId>
