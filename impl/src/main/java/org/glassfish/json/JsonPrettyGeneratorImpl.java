@@ -88,7 +88,7 @@ public class JsonPrettyGeneratorImpl extends JsonGeneratorImpl {
     @Override
     protected void writeComma() {
         super.writeComma();
-        if (isCommaAllowed()) {
+        if (isCommaAllowed() && !inNone()) {
             writeChar('\n');
             writeIndent();
         }

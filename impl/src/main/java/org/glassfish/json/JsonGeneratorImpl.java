@@ -487,6 +487,10 @@ class JsonGeneratorImpl implements JsonGenerator {
         currentContext.first = false;
     }
 
+    protected boolean inNone() {
+        return currentContext.scope == Scope.IN_NONE;
+    }
+
     boolean isCommaAllowed() {
         return !currentContext.first && currentContext.scope != Scope.IN_FIELD;
     }
