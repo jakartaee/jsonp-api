@@ -42,6 +42,11 @@
             <groupId>org.glassfish</groupId>
             <artifactId>jsonp-jaxrs</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>json-standalone-bundle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

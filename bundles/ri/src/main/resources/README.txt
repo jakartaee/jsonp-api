@@ -1,4 +1,4 @@
-* standalone/jakarta.json-${project.version}.jar contains both "Jakarta JSON Processing 1.1" API
+* standalone/json-standalone-bundle-${project.version}.jar contains both "Jakarta JSON Processing 1.1" API
   and its default provider implementation. Keep it in classpath for both compiling and running your application.
   Automatic module name is: 'java.json'
 
@@ -18,7 +18,7 @@ IMPORTANT NOTE: module names are not yet final and may change in the future rele
 for standalone reference implementation which includes APIs and implementation classes:
   <dependency>
       <groupId>org.glassfish</groupId>
-      <artifactId>jakarta.json</artifactId>
+      <artifactId>json-standalone-bundle</artifactId>
       <version>${project.version}</version>
   </dependency>
 
