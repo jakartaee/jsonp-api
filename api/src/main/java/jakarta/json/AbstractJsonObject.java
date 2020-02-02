@@ -38,9 +38,9 @@ import java.util.function.Function;
  *         //...other methods of Container.
  *     }
  *
- *     public final class JsonContainer implements Container {
+ *     public final class JsonContainer implements Container extends AbstractJsonObject {
  *
- *         public ContainerImpl(JsonObject representation) {
+ *         public ContainerImpl(final JsonObject representation) {
  *             super(representation);
  *         }
  *     }
