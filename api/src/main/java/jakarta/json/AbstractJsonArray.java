@@ -64,8 +64,8 @@ import java.util.stream.Stream;
 public abstract class AbstractJsonArray implements JsonArray {
 
     /**
-     * JsonArray this.delegate. You may also think of it as the
-     * "backbone" of your polymorphic JsonArray implementation.
+     * JsonArray delegate. You may also think of it as the
+     * "backbone" of your JsonArray implementation.
      */
     private final JsonArray delegate;
 

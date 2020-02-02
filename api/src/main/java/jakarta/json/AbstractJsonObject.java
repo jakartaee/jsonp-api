@@ -50,7 +50,7 @@ public abstract class AbstractJsonObject implements JsonObject {
 
     /**
      * JsonObject delegate. You may also think of it as the
-     * "backbone" of your polymorphic JsonObject implementation.
+     * "backbone" of your JsonObject implementation.
      */
     private final JsonObject delegate;
 
