@@ -98,6 +98,7 @@
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
         <spotbugs.version>3.1.12.2</spotbugs.version>
+        <jakarta_json-api_version>2.0.0-RC1</jakarta_json-api_version>
     </properties>
 
     <build>
@@ -127,6 +128,7 @@
             <plugin>
                 <groupId>org.glassfish.copyright</groupId>
                 <artifactId>glassfish-copyright-maven-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
                     <templateFile>${copyright.templatefile}</templateFile>
                     <excludeFile>${copyright.exclude}</excludeFile>
@@ -210,7 +212,7 @@
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
                     <artifactId>spec-version-maven-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
@@ -220,7 +222,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>4.2.1</version>
                     <configuration>
                         <instructions>
                             <_noee>true</_noee>
@@ -235,6 +237,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
+                    <!--
+                    Version 3.1.1 adds the argument add-modules ALL-MODULE-PATH that fails with next:
+                    error: add-modules ALL-MODULE-PATH can only be used when compiling the unnamed module 
+                    -->
                     <version>3.0.1</version>
                     <configuration>
                         <detectJavaApiLink>false</detectJavaApiLink>
@@ -251,7 +257,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.7.0</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
@@ -268,7 +274,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -362,7 +368,7 @@
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
-                <version>${project.version}</version>
+                <version>${jakarta_json-api_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
@@ -404,7 +410,6 @@
         <profile>
             <id>release</id>
             <modules>
-                <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
             </modules>
@@ -491,11 +496,9 @@
                 <jdk>[9,)</jdk>
             </activation>
             <modules>
-                <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
                 <module>jaxrs-1x</module>
-                <module>tests</module>
                 <module>gf</module>
                 <module>demos</module>
                 <module>bundles</module>
@@ -518,11 +521,9 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>api</module>
                 <module>impl</module>
                 <module>jaxrs</module>
                 <module>jaxrs-1x</module>
-                <module>tests</module>
                 <module>gf</module>
                 <module>demos</module>
                 <module>bundles</module>

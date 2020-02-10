@@ -14,4 +14,8 @@ cache:
 install: true
 
 script:
-  - mvn -U -C -Pstaging -Dnon.final=true clean verify
+  - cd api
+  - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
+  - cd ..
+  - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
+
