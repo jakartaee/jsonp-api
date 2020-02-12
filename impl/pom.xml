@@ -141,31 +141,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <includeDependencySources>true</includeDependencySources>
-                    <additionalOptions>--patch-module ${api_package}=${project.build.directory}/distro-javadoc-sources/${api_package}-api-${jakarta_json-api_version}-sources</additionalOptions>
-                    <bottom>
-<![CDATA[Copyright &#169; 2012-2020,
-    <a href="http://www.oracle.com">Oracle</a>
-    and/or its affiliates. All Rights Reserved.
-    Use is subject to
-    <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.
-    <br>Comments to : jsonp-dev@eclipse.org
-]]>
-                    </bottom>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!--
               This plugin is reponsible for packaging artifacts
               as OSGi bundles.  Please refer to
@@ -246,6 +221,36 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <!-- 
+                    Javadoc is only generated when it is executed with JDK9+. 
+                    The reason is that depends in the remote API jar that was generated with JDK9+ and it brings the module.
+                    In previous versions API was generated at the same time than IMPL with the same JDK, so there was no issue.
+                    -->
+                    <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-javadoc-plugin</artifactId>
+		                <configuration>
+		                    <includeDependencySources>true</includeDependencySources>
+		                    <additionalOptions>--patch-module ${api_package}=${project.build.directory}/distro-javadoc-sources/${api_package}-api-${jakarta_json-api_version}-sources</additionalOptions>
+		                    <bottom>
+<![CDATA[Copyright &#169; 2012-2020,
+	<a href="http://www.oracle.com">Oracle</a>
+	and/or its affiliates. All Rights Reserved.
+	Use is subject to
+	<a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.
+	<br>Comments to : jsonp-dev@eclipse.org
+]]>
+		                    </bottom>
+		                </configuration>
+		                <executions>
+		                    <execution>
+		                        <id>attach-javadocs</id>
+		                        <goals>
+		                            <goal>jar</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+		            </plugin>
                 </plugins>
             </build>
         </profile>
