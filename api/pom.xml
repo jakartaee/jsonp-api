@@ -25,10 +25,6 @@
         <artifactId>project</artifactId>
         <version>1.0.6</version>
     </parent>
-    
-    <prerequisites>
-        <maven>3.3.1</maven>
-    </prerequisites>
 
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-api</artifactId>
@@ -235,6 +231,26 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                         <Specification-Vendor>Eclipse Foundation</Specification-Vendor>
                     </instructions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.3.1</version>
+                                </requireMavenVersion>
+                            </rules>    
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
