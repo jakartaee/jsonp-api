@@ -24,6 +24,7 @@
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
         <version>1.0.6</version>
+        <relativePath/>
     </parent>
 
     <groupId>jakarta.json</groupId>
