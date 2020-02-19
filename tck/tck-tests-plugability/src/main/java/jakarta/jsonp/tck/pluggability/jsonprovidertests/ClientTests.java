@@ -33,6 +33,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -59,6 +60,12 @@ public class ClientTests {
   private static final String MY_JSONPROVIDER_CLASS = "jakarta.jsonp.tck.provider.MyJsonProvider";
 
   private String providerPath = null;
+  
+  @After
+  public void after() {
+      MyJsonProvider.clearCalls();
+      MyJsonGenerator.clearCalls();
+  }
 
   /* Tests */
 
