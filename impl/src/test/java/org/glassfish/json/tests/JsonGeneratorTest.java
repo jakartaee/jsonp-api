@@ -225,7 +225,7 @@ public class JsonGeneratorTest extends TestCase {
         generator.close();
         writer.close();
 
-        BufferedReader reader = new BufferedReader(new StringReader(writer.toString().trim()));
+        BufferedReader reader = new BufferedReader(new StringReader(writer.toString()));
         int numberOfLines = 0;
         String line;
         while ((line = reader.readLine()) != null) {
