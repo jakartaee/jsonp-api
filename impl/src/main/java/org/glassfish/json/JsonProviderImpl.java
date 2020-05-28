@@ -150,16 +150,16 @@ public class JsonProviderImpl extends JsonProvider {
     @Override
     public JsonReaderFactory createReaderFactory(Map<String, ?> config) {
         Map<String, Object> providerConfig;
-        boolean forbidDuplicateKeys;
+        boolean rejectDuplicateKeys;
         BufferPool pool;
         if (config == null) {
             providerConfig = Collections.emptyMap();
-            forbidDuplicateKeys = false;
+            rejectDuplicateKeys = false;
             pool = bufferPool;
         } else {
             providerConfig = new HashMap<>();
-            if (forbidDuplicateKeys=JsonProviderImpl.isForbidDuplicateKeysEnabled(config)) {
-                providerConfig.put(JsonConfig.FORBID_DUPLICATE_KEYS, true);
+            if (rejectDuplicateKeys=JsonProviderImpl.isRejectDuplicateKeysEnabled(config)) {
+                providerConfig.put(JsonConfig.REJECT_DUPLICATE_KEYS, true);
             }
             pool = (BufferPool)config.get(BufferPool.class.getName());
             if (pool != null) {
@@ -169,7 +169,7 @@ public class JsonProviderImpl extends JsonProvider {
             }
             providerConfig = Collections.unmodifiableMap(providerConfig);
         }
-        return new JsonReaderFactoryImpl(providerConfig, pool, forbidDuplicateKeys);
+        return new JsonReaderFactoryImpl(providerConfig, pool, rejectDuplicateKeys);
     }
 
     @Override
@@ -283,7 +283,7 @@ public class JsonProviderImpl extends JsonProvider {
         return config.containsKey(JsonGenerator.PRETTY_PRINTING);
     }
 
-    static boolean isForbidDuplicateKeysEnabled(Map<String, ?> config) {
-        return config.containsKey(JsonConfig.FORBID_DUPLICATE_KEYS);
+    static boolean isRejectDuplicateKeysEnabled(Map<String, ?> config) {
+        return config.containsKey(JsonConfig.REJECT_DUPLICATE_KEYS);
     }
 }

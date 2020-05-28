@@ -56,7 +56,7 @@ import org.glassfish.json.api.BufferPool;
 public class JsonParserImpl implements JsonParser {
 
     private final BufferPool bufferPool;
-    private final boolean forbidDuplicateKeys;
+    private final boolean rejectDuplicateKeys;
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
@@ -67,9 +67,9 @@ public class JsonParserImpl implements JsonParser {
     	this(reader, bufferPool, false);
     }
 
-    public JsonParserImpl(Reader reader, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+    public JsonParserImpl(Reader reader, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
-        this.forbidDuplicateKeys = forbidDuplicateKeys;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         tokenizer = new JsonTokenizer(reader, bufferPool);
     }
     
@@ -77,9 +77,9 @@ public class JsonParserImpl implements JsonParser {
     	this(in, bufferPool, false);
     }
 
-    public JsonParserImpl(InputStream in, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+    public JsonParserImpl(InputStream in, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
-        this.forbidDuplicateKeys = forbidDuplicateKeys;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
         tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
     }
@@ -88,9 +88,9 @@ public class JsonParserImpl implements JsonParser {
         this(in, encoding, bufferPool, false);
     }
 
-    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
-        this.forbidDuplicateKeys = forbidDuplicateKeys;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
     }
 
@@ -170,8 +170,8 @@ public class JsonParserImpl implements JsonParser {
                     this.valueMap = new LinkedHashMap<>();
                 }
                 JsonValue previousValue = valueMap.put(name, value);
-                if (forbidDuplicateKeys && previousValue != null) {
-                	throw new IllegalStateException(JsonMessages.DUPLICATE_KEY_FORBIDDEN(name));
+                if (rejectDuplicateKeys && previousValue != null) {
+                	throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
                 }
             }
         });

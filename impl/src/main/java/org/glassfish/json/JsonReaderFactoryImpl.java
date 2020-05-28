@@ -31,27 +31,27 @@ import java.util.Map;
 class JsonReaderFactoryImpl implements JsonReaderFactory {
     private final Map<String, ?> config;
     private final BufferPool bufferPool;
-    private final boolean forbidDuplicateKeys;
+    private final boolean rejectDuplicateKeys;
 
-    JsonReaderFactoryImpl(Map<String, ?> config, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+    JsonReaderFactoryImpl(Map<String, ?> config, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.config = config;
         this.bufferPool = bufferPool;
-        this.forbidDuplicateKeys = forbidDuplicateKeys;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
     }
 
     @Override
     public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader, bufferPool, forbidDuplicateKeys);
+        return new JsonReaderImpl(reader, bufferPool, rejectDuplicateKeys);
     }
 
     @Override
     public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in, bufferPool, forbidDuplicateKeys);
+        return new JsonReaderImpl(in, bufferPool, rejectDuplicateKeys);
     }
 
     @Override
     public JsonReader createReader(InputStream in, Charset charset) {
-        return new JsonReaderImpl(in, charset, bufferPool, forbidDuplicateKeys);
+        return new JsonReaderImpl(in, charset, bufferPool, rejectDuplicateKeys);
     }
 
     @Override

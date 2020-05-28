@@ -44,8 +44,8 @@ class JsonReaderImpl implements JsonReader {
         this(reader, bufferPool, false);
     }
 
-    JsonReaderImpl(Reader reader, BufferPool bufferPool, boolean forbidDuplicateKeys) {
-        parser = new JsonParserImpl(reader, bufferPool, forbidDuplicateKeys);
+    JsonReaderImpl(Reader reader, BufferPool bufferPool, boolean rejectDuplicateKeys) {
+        parser = new JsonParserImpl(reader, bufferPool, rejectDuplicateKeys);
         this.bufferPool = bufferPool;
     }
 
@@ -53,8 +53,8 @@ class JsonReaderImpl implements JsonReader {
         this(in, bufferPool, false);
     }
 
-    JsonReaderImpl(InputStream in, BufferPool bufferPool, boolean forbidDuplicateKeys) {
-        parser = new JsonParserImpl(in, bufferPool, forbidDuplicateKeys);
+    JsonReaderImpl(InputStream in, BufferPool bufferPool, boolean rejectDuplicateKeys) {
+        parser = new JsonParserImpl(in, bufferPool, rejectDuplicateKeys);
         this.bufferPool = bufferPool;
     }
 
@@ -62,8 +62,8 @@ class JsonReaderImpl implements JsonReader {
         this(in, charset, bufferPool, false);
     }
 
-    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool, boolean forbidDuplicateKeys) {
-        parser = new JsonParserImpl(in, charset, bufferPool, forbidDuplicateKeys);
+    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool, boolean rejectDuplicateKeys) {
+        parser = new JsonParserImpl(in, charset, bufferPool, rejectDuplicateKeys);
         this.bufferPool = bufferPool;
     }
 

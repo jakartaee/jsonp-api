@@ -18,8 +18,8 @@ package org.glassfish.json.api;
 
 public interface JsonConfig {
     /**
-     * Configuration property to forbid duplicate keys. The value of the property could be
+     * Configuration property to reject duplicate keys. The value of the property could be
      * be anything.
      */
-    String FORBID_DUPLICATE_KEYS = "org.glassfish.json.forbidDuplicateKeys";
+    String REJECT_DUPLICATE_KEYS = "org.glassfish.json.rejectDuplicateKeys";
 }

@@ -44,14 +44,14 @@ public class JsonReaderDuplicateKeyTest {
     @Test
     public void testJsonReaderDuplicateKey2() {
         String json = "{\"a\":\"b\",\"a\":\"c\"}";
-        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonConfig.FORBID_DUPLICATE_KEYS, true));
+        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
         JsonReader jsonReader = jsonReaderFactory.createReader(new StringReader(json));
         try {
             jsonReader.readObject();
             fail();
         } catch (Exception e) {
             assertTrue(e instanceof JsonParsingException);
-            assertEquals("Duplicate key 'a' is forbidden", e.getMessage());
+            assertEquals("Duplicate key 'a' is not allowed", e.getMessage());
         }
     }
 }
