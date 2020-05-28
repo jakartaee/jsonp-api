@@ -21,5 +21,5 @@ public interface JsonConfig {
      * Configuration property to forbid duplicate keys. The value of the property could be
      * be anything.
      */
-    public static final String FORBID_DUPLICATE_KEYS = "org.glassfish.json.forbidDuplicateKeys";
+    String FORBID_DUPLICATE_KEYS = "org.glassfish.json.forbidDuplicateKeys";
 }
