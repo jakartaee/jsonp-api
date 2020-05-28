@@ -36,6 +36,7 @@ import jakarta.json.stream.JsonParsingException;
  * @author Jitendra Kotamraju
  */
 class JsonReaderImpl implements JsonReader {
+    public static final String ALLOW_DUPLICATE_KEYS = "org.glassfish.json.JsonReaderImpl.allowDuplicateKeys";
     private final JsonParserImpl parser;
     private boolean readDone;
     private final BufferPool bufferPool;

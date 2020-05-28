@@ -118,7 +118,7 @@ final class JsonMessages {
     }
     
     static String DUPLICATE_KEY(String name) {
-    	return localize("parser.duplicate.key", name);
+        return localize("parser.duplicate.key", name);
     }
 
     // generator messages

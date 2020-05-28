@@ -41,7 +41,6 @@ import java.math.BigInteger;
  * @author Alex Soto
  */
 public class JsonProviderImpl extends JsonProvider {
-	private static final String ALLOW_DUPLICATE_KEYS = "jakarta.json.JsonReader.allowDuplicateKeys";
     private final BufferPool bufferPool = new BufferPoolImpl();
 
     @Override
@@ -157,11 +156,11 @@ public class JsonProviderImpl extends JsonProvider {
             pool = bufferPool;
         }
         Boolean allowDuplicateKeys = null;
-        if (config != null && config.containsKey(ALLOW_DUPLICATE_KEYS)) {
-        	allowDuplicateKeys = (Boolean) config.get(ALLOW_DUPLICATE_KEYS);
+        if (config != null && config.containsKey(JsonReaderImpl.ALLOW_DUPLICATE_KEYS)) {
+            allowDuplicateKeys = (Boolean) config.get(JsonReaderImpl.ALLOW_DUPLICATE_KEYS);
         }
         if (allowDuplicateKeys == null) {
-        	allowDuplicateKeys = true;
+            allowDuplicateKeys = true;
         }
         return new JsonReaderFactoryImpl(pool, allowDuplicateKeys);
     }
