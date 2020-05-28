@@ -53,12 +53,6 @@ import java.io.Closeable;
 public interface JsonReader extends  /*Auto*/Closeable {
 
     /**
-     * Configuration property to forbid duplicate keys. The value of the property could be
-     * be anything.
-     */
-    public static final String FORBID_DUPLICATE_KEYS = "jakarta.json.JsonReader.forbidDuplicateKeys";
-
-    /**
      * Returns a JSON array or object that is represented in
      * the input source. This method needs to be called
      * only once for a reader instance.

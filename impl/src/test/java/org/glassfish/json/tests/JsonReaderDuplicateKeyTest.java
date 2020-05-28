@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.util.Collections;
 
+import org.glassfish.json.api.JsonConfig;
 import org.junit.Test;
 
 import jakarta.json.Json;
@@ -43,7 +44,7 @@ public class JsonReaderDuplicateKeyTest {
     @Test
     public void testJsonReaderDuplicateKey2() {
         String json = "{\"a\":\"b\",\"a\":\"c\"}";
-        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonReader.FORBID_DUPLICATE_KEYS, true));
+        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonConfig.FORBID_DUPLICATE_KEYS, true));
         JsonReader jsonReader = jsonReaderFactory.createReader(new StringReader(json));
         try {
             jsonReader.readObject();

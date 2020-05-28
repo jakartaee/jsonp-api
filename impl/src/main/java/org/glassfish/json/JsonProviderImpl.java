@@ -17,6 +17,7 @@
 package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
+import org.glassfish.json.api.JsonConfig;
 
 import jakarta.json.*;
 import jakarta.json.stream.JsonGenerator;
@@ -158,7 +159,7 @@ public class JsonProviderImpl extends JsonProvider {
         } else {
             providerConfig = new HashMap<>();
             if (forbidDuplicateKeys=JsonProviderImpl.isForbidDuplicateKeysEnabled(config)) {
-                providerConfig.put(JsonReader.FORBID_DUPLICATE_KEYS, true);
+                providerConfig.put(JsonConfig.FORBID_DUPLICATE_KEYS, true);
             }
             pool = (BufferPool)config.get(BufferPool.class.getName());
             if (pool != null) {
@@ -283,6 +284,6 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     static boolean isForbidDuplicateKeysEnabled(Map<String, ?> config) {
-        return config.containsKey(JsonReader.FORBID_DUPLICATE_KEYS);
+        return config.containsKey(JsonConfig.FORBID_DUPLICATE_KEYS);
     }
 }
