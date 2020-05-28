@@ -23,6 +23,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.AbstractMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Spliterator;
@@ -55,25 +56,29 @@ import org.glassfish.json.api.BufferPool;
 public class JsonParserImpl implements JsonParser {
 
     private final BufferPool bufferPool;
+    private final boolean allowDuplicateKeys;
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
     private final Stack stack = new Stack();
     private final JsonTokenizer tokenizer;
 
-    public JsonParserImpl(Reader reader, BufferPool bufferPool) {
+    public JsonParserImpl(Reader reader, BufferPool bufferPool, boolean allowDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
         tokenizer = new JsonTokenizer(reader, bufferPool);
     }
 
-    public JsonParserImpl(InputStream in, BufferPool bufferPool) {
+    public JsonParserImpl(InputStream in, BufferPool bufferPool, boolean allowDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
         tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
     }
 
-    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
+    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool, boolean allowDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
     }
 
@@ -146,7 +151,18 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                 JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
         }
-        return getObject(new JsonObjectBuilderImpl(bufferPool));
+        return getObject(new JsonObjectBuilderImpl(bufferPool) {
+        	@Override
+            protected void putValueMap(String name, JsonValue value) {
+                if (valueMap == null) {
+                    this.valueMap = new LinkedHashMap<>();
+                }
+                JsonValue previousValue = valueMap.put(name, value);
+                if (!allowDuplicateKeys && previousValue != null) {
+                	throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
+                }
+            }
+        });
     }
 
     @Override

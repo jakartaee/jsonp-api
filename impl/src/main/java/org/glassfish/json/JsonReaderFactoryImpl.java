@@ -32,24 +32,26 @@ import java.util.Map;
 class JsonReaderFactoryImpl implements JsonReaderFactory {
     private final Map<String, ?> config = Collections.emptyMap();
     private final BufferPool bufferPool;
+    private final boolean allowDuplicateKeys;
 
-    JsonReaderFactoryImpl(BufferPool bufferPool) {
+    JsonReaderFactoryImpl(BufferPool bufferPool, boolean allowDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
     @Override
     public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader, bufferPool);
+        return new JsonReaderImpl(reader, bufferPool, allowDuplicateKeys);
     }
 
     @Override
     public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in, bufferPool);
+        return new JsonReaderImpl(in, bufferPool, allowDuplicateKeys);
     }
 
     @Override
     public JsonReader createReader(InputStream in, Charset charset) {
-        return new JsonReaderImpl(in, charset, bufferPool);
+        return new JsonReaderImpl(in, charset, bufferPool, allowDuplicateKeys);
     }
 
     @Override

@@ -41,7 +41,7 @@ import java.math.BigInteger;
  * @author Alex Soto
  */
 public class JsonProviderImpl extends JsonProvider {
-
+	private static final String ALLOW_DUPLICATE_KEYS = "jakarta.json.JsonReader.allowDuplicateKeys";
     private final BufferPool bufferPool = new BufferPoolImpl();
 
     @Override
@@ -56,12 +56,12 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader, bufferPool);
+        return new JsonParserImpl(reader, bufferPool, true);
     }
 
     @Override
     public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in, bufferPool);
+        return new JsonParserImpl(in, bufferPool, true);
     }
 
     @Override
@@ -104,12 +104,12 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonReader createReader(Reader reader) {
-        return new JsonReaderImpl(reader, bufferPool);
+        return new JsonReaderImpl(reader, bufferPool, true);
     }
 
     @Override
     public JsonReader createReader(InputStream in) {
-        return new JsonReaderImpl(in, bufferPool);
+        return new JsonReaderImpl(in, bufferPool, true);
     }
 
     @Override
@@ -156,7 +156,14 @@ public class JsonProviderImpl extends JsonProvider {
         if (pool == null) {
             pool = bufferPool;
         }
-        return new JsonReaderFactoryImpl(pool);
+        Boolean allowDuplicateKeys = null;
+        if (config != null && config.containsKey(ALLOW_DUPLICATE_KEYS)) {
+        	allowDuplicateKeys = (Boolean) config.get(ALLOW_DUPLICATE_KEYS);
+        }
+        if (allowDuplicateKeys == null) {
+        	allowDuplicateKeys = true;
+        }
+        return new JsonReaderFactoryImpl(pool, allowDuplicateKeys);
     }
 
     @Override

@@ -39,20 +39,24 @@ class JsonReaderImpl implements JsonReader {
     private final JsonParserImpl parser;
     private boolean readDone;
     private final BufferPool bufferPool;
+    private final boolean allowDuplicateKeys;
 
-    JsonReaderImpl(Reader reader, BufferPool bufferPool) {
-        parser = new JsonParserImpl(reader, bufferPool);
+    JsonReaderImpl(Reader reader, BufferPool bufferPool, boolean allowDuplicateKeys) {
+        parser = new JsonParserImpl(reader, bufferPool, allowDuplicateKeys);
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
-    JsonReaderImpl(InputStream in, BufferPool bufferPool) {
-        parser = new JsonParserImpl(in, bufferPool);
+    JsonReaderImpl(InputStream in, BufferPool bufferPool, boolean allowDuplicateKeys) {
+        parser = new JsonParserImpl(in, bufferPool, allowDuplicateKeys);
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
-    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool) {
-        parser = new JsonParserImpl(in, charset, bufferPool);
+    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool, boolean allowDuplicateKeys) {
+        parser = new JsonParserImpl(in, charset, bufferPool, allowDuplicateKeys);
         this.bufferPool = bufferPool;
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
     @Override

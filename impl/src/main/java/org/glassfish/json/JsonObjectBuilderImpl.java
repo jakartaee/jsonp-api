@@ -33,7 +33,7 @@ import java.util.*;
  */
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
-    private Map<String, JsonValue> valueMap;
+    protected Map<String, JsonValue> valueMap;
     private final BufferPool bufferPool;
 
     JsonObjectBuilderImpl(BufferPool bufferPool) {
@@ -180,7 +180,7 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         }
     }
 
-    private void putValueMap(String name, JsonValue value) {
+    protected void putValueMap(String name, JsonValue value) {
         if (valueMap == null) {
             this.valueMap = new LinkedHashMap<>();
         }
