@@ -117,8 +117,8 @@ final class JsonMessages {
         return localize("parser.input.enc.detect.ioerr");
     }
     
-    static String DUPLICATE_KEY(String name) {
-        return localize("parser.duplicate.key", name);
+    static String DUPLICATE_KEY_FORBIDDEN(String name) {
+        return localize("parser.duplicate.key.forbidden", name);
     }
 
     // generator messages

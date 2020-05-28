@@ -41,17 +41,17 @@ class JsonParserFactoryImpl implements JsonParserFactory {
 
     @Override
     public JsonParser createParser(Reader reader) {
-        return new JsonParserImpl(reader, bufferPool, true);
+        return new JsonParserImpl(reader, bufferPool);
     }
 
     @Override
     public JsonParser createParser(InputStream in) {
-        return new JsonParserImpl(in, bufferPool, true);
+        return new JsonParserImpl(in, bufferPool);
     }
 
     @Override
     public JsonParser createParser(InputStream in, Charset charset) {
-        return new JsonParserImpl(in, charset, bufferPool, true);
+        return new JsonParserImpl(in, charset, bufferPool);
     }
 
     @Override

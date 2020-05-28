@@ -36,28 +36,35 @@ import jakarta.json.stream.JsonParsingException;
  * @author Jitendra Kotamraju
  */
 class JsonReaderImpl implements JsonReader {
-    public static final String ALLOW_DUPLICATE_KEYS = "org.glassfish.json.JsonReaderImpl.allowDuplicateKeys";
     private final JsonParserImpl parser;
     private boolean readDone;
     private final BufferPool bufferPool;
-    private final boolean allowDuplicateKeys;
-
-    JsonReaderImpl(Reader reader, BufferPool bufferPool, boolean allowDuplicateKeys) {
-        parser = new JsonParserImpl(reader, bufferPool, allowDuplicateKeys);
-        this.bufferPool = bufferPool;
-        this.allowDuplicateKeys = allowDuplicateKeys;
+    
+    JsonReaderImpl(Reader reader, BufferPool bufferPool) {
+        this(reader, bufferPool, false);
     }
 
-    JsonReaderImpl(InputStream in, BufferPool bufferPool, boolean allowDuplicateKeys) {
-        parser = new JsonParserImpl(in, bufferPool, allowDuplicateKeys);
+    JsonReaderImpl(Reader reader, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+        parser = new JsonParserImpl(reader, bufferPool, forbidDuplicateKeys);
         this.bufferPool = bufferPool;
-        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
-    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool, boolean allowDuplicateKeys) {
-        parser = new JsonParserImpl(in, charset, bufferPool, allowDuplicateKeys);
+    JsonReaderImpl(InputStream in, BufferPool bufferPool) {
+        this(in, bufferPool, false);
+    }
+
+    JsonReaderImpl(InputStream in, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+        parser = new JsonParserImpl(in, bufferPool, forbidDuplicateKeys);
         this.bufferPool = bufferPool;
-        this.allowDuplicateKeys = allowDuplicateKeys;
+    }
+
+    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool) {
+        this(in, charset, bufferPool, false);
+    }
+
+    JsonReaderImpl(InputStream in, Charset charset, BufferPool bufferPool, boolean forbidDuplicateKeys) {
+        parser = new JsonParserImpl(in, charset, bufferPool, forbidDuplicateKeys);
+        this.bufferPool = bufferPool;
     }
 
     @Override

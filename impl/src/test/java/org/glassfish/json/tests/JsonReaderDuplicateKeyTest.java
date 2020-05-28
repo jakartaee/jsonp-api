@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0, which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the
+ * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+ * version 2 with the GNU Classpath Exception, which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+ */
+
 package org.glassfish.json.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -23,18 +39,18 @@ public class JsonReaderDuplicateKeyTest {
         JsonObject jsonObject = jsonReader.readObject();
         assertEquals(jsonObject.getString("a"), "c");
     }
-    
+
     @Test
     public void testJsonReaderDuplicateKey2() {
         String json = "{\"a\":\"b\",\"a\":\"c\"}";
-        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap("org.glassfish.json.JsonReaderImpl.allowDuplicateKeys", false));
+        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonReader.FORBID_DUPLICATE_KEYS, true));
         JsonReader jsonReader = jsonReaderFactory.createReader(new StringReader(json));
         try {
             jsonReader.readObject();
             fail();
         } catch (Exception e) {
             assertTrue(e instanceof JsonParsingException);
-            assertEquals("Duplicate key 'a'", e.getMessage());
+            assertEquals("Duplicate key 'a' is forbidden", e.getMessage());
         }
     }
 }
