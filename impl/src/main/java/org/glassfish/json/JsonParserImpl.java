@@ -64,7 +64,7 @@ public class JsonParserImpl implements JsonParser {
     private final JsonTokenizer tokenizer;
     
     public JsonParserImpl(Reader reader, BufferPool bufferPool) {
-    	this(reader, bufferPool, false);
+        this(reader, bufferPool, false);
     }
 
     public JsonParserImpl(Reader reader, BufferPool bufferPool, boolean rejectDuplicateKeys) {
@@ -72,9 +72,9 @@ public class JsonParserImpl implements JsonParser {
         this.rejectDuplicateKeys = rejectDuplicateKeys;
         tokenizer = new JsonTokenizer(reader, bufferPool);
     }
-    
+
     public JsonParserImpl(InputStream in, BufferPool bufferPool) {
-    	this(in, bufferPool, false);
+        this(in, bufferPool, false);
     }
 
     public JsonParserImpl(InputStream in, BufferPool bufferPool, boolean rejectDuplicateKeys) {
@@ -127,7 +127,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     boolean isDefinitelyLong() {
-    	return tokenizer.isDefinitelyLong();
+        return tokenizer.isDefinitelyLong();
     }
 
     @Override
@@ -164,14 +164,14 @@ public class JsonParserImpl implements JsonParser {
                 JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
         }
         return getObject(new JsonObjectBuilderImpl(bufferPool) {
-        	@Override
+            @Override
             protected void putValueMap(String name, JsonValue value) {
                 if (valueMap == null) {
                     this.valueMap = new LinkedHashMap<>();
                 }
                 JsonValue previousValue = valueMap.put(name, value);
                 if (rejectDuplicateKeys && previousValue != null) {
-                	throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
+                    throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
                 }
             }
         });
@@ -203,7 +203,7 @@ public class JsonParserImpl implements JsonParser {
             case END_ARRAY:
             case END_OBJECT:
             default:
-            	throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
+                throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
         }
     }
 

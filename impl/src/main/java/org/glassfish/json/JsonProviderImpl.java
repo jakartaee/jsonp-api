@@ -158,10 +158,10 @@ public class JsonProviderImpl extends JsonProvider {
             pool = bufferPool;
         } else {
             providerConfig = new HashMap<>();
-            if (rejectDuplicateKeys=JsonProviderImpl.isRejectDuplicateKeysEnabled(config)) {
+            if (rejectDuplicateKeys = JsonProviderImpl.isRejectDuplicateKeysEnabled(config)) {
                 providerConfig.put(JsonConfig.REJECT_DUPLICATE_KEYS, true);
             }
-            pool = (BufferPool)config.get(BufferPool.class.getName());
+            pool = (BufferPool) config.get(BufferPool.class.getName());
             if (pool != null) {
                 providerConfig.put(BufferPool.class.getName(), pool);
             } else {
