@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,17 @@
 
 package org.glassfish.json;
 
-import jakarta.json.*;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonException;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonPatch.Operation;
+import jakarta.json.JsonPatchBuilder;
+import jakarta.json.JsonPointer;
+import jakarta.json.JsonString;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonValue;
 import jakarta.json.JsonValue.ValueType;
 
 /**
@@ -182,7 +192,7 @@ public class JsonPatchImpl implements JsonPatch {
         if (pointerString == null) {
             missingMember(operation.getString("op"), member);
         }
-        return Json.createPointer(pointerString.getString());
+        return new JsonPointerImpl(pointerString.getString());
     }
 
     private JsonValue getValue(JsonObject operation) {
@@ -201,7 +211,7 @@ public class JsonPatchImpl implements JsonPatch {
         private JsonPatchBuilder builder;
 
         JsonArray diff(JsonStructure source, JsonStructure target) {
-            builder = Json.createPatchBuilder();
+            builder = new JsonPatchBuilderImpl();
             diff("", source, target);
             return builder.build().toJsonArray();
         }

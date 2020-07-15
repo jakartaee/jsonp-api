@@ -17,10 +17,10 @@
 package org.glassfish.json;
 
 import java.io.StringReader;
-import jakarta.json.Json;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 import jakarta.json.stream.JsonParsingException;
+import org.glassfish.json.api.BufferPool;
 
 /**
  * A utility class
@@ -29,7 +29,16 @@ import jakarta.json.stream.JsonParsingException;
  */
 public final class JsonUtil {
 
+    private static BufferPool internalPool;
+
     private JsonUtil() {
+    }
+
+    static BufferPool getInternalBufferPool() {
+        if (internalPool == null) {
+            internalPool = new BufferPoolImpl();
+        }
+        return internalPool;
     }
 
     /**
@@ -65,8 +74,9 @@ public final class JsonUtil {
             builder.append(ch);
         }
                    
-        JsonReader reader = Json.createReader(
-                                new StringReader(builder.toString()));
+        JsonReader reader = new JsonReaderImpl(
+                                new StringReader(builder.toString()),
+                                getInternalBufferPool());
         JsonValue value = reader.readValue();
         reader.close();
         return value;
