@@ -1,13 +1,26 @@
+[//]: # " Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved. "
+[//]: # "  "
+[//]: # " This program and the accompanying materials are made available under the "
+[//]: # " terms of the Eclipse Public License v. 2.0, which is available at "
+[//]: # " http://www.eclipse.org/legal/epl-2.0. "
+[//]: # "  "
+[//]: # " This Source Code may also be made available under the following Secondary "
+[//]: # " Licenses when the conditions for such availability set forth in the "
+[//]: # " Eclipse Public License v. 2.0 are satisfied: GNU General Public License, "
+[//]: # " version 2 with the GNU Classpath Exception, which is available at "
+[//]: # " https://www.gnu.org/software/classpath/license.html. "
+[//]: # "  "
+[//]: # " SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0 "
+
 # Notices for Jakarta JSON Processing
 
-This content is produced and maintained by the Eclipse Project for JSON
-Processing project.
+This content is produced and maintained by the Jakarta JSON Processing project.
 
 * Project home: https://projects.eclipse.org/projects/ee4j.jsonp
 
 ## Trademarks
 
-Jakarta JSON Processing is a trademark of the Eclipse Foundation.
+ Jakarta JSON Processing is a trademark of the Eclipse Foundation.
 
 ## Copyright
 
@@ -22,8 +35,8 @@ of the Eclipse Public License v. 2.0 which is available at
 http://www.eclipse.org/legal/epl-2.0. This Source Code may also be made
 available under the following Secondary Licenses when the conditions for such
 availability set forth in the Eclipse Public License v. 2.0 are satisfied: GNU
-General Public License, version 2 with the GNU Classpath Exception which is
-available at https://www.gnu.org/software/classpath/license.html.
+General Public License v2.0 w/Classpath exception which is available at
+https://www.gnu.org/software/classpath/license.html.
 
 SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
@@ -34,6 +47,30 @@ The project maintains the following source code repositories:
 * https://github.com/eclipse-ee4j/jsonp
 
 ## Third-party Content
+
+This project leverages the following third party content.
+
+javax.ws.rs-api:2.0.1 (2.0.1)
+
+* License: (CDDL-1.1 OR GPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0) AND
+   Apache-2.0
+* Project: https://github.com/jax-rs/api
+* Source: https://github.com/jax-rs/api
+
+javax.ws.rs:jsr311-api:jar:1.1.1 (1.1.1)
+
+* License: CDDL-1.0 AND Apache-2.0
+* Project: https://github.com/jax-rs/api
+* Source:
+   http://search.maven.org/remotecontent?filepath=javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1-sources.jar
+
+javax:javaee-web-api:jar:7.0 (7.0)
+
+* License: (CDDL-1.0 OR GPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0) AND
+   (EPL-1.0 OR BSD-3-Clause) AND Apache-2.0 AND LicenseRef-Public Domain
+* Project: https://javaee.github.io
+* Source:
+   http://search.maven.org/remotecontent?filepath=javax/javaee-web-api/7.0/javaee-web-api-7.0-sources.jar
 
 JUnit (4.12)
 
