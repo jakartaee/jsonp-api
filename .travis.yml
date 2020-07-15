@@ -18,4 +18,8 @@ script:
   - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
   - cd ..
   - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
+  - cd tck
+  - mvn -U clean install
+  - cd ../impl-tck
+  - mvn -U clean test
 
