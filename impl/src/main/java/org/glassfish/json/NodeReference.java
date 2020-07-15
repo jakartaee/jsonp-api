@@ -16,7 +16,6 @@
 
 package org.glassfish.json;
 
-import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonException;
@@ -201,7 +200,7 @@ abstract class NodeReference {
 
         @Override
         public JsonObject add(JsonValue value) {
-            return Json.createObjectBuilder(object).add(key, value).build();
+            return new JsonObjectBuilderImpl(object, JsonUtil.getInternalBufferPool()).add(key, value).build();
         }
 
         @Override
@@ -209,7 +208,7 @@ abstract class NodeReference {
             if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_OBJECT_MISSING(key));
             }
-            return Json.createObjectBuilder(object).remove(key).build();
+            return new JsonObjectBuilderImpl(object, JsonUtil.getInternalBufferPool()).remove(key).build();
         }
 
         @Override
@@ -248,7 +247,7 @@ abstract class NodeReference {
         public JsonArray add(JsonValue value) {
             //TODO should we check for arrayoutofbounds?
             // The spec seems to say index = array.size() is allowed. This is handled as append
-            JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
+            JsonArrayBuilder builder = new JsonArrayBuilderImpl(this.array, JsonUtil.getInternalBufferPool());
             if (index == -1 || index == array.size()) {
                 builder.add(value);
             } else {
@@ -266,7 +265,7 @@ abstract class NodeReference {
             if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
-            JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
+            JsonArrayBuilder builder = new JsonArrayBuilderImpl(this.array, JsonUtil.getInternalBufferPool());
             return builder.remove(index).build();
         }
 
@@ -275,7 +274,7 @@ abstract class NodeReference {
             if (!contains()) {
                 throw new JsonException(JsonMessages.NODEREF_ARRAY_INDEX_ERR(index, array.size()));
             }
-            JsonArrayBuilder builder = Json.createArrayBuilder(this.array);
+            JsonArrayBuilder builder = new JsonArrayBuilderImpl(this.array, JsonUtil.getInternalBufferPool());
             return builder.set(index, value).build();
         }
     }

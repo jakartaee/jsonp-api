@@ -16,7 +16,6 @@
 
 package org.glassfish.json;
 
-import jakarta.json.Json;
 import jakarta.json.JsonMergePatch;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -65,7 +64,7 @@ public final class JsonMergePatchImpl implements JsonMergePatch {
         }
         JsonObject targetJsonObject = target.asJsonObject();
         JsonObjectBuilder builder =
-            Json.createObjectBuilder(targetJsonObject);
+            new JsonObjectBuilderImpl(targetJsonObject, JsonUtil.getInternalBufferPool());
         patch.asJsonObject().forEach((key, value) -> {
             if (value == JsonValue.NULL) {
                 if (targetJsonObject.containsKey(key)) {
@@ -93,7 +92,7 @@ public final class JsonMergePatchImpl implements JsonMergePatch {
         }
         JsonObject s = (JsonObject) source;
         JsonObject t = (JsonObject) target;
-        JsonObjectBuilder builder = Json.createObjectBuilder();
+        JsonObjectBuilder builder = new JsonObjectBuilderImpl(JsonUtil.getInternalBufferPool());
         // First find members to be replaced or removed
         s.forEach((key, value) -> {
             if (t.containsKey(key)) {
