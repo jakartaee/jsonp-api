@@ -141,11 +141,11 @@
                             <executable>java</executable>
                             <arguments>
                                 <argument>--add-modules</argument>
-                                <argument>java.xml.bind,org.glassfish.java.json</argument>
+                                <argument>java.xml.bind,org.glassfish.jakarta.json</argument>
                                 <argument>--module-path</argument>
                                 <argument>${modules.directory}</argument>
                                 <argument>-m</argument>
-                                <argument>org.glassfish.java.json.demos.twitter/${main.class}</argument>
+                                <argument>org.glassfish.jakarta.json.demos.twitter/${main.class}</argument>
                             </arguments>
                         </configuration>
                         <executions>

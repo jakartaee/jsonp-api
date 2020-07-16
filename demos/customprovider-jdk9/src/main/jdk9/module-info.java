@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-module org.glassfish.java.json.demos.customprovider {
+module org.glassfish.jakarta.json.demos.customprovider {
     requires transitive jakarta.json;
     exports org.glassfish.json.customprovider;
     provides jakarta.json.spi.JsonProvider with org.glassfish.json.customprovider.TestProvider;

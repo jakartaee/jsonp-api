@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-module org.glassfish.java.json {
+module org.glassfish.jakarta.json {
     requires transitive jakarta.json;
     exports org.glassfish.json.api;
     provides jakarta.json.spi.JsonProvider with org.glassfish.json.JsonProviderImpl;
