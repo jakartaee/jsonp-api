@@ -10,8 +10,15 @@
 
 package org.glassfish.jsondemos.jsonpointer;
 
-import jakarta.json.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 
 /**
  * JsonPointer (http://tools.ietf.org/html/rfc6901) demo with object model API
@@ -23,6 +30,7 @@ public class JsonpointerDemo {
     public static void main(String... args) throws Exception {
         testWiki();
         testPointer();
+        System.out.println("Both tests PASSED !!!");
     }
 
     private static void testWiki() throws IOException {

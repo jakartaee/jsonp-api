@@ -65,10 +65,6 @@
                         --module-path ${project.build.directory}/classes:${mod.dir}:${project.build.directory}/test-classes
                         --add-modules org.glassfish.jakarta.json.demos.customprovider
                     </argLine>
-                    <!--
-                    - -add-modules org.glassfish.jakarta.json.demos.customprovider,org.glassfish.jakarta.json,junit
-                    - -patch-module org.glassfish.jakarta.json.demos.customprovider=${project.build.directory}/test-classes
-                    -->
                 </configuration>
             </plugin>
         </plugins>
@@ -86,7 +82,6 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
-            <version>1.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
