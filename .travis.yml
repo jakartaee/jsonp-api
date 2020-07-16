@@ -16,7 +16,7 @@ script:
   - cd api
   - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
   - cd ..
-  - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean verify
+  - mvn -U -C -Pstaging,oss-release,all -Dnon.final=true -Dgpg.skip=true clean verify
   - cd tck
   - mvn -U clean install
   - cd ../impl-tck

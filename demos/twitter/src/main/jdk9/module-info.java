@@ -9,6 +9,6 @@
  */
 
 module org.glassfish.java.json.demos.twitter {
-    requires java.xml.bind;
+    requires jakarta.xml.bind;
     requires org.glassfish.java.json;
 }
