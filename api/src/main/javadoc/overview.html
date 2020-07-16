@@ -1,7 +1,7 @@
 <html>
 <!--
 
-    Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ that requires random access to the complete contents of the tree. However,
 it is often not as efficient as the streaming model and requires more memory.
 The object model generates JSON output by navigating the entire tree at once.
 
-<h2>The Streaming API</h2>
+<h1>The Streaming API</h1>
 <p>The streaming API is similar to the StAX API for XML and consists of the
 interfaces {@link jakarta.json.stream.JsonParser} and
 {@link jakarta.json.stream.JsonGenerator}. {@code JsonParser}
@@ -65,7 +65,7 @@ example</a> for more details.
 JSON data efficiently. Other JSON frameworks (such as JSON binding) can be
 implemented using this API.</p>
 
-<h2>The Object Model API</h2>
+<h1>The Object Model API</h1>
 <p>The object model API is similar to the DOM API for XML. It is a high-level
 API that provides immutable object models for JSON object and array structures.
 These JSON structures are represented as object models using the Java types
@@ -98,7 +98,7 @@ the class {@link jakarta.json.JsonWriter}.
 how to write an empty {@code JsonObject} model using the interface
 {@code JsonWriter}.
 
-<h2>JSON Pointer, JSON Patch, and JSON Merge Patch</h2>
+<h1>JSON Pointer, JSON Patch, and JSON Merge Patch</h1>
 Jakarta JSON Processing supports the latest standard on
 <a href="http://tools.ietf.org/html/rfc6901">JSON Pointer</a>,
 <a Href="http://tools.ietf.org/html/rfc6902">JSON Patch</a>, and
