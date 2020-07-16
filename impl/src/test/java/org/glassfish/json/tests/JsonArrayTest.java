@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import jakarta.json.*;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,37 @@ public class JsonArrayTest extends TestCase {
                 .add(Integer.MIN_VALUE)
                 .add(Long.MIN_VALUE)
                 .add(Double.MIN_VALUE)
+                .add(Json.createArrayBuilder().add("abc"))
+                .add(Json.createObjectBuilder().add("one", 1))
                 .build();
+
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.writeArray(expected);
+        writer.close();
+
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
+        JsonArray actual = reader.readArray();
+        reader.close();
+
+        assertEquals(expected, actual);
+    }
+
+    public void testArrayEqualsUsingCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add(JsonValue.TRUE);
+        list.add(JsonValue.FALSE);
+        list.add(JsonValue.NULL);
+        list.add(Integer.MAX_VALUE);
+        list.add(Long.MAX_VALUE);
+        list.add(Double.MAX_VALUE);
+        list.add(Integer.MIN_VALUE);
+        list.add(Long.MIN_VALUE);
+        list.add(Double.MIN_VALUE);
+        list.add(Json.createArrayBuilder().add("abc"));
+        list.add(Json.createObjectBuilder().add("one", 1));
+
+        JsonArray expected = Json.createArrayBuilder(list).build();
 
         StringWriter sw = new StringWriter();
         JsonWriter writer = Json.createWriter(sw);
