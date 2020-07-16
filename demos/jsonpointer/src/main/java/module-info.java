@@ -9,5 +9,5 @@
  */
 
 module org.glassfish.jakarta.json.demos.jsonpointer {
-    requires org.glassfish.jakarta.json;
+    requires jakarta.json;
 }

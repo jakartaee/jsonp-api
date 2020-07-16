@@ -10,5 +10,5 @@
 
 module org.glassfish.jakarta.json.demos.twitter {
     requires jakarta.xml.bind;
-    requires org.glassfish.jakarta.json;
+    requires jakarta.json;
 }
