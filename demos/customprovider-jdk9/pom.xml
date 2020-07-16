@@ -63,11 +63,11 @@
                 <configuration>
                     <argLine>
                         --module-path ${project.build.directory}/classes:${mod.dir}:${project.build.directory}/test-classes
-                        --add-modules org.glassfish.java.json.demos.customprovider
+                        --add-modules org.glassfish.jakarta.json.demos.customprovider
                     </argLine>
                     <!--
-                    - -add-modules org.glassfish.java.json.demos.customprovider,org.glassfish.java.json,junit
-                    - -patch-module org.glassfish.java.json.demos.customprovider=${project.build.directory}/test-classes
+                    - -add-modules org.glassfish.jakarta.json.demos.customprovider,org.glassfish.jakarta.json,junit
+                    - -patch-module org.glassfish.jakarta.json.demos.customprovider=${project.build.directory}/test-classes
                     -->
                 </configuration>
             </plugin>

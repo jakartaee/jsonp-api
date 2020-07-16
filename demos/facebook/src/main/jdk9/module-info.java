@@ -8,6 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-module org.glassfish.java.json.demos.facebook {
-    requires org.glassfish.java.json;
+module org.glassfish.jakarta.json.demos.facebook {
+    requires org.glassfish.jakarta.json;
 }

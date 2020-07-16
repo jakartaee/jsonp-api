@@ -133,11 +133,11 @@
                             <executable>java</executable>
                             <arguments>
                                 <argument>--add-modules</argument>
-                                <argument>org.glassfish.java.json</argument>
+                                <argument>org.glassfish.jakarta.json</argument>
                                 <argument>--module-path</argument>
                                 <argument>${modules.directory}</argument>
                                 <argument>-m</argument>
-                                <argument>org.glassfish.java.json.demos.jsonpointer/${main.class}</argument>
+                                <argument>org.glassfish.jakarta.json.demos.jsonpointer/${main.class}</argument>
                             </arguments>
                         </configuration>
                         <executions>

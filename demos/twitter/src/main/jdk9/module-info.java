@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-module org.glassfish.java.json.demos.twitter {
+module org.glassfish.jakarta.json.demos.twitter {
     requires jakarta.xml.bind;
-    requires org.glassfish.java.json;
+    requires org.glassfish.jakarta.json;
 }
