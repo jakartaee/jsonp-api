@@ -390,13 +390,6 @@
             <id>all</id>
             <dependencyManagement>
                 <dependencies>
-                    <!--
-                    <dependency>
-                        <groupId>javax.ws.rs</groupId>
-                        <artifactId>jsr311-api</artifactId>
-                        <version>1.1.1</version>
-                    </dependency>
-                    -->
                     <dependency>
                         <groupId>jakarta.servlet</groupId>
                         <artifactId>jakarta.servlet-api</artifactId>
@@ -405,9 +398,6 @@
                 </dependencies>
             </dependencyManagement>
             <modules>
-                <!--
-                <module>jaxrs-1x</module>
-                -->
                 <module>gf</module>
                 <module>demos</module>
             </modules>
