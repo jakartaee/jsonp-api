@@ -1,0 +1,108 @@
+<html>
+<!--
+
+    Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<body>
+Jakarta JSON Processing provides portable APIs to parse,
+generate, transform, and query <a href="http://json.org/">JSON</a> using the
+streaming API or the object model API.
+
+<p>The Streaming API provides a way to parsing and generation of JSON in a
+streaming fashion. It hands over parsing and generation control to the
+programmer. The streaming API provides an event-based parser and allows an
+application developer to ask for the next event rather than handling the event
+in a callback. This gives a developer more procedural control over
+the processing of the JSON. Application code can process or discard
+the parser event, and ask for the next event(pull the event). The
+streaming model is adequate for local processing where random access of other
+parts of the data is not required. Similarly, the streaming API provides
+a way to generate well-formed JSON to a stream by writing one event at a time.
+
+<p>The object model API creates a random access tree-like structure that
+represents the JSON data in memory. The tree can then be navigated and
+queried. This programming model is the most flexible and enables processing
+that requires random access to the complete contents of the tree. However,
+it is often not as efficient as the streaming model and requires more memory.
+The object model generates JSON output by navigating the entire tree at once.
+
+<h2>The Streaming API</h2>
+<p>The streaming API is similar to the StAX API for XML and consists of the
+interfaces {@link jakarta.json.stream.JsonParser} and
+{@link jakarta.json.stream.JsonGenerator}. {@code JsonParser}
+contains methods to parse JSON data using the streaming model.
+{@code JsonGenerator} contains methods to write JSON data to an ouptut source.
+
+<p>{@code JsonParser} provides forward, read-only access to
+JSON data using the pull parsing programming model. In this model the
+application code controls the thread and calls methods in the parser interface
+to move the parser forward or to obtain JSON data from the current state of
+the parser. Refer to
+<a href="jakarta/json/stream/JsonParser.html#JsonParserExample2">this example</a>
+for more details.
+
+<p>{@code JsonGenerator} provides methods to write JSON to a stream. The
+generator writes name/value pairs in JSON objects and values in JSON arrays.
+Refer to
+<a href="jakarta/json/stream/JsonGenerator.html#JsonGeneratorExample3">this
+example</a> for more details.
+
+<p>The streaming API is a low-level API designed to process large amounts of
+JSON data efficiently. Other JSON frameworks (such as JSON binding) can be
+implemented using this API.</p>
+
+<h2>The Object Model API</h2>
+<p>The object model API is similar to the DOM API for XML. It is a high-level
+API that provides immutable object models for JSON object and array structures.
+These JSON structures are represented as object models using the Java types
+{@link jakarta.json.JsonObject} and {@link jakarta.json.JsonArray}.
+{@code JsonObject} provides a {@link java.util.Map} view to access the unordered
+collection of zero or more name/value pairs from the model. Similarly,
+{@code JsonArray} provides a {@link java.util.List} view to access the ordered
+sequence of zero or more values from the model.
+
+<p>The object model API uses builder patterns to create these object models.
+Application code can use the interface {@link jakarta.json.JsonObjectBuilder}
+to create models that represent JSON objects. The resulting model is of type
+{@code JsonObject}. Refer to
+<a href="jakarta/json/JsonObjectBuilder.html#JsonObjectBuilderExample1">this example</a>
+for more details. Application code can use the interface
+{@link jakarta.json.JsonArrayBuilder} to create models that represent JSON arrays.
+The resulting model is of type {@code JsonArray}. Refer to
+<a href="jakarta/json/JsonArrayBuilder.html#JsonArrayBuilderExample1">this example</a>
+for more details.
+
+<p>These object models can also be created from an input source (such as
+{@link java.io.InputStream} or {@link java.io.Reader}) using the interface
+{@link jakarta.json.JsonReader}.
+<a href="jakarta/json/JsonReader.html#JsonReaderExample1">This example</a> shows
+how to read and create an empty {@code JsonArray} model using the interface
+{@code JsonReader}. Similarly, these object models can be written to an output
+source (such as {@link java.io.OutputStream} or {@link java.io.Writer}) using
+the class {@link jakarta.json.JsonWriter}.
+<a href="jakarta/json/JsonWriter.html#JsonWriterExample1">This example</a> shows
+how to write an empty {@code JsonObject} model using the interface
+{@code JsonWriter}.
+
+<h2>JSON Pointer, JSON Patch, and JSON Merge Patch</h2>
+Jakarta JSON Processing supports the latest standard on
+<a href="http://tools.ietf.org/html/rfc6901">JSON Pointer</a>,
+<a Href="http://tools.ietf.org/html/rfc6902">JSON Patch</a>, and
+<a Href="http://tools.ietf.org/html/rfc7396">JSON Merge Patch</a>.
+
+</body>
+</html>

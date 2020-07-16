@@ -91,10 +91,10 @@
                         <configuration>
                             <resources>
                                 <resource>
-                                    <directory>src/main/java</directory>
+                                    <directory>src/main/java/org</directory>
                                 </resource>
                             </resources>
-                            <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                            <outputDirectory>${project.build.directory}/sources/org</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -104,8 +104,20 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>unpack-module-info</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>jakarta.json-api</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/binaries</outputDirectory>
+                            <includes>module-info.class</includes>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>unpack-client-sources</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -114,11 +126,10 @@
                                 <artifactItem>
                                     <groupId>jakarta.json</groupId>
                                     <artifactId>jakarta.json-api</artifactId>
-                                    <version>${spec_impl_version}</version>
+                                    <version>${jakarta.json-api.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                                    <excludes>module-info.java</excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -167,12 +178,57 @@
                                 <Specification-Version>${spec.specification.version}</Specification-Version>
                                 <Export-Package>${packages.export}</Export-Package>
                                 <Private-Package>${packages.private}</Private-Package>
-                                <Automatic-Module-Name>java.json</Automatic-Module-Name>
                                 <_donotcopy>.*services.*</_donotcopy>
+                                <!-- as of 5.1.1 this won't add appropriate uses jakarta.json.spi.JsonProvider; to module-info -->
+                                <!--<_jpms-module-info>jakarta.json</_jpms-module-info>-->
+                                <Include-Resource>{maven-resources},target/binaries/module-info.class</Include-Resource>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>main-artifact-module</id>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>module</classifier>
+                            <instructions>
+                                <Bundle-Version>${spec.bundle.version}</Bundle-Version>
+                                <Bundle-SymbolicName>${spec.bundle.symbolic-name}.module</Bundle-SymbolicName>
+                                <Extension-Name>${spec.extension.name}</Extension-Name>
+                                <Implementation-Version>${spec.implementation.version}</Implementation-Version>
+                                <Specification-Version>${spec.specification.version}</Specification-Version>
+                                <Export-Package>org.glassfish.json.api</Export-Package>
+                                <Private-Package>${packages.private}</Private-Package>
+                                <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
                             </instructions>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <sourcepath>target/sources</sourcepath>
+                    <archive>
+                        <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
+                        </manifest>
+                    </archive>
+                    <release>11</release>
+                    <notimestamp>true</notimestamp>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <description>JSON Processing API documentation</description>
+                    <doctitle>JSON Processing API documentation</doctitle>
+                    <windowtitle>JSON Processing API documentation</windowtitle>
+                    <header><![CDATA[<br>JSON Processing API v${project.version}]]></header>
+                    <bottom><![CDATA[
+Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<br>
+Copyright &#169; 2019, 2020 Eclipse Foundation. All rights reserved.<br>
+Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
+                    </bottom>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -180,6 +236,7 @@
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -188,71 +245,4 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>jdk9-setup</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>main-artifact-module</id>
-                                <goals>
-                                    <goal>bundle</goal>
-                                </goals>
-                                <configuration>
-                                    <classifier>module</classifier>
-                                    <instructions>
-                                        <Bundle-Version>${spec.bundle.version}</Bundle-Version>
-                                        <Bundle-SymbolicName>${spec.bundle.symbolic-name}.module</Bundle-SymbolicName>
-                                        <Extension-Name>${spec.extension.name}</Extension-Name>
-                                        <Implementation-Version>${spec.implementation.version}</Implementation-Version>
-                                        <Specification-Version>${spec.specification.version}</Specification-Version>
-                                        <Export-Package>org.glassfish.json.api</Export-Package>
-                                        <Private-Package>${packages.private}</Private-Package>
-                                        <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
-                                    </instructions>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- 
-                    Javadoc is only generated when it is executed with JDK9+. 
-                    The reason is that depends in the remote API jar that was generated with JDK9+ and it brings the module.
-                    In previous versions API was generated at the same time than IMPL with the same JDK, so there was no issue.
-                    -->
-                    <plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-javadoc-plugin</artifactId>
-		                <configuration>
-		                    <includeDependencySources>true</includeDependencySources>
-		                    <additionalOptions>--patch-module ${api_package}=${project.build.directory}/distro-javadoc-sources/${api_package}-api-${jakarta_json-api_version}-sources</additionalOptions>
-		                    <bottom>
-<![CDATA[Copyright &#169; 2012-2020,
-	<a href="http://www.oracle.com">Oracle</a>
-	and/or its affiliates. All Rights Reserved.
-	Use is subject to
-	<a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.
-	<br>Comments to : jsonp-dev@eclipse.org
-]]>
-		                    </bottom>
-		                </configuration>
-		                <executions>
-		                    <execution>
-		                        <id>attach-javadocs</id>
-		                        <goals>
-		                            <goal>jar</goal>
-		                        </goals>
-		                    </execution>
-		                </executions>
-		            </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
