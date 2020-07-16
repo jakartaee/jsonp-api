@@ -10,11 +10,18 @@
 
 package org.glassfish.jsondemos.servlet;
 
-import jakarta.json.*;
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
 import java.io.IOException;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Writes a JsonArray using HttpServletResponse#getWriter

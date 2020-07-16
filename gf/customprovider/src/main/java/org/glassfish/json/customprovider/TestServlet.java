@@ -16,13 +16,18 @@
 
 package org.glassfish.json.customprovider;
 
-import javax.servlet.annotation.*;
-import javax.servlet.http.*;
-import javax.servlet.*;
 import java.io.IOException;
-import jakarta.json.*;
-import jakarta.json.stream.*;
-import java.io.*;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import jakarta.json.Json;
+import jakarta.json.stream.JsonGenerator;
 
 /**
  * @author Jitendra Kotamraju
@@ -30,19 +35,20 @@ import java.io.*;
 @WebServlet("/json")
 public class TestServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException {
         try {
-			res.setStatus(200);
-			res.setContentType("application/json");
-			OutputStream os = res.getOutputStream();
-			JsonGenerator generator = Json.createGenerator(new OutputStreamWriter(os));
+            res.setStatus(200);
+            res.setContentType("application/json");
+            OutputStream os = res.getOutputStream();
+            JsonGenerator generator = Json.createGenerator(new OutputStreamWriter(os));
             if (!(generator instanceof TestGenerator)) {
                 throw new RuntimeException("MyGenerator is not picked up");
             }
             generator.writeStartArray().writeEnd();
             generator.close();
-			os.close();
-        } catch(IOException ioe) {
+            os.close();
+        } catch (IOException ioe) {
             throw new ServletException(ioe);
         }
     }

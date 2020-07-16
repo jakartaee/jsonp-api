@@ -16,9 +16,9 @@
 
 package org.glassfish.json.defaultprovider;
 
-import javax.servlet.annotation.*;
-import javax.servlet.http.*;
-import javax.servlet.*;
+import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.*;
 import java.io.IOException;
 import jakarta.json.*;
 import jakarta.json.stream.*;
@@ -30,12 +30,13 @@ import java.io.*;
 @WebServlet("/json")
 public class TestServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException {
         try {
-			res.setStatus(200);
-			res.setContentType("application/json");
-			OutputStream os = res.getOutputStream();
-			JsonGenerator generator = Json.createGenerator(os);
+            res.setStatus(200);
+            res.setContentType("application/json");
+            OutputStream os = res.getOutputStream();
+            JsonGenerator generator = Json.createGenerator(os);
             generator.writeStartArray().writeEnd();
             generator.close();
         } catch(IOException ioe) {
