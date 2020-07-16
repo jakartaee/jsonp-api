@@ -18,6 +18,11 @@ package org.glassfish.json.tests;
 
 import junit.framework.TestCase;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.json.*;
 
 /**
@@ -144,6 +149,61 @@ public class JsonObjectTest extends TestCase {
         } catch(UnsupportedOperationException e) {
             // Expected
         }
+    }
+
+    public void testObjectBuilderWithVariousValues() {
+        JsonObject expected = Json.createObjectBuilder()
+                .add("a", JsonValue.TRUE)
+                .add("b", JsonValue.FALSE)
+                .add("c", JsonValue.NULL)
+                .add("d", Integer.MAX_VALUE)
+                .add("e", Long.MAX_VALUE)
+                .add("f", Double.MAX_VALUE)
+                .add("g", Integer.MIN_VALUE)
+                .add("h", Long.MIN_VALUE)
+                .add("i", Double.MIN_VALUE)
+                .add("j", Json.createArrayBuilder().add("abc"))
+                .add("k", Json.createObjectBuilder().add("one", 1))
+                .build();
+
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.writeObject(expected);
+        writer.close();
+
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
+        JsonObject actual = reader.readObject();
+        reader.close();
+
+        assertEquals(expected, actual);
+    }
+
+    public void testObjectBuilderWithMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("a", JsonValue.TRUE);
+        map.put("b", JsonValue.FALSE);
+        map.put("c", JsonValue.NULL);
+        map.put("d", Integer.MAX_VALUE);
+        map.put("e", Long.MAX_VALUE);
+        map.put("f", Double.MAX_VALUE);
+        map.put("g", Integer.MIN_VALUE);
+        map.put("h", Long.MIN_VALUE);
+        map.put("i", Double.MIN_VALUE);
+        map.put("j", Json.createArrayBuilder().add("abc"));
+        map.put("k", Json.createObjectBuilder().add("one", 1));
+
+        JsonObject expected = Json.createObjectBuilder(map).build();
+
+        StringWriter sw = new StringWriter();
+        JsonWriter writer = Json.createWriter(sw);
+        writer.writeObject(expected);
+        writer.close();
+
+        JsonReader reader = Json.createReader(new StringReader(sw.toString()));
+        JsonObject actual = reader.readObject();
+        reader.close();
+
+        assertEquals(expected, actual);
     }
 
     public void testObjectBuilderNpe() {
