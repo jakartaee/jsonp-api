@@ -257,6 +257,10 @@ final class JsonMessages {
         return localize("patch.member.missing", operation, member);
     }
 
+    static String PATCH_OPERATION_MISSING() {
+        return localize("patch.operation.missing");
+    }
+
 
     private static String localize(String key, Object ... args) {
         try {

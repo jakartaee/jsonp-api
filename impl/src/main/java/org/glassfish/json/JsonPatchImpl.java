@@ -150,7 +150,11 @@ public class JsonPatchImpl implements JsonPatch {
 
         JsonPointer pointer = getPointer(operation, "path");
         JsonPointer from;
-        switch (Operation.fromOperationName(operation.getString("op"))) {
+        JsonString op = operation.getJsonString("op");
+        if (op == null) {
+            throw new JsonException(JsonMessages.PATCH_OPERATION_MISSING());
+        }
+        switch (Operation.fromOperationName(op.getString())) {
             case ADD:
                 return pointer.add(target, getValue(operation));
             case REPLACE:
