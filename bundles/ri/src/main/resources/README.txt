@@ -1,6 +1,6 @@
 * standalone/jakarta.json-${project.version}.jar contains both Jakarta JSON Processing API
   and its default provider implementation. Keep it in classpath for both compiling and running your application.
-  Automatic module name is: 'jakarta.json'
+  JPMS module name is: 'jakarta.json'
 
 For running on JPMS, following modules are provided:
 * mods/jakarta.json-api-${project.version}.jar - 'jakarta.json' module containing only API classes
