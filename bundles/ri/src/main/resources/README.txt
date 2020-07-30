@@ -1,9 +1,9 @@
-* standalone/jakarta.json-${project.version}.jar contains both "Jakarta JSON Processing 1.1" API
+* standalone/jakarta.json-${project.version}.jar contains both Jakarta JSON Processing API
   and its default provider implementation. Keep it in classpath for both compiling and running your application.
-  Automatic module name is: 'java.json'
+  JPMS module name is: 'jakarta.json'
 
 For running on JPMS, following modules are provided:
-* mods/jakarta.json-api-${project.version}.jar - 'java.json' module containing only API classes
+* mods/jakarta.json-api-${project.version}.jar - 'jakarta.json' module containing only API classes
 * mods/jakarta.json-${project.version}-module.jar - 'org.glassfish.jakarta.json' module containing implementation
 
 Integration with Jakarta RESTful Web Services:
@@ -45,7 +45,7 @@ for Jakarta RESTful Web Services integration module:
   </dependency>
 
 
-* GlassFish 5.x already bundles latest Jakarta JSON Processing implementation and Jakarta RESTful Web Services integration module.
-If you deploy an application with GlassFish 5.x, your application (war/ear) doesn't have to bundle APIs nor the ri jar.
+* GlassFish 6.x already bundles latest Jakarta JSON Processing implementation and Jakarta RESTful Web Services integration module.
+If you deploy an application with GlassFish 6.x, your application (war/ear) doesn't have to bundle APIs nor the implementation jar.
 
-* Samples can be run from https://github.com/javaee/glassfish-samples
+* Samples can be run from https://github.com/eclipse-ee4j/glassfish-samples
