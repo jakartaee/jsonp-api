@@ -174,7 +174,7 @@
                                 <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
                                 <Extension-Name>${spec.extension.name}</Extension-Name>
                                 <Implementation-Version>${spec.implementation.version}</Implementation-Version>
-                                <Specification-Vendor>Oracle</Specification-Vendor>
+                                <Specification-Vendor>Eclipse Foundation</Specification-Vendor>
                                 <Specification-Version>${spec.specification.version}</Specification-Version>
                                 <Export-Package>${packages.export}</Export-Package>
                                 <Private-Package>${packages.private}</Private-Package>
