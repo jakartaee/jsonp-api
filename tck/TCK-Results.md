@@ -14,7 +14,7 @@ following is a summary of the TCK results for releases of Jakarta JSON Processin
 - [x] Specification Name, Version and download URL<br/>
    [Jakarta JSON Processing 2.0](https://jakarta.ee/specifications/jsonp/2.0/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL<br/>
-  [Jakarta JSON Processing TCK 2.0.0](http://download.eclipse.org/jakartaee/jsonp/2.0/jakarta-jsonp-tck-2.0.0.zip), SHA-256: f843cf71f6407086a2707603f65e19147d4d2450e0b1e3ceabed46eddb7d9723
+  [Jakarta JSON Processing TCK 2.0.0](http://download.eclipse.org/jakartaee/jsonp/2.0/jakarta-jsonp-tck-2.0.0.zip), SHA-256: 457f557667eb5ca5e28507b8aae92b25dd69a1177b85b81b65339f322a70989b
 - [x] Public URL of TCK Results Summary<br/>
   [TCK results summary](https://eclipse-ee4j.github.io/jsonp/tck/TCK-Results.html)
 - [x] Any Additional Specification Certification Requirements<br/>
