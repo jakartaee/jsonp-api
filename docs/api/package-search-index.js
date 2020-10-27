@@ -1,1 +1,1 @@
-packageSearchIndex = [{"m":"java.json","l":"javax.json"},{"m":"java.json","l":"javax.json.spi"},{"m":"java.json","l":"javax.json.stream"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"m":"jakarta.json","l":"jakarta.json"},{"m":"jakarta.json","l":"jakarta.json.spi"},{"m":"jakarta.json","l":"jakarta.json.stream"}]

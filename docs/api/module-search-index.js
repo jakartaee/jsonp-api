@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"java.json"}]
+moduleSearchIndex = [{"l":"jakarta.json"}]
