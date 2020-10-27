@@ -7,6 +7,12 @@ JSON documents.
 
 # <a name="Latest_News"></a>Latest News
 
+## October 26, 2020 - JSON-P 2.0.0 Final Release ##
+
+The [2.0.0 release](https://github.com/eclipse-ee4j/jsonp/releases/tag/2.0.0)
+is the first release of the Eclipse project for JSON-P under `jakarta.json.*`
+package namespace. It is part of Jakarta EE 9.
+
 ## December 28, 2018 - JSON-P 1.1.5 Final Release ##
 
 The [1.1.5 release](https://github.com/eclipse-ee4j/jsonp/releases/tag/1.1.5-RELEASE)
