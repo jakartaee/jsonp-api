@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"java.json"},{"l":"org.glassfish.java.json"}]
+moduleSearchIndex = [{"l":"jakarta.json"}]

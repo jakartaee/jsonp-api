@@ -1,0 +1,6 @@
+module:jakarta.json
+jakarta.json
+jakarta.json.spi
+jakarta.json.stream
+org.glassfish.json
+org.glassfish.json.api
