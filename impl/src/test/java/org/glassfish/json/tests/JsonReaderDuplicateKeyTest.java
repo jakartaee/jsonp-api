@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,9 @@ import org.glassfish.json.api.JsonConfig;
 import org.junit.Test;
 
 import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonReaderFactory;
 import jakarta.json.stream.JsonParsingException;
@@ -53,5 +55,18 @@ public class JsonReaderDuplicateKeyTest {
             assertTrue(e instanceof JsonParsingException);
             assertEquals("Duplicate key 'a' is not allowed", e.getMessage());
         }
+    }
+    
+    @Test
+    public void testJsonObjectBuilderDuplcateKey() {
+    	JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
+    	JsonObjectBuilder objectBuilder = jsonBuilderFactory.createObjectBuilder();
+    	try {
+    		objectBuilder.add("a", "b").add("a", "c").build();
+    		fail();
+    	} catch (Exception e) {
+            assertTrue(e instanceof IllegalStateException);
+            assertEquals("Duplicate key 'a' is not allowed", e.getMessage());
+    	}
     }
 }

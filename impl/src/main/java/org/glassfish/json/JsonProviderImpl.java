@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -268,15 +268,16 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonBuilderFactory createBuilderFactory(Map<String,?> config) {
-        BufferPool pool = null ;
-        if (config != null && config.containsKey(BufferPool.class.getName())) {
-            pool = (BufferPool)config.get(BufferPool.class.getName());
-        }
-        if (pool == null) {
-            pool = bufferPool;
-        }
-        return new JsonBuilderFactoryImpl(pool);
+    public JsonBuilderFactory createBuilderFactory(Map<String, ?> config) {
+    	BufferPool pool = bufferPool;
+    	boolean rejectDuplicateKeys = false;
+    	if (config != null) {
+    		if (config.containsKey(BufferPool.class.getName())) {
+    			pool = (BufferPool) config.get(BufferPool.class.getName());
+    		}
+    		rejectDuplicateKeys = JsonProviderImpl.isRejectDuplicateKeysEnabled(config);
+    	}
+        return new JsonBuilderFactoryImpl(pool, rejectDuplicateKeys);
     }
 
     static boolean isPrettyPrintingEnabled(Map<String, ?> config) {

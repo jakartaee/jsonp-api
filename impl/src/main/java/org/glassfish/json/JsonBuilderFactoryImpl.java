@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,25 +33,27 @@ import java.util.Map;
 class JsonBuilderFactoryImpl implements JsonBuilderFactory {
     private final Map<String, ?> config;
     private final BufferPool bufferPool;
+    private final boolean rejectDuplicateKeys;
 
-    JsonBuilderFactoryImpl(BufferPool bufferPool) {
+    JsonBuilderFactoryImpl(BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.config = Collections.emptyMap();
         this.bufferPool = bufferPool;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
     }
 
     @Override
     public JsonObjectBuilder createObjectBuilder() {
-        return new JsonObjectBuilderImpl(bufferPool);
+        return new JsonObjectBuilderImpl(bufferPool, rejectDuplicateKeys);
     }
  
     @Override
     public JsonObjectBuilder createObjectBuilder(JsonObject object) {
-        return new JsonObjectBuilderImpl(object, bufferPool);
+        return new JsonObjectBuilderImpl(object, bufferPool, rejectDuplicateKeys);
     }
 
     @Override
     public JsonObjectBuilder createObjectBuilder(Map<String, Object> object) {
-        return new JsonObjectBuilderImpl(object, bufferPool);
+        return new JsonObjectBuilderImpl(object, bufferPool, rejectDuplicateKeys);
     }
 
     @Override

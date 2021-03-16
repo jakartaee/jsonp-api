@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -163,18 +163,7 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                 JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
         }
-        return getObject(new JsonObjectBuilderImpl(bufferPool) {
-            @Override
-            protected void putValueMap(String name, JsonValue value) {
-                if (valueMap == null) {
-                    this.valueMap = new LinkedHashMap<>();
-                }
-                JsonValue previousValue = valueMap.put(name, value);
-                if (rejectDuplicateKeys && previousValue != null) {
-                    throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
-                }
-            }
-        });
+        return getObject(new JsonObjectBuilderImpl(bufferPool, rejectDuplicateKeys));
     }
 
     @Override
