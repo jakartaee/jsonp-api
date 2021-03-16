@@ -34,7 +34,7 @@ import jakarta.json.JsonReader;
 import jakarta.json.JsonReaderFactory;
 import jakarta.json.stream.JsonParsingException;
 
-public class JsonReaderDuplicateKeyTest {
+public class JsonDuplicateKeyTest {
     @Test
     public void testJsonReaderDuplicateKey1() {
         String json = "{\"a\":\"b\",\"a\":\"c\"}";
@@ -58,7 +58,14 @@ public class JsonReaderDuplicateKeyTest {
     }
     
     @Test
-    public void testJsonObjectBuilderDuplcateKey() {
+    public void testJsonObjectBuilderDuplcateKey1() {
+    	JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+    	JsonObject jsonObject = objectBuilder.add("a", "b").add("a", "c").build();
+    	assertEquals(jsonObject.getString("a"), "c");
+    }
+    
+    @Test
+    public void testJsonObjectBuilderDuplcateKey2() {
     	JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
     	JsonObjectBuilder objectBuilder = jsonBuilderFactory.createObjectBuilder();
     	try {
