@@ -1,4 +1,4 @@
-[//]: # " Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved. "
+[//]: # " Copyright (c) 2018, 2021 Oracle and/or its affiliates. All rights reserved. "
 [//]: # "  "
 [//]: # " This program and the accompanying materials are made available under the "
 [//]: # " terms of the Eclipse Public License v. 2.0, which is available at "
@@ -23,7 +23,7 @@ This project contains Jakarta JSON Processing specification, API and a compatibl
 
 Use the following command:
 ```bash
-mvn -U -C clean install -Dnon.final=true
+mvn -U -C clean install
 ```
 
 ## License
@@ -49,6 +49,7 @@ the license text included in every source file.
 
 - [Jakarta JSON Processing official web site](https://eclipse-ee4j.github.io/jsonp)
 - [Jakarta JSON Processing @ Eclipse](https://projects.eclipse.org/projects/ee4j.jsonp)
+- [README.txt](https://github.com/eclipse-ee4j/jsonp/blob/master/bundles/ri/src/main/resources/README.txt)
 
 ## Contributing
 
