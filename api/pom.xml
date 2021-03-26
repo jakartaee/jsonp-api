@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +30,7 @@
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-api</artifactId>
 
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
     <name>Jakarta JSON Processing API</name>
     <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
@@ -83,7 +83,7 @@
         <copyright.update>false</copyright.update>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.0.4</spotbugs.version>
+        <spotbugs.version>4.2.2</spotbugs.version>
 
         <non.final>false</non.final>
         <extension.name>jakarta.json</extension.name>
@@ -114,7 +114,7 @@
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -213,6 +213,7 @@
                     <scmOnly>${copyright.scmonly}</scmOnly>
                     <update>${copyright.update}</update>
                     <ignoreYear>${copyright.ignoreyear}</ignoreYear>
+                    <quiet>false</quiet>
                 </configuration>
                 <executions>
                     <execution>
@@ -262,6 +263,18 @@
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                     <execution>
+                        <id>currentyear-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>current.year</name>
+                            <locale>en,US</locale>
+                            <pattern>yyyy</pattern>
                         </configuration>
                     </execution>
                 </executions>
@@ -382,7 +395,7 @@
                     <header><![CDATA[<br>JSON Processing API v${project.version}]]></header>
                     <bottom><![CDATA[
 Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<br>
-Copyright &#169; 2019, 2020 Eclipse Foundation. All rights reserved.<br>
+Copyright &#169; 2019, ${current.year} Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                 </configuration>
