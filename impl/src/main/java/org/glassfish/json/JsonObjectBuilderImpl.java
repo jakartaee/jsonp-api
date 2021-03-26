@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,6 @@ package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
 
-import jakarta.json.JsonArrayBuilder;
 import jakarta.json.*;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -33,23 +32,46 @@ import java.util.*;
  */
 class JsonObjectBuilderImpl implements JsonObjectBuilder {
 
-    private Map<String, JsonValue> valueMap;
+    protected Map<String, JsonValue> valueMap;
     private final BufferPool bufferPool;
+    private final boolean rejectDuplicateKeys;
 
     JsonObjectBuilderImpl(BufferPool bufferPool) {
         this.bufferPool = bufferPool;
+        rejectDuplicateKeys = false;
+    }
+    
+    JsonObjectBuilderImpl(BufferPool bufferPool, boolean rejectDuplicateKeys) {
+        this.bufferPool = bufferPool;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
     }
 
     JsonObjectBuilderImpl(JsonObject object, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         valueMap = new LinkedHashMap<>();
         valueMap.putAll(object);
+        rejectDuplicateKeys = false;
+    }
+    
+    JsonObjectBuilderImpl(JsonObject object, BufferPool bufferPool, boolean rejectDuplicateKeys) {
+        this.bufferPool = bufferPool;
+        valueMap = new LinkedHashMap<>();
+        valueMap.putAll(object);
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
     }
 
     JsonObjectBuilderImpl(Map<String, Object> map, BufferPool bufferPool) {
         this.bufferPool = bufferPool;
         valueMap = new LinkedHashMap<>();
         populate(map);
+        rejectDuplicateKeys = false;
+    }
+    
+    JsonObjectBuilderImpl(Map<String, Object> map, BufferPool bufferPool, boolean rejectDuplicateKeys) {
+    	this.bufferPool = bufferPool;
+    	valueMap = new LinkedHashMap<>();
+    	populate(map);
+    	this.rejectDuplicateKeys = rejectDuplicateKeys;
     }
 
     @Override
@@ -184,7 +206,10 @@ class JsonObjectBuilderImpl implements JsonObjectBuilder {
         if (valueMap == null) {
             this.valueMap = new LinkedHashMap<>();
         }
-        valueMap.put(name, value);
+        JsonValue previousValue = valueMap.put(name, value);
+        if (rejectDuplicateKeys && previousValue != null) {
+            throw new IllegalStateException(JsonMessages.DUPLICATE_KEY(name));
+        }
     }
 
     private void validateName(String name) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,6 +17,7 @@
 package org.glassfish.json;
 
 import org.glassfish.json.api.BufferPool;
+import org.glassfish.json.api.JsonConfig;
 
 import jakarta.json.*;
 import jakarta.json.stream.JsonGenerator;
@@ -41,7 +42,6 @@ import java.math.BigInteger;
  * @author Alex Soto
  */
 public class JsonProviderImpl extends JsonProvider {
-
     private final BufferPool bufferPool = new BufferPoolImpl();
 
     @Override
@@ -149,14 +149,27 @@ public class JsonProviderImpl extends JsonProvider {
 
     @Override
     public JsonReaderFactory createReaderFactory(Map<String, ?> config) {
-        BufferPool pool = null;
-        if (config != null && config.containsKey(BufferPool.class.getName())) {
-            pool = (BufferPool)config.get(BufferPool.class.getName());
-        }
-        if (pool == null) {
+        Map<String, Object> providerConfig;
+        boolean rejectDuplicateKeys;
+        BufferPool pool;
+        if (config == null) {
+            providerConfig = Collections.emptyMap();
+            rejectDuplicateKeys = false;
             pool = bufferPool;
+        } else {
+            providerConfig = new HashMap<>();
+            if (rejectDuplicateKeys = JsonProviderImpl.isRejectDuplicateKeysEnabled(config)) {
+                providerConfig.put(JsonConfig.REJECT_DUPLICATE_KEYS, true);
+            }
+            pool = (BufferPool) config.get(BufferPool.class.getName());
+            if (pool != null) {
+                providerConfig.put(BufferPool.class.getName(), pool);
+            } else {
+                pool = bufferPool;
+            }
+            providerConfig = Collections.unmodifiableMap(providerConfig);
         }
-        return new JsonReaderFactoryImpl(pool);
+        return new JsonReaderFactoryImpl(providerConfig, pool, rejectDuplicateKeys);
     }
 
     @Override
@@ -255,18 +268,23 @@ public class JsonProviderImpl extends JsonProvider {
     }
 
     @Override
-    public JsonBuilderFactory createBuilderFactory(Map<String,?> config) {
-        BufferPool pool = null ;
-        if (config != null && config.containsKey(BufferPool.class.getName())) {
-            pool = (BufferPool)config.get(BufferPool.class.getName());
-        }
-        if (pool == null) {
-            pool = bufferPool;
-        }
-        return new JsonBuilderFactoryImpl(pool);
+    public JsonBuilderFactory createBuilderFactory(Map<String, ?> config) {
+    	BufferPool pool = bufferPool;
+    	boolean rejectDuplicateKeys = false;
+    	if (config != null) {
+    		if (config.containsKey(BufferPool.class.getName())) {
+    			pool = (BufferPool) config.get(BufferPool.class.getName());
+    		}
+    		rejectDuplicateKeys = JsonProviderImpl.isRejectDuplicateKeysEnabled(config);
+    	}
+        return new JsonBuilderFactoryImpl(pool, rejectDuplicateKeys);
     }
 
     static boolean isPrettyPrintingEnabled(Map<String, ?> config) {
         return config.containsKey(JsonGenerator.PRETTY_PRINTING);
+    }
+
+    static boolean isRejectDuplicateKeysEnabled(Map<String, ?> config) {
+        return config.containsKey(JsonConfig.REJECT_DUPLICATE_KEYS);
     }
 }

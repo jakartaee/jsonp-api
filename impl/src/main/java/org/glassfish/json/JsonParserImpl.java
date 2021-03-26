@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,6 +23,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.AbstractMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Spliterator;
@@ -55,25 +56,41 @@ import org.glassfish.json.api.BufferPool;
 public class JsonParserImpl implements JsonParser {
 
     private final BufferPool bufferPool;
+    private final boolean rejectDuplicateKeys;
     private Context currentContext = new NoneContext();
     private Event currentEvent;
 
     private final Stack stack = new Stack();
     private final JsonTokenizer tokenizer;
-
+    
     public JsonParserImpl(Reader reader, BufferPool bufferPool) {
+        this(reader, bufferPool, false);
+    }
+
+    public JsonParserImpl(Reader reader, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         tokenizer = new JsonTokenizer(reader, bufferPool);
     }
 
     public JsonParserImpl(InputStream in, BufferPool bufferPool) {
+        this(in, bufferPool, false);
+    }
+
+    public JsonParserImpl(InputStream in, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         UnicodeDetectingInputStream uin = new UnicodeDetectingInputStream(in);
         tokenizer = new JsonTokenizer(new InputStreamReader(uin, uin.getCharset()), bufferPool);
     }
 
     public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool) {
+        this(in, encoding, bufferPool, false);
+    }
+
+    public JsonParserImpl(InputStream in, Charset encoding, BufferPool bufferPool, boolean rejectDuplicateKeys) {
         this.bufferPool = bufferPool;
+        this.rejectDuplicateKeys = rejectDuplicateKeys;
         tokenizer = new JsonTokenizer(new InputStreamReader(in, encoding), bufferPool);
     }
 
@@ -110,7 +127,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     boolean isDefinitelyLong() {
-    	return tokenizer.isDefinitelyLong();
+        return tokenizer.isDefinitelyLong();
     }
 
     @Override
@@ -146,7 +163,7 @@ public class JsonParserImpl implements JsonParser {
             throw new IllegalStateException(
                 JsonMessages.PARSER_GETOBJECT_ERR(currentEvent));
         }
-        return getObject(new JsonObjectBuilderImpl(bufferPool));
+        return getObject(new JsonObjectBuilderImpl(bufferPool, rejectDuplicateKeys));
     }
 
     @Override
@@ -175,7 +192,7 @@ public class JsonParserImpl implements JsonParser {
             case END_ARRAY:
             case END_OBJECT:
             default:
-            	throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
+                throw new IllegalStateException(JsonMessages.PARSER_GETVALUE_ERR(currentEvent));
         }
     }
 

@@ -116,6 +116,10 @@ final class JsonMessages {
     static String PARSER_INPUT_ENC_DETECT_IOERR() {
         return localize("parser.input.enc.detect.ioerr");
     }
+    
+    static String DUPLICATE_KEY(String name) {
+        return localize("parser.duplicate.key", name);
+    }
 
     // generator messages
     static String GENERATOR_FLUSH_IO_ERR() {
