@@ -17,7 +17,7 @@ IMPORTANT NOTE: module names are not yet final and may change in the future rele
 
 for standalone reference implementation which includes APIs and implementation classes:
   <dependency>
-      <groupId>org.glassfish</groupId>
+      <groupId>org.eclipse.jsonp</groupId>
       <artifactId>jakarta.json</artifactId>
       <version>${project.version}</version>
   </dependency>
@@ -31,7 +31,7 @@ for APIs:
 
 for implementation only:
   <dependency>
-      <groupId>org.glassfish</groupId>
+      <groupId>org.eclipse.jsonp</groupId>
       <artifactId>jakarta.json</artifactId>
       <classifier>module</classifier>
       <version>${project.version}</version>
@@ -39,7 +39,7 @@ for implementation only:
 
 for Jakarta RESTful Web Services integration module:
   <dependency>
-      <groupId>org.glassfish</groupId>
+      <groupId>org.eclipse.jsonp</groupId>
       <artifactId>jsonp-jaxrs</artifactId>
       <version>${project.version}</version>
   </dependency>

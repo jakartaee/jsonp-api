@@ -26,7 +26,7 @@
         <version>1.0.6</version>
     </parent>
 
-    <groupId>org.glassfish</groupId>
+    <groupId>org.eclipse.jsonp</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
     <version>2.0.2-SNAPSHOT</version>
@@ -75,7 +75,7 @@
 
     <properties>
         <api_package>jakarta.json</api_package>
-        <impl_namespace>org.glassfish</impl_namespace>
+        <impl_namespace>org.eclipse.jsonp</impl_namespace>
         <spec_version>2.0</spec_version>
         <new_spec_version>2.1</new_spec_version>
         <new_spec_impl_version>2.1.0</new_spec_impl_version>
@@ -352,18 +352,18 @@
                 <version>${jakarta.json-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
+                <groupId>org.eclipse.jsonp</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
+                <groupId>org.eclipse.jsonp</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <classifier>module</classifier>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
+                <groupId>org.eclipse.jsonp</groupId>
                 <artifactId>jsonp-jaxrs</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -412,7 +412,7 @@
             </dependencyManagement>
 
             <modules>
-                <module>gf</module>
+                <module>providers</module>
                 <module>demos</module>
             </modules>
 

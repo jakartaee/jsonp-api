@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,7 @@ package customprovider.test;
 
 import jakarta.json.Json;
 import jakarta.json.stream.JsonGenerator;
-import org.glassfish.json.customprovider.TestGenerator;
+import org.eclipse.jsonp.demos.customprovider.TestGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
