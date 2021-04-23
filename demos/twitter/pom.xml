@@ -39,8 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
-            <artifactId>jakarta.json</artifactId>
-            <classifier>module</classifier>
+            <artifactId>jsonp</artifactId>
             <scope>runtime</scope>
         </dependency>
 

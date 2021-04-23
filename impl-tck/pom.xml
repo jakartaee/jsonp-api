@@ -39,12 +39,13 @@
     </properties>
 
     <dependencies>
-        <dependency>
+        <!-- FIX ME: this API hides the one included in the jakarta.json artifact -->
+<!--        <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
             <version>${jsonp-api.version}</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
             <artifactId>jakarta.json</artifactId>

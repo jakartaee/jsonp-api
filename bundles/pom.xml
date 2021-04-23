@@ -35,6 +35,7 @@
     <url>https://github.com/eclipse-ee4j/jsonp</url>
 
     <modules>
+        <module>jakarta.json</module>
         <module>ri</module>
     </modules>
 </project>
