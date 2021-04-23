@@ -9,7 +9,8 @@ Integration with Jakarta RESTful Web Services:
 willing to support different implementations of Jakarta JSON Processing API while also providing some default implementation, such as application servers.
 When this library is used, then Eclipse JSONP is the default implementation being provided.
 
-NOTE: jakarta.json-api.jar and jakarta.json.jar CAN NOT co-exist together when running on JPMS. One can be used as a drop-in replacement of the other.
+NOTE: jakarta.json-api.jar and jakarta.json.jar CAN NOT co-exist together when running on JPMS. One can be used as a drop-in
+replacement of the other wrt Jakarta JSON Processing API.
 
 IMPORTANT NOTE: module names are not yet final and may change in the future releases
 
