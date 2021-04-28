@@ -21,13 +21,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.glassfish</groupId>
+        <groupId>org.eclipse.jsonp</groupId>
         <artifactId>json</artifactId>
         <version>2.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.glassfish</groupId>
+    <groupId>org.eclipse.jsonp</groupId>
     <artifactId>jakarta.json</artifactId>
     <packaging>bundle</packaging>
     <version>2.0.2-SNAPSHOT</version>
@@ -36,8 +36,9 @@
     <url>https://github.com/eclipse-ee4j/jsonp</url>
 
     <properties>
-        <packages.private>org.glassfish.json</packages.private>
-        <packages.export>jakarta.json.*,org.glassfish.json.api</packages.export>
+        <packages.private>org.eclipse.jsonp</packages.private>
+        <packages.export>jakarta.json.*,org.eclipse.jsonp.api</packages.export>
+        <module.packages.export>org.eclipse.jsonp.api</module.packages.export>
     </properties>
 
     <build>
@@ -198,7 +199,7 @@
                                 <Extension-Name>${spec.extension.name}</Extension-Name>
                                 <Implementation-Version>${spec.implementation.version}</Implementation-Version>
                                 <Specification-Version>${spec.specification.version}</Specification-Version>
-                                <Export-Package>org.glassfish.json.api</Export-Package>
+                                <Export-Package>org.eclipse.jsonp.api</Export-Package>
                                 <Private-Package>${packages.private}</Private-Package>
                                 <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
                             </instructions>
@@ -225,7 +226,7 @@
                     <header><![CDATA[<br>JSON Processing API v${project.version}]]></header>
                     <bottom><![CDATA[
 Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<br>
-Copyright &#169; 2019, 2020 Eclipse Foundation. All rights reserved.<br>
+Copyright &#169; 2019, 2021 Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
                 </configuration>

@@ -20,7 +20,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.glassfish</groupId>
+        <groupId>org.eclipse.jsonp</groupId>
         <artifactId>json-bundles</artifactId>
         <version>2.0.2-SNAPSHOT</version>
     </parent>
@@ -35,16 +35,16 @@
             <artifactId>jakarta.json-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
+            <groupId>org.eclipse.jsonp</groupId>
             <artifactId>jakarta.json</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
+            <groupId>org.eclipse.jsonp</groupId>
             <artifactId>jakarta.json</artifactId>
             <classifier>module</classifier>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
+            <groupId>org.eclipse.jsonp</groupId>
             <artifactId>jsonp-jaxrs</artifactId>
         </dependency>
     </dependencies>
