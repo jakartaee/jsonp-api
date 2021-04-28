@@ -5,7 +5,7 @@ For running on JPMS, following modules are provided:
 Integration with Jakarta RESTful Web Services:
 * jaxrs/jsonp-jaxrs-${project.version}.jar
 
-* standalone/jakarta.json-${project.version}.jar - 'jakarta.json' module containing API classes and implementation, which servers as a fallback for environments
+* standalone/jakarta.json-${project.version}.jar - 'jakarta.json' module containing API classes and implementation, which serves as a fallback for environments
 willing to support different implementations of Jakarta JSON Processing API while also providing some default implementation, such as application servers.
 When this library is used, then Eclipse JSONP is the default implementation being provided.
 
