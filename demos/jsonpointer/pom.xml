@@ -37,14 +37,21 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
-            <artifactId>jakarta.json</artifactId>
-            <classifier>module</classifier>
+            <artifactId>jsonp</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!-- openjdk11 fails without this being set -->
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

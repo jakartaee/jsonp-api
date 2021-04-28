@@ -38,18 +38,15 @@
             <outputDirectory>mods</outputDirectory>
             <includes>
                 <include>jakarta.json:jakarta.json-api:*</include>
-                <include>org.eclipse.jsonp:jakarta.json:jar:module:*</include>
+                <include>org.eclipse.jsonp:jsonp:*</include>
             </includes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>standalone</outputDirectory>
             <includes>
-                <include>org.eclipse.jsonp:jakarta.json</include>
+                <include>org.eclipse.jsonp:jakarta.json:*</include>
             </includes>
-            <excludes>
-                <exclude>org.eclipse.jsonp:jakarta.json:jar:module:*</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>

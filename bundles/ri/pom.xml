@@ -25,7 +25,7 @@
         <version>2.0.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>json-ri-bundle</artifactId>
+    <artifactId>jakarta.json-ri</artifactId>
     <name>RI Distribution zip bundle</name>
     <packaging>pom</packaging>
 
@@ -36,12 +36,11 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
-            <artifactId>jakarta.json</artifactId>
+            <artifactId>jsonp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
             <artifactId>jakarta.json</artifactId>
-            <classifier>module</classifier>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jsonp</groupId>
@@ -61,11 +60,35 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>jakarta.json-ri-${impl_version}</finalName>
                             <descriptors>
                                 <descriptor>src/main/assembly/archive.xml</descriptor>
                             </descriptors>
                             <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>stage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>**/module-info.java</excludes>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}/stage</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
