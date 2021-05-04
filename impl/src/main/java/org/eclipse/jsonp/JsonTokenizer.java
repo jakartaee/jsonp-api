@@ -24,6 +24,7 @@ import jakarta.json.stream.JsonParser;
 import jakarta.json.stream.JsonParsingException;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.CharBuffer;
 import java.util.Arrays;
 
 import jakarta.json.stream.JsonParser.Event;
@@ -508,6 +509,10 @@ final class JsonTokenizer implements Closeable {
 
     String getValue() {
         return new String(buf, storeBegin, storeEnd-storeBegin);
+    }
+    
+    CharSequence getChars() {
+      return CharBuffer.wrap(buf, storeBegin, storeEnd-storeBegin);
     }
 
     BigDecimal getBigDecimal() {
