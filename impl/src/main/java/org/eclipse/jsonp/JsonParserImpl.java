@@ -60,7 +60,7 @@ public class JsonParserImpl implements JsonParser {
 
     private final Stack stack = new Stack();
     private final JsonTokenizer tokenizer;
-    
+
     public JsonParserImpl(Reader reader, BufferPool bufferPool) {
         this(reader, bufferPool, false);
     }
@@ -173,7 +173,7 @@ public class JsonParserImpl implements JsonParser {
                 return getObject(new JsonObjectBuilderImpl(bufferPool));
             case KEY_NAME:
             case VALUE_STRING:
-                return new JsonStringImpl(getString());
+                return new JsonStringImpl(getCharSequence());
             case VALUE_NUMBER:
                 if (isDefinitelyInt()) {
                     return JsonNumberImpl.getJsonNumber(getInt());
@@ -320,6 +320,14 @@ public class JsonParserImpl implements JsonParser {
         }
         throw parsingException(JsonToken.EOF, "[CURLYOPEN, SQUAREOPEN, STRING, NUMBER, TRUE, FALSE, NULL, SQUARECLOSE]");
     }
+
+    private CharSequence getCharSequence() {
+      if (currentEvent == Event.KEY_NAME || currentEvent == Event.VALUE_STRING
+              || currentEvent == Event.VALUE_NUMBER) {
+          return tokenizer.getCharSequence();
+      }
+      throw new IllegalStateException(JsonMessages.PARSER_GETSTRING_ERR(currentEvent));
+  }
 
     private JsonObject getObject(JsonObjectBuilder builder) {
         while(hasNext()) {

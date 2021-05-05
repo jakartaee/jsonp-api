@@ -152,12 +152,7 @@ class JsonGeneratorImpl implements JsonGenerator {
 
     @Override
     public JsonGenerator write(String name, String fieldValue) {
-        if (currentContext.scope != Scope.IN_OBJECT) {
-            throw new JsonGenerationException(
-                    JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
-        }
-        writeName(name);
-        writeEscapedString(fieldValue);
+        write(name, (CharSequence) fieldValue);
         return this;
     }
 
@@ -338,7 +333,7 @@ class JsonGeneratorImpl implements JsonGenerator {
                 break;
             case STRING:
                 JsonString str = (JsonString)value;
-                write(name, str.getString());
+                write(name, str.getChars());
                 break;
             case NUMBER:
                 JsonNumber number = (JsonNumber)value;
@@ -480,6 +475,15 @@ class JsonGeneratorImpl implements JsonGenerator {
         return this;
     }
 
+    void write(String name, CharSequence fieldValue) {
+      if (currentContext.scope != Scope.IN_OBJECT) {
+          throw new JsonGenerationException(
+                  JsonMessages.GENERATOR_ILLEGAL_METHOD(currentContext.scope));
+      }
+      writeName(name);
+      writeEscapedString(fieldValue);
+    }
+
     protected void writeComma() {
         if (isCommaAllowed()) {
             writeChar(',');
@@ -530,7 +534,7 @@ class JsonGeneratorImpl implements JsonGenerator {
     //    ^           ^                     ^             ^
     //    |           |                     |             |
     //   begin       end                   begin         end
-    void writeEscapedString(String string) {
+    void writeEscapedString(CharSequence string) {
         writeChar('"');
         int len = string.length();
         for(int i = 0; i < len; i++) {
@@ -582,10 +586,15 @@ class JsonGeneratorImpl implements JsonGenerator {
         writeChar('"');
     }
 
-    void writeString(String str, int begin, int end) {
+    void writeString(CharSequence str, int begin, int end) {
         while (begin < end) {       // source begin and end indexes
             int no = Math.min(buf.length - len, end - begin);
-            str.getChars(begin, begin + no, buf, len);
+            if (str instanceof String) {
+              ((String)str).getChars(begin, begin + no, buf, len);
+            } else {
+              // if passed a non-string, assume this is deliberate
+              getChars(str, begin, begin + no, buf, len);
+            }
             begin += no;            // Increment source index
             len += no;              // Increment dest index
             if (len >= buf.length) {
@@ -594,7 +603,7 @@ class JsonGeneratorImpl implements JsonGenerator {
         }
     }
 
-    void writeString(String str) {
+    void writeString(CharSequence str) {
         writeString(str, 0, str.length());
     }
 
@@ -667,6 +676,15 @@ class JsonGeneratorImpl implements JsonGenerator {
         for (int i=0; ; i++)
             if (x <= INT_CHARS_SIZE_TABLE[i])
                 return i+1;
+    }
+
+    void getChars(CharSequence str, int srcBegin, int srcEnd, char[] dst, int dstBegin) {
+      int length = srcEnd - srcBegin;
+      for (int i = 0 ; i < length ; i++) {
+        int srcIdx = srcBegin + i;
+        int dstIdx = dstBegin + i;
+        dst[dstIdx] = str.charAt(srcIdx);
+      }
     }
 
     /**
