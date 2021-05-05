@@ -25,15 +25,15 @@ import jakarta.json.JsonString;
  */
 final class JsonStringImpl implements JsonString {
 
-    private final String value;
+    private final CharSequence value;
 
-    JsonStringImpl(String value) {
+    JsonStringImpl(CharSequence value) {
         this.value = value;
     }
 
     @Override
     public String getString() {
-        return value;
+        return value.toString();
     }
 
     @Override

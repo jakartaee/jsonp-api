@@ -22,7 +22,9 @@ import jakarta.json.JsonException;
 import jakarta.json.stream.JsonLocation;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.stream.JsonParsingException;
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -510,6 +512,11 @@ final class JsonTokenizer implements Closeable {
         return new String(buf, storeBegin, storeEnd-storeBegin);
     }
 
+    CharSequence getCharSequence() {
+      int len = storeEnd - storeBegin;
+      return new StringBuilder(len).append(buf, storeBegin, len);
+    }
+
     BigDecimal getBigDecimal() {
         if (bd == null) {
             bd = new BigDecimal(buf, storeBegin, storeEnd-storeBegin);
@@ -531,7 +538,7 @@ final class JsonTokenizer implements Closeable {
             return getBigDecimal().intValue();
         }
     }
-    
+
     long getLong() {
         // no need to create BigDecimal for common integer values (1-18 digits)
         int storeLen = storeEnd-storeBegin;
@@ -553,7 +560,7 @@ final class JsonTokenizer implements Closeable {
         int storeLen = storeEnd-storeBegin;
         return !fracOrExp && (storeLen <= 9 || (minus && storeLen <= 10));
     }
-    
+
     // returns true for common long values (1-18 digits).
     // So there are cases it will return false even though the number is long
     boolean isDefinitelyLong() {
@@ -582,5 +589,5 @@ final class JsonTokenizer implements Closeable {
         return new JsonParsingException(
                 JsonMessages.TOKENIZER_EXPECTED_CHAR(unexpected, location, expected), location);
     }
-    
+
 }
