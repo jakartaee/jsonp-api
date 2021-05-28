@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -181,7 +181,9 @@
                                 <_donotcopy>.*services.*</_donotcopy>
                                 <!-- as of 5.1.1 this won't add appropriate uses jakarta.json.spi.JsonProvider; to module-info -->
                                 <!--<_jpms-module-info>jakarta.json</_jpms-module-info>-->
-                                <Include-Resource>{maven-resources},target/binaries/module-info.class</Include-Resource>
+                                <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
+                                <Require-Capability>osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"</Require-Capability>
+                                <Provide-Capability>osgi.serviceloader; osgi.serviceloader=jakarta.json.spi.JsonProvider</Provide-Capability>
                             </instructions>
                         </configuration>
                     </execution>
@@ -201,6 +203,8 @@
                                 <Export-Package>org.glassfish.json.api</Export-Package>
                                 <Private-Package>${packages.private}</Private-Package>
                                 <Include-Resource>{maven-resources},target/classes/module-info.class</Include-Resource>
+                                <Require-Capability>osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"</Require-Capability>
+                                <Provide-Capability>osgi.serviceloader; osgi.serviceloader=jakarta.json.spi.JsonProvider</Provide-Capability>
                             </instructions>
                         </configuration>
                     </execution>
