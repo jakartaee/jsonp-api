@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,24 +38,21 @@
             <outputDirectory>mods</outputDirectory>
             <includes>
                 <include>jakarta.json:jakarta.json-api:*</include>
-                <include>org.glassfish:jakarta.json:jar:module:*</include>
+                <include>org.eclipse.jsonp:jsonp:*</include>
             </includes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>standalone</outputDirectory>
             <includes>
-                <include>org.glassfish:jakarta.json</include>
+                <include>org.eclipse.jsonp:jakarta.json:*</include>
             </includes>
-            <excludes>
-                <exclude>org.glassfish:jakarta.json:jar:module:*</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>jaxrs</outputDirectory>
             <includes>
-                <include>org.glassfish:jsonp-jaxrs*</include>
+                <include>org.eclipse.jsonp:jsonp-jaxrs*</include>
             </includes>
         </dependencySet>
     </dependencySets>

@@ -26,10 +26,10 @@
         <version>1.0.6</version>
     </parent>
 
-    <groupId>org.glassfish</groupId>
+    <groupId>org.eclipse.jsonp</groupId>
     <artifactId>json</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <name>Jakarta JSON Processing</name>
     <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
@@ -75,7 +75,7 @@
 
     <properties>
         <api_package>jakarta.json</api_package>
-        <impl_namespace>org.glassfish</impl_namespace>
+        <impl_namespace>org.eclipse.jsonp</impl_namespace>
         <spec_version>2.0</spec_version>
         <new_spec_version>2.1</new_spec_version>
         <new_spec_impl_version>2.1.0</new_spec_impl_version>
@@ -94,7 +94,7 @@
         <spotbugs.threshold>Low</spotbugs.threshold>
         <spotbugs.version>4.2.2</spotbugs.version>
 
-        <jakarta.json-api.version>2.0.0</jakarta.json-api.version>
+        <jakarta.json-api.version>2.0.1</jakarta.json-api.version>
 
         <jakarta.annotation-api.version>2.0.0</jakarta.annotation-api.version>
         <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
@@ -151,6 +151,23 @@
                         <configuration>
                             <property>project.root.location</property>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <configuration>
+                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+                    <revisionOnScmFailure>false</revisionOnScmFailure>
+                    <shortRevisionLength>7</shortRevisionLength>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -237,8 +254,19 @@
                             <addDefaultEntries>false</addDefaultEntries>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
+                        <manifestEntries>
+                            <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
+                        </manifestEntries>
                     </archive>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -264,6 +292,11 @@
                     <version>0.3.1</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>1.4</version>
+                </plugin>
+                <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>${spotbugs.version}</version>
@@ -281,8 +314,9 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.1</version>
+                    <version>5.1.2</version>
                     <configuration>
+                        <niceManifest>true</niceManifest>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
                         </instructions>
@@ -327,6 +361,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -375,18 +414,17 @@
                 <version>${jakarta.json-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
+                <groupId>org.eclipse.jsonp</groupId>
+                <artifactId>jsonp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jsonp</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.json</artifactId>
-                <classifier>module</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
+                <groupId>org.eclipse.jsonp</groupId>
                 <artifactId>jsonp-jaxrs</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -495,7 +533,7 @@
             </dependencyManagement>
 
             <modules>
-                <module>gf</module>
+                <module>providers</module>
                 <module>demos</module>
             </modules>
 
