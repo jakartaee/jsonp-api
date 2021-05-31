@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.jsondemos.osgi.jsonpointer;
+package org.eclipse.jsondemos.osgi.jsonpointer;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;

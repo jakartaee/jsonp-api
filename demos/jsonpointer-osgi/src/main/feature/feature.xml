@@ -15,7 +15,7 @@
 <features>
     <feature name="jsondemos-jsonpointer-osgi">
         <bundle start-level="51">mvn:jakarta.json/jakarta.json-api/${project.version}</bundle>
-        <bundle start-level="51">mvn:org.glassfish/jakarta.json/${project.version}/jar/module</bundle>
+        <bundle start-level="51">mvn:org.eclipse.jsonp/jsonp/${project.version}</bundle>
         <!--        Next 3 bundles are necessary for discovering and loading implementations matching a given interface (Java SPI), that used by jakarta.json-api-->
         <bundle start-level="50">mvn:org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/${spifly.version}
         </bundle>

@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.jsondemos.osgi.jsonpointer;
+package org.eclipse.jsondemos.osgi.jsonpointer;
 
 import java.io.IOException;
 import java.io.InputStream;

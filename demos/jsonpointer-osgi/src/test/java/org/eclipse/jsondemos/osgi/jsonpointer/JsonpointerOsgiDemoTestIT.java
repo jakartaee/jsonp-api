@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.jsondemos.osgi.jsonpointer;
+package org.eclipse.jsondemos.osgi.jsonpointer;
 
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
@@ -37,7 +37,7 @@ public class JsonpointerOsgiDemoTestIT extends AbstractJsonpOsgiTest {
         JsonObject jsonObject = jsonPointerService.read("/wiki.json");
 
         assertEquals(expectedBundleStatus, getBundleState(bundles, "jakarta.json-api"));
-        assertEquals(expectedBundleStatus, getBundleState(bundles, "org.glassfish.jakarta.json.module"));
+        assertEquals(expectedBundleStatus, getBundleState(bundles, "org.eclipse.jsonp"));
         assertEquals(expectedBundleStatus, getBundleState(bundles, "jsondemos-jsonpointer-osgi-api"));
         assertEquals(expectedJsonFieldValue, ((JsonString)jsonObject.get("firstName")).getString());
     }

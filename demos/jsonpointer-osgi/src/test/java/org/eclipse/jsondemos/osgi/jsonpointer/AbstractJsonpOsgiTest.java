@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.jsondemos.osgi.jsonpointer;
+package org.eclipse.jsondemos.osgi.jsonpointer;
 
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
@@ -16,6 +16,11 @@ import org.osgi.framework.BundleContext;
 
 import javax.inject.Inject;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.cleanCaches;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
@@ -38,16 +43,26 @@ public class AbstractJsonpOsgiTest {
                 mavenBundle().groupId("org.ow2.asm").artifactId("asm-all").versionAsInProject(),
                 mavenBundle().groupId("org.apache.aries").artifactId("org.apache.aries.util").versionAsInProject(),
                 mavenBundle().groupId("jakarta.json").artifactId("jakarta.json-api").versionAsInProject(),
-                mavenBundle()
-                        .groupId("org.glassfish")
-                        .artifactId("jakarta.json")
-                        .versionAsInProject()
-                        .classifier("module"),
-                mavenBundle()
-                        .groupId("org.glassfish.jsonp")
-                        .artifactId("jsondemos-jsonpointer-osgi")
-                        .versionAsInProject()
+                mavenBundle().groupId("org.eclipse.jsonp").artifactId("jsonp").versionAsInProject(),
+                bundle(getCurrentProjectArtifactUrl().toString())
         );
         return base;
+    }
+
+    private URL getCurrentProjectArtifactUrl() {
+        URL artifactUrl=null;
+        String targetClassDirPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        File artifact = new File(targetClassDirPath)
+                .getParentFile()
+                .listFiles((dir, name) ->
+                        name.startsWith("jsondemos-jsonpointer-osgi") 
+                                && name.endsWith(".jar") 
+                                && !name.contains("sources"))[0];
+        try {
+            artifactUrl = artifact.toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return artifactUrl;
     }
 }
