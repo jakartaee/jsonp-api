@@ -53,6 +53,8 @@
                                 <HK2-Bundle-Name>${project.groupId}:${project.artifactId}</HK2-Bundle-Name>
                                 <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
                                 <Export-Package>org.eclipse.jsonp.api</Export-Package>
+                                <Require-Capability>osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"</Require-Capability>
+                                <Provide-Capability>osgi.serviceloader; osgi.serviceloader=jakarta.json.spi.JsonProvider</Provide-Capability>
                             </instructions>
                         </configuration>
                     </execution>

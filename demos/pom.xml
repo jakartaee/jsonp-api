@@ -36,6 +36,7 @@
         <module>jsonpointer</module>
         <module>servlet</module>
         <module>customprovider-jdk9</module>
+        <module>jsonpointer-osgi</module>
     </modules>
 
 </project>
