@@ -56,24 +56,46 @@ public class JsonDuplicateKeyTest {
             assertEquals("Duplicate key 'a' is not allowed", e.getMessage());
         }
     }
-    
+
+    @Test
+    public void testJsonReaderDuplicateKey3() {
+        String json = "{\"a\":\"b\",\"b\":{\"c\":\"d\",\"c\":\"e\"}}";
+        JsonReader jsonReader = Json.createReader(new StringReader(json));
+        JsonObject jsonObject = jsonReader.readObject();
+        assertEquals(jsonObject.getJsonObject("b").getString("c"), "e");
+    }
+
+    @Test
+    public void testJsonReaderDuplicateKey4() {
+        String json = "{\"a\":\"b\",\"b\":{\"c\":\"d\",\"c\":\"e\"}}";;
+        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
+        JsonReader jsonReader = jsonReaderFactory.createReader(new StringReader(json));
+        try {
+            jsonReader.readObject();
+            fail();
+        } catch (Exception e) {
+            assertTrue(e instanceof JsonParsingException);
+            assertEquals("Duplicate key 'c' is not allowed", e.getMessage());
+        }
+    }
+
     @Test
     public void testJsonObjectBuilderDuplcateKey1() {
-    	JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-    	JsonObject jsonObject = objectBuilder.add("a", "b").add("a", "c").build();
-    	assertEquals(jsonObject.getString("a"), "c");
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+        JsonObject jsonObject = objectBuilder.add("a", "b").add("a", "c").build();
+        assertEquals(jsonObject.getString("a"), "c");
     }
-    
+
     @Test
     public void testJsonObjectBuilderDuplcateKey2() {
-    	JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
-    	JsonObjectBuilder objectBuilder = jsonBuilderFactory.createObjectBuilder();
-    	try {
-    		objectBuilder.add("a", "b").add("a", "c").build();
-    		fail();
-    	} catch (Exception e) {
+        JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
+        JsonObjectBuilder objectBuilder = jsonBuilderFactory.createObjectBuilder();
+        try {
+            objectBuilder.add("a", "b").add("a", "c").build();
+            fail();
+        } catch (Exception e) {
             assertTrue(e instanceof IllegalStateException);
             assertEquals("Duplicate key 'a' is not allowed", e.getMessage());
-    	}
+        }
     }
 }
