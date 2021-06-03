@@ -170,7 +170,7 @@ public class JsonParserImpl implements JsonParser {
             case START_ARRAY:
                 return getArray(new JsonArrayBuilderImpl(bufferPool));
             case START_OBJECT:
-                return getObject(new JsonObjectBuilderImpl(bufferPool));
+                return getObject(new JsonObjectBuilderImpl(bufferPool, rejectDuplicateKeys));
             case KEY_NAME:
             case VALUE_STRING:
                 return new JsonStringImpl(getCharSequence());
