@@ -17,7 +17,7 @@
 # Jakarta JSON Processing
 
 Jakarta JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents.
-This project contains Jakarta JSON Processing specification, API and a compatible implementation.
+This project contains Jakarta JSON Processing specification, API and TCK.
 
 ## Build
 
@@ -32,8 +32,6 @@ mvn -U -C clean install
 under the [Eclipse Public License (EPL) v2.0](https://projects.eclipse.org/license/epl-2.0)
 and [GNU General Public License (GPL) v2 with Classpath Exception](https://www.gnu.org/software/classpath/license.html);
 see the license information at the top of each source file.
-* The source code for the demo programs is licensed
-under the [Eclipse Distribution License (EDL) v1.0.](https://www.eclipse.org/org/documents/edl-v10.php).
 * The binary jar files published to the Maven repository are licensed
 under the same licenses as the corresponding source code;
 see the file `META-INF/LICENSE.txt` in each jar file.
@@ -47,9 +45,7 @@ the license text included in every source file.
 
 ## Links
 
-- [Jakarta JSON Processing official web site](https://eclipse-ee4j.github.io/jsonp)
 - [Jakarta JSON Processing @ Eclipse](https://projects.eclipse.org/projects/ee4j.jsonp)
-- [README.txt](https://github.com/eclipse-ee4j/jsonp/blob/master/bundles/ri/src/main/resources/README.txt)
 
 ## Contributing
 

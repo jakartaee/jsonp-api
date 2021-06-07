@@ -26,11 +26,4 @@ install: true
 
 script:
   - cd api
-  - mvn -U -C -Pstaging,oss-release -Dnon.final=true -Dgpg.skip=true clean install
-  - cd ..
-  - mvn -U -C -Pstaging,oss-release,all -Dnon.final=true -Dgpg.skip=true clean install
-  - cd tck
-  - mvn -U clean install
-  - cd ../impl-tck
-  - mvn -U clean test
-
+  - mvn -U -C -Pstaging,oss-release -Dgpg.skip=true clean install
