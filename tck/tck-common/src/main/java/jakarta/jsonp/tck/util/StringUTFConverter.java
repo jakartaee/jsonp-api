@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,20 +34,23 @@
 package jakarta.jsonp.tck.util;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 public class StringUTFConverter {
+
+  private static final Logger LOGGER = Logger.getLogger(StringUTFConverter.class.getName());
 
   private static final String USAGE = "Usage : java StringUTFConverter inputstring encoding outputfile";
 
   public static void main(String args[]) {
     try {
       if (args.length != 3) {
-        System.err.println(USAGE);
+        LOGGER.warning(USAGE);
         System.exit(1);
       }
 
       // Convert string to specified UTF encoded output file
-      System.out.println(
+      LOGGER.info(
           "StringtoUTF-> convert string (" + args[0] + "), to encoding ("
               + args[1] + ") and write to output file (" + args[2] + ")");
       FileOutputStream fos = new FileOutputStream(args[2]);

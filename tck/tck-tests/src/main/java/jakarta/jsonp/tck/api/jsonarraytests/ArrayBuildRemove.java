@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -33,6 +35,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * {@link JsonArrayBuilder} API remove() methods added in JSON-P 1.1.<br>
  */
 public class ArrayBuildRemove extends ArrayCommon {
+
+  private static final Logger LOGGER = Logger.getLogger(ArrayBuildRemove.class.getName());
 
   /**
    * Creates an instance of {@link JsonArrayBuilder} API remove() methods added
@@ -50,7 +54,7 @@ public class ArrayBuildRemove extends ArrayCommon {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonArrayBuilder API remove() methods added in JSON-P 1.1.");
-    System.out.println("JsonArrayBuilder API remove() methods added in JSON-P 1.1.");
+    LOGGER.info("JsonArrayBuilder API remove() methods added in JSON-P 1.1.");
     testRemove(result);
     testRemoveOutOfBounds(result);
     return result;
@@ -75,7 +79,7 @@ public class ArrayBuildRemove extends ArrayCommon {
     };
     for (Object value : values) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - remove(int," + typeName + ")");
+      LOGGER.info(" - remove(int," + typeName + ")");
       final String json = "[]";
       final JsonValue check = JsonIO.read(json);
       JsonArrayBuilder builder = ArrayBuilder.add(Json.createArrayBuilder(),
@@ -110,7 +114,7 @@ public class ArrayBuildRemove extends ArrayCommon {
     final int[] indexes = new int[] { -1, 2, 3 };
     for (Object value : values) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - remove(int," + typeName + ")");
+      LOGGER.info(" - remove(int," + typeName + ")");
       final String json = "[" + JsonValueType.toStringValue(value) + "]";
       // Add value into the array for the first time to het array of size 1.
       JsonArrayBuilder builder = ArrayBuilder.add(Json.createArrayBuilder(),
@@ -123,7 +127,7 @@ public class ArrayBuildRemove extends ArrayCommon {
               "Calling method with out of bounds index=" + index
                   + " argument shall throw IndexOutOfBoundsException");
         } catch (IndexOutOfBoundsException e) {
-          System.out.println("    - Expected exception for index=" + index + ": "
+          LOGGER.info("    - Expected exception for index=" + index + ": "
               + e.getMessage());
         } catch (Throwable t) {
           result.fail("remove(int,(" + typeName + ")null)",

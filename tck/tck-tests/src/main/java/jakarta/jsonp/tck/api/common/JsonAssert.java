@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.common;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonNumber;
@@ -36,14 +38,16 @@ import static jakarta.jsonp.tck.common.JSONP_Util.toStringJsonObject;
  */
 public class JsonAssert {
 
+  private static final Logger LOGGER = Logger.getLogger(JsonAssert.class.getName());
+
   private static boolean assertEquals(final JsonObject expected,
       final JsonObject actual, final String message) {
     if (actual.equals(expected)) {
       return true;
     } else {
-      System.out.println("   " + message);
-      System.out.println("     Expected: " + toStringJsonObject(expected));
-      System.out.println("     Actual:   " + toStringJsonObject(actual));
+      LOGGER.info("   " + message);
+      LOGGER.info("     Expected: " + toStringJsonObject(expected));
+      LOGGER.info("     Actual:   " + toStringJsonObject(actual));
       return false;
     }
   }
@@ -53,9 +57,9 @@ public class JsonAssert {
     if (actual.equals(expected)) {
       return true;
     } else {
-      System.out.println("   " + message);
-      System.out.println("     Expected: " + toStringJsonArray(expected));
-      System.out.println("     Actual:   " + toStringJsonArray(actual));
+      LOGGER.info("   " + message);
+      LOGGER.info("     Expected: " + toStringJsonArray(expected));
+      LOGGER.info("     Actual:   " + toStringJsonArray(actual));
       return false;
     }
   }
@@ -65,9 +69,9 @@ public class JsonAssert {
     if (actual.equals(expected)) {
       return true;
     } else {
-      System.out.println("   " + message);
-      System.out.println("     Expected: " + expected.getString());
-      System.out.println("     Actual:   " + actual.getString());
+      LOGGER.info("   " + message);
+      LOGGER.info("     Expected: " + expected.getString());
+      LOGGER.info("     Actual:   " + actual.getString());
       return false;
     }
   }
@@ -77,9 +81,9 @@ public class JsonAssert {
     if (actual.equals(expected)) {
       return true;
     } else {
-      System.out.println("   " + message);
-      System.out.println("     Expected: " + expected.toString());
-      System.out.println("     Actual:   " + actual.toString());
+      LOGGER.info("   " + message);
+      LOGGER.info("     Expected: " + expected.toString());
+      LOGGER.info("     Actual:   " + actual.toString());
       return false;
     }
   }
@@ -100,18 +104,18 @@ public class JsonAssert {
       if (expected == actual) {
         return true;
       } else {
-        System.out.println("   " + message);
-        System.out.println("     Expected: " + expected.toString());
-        System.out.println("     Actual:   " + actual.toString());
+        LOGGER.info("   " + message);
+        LOGGER.info("     Expected: " + expected.toString());
+        LOGGER.info("     Actual:   " + actual.toString());
         return false;
       }
     default:
       if (actual.equals(expected)) {
         return true;
       } else {
-        System.out.println("   " + message);
-        System.out.println("     Expected: " + expected.toString());
-        System.out.println("     Actual:   " + actual.toString());
+        LOGGER.info("   " + message);
+        LOGGER.info("     Expected: " + expected.toString());
+        LOGGER.info("     Actual:   " + actual.toString());
         return false;
       }
     }

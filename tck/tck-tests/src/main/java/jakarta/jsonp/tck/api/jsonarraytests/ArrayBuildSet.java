@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,6 +26,8 @@ import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -35,6 +37,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * {@link JsonArrayBuilder} API set() methods added in JSON-P 1.1.<br>
  */
 public class ArrayBuildSet extends ArrayCommon {
+
+  private static final Logger LOGGER = Logger.getLogger(ArrayBuildSet.class.getName());
 
   /**
    * Creates an instance of {@link JsonArrayBuilder} API set() methods added in
@@ -52,7 +56,7 @@ public class ArrayBuildSet extends ArrayCommon {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonArrayBuilder API set() methods added in JSON-P 1.1.");
-    System.out.println("JsonArrayBuilder API set() methods added in JSON-P 1.1.");
+    LOGGER.info("JsonArrayBuilder API set() methods added in JSON-P 1.1.");
     testSet(result);
     testSetOutOfBounds(result);
     testSetNullBuilder(result);
@@ -86,7 +90,7 @@ public class ArrayBuildSet extends ArrayCommon {
     };
     for (Object value : values) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - set(int," + typeName + ")");
+      LOGGER.info(" - set(int," + typeName + ")");
       final String json = "[" + JsonValueType.toStringValue(value) + "]";
       final JsonValue check = JsonIO.read(json);
       final JsonArrayBuilder builder = updateOperationBuilder(
@@ -120,7 +124,7 @@ public class ArrayBuildSet extends ArrayCommon {
     final int[] indexes = new int[] { -1, 2, 3 };
     for (Object value : values) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - set(int," + typeName + ")");
+      LOGGER.info(" - set(int," + typeName + ")");
       final String json = "[" + JsonValueType.toStringValue(value) + "]";
       JsonArrayBuilder builder = ArrayBuilder.add(Json.createArrayBuilder(),
           DEF_OBJ_VALUE);
@@ -129,7 +133,7 @@ public class ArrayBuildSet extends ArrayCommon {
           builder = updateOperationBuilder(
               Json.createArrayBuilder().add(DEF_OBJ_VALUE), index, value);
         } catch (IndexOutOfBoundsException e) {
-          System.out.println("    - Expected exception for index=" + index + ": "
+          LOGGER.info("    - Expected exception for index=" + index + ": "
               + e.getMessage());
         } catch (Throwable t) {
           result.fail("set(int," + typeName + ")",
@@ -156,13 +160,13 @@ public class ArrayBuildSet extends ArrayCommon {
     };
     for (JsonValueType type : types) {
       final String typeName = type.name();
-      System.out.println(" - set(int,(" + typeName + ")null)");
+      LOGGER.info(" - set(int,(" + typeName + ")null)");
       try {
         ArrayBuilder.set(Json.createArrayBuilder(), 0, type);
         result.fail("set(int,(" + typeName + ")null)",
             "Calling method with null argument shall throw NullPointerException");
       } catch (NullPointerException e) {
-        System.out.println("    - Expected exception: " + e.getMessage());
+        LOGGER.info("    - Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("set(int,(" + typeName + ")null)",
             "Calling method with null argument shall throw NullPointerException, not "
@@ -179,7 +183,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetNull(final TestResult result) {
-    System.out.println(" - setNull(int)");
+    LOGGER.info(" - setNull(int)");
     final Object value = null;
     final String json = "[" + JsonValueType.toStringValue(null) + "]";
     final JsonValue check = JsonIO.read(json);
@@ -202,7 +206,7 @@ public class ArrayBuildSet extends ArrayCommon {
    */
   private void testSetNullOutOfBounds(final TestResult result) {
     final int[] indexes = new int[] { -1, 2, 3 };
-    System.out.println(" - setNull(int)");
+    LOGGER.info(" - setNull(int)");
     final Object value = null;
     JsonArrayBuilder builder = ArrayBuilder.add(Json.createArrayBuilder(),
         value);
@@ -213,7 +217,7 @@ public class ArrayBuildSet extends ArrayCommon {
         result.fail("setNull(int)", "Calling method with out of bounds index="
             + index + " argument shall throw IndexOutOfBoundsException");
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("    - Expected exception for index=" + index + ": "
+        LOGGER.info("    - Expected exception for index=" + index + ": "
             + e.getMessage());
       } catch (Throwable t) {
         result.fail("setNull(int)",
@@ -232,7 +236,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetArrayBuilder(final TestResult result) {
-    System.out.println(" - set(int,JsonArrayBuilder)");
+    LOGGER.info(" - set(int,JsonArrayBuilder)");
     final JsonValue check = JsonIO
         .read("[[" + JsonValueType.toStringValue(STR_VALUE_1) + ","
             + JsonValueType.toStringValue(STR_VALUE_2) + ","
@@ -252,7 +256,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetArrayBuilderNull(final TestResult result) {
-    System.out.println(" - set(int,(JsonArrayBuilder)null)");
+    LOGGER.info(" - set(int,(JsonArrayBuilder)null)");
     final JsonArrayBuilder in = Json.createArrayBuilder().add(DEF_VALUE);
     final JsonArrayBuilder arg = null;
     try {
@@ -260,7 +264,7 @@ public class ArrayBuildSet extends ArrayCommon {
       result.fail("set(int,(JsonArrayBuilder)null)",
           "Calling method with null argument shall throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     } catch (Throwable t) {
       result.fail("set(int,(JsonArrayBuilder)null)",
           "Calling method with null argument shall throw NullPointerException, not "
@@ -277,7 +281,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetArrayBuilderOutOfBounds(final TestResult result) {
-    System.out.println(" - set(int,JsonArrayBuilder)");
+    LOGGER.info(" - set(int,JsonArrayBuilder)");
     final int[] indexes = new int[] { -1, 5, 6 };
     final JsonArrayBuilder in = Json.createArrayBuilder().add(STR_VALUE_1)
         .add(STR_VALUE_2).add(STR_VALUE_3).add(STR_VALUE_4);
@@ -290,7 +294,7 @@ public class ArrayBuildSet extends ArrayCommon {
             "Calling method with out of bounds index=" + index
                 + " argument shall throw IndexOutOfBoundsException");
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("    - Expected exception for index=" + index + ": "
+        LOGGER.info("    - Expected exception for index=" + index + ": "
             + e.getMessage());
       } catch (Throwable t) {
         result.fail("set(int,JsonArrayBuilder)",
@@ -309,7 +313,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetObjectBuilder(final TestResult result) {
-    System.out.println(" - set(int,JsonObjectBuilder)");
+    LOGGER.info(" - set(int,JsonObjectBuilder)");
     final JsonValue check = JsonIO
         .read("[{" + JsonValueType.toStringValue(STR_NAME) + ":"
             + JsonValueType.toStringValue(STR_VALUE) + "}]");
@@ -327,7 +331,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetObjectBuilderNull(final TestResult result) {
-    System.out.println(" - set(int,(JsonObjectBuilder)null)");
+    LOGGER.info(" - set(int,(JsonObjectBuilder)null)");
     final JsonArrayBuilder in = Json.createArrayBuilder().add(DEF_VALUE);
     final JsonObjectBuilder arg = null;
     try {
@@ -335,7 +339,7 @@ public class ArrayBuildSet extends ArrayCommon {
       result.fail("set(int,(JsonObjectBuilder)null)",
           "Calling method with null argument shall throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     } catch (Throwable t) {
       result.fail("set(int,(JsonObjectBuilder)null)",
           "Calling method with null argument shall throw NullPointerException, not "
@@ -352,7 +356,7 @@ public class ArrayBuildSet extends ArrayCommon {
    *          Test suite result.
    */
   private void testSetObjectBuilderOutOfBounds(final TestResult result) {
-    System.out.println(" - set(int,JsonObjectBuilder)");
+    LOGGER.info(" - set(int,JsonObjectBuilder)");
     final int[] indexes = new int[] { -1, 5, 6 };
     final JsonArrayBuilder in = Json.createArrayBuilder().add(STR_VALUE_1)
         .add(STR_VALUE_2).add(STR_VALUE_3).add(STR_VALUE_4);
@@ -366,7 +370,7 @@ public class ArrayBuildSet extends ArrayCommon {
             "Calling method with out of bounds index=" + index
                 + " argument shall throw IndexOutOfBoundsException");
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("    - Expected exception for index=" + index + ": "
+        LOGGER.info("    - Expected exception for index=" + index + ": "
             + e.getMessage());
       } catch (Throwable t) {
         result.fail("set(int,JsonObjectBuilder)",

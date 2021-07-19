@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonPointer;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.PointerRFCObject.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
@@ -34,6 +36,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * Object Notation (JSON) Pointer resolving tests.<br>
  */
 public class PointerResolve {
+
+  private static final Logger LOGGER = Logger.getLogger(PointerResolve.class.getName());
 
   /**
    * Creates an instance of RFC 6901 JSON Pointer resolver tests.
@@ -49,7 +53,7 @@ public class PointerResolve {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6901 pointer resolving");
-    System.out.println("Testing RFC 6901 pointer resolving");
+    LOGGER.info("Testing RFC 6901 pointer resolving");
     testResolveWholeDocument(result);
     testResolveEmptyName(result);
     testResolveSimpleArray(result);
@@ -79,7 +83,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolveWholeDocument(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_KEY_WHOLE + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_KEY_WHOLE + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = in;
     final JsonPointer ptr = Json.createPointer(RFC_KEY_WHOLE);
@@ -102,7 +106,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolveEmptyName(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR2 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR2 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL2);
     final JsonPointer ptr = Json.createPointer(RFC_PTR2);
@@ -125,7 +129,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolveSimpleArray(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR1 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR1 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = RFC_VAL1;
     final JsonPointer ptr = Json.createPointer(RFC_PTR1);
@@ -153,7 +157,7 @@ public class PointerResolve {
     final String[] itemVals = new String[] { RFC_VAL1_ITEM1, RFC_VAL1_ITEM2 };
     final JsonObject in = createRFC6901Object();
     for (int i = 0; i < itemPtrs.length; i++) {
-      System.out.println(" - resolving of \"" + itemPtrs[i] + "\" pointer");
+      LOGGER.info(" - resolving of \"" + itemPtrs[i] + "\" pointer");
       final JsonValue check = Json.createValue(itemVals[i]);
       final JsonPointer ptr = Json.createPointer(itemPtrs[i]);
       try {
@@ -177,7 +181,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithEncodedSlash(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR3_ENC + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR3_ENC + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL3);
     final JsonPointer ptr = Json.createPointer(RFC_PTR3_ENC);
@@ -188,7 +192,7 @@ public class PointerResolve {
             "GET operation failed for \"" + RFC_PTR3_ENC + "\" path");
       }
     } catch (JsonException e) {
-      System.out.println("    ! Exception: " + e.getMessage());
+      LOGGER.info("    ! Exception: " + e.getMessage());
       result.fail("GET \"" + RFC_PTR3_ENC + "\"",
           "GET operation exception: " + e.getMessage());
     }
@@ -203,7 +207,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithSlash(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR3 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR3 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonPointer ptr = Json.createPointer(RFC_PTR3);
     try {
@@ -211,7 +215,7 @@ public class PointerResolve {
       result.fail("GET \"" + RFC_PTR3 + "\"",
           "GET operation succeeded for \"" + RFC_PTR3 + "\" path");
     } catch (JsonException e) {
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     }
   }
 
@@ -222,7 +226,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithPercent(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR4 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR4 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL4);
     final JsonPointer ptr = Json.createPointer(RFC_PTR4);
@@ -245,7 +249,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithCaret(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR5 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR5 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL5);
     final JsonPointer ptr = Json.createPointer(RFC_PTR5);
@@ -268,7 +272,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithVerticalBar(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR6 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR6 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL6);
     final JsonPointer ptr = Json.createPointer(RFC_PTR6);
@@ -291,7 +295,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithBackSlash(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR7 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR7 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL7);
     final JsonPointer ptr = Json.createPointer(RFC_PTR7);
@@ -314,7 +318,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithDoubleQuotes(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR8 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR8 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL8);
     final JsonPointer ptr = Json.createPointer(RFC_PTR8);
@@ -337,7 +341,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithSpace(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR9 + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR9 + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL9);
     final JsonPointer ptr = Json.createPointer(RFC_PTR9);
@@ -369,7 +373,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithTilde(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR10 + "\" pointer (optional)");
+    LOGGER.info(" - resolving of \"" + RFC_PTR10 + "\" pointer (optional)");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL10);
     final JsonPointer ptr = Json.createPointer(RFC_PTR10);
@@ -378,15 +382,15 @@ public class PointerResolve {
       final JsonValue out = ptr.getValue(in);
       if (!assertEquals(out, check)) {
         noError = false;
-        System.out.println("    - Pointer \"" + RFC_KEY10
+        LOGGER.info("    - Pointer \"" + RFC_KEY10
             + "\" did not return expected value");
       }
     } catch (JsonException e) {
       noError = false;
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     }
     if (noError) {
-      System.out.println(
+      LOGGER.info(
           "    - Pointer resolving accepts '~' outside escape sequence");
     }
   }
@@ -399,7 +403,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithEncodedTilde(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_KEY10_ENC + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_KEY10_ENC + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL10);
     final JsonPointer ptr = Json.createPointer(RFC_KEY10_ENC);
@@ -427,7 +431,7 @@ public class PointerResolve {
    *          Tests result record.
    */
   private void testResolvePathWithEncodedTildeOne(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR11_ENC + "\" pointer");
+    LOGGER.info(" - resolving of \"" + RFC_PTR11_ENC + "\" pointer");
     final JsonObject in = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL11);
     final JsonPointer ptr = Json.createPointer(RFC_PTR11_ENC);
@@ -457,7 +461,7 @@ public class PointerResolve {
    * </ul>
    */
   private void testResolveValidNumericIndexInArray(final TestResult result) {
-    System.out.println(
+    LOGGER.info(
         " - resolving of pointer containing existing numeric array index");
     final JsonArray[] arraysIn = new JsonArray[] { createSimpleStringArray5(),
         createSimpleIntArray5(), createSimpleBoolArray5(),
@@ -511,7 +515,7 @@ public class PointerResolve {
    * character is to be handled, if it is to be useful.
    */
   private void testResolveMemberAfterLastInArray(final TestResult result) {
-    System.out.println(" - resolving of array \"/-\" pointer");
+    LOGGER.info(" - resolving of array \"/-\" pointer");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray(), createSimpleIntArray5(), createBoolArray2(),
         createSimpleObjectArray5() };
@@ -524,7 +528,7 @@ public class PointerResolve {
         final JsonValue out = ptr.getValue(arraysIn[i]);
         result.fail("GET \"/-\"", "GET operation succeeded for \"/-\" key");
       } catch (JsonException e) {
-        System.out.println("    - Expected exception for \"/-\" path in "
+        LOGGER.info("    - Expected exception for \"/-\" path in "
             + typeNames[i] + " array: " + e.getMessage());
       }
     }
@@ -544,7 +548,7 @@ public class PointerResolve {
    */
   private void testResolveNumericIndexWithLeadingZeroInArray(
       final TestResult result) {
-    System.out.println(
+    LOGGER.info(
         " - resolving of pointer containing numeric array index with leading '0' (optional)");
     final JsonArray[] arraysIn = new JsonArray[] { createSimpleStringArray5(),
         createSimpleIntArray5(), createSimpleBoolArray5(),
@@ -559,7 +563,7 @@ public class PointerResolve {
         final JsonPointer ptr = Json.createPointer(path);
         try {
           final JsonValue out = ptr.getValue(arraysIn[i]);
-          System.out.println("    ! GET operation succeeded for \"" + path
+          LOGGER.info("    ! GET operation succeeded for \"" + path
               + "\" path on " + typeNames[i] + " array");
           // result.fail("GET \""+path+"\"",
           // "GET operation succeeded for \""+path+"\" key on "+typeNames[i]+"
@@ -582,7 +586,7 @@ public class PointerResolve {
    * document ({@code ""}) which must return the whole array.
    */
   private void testResolvenonNumericIndexInArray(final TestResult result) {
-    System.out.println(" - resolving of pointer containing non numeric array index");
+    LOGGER.info(" - resolving of pointer containing non numeric array index");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray(), createSimpleIntArray5(), createBoolArray2(),
         createSimpleObjectArray5() };

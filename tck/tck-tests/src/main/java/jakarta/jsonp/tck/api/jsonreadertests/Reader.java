@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonReader;
@@ -39,6 +41,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 public class Reader {
 
+  private static final Logger LOGGER = Logger.getLogger(Reader.class.getName());
+  
   /** Tests input data. */
   private static final Object[] VALUES = new Object[] { OBJ_VALUE, // readValue()
                                                                    // for
@@ -70,7 +74,7 @@ public class Reader {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonReader API methods added in JSON-P 1.1.");
-    System.out.println("JsonReader API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonReader API methods added in JSON-P 1.1.");
     testReadValue(result);
     testDoubleReadValue(result);
     testIOExceptionOnReadValue(result);
@@ -88,16 +92,16 @@ public class Reader {
   private void testReadValue(final TestResult result) {
     for (Object value : VALUES) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - readValue() for " + typeName + " in source data");
+      LOGGER.info(" - readValue() for " + typeName + " in source data");
       final JsonValue jsonValue = SimpleValues.toJsonValue(value);
       final String data = JsonValueType.toStringValue(value);
-      System.out.println("    - Data: " + data);
+      LOGGER.info("    - Data: " + data);
       final StringReader strReader = new StringReader(data);
       JsonValue outValue = null;
       try (final JsonReader reader = Json.createReader(strReader)) {
         outValue = reader.readValue();
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("readValue()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -119,7 +123,7 @@ public class Reader {
   private void testDoubleReadValue(final TestResult result) {
     for (Object value : VALUES) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(
+      LOGGER.info(
           " - duplicate readValue() for " + typeName + " in source data");
       final String data = JsonValueType.toStringValue(value);
       final StringReader strReader = new StringReader(data);
@@ -132,14 +136,14 @@ public class Reader {
           result.fail("readValue()",
               "Duplicate call of readValue() shall throw IllegalStateException");
         } catch (IllegalStateException ex) {
-          System.out.println("    - Expected exception: " + ex.getMessage());
+          LOGGER.info("    - Expected exception: " + ex.getMessage());
         } catch (Throwable t) {
           result.fail("readValue()",
               "Duplicate call of readValue() shall throw IllegalStateException, not "
                   + t.getClass().getSimpleName());
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("readValue()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -155,13 +159,13 @@ public class Reader {
    */
   @SuppressWarnings("ConvertToTryWithResources")
   private void testIOExceptionOnReadValue(final TestResult result) {
-    System.out.println(" - readValue() from already closed file reader");
+    LOGGER.info(" - readValue() from already closed file reader");
     File temp = null;
     JsonReader reader;
     // Close writer before calling write method.
     try {
       temp = File.createTempFile("testIOExceptionOnReadValue", ".txt");
-      System.out.println("    - Temporary file: " + temp.getAbsolutePath());
+      LOGGER.info("    - Temporary file: " + temp.getAbsolutePath());
       try (final FileWriter fileWriter = new FileWriter(temp)) {
         fileWriter.write(JsonValueType.toStringValue(DEF_VALUE));
       }
@@ -169,7 +173,7 @@ public class Reader {
       reader = Json.createReader(fileReader);
       fileReader.close();
     } catch (IOException ex) {
-      System.out.println("Caught IOException: " + ex.getLocalizedMessage());
+      LOGGER.info("Caught IOException: " + ex.getLocalizedMessage());
       result.fail("write(JsonValue)",
           "Caught IOException: " + ex.getLocalizedMessage());
       return;
@@ -183,7 +187,7 @@ public class Reader {
       result.fail("readValue()",
           "Call of readValue() on already closed file reader shall throw JsonException");
     } catch (JsonException ex) {
-      System.out.println("    - Expected exception: " + ex.getMessage());
+      LOGGER.info("    - Expected exception: " + ex.getMessage());
     } catch (Throwable t) {
       result.fail("readValue()",
           "Call of readValue() on already closed file reader shall throw JsonException, not "
@@ -199,7 +203,7 @@ public class Reader {
    *          Test suite result.
    */
   private void testReadInvalidValue(final TestResult result) {
-    System.out.println(" - readValue() on invalid JSON data");
+    LOGGER.info(" - readValue() on invalid JSON data");
     // Invalid JSON: starting an array, closing an object.
     final String data = "[" + SimpleValues.toJsonValue(DEF_VALUE) + "}";
     final StringReader strReader = new StringReader(data);
@@ -209,7 +213,7 @@ public class Reader {
       result.fail("readValue()",
           "Call of readValue() on invalid data shall throw JsonParsingException");
     } catch (JsonParsingException ex) {
-      System.out.println("    - Expected exception: " + ex.getMessage());
+      LOGGER.info("    - Expected exception: " + ex.getMessage());
     } catch (Throwable t) {
       result.fail("readValue()",
           "Call of readValue() on invalid data shall throw JsonParsingException, not "

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
@@ -37,6 +39,8 @@ import jakarta.json.JsonObject;
  * API methods.
  */
 public class Generator {
+
+  private static final Logger LOGGER = Logger.getLogger(Generator.class.getName());
 
   /** Tests input data. */
   private static final Object[] VALUES = new Object[] { OBJ_VALUE, // write(JsonValue)
@@ -61,7 +65,7 @@ public class Generator {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonGenerator API methods for RFC 7159 grammar changes.");
-    System.out.println("JsonGenerator API methods for RFC 7159 grammar changes.");
+    LOGGER.info("JsonGenerator API methods for RFC 7159 grammar changes.");
     testPrimitiveTypesInRoot(result);
     testWrittingObjectByParts(result);
     return result;
@@ -75,7 +79,7 @@ public class Generator {
   private void testPrimitiveTypesInRoot(final TestResult result) {
     for (Object value : VALUES) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - write(JsonValue) for " + typeName + " as an argument");
+      LOGGER.info(" - write(JsonValue) for " + typeName + " as an argument");
       verifyJsonGeneratorForJsonValue(result, value);
       verifyJsonGeneratorForSimpleType(result, value);
     }
@@ -87,7 +91,7 @@ public class Generator {
    * and {@code write(String)}.
    */
   private void testWrittingObjectByParts(final TestResult result) {
-    System.out.println(" - generate JSON object");
+    LOGGER.info(" - generate JSON object");
     final StringWriter strWriter = new StringWriter();
     try (JsonGenerator generator = Json.createGenerator(strWriter)) {
       generator.writeStartObject();
@@ -99,12 +103,12 @@ public class Generator {
     final JsonObject check = createSimpleObjectStr();
     if (operationFailed(check, out)) {
       final String checkStr = check.toString();
-      System.out.println(
+      LOGGER.info(
           "     Generated JSON object " + out + " shall be " + checkStr);
       result.fail("generate JSON object",
           "Generated value " + out + " shall be " + checkStr);
     } else {
-      System.out.println("     Output: " + out);
+      LOGGER.info("     Output: " + out);
     }
 
   }
@@ -122,11 +126,11 @@ public class Generator {
     final String out = strWriter.toString();
     if (operationFailed(jsonValue, out)) {
       final String check = jsonValue.toString();
-      System.out.println("     Generated JSON value " + out + " shall be " + check);
+      LOGGER.info("     Generated JSON value " + out + " shall be " + check);
       result.fail("write(JsonValue)",
           "Generated value " + out + " shall be " + check);
     } else {
-      System.out.println("     Output (JsonValue): " + out);
+      LOGGER.info("     Output (JsonValue): " + out);
     }
   }
 
@@ -175,11 +179,11 @@ public class Generator {
     final String out = strWriter.toString();
     if (operationFailed(value, out)) {
       final String check = toJsonValue(value).toString();
-      System.out.println("     Generated simple value " + out + " shall be " + check);
+      LOGGER.info("     Generated simple value " + out + " shall be " + check);
       result.fail("write(JsonValue)",
           "Generated value " + out + " shall be " + check);
     } else {
-      System.out.println("     Output (simple): " + out);
+      LOGGER.info("     Output (simple): " + out);
     }
   }
 

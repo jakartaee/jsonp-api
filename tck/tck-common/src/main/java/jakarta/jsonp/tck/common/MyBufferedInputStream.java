@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,7 @@ package jakarta.jsonp.tck.common;
 
 
 import java.io.*;
+import java.util.logging.Logger;
 
 // A wrapper class to BufferedInputStream class used to inject IOException errors
 // when the throwIOException instance variable is set. All methods delegate
@@ -29,6 +30,8 @@ import java.io.*;
 // before delegation.
 
 public class MyBufferedInputStream extends BufferedInputStream {
+
+  private static final Logger LOGGER = Logger.getLogger(MyBufferedInputStream.class.getName());
 
   private boolean throwIOException = false;
 
@@ -47,7 +50,7 @@ public class MyBufferedInputStream extends BufferedInputStream {
 
   private void checkToTripIOException() throws IOException {
     if (throwIOException) {
-      System.out.println(
+      LOGGER.info(
           "MyBufferedInputStream->checkToTripIOException: *** tripping an IOException ***");
       throw new IOException("tripping an IOException");
     }

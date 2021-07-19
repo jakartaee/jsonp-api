@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,6 +28,8 @@ import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+
 import jakarta.json.JsonNumber;
 
 // $Id$
@@ -37,6 +39,8 @@ import jakarta.json.JsonNumber;
  */
 public class ArrayBuilders {
 
+  private static final Logger LOGGER = Logger.getLogger(ArrayBuilders.class.getName());
+  
   /**
    * Creates an instance of {@link JsonArrayBuilder} API factory methods added
    * in JSON-P 1.1 test.
@@ -53,7 +57,7 @@ public class ArrayBuilders {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonArrayBuilder API factory methods added in JSON-P 1.1.");
-    System.out.println("JsonArrayBuilder API factory methods added in JSON-P 1.1.");
+    LOGGER.info("JsonArrayBuilder API factory methods added in JSON-P 1.1.");
     testCreateFromCollection(result);
     testCreateFromJsonArray(result);
     testGetStringValuesAs(result);
@@ -68,7 +72,7 @@ public class ArrayBuilders {
    *          Test suite result.
    */
   private void testCreateFromCollection(final TestResult result) {
-    System.out.println(" - Json#createArrayBuilder(Collection<Object>)");
+    LOGGER.info(" - Json#createArrayBuilder(Collection<Object>)");
     final JsonArray check = createSimpleStringArray5();
     final ArrayList<Object> values = new ArrayList<>(check.size());
     for (final JsonValue value : check) {
@@ -89,7 +93,7 @@ public class ArrayBuilders {
    *          Test suite result.
    */
   private void testCreateFromJsonArray(final TestResult result) {
-    System.out.println(" - Json#createArrayBuilder(JsonArray)");
+    LOGGER.info(" - Json#createArrayBuilder(JsonArray)");
     final JsonArray check = createSimpleStringArray5();
     final JsonArrayBuilder builder = Json.createArrayBuilder(check);
     final JsonArray out = builder.build();
@@ -107,7 +111,7 @@ public class ArrayBuilders {
    *          Test suite result.
    */
   private void testGetStringValuesAs(final TestResult result) {
-    System.out.println(" - getValuesAs(Function<K,T> on String array");
+    LOGGER.info(" - getValuesAs(Function<K,T> on String array");
     final JsonArray in = createStringArray2();
     final List<String> out = in.getValuesAs(JsonString::getString);
     boolean failed = in.size() != out.size();
@@ -134,7 +138,7 @@ public class ArrayBuilders {
    *          Test suite result.
    */
   private void testGetIntValuesAs(final TestResult result) {
-    System.out.println(" - getValuesAs(Function<K,T> on int array");
+    LOGGER.info(" - getValuesAs(Function<K,T> on int array");
     final JsonArray in = createIntArray2();
     final List<Integer> out = in.getValuesAs(JsonNumber::intValue);
     boolean failed = in.size() != out.size();

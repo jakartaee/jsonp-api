@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,9 +17,8 @@
 package jakarta.jsonp.tck.api.mergetests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.lib.harness.Fault;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 // $Id$
 /**
@@ -35,7 +34,7 @@ public class MergeTests {
    * Introduction</a>}: If the provided merge patch contains members that do not
    * appear within the target, those members are added.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonMergeAddValueTest
@@ -45,7 +44,7 @@ public class MergeTests {
    * @test_Strategy: Test API response on various JSON values.
    */
   @Test
-  public void jsonMergeAddValueTest() throws Fault {
+  public void jsonMergeAddValueTest() {
     MergeAddValue addTest = new MergeAddValue();
     final TestResult result = addTest.test();
     result.eval();
@@ -57,7 +56,7 @@ public class MergeTests {
    * Introduction</a>}: If the target does contain the member, the value is
    * replaced.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonMergeReplaceValueTest
@@ -66,7 +65,7 @@ public class MergeTests {
    * @test_Strategy: Test API response on various JSON values.
    */
   @Test
-  public void jsonMergeReplaceValueTest() throws Fault {
+  public void jsonMergeReplaceValueTest() {
     MergeReplaceValue replaceTest = new MergeReplaceValue();
     final TestResult result = replaceTest.test();
     result.eval();
@@ -78,7 +77,7 @@ public class MergeTests {
    * Introduction</a>}: {@code null} values in the merge patch are given special
    * meaning to indicate the removal of existing values in the target.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonMergeRemoveValueTest
@@ -87,7 +86,7 @@ public class MergeTests {
    * @test_Strategy: Test API response on various JSON values.
    */
   @Test
-  public void jsonMergeRemoveValueTest() throws Fault {
+  public void jsonMergeRemoveValueTest() {
     MergeRemoveValue removeTest = new MergeRemoveValue();
     final TestResult result = removeTest.test();
     result.eval();
@@ -99,7 +98,7 @@ public class MergeTests {
    * Introduction</a>}: If the patch is anything other than an object, the
    * result will always be to replace the entire target with the entire patch.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonMergeNonObjectTest
@@ -109,7 +108,7 @@ public class MergeTests {
    * @test_Strategy: Test API response on various JSON values.
    */
   @Test
-  public void jsonMergeNonObjectTest() throws Fault {
+  public void jsonMergeNonObjectTest() {
     MergeNonObject nonObjTest = new MergeNonObject();
     final TestResult result = nonObjTest.test();
     result.eval();
@@ -120,7 +119,7 @@ public class MergeTests {
    * {@see <a href="https://tools.ietf.org/html/rfc7396#section-3">RFC 7396: 3.
    * Example</a>} objects.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonMergeRFCSampleTest
@@ -129,7 +128,7 @@ public class MergeTests {
    * @test_Strategy: Test API response on RFC example objects.
    */
   @Test
-  public void jsonMergeRFCSampleTest() throws Fault {
+  public void jsonMergeRFCSampleTest() {
     MergeRFCSample rfcSampleTest = new MergeRFCSample();
     final TestResult result = rfcSampleTest.test();
     result.eval();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,6 +27,8 @@ import jakarta.json.JsonStructure;
 import jakarta.json.Json;
 import jakarta.json.JsonPointer;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -41,6 +43,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 class PatchOperationAdd extends CommonOperation {
 
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationAdd.class.getName());
+  
   /** Tested operation name. */
   private final String OPERATION = "ADD";
 
@@ -58,7 +62,7 @@ class PatchOperationAdd extends CommonOperation {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6902 add operation");
-    System.out.println("Testing RFC 6902 add operation:");
+    LOGGER.info("Testing RFC 6902 add operation:");
     testAddStringOnEmptyObject(result);
     testAddStringOnSimpleObject(result);
     testAddStringOnEmptyArray(result);
@@ -93,7 +97,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddStringOnEmptyObject(final TestResult result) {
-    System.out.println(" - for String on empty JSON object");
+    LOGGER.info(" - for String on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectStr();
     simpleOperation(result, in, check, STR_PATH, STR_VALUE);
@@ -107,7 +111,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddStringOnEmptyArray(final TestResult result) {
-    System.out.println(" - for String on empty JSON array");
+    LOGGER.info(" - for String on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithStr();
     simpleOperation(result, in, check, "/0", STR_VALUE);
@@ -120,7 +124,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithStr();
     simpleOperation(result, in, check, STR_PATH, STR_VALUE);
@@ -135,7 +139,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 1");
+    LOGGER.info(" - for String on simple JSON array of size 1");
     final JsonArray in = createStringArray1();
     final JsonArray checkBefore = createSimpleStringArrayWithStrBefore();
     final JsonArray checkAfter = createSimpleStringArrayWithStrAfter();
@@ -159,7 +163,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 2");
+    LOGGER.info(" - for String on simple JSON array of size 2");
     final JsonArray in = createStringArray2();
     final JsonArray check = createSimpleStringArray5();
     complexOperation(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -175,7 +179,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddIntOnEmptyObject(final TestResult result) {
-    System.out.println(" - for int on empty JSON object");
+    LOGGER.info(" - for int on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectInt();
     simpleOperation(result, in, check, INT_PATH, INT_VALUE);
@@ -189,7 +193,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddIntOnEmptyArray(final TestResult result) {
-    System.out.println(" - for int on empty JSON array");
+    LOGGER.info(" - for int on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithInt();
     simpleOperation(result, in, check, "/0", INT_VALUE);
@@ -202,7 +206,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithInt();
     simpleOperation(result, in, check, INT_PATH, INT_VALUE);
@@ -217,7 +221,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 1");
+    LOGGER.info(" - for int on simple JSON array of size 1");
     final JsonArray in = createIntArray1();
     final JsonArray checkBefore = createSimpleIntArrayWithIntBefore();
     final JsonArray checkAfter = createSimpleIntArrayWithIntAfter();
@@ -241,7 +245,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 2");
+    LOGGER.info(" - for int on simple JSON array of size 2");
     final JsonArray in = createIntArray2();
     final JsonArray check = createSimpleIntArray5();
     complexOperation(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -257,7 +261,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddBooleanOnEmptyObject(final TestResult result) {
-    System.out.println(" - for boolean on empty JSON object");
+    LOGGER.info(" - for boolean on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectBool();
     simpleOperation(result, in, check, BOOL_PATH, BOOL_VALUE);
@@ -271,7 +275,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddBooleanOnEmptyArray(final TestResult result) {
-    System.out.println(" - for boolean on empty JSON array");
+    LOGGER.info(" - for boolean on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithBool();
     simpleOperation(result, in, check, "/0", BOOL_VALUE);
@@ -284,7 +288,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddBooleanOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithBool();
     simpleOperation(result, in, check, BOOL_PATH, BOOL_VALUE);
@@ -299,7 +303,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddBooleanOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 1");
+    LOGGER.info(" - for boolean on simple JSON array of size 1");
     final JsonArray in = createBoolArray1();
     final JsonArray checkBefore = createSimpleBoolArrayWithBoolBefore();
     final JsonArray checkAfter = createSimpleBoolArrayWithBoolAfter();
@@ -323,7 +327,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddBooleanOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 2");
+    LOGGER.info(" - for boolean on simple JSON array of size 2");
     final JsonArray in = createBoolArray2();
     final JsonArray check = createSimpleBoolArray5();
     complexOperation(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -339,7 +343,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddObjectOnEmptyObject(final TestResult result) {
-    System.out.println(" - for JsonObject on empty JSON object");
+    LOGGER.info(" - for JsonObject on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectObject();
     simpleOperation(result, in, check, OBJ_PATH, OBJ_VALUE);
@@ -353,7 +357,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddObjectOnEmptyArray(final TestResult result) {
-    System.out.println(" - for JsonObject on empty JSON array");
+    LOGGER.info(" - for JsonObject on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithObject();
     simpleOperation(result, in, check, "/0", OBJ_VALUE);
@@ -366,7 +370,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectWithObject();
     simpleOperation(result, in, check, OBJ_PATH, OBJ_VALUE);
@@ -382,7 +386,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 1");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 1");
     final JsonArray in = createObjectArray1();
     final JsonArray checkBefore = createSimpleObjectArrayWithObjectBefore();
     final JsonArray checkAfter = createSimpleObjectArrayWithObjectAfter();
@@ -406,7 +410,7 @@ class PatchOperationAdd extends CommonOperation {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 2");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 2");
     final JsonArray in = createObjectArray2();
     final JsonArray check = createSimpleObjectArray5();
     complexOperation(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -431,7 +435,7 @@ class PatchOperationAdd extends CommonOperation {
    * </ul>
    */
   private void testAddArrayToReplaceObject(final TestResult result) {
-    System.out.println(" - for JsonArray to replace JsonObject");
+    LOGGER.info(" - for JsonArray to replace JsonObject");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectWithObjectReplaced();
     final JsonArray value = createSimpleStringArray5();
@@ -451,7 +455,7 @@ class PatchOperationAdd extends CommonOperation {
    * </ul>
    */
   private void testAddArrayToReplaceDocument(final TestResult result) {
-    System.out.println(" - for JsonArray to replace whole document");
+    LOGGER.info(" - for JsonArray to replace whole document");
     final JsonObject in = createCompoundObject();
     final JsonArray check = createSimpleStringArray5();
     final JsonArray value = createSimpleStringArray5();
@@ -486,7 +490,7 @@ class PatchOperationAdd extends CommonOperation {
    * </ul>
    */
   private void testAddStringArrayToStringArray(final TestResult result) {
-    System.out.println(" - for String array to be added to existing String array");
+    LOGGER.info(" - for String array to be added to existing String array");
     final JsonArray in = createStringArray2();
     final JsonArray check = createStringArray2WithStringArrayInTheMiddle();
     final JsonArray value = createStringInnerArray2();
@@ -503,7 +507,7 @@ class PatchOperationAdd extends CommonOperation {
    * 
    */
   private void testAddStringToNonExistingObject(final TestResult result) {
-    System.out.println(" - for String to be added to non existing JsonObject");
+    LOGGER.info(" - for String to be added to non existing JsonObject");
     final JsonObject in = createSimpleObject();
     final JsonValue value = Json.createValue(STR_VALUE);
     final String path = DEF_OBJ_PATH + STR_PATH;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,34 +22,20 @@ package jakarta.jsonp.tck.api.jsonparserfactorytests;
 import jakarta.json.*;
 import jakarta.json.stream.*;
 import java.io.*;
-import java.nio.charset.Charset;
 
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.List;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.logging.Logger;
 
-import jakarta.json.stream.JsonParser.Event.*;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
@@ -64,64 +50,64 @@ public class ClientTests {
    * = parserFactory.createParser(Reader)
    */
   @Test
-  public void jsonParserFactoryTest1() throws Fault {
+  public void jsonParserFactoryTest1() {
     boolean pass = true;
     JsonParser parser1 = null;
     JsonParser parser2 = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("Create JsonParserFactory with a configuration");
+      LOGGER.info("Create JsonParserFactory with a configuration");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("--------------------------------------------------");
-      System.out.println("TEST CASE [JsonParserFactory.createParser(Reader)]");
-      System.out.println("--------------------------------------------------");
+      LOGGER.info("--------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonParserFactory.createParser(Reader)]");
+      LOGGER.info("--------------------------------------------------");
       String jsonObjectString = "{\"foo\":\"bar\"}";
-      System.out.println("Create 1st JsonParser from the Reader using JsonParserFactory");
+      LOGGER.info("Create 1st JsonParser from the Reader using JsonParserFactory");
       parser1 = parserFactory.createParser(new StringReader(jsonObjectString));
       if (parser1 == null) {
-        System.err.println("ParserFactory failed to create parser1 from Reader");
+        LOGGER.warning("ParserFactory failed to create parser1 from Reader");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser1, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser1, "foo", "bar");
         JSONP_Util.testEventType(parser1, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
-      System.out.println("Create 2nd JsonParser from the Reader using JsonParserFactory");
+      LOGGER.info("Create 2nd JsonParser from the Reader using JsonParserFactory");
       parser2 = parserFactory.createParser(new StringReader(jsonObjectString));
       if (parser2 == null) {
-        System.err.println("ParserFactory failed to create parser2 from Reader");
+        LOGGER.warning("ParserFactory failed to create parser2 from Reader");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser2, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser2, "foo", "bar");
         JSONP_Util.testEventType(parser2, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest1 Failed: ", e);
+      fail("jsonParserFactoryTest1 Failed: ", e);
     } finally {
       try {
         parser1.close();
@@ -129,8 +115,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest1 Failed");
+    assertTrue(pass, "jsonParserFactoryTest1 Failed");
   }
 
   /*
@@ -145,68 +130,68 @@ public class ClientTests {
    * parser2 = parserFactory.createParser(JsonObject)
    */
   @Test
-  public void jsonParserFactoryTest2() throws Fault {
+  public void jsonParserFactoryTest2() {
     boolean pass = true;
     JsonParser parser1 = null;
     JsonParser parser2 = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("Create JsonParserFactory with a configuration");
+      LOGGER.info("Create JsonParserFactory with a configuration");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("------------------------------------------------------");
-      System.out.println("TEST CASE [JsonParserFactory.createParser(JsonObject)]");
-      System.out.println("------------------------------------------------------");
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonParserFactory.createParser(JsonObject)]");
+      LOGGER.info("------------------------------------------------------");
       String jsonObjectString = "{\"foo\":\"bar\"}";
       JsonObject jsonObj = JSONP_Util
           .createJsonObjectFromString(jsonObjectString);
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonParser from the JsonObject using JsonParserFactory");
       parser1 = parserFactory.createParser(jsonObj);
       if (parser1 == null) {
-        System.err.println("ParserFactory failed to create parser1 from JsonObject");
+        LOGGER.warning("ParserFactory failed to create parser1 from JsonObject");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser1, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser1, "foo", "bar");
         JSONP_Util.testEventType(parser1, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonParser from the JsonObject using JsonParserFactory");
       parser2 = parserFactory.createParser(jsonObj);
       if (parser2 == null) {
-        System.err.println("ParserFactory failed to create parser2 from JsonObject");
+        LOGGER.warning("ParserFactory failed to create parser2 from JsonObject");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser2, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser2, "foo", "bar");
         JSONP_Util.testEventType(parser2, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest2 Failed: ", e);
+      fail("jsonParserFactoryTest2 Failed: ", e);
     } finally {
       try {
         parser1.close();
@@ -214,8 +199,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest2 Failed");
+    assertTrue(pass, "jsonParserFactoryTest2 Failed");
   }
 
   /*
@@ -230,34 +214,34 @@ public class ClientTests {
    * parser2 = parserFactory.createParser(JsonArray)
    */
   @Test
-  public void jsonParserFactoryTest3() throws Fault {
+  public void jsonParserFactoryTest3() {
     boolean pass = true;
     JsonParser parser1 = null;
     JsonParser parser2 = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("Create JsonParserFactory with a configuration");
+      LOGGER.info("Create JsonParserFactory with a configuration");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-----------------------------------------------------");
-      System.out.println("TEST CASE [JsonParserFactory.createParser(JsonArray)]");
-      System.out.println("-----------------------------------------------------");
+      LOGGER.info("-----------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonParserFactory.createParser(JsonArray)]");
+      LOGGER.info("-----------------------------------------------------");
       String jsonArrayString = "[\"foo\",\"bar\"]";
       JsonArray jsonArr = JSONP_Util.createJsonArrayFromString(jsonArrayString);
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonParser from the JsonArray using JsonParserFactory");
       parser1 = parserFactory.createParser(jsonArr);
       if (parser1 == null) {
-        System.err.println("ParserFactory failed to create parser1 from JsonArray");
+        LOGGER.warning("ParserFactory failed to create parser1 from JsonArray");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonArrayString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonArrayString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser1, JsonParser.Event.START_ARRAY);
         JSONP_Util.testStringValue(parser1, "foo");
@@ -265,20 +249,20 @@ public class ClientTests {
         JSONP_Util.testEventType(parser1, JsonParser.Event.END_ARRAY);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonParser from the JsonArray using JsonParserFactory");
       parser2 = parserFactory.createParser(jsonArr);
       if (parser2 == null) {
-        System.err.println("ParserFactory failed to create parser2 from JsonArray");
+        LOGGER.warning("ParserFactory failed to create parser2 from JsonArray");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonArrayString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonArrayString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser2, JsonParser.Event.START_ARRAY);
         JSONP_Util.testStringValue(parser2, "foo");
@@ -286,12 +270,12 @@ public class ClientTests {
         JSONP_Util.testEventType(parser2, JsonParser.Event.END_ARRAY);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest3 Failed: ", e);
+      fail("jsonParserFactoryTest3 Failed: ", e);
     } finally {
       try {
         parser1.close();
@@ -299,8 +283,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest3 Failed");
+    assertTrue(pass, "jsonParserFactoryTest3 Failed");
   }
 
   /*
@@ -315,68 +298,68 @@ public class ClientTests {
    * parser2 = parserFactory.createParser(InputStream)
    */
   @Test
-  public void jsonParserFactoryTest4() throws Fault {
+  public void jsonParserFactoryTest4() {
     boolean pass = true;
     JsonParser parser1 = null;
     JsonParser parser2 = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("Create JsonParserFactory with a configuration");
+      LOGGER.info("Create JsonParserFactory with a configuration");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-------------------------------------------------------");
-      System.out.println("TEST CASE [JsonParserFactory.createParser(InputStream)]");
-      System.out.println("-------------------------------------------------------");
+      LOGGER.info("-------------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonParserFactory.createParser(InputStream)]");
+      LOGGER.info("-------------------------------------------------------");
       String jsonObjectString = "{\"foo\":\"bar\"}";
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonParser from the InputStream using JsonParserFactory");
       parser1 = parserFactory.createParser(new ByteArrayInputStream(
           jsonObjectString.getBytes(JSONP_Util.UTF_8)));
       if (parser1 == null) {
-        System.err.println("ParserFactory failed to create parser1 from InputStream");
+        LOGGER.warning("ParserFactory failed to create parser1 from InputStream");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser1, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser1, "foo", "bar");
         JSONP_Util.testEventType(parser1, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonParser from the InputStream using JsonParserFactory");
       parser2 = parserFactory.createParser(new ByteArrayInputStream(
           jsonObjectString.getBytes(JSONP_Util.UTF_8)));
       if (parser2 == null) {
-        System.err.println("ParserFactory failed to create parser2 from InputStream");
+        LOGGER.warning("ParserFactory failed to create parser2 from InputStream");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser2, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser2, "foo", "bar");
         JSONP_Util.testEventType(parser2, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest4 Failed: ", e);
+      fail("jsonParserFactoryTest4 Failed: ", e);
     } finally {
       try {
         parser1.close();
@@ -384,8 +367,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest4 Failed");
+    assertTrue(pass, "jsonParserFactoryTest4 Failed");
   }
 
   /*
@@ -400,73 +382,73 @@ public class ClientTests {
    * JsonParser parser2 = parserFactory.createParser(InputStream, Charset)
    */
   @Test
-  public void jsonParserFactoryTest5() throws Fault {
+  public void jsonParserFactoryTest5() {
     boolean pass = true;
     JsonParser parser1 = null;
     JsonParser parser2 = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("Create JsonParserFactory with a configuration");
+      LOGGER.info("Create JsonParserFactory with a configuration");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [JsonParserFactory.createParser(InputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------");
       String jsonObjectString = "{\"foo\":\"bar\"}";
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonParser from the InputStream using JsonParserFactory");
       parser1 = parserFactory.createParser(
           new ByteArrayInputStream(jsonObjectString.getBytes(JSONP_Util.UTF_8)),
           JSONP_Util.UTF_8);
       if (parser1 == null) {
-        System.err.println("ParserFactory failed to create parser1 from InputStream");
+        LOGGER.warning("ParserFactory failed to create parser1 from InputStream");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser1, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser1, "foo", "bar");
         JSONP_Util.testEventType(parser1, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonParser from the InputStream using JsonParserFactory");
       parser2 = parserFactory.createParser(
           new ByteArrayInputStream(jsonObjectString.getBytes(JSONP_Util.UTF_8)),
           JSONP_Util.UTF_8);
       if (parser2 == null) {
-        System.err.println("ParserFactory failed to create parser2 from InputStream");
+        LOGGER.warning("ParserFactory failed to create parser2 from InputStream");
         pass = false;
       } else {
-        System.out.println("Parsing " + jsonObjectString);
-        System.out.println("Verify that JSON Parser Events/Data matches");
+        LOGGER.info("Parsing " + jsonObjectString);
+        LOGGER.info("Verify that JSON Parser Events/Data matches");
         JSONP_Util.resetParseErrs();
         JSONP_Util.testEventType(parser2, JsonParser.Event.START_OBJECT);
         JSONP_Util.testKeyStringValue(parser2, "foo", "bar");
         JSONP_Util.testEventType(parser2, JsonParser.Event.END_OBJECT);
         int parseErrs = JSONP_Util.getParseErrs();
         if (parseErrs != 0) {
-          System.err.println("There were " + parseErrs + " parser errors that occurred.");
+          LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
           pass = false;
         }
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest5 Failed: ", e);
+      fail("jsonParserFactoryTest5 Failed: ", e);
     } finally {
       try {
         parser1.close();
@@ -474,8 +456,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest5 Failed");
+    assertTrue(pass, "jsonParserFactoryTest5 Failed");
   }
 
   /*
@@ -492,33 +473,32 @@ public class ClientTests {
    * (empty config) 2) non supported provider property
    */
   @Test
-  public void jsonParserFactoryTest6() throws Fault {
+  public void jsonParserFactoryTest6() {
     boolean pass = true;
     JsonParserFactory parserFactory;
     Map<String, ?> config;
     try {
-      System.out.println("----------------------------------------------");
-      System.out.println("Test scenario1: no supported provider property");
-      System.out.println("----------------------------------------------");
-      System.out.println("Create JsonParserFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Test scenario1: no supported provider property");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Create JsonParserFactory with Map<String, ?> with EMPTY config");
       parserFactory = Json.createParserFactory(JSONP_Util.getEmptyConfig());
       config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-----------------------------------------------");
-      System.out.println("Test scenario2: non supported provider property");
-      System.out.println("-----------------------------------------------");
-      System.out.println("Create JsonParserFactory with Map<String, ?> with FOO config");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Test scenario2: non supported provider property");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Create JsonParserFactory with Map<String, ?> with FOO config");
       parserFactory = Json.createParserFactory(JSONP_Util.getFooConfig());
       config = parserFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonParserFactoryTest6 Failed: ", e);
+      fail("jsonParserFactoryTest6 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonParserFactoryTest6 Failed");
+    assertTrue(pass, "jsonParserFactoryTest6 Failed");
   }
 
   /*
@@ -532,49 +512,48 @@ public class ClientTests {
    * jakarta.json.JsonException
    */
   @Test
-  public void jsonParserFactoryExceptionTest() throws Fault {
+  public void jsonParserFactoryExceptionTest() {
     boolean pass = true;
 
     // Tests JsonParserFactory.createParser(InputStream) for JsonException if
     // i/o error
     try {
-      System.out.println(
+      LOGGER.info(
           "Tests JsonParserFactory.createParser(InputStream) for JsonException if i/o error.");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
       MyBufferedInputStream mbi = new MyBufferedInputStream(
           JSONP_Util.getInputStreamFromString("{}"), true);
       JsonParser parser = parserFactory.createParser(mbi);
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Tests JsonParserFactory.createParser(InputStream) for JsonException if
     // unknown encoding
     try {
-      System.out.println(
+      LOGGER.info(
           "Tests JsonParserFactory.createParser(InputStream) for JsonException if unknown encoding.");
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectUnknownEncoding.json");
       JsonParser parser = parserFactory.createParser(is);
-      System.out.println("parser=" + parser);
-      System.err.println("Did not get expected JsonException");
+      LOGGER.info("parser=" + parser);
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonParserFactoryExceptionTest Failed");
+    assertTrue(pass, "jsonParserFactoryExceptionTest Failed");
   }
 }

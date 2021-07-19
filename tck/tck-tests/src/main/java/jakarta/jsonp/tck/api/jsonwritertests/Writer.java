@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonException;
 import jakarta.json.JsonValue;
@@ -38,6 +40,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * JavaScript Object Notation (JSON) compatibility tests for {@link JsonWriter}.
  */
 public class Writer {
+
+  private static final Logger LOGGER = Logger.getLogger(Writer.class.getName());
 
   /** Tests input data. */
   private static final Object[] VALUES = new Object[] { OBJ_VALUE, // write(JsonValue)
@@ -70,7 +74,7 @@ public class Writer {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonWriter API methods added in JSON-P 1.1.");
-    System.out.println("JsonWriter API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonWriter API methods added in JSON-P 1.1.");
     testWriteValue(result);
     testDoubleWriteValue(result);
     testIOExceptionOnWriteValue(result);
@@ -87,18 +91,18 @@ public class Writer {
   private void testWriteValue(final TestResult result) {
     for (Object value : VALUES) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(" - write(JsonValue) for " + typeName + " as an argument");
+      LOGGER.info(" - write(JsonValue) for " + typeName + " as an argument");
       final JsonValue jsonValue = SimpleValues.toJsonValue(value);
       final StringWriter strWriter = new StringWriter();
       try (final JsonWriter writer = Json.createWriter(strWriter)) {
         writer.write(jsonValue);
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("write(JsonValue)",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
       final String data = strWriter.toString();
-      System.out.println("    - Data: " + data);
+      LOGGER.info("    - Data: " + data);
       final JsonParser parser = Json.createParser(new StringReader(data));
       parser.next();
       final JsonValue outValue = parser.getValue();
@@ -121,7 +125,7 @@ public class Writer {
   private void testDoubleWriteValue(final TestResult result) {
     for (Object value : VALUES) {
       final String typeName = JsonValueType.getType(value).name();
-      System.out.println(
+      LOGGER.info(
           " - duplicate write(JsonValue) for " + typeName + " as an argument");
       final JsonValue jsonValue = SimpleValues.toJsonValue(value);
       final StringWriter strWriter = new StringWriter();
@@ -134,14 +138,14 @@ public class Writer {
           result.fail("write(JsonValue)",
               "Duplicate call of write(JsonValue) shall throw IllegalStateException");
         } catch (IllegalStateException ex) {
-          System.out.println("    - Expected exception: " + ex.getMessage());
+          LOGGER.info("    - Expected exception: " + ex.getMessage());
         } catch (Throwable t) {
           result.fail("write(JsonValue)",
               "Duplicate call of write(JsonValue) shall throw IllegalStateException, not "
                   + t.getClass().getSimpleName());
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("write(JsonValue)",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -157,19 +161,19 @@ public class Writer {
    */
   @SuppressWarnings("ConvertToTryWithResources")
   private void testIOExceptionOnWriteValue(final TestResult result) {
-    System.out.println(" - write(JsonValue) into already closed file writer");
+    LOGGER.info(" - write(JsonValue) into already closed file writer");
     final JsonValue jsonValue = SimpleValues.toJsonValue(DEF_VALUE);
     File temp = null;
     JsonWriter writer;
     // Close writer before calling write method.
     try {
       temp = File.createTempFile("testIOExceptionOnWriteValue", ".txt");
-      System.out.println("    - Temporary file: " + temp.getAbsolutePath());
+      LOGGER.info("    - Temporary file: " + temp.getAbsolutePath());
       final FileWriter fileWriter = new FileWriter(temp);
       writer = Json.createWriter(fileWriter);
       fileWriter.close();
     } catch (IOException ex) {
-      System.out.println("Caught IOException: " + ex.getLocalizedMessage());
+      LOGGER.info("Caught IOException: " + ex.getLocalizedMessage());
       result.fail("write(JsonValue)",
           "Caught IOException: " + ex.getLocalizedMessage());
       return;
@@ -183,7 +187,7 @@ public class Writer {
       result.fail("write(JsonValue)",
           "Call of write(JsonValue) on already closed file writer shall throw JsonException");
     } catch (JsonException ex) {
-      System.out.println("    - Expected exception: " + ex.getMessage());
+      LOGGER.info("    - Expected exception: " + ex.getMessage());
     } catch (Throwable t) {
       result.fail("write(JsonValue)",
           "Call of write(JsonValue) on already closed file writer shall throw JsonException, not "

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,8 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
 // $Id$
@@ -35,6 +37,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 public class MergeNonObject extends MergeCommon {
 
+  private static final Logger LOGGER = Logger.getLogger(MergeNonObject.class.getName());
+  
   /**
    * Creates an instance of RFC 7396 non object patch test.
    */
@@ -49,7 +53,7 @@ public class MergeNonObject extends MergeCommon {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 7396: Non object patch");
-    System.out.println("Testing RFC 7396: Non object patch");
+    LOGGER.info("Testing RFC 7396: Non object patch");
     testStringOnEmptyObject(result);
     testStringOnSimpleObject(result);
     testStringOnSimpleArray(result);
@@ -72,7 +76,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testStringOnEmptyObject(final TestResult result) {
-    System.out.println(" - for String on empty JSON object");
+    LOGGER.info(" - for String on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonValue patch = Json.createValue(STR_VALUE);
     final JsonValue check = Json.createValue(STR_VALUE);
@@ -87,7 +91,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectWithStr();
     final JsonValue patch = Json.createValue(STR_VALUE);
     final JsonValue check = Json.createValue(STR_VALUE);
@@ -102,7 +106,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array");
+    LOGGER.info(" - for String on simple JSON array");
     final JsonArray in = createStringArray2();
     final JsonValue patch = Json.createValue(STR_VALUE);
     final JsonValue check = Json.createValue(STR_VALUE);
@@ -117,7 +121,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testIntOnEmptyObject(final TestResult result) {
-    System.out.println(" - for int on empty JSON object");
+    LOGGER.info(" - for int on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonValue patch = Json.createValue(INT_VALUE);
     final JsonValue check = Json.createValue(INT_VALUE);
@@ -132,7 +136,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectWithInt();
     final JsonValue patch = Json.createValue(INT_VALUE);
     final JsonValue check = Json.createValue(INT_VALUE);
@@ -147,7 +151,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array");
+    LOGGER.info(" - for int on simple JSON array");
     final JsonArray in = createIntArray2();
     final JsonValue patch = Json.createValue(INT_VALUE);
     final JsonValue check = Json.createValue(INT_VALUE);
@@ -162,7 +166,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testBoolOnEmptyObject(final TestResult result) {
-    System.out.println(" - for boolean on empty JSON object");
+    LOGGER.info(" - for boolean on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonValue patch = toJsonValue(BOOL_VALUE);
     final JsonValue check = toJsonValue(BOOL_VALUE);
@@ -177,7 +181,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectWithBool();
     final JsonValue patch = toJsonValue(BOOL_VALUE);
     final JsonValue check = toJsonValue(BOOL_VALUE);
@@ -192,7 +196,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array");
+    LOGGER.info(" - for boolean on simple JSON array");
     final JsonArray in = createBoolArray2();
     final JsonValue patch = toJsonValue(BOOL_VALUE);
     final JsonValue check = toJsonValue(BOOL_VALUE);
@@ -207,7 +211,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testArrayOnEmptyObject(final TestResult result) {
-    System.out.println(" - for JsonArray on empty JSON object");
+    LOGGER.info(" - for JsonArray on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonArray patch = createStringArray1();
     final JsonArray check = createStringArray1();
@@ -222,7 +226,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testArrayOnCompoundObject(final TestResult result) {
-    System.out.println(" - for JsonArray on compound JSON object");
+    LOGGER.info(" - for JsonArray on compound JSON object");
     final JsonObject in = createCompoundObject();
     final JsonValue patch = createStringArray2();
     final JsonValue check = createStringArray2();
@@ -237,7 +241,7 @@ public class MergeNonObject extends MergeCommon {
    *          Tests result record.
    */
   private void testArrayOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonArray on simple JSON array");
+    LOGGER.info(" - for JsonArray on simple JSON array");
     final JsonArray in = createBoolArray2();
     final JsonValue patch = createIntArray2();
     final JsonValue check = createIntArray2();

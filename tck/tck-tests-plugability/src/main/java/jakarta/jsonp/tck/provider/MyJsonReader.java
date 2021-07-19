@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,6 +26,7 @@ import jakarta.json.spi.JsonProvider;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonReader is a Json Test Reader used by the pluggability tests
@@ -34,13 +35,16 @@ import java.util.*;
  */
 
 public class MyJsonReader implements JsonReader {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonReader.class.getName());
+  
   private InputStream in = null;
 
   private Reader reader = null;
 
   private void dumpInstanceVars() {
-    System.out.println("reader=" + reader);
-    System.out.println("in=" + in);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
   }
 
   // call methods
@@ -70,24 +74,24 @@ public class MyJsonReader implements JsonReader {
   }
 
   public void close() {
-    System.out.println("public void close()");
+    LOGGER.info("public void close()");
     addCalls("public void close()");
   }
 
   public JsonStructure read() {
-    System.out.println("public void read()");
+    LOGGER.info("public void read()");
     addCalls("public void read()");
     return null;
   }
 
   public JsonArray readArray() {
-    System.out.println("public void readArray()");
+    LOGGER.info("public void readArray()");
     addCalls("public void readArray()");
     return null;
   }
 
   public JsonObject readObject() {
-    System.out.println("public void readObject()");
+    LOGGER.info("public void readObject()");
     addCalls("public void readObject()");
     return null;
   }

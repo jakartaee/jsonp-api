@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,8 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonPatchBuilder;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
 // $Id$
@@ -34,6 +36,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * 4.5. copy</a>} tests.
  */
 public class PatchOperationCopy extends CommonOperation {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationCopy.class.getName());
 
   /** Tested operation name. */
   private final String OPERATION = "COPY";
@@ -52,7 +56,7 @@ public class PatchOperationCopy extends CommonOperation {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6902 copy operation");
-    System.out.println("Testing RFC 6902 copy operation:");
+    LOGGER.info("Testing RFC 6902 copy operation:");
     testCopyStringOnSimpleObject(result);
     testCopyStringOnSimpleArray(result);
     testCopyIntOnSimpleObject(result);
@@ -75,7 +79,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createSimpleObjectCopyStr();
     simpleOperation(result, in, check, STR_PATH, DEF_PATH);
@@ -88,7 +92,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 2");
+    LOGGER.info(" - for String on simple JSON array of size 2");
     final JsonArray in = createStringArray2();
     simpleOperation(result, in, createStringArray2Copy1to0(), "/1", "/0");
     simpleOperation(result, in, createStringArray2Copy0to2(), "/0", "/2");
@@ -102,7 +106,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createSimpleObjectCopyInt();
     simpleOperation(result, in, check, INT_PATH, DEF_PATH);
@@ -115,7 +119,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 2");
+    LOGGER.info(" - for int on simple JSON array of size 2");
     final JsonArray in = createIntArray2();
     simpleOperation(result, in, createIntArray2Copy1to0(), "/1", "/0");
     simpleOperation(result, in, createIntArray2Copy0to2(), "/0", "/2");
@@ -129,7 +133,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createSimpleObjectCopyBool();
     simpleOperation(result, in, check, BOOL_PATH, DEF_PATH);
@@ -142,7 +146,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 2");
+    LOGGER.info(" - for boolean on simple JSON array of size 2");
     final JsonArray in = createBoolArray2();
     simpleOperation(result, in, createBoolArray2Copy1to0(), "/1", "/0");
     simpleOperation(result, in, createBoolArray2Copy0to2(), "/0", "/2");
@@ -156,7 +160,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyObjectOnSimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createSimpleObjectObject();
     final JsonObject check = createSimpleObjectCopyObject();
     simpleOperation(result, in, check, OBJ_PATH, DEF_PATH);
@@ -169,7 +173,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 2");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 2");
     final JsonArray in = createObjectArray2();
     simpleOperation(result, in, createObjectArray2Copy1to0(), "/1", "/0");
     simpleOperation(result, in, createObjectArray2Copy0to2(), "/0", "/2");
@@ -184,7 +188,7 @@ public class PatchOperationCopy extends CommonOperation {
    *          Tests result record.
    */
   private void testCopyStringOnCompoundObject(final TestResult result) {
-    System.out.println(" - for String on compound JSON object");
+    LOGGER.info(" - for String on compound JSON object");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectCopyValue();
     simpleOperation(result, in, check, DEF_PATH, DEF_OBJ_PATH + DEF_PATH);
@@ -199,7 +203,7 @@ public class PatchOperationCopy extends CommonOperation {
    * The "from" location MUST exist for the operation to be successful.
    */
   private void testCopyOfNonExistingLocationInObject(final TestResult result) {
-    System.out.println(" - for non existing location in JsonObject");
+    LOGGER.info(" - for non existing location in JsonObject");
     final JsonObject[] objsIn = new JsonObject[] { createEmptyObject(),
         createSimpleObject(), createCompoundObject() };
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
@@ -222,7 +226,7 @@ public class PatchOperationCopy extends CommonOperation {
    * The "from" location MUST exist for the operation to be successful.
    */
   private void testCopyOfNonExistingLocationInArray(final TestResult result) {
-    System.out.println(" - for non existing location in JsonArray");
+    LOGGER.info(" - for non existing location in JsonArray");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray1(), createIntArray2(), createSimpleBoolArray5(),
         createObjectArray2() };
@@ -263,7 +267,7 @@ public class PatchOperationCopy extends CommonOperation {
   protected JsonPatchBuilder createOperationBuilder(final String path,
       final Object value) {
     if (value instanceof String) {
-      // System.out.println(" COPY "+path+" -> "+(String)value);
+      // LOGGER.info(" COPY "+path+" -> "+(String)value);
       return Json.createPatchBuilder().copy((String) value, path);
     } else {
       throw new IllegalArgumentException(
@@ -287,7 +291,7 @@ public class PatchOperationCopy extends CommonOperation {
   protected JsonPatchBuilder updateOperationBuilder(
       final JsonPatchBuilder builder, final String path, final Object value) {
     if (value instanceof String) {
-      // System.out.println(" COPY "+path+" -> "+(String)value);
+      // LOGGER.info(" COPY "+path+" -> "+(String)value);
       return builder.copy((String) value, path);
     } else {
       throw new IllegalArgumentException(

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,14 +17,8 @@
 package jakarta.jsonp.tck.api.pointertests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.lib.harness.Fault;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 // $Id$
 /**
@@ -33,14 +27,8 @@ import org.junit.runner.RunWith;
  * JSON-P API defines {@link jakarta.json.JsonPointer} interface to work with RFC
  * 6901 JSON Pointer.
  */
-@RunWith(Arquillian.class)
 public class PointerTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, PointerTests.class.getPackage().getName());
-    }
   /**
    * Test JSON-P API response on pointer resolving.<br>
    * Checks set of JSON pointers from sample object of RFC 6901.
@@ -49,7 +37,7 @@ public class PointerTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6901#section-5">RFC 6901: 5.
    * JSON String Representation</a>}.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonPointerResolveTest
@@ -59,7 +47,7 @@ public class PointerTests {
    * @test_Strategy: Test API response on various JSON pointer values.
    */
   @Test
-  public void jsonPointerResolveTest() throws Fault {
+  public void jsonPointerResolveTest() {
     PointerResolve resolveTest = new PointerResolve();
     final TestResult result = resolveTest.test();
     result.eval();
@@ -71,7 +59,7 @@ public class PointerTests {
    * 4.1. add</a>} operation using RFC 6901 pointer instance.<br>
    * Checks set of simple JSON values.<br>
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonPointerAddOperationTest
@@ -81,7 +69,7 @@ public class PointerTests {
    * @test_Strategy: Test API response on various JSON pointer values.
    */
   @Test
-  public void jsonPointerAddOperationTest() throws Fault {
+  public void jsonPointerAddOperationTest() {
     PointerAdd addTest = new PointerAdd();
     final TestResult result = addTest.test();
     result.eval();
@@ -93,7 +81,7 @@ public class PointerTests {
    * 4.2. remove</a>} operation using RFC 6901 pointer instance.<br>
    * Checks set of simple JSON values.<br>
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonPointerRemoveOperationTest
@@ -101,7 +89,7 @@ public class PointerTests {
    * @test_Strategy: Test API response on various JSON pointer values.
    */
   @Test
-  public void jsonPointerRemoveOperationTest() throws Fault {
+  public void jsonPointerRemoveOperationTest() {
     PointerRemove removeTest = new PointerRemove();
     final TestResult result = removeTest.test();
     result.eval();
@@ -113,7 +101,7 @@ public class PointerTests {
    * 4.3. replace</a>} operation using RFC 6901 pointer instance.<br>
    * Checks set of simple JSON values.<br>
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonPointerReplaceOperationTest
@@ -123,7 +111,7 @@ public class PointerTests {
    * @test_Strategy: Test API response on various JSON pointer values.
    */
   @Test
-  public void jsonPointerReplaceOperationTest() throws Fault {
+  public void jsonPointerReplaceOperationTest() {
     PointerReplace replaceTest = new PointerReplace();
     final TestResult result = replaceTest.test();
     result.eval();

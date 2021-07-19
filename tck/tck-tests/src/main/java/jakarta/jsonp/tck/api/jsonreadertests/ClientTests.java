@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,30 +18,23 @@ package jakarta.jsonp.tck.api.jsonreadertests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 
 import java.io.*;
 import java.util.*;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
 import jakarta.json.stream.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 // $Id$
-@RunWith(Arquillian.class)
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Utility Methods */
 
   /*
@@ -49,7 +42,7 @@ public class ClientTests {
    */
   private boolean compareJsonObjectForUTFEncodedTests(JsonObject jsonObject) {
     boolean pass = true;
-    System.out.println("Comparing JsonObject values to expected results.");
+    LOGGER.info("Comparing JsonObject values to expected results.");
     String expString = "stringValue";
     String actString = jsonObject.getJsonString("stringName").getString();
     if (!JSONP_Util.assertEquals(expString, actString))
@@ -79,23 +72,20 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEmptyArrayTest() throws Fault {
-    boolean pass = true;
+  public void readEmptyArrayTest() {
     JsonReader reader = null;
     try {
       String expJsonText = "[]";
-      System.out.println("Testing read of " + expJsonText);
+      LOGGER.info("Testing read of " + expJsonText);
       reader = Json.createReader(new StringReader(expJsonText));
       JsonArray array = reader.readArray();
-      pass = JSONP_Util.assertEqualsEmptyArrayList(array);
+      assertTrue(JSONP_Util.assertEqualsEmptyArrayList(array), "readEmptyArrayTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEmptyArrayTest Failed: ", e);
+      fail("readEmptyArrayTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEmptyArrayTest Failed");
   }
 
   /*
@@ -116,59 +106,58 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeCharsInArrayTest() throws Fault {
+  public void readEscapeCharsInArrayTest() {
     boolean pass = true;
     JsonReader reader = null;
     String resourceFile = "jsonArrayWithEscapeCharsData.json";
     String expString = "popeye" + JSONP_Data.escapeCharsAsString + "olive";
     try {
 
-      System.out.println("Reading contents of resource file " + resourceFile);
+      LOGGER.info("Reading contents of resource file " + resourceFile);
       String readerContents = JSONP_Util
           .getContentsOfResourceAsString(resourceFile);
-      System.out.println("readerContents=" + readerContents);
+      LOGGER.info("readerContents=" + readerContents);
 
-      System.out.println("Testing read of resource contents: " + readerContents);
+      LOGGER.info("Testing read of resource contents: " + readerContents);
       reader = Json.createReader(new StringReader(readerContents));
       JsonArray expJsonArray = reader.readArray();
 
-      System.out.println("Dump of expJsonArray");
+      LOGGER.info("Dump of expJsonArray");
       JSONP_Util.dumpJsonArray(expJsonArray);
 
-      System.out.println("Comparing JsonArray values with expected results.");
+      LOGGER.info("Comparing JsonArray values with expected results.");
       String actString = expJsonArray.getJsonString(0).getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
 
-      System.out.println("Write the JsonArray 'expJsonArray' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'expJsonArray' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(expJsonArray);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Create actJsonArray from read of writer contents: "
+      LOGGER.info("Create actJsonArray from read of writer contents: "
           + writerContents);
       reader = Json.createReader(new StringReader(writerContents));
       JsonArray actJsonArray = reader.readArray();
 
-      System.out.println("Dump of actJsonArray");
+      LOGGER.info("Dump of actJsonArray");
       JSONP_Util.dumpJsonArray(actJsonArray);
 
-      System.out.println("Compare expJsonArray and actJsonArray for equality");
+      LOGGER.info("Compare expJsonArray and actJsonArray for equality");
       if (!JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readEscapeCharsInArrayTest Failed: ", e);
+      fail("readEscapeCharsInArrayTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeCharsInArrayTest Failed");
+    assertTrue(pass, "readEscapeCharsInArrayTest Failed");
   }
 
   /*
@@ -187,25 +176,22 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeUnicodeCharsInArrayTest() throws Fault {
-    boolean pass = true;
+  public void readEscapeUnicodeCharsInArrayTest() {
     JsonReader reader = null;
     String unicodeTextString = "[\"\\u0000\u00ff\\uff00\uffff\"]";
     String expResult = "\u0000\u00ff\uff00\uffff";
     try {
-      System.out.println("Reading array of escaped and non escaped unicode chars.");
+      LOGGER.info("Reading array of escaped and non escaped unicode chars.");
       reader = Json.createReader(new StringReader(unicodeTextString));
       JsonArray array = reader.readArray();
       String actResult = array.getJsonString(0).getString();
-      pass = JSONP_Util.assertEquals(expResult, actResult);
+      assertTrue(JSONP_Util.assertEquals(expResult, actResult), "readEscapeUnicodeCharsInArrayTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEscapeUnicodeCharsInArrayTest Failed: ", e);
+      fail("readEscapeUnicodeCharsInArrayTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeUnicodeCharsInArrayTest Failed");
   }
 
   /*
@@ -221,26 +207,23 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeUnicodeControlCharsInArrayTest() throws Fault {
-    boolean pass = true;
+  public void readEscapeUnicodeControlCharsInArrayTest() {
     JsonReader reader = null;
     String unicodeTextString = "[\"" + JSONP_Data.unicodeControlCharsEscaped
         + "\"]";
     String expResult = JSONP_Data.unicodeControlCharsNonEscaped;
     try {
-      System.out.println("Reading array of escaped and non escaped unicode chars.");
+      LOGGER.info("Reading array of escaped and non escaped unicode chars.");
       reader = Json.createReader(new StringReader(unicodeTextString));
       JsonArray array = reader.readArray();
       String actResult = array.getJsonString(0).getString();
-      pass = JSONP_Util.assertEquals(expResult, actResult);
+      assertTrue(JSONP_Util.assertEquals(expResult, actResult), "readEscapeUnicodeControlCharsInArrayTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEscapeUnicodeControlCharsInArrayTest Failed: ", e);
+      fail("readEscapeUnicodeControlCharsInArrayTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeUnicodeControlCharsInArrayTest Failed");
   }
 
   /*
@@ -253,23 +236,20 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEmptyObjectTest() throws Fault {
-    boolean pass = true;
+  public void readEmptyObjectTest() {
     JsonReader reader = null;
     try {
       String expJsonText = "{}";
-      System.out.println("Testing read of " + expJsonText);
+      LOGGER.info("Testing read of " + expJsonText);
       reader = Json.createReader(new StringReader(expJsonText));
       JsonObject object = reader.readObject();
-      pass = JSONP_Util.assertEqualsEmptyObjectMap(object);
+      assertTrue(JSONP_Util.assertEqualsEmptyObjectMap(object), "readEmptyObjectTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEmptyObjectTest Failed: ", e);
+      fail("readEmptyObjectTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEmptyObjectTest Failed");
   }
 
   /*
@@ -290,59 +270,58 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeCharsInObjectTest() throws Fault {
+  public void readEscapeCharsInObjectTest() {
     boolean pass = true;
     JsonReader reader = null;
     String resourceFile = "jsonObjectWithEscapeCharsData.json";
     String expString = "popeye" + JSONP_Data.escapeCharsAsString + "olive";
     try {
 
-      System.out.println("Reading contents of resource file " + resourceFile);
+      LOGGER.info("Reading contents of resource file " + resourceFile);
       String readerContents = JSONP_Util
           .getContentsOfResourceAsString(resourceFile);
-      System.out.println("readerContents=" + readerContents);
+      LOGGER.info("readerContents=" + readerContents);
 
-      System.out.println("Testing read of resource contents: " + readerContents);
+      LOGGER.info("Testing read of resource contents: " + readerContents);
       reader = Json.createReader(new StringReader(readerContents));
       JsonObject expJsonObject = reader.readObject();
 
-      System.out.println("Dump of expJsonObject");
+      LOGGER.info("Dump of expJsonObject");
       JSONP_Util.dumpJsonObject(expJsonObject);
 
-      System.out.println("Comparing JsonArray values with expected results.");
+      LOGGER.info("Comparing JsonArray values with expected results.");
       String actString = expJsonObject.getJsonString("escapeChars").getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
 
-      System.out.println("Write the JsonObject 'expJsonObject' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'expJsonObject' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(expJsonObject);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Create actJsonObject from read of writer contents: "
+      LOGGER.info("Create actJsonObject from read of writer contents: "
           + writerContents);
       reader = Json.createReader(new StringReader(writerContents));
       JsonObject actJsonObject = reader.readObject();
 
-      System.out.println("Dump of actJsonObject");
+      LOGGER.info("Dump of actJsonObject");
       JSONP_Util.dumpJsonObject(actJsonObject);
 
-      System.out.println("Compare expJsonObject and actJsonObject for equality");
+      LOGGER.info("Compare expJsonObject and actJsonObject for equality");
       if (!JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readEscapeCharsInObjectTest Failed: ", e);
+      fail("readEscapeCharsInObjectTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeCharsInObjectTest Failed");
+    assertTrue(pass, "readEscapeCharsInObjectTest Failed");
   }
 
   /*
@@ -361,25 +340,22 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeUnicodeCharsInObjectTest() throws Fault {
-    boolean pass = true;
+  public void readEscapeUnicodeCharsInObjectTest() {
     JsonReader reader = null;
     String unicodeTextString = "{\"unicodechars\":\"\\u0000\u00ff\\uff00\uffff\"}";
     String expResult = "\u0000\u00ff\uff00\uffff";
     try {
-      System.out.println("Reading object of escaped and non escaped unicode chars.");
+      LOGGER.info("Reading object of escaped and non escaped unicode chars.");
       reader = Json.createReader(new StringReader(unicodeTextString));
       JsonObject object = reader.readObject();
       String actResult = object.getJsonString("unicodechars").getString();
-      pass = JSONP_Util.assertEquals(expResult, actResult);
+      assertTrue(JSONP_Util.assertEquals(expResult, actResult), "readEscapeUnicodeCharsInObjectTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEscapeUnicodeCharsInObjectTest Failed: ", e);
+      fail("readEscapeUnicodeCharsInObjectTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeUnicodeCharsInObjectTest Failed");
   }
 
   /*
@@ -395,26 +371,23 @@ public class ClientTests {
    *
    */
   @Test
-  public void readEscapeUnicodeControlCharsInObjectTest() throws Fault {
-    boolean pass = true;
+  public void readEscapeUnicodeControlCharsInObjectTest() {
     JsonReader reader = null;
     String unicodeTextString = "{\"unicodechars\":\""
         + JSONP_Data.unicodeControlCharsEscaped + "\"}";
     String expResult = JSONP_Data.unicodeControlCharsNonEscaped;
     try {
-      System.out.println("Reading array of escaped and non escaped unicode chars.");
+      LOGGER.info("Reading array of escaped and non escaped unicode chars.");
       reader = Json.createReader(new StringReader(unicodeTextString));
       JsonObject object = reader.readObject();
       String actResult = object.getJsonString("unicodechars").getString();
-      pass = JSONP_Util.assertEquals(expResult, actResult);
+      assertTrue(JSONP_Util.assertEquals(expResult, actResult), "readEscapeUnicodeControlCharsInObjectTest Failed");
     } catch (Exception e) {
-      throw new Fault("readEscapeUnicodeControlCharsInObjectTest Failed: ", e);
+      fail("readEscapeUnicodeControlCharsInObjectTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readEscapeUnicodeControlCharsInObjectTest Failed");
   }
 
   /*
@@ -434,8 +407,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void readArrayTest() throws Fault {
-    boolean pass = true;
+  public void readArrayTest() {
     JsonReader reader = null;
     try {
       String jsonText = "[true,false,null,\"booyah\",2147483647,9223372036854775807,1.7976931348623157E308,"
@@ -443,7 +415,7 @@ public class ClientTests {
           + "{\"true\":true,\"false\":false,\"null\":null,\"bonga\":\"boo\",\"int\":1,"
           + "\"double\":10.4}]";
 
-      System.out.println("Create the expected list of JsonArray values");
+      LOGGER.info("Create the expected list of JsonArray values");
       List<JsonValue> expList = new ArrayList<>();
       expList.add(JsonValue.TRUE);
       expList.add(JsonValue.FALSE);
@@ -462,22 +434,20 @@ public class ClientTests {
       expList.add(array);
       expList.add(object);
 
-      System.out.println("Testing read of " + jsonText);
+      LOGGER.info("Testing read of " + jsonText);
       reader = Json.createReader(new StringReader(jsonText));
       JsonArray myJsonArray = reader.readArray();
 
       List<JsonValue> actList = myJsonArray;
-      System.out.println(
+      LOGGER.info(
           "Compare actual list of JsonArray values with expected list of JsonArray values");
-      pass = JSONP_Util.assertEqualsList(expList, actList);
+      assertTrue(JSONP_Util.assertEqualsList(expList, actList), "readArrayTest Failed");
     } catch (Exception e) {
-      throw new Fault("readArrayTest Failed: ", e);
+      fail("readArrayTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayTest Failed");
   }
 
   /*
@@ -499,11 +469,10 @@ public class ClientTests {
    *
    */
   @Test
-  public void readArrayTest2() throws Fault {
-    boolean pass = true;
+  public void readArrayTest2() {
     JsonReader reader = null;
     try {
-      System.out.println("Create the expected list of JsonArray values");
+      LOGGER.info("Create the expected list of JsonArray values");
       JsonArray expJsonArray = Json.createArrayBuilder().add(JsonValue.TRUE)
           .add(JsonValue.FALSE).add(JsonValue.NULL).add("booyah")
           .add(Integer.MAX_VALUE).add(Long.MAX_VALUE).add(Double.MAX_VALUE)
@@ -515,33 +484,31 @@ public class ClientTests {
               .add("bonga", "boo").add("int", 1).add("double", 10.4))
           .build();
 
-      System.out.println("Write the JsonArray 'expJsonArray' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'expJsonArray' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(expJsonArray);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String jsonText = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + jsonText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + jsonText);
 
-      System.out.println("Testing read of " + jsonText);
+      LOGGER.info("Testing read of " + jsonText);
       reader = Json.createReader(JSONP_Util.getInputStreamFromString(jsonText));
       JsonArray actJsonArray = reader.readArray();
 
-      System.out.println("Compare expJsonArray and actJsonArray for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray);
+      LOGGER.info("Compare expJsonArray and actJsonArray for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray), "readArrayTest2 Failed");
     } catch (Exception e) {
-      throw new Fault("readArrayTest2 Failed: ", e);
+      fail("readArrayTest2 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayTest2 Failed");
   }
 
   /*
@@ -566,39 +533,36 @@ public class ClientTests {
    *
    */
   @Test
-  public void readArrayTest3() throws Fault {
-    boolean pass = true;
+  public void readArrayTest3() {
     JsonReader reader = null;
     try {
       String expJsonText = "[true,false,null,\"booyah\",2147483647,9223372036854775807,"
           + "[true,false,null,\"bingo\",-2147483648,-9223372036854775808],"
           + "{\"true\":true,\"false\":false,\"null\":null,\"bonga\":\"boo\",\"int\":1}]";
 
-      System.out.println("Testing read of " + expJsonText);
+      LOGGER.info("Testing read of " + expJsonText);
       reader = Json.createReaderFactory(JSONP_Util.getEmptyConfig())
           .createReader(new StringReader(expJsonText));
       JsonArray myJsonArray = reader.readArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(myJsonArray);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonText = sWriter.toString();
 
-      System.out.println("Compare actual JSON text with expected JSON text");
-      pass = JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText);
+      LOGGER.info("Compare actual JSON text with expected JSON text");
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText), "readArrayTest3 Failed");
     } catch (Exception e) {
-      throw new Fault("readArrayTest3 Failed: ", e);
+      fail("readArrayTest3 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayTest3 Failed");
   }
 
   /*
@@ -617,12 +581,11 @@ public class ClientTests {
    *
    */
   @Test
-  public void readArrayTest4() throws Fault {
-    boolean pass = true;
+  public void readArrayTest4() {
     JsonReader reader = null;
     String resourceFile = "jsonArrayWithAllTypesOfData.json";
     try {
-      System.out.println(
+      LOGGER.info(
           "Read contents of InputStream from resource file: " + resourceFile);
       Map<String, ?> config = JSONP_Util.getEmptyConfig();
       reader = Json.createReaderFactory(config).createReader(
@@ -630,37 +593,35 @@ public class ClientTests {
           JSONP_Util.UTF_8);
       JsonArray expJsonArray = reader.readArray();
 
-      System.out.println("Dump of expJsonArray");
+      LOGGER.info("Dump of expJsonArray");
       JSONP_Util.dumpJsonArray(expJsonArray);
 
-      System.out.println("Write the JsonArray 'expJsonArray' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'expJsonArray' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(expJsonArray);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Create actJsonArray from read of writer contents: "
+      LOGGER.info("Create actJsonArray from read of writer contents: "
           + writerContents);
       reader = Json.createReader(new StringReader(writerContents));
       JsonArray actJsonArray = reader.readArray();
 
-      System.out.println("Dump of actJsonArray");
+      LOGGER.info("Dump of actJsonArray");
       JSONP_Util.dumpJsonArray(actJsonArray);
 
-      System.out.println("Compare expJsonArray and actJsonArray for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray);
+      LOGGER.info("Compare expJsonArray and actJsonArray for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray), "readArrayTest4 Failed");
     } catch (Exception e) {
-      throw new Fault("readArrayTest4 Failed: ", e);
+      fail("readArrayTest4 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayTest4 Failed");
   }
 
   /*
@@ -684,54 +645,51 @@ public class ClientTests {
    *
    */
   @Test
-  public void readArrayTest5() throws Fault {
-    boolean pass = true;
+  public void readArrayTest5() {
     JsonReader reader = null;
     String resourceFile = "jsonArrayWithLotsOfNestedObjectsData.json";
     try {
-      System.out.println("Reading contents of resource file " + resourceFile);
+      LOGGER.info("Reading contents of resource file " + resourceFile);
       String readerContents = JSONP_Util
           .getContentsOfResourceAsString(resourceFile);
-      System.out.println("readerContents=" + readerContents);
+      LOGGER.info("readerContents=" + readerContents);
 
       // Create expected JSON text from resource contents filtered of whitespace
       // for comparison
-      System.out.println("Filter readerContents of whitespace for comparison");
+      LOGGER.info("Filter readerContents of whitespace for comparison");
       String expJsonText = JSONP_Util.removeWhitespace(readerContents);
 
-      System.out.println(
+      LOGGER.info(
           "Read contents of InputStream from resource file: " + resourceFile);
       reader = Json.createReaderFactory(JSONP_Util.getEmptyConfig())
           .createReader(JSONP_Util.getInputStreamFromResource(resourceFile),
               JSONP_Util.UTF_8);
       JsonArray myJsonArray = (JsonArray) reader.read();
 
-      System.out.println("Write the JsonArray 'myJsonArray' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(myJsonArray);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Dump contents of the JsonWriter as a String");
-      System.out.println("writerContents=" + writerContents);
+      LOGGER.info("Dump contents of the JsonWriter as a String");
+      LOGGER.info("writerContents=" + writerContents);
 
-      System.out.println("Filter writerContents of whitespace for comparison");
+      LOGGER.info("Filter writerContents of whitespace for comparison");
       String actJsonText = JSONP_Util.removeWhitespace(writerContents);
 
-      System.out.println("Compare actual JSON text with expected JSON text");
-      pass = JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText);
+      LOGGER.info("Compare actual JSON text with expected JSON text");
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText), "readArrayTest5 Failed");
     } catch (Exception e) {
-      throw new Fault("readArrayTest5 Failed: ", e);
+      fail("readArrayTest5 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayTest5 Failed");
   }
 
   /*
@@ -748,7 +706,7 @@ public class ClientTests {
    * of the JsonString. Compare expected string with actual string for equality.
    */
   @Test
-  public void readArrayEncodingTest() throws Fault {
+  public void readArrayEncodingTest() {
     boolean pass = true;
     JsonReader reader = null;
     String expString = "a\u65e8\u452c\u8b9e\u6589\u5c57\u5217z";
@@ -756,42 +714,41 @@ public class ClientTests {
     String resourceFileUTF16BE = "jsonArrayUTF16BE.json";
     Map<String, ?> config = JSONP_Util.getEmptyConfig();
     try {
-      System.out.println("Reading contents of resource file using UTF-8 encoding "
+      LOGGER.info("Reading contents of resource file using UTF-8 encoding "
           + resourceFileUTF8);
       InputStream is = JSONP_Util.getInputStreamFromResource(resourceFileUTF8);
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_8);
       JsonArray jsonArray = reader.readArray();
-      System.out.println("Comparing JsonArray values with expected results.");
+      LOGGER.info("Comparing JsonArray values with expected results.");
       String actString = jsonArray.getJsonString(0).getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readArrayEncodingTest Failed: ", e);
+      fail("readArrayEncodingTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
     try {
-      System.out.println("Reading contents of resource file using UTF-16BE encoding "
+      LOGGER.info("Reading contents of resource file using UTF-16BE encoding "
           + resourceFileUTF16BE);
       InputStream is = JSONP_Util
           .getInputStreamFromResource(resourceFileUTF16BE);
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_16BE);
       JsonArray jsonArray = reader.readArray();
-      System.out.println("Comparing JsonArray values with expected results.");
+      LOGGER.info("Comparing JsonArray values with expected results.");
       String actString = jsonArray.getJsonString(0).getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readArrayEncodingTest Failed: ", e);
+      fail("readArrayEncodingTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readArrayEncodingTest Failed");
+    assertTrue(pass, "readArrayEncodingTest Failed");
   }
 
   /*
@@ -812,8 +769,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void readObjectTest() throws Fault {
-    boolean pass = true;
+  public void readObjectTest() {
     JsonReader reader = null;
     try {
       String expJsonText = "{\"true\":true,\"false\":false,\"null\":null,\"booyah\":\"booyah\",\"int\":2147483647,"
@@ -822,7 +778,7 @@ public class ClientTests {
           + "\"object\":{\"true\":true,\"false\":false,\"null\":null,\"bonga\":\"boo\",\"int\":1,"
           + "\"double\":10.4}}";
 
-      System.out.println("Create the expected map of JsonObject values");
+      LOGGER.info("Create the expected map of JsonObject values");
       Map<String, JsonValue> expMap = new HashMap<>();
       expMap.put("true", JsonValue.TRUE);
       expMap.put("false", JsonValue.FALSE);
@@ -841,22 +797,20 @@ public class ClientTests {
       expMap.put("array", array);
       expMap.put("object", object);
 
-      System.out.println("Testing read of " + expJsonText);
+      LOGGER.info("Testing read of " + expJsonText);
       reader = Json.createReader(new StringReader(expJsonText));
       JsonObject myJsonObject = reader.readObject();
 
       Map<String, JsonValue> actMap = myJsonObject;
-      System.out.println(
+      LOGGER.info(
           "Compare actual map of JsonObject values with expected map of JsonObject values");
-      pass = JSONP_Util.assertEqualsMap(expMap, actMap);
+      assertTrue(JSONP_Util.assertEqualsMap(expMap, actMap), "readObjectTest Failed");
     } catch (Exception e) {
-      throw new Fault("readObjectTest Failed: ", e);
+      fail("readObjectTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectTest Failed");
   }
 
   /*
@@ -878,11 +832,10 @@ public class ClientTests {
    *
    */
   @Test
-  public void readObjectTest2() throws Fault {
-    boolean pass = true;
+  public void readObjectTest2() {
     JsonReader reader = null;
     try {
-      System.out.println("Create the expected list of JsonObject values");
+      LOGGER.info("Create the expected list of JsonObject values");
       JsonObject expJsonObject = Json.createObjectBuilder()
           .add("true", JsonValue.TRUE).add("false", JsonValue.FALSE)
           .add("null", JsonValue.NULL).add("booyah", "booyah")
@@ -898,33 +851,31 @@ public class ClientTests {
                   .add("bonga", "boo").add("int", 1).add("double", 10.4))
           .build();
 
-      System.out.println("Write the JsonObject 'expJsonObject' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'expJsonObject' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(expJsonObject);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String jsonText = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + jsonText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + jsonText);
 
-      System.out.println("Testing read of " + jsonText);
+      LOGGER.info("Testing read of " + jsonText);
       reader = Json.createReader(JSONP_Util.getInputStreamFromString(jsonText));
       JsonObject actJsonObject = reader.readObject();
 
-      System.out.println("Compare expJsonObject and actJsonObject for equality");
-      pass = JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject);
+      LOGGER.info("Compare expJsonObject and actJsonObject for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject), "readObjectTest2 Failed");
     } catch (Exception e) {
-      throw new Fault("readObjectTest2 Failed: ", e);
+      fail("readObjectTest2 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectTest2 Failed");
   }
 
   /*
@@ -951,39 +902,36 @@ public class ClientTests {
    *
    */
   @Test
-  public void readObjectTest3() throws Fault {
-    boolean pass = true;
+  public void readObjectTest3() {
     JsonReader reader = null;
     try {
       String expJsonText = "{\"true\":true,\"false\":false,\"null\":null,\"booyah\":\"booyah\",\"int\":2147483647,\"long\":9223372036854775807,"
           + "\"array\":[true,false,null,\"bingo\",-2147483648,-9223372036854775808],"
           + "\"object\":{\"true\":true,\"false\":false,\"null\":null,\"bonga\":\"boo\",\"int\":1}}";
 
-      System.out.println("Testing read of " + expJsonText);
+      LOGGER.info("Testing read of " + expJsonText);
       reader = Json.createReaderFactory(JSONP_Util.getEmptyConfig())
           .createReader(new StringReader(expJsonText));
       JsonObject myJsonObject = reader.readObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(myJsonObject);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonText = sWriter.toString();
 
-      System.out.println("Compare actual JSON text with expected JSON text");
-      pass = JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText);
+      LOGGER.info("Compare actual JSON text with expected JSON text");
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText), "readObjectTest3 Failed");
     } catch (Exception e) {
-      throw new Fault("readObjectTest3 Failed: ", e);
+      fail("readObjectTest3 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectTest3 Failed");
   }
 
   /*
@@ -1002,12 +950,11 @@ public class ClientTests {
    *
    */
   @Test
-  public void readObjectTest4() throws Fault {
-    boolean pass = true;
+  public void readObjectTest4() {
     JsonReader reader = null;
     String resourceFile = "jsonObjectWithAllTypesOfData.json";
     try {
-      System.out.println(
+      LOGGER.info(
           "Read contents of InputStream from resource file: " + resourceFile);
       Map<String, ?> config = JSONP_Util.getEmptyConfig();
       reader = Json.createReaderFactory(config).createReader(
@@ -1015,37 +962,35 @@ public class ClientTests {
           JSONP_Util.UTF_8);
       JsonObject expJsonObject = reader.readObject();
 
-      System.out.println("Dump of expJsonObject");
+      LOGGER.info("Dump of expJsonObject");
       JSONP_Util.dumpJsonObject(expJsonObject);
 
-      System.out.println("Write the JsonObject 'expJsonObject' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'expJsonObject' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(expJsonObject);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Create actJsonObject from read of writer contents: "
+      LOGGER.info("Create actJsonObject from read of writer contents: "
           + writerContents);
       reader = Json.createReader(new StringReader(writerContents));
       JsonObject actJsonObject = reader.readObject();
 
-      System.out.println("Dump of actJsonObject");
+      LOGGER.info("Dump of actJsonObject");
       JSONP_Util.dumpJsonObject(actJsonObject);
 
-      System.out.println("Compare expJsonObject and actJsonObject for equality");
-      pass = JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject);
+      LOGGER.info("Compare expJsonObject and actJsonObject for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject), "readObjectTest4 Failed");
     } catch (Exception e) {
-      throw new Fault("readObjectTest4 Failed: ", e);
+      fail("readObjectTest4 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectTest4 Failed");
   }
 
   /*
@@ -1069,54 +1014,51 @@ public class ClientTests {
    *
    */
   @Test
-  public void readObjectTest5() throws Fault {
-    boolean pass = true;
+  public void readObjectTest5() {
     JsonReader reader = null;
     String resourceFile = "jsonObjectWithLotsOfNestedObjectsData.json";
     try {
-      System.out.println("Reading contents of resource file " + resourceFile);
+      LOGGER.info("Reading contents of resource file " + resourceFile);
       String readerContents = JSONP_Util
           .getContentsOfResourceAsString(resourceFile);
-      System.out.println("readerContents=" + readerContents);
+      LOGGER.info("readerContents=" + readerContents);
 
       // Create expected JSON text from resource contents filtered of whitespace
       // for comparison
-      System.out.println("Filter readerContents of whitespace for comparison");
+      LOGGER.info("Filter readerContents of whitespace for comparison");
       String expJsonText = JSONP_Util.removeWhitespace(readerContents);
 
-      System.out.println(
+      LOGGER.info(
           "Read contents of InputStream from resource file: " + resourceFile);
       reader = Json.createReaderFactory(JSONP_Util.getEmptyConfig())
           .createReader(JSONP_Util.getInputStreamFromResource(resourceFile),
               JSONP_Util.UTF_8);
       JsonObject myJsonObject = (JsonObject) reader.read();
 
-      System.out.println("Write the JsonObject 'myJsonObject' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(myJsonObject);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String writerContents = sWriter.toString();
 
-      System.out.println("Dump contents of the JsonWriter as a String");
-      System.out.println("writerContents=" + writerContents);
+      LOGGER.info("Dump contents of the JsonWriter as a String");
+      LOGGER.info("writerContents=" + writerContents);
 
-      System.out.println("Filter writerContents of whitespace for comparison");
+      LOGGER.info("Filter writerContents of whitespace for comparison");
       String actJsonText = JSONP_Util.removeWhitespace(writerContents);
 
-      System.out.println("Compare actual JSON text with expected JSON text");
-      pass = JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText);
+      LOGGER.info("Compare actual JSON text with expected JSON text");
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJsonText, actJsonText), "readObjectTest5 Failed");
     } catch (Exception e) {
-      throw new Fault("readObjectTest5 Failed: ", e);
+      fail("readObjectTest5 Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectTest5 Failed");
   }
 
   /*
@@ -1133,32 +1075,32 @@ public class ClientTests {
    * of the JsonString. Compare expected string with actual string for equality.
    */
   @Test
-  public void readObjectEncodingTest() throws Fault {
+  public void readObjectEncodingTest() {
     boolean pass = true;
     JsonReader reader = null;
     String expString = "a\u65e8\u452c\u8b9e\u6589\u5c57\u5217z";
     String resourceFileUTF8 = "jsonObjectUTF8.json";
     String resourceFileUTF16LE = "jsonObjectUTF16LE.json";
     try {
-      System.out.println("Reading contents of resource file using UTF-8 encoding "
+      LOGGER.info("Reading contents of resource file using UTF-8 encoding "
           + resourceFileUTF8);
       InputStream is = JSONP_Util.getInputStreamFromResource(resourceFileUTF8);
       Map<String, ?> config = JSONP_Util.getEmptyConfig();
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_8);
       JsonObject jsonObject = reader.readObject();
-      System.out.println("Comparing JsonObject values with expected results.");
+      LOGGER.info("Comparing JsonObject values with expected results.");
       String actString = jsonObject.getJsonString("unicodeChars").getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readObjectEncodingTest Failed: ", e);
+      fail("readObjectEncodingTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
     try {
-      System.out.println("Reading contents of resource file using UTF-16LE encoding "
+      LOGGER.info("Reading contents of resource file using UTF-16LE encoding "
           + resourceFileUTF16LE);
       InputStream is = JSONP_Util
           .getInputStreamFromResource(resourceFileUTF16LE);
@@ -1166,18 +1108,17 @@ public class ClientTests {
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_16LE);
       JsonObject jsonObject = reader.readObject();
-      System.out.println("Comparing JsonObject values with expected results.");
+      LOGGER.info("Comparing JsonObject values with expected results.");
       String actString = jsonObject.getJsonString("unicodeChars").getString();
       if (!JSONP_Util.assertEquals(expString, actString))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("readObjectEncodingTest Failed: ", e);
+      fail("readObjectEncodingTest Failed: ", e);
     } finally {
       if (reader != null)
         reader.close();
     }
-    if (!pass)
-      throw new Fault("readObjectEncodingTest Failed");
+    assertTrue(pass, "readObjectEncodingTest Failed");
   }
 
   /*
@@ -1203,22 +1144,22 @@ public class ClientTests {
    * argument for each encoding type read.
    */
   @Test
-  public void readUTFEncodedTests() throws Fault {
+  public void readUTFEncodedTests() {
     boolean pass = true;
     JsonReader reader = null;
     Map<String, ?> config = JSONP_Util.getEmptyConfig();
     try {
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-8]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF8.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF8.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-8");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_8);
@@ -1227,7 +1168,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-8 encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1236,17 +1177,17 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-16]");
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-16");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_16);
@@ -1255,7 +1196,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-16 encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-16 encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1264,17 +1205,17 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-16LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16LE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-16LE");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_16LE);
@@ -1283,7 +1224,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-16LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-16LE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1292,17 +1233,17 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-16BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16BE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-16BE");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_16BE);
@@ -1311,7 +1252,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-16BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-16BE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1320,17 +1261,17 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-32LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32LE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-32LE");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_32LE);
@@ -1339,7 +1280,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-32LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-32LE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1348,17 +1289,17 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createReaderFactory(Map<String,?>).createReader(InputStream, Charset) as UTF-32BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32BE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream with character encoding UTF-32BE");
       reader = Json.createReaderFactory(config).createReader(is,
           JSONP_Util.UTF_32BE);
@@ -1367,7 +1308,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-32BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-32BE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1375,8 +1316,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("readUTFEncodedTests Failed");
+    assertTrue(pass, "readUTFEncodedTests Failed");
   }
 
   /*
@@ -1400,18 +1340,18 @@ public class ClientTests {
    * auto-detected and determined as per the RFC.
    */
   @Test
-  public void readUTFEncodedTests2() throws Fault {
+  public void readUTFEncodedTests2() {
     boolean pass = true;
     JsonReader reader = null;
     try {
-      System.out.println("---------------------------------------------------");
-      System.out.println("TEST CASE [Json.createReader(InputStream) as UTF-8]");
-      System.out.println("---------------------------------------------------");
-      System.out.println(
+      LOGGER.info("---------------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createReader(InputStream) as UTF-8]");
+      LOGGER.info("---------------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF8.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF8.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream and auto-detect character encoding UTF-8");
       reader = Json.createReader(is);
       JsonObject jsonObject = reader.readObject();
@@ -1419,7 +1359,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-8 encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1428,14 +1368,14 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println("------------------------------------------------------");
-      System.out.println("TEST CASE [Json.createReader(InputStream) as UTF-16LE]");
-      System.out.println("------------------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createReader(InputStream) as UTF-16LE]");
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16LE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream and auto-detect character encoding UTF-16LE");
       reader = Json.createReader(is);
       JsonObject jsonObject = reader.readObject();
@@ -1443,7 +1383,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-16LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-16LE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1452,14 +1392,14 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println("------------------------------------------------------");
-      System.out.println("TEST CASE [Json.createReader(InputStream) as UTF-16BE]");
-      System.out.println("------------------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createReader(InputStream) as UTF-16BE]");
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16BE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream and auto-detect character encoding UTF-16BE");
       reader = Json.createReader(is);
       JsonObject jsonObject = reader.readObject();
@@ -1467,7 +1407,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-16BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-16BE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1476,14 +1416,14 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println("------------------------------------------------------");
-      System.out.println("TEST CASE [Json.createReader(InputStream) as UTF-32LE]");
-      System.out.println("------------------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createReader(InputStream) as UTF-32LE]");
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32LE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream and auto-detect character encoding UTF-32LE");
       reader = Json.createReader(is);
       JsonObject jsonObject = reader.readObject();
@@ -1491,7 +1431,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-32LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-32LE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1500,14 +1440,14 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println("------------------------------------------------------");
-      System.out.println("TEST CASE [Json.createReader(InputStream) as UTF-32BE]");
-      System.out.println("------------------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createReader(InputStream) as UTF-32BE]");
+      LOGGER.info("------------------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32BE.json)");
       InputStream is = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonReader from the InputStream and auto-detect character encoding UTF-32BE");
       reader = Json.createReader(is);
       JsonObject jsonObject = reader.readObject();
@@ -1515,7 +1455,7 @@ public class ClientTests {
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing reading of UTF-32BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing reading of UTF-32BE encoding: " + e);
     } finally {
       try {
         if (reader != null)
@@ -1523,8 +1463,7 @@ public class ClientTests {
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("readUTFEncodedTests2 Failed");
+    assertTrue(pass, "readUTFEncodedTests2 Failed");
   }
 
   /*
@@ -1538,23 +1477,23 @@ public class ClientTests {
    *
    */
   @Test
-  public void negativeObjectTests() throws Fault {
+  public void negativeObjectTests() {
     boolean pass = true;
     JsonReader reader = null;
 
     // Not an object []
 
     try {
-      System.out.println("Testing for not an object '[]'");
+      LOGGER.info("Testing for not an object '[]'");
       reader = Json.createReader(new StringReader("[]"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonException");
+      LOGGER.warning("Failed to throw JsonException");
     } catch (JsonException e) {
-      System.out.println("Got expected JsonException");
+      LOGGER.info("Got expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1563,34 +1502,34 @@ public class ClientTests {
     // Trip JsonParsingException for JsonReader.readObject() if incorrect
     // representation for object
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if incorrect representation for object.");
-      System.out.println("Reading " + "{\"name\":\"value\",1,2,3}");
+      LOGGER.info("Reading " + "{\"name\":\"value\",1,2,3}");
       reader = Json
           .createReader(new StringReader("{\"name\":\"value\",1,2,3}"));
       JsonObject jsonObject = reader.readObject();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Missing [
 
     try {
-      System.out.println("Testing for missing '['");
+      LOGGER.info("Testing for missing '['");
       reader = Json.createReader(new StringReader("{1,2]}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1599,16 +1538,16 @@ public class ClientTests {
     // Missing ]
 
     try {
-      System.out.println("Testing for missing ']'");
+      LOGGER.info("Testing for missing ']'");
       reader = Json.createReader(new StringReader("{[1,2}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1617,16 +1556,16 @@ public class ClientTests {
     // Missing {
 
     try {
-      System.out.println("Testing for missing '{'");
+      LOGGER.info("Testing for missing '{'");
       reader = Json.createReader(new StringReader("}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1635,16 +1574,16 @@ public class ClientTests {
     // Missing }
 
     try {
-      System.out.println("Testing for missing '}'");
+      LOGGER.info("Testing for missing '}'");
       reader = Json.createReader(new StringReader("{"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1653,16 +1592,16 @@ public class ClientTests {
     // Missing , between array elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 1");
+      LOGGER.info("Testing for missing ',' between array elements test case 1");
       reader = Json.createReader(new StringReader("{[5\"foo\"]}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1671,16 +1610,16 @@ public class ClientTests {
     // Missing , between array elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 2");
+      LOGGER.info("Testing for missing ',' between array elements test case 2");
       reader = Json.createReader(new StringReader("{[5{}]}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1689,16 +1628,16 @@ public class ClientTests {
     // Missing , between object elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 1");
+      LOGGER.info("Testing for missing ',' between object elements test case 1");
       reader = Json.createReader(new StringReader("{\"foo\":\"bar\"5}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1707,16 +1646,16 @@ public class ClientTests {
     // Missing , between object elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 2");
+      LOGGER.info("Testing for missing ',' between object elements test case 2");
       reader = Json.createReader(new StringReader("{\"one\":1[]}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1725,16 +1664,16 @@ public class ClientTests {
     // Missing key name in object element
 
     try {
-      System.out.println("Testing for missing key name in object element");
+      LOGGER.info("Testing for missing key name in object element");
       reader = Json.createReader(new StringReader("{:\"bar\"}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1743,16 +1682,16 @@ public class ClientTests {
     // Missing value name in object element
 
     try {
-      System.out.println("Testing for missing value name in object element");
+      LOGGER.info("Testing for missing value name in object element");
       reader = Json.createReader(new StringReader("{\"foo\":}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1761,16 +1700,16 @@ public class ClientTests {
     // Missing double quote on a name
 
     try {
-      System.out.println("Test for missing double quote on a name");
+      LOGGER.info("Test for missing double quote on a name");
       reader = Json.createReader(new StringReader("{name\" : \"value\"}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1779,16 +1718,16 @@ public class ClientTests {
     // Missing double quote on a value
 
     try {
-      System.out.println("Test for missing double quote on a value");
+      LOGGER.info("Test for missing double quote on a value");
       reader = Json.createReader(new StringReader("{\"name\" : value\"}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1797,16 +1736,16 @@ public class ClientTests {
     // Incorrect digit value test case 1
 
     try {
-      System.out.println("Incorrect digit value -foo");
+      LOGGER.info("Incorrect digit value -foo");
       reader = Json.createReader(new StringReader("{\"number\" : -foo}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1815,16 +1754,16 @@ public class ClientTests {
     // Incorrect digit value test case 2
 
     try {
-      System.out.println("Incorrect digit value +foo");
+      LOGGER.info("Incorrect digit value +foo");
       reader = Json.createReader(new StringReader("{\"number\" : +foo}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1833,16 +1772,16 @@ public class ClientTests {
     // Incorrect digit value test case 3
 
     try {
-      System.out.println("Incorrect digit value -784foo");
+      LOGGER.info("Incorrect digit value -784foo");
       reader = Json.createReader(new StringReader("{\"number\" : -784foo}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1851,16 +1790,16 @@ public class ClientTests {
     // Incorrect digit value test case 4
 
     try {
-      System.out.println("Incorrect digit value +784foo");
+      LOGGER.info("Incorrect digit value +784foo");
       reader = Json.createReader(new StringReader("{\"number\" : +784foo}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1869,16 +1808,16 @@ public class ClientTests {
     // Incorrect digit value test case 5
 
     try {
-      System.out.println("Incorrect digit value 0.1E5E5");
+      LOGGER.info("Incorrect digit value 0.1E5E5");
       reader = Json.createReader(new StringReader("{\"number\" : 0.1E5E5}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1887,16 +1826,16 @@ public class ClientTests {
     // Incorrect digit value test case 6
 
     try {
-      System.out.println("Incorrect digit value  0.F10");
+      LOGGER.info("Incorrect digit value  0.F10");
       reader = Json.createReader(new StringReader("{\"number\" : 0.F10}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1905,16 +1844,16 @@ public class ClientTests {
     // Incorrect digit value test case 7
 
     try {
-      System.out.println("Incorrect digit value string");
+      LOGGER.info("Incorrect digit value string");
       reader = Json.createReader(new StringReader("{\"number\" : string}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1923,16 +1862,16 @@ public class ClientTests {
     // Incorrect digit value test case 8 (hex numbers invalid per JSON RFC)
 
     try {
-      System.out.println("Incorrect digit value hex numbers invalid per JSON RFC");
+      LOGGER.info("Incorrect digit value hex numbers invalid per JSON RFC");
       reader = Json.createReader(new StringReader("{\"number\" : 0x137a}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1941,23 +1880,22 @@ public class ClientTests {
     // Incorrect digit value test case 9 (octal numbers invalid per JSON RFC)
 
     try {
-      System.out.println("Incorrect digit value octal numbers invalid per JSON RFC");
+      LOGGER.info("Incorrect digit value octal numbers invalid per JSON RFC");
       reader = Json.createReader(new StringReader("{\"number\" : 0137}"));
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
     }
 
-    if (!pass)
-      throw new Fault("negativeObjectTests Failed");
+    assertTrue(pass, "negativeObjectTests Failed");
   }
 
   /*
@@ -1971,23 +1909,23 @@ public class ClientTests {
    *
    */
   @Test
-  public void negativeArrayTests() throws Fault {
+  public void negativeArrayTests() {
     boolean pass = true;
     JsonReader reader = null;
 
     // Not an array {}
 
     try {
-      System.out.println("Testing for not an array '{}'");
+      LOGGER.info("Testing for not an array '{}'");
       reader = Json.createReader(new StringReader("{}"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonException");
+      LOGGER.warning("Failed to throw JsonException");
     } catch (JsonException e) {
-      System.out.println("Got expected JsonException");
+      LOGGER.info("Got expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -1996,34 +1934,34 @@ public class ClientTests {
     // Trip JsonParsingException for JsonReader.readArray() if incorrect
     // representation for array
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.readArray() if incorrect representation for array.");
-      System.out.println("Reading " + "[foo,10,\"name\":\"value\"]");
+      LOGGER.info("Reading " + "[foo,10,\"name\":\"value\"]");
       reader = Json
           .createReader(new StringReader("[foo,10,\"name\":\"value\"]"));
       JsonArray jsonArray = reader.readArray();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Missing [
 
     try {
-      System.out.println("Testing for missing '['");
+      LOGGER.info("Testing for missing '['");
       reader = Json.createReader(new StringReader("]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2032,16 +1970,16 @@ public class ClientTests {
     // Missing ]
 
     try {
-      System.out.println("Testing for missing ']'");
+      LOGGER.info("Testing for missing ']'");
       reader = Json.createReader(new StringReader("["));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2050,16 +1988,16 @@ public class ClientTests {
     // Missing {
 
     try {
-      System.out.println("Testing for missing '{'");
+      LOGGER.info("Testing for missing '{'");
       reader = Json.createReader(new StringReader("[1,\"name\":\"value\"}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2068,16 +2006,16 @@ public class ClientTests {
     // Missing }
 
     try {
-      System.out.println("Testing for missing '}'");
+      LOGGER.info("Testing for missing '}'");
       reader = Json.createReader(new StringReader("[1,{\"name\":\"value\"]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2086,16 +2024,16 @@ public class ClientTests {
     // Missing , between array elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 1");
+      LOGGER.info("Testing for missing ',' between array elements test case 1");
       reader = Json.createReader(new StringReader("[5\"foo\"]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2104,16 +2042,16 @@ public class ClientTests {
     // Missing , between array elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 2");
+      LOGGER.info("Testing for missing ',' between array elements test case 2");
       reader = Json.createReader(new StringReader("[5{}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2122,16 +2060,16 @@ public class ClientTests {
     // Missing , between object elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 1");
+      LOGGER.info("Testing for missing ',' between object elements test case 1");
       reader = Json.createReader(new StringReader("[{\"foo\":\"bar\"5}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2140,16 +2078,16 @@ public class ClientTests {
     // Missing , between object elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 2");
+      LOGGER.info("Testing for missing ',' between object elements test case 2");
       reader = Json.createReader(new StringReader("[{\"one\":1[]}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2158,16 +2096,16 @@ public class ClientTests {
     // Missing key name in object element
 
     try {
-      System.out.println("Testing for missing key name in object element");
+      LOGGER.info("Testing for missing key name in object element");
       reader = Json.createReader(new StringReader("[{:\"bar\"}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2176,16 +2114,16 @@ public class ClientTests {
     // Missing value name in object element
 
     try {
-      System.out.println("Testing for missing value name in object element");
+      LOGGER.info("Testing for missing value name in object element");
       reader = Json.createReader(new StringReader("[{\"foo\":}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2194,16 +2132,16 @@ public class ClientTests {
     // Missing double quote on a name
 
     try {
-      System.out.println("Test for missing double quote on a name");
+      LOGGER.info("Test for missing double quote on a name");
       reader = Json.createReader(new StringReader("[{name\" : \"value\"}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2212,16 +2150,16 @@ public class ClientTests {
     // Missing double quote on a value
 
     try {
-      System.out.println("Test for missing double quote on a value");
+      LOGGER.info("Test for missing double quote on a value");
       reader = Json.createReader(new StringReader("[{\"name\" : value\"}]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2230,16 +2168,16 @@ public class ClientTests {
     // Incorrect digit value test case 1
 
     try {
-      System.out.println("Incorrect digit value -foo");
+      LOGGER.info("Incorrect digit value -foo");
       reader = Json.createReader(new StringReader("[-foo]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2248,16 +2186,16 @@ public class ClientTests {
     // Incorrect digit value test case 2
 
     try {
-      System.out.println("Incorrect digit value +foo");
+      LOGGER.info("Incorrect digit value +foo");
       reader = Json.createReader(new StringReader("[+foo]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2266,16 +2204,16 @@ public class ClientTests {
     // Incorrect digit value test case 3
 
     try {
-      System.out.println("Incorrect digit value -784foo");
+      LOGGER.info("Incorrect digit value -784foo");
       reader = Json.createReader(new StringReader("[-784foo]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2284,16 +2222,16 @@ public class ClientTests {
     // Incorrect digit value test case 4
 
     try {
-      System.out.println("Incorrect digit value +784foo");
+      LOGGER.info("Incorrect digit value +784foo");
       reader = Json.createReader(new StringReader("[+784foo]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2302,16 +2240,16 @@ public class ClientTests {
     // Incorrect digit value test case 5
 
     try {
-      System.out.println("Incorrect digit value 0.1E5E5");
+      LOGGER.info("Incorrect digit value 0.1E5E5");
       reader = Json.createReader(new StringReader("[0.1E5E5]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2320,16 +2258,16 @@ public class ClientTests {
     // Incorrect digit value test case 6
 
     try {
-      System.out.println("Incorrect digit value  0.F10");
+      LOGGER.info("Incorrect digit value  0.F10");
       reader = Json.createReader(new StringReader("[0.F10]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2338,16 +2276,16 @@ public class ClientTests {
     // Incorrect digit value test case 7
 
     try {
-      System.out.println("Incorrect digit value string");
+      LOGGER.info("Incorrect digit value string");
       reader = Json.createReader(new StringReader("[string]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2356,16 +2294,16 @@ public class ClientTests {
     // Incorrect digit value test case 8 (hex numbers invalid per JSON RFC)
 
     try {
-      System.out.println("Incorrect digit value hex numbers invalid per JSON RFC");
+      LOGGER.info("Incorrect digit value hex numbers invalid per JSON RFC");
       reader = Json.createReader(new StringReader("[0x137a]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2374,23 +2312,22 @@ public class ClientTests {
     // Incorrect digit value test case 9 (octal numbers invalid per JSON RFC)
 
     try {
-      System.out.println("Incorrect digit value octal numbers invalid per JSON RFC");
+      LOGGER.info("Incorrect digit value octal numbers invalid per JSON RFC");
       reader = Json.createReader(new StringReader("[0137]"));
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
     }
 
-    if (!pass)
-      throw new Fault("negativeArrayTests Failed");
+    assertTrue(pass, "negativeArrayTests Failed");
   }
 
   /*
@@ -2403,7 +2340,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void illegalStateExceptionTests() throws Fault {
+  public void illegalStateExceptionTests() {
     boolean pass = true;
     JsonReader reader = null;
 
@@ -2411,32 +2348,32 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("{}"));
       reader.close();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.read() after reader.close() is called is illegal.");
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if reader.read() called after reader.readObject()
     try {
       reader = Json.createReader(new StringReader("{}"));
       JsonObject value = reader.readObject();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readObject() after reader.readObject() was called is illegal.");
       value = (JsonObject) reader.read();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2446,16 +2383,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("[]"));
       JsonArray value = reader.readArray();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.read() after reader.readArray() was called is illegal.");
       value = (JsonArray) reader.read();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2465,16 +2402,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("{}"));
       reader.close();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readObject() after reader.close() is called is illegal.");
       JsonObject value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if reader.readObject() called after
@@ -2482,16 +2419,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("{}"));
       JsonObject value = reader.readObject();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readObject() after reader.readObject() was called is illegal.");
       value = reader.readObject();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2502,16 +2439,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("{}"));
       JsonObject obj = reader.readObject();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readArray() after reader.readObject() was called is illegal.");
       JsonArray arr = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2521,16 +2458,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("[]"));
       reader.close();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readArray() after reader.close() is called is illegal.");
       JsonArray value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if reader.readArray() called after
@@ -2538,16 +2475,16 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("[]"));
       JsonArray value = reader.readArray();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readArray() after reader.readArray() was called is illegal.");
       value = reader.readArray();
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2558,24 +2495,23 @@ public class ClientTests {
     try {
       reader = Json.createReader(new StringReader("[]"));
       JsonArray arr = reader.readArray();
-      System.out.println(
+      LOGGER.info(
           "Calling reader.readObject() after reader.readArray() was called is illegal.");
       JsonObject obj = reader.readObject();
       pass = false;
-      System.out.println("obj=" + obj);
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.info("obj=" + obj);
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
     }
 
-    if (!pass)
-      throw new Fault("illegalStateExceptionTests Failed");
+    assertTrue(pass, "illegalStateExceptionTests Failed");
   }
 
   /*
@@ -2589,75 +2525,75 @@ public class ClientTests {
    *
    */
   @Test
-  public void negativeJsonStructureTests() throws Fault {
+  public void negativeJsonStructureTests() {
     boolean pass = true;
     JsonReader reader = null;
 
     // Trip JsonParsingException for JsonReader.read() if incorrect
     // representation for array
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if incorrect representation for array.");
-      System.out.println("Reading " + "[foo,10,\"name\":\"value\"]");
+      LOGGER.info("Reading " + "[foo,10,\"name\":\"value\"]");
       reader = Json
           .createReader(new StringReader("[foo,10,\"name\":\"value\"]"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if incorrect
     // representation for object
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if incorrect representation for object.");
-      System.out.println("Reading " + "{\"name\":\"value\",1,2,3}");
+      LOGGER.info("Reading " + "{\"name\":\"value\",1,2,3}");
       reader = Json
           .createReader(new StringReader("{\"name\":\"value\",1,2,3}"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // incorrect representation {]
     try {
-      System.out.println("Testing for incorrect representation '{]'");
+      LOGGER.info("Testing for incorrect representation '{]'");
       reader = Json.createReader(new StringReader("{]"));
-      System.out.println(
+      LOGGER.info(
           "Calling reader.read() with incorrect representation should throw JsonParsingException");
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Missing [
 
     try {
-      System.out.println("Testing for missing '['");
+      LOGGER.info("Testing for missing '['");
       reader = Json.createReader(new StringReader("{1,2]}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2666,16 +2602,16 @@ public class ClientTests {
     // Missing ]
 
     try {
-      System.out.println("Testing for missing ']'");
+      LOGGER.info("Testing for missing ']'");
       reader = Json.createReader(new StringReader("{[1,2}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2684,16 +2620,16 @@ public class ClientTests {
     // Missing {
 
     try {
-      System.out.println("Testing for missing '{'");
+      LOGGER.info("Testing for missing '{'");
       reader = Json.createReader(new StringReader("}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2702,16 +2638,16 @@ public class ClientTests {
     // Missing }
 
     try {
-      System.out.println("Testing for missing '}'");
+      LOGGER.info("Testing for missing '}'");
       reader = Json.createReader(new StringReader("{"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2720,16 +2656,16 @@ public class ClientTests {
     // Missing , between array elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 1");
+      LOGGER.info("Testing for missing ',' between array elements test case 1");
       reader = Json.createReader(new StringReader("{[5\"foo\"]}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2738,16 +2674,16 @@ public class ClientTests {
     // Missing , between array elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between array elements test case 2");
+      LOGGER.info("Testing for missing ',' between array elements test case 2");
       reader = Json.createReader(new StringReader("{[5{}]}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2756,16 +2692,16 @@ public class ClientTests {
     // Missing , between object elements test case 1
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 1");
+      LOGGER.info("Testing for missing ',' between object elements test case 1");
       reader = Json.createReader(new StringReader("{\"foo\":\"bar\"5}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2774,16 +2710,16 @@ public class ClientTests {
     // Missing , between object elements test case 2
 
     try {
-      System.out.println("Testing for missing ',' between object elements test case 2");
+      LOGGER.info("Testing for missing ',' between object elements test case 2");
       reader = Json.createReader(new StringReader("{\"one\":1[]}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2792,16 +2728,16 @@ public class ClientTests {
     // Missing key name in object element
 
     try {
-      System.out.println("Testing for missing key name in object element");
+      LOGGER.info("Testing for missing key name in object element");
       reader = Json.createReader(new StringReader("{:\"bar\"}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2810,16 +2746,16 @@ public class ClientTests {
     // Missing value name in object element
 
     try {
-      System.out.println("Testing for missing value name in object element");
+      LOGGER.info("Testing for missing value name in object element");
       reader = Json.createReader(new StringReader("{\"foo\":}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2828,16 +2764,16 @@ public class ClientTests {
     // Missing double quote on a name
 
     try {
-      System.out.println("Test for missing double quote on a name");
+      LOGGER.info("Test for missing double quote on a name");
       reader = Json.createReader(new StringReader("{name\" : \"value\"}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2846,16 +2782,16 @@ public class ClientTests {
     // Missing double quote on a value
 
     try {
-      System.out.println("Test for missing double quote on a value");
+      LOGGER.info("Test for missing double quote on a value");
       reader = Json.createReader(new StringReader("{\"name\" : value\"}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2864,16 +2800,16 @@ public class ClientTests {
     // Incorrect digit value test case 1
 
     try {
-      System.out.println("Incorrect digit value -foo");
+      LOGGER.info("Incorrect digit value -foo");
       reader = Json.createReader(new StringReader("{\"number\" : -foo}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2882,16 +2818,16 @@ public class ClientTests {
     // Incorrect digit value test case 2
 
     try {
-      System.out.println("Incorrect digit value +foo");
+      LOGGER.info("Incorrect digit value +foo");
       reader = Json.createReader(new StringReader("{\"number\" : +foo}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2900,16 +2836,16 @@ public class ClientTests {
     // Incorrect digit value test case 3
 
     try {
-      System.out.println("Incorrect digit value -784foo");
+      LOGGER.info("Incorrect digit value -784foo");
       reader = Json.createReader(new StringReader("{\"number\" : -784foo}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2918,16 +2854,16 @@ public class ClientTests {
     // Incorrect digit value test case 4
 
     try {
-      System.out.println("Incorrect digit value +784foo");
+      LOGGER.info("Incorrect digit value +784foo");
       reader = Json.createReader(new StringReader("{\"number\" : +784foo}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2936,16 +2872,16 @@ public class ClientTests {
     // Incorrect digit value test case 5
 
     try {
-      System.out.println("Incorrect digit value 0.1E5E5");
+      LOGGER.info("Incorrect digit value 0.1E5E5");
       reader = Json.createReader(new StringReader("{\"number\" : 0.1E5E5}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2954,16 +2890,16 @@ public class ClientTests {
     // Incorrect digit value test case 6
 
     try {
-      System.out.println("Incorrect digit value  0.F10");
+      LOGGER.info("Incorrect digit value  0.F10");
       reader = Json.createReader(new StringReader("{\"number\" : 0.F10}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
@@ -2972,23 +2908,22 @@ public class ClientTests {
     // Incorrect digit value test case 7
 
     try {
-      System.out.println("Incorrect digit value string");
+      LOGGER.info("Incorrect digit value string");
       reader = Json.createReader(new StringReader("{\"number\" : string}"));
       JsonStructure value = reader.read();
       pass = false;
-      System.err.println("Failed to throw JsonParsingException");
+      LOGGER.warning("Failed to throw JsonParsingException");
     } catch (JsonParsingException e) {
-      System.out.println("Got expected JsonParsingException");
+      LOGGER.info("Got expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (reader != null)
         reader.close();
     }
 
-    if (!pass)
-      throw new Fault("negativeJsonStructureTests Failed");
+    assertTrue(pass, "negativeJsonStructureTests Failed");
   }
 
   /*
@@ -3001,7 +2936,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonReaderIOErrorTests() throws Fault {
+  public void jsonReaderIOErrorTests() {
     boolean pass = true;
 
     String jsonArrayText = "[\"name1\",\"value1\"]";
@@ -3009,86 +2944,85 @@ public class ClientTests {
 
     // Trip JsonException if there is an i/o error on JsonReader.close()
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonReader.close().");
-      System.out.println("Reading object " + jsonObjectText);
+      LOGGER.info("Reading object " + jsonObjectText);
       InputStream is = JSONP_Util.getInputStreamFromString(jsonObjectText);
       MyBufferedInputStream mbi = new MyBufferedInputStream(is);
       try (JsonReader reader = Json.createReader(mbi)) {
         JsonObject jsonObject = reader.readObject();
-        System.out.println("jsonObject=" + jsonObject);
+        LOGGER.info("jsonObject=" + jsonObject);
         mbi.setThrowIOException(true);
-        System.out.println("Calling JsonReader.close()");
+        LOGGER.info("Calling JsonReader.close()");
         mbi.setThrowIOException(true);
       }
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException for JsonReader.read() if i/o error
     try {
-      System.out.println("Trip JsonException for JsonReader.read() if i/o error.");
-      System.out.println("Reading array " + jsonArrayText);
+      LOGGER.info("Trip JsonException for JsonReader.read() if i/o error.");
+      LOGGER.info("Reading array " + jsonArrayText);
       MyBufferedReader mbr = new MyBufferedReader(
           new StringReader(jsonArrayText));
       JsonReader reader = Json.createReader(mbr);
       mbr.setThrowIOException(true);
-      System.out.println("Calling JsonReader.read()");
+      LOGGER.info("Calling JsonReader.read()");
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException for JsonReader.readArray() if i/o error
     try {
-      System.out.println("Trip JsonException for JsonReader.readArray() if i/o error.");
-      System.out.println("Reading array " + jsonArrayText);
+      LOGGER.info("Trip JsonException for JsonReader.readArray() if i/o error.");
+      LOGGER.info("Reading array " + jsonArrayText);
       MyBufferedReader mbr = new MyBufferedReader(
           new StringReader(jsonArrayText));
       JsonReader reader = Json.createReader(mbr);
       mbr.setThrowIOException(true);
-      System.out.println("Calling JsonReader.readArray()");
+      LOGGER.info("Calling JsonReader.readArray()");
       JsonArray jsonArray = reader.readArray();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException for JsonReader.readObject() if i/o error
     try {
-      System.out.println("Trip JsonException for JsonReader.read() if i/o error.");
-      System.out.println("Reading object " + jsonObjectText);
+      LOGGER.info("Trip JsonException for JsonReader.read() if i/o error.");
+      LOGGER.info("Reading object " + jsonObjectText);
       MyBufferedReader mbr = new MyBufferedReader(
           new StringReader(jsonObjectText));
       JsonReader reader = Json.createReader(mbr);
       mbr.setThrowIOException(true);
-      System.out.println("Calling JsonReader.readObject()");
+      LOGGER.info("Calling JsonReader.readObject()");
       JsonObject jsonObject = reader.readObject();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonReaderIOErrorTests Failed");
+    assertTrue(pass, "jsonReaderIOErrorTests Failed");
   }
 
   /*
@@ -3102,114 +3036,113 @@ public class ClientTests {
    *
    */
   @Test
-  public void invalidLiteralNamesTest() throws Fault {
+  public void invalidLiteralNamesTest() {
     boolean pass = true;
     JsonReader reader;
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal TRUE
     // instead of true
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal TRUE instead of true.");
-      System.out.println("Reading " + "[TRUE]");
+      LOGGER.info("Reading " + "[TRUE]");
       reader = Json.createReader(new StringReader("[TRUE]"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal FALSE
     // instead of false
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal FALSE instead of false.");
-      System.out.println("Reading " + "[FALSE]");
+      LOGGER.info("Reading " + "[FALSE]");
       reader = Json.createReader(new StringReader("[FALSE]"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal NULL
     // instead of null
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal NULL instead of null.");
-      System.out.println("Reading " + "[NULL]");
+      LOGGER.info("Reading " + "[NULL]");
       reader = Json.createReader(new StringReader("[NULL]"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal TRUE
     // instead of true
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal TRUE instead of true.");
-      System.out.println("Reading " + "{\"true\":TRUE}");
+      LOGGER.info("Reading " + "{\"true\":TRUE}");
       reader = Json.createReader(new StringReader("{\"true\":TRUE}"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal FALSE
     // instead of false
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal FALSE instead of false.");
-      System.out.println("Reading " + "{\"false\":FALSE}");
+      LOGGER.info("Reading " + "{\"false\":FALSE}");
       reader = Json.createReader(new StringReader("{\"false\":FALSE}"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonReader.read() if invalid liternal NULL
     // instead of null
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonReader.read() if invalid liternal NULL instead of null.");
-      System.out.println("Reading " + "{\"null\":NULL}");
+      LOGGER.info("Reading " + "{\"null\":NULL}");
       reader = Json.createReader(new StringReader("{\"null\":NULL}"));
       JsonStructure jsonStructure = reader.read();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("invalidLiteralNamesTest Failed");
+    assertTrue(pass, "invalidLiteralNamesTest Failed");
   }
 
   /*
@@ -3223,7 +3156,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonReader API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonReader11Test() throws Fault {
+  public void jsonReader11Test() {
     Reader readerTest = new Reader();
     final TestResult result = readerTest.test();
     result.eval();

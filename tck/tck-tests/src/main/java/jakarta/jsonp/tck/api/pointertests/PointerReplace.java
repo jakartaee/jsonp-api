@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonPointer;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -34,6 +36,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * replace operation tests.<br>
  */
 public class PointerReplace {
+
+  private static final Logger LOGGER = Logger.getLogger(PointerReplace.class.getName());
 
   /**
    * Creates an instance of RFC 6901 pointer instance usage for RFC 6902 replace
@@ -52,7 +56,7 @@ public class PointerReplace {
   TestResult test() {
     final TestResult result = new TestResult(
         "RFC 6901 pointer usage for RFC 6902 replace operation");
-    System.out.println(
+    LOGGER.info(
         "Testing RFC 6901 pointer usage for RFC 6902 replace operation");
     testReplaceStringOnSimpleObject(result);
     testReplaceStringOnSimpleArray(result);
@@ -78,7 +82,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createSimpleObjectReplaceStr();
     final JsonPointer ptr = Json.createPointer(STR_PATH);
@@ -96,7 +100,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 1");
+    LOGGER.info(" - for String on simple JSON array of size 1");
     final JsonArray in = createStringArray1();
     final JsonArray check = createSimpleStringArrayReplaceStr();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -120,7 +124,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 5");
+    LOGGER.info(" - for String on simple JSON array of size 5");
     final JsonArray in = createSimpleStringArray5();
     final JsonArray check = createSimpleStringArray5R();
     verifyReplaceValues(result, in, check,
@@ -142,7 +146,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createSimpleObjectReplaceInt();
     final JsonPointer ptr = Json.createPointer(INT_PATH);
@@ -160,7 +164,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 1");
+    LOGGER.info(" - for int on simple JSON array of size 1");
     final JsonArray in = createIntArray1();
     final JsonArray check = createSimpleIntArrayReplaceInt();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -184,7 +188,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 5");
+    LOGGER.info(" - for int on simple JSON array of size 5");
     final JsonArray in = createSimpleIntArray5();
     final JsonArray check = createSimpleIntArray5R();
     verifyReplaceValues(result, in, check,
@@ -206,7 +210,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createSimpleObjectReplaceBool();
     final JsonPointer ptr = Json.createPointer(BOOL_PATH);
@@ -224,7 +228,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 1");
+    LOGGER.info(" - for boolean on simple JSON array of size 1");
     final JsonArray in = createBoolArray1();
     final JsonArray check = createSimpleBoolArrayReplaceBool();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -248,7 +252,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 5");
+    LOGGER.info(" - for boolean on simple JSON array of size 5");
     final JsonArray in = createSimpleBoolArray5();
     final JsonArray check = createSimpleBoolArray5R();
     verifyReplaceValues(result, in, check,
@@ -271,7 +275,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceObjectOnCompoundObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createCompoundObjectWithObject();
     final JsonObject check = createCompoundObjectReplaceObject();
     final JsonPointer ptr = Json.createPointer(OBJ_PATH);
@@ -289,7 +293,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 1");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 1");
     final JsonArray in = createObjectArray1();
     final JsonArray check = createSimpleObjectArrayReplaceObject();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -314,7 +318,7 @@ public class PointerReplace {
    *          Tests result record.
    */
   private void testReplaceObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 5");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 5");
     final JsonArray in = createSimpleObjectArray5();
     final JsonArray check = createSimpleObjectArray5R();
     verifyReplaceValues(result, in, check,
@@ -339,7 +343,7 @@ public class PointerReplace {
    */
   private void testReplaceOfNonExistingLocationInObject(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonObject");
+    LOGGER.info(" - for non existing location in JsonObject");
     final JsonObject[] objsIn = new JsonObject[] { createEmptyObject(),
         createSimpleObject(), createCompoundObject() };
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
@@ -370,7 +374,7 @@ public class PointerReplace {
    */
   private void testReplaceOfNonExistingLocationInArray(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonArray");
+    LOGGER.info(" - for non existing location in JsonArray");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray1(), createIntArray2(), createSimpleBoolArray5(),
         createObjectArray2()

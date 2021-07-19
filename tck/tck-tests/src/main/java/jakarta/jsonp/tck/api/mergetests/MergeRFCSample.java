@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.mergetests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.json.JsonObject;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.MergeRFCObject.*;
 
 // $Id$
@@ -31,6 +33,8 @@ import static jakarta.jsonp.tck.api.common.MergeRFCObject.*;
  */
 public class MergeRFCSample extends MergeCommon {
 
+  private static final Logger LOGGER = Logger.getLogger(MergeRFCSample.class.getName());
+  
   /**
    * Creates an instance of RFC 7396 value replacing test.
    */
@@ -45,7 +49,7 @@ public class MergeRFCSample extends MergeCommon {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 7396: Example JSON object");
-    System.out.println("Testing RFC 7396: Example JSON object");
+    LOGGER.info("Testing RFC 7396: Example JSON object");
     testMerge(result);
     testDiff(result);
     return result;
@@ -58,7 +62,7 @@ public class MergeRFCSample extends MergeCommon {
    *          Tests result record.
    */
   private void testMerge(final TestResult result) {
-    System.out.println(" - merge");
+    LOGGER.info(" - merge");
     final JsonObject in = createRFCSourceObject();
     final JsonObject patch = createRFCPatchObject();
     final JsonObject check = createRFCTargetObject();
@@ -73,7 +77,7 @@ public class MergeRFCSample extends MergeCommon {
    *          Tests result record.
    */
   private void testDiff(final TestResult result) {
-    System.out.println(" - diff");
+    LOGGER.info(" - diff");
     final JsonObject in = createRFCSourceObject();
     final JsonObject diff = createRFCPatchObject();
     final JsonObject out = createRFCTargetObject();

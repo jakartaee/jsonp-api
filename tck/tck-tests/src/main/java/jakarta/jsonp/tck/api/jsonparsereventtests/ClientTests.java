@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,27 +21,18 @@ package jakarta.jsonp.tck.api.jsonparsereventtests;
 
 import jakarta.json.stream.*;
 
-import java.io.*;
-import java.util.*;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -54,7 +45,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValueOfTest() throws Fault {
+  public void jsonValueOfTest() {
     boolean pass = true;
 
     String eventTypeStrings[] = { "END_ARRAY", "END_OBJECT", "KEY_NAME",
@@ -64,44 +55,43 @@ public class ClientTests {
     for (String eventTypeString : eventTypeStrings) {
       JsonParser.Event eventType;
       try {
-        System.out.println(
+        LOGGER.info(
             "Testing enum value for string constant name " + eventTypeString);
         eventType = JsonParser.Event.valueOf(eventTypeString);
-        System.out.println("Got enum type " + eventType + " for enum string constant named "
+        LOGGER.info("Got enum type " + eventType + " for enum string constant named "
             + eventTypeString);
       } catch (Exception e) {
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
         pass = false;
       }
 
     }
 
-    System.out.println("Testing negative test case for NullPointerException");
+    LOGGER.info("Testing negative test case for NullPointerException");
     try {
       JsonParser.Event.valueOf(null);
-      System.err.println("did not get expected NullPointerException");
+      LOGGER.warning("did not get expected NullPointerException");
       pass = false;
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
-      System.err.println("Got unexpected exception " + e);
+      LOGGER.warning("Got unexpected exception " + e);
       pass = false;
     }
 
-    System.out.println("Testing negative test case for IllegalArgumentException");
+    LOGGER.info("Testing negative test case for IllegalArgumentException");
     try {
       JsonParser.Event.valueOf("INVALID");
-      System.err.println("did not get expected IllegalArgumentException");
+      LOGGER.warning("did not get expected IllegalArgumentException");
       pass = false;
     } catch (IllegalArgumentException e) {
-      System.out.println("Got expected IllegalArgumentException");
+      LOGGER.info("Got expected IllegalArgumentException");
     } catch (Exception e) {
-      System.err.println("Got unexpected exception " + e);
+      LOGGER.warning("Got unexpected exception " + e);
       pass = false;
     }
 
-    if (!pass)
-      throw new Fault("jsonValueOfTest Failed");
+    assertTrue(pass, "jsonValueOfTest Failed");
   }
 
   /*
@@ -114,23 +104,18 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValuesTest() throws Fault {
-    boolean pass = true;
+  public void jsonValuesTest() {
 
-    System.out.println(
+    LOGGER.info(
         "Testing API method JsonParser.Event.values() to return array of enums.");
     JsonParser.Event[] values = JsonParser.Event.values();
 
     for (JsonParser.Event eventType : values) {
       String eventString = JSONP_Util.getEventTypeString(eventType);
       if (eventString == null) {
-        System.err.println("Got no value for enum " + eventType);
-        pass = false;
+        fail("jsonValuesTest Failed. Got no value for enum " + eventType);
       } else
-        System.out.println("Got " + eventString + " for enum " + eventType);
+        LOGGER.info("Got " + eventString + " for enum " + eventType);
     }
-
-    if (!pass)
-      throw new Fault("jsonValuesTest Failed");
   }
 }

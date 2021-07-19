@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.mergetests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.json.JsonObject;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
 // $Id$
@@ -31,6 +33,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * replaced.
  */
 public class MergeReplaceValue extends MergeCommon {
+
+  private static final Logger LOGGER = Logger.getLogger(MergeReplaceValue.class.getName());
 
   /**
    * Creates an instance of RFC 7396 value replacing test.
@@ -47,7 +51,7 @@ public class MergeReplaceValue extends MergeCommon {
   TestResult test() {
     final TestResult result = new TestResult(
         "RFC 7396: Replace existing values");
-    System.out.println("Testing RFC 7396: Replace existing values");
+    LOGGER.info("Testing RFC 7396: Replace existing values");
     testStringOnsimpleObject(result);
     testIntOnsimpleObject(result);
     testBoolOnsimpleObject(result);
@@ -62,7 +66,7 @@ public class MergeReplaceValue extends MergeCommon {
    *          Tests result record.
    */
   private void testStringOnsimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject patch = createSimpleObjectMoveStr();
     final JsonObject check = createSimpleObjectMoveStr();
@@ -77,7 +81,7 @@ public class MergeReplaceValue extends MergeCommon {
    *          Tests result record.
    */
   private void testIntOnsimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject patch = createSimpleObjectMoveInt();
     final JsonObject check = createSimpleObjectMoveInt();
@@ -92,7 +96,7 @@ public class MergeReplaceValue extends MergeCommon {
    *          Tests result record.
    */
   private void testBoolOnsimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject patch = createSimpleObjectMoveBool();
     final JsonObject check = createSimpleObjectMoveBool();
@@ -108,7 +112,7 @@ public class MergeReplaceValue extends MergeCommon {
    *          Tests result record.
    */
   private void testObjectOnsimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject patch = createSimpleObjectMoveObject();
     final JsonObject check = createSimpleObjectMoveObject();

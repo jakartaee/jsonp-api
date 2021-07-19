@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,11 +20,11 @@
 
 package jakarta.jsonp.tck.provider;
 
-import jakarta.json.*;
 import jakarta.json.stream.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonGeneratorFactory is a Json Test GeneratorFactory used by the pluggability tests
@@ -33,6 +33,9 @@ import java.util.*;
  */
 
 public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonGeneratorFactory.class.getName());
+
   private OutputStream out = null;
 
   private Writer writer = null;
@@ -42,10 +45,10 @@ public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
   private Map<String, ?> config = null;
 
   private void dumpInstanceVars() {
-    System.out.println("writer=" + writer);
-    System.out.println("out=" + out);
-    System.out.println("charset=" + charset);
-    System.out.println("config=" + config);
+    LOGGER.info("writer=" + writer);
+    LOGGER.info("out=" + out);
+    LOGGER.info("charset=" + charset);
+    LOGGER.info("config=" + config);
   }
 
   // call methods
@@ -68,20 +71,20 @@ public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
   }
 
   public Map<String, ?> getConfigInUse() {
-    System.out.println("public Map<String, ?> getConfigInUse()");
+    LOGGER.info("public Map<String, ?> getConfigInUse()");
     addCalls("public Map<String, ?> getConfigInUse()");
     return config;
   }
 
   public JsonGenerator createGenerator(OutputStream out) {
-    System.out.println("public JsonGenerator createGenerator(OutputStream)");
+    LOGGER.info("public JsonGenerator createGenerator(OutputStream)");
     addCalls("public JsonGenerator createGenerator(OutputStream)");
     this.out = out;
     return null;
   }
 
   public JsonGenerator createGenerator(OutputStream out, Charset charset) {
-    System.out.println(
+    LOGGER.info(
         "public JsonGenerator createGenerator(OutputStream, Charset)");
     addCalls("public JsonGenerator createGenerator(OutputStream, Charset)");
     this.out = out;
@@ -90,7 +93,7 @@ public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
   }
 
   public JsonGenerator createGenerator(Writer writer) {
-    System.out.println("public JsonGenerator createGenerator(Writer)");
+    LOGGER.info("public JsonGenerator createGenerator(Writer)");
     addCalls("public JsonGenerator createGenerator(Writer)");
     this.writer = writer;
     return null;

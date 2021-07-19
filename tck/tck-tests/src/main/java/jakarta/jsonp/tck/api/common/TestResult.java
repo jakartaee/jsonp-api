@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,7 @@
 
 package jakarta.jsonp.tck.api.common;
 
-import jakarta.jsonp.tck.api.common.TestFail;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.opentest4j.AssertionFailedError;
 
 import java.util.LinkedList;
 
@@ -58,10 +57,10 @@ public class TestResult {
   /**
    * Evaluate test results.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when any test failed.
    */
-  public void eval() throws Fault {
+  public void eval() {
     if (fails.isEmpty()) {
       return;
     }
@@ -72,7 +71,7 @@ public class TestResult {
       sb.append('\n');
       sb.append(fail.toString());
     }
-    throw new Fault(sb.toString());
+    throw new AssertionFailedError(sb.toString());
   }
 
 }

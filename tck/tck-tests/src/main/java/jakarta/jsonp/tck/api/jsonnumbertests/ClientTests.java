@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,36 +20,19 @@
 package jakarta.jsonp.tck.api.jsonnumbertests;
 
 import jakarta.json.*;
-import jakarta.json.stream.*;
-
-import java.io.*;
-
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
@@ -62,47 +45,46 @@ public class ClientTests {
    * JsonNumbers and compare them for equality and expect false.
    */
   @Test
-  public void jsonNumberEqualsTest() throws Fault {
+  public void jsonNumberEqualsTest() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonNumber 1 for testing");
+      LOGGER.info("Create sample JsonNumber 1 for testing");
       JsonNumber number1 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number1=" + JSONP_Util.toStringJsonNumber(number1));
+      LOGGER.info("number1=" + JSONP_Util.toStringJsonNumber(number1));
 
-      System.out.println("Create sample JsonNumber 2 for testing");
+      LOGGER.info("Create sample JsonNumber 2 for testing");
       JsonNumber number2 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number2=" + JSONP_Util.toStringJsonNumber(number2));
+      LOGGER.info("number2=" + JSONP_Util.toStringJsonNumber(number2));
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonNumber.equals() to compare 2 equal JsonNumbers and expect true");
       if (number1.equals(number2)) {
-        System.out.println("JsonNumbers are equal - expected.");
+        LOGGER.info("JsonNumbers are equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonNumbers are not equal - unexpected.");
+        LOGGER.warning("JsonNumbers are not equal - unexpected.");
       }
 
-      System.out.println("Create sample JsonNumber 1 for testing");
+      LOGGER.info("Create sample JsonNumber 1 for testing");
       number1 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number1=" + JSONP_Util.toStringJsonNumber(number1));
+      LOGGER.info("number1=" + JSONP_Util.toStringJsonNumber(number1));
 
-      System.out.println("Create sample JsonNumber 2 for testing");
+      LOGGER.info("Create sample JsonNumber 2 for testing");
       number2 = JSONP_Util.createJsonNumber((double) 10.25);
-      System.out.println("number2=" + JSONP_Util.toStringJsonNumber(number2));
+      LOGGER.info("number2=" + JSONP_Util.toStringJsonNumber(number2));
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonNumber.equals() to compare 2 equal JsonNumbers and expect false");
       if (!number1.equals(number2)) {
-        System.out.println("JsonNumbers are not equal - expected.");
+        LOGGER.info("JsonNumbers are not equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonNumbers are equal - unexpected.");
+        LOGGER.warning("JsonNumbers are equal - unexpected.");
       }
     } catch (Exception e) {
-      throw new Fault("jsonNumberEqualsTest Failed: ", e);
+      fail("jsonNumberEqualsTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonNumberEqualsTest Failed");
+    assertTrue(pass, "jsonNumberEqualsTest Failed");
   }
 
   /*
@@ -115,51 +97,50 @@ public class ClientTests {
    * JsonNumbers and compare them for hashcode and expect false.
    */
   @Test
-  public void jsonNumberHashCodeTest() throws Fault {
+  public void jsonNumberHashCodeTest() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonNumber 1 for testing");
+      LOGGER.info("Create sample JsonNumber 1 for testing");
       JsonNumber number1 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number1=" + JSONP_Util.toStringJsonNumber(number1));
-      System.out.println("number1.hashCode()=" + number1.hashCode());
+      LOGGER.info("number1=" + JSONP_Util.toStringJsonNumber(number1));
+      LOGGER.info("number1.hashCode()=" + number1.hashCode());
 
-      System.out.println("Create sample JsonNumber 2 for testing");
+      LOGGER.info("Create sample JsonNumber 2 for testing");
       JsonNumber number2 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number2=" + JSONP_Util.toStringJsonNumber(number2));
-      System.out.println("number2.hashCode()=" + number2.hashCode());
+      LOGGER.info("number2=" + JSONP_Util.toStringJsonNumber(number2));
+      LOGGER.info("number2.hashCode()=" + number2.hashCode());
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonNumber.hashCode() to compare 2 equal JsonNumbers and expect true");
       if (number1.hashCode() == number2.hashCode()) {
-        System.out.println("JsonNumbers hashCode are equal - expected.");
+        LOGGER.info("JsonNumbers hashCode are equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonNumbers hashCode are not equal - unexpected.");
+        LOGGER.warning("JsonNumbers hashCode are not equal - unexpected.");
       }
 
-      System.out.println("Create sample JsonNumber 1 for testing");
+      LOGGER.info("Create sample JsonNumber 1 for testing");
       number1 = JSONP_Util.createJsonNumber(10);
-      System.out.println("number1=" + JSONP_Util.toStringJsonNumber(number1));
-      System.out.println("number1.hashCode()=" + number1.hashCode());
+      LOGGER.info("number1=" + JSONP_Util.toStringJsonNumber(number1));
+      LOGGER.info("number1.hashCode()=" + number1.hashCode());
 
-      System.out.println("Create sample JsonNumber 2 for testing");
+      LOGGER.info("Create sample JsonNumber 2 for testing");
       number2 = JSONP_Util.createJsonNumber((double) 10.25);
-      System.out.println("number2=" + JSONP_Util.toStringJsonNumber(number2));
-      System.out.println("number2.hashCode()=" + number2.hashCode());
+      LOGGER.info("number2=" + JSONP_Util.toStringJsonNumber(number2));
+      LOGGER.info("number2.hashCode()=" + number2.hashCode());
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonNumber.hashCode() to compare 2 equal JsonNumbers and expect false");
       if (number1.hashCode() != number2.hashCode()) {
-        System.out.println("JsonNumbers hashCode are not equal - expected.");
+        LOGGER.info("JsonNumbers hashCode are not equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonNumbers hashCode are equal - unexpected.");
+        LOGGER.warning("JsonNumbers hashCode are equal - unexpected.");
       }
     } catch (Exception e) {
-      throw new Fault("jsonNumberHashCodeTest Failed: ", e);
+      fail("jsonNumberHashCodeTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonNumberHashCodeTest Failed");
+    assertTrue(pass, "jsonNumberHashCodeTest Failed");
   }
 
   /*
@@ -170,7 +151,7 @@ public class ClientTests {
    * @test_Strategy: Test JsonNumber.isIntegral() method.
    */
   @Test
-  public void jsonNumberIsIntegralTest() throws Fault {
+  public void jsonNumberIsIntegralTest() {
     boolean pass = true;
     JsonNumber jsonNumber = null;
     try {
@@ -194,10 +175,9 @@ public class ClientTests {
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonNumberIsIntegralTest Failed: ", e);
+      fail("jsonNumberIsIntegralTest Failed: ", e);
     }
 
-    if (!pass)
-      throw new Fault("jsonNumberIsIntegralTest Failed");
+    assertTrue(pass, "jsonNumberIsIntegralTest Failed");
   }
 }

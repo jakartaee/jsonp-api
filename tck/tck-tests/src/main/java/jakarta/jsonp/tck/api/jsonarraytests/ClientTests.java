@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,34 +18,26 @@ package jakarta.jsonp.tck.api.jsonarraytests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //$Id$
 
-@RunWith(Arquillian.class)
 public class ClientTests {
-    
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -62,16 +54,15 @@ public class ClientTests {
    * values matches the expected list of JsonArray values.
    */
   @Test
-  public void jsonArrayTest1() throws Fault {
-    boolean pass = true;
+  public void jsonArrayTest1() {
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject object = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray array = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create the expected list of JsonArray values");
+      LOGGER.info("Create the expected list of JsonArray values");
       List<JsonValue> expList = new ArrayList<>();
       expList.add(JsonValue.FALSE);
       expList.add(JsonValue.TRUE);
@@ -90,7 +81,7 @@ public class ClientTests {
       expList.add(array);
       JSONP_Util.dumpList(expList, "Expected List");
 
-      System.out.println("Create JsonArray using all JsonArrayBuilder API's");
+      LOGGER.info("Create JsonArray using all JsonArrayBuilder API's");
       JsonArray myJsonArray = Json.createArrayBuilder() // Indices
           .add(JsonValue.FALSE) // 0
           .add(JsonValue.TRUE) // 1
@@ -110,14 +101,12 @@ public class ClientTests {
 
       List<JsonValue> actualList = myJsonArray;
       JSONP_Util.dumpList(actualList, "Actual List");
-      System.out.println(
+      LOGGER.info(
           "Compare actual list of JsonArray values with expected list of JsonArray values");
-      pass = JSONP_Util.assertEqualsList(expList, actualList);
+      assertTrue(JSONP_Util.assertEqualsList(expList, actualList), "jsonArrayTest1 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonArrayTest1 Failed: ", e);
+      fail("jsonArrayTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonArrayTest1 Failed");
   }
 
   /*
@@ -137,16 +126,15 @@ public class ClientTests {
    * JsonWriter and then read back using the JsonReader are equal.
    */
   @Test
-  public void jsonArrayTest2() throws Fault {
-    boolean pass = true;
+  public void jsonArrayTest2() {
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject object = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray array = JSONP_Util.createSampleJsonArray();
 
-      System.out.println(
+      LOGGER.info(
           "Create JsonArray 'myJsonArray1' using all JsonArrayBuilder API's");
       JsonArray myJsonArray1 = Json.createArrayBuilder() // Indices
           .add(JsonValue.FALSE) // 0
@@ -165,31 +153,29 @@ public class ClientTests {
           .add(array) // 13
           .build();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       StringWriter sw = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sw)) {
         writer.writeArray(myJsonArray1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sw.toString();
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
-      System.out.println("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
+      LOGGER.info("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
       JsonArray myJsonArray2;
       try (JsonReader reader = Json.createReader(new StringReader(contents))) {
         myJsonArray2 = reader.readArray();
       }
-      System.out.println("Dump contents of JsonArray read from String Contents");
+      LOGGER.info("Dump contents of JsonArray read from String Contents");
       JSONP_Util.dumpJsonValue(myJsonArray2);
 
-      System.out.println("Compare myJsonArray1 and myJsonArray2 for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2);
+      LOGGER.info("Compare myJsonArray1 and myJsonArray2 for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2), "jsonArrayTest2 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonArrayTest2 Failed: ", e);
+      fail("jsonArrayTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonArrayTest2 Failed");
   }
 
   /*
@@ -224,13 +210,13 @@ public class ClientTests {
    */
   @SuppressWarnings("SuspiciousIndentAfterControlStatement")
   @Test
-  public void jsonArrayTest3() throws Fault {
+  public void jsonArrayTest3() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject object = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray array = JSONP_Util.createSampleJsonArray();
 
       int expInt[] = { -1, 1, 1, -1000, 1000, 1000, -2000, 2000, 2000,
@@ -240,7 +226,7 @@ public class ClientTests {
 
       double expDouble[] = { Double.MAX_VALUE, Double.MIN_VALUE };
 
-      System.out.println("Create myArray Jsonarray of 23 elements");
+      LOGGER.info("Create myArray Jsonarray of 23 elements");
       JsonArray myArray = Json.createArrayBuilder() // Indices
           .add(-1).add(+1).add(1) // 0,1,2
           .add(-1e3).add(+1e3).add(1e3) // 3,4,5
@@ -261,7 +247,7 @@ public class ClientTests {
           .add(array) // 22
           .build();
 
-      System.out.println("Array size=" + myArray.size());
+      LOGGER.info("Array size=" + myArray.size());
 
       // Following array is used to test for Ints that could be one of following
       // types:
@@ -269,24 +255,24 @@ public class ClientTests {
           JSONP_Util.NON_INTEGRAL };
       // Verify JsonValueType=NUMBER and integer value equals expectedIntValue
       for (int i = 0; i < 11; i++) {
-        System.out.println("Checking getValue(" + i + ") for correctness");
-        System.out.println("Retrieve and verify (JsonValueType=NUMBER)");
+        LOGGER.info("Checking getValue(" + i + ") for correctness");
+        LOGGER.info("Retrieve and verify (JsonValueType=NUMBER)");
         if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.NUMBER,
             myArray.getJsonNumber(i).getValueType()))
           pass = false;
-        System.out.println("Retrieve and (expect JsonNumber NumberType be one of "
+        LOGGER.info("Retrieve and (expect JsonNumber NumberType be one of "
             + JSONP_Util.toStringJsonNumberTypes(expectedIntTypes) + ")");
         if (!JSONP_Util.assertEqualsJsonNumberTypes(expectedIntTypes,
             myArray.getJsonNumber(i).isIntegral()))
           pass = false;
-        System.out.println("Retrieve and verify integer value via JsonNumber.intValue()");
+        LOGGER.info("Retrieve and verify integer value via JsonNumber.intValue()");
         if (!JSONP_Util.assertEquals(expInt[i],
             myArray.getJsonNumber(i).intValue()))
           pass = false;
-        System.out.println("Retrieve and verify integer value via JsonArray.getInt");
+        LOGGER.info("Retrieve and verify integer value via JsonArray.getInt");
         if (!JSONP_Util.assertEquals(expInt[i], myArray.getInt(i)))
           pass = false;
-        System.out.println(
+        LOGGER.info(
             "Retrieve and verify integer value via JsonNumber.intValueExact()");
         if (!JSONP_Util.assertEquals(expInt[i],
             myArray.getJsonNumber(i).intValueExact()))
@@ -295,20 +281,20 @@ public class ClientTests {
 
       // Verify JsonValueType=NUMBER and long value equals expectedLongValue
       for (int i = 11, j = 0; i < 13; i++, j++) {
-        System.out.println("Checking getValue(" + i + ") for correctness");
-        System.out.println("Retrieve and verify (JsonValueType=NUMBER)");
+        LOGGER.info("Checking getValue(" + i + ") for correctness");
+        LOGGER.info("Retrieve and verify (JsonValueType=NUMBER)");
         if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.NUMBER,
             myArray.getJsonNumber(i).getValueType()))
           pass = false;
-        System.out.println("Retrieve and (expect JsonNumber NumberType be INTEGRAL)");
+        LOGGER.info("Retrieve and (expect JsonNumber NumberType be INTEGRAL)");
         if (!JSONP_Util.assertEqualsJsonNumberType(JSONP_Util.INTEGRAL,
             myArray.getJsonNumber(i).isIntegral()))
           pass = false;
-        System.out.println("Retrieve and verify long value via JsonNumber.longValue()");
+        LOGGER.info("Retrieve and verify long value via JsonNumber.longValue()");
         if (!JSONP_Util.assertEquals(expLong[j],
             myArray.getJsonNumber(i).longValue()))
           pass = false;
-        System.out.println(
+        LOGGER.info(
             "Retrieve and verify long value via JsonNumber.longValueExact()");
         if (!JSONP_Util.assertEquals(expLong[j],
             myArray.getJsonNumber(i).longValueExact()))
@@ -322,17 +308,17 @@ public class ClientTests {
 
       // Verify JsonValueType=NUMBER and double value equals expectedDoubleValue
       for (int i = 13, j = 0; i < 15; i++, j++) {
-        System.out.println("Checking getValue(" + i + ") for correctness");
-        System.out.println("Retrieve and verify (JsonValueType=NUMBER)");
+        LOGGER.info("Checking getValue(" + i + ") for correctness");
+        LOGGER.info("Retrieve and verify (JsonValueType=NUMBER)");
         if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.NUMBER,
             myArray.getJsonNumber(i).getValueType()))
           pass = false;
-        System.out.println("Retrieve and (expect JsonNumber NumberType be one of "
+        LOGGER.info("Retrieve and (expect JsonNumber NumberType be one of "
             + JSONP_Util.toStringJsonNumberTypes(expectedDoubleTypes) + ")");
         if (!JSONP_Util.assertEqualsJsonNumberTypes(expectedDoubleTypes,
             myArray.getJsonNumber(i).isIntegral()))
           pass = false;
-        System.out.println("Retrieve and verify double value via JsonNumber.doubleValue()");
+        LOGGER.info("Retrieve and verify double value via JsonNumber.doubleValue()");
         if (!JSONP_Util.assertEquals(expDouble[j],
             myArray.getJsonNumber(i).doubleValue()))
           pass = false;
@@ -340,17 +326,17 @@ public class ClientTests {
 
       // Verify JsonValueType=NUMBER and BigDecimalValue equals
       // expectedBigDecimal
-      System.out.println("Checking getValue(15) for correctness");
-      System.out.println("Retrieve and verify (JsonValueType=NUMBER)");
+      LOGGER.info("Checking getValue(15) for correctness");
+      LOGGER.info("Retrieve and verify (JsonValueType=NUMBER)");
       if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.NUMBER,
           myArray.getJsonNumber(15).getValueType()))
         pass = false;
-      System.out.println("Retrieve and (expect JsonNumber NumberType be one of "
+      LOGGER.info("Retrieve and (expect JsonNumber NumberType be one of "
           + JSONP_Util.toStringJsonNumberTypes(expectedDoubleTypes) + ")");
       if (!JSONP_Util.assertEqualsJsonNumberTypes(expectedDoubleTypes,
           myArray.getJsonNumber(15).isIntegral()))
         pass = false;
-      System.out.println(
+      LOGGER.info(
           "Retrieve and verify BigDecimal value via JsonNumber.bigDecimalValue()");
       if (!JSONP_Util.assertEquals(BigDecimal.valueOf(123456789.123456789),
           myArray.getJsonNumber(15).bigDecimalValue()))
@@ -358,80 +344,80 @@ public class ClientTests {
 
       // Verify JsonValueType=NUMBER and BigIntegerValue equals
       // expectedBigInteger
-      System.out.println("Checking getValue(16) for correctness");
-      System.out.println("Retrieve and verify (JsonValueType=NUMBER)");
+      LOGGER.info("Checking getValue(16) for correctness");
+      LOGGER.info("Retrieve and verify (JsonValueType=NUMBER)");
       if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.NUMBER,
           myArray.getJsonNumber(16).getValueType()))
         pass = false;
-      System.out.println("Retrieve and (expect JsonNumber NumberType be INTEGRAL)");
+      LOGGER.info("Retrieve and (expect JsonNumber NumberType be INTEGRAL)");
       if (!JSONP_Util.assertEqualsJsonNumberType(JSONP_Util.INTEGRAL,
           myArray.getJsonNumber(16).isIntegral()))
         pass = false;
-      System.out.println(
+      LOGGER.info(
           "Retrieve and verify BigInteger value via JsonNumber.bigIntegerValue()");
       if (!JSONP_Util.assertEquals(new BigInteger("123456789"),
           myArray.getJsonNumber(16).bigIntegerValue()))
         pass = false;
-      System.out.println(
+      LOGGER.info(
           "Retrieve and verify BigInteger value via JsonNumber.bigIntegerValueExact()");
       if (!JSONP_Util.assertEquals(new BigInteger("123456789"),
           myArray.getJsonNumber(16).bigIntegerValueExact()))
         pass = false;
 
       // Verify getBoolean(int)=true
-      System.out.println("Retrieve and verify true value via JsonArray.getBoolean(int)");
+      LOGGER.info("Retrieve and verify true value via JsonArray.getBoolean(int)");
       if (!JSONP_Util.assertEquals(true, myArray.getBoolean(17)))
         pass = false;
 
       // Verify getBoolean(int)=false
-      System.out.println("Retrieve and verify false value via JsonArray.getBoolean(int)");
+      LOGGER.info("Retrieve and verify false value via JsonArray.getBoolean(int)");
       if (!JSONP_Util.assertEquals(false, myArray.getBoolean(18)))
         pass = false;
 
       // Verify isNull(int)=true
-      System.out.println("Retrieve and verify null value via JsonArray.isNull(int)");
+      LOGGER.info("Retrieve and verify null value via JsonArray.isNull(int)");
       if (!JSONP_Util.assertEquals(true, myArray.isNull(19)))
         pass = false;
 
       // Verify isNull(int)=false
-      System.out.println("Retrieve and verify non-null value via JsonArray.isNull(int)");
+      LOGGER.info("Retrieve and verify non-null value via JsonArray.isNull(int)");
       if (!JSONP_Util.assertEquals(false, myArray.isNull(20)))
         pass = false;
 
       // Verify JsonValueType=STRING and getJsonString()=expectedString
-      System.out.println("Checking getValue(20) for correctness");
-      System.out.println("Retrieve and (expect JsonValueType=STRING)");
+      LOGGER.info("Checking getValue(20) for correctness");
+      LOGGER.info("Retrieve and (expect JsonValueType=STRING)");
       if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.STRING,
           myArray.getJsonString(20).getValueType()))
         pass = false;
-      System.out.println("Retrieve and verify string value via JsonString.getString()");
+      LOGGER.info("Retrieve and verify string value via JsonString.getString()");
       if (!JSONP_Util.assertEquals(JSONP_Data.asciiCharacters,
           myArray.getJsonString(20).getString()))
         pass = false;
-      System.out.println("Retrieve and verify string value via JsonArray.getString()");
+      LOGGER.info("Retrieve and verify string value via JsonArray.getString()");
       if (!JSONP_Util.assertEquals(JSONP_Data.asciiCharacters,
           myArray.getString(20)))
         pass = false;
 
       // Verify JsonValueType=OBJECT and getJsonObject()=expectedObject
-      System.out.println("Checking getJsonObject(21) for correctness");
-      System.out.println("Retrieve and (expect JsonValueType=OBJECT)");
+      LOGGER.info("Checking getJsonObject(21) for correctness");
+      LOGGER.info("Retrieve and (expect JsonValueType=OBJECT)");
       if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.OBJECT,
           myArray.getJsonObject(21).getValueType()))
         pass = false;
-      System.out.println(
+      LOGGER.info(
           "Retrieve and verify object value via JsonArray.getJsonObject(int)");
       if (!JSONP_Util.assertEqualsJsonObjects(object,
           myArray.getJsonObject(21)))
         pass = false;
 
       // Verify JsonValueType=ARRAY and getJsonArray()=expectedArray
-      System.out.println("Checking getJsonArray(22) for correctness");
-      System.out.println("Retrieve and (expect JsonValueType=ARRAY)");
+      LOGGER.info("Checking getJsonArray(22) for correctness");
+      LOGGER.info("Retrieve and (expect JsonValueType=ARRAY)");
       if (!JSONP_Util.assertEqualsJsonValueType(JsonValue.ValueType.ARRAY,
           myArray.getJsonArray(22).getValueType()))
         pass = false;
-      System.out.println("Retrieve and verify array value via JsonArray.getJsonArray(int)");
+      LOGGER.info("Retrieve and verify array value via JsonArray.getJsonArray(int)");
       if (!JSONP_Util.assertEqualsJsonArrays(array, myArray.getJsonArray(22)))
         pass = false;
 
@@ -442,7 +428,7 @@ public class ClientTests {
         pass = false;
 
       // Verify calls to JsonArray.getBoolean(int, boolean)
-      System.out.println(
+      LOGGER.info(
           "Testing JsonArray.getBoolean(int, boolean) with/without default value setting.");
       if (!JSONP_Util.assertEquals(true, myArray.getBoolean(17, false)))
         pass = false;
@@ -458,7 +444,7 @@ public class ClientTests {
         pass = false;
 
       // Verify calls to JsonArray.getInt(int, int)
-      System.out.println(
+      LOGGER.info(
           "Testing JsonArray.getInt(int, int) with/without default value setting.");
       if (!JSONP_Util.assertEquals(-1, myArray.getInt(0, 10)))
         pass = false;
@@ -474,7 +460,7 @@ public class ClientTests {
         pass = false;
 
       // Verify calls to JsonArray.getString(int, String)
-      System.out.println(
+      LOGGER.info(
           "Testing JsonArray.getString(int, String) with/without default value setting.");
       if (!JSONP_Util.assertEquals(JSONP_Data.asciiCharacters,
           myArray.getString(20, "foo")))
@@ -491,10 +477,9 @@ public class ClientTests {
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonArrayTest3 Failed: ", e);
+      fail("jsonArrayTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonArrayTest3 Failed");
+    assertTrue(pass, "jsonArrayTest3 Failed");
   }
 
   /*
@@ -510,32 +495,30 @@ public class ClientTests {
    * expected based on the JsonArray.
    */
   @Test
-  public void jsonArrayTest4() throws Fault {
-    boolean pass = true;
+  public void jsonArrayTest4() {
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       StringWriter sw = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sw)) {
         writer.writeArray(myJsonArray1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sw.toString();
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
-      System.out.println("Remove whitespace from contents.");
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
+      LOGGER.info("Remove whitespace from contents.");
       String actJsonText = JSONP_Util.removeWhitespace(contents);
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonArray text with actual JsonArray text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonText),
+          "jsonArrayTest4 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonArrayTest4 Failed: ", e);
+      fail("jsonArrayTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonArrayTest4 Failed");
   }
 
   /*
@@ -553,36 +536,36 @@ public class ClientTests {
    */
   @SuppressWarnings("SuspiciousIndentAfterControlStatement")
   @Test
-  public void jsonArrayGetValuesAsTest() throws Fault {
+  public void jsonArrayGetValuesAsTest() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonArray of JsonNumber types for testing");
+      LOGGER.info("Create sample JsonArray of JsonNumber types for testing");
       JsonArray jsonArr = Json.createArrayBuilder().add(100).add(500).build();
 
-      System.out.println("Create the expected list of JsonArray values");
+      LOGGER.info("Create the expected list of JsonArray values");
       List<JsonValue> expList = new ArrayList<>();
       expList.add(JSONP_Util.createJsonNumber(100));
       expList.add(JSONP_Util.createJsonNumber(500));
       JSONP_Util.dumpList(expList, "Expected List");
 
-      System.out.println("Create the JsonNumber list of JsonArray values");
+      LOGGER.info("Create the JsonNumber list of JsonArray values");
       List<JsonNumber> numList = jsonArr.getValuesAs(JsonNumber.class);
 
-      System.out.println("Create the actual list of JsonArray values");
+      LOGGER.info("Create the actual list of JsonArray values");
       List<JsonValue> actList = new ArrayList<>();
       for (JsonNumber num : numList)
         actList.add(num);
 
-      System.out.println("Compare actual list with expected list for equality");
+      LOGGER.info("Compare actual list with expected list for equality");
       pass = JSONP_Util.assertEqualsList(expList, actList);
 
-      System.out.println("Create sample JsonArray of JsonString types for testing");
+      LOGGER.info("Create sample JsonArray of JsonString types for testing");
       jsonArr = Json.createArrayBuilder().add("hello").add("world").build();
 
-      System.out.println("Create the list of JsonString values");
+      LOGGER.info("Create the list of JsonString values");
       List<JsonString> strList = jsonArr.getValuesAs(JsonString.class);
 
-      System.out.println("Comparing JsonString list elements to expected values.");
+      LOGGER.info("Comparing JsonString list elements to expected values.");
       if (!JSONP_Util.assertEquals(jsonArr.getString(0),
           strList.get(0).getString()))
         pass = false;
@@ -592,10 +575,9 @@ public class ClientTests {
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonArrayGetValuesAsTest Failed: ", e);
+      fail("jsonArrayGetValuesAsTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonArrayGetValuesAsTest Failed");
+    assertTrue(pass, "jsonArrayGetValuesAsTest Failed");
   }
 
   /*
@@ -615,531 +597,531 @@ public class ClientTests {
    * java.lang.UnsupportedOperationException
    */
   @Test
-  public void jsonArrayExceptionTests() throws Fault {
+  public void jsonArrayExceptionTests() {
     boolean pass = true;
     JsonObject testObject = null;
     JsonArray testArray = null;
 
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       testObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       testArray = JSONP_Util.createSampleJsonArray();
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonObject to JsonNumber via getJsonNumber(int)");
       JsonNumber value = testArray.getJsonNumber(0);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonArray to JsonNumber via getJsonNumber(int)");
       JsonNumber value = testArray.getJsonNumber(15);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonNumber to JsonString via getJsonString(int)");
       JsonString value = testArray.getJsonString(4);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonString to JsonNumber via getJsonNumber(int)");
       JsonNumber value = testArray.getJsonNumber(6);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonValue.TRUE to JsonNumber via getJsonNumber(int)");
       JsonNumber value = testArray.getJsonNumber(1);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonObject to JsonArray via getJsonArray(int)");
       JsonArray value = testArray.getJsonArray(0);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonArray to JsonObject via getJsonObject(int)");
       JsonObject value = testArray.getJsonObject(15);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonObject to JsonNumber via getInt(int)");
       int value = testArray.getInt(0);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonObject to JsonString via getString(int)");
       String value = testArray.getString(0);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonArray to JsonString via getString(int)");
       String value = testArray.getString(15);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonObject to boolean via getBoolean(int)");
       boolean value = testArray.getBoolean(0);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonArray to boolean via getBoolean(int)");
       boolean value = testArray.getBoolean(13);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonString to boolean via getBoolean(int)");
       boolean value = testArray.getBoolean(6);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip ClassCastException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ClassCastException trying to cast a JsonNumber to boolean via getBoolean(int)");
       boolean value = testArray.getBoolean(4);
       pass = false;
-      System.err.println("Failed to throw ClassCastException");
+      LOGGER.warning("Failed to throw ClassCastException");
     } catch (ClassCastException e) {
-      System.out.println("Got expected ClassCastException");
+      LOGGER.info("Got expected ClassCastException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getJsonNumber(int)");
       int myInt = testArray.getJsonNumber(-1).intValue();
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getJsonNumber(int)");
       JsonValue myJsonValue = testArray.getJsonNumber(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getJsonArray(int)");
       JsonValue myJsonValue = testArray.getJsonArray(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getJsonArray(int)");
       JsonValue myJsonValue = testArray.getJsonArray(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getJsonObject(int)");
       JsonValue myJsonValue = testArray.getJsonObject(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getJsonObject(int)");
       JsonValue myJsonValue = testArray.getJsonObject(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getJsonString(int)");
       JsonValue myJsonValue = testArray.getJsonString(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getJsonString(int)");
       JsonValue myJsonValue = testArray.getJsonString(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getInt(int)");
       int myInt = testArray.getInt(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getInt(int)");
       int myInt = testArray.getInt(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getString(int)");
       String myString = testArray.getString(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getString(int)");
       String myString = testArray.getString(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to getBoolean(int)");
       boolean myBoolean = testArray.getBoolean(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to getBoolean(int)");
       boolean myBoolean = testArray.getBoolean(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing -1 as index to isNull(int)");
       boolean myBoolean = testArray.isNull(-1);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip IndexOutOfBoundsException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip IndexOutOfBoundsException passing 10000 as index to isNull(int)");
       boolean myBoolean = testArray.isNull(10000);
       pass = false;
-      System.err.println("Failed to throw IndexOutOfBoundsException");
+      LOGGER.warning("Failed to throw IndexOutOfBoundsException");
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("Got expected IndexOutOfBoundsException");
+      LOGGER.info("Got expected IndexOutOfBoundsException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip NumberFormatException calling add(Double.NaN)
     try {
-      System.out.println("Trip NumberFormatException calling add(Double.NaN)");
+      LOGGER.info("Trip NumberFormatException calling add(Double.NaN)");
       JsonArray array = Json.createArrayBuilder().add(Double.NaN).build();
       pass = false;
-      System.err.println("Failed to throw NumberFormatException");
+      LOGGER.warning("Failed to throw NumberFormatException");
     } catch (NumberFormatException e) {
-      System.out.println("Got expected NumberFormatException");
+      LOGGER.info("Got expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip NumberFormatException calling add(Double.NEGATIVE_INFINITY)
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException calling add(Double.NEGATIVE_INFINITY)");
       JsonArray array = Json.createArrayBuilder().add(Double.NEGATIVE_INFINITY)
           .build();
       pass = false;
-      System.err.println("Failed to throw NumberFormatException");
+      LOGGER.warning("Failed to throw NumberFormatException");
     } catch (NumberFormatException e) {
-      System.out.println("Got expected NumberFormatException");
+      LOGGER.info("Got expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip NumberFormatException calling add(Double.POSITIVE_INFINITY)
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException calling add(Double.POSITIVE_INFINITY)");
       JsonArray array = Json.createArrayBuilder().add(Double.POSITIVE_INFINITY)
           .build();
       pass = false;
-      System.err.println("Failed to throw NumberFormatException");
+      LOGGER.warning("Failed to throw NumberFormatException");
     } catch (NumberFormatException e) {
-      System.out.println("Got expected NumberFormatException");
+      LOGGER.info("Got expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test for ArithmeticException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ArithmeticException calling add(12345.12345) and attempting to extract as an exact integer value");
       JsonArray array = Json.createArrayBuilder().add(12345.12345).build();
-      System.out.println("Call JsonArray.getJsonNumber(0).intValueExact()");
+      LOGGER.info("Call JsonArray.getJsonNumber(0).intValueExact()");
       int value = array.getJsonNumber(0).intValueExact();
       pass = false;
-      System.err.println("Failed to throw ArithmeticException");
+      LOGGER.warning("Failed to throw ArithmeticException");
     } catch (ArithmeticException e) {
-      System.out.println("Got expected ArithmeticException");
+      LOGGER.info("Got expected ArithmeticException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test for ArithmeticException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ArithmeticException calling add(12345.12345) and attempting to extract as an exact long value");
       JsonArray array = Json.createArrayBuilder().add(12345.12345).build();
-      System.out.println("Call JsonArray.getJsonNumber(0).longValueExact()");
+      LOGGER.info("Call JsonArray.getJsonNumber(0).longValueExact()");
       long value = array.getJsonNumber(0).longValueExact();
       pass = false;
-      System.err.println("Failed to throw ArithmeticException");
+      LOGGER.warning("Failed to throw ArithmeticException");
     } catch (ArithmeticException e) {
-      System.out.println("Got expected ArithmeticException");
+      LOGGER.info("Got expected ArithmeticException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test for ArithmeticException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip ArithmeticException calling add(12345.12345) and attempting to extract as an exact biginteger value");
       JsonArray array = Json.createArrayBuilder().add(12345.12345).build();
-      System.out.println("Call JsonArray.getJsonNumber(0).bigIntegerValueExact()");
+      LOGGER.info("Call JsonArray.getJsonNumber(0).bigIntegerValueExact()");
       BigInteger value = array.getJsonNumber(0).bigIntegerValueExact();
       pass = false;
-      System.err.println("Failed to throw ArithmeticException");
+      LOGGER.warning("Failed to throw ArithmeticException");
     } catch (ArithmeticException e) {
-      System.out.println("Got expected ArithmeticException");
+      LOGGER.info("Got expected ArithmeticException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Tests for UnsupportedOperationException using Collection methods to
@@ -1147,118 +1129,117 @@ public class ClientTests {
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.add(E) trying to modify JsonArray list which should be immutable");
       testArray.add(JsonValue.FALSE);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.add(int,E) trying to modify JsonArray list which should be immutable");
       testArray.add(0, JsonValue.FALSE);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.addAll(C) trying to modify JsonArray list which should be immutable");
       testArray.addAll(testArray);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.addAll(int, C) trying to modify JsonArray list which should be immutable");
       testArray.addAll(0, testArray);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.clear() trying to modify JsonArray list which should be immutable");
       testArray.clear();
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.remove(int) trying to modify JsonArray list which should be immutable");
       testArray.remove(0);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException JsonArray.removeAll(C) trying to modify JsonArray list which should be immutable");
       testArray.removeAll(testArray);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip UnsupportedOperationException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip UnsupportedOperationException trying to modify JsonArray list which should be immutable");
       testArray.remove(JsonValue.TRUE);
       pass = false;
-      System.err.println("Failed to throw UnsupportedOperationException");
+      LOGGER.warning("Failed to throw UnsupportedOperationException");
     } catch (UnsupportedOperationException e) {
-      System.out.println("Got expected UnsupportedOperationException");
+      LOGGER.info("Got expected UnsupportedOperationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonArrayExceptionTests Failed");
+    assertTrue(pass, "jsonArrayExceptionTests Failed");
   }
 
   /*
@@ -1271,92 +1252,91 @@ public class ClientTests {
    * specified value that is null.
    */
   @Test
-  public void jsonArrayNullValueExceptionTests() throws Fault {
+  public void jsonArrayNullValueExceptionTests() {
     boolean pass = true;
     JsonArrayBuilder jab = Json.createArrayBuilder();
 
     // Trip NullPointerException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(JsonValue) when JsonValue is null.");
       jab.add((JsonValue) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(BigInteger) when BigInteger is null.");
       jab.add((BigInteger) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(JsonArrayBuilder) when JsonArrayBuilder is null.");
       jab.add((JsonArrayBuilder) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(JsonObjectBuilder) when JsonObjectBuilder is null.");
       jab.add((JsonObjectBuilder) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(BigDecimal) when BigDecimal is null.");
       jab.add((BigDecimal) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip NullPointerException
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NullPointerException for JsonArrayBuilder.add(String) when String is null.");
       jab.add((String) null);
       pass = false;
-      System.err.println("Failed to throw NullPointerException");
+      LOGGER.warning("Failed to throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonArrayNullValueExceptionTests Failed");
+    assertTrue(pass, "jsonArrayNullValueExceptionTests Failed");
   }
 
   /*
@@ -1369,7 +1349,7 @@ public class ClientTests {
    * 1.1.
    */
   @Test
-  public void jsonCreateArrayBuilder11Test() throws Fault {
+  public void jsonCreateArrayBuilder11Test() {
     ArrayBuilders createTest = new ArrayBuilders();
     final TestResult result = createTest.test();
     result.eval();
@@ -1387,7 +1367,7 @@ public class ClientTests {
    * 1.1.
    */
   @Test
-  public void jsonArrayBuilder11AddTest() throws Fault {
+  public void jsonArrayBuilder11AddTest() {
     ArrayBuildAdd addTest = new ArrayBuildAdd();
     final TestResult result = addTest.test();
     result.eval();
@@ -1404,7 +1384,7 @@ public class ClientTests {
    * 1.1.
    */
   @Test
-  public void jsonArrayBuilder11SetTest() throws Fault {
+  public void jsonArrayBuilder11SetTest() {
     ArrayBuildSet setTest = new ArrayBuildSet();
     final TestResult result = setTest.test();
     result.eval();
@@ -1419,7 +1399,7 @@ public class ClientTests {
    * 1.1.
    */
   @Test
-  public void jsonArrayBuilder11RemoveTest() throws Fault {
+  public void jsonArrayBuilder11RemoveTest() {
     ArrayBuildRemove removeTest = new ArrayBuildRemove();
     final TestResult result = removeTest.test();
     result.eval();

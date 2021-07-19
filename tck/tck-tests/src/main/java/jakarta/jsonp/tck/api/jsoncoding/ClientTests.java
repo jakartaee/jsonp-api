@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,24 +19,17 @@
  */
 package jakarta.jsonp.tck.api.jsoncoding;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import jakarta.json.Json;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
@@ -47,26 +40,25 @@ public class ClientTests {
    * @test_Strategy: Encode and decode Json Pointer as defined by RFC 6901
    */
   @Test
-  public void jsonEncodeTest() throws Fault {
+  public void jsonEncodeTest() {
     String DECODED = "/a/~b/c";
     String ENCODED = "~1a~1~0b~1c";
     StringBuilder error = new StringBuilder();
-    System.out.println("----------------------------------------------");
-    System.out.println("Test encode " + DECODED);
-    System.out.println("----------------------------------------------");
+    LOGGER.info("----------------------------------------------");
+    LOGGER.info("Test encode " + DECODED);
+    LOGGER.info("----------------------------------------------");
     String encoded = Json.encodePointer(DECODED);
     if (!ENCODED.equals(encoded))
       error.append("The pointer ").append(DECODED)
           .append(" has been encoded as ").append(encoded).append('\n');
 
-    System.out.println("----------------------------------------------");
-    System.out.println("Test decode " + ENCODED);
+    LOGGER.info("----------------------------------------------");
+    LOGGER.info("Test decode " + ENCODED);
     String decoded = Json.decodePointer(ENCODED);
     if (!DECODED.equals(decoded))
       error.append("The pointer ").append(ENCODED)
           .append(" has been decoded as ").append(decoded).append('\n');
-    if (error.length() != 0)
-      throw new Fault(error.toString());
-    System.out.println("----------------------------------------------");
+    assertEquals(0, error.length(), error.toString());
+    LOGGER.info("----------------------------------------------");
   }
 }

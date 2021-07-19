@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonStructure;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.PointerRFCObject.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
@@ -36,6 +38,9 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * sample is being used to test this method.
  */
 public class Structure {
+
+  private static final Logger LOGGER = Logger.getLogger(Structure.class.getName());
+
   /**
    * Creates an instance of JavaScript Object Notation (JSON) compatibility
    * tests for {@link JsonStructure}.
@@ -52,7 +57,7 @@ public class Structure {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonStructure API methods added in JSON-P 1.1.");
-    System.out.println("JsonStructure API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonStructure API methods added in JSON-P 1.1.");
     testResolveWholeDocument(result);
     testResolveEmptyName(result);
     testResolveSimpleArray(result);
@@ -253,7 +258,7 @@ public class Structure {
    *          Tests result record.
    */
   private void testResolvePathWithTilde(final TestResult result) {
-    System.out.println(" - resolving of \"" + RFC_PTR10 + "\" pointer (optional)");
+    LOGGER.info(" - resolving of \"" + RFC_PTR10 + "\" pointer (optional)");
     final JsonStructure value = createRFC6901Object();
     final JsonValue check = Json.createValue(RFC_VAL10);
     boolean noError = true;
@@ -261,15 +266,15 @@ public class Structure {
       final JsonValue out = value.getValue(RFC_PTR10);
       if (operationFailed(check, out)) {
         noError = false;
-        System.out.println("    - Pointer \"" + RFC_KEY10
+        LOGGER.info("    - Pointer \"" + RFC_KEY10
             + "\" did not return expected value");
       }
     } catch (JsonException e) {
       noError = false;
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     }
     if (noError) {
-      System.out.println(
+      LOGGER.info(
           "    - Pointer resolving accepts '~' outside escape sequence");
     }
   }
@@ -318,7 +323,7 @@ public class Structure {
    * </ul>
    */
   private void testResolveValidNumericIndexInArray(final TestResult result) {
-    System.out.println(
+    LOGGER.info(
         " - getValue(String) resolving of pointer containing existing numeric array index");
     final JsonArray[] arraysIn = new JsonArray[] { createSimpleStringArray5(),
         createSimpleIntArray5(), createSimpleBoolArray5(),
@@ -370,7 +375,7 @@ public class Structure {
    * character is to be handled, if it is to be useful.
    */
   private void testResolveMemberAfterLastInArray(final TestResult result) {
-    System.out.println(" - getValue(String) resolving of array \"/-\" pointer");
+    LOGGER.info(" - getValue(String) resolving of array \"/-\" pointer");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray(), createSimpleIntArray5(), createBoolArray2(),
         createSimpleObjectArray5() };
@@ -380,7 +385,7 @@ public class Structure {
         result.fail("getValue(String)", "Call of getValue(String) on \"" + "/-"
             + "\" shall throw JsonException");
       } catch (JsonException e) {
-        System.out.println("    - Expected exception: " + e.getMessage());
+        LOGGER.info("    - Expected exception: " + e.getMessage());
       }
     }
   }
@@ -396,7 +401,7 @@ public class Structure {
    * document ({@code ""}) which must return the whole array.
    */
   private void testResolveNonNumericIndexInArray(final TestResult result) {
-    System.out.println(
+    LOGGER.info(
         " - getValue(String) resolving of pointer containing non numeric array index");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray(), createSimpleIntArray5(), createBoolArray2(),
@@ -437,7 +442,7 @@ public class Structure {
    */
   private void verifyGetValue(final TestResult result, final JsonValue check,
       final JsonStructure value, final String path) {
-    System.out.println(" - getValue(String) resolving of \"" + path + "\" pointer");
+    LOGGER.info(" - getValue(String) resolving of \"" + path + "\" pointer");
     try {
       final JsonValue out = value.getValue(path);
       if (operationFailed(check, out)) {
@@ -456,14 +461,14 @@ public class Structure {
    */
   private void verifyGetValueFail(final TestResult result,
       final JsonStructure value, final String path) {
-    System.out.println(
+    LOGGER.info(
         " - getValue(String) resolving of invalid \"" + path + "\" pointer");
     try {
       value.getValue(path);
       result.fail("getValue(String)", "Call of getValue(String) on \"" + path
           + "\" shall throw JsonException");
     } catch (JsonException e) {
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     }
   }
 

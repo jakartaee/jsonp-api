@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonPatch;
 import jakarta.json.JsonPatchBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -32,6 +34,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * JavaScript Object Notation (JSON) compatibility tests.
  */
 public abstract class CommonOperation {
+
+  private static final Logger LOGGER = Logger.getLogger(CommonOperation.class.getName());
 
   /** Message content template for test failure log message: operation name. */
   private static final String TEST_FAIL_OP = " operation";
@@ -129,14 +133,14 @@ public abstract class CommonOperation {
       out = patchApply(patch, in);
     } catch (JsonException e) {
       out = null;
-      System.out.println(
+      LOGGER.info(
           "   Exception for path \"" + path + "\" on " + valueToString(in));
-      System.out.println("     " + e.getMessage());
+      LOGGER.info("     " + e.getMessage());
     }
     if (operationFailed(check, out)) {
       final String targetClassName = in.getValueType().name().toLowerCase();
       final String operation = valueToString(patch.toJsonArray());
-      System.out.println("     " + operation);
+      LOGGER.info("     " + operation);
       result.fail(testName(path, targetClassName),
           testMessage(operation, path, valueToString(in)));
     }
@@ -197,7 +201,7 @@ public abstract class CommonOperation {
     if (operationFailed(check, out)) {
       final String operations = valueToString(patch.toJsonArray());
       final String targetClassName = in.getValueType().name().toLowerCase();
-      System.out.println("     " + operations);
+      LOGGER.info("     " + operations);
       result.fail(testName(paths, targetClassName),
           testMessage(operations, paths, valueToString(in)));
     }
@@ -257,14 +261,14 @@ public abstract class CommonOperation {
       patchApply(patch, in);
       final String targetClassName = in.getValueType().name().toLowerCase();
       final String operation = valueToString(patch.toJsonArray());
-      System.out.println(
+      LOGGER.info(
           "   Failed for path \"" + path + "\" on " + valueToString(in));
-      System.out.println("     " + operation);
+      LOGGER.info("     " + operation);
       result.fail(testName(path, targetClassName),
           testMessage(operation, path, valueToString(in)));
     } catch (JsonException e) {
       // There are too many combinations to log them.
-      // System.out.println(" - Expected exception: "+e.getMessage());
+      // LOGGER.info(" - Expected exception: "+e.getMessage());
     }
   }
 

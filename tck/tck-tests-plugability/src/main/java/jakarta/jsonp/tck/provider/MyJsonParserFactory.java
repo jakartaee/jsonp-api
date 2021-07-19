@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,6 +25,7 @@ import jakarta.json.stream.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonParserFactory is a Json Test ParserFactory used by the pluggability tests
@@ -33,6 +34,9 @@ import java.util.*;
  */
 
 public class MyJsonParserFactory implements JsonParserFactory {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonParserFactory.class.getName());
+
   private InputStream in = null;
 
   private Charset charset = null;
@@ -42,10 +46,10 @@ public class MyJsonParserFactory implements JsonParserFactory {
   private Map<String, ?> config = null;
 
   private void dumpInstanceVars() {
-    System.out.println("reader=" + reader);
-    System.out.println("in=" + in);
-    System.out.println("charset=" + charset);
-    System.out.println("config=" + config);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
+    LOGGER.info("charset=" + charset);
+    LOGGER.info("config=" + config);
   }
 
   // call methods
@@ -68,20 +72,20 @@ public class MyJsonParserFactory implements JsonParserFactory {
   }
 
   public Map<String, ?> getConfigInUse() {
-    System.out.println("public Map<String, ?> getConfigInUse()");
+    LOGGER.info("public Map<String, ?> getConfigInUse()");
     addCalls("public Map<String, ?> getConfigInUse()");
     return config;
   }
 
   public JsonParser createParser(InputStream in) {
-    System.out.println("public JsonParser createParser(InputStream)");
+    LOGGER.info("public JsonParser createParser(InputStream)");
     addCalls("public JsonParser createParser(InputStream)");
     this.in = in;
     return null;
   }
 
   public JsonParser createParser(InputStream in, Charset charset) {
-    System.out.println("public JsonParser createParser(InputStream, Charset)");
+    LOGGER.info("public JsonParser createParser(InputStream, Charset)");
     addCalls("public JsonParser createParser(InputStream, Charset)");
     this.in = in;
     this.charset = charset;
@@ -89,20 +93,20 @@ public class MyJsonParserFactory implements JsonParserFactory {
   }
 
   public JsonParser createParser(Reader reader) {
-    System.out.println("public JsonParser createParser(Reader)");
+    LOGGER.info("public JsonParser createParser(Reader)");
     addCalls("public JsonParser createParser(Reader)");
     this.reader = reader;
     return null;
   }
 
   public JsonParser createParser(JsonArray jsonArray) {
-    System.out.println("public JsonParser createParser(JsonArray)");
+    LOGGER.info("public JsonParser createParser(JsonArray)");
     addCalls("public JsonParser createParser(JsonArray)");
     return null;
   }
 
   public JsonParser createParser(JsonObject jsonObject) {
-    System.out.println("public JsonParser createParser(JsonObject)");
+    LOGGER.info("public JsonParser createParser(JsonObject)");
     addCalls("public JsonParser createParser(JsonObject)");
     return null;
   }

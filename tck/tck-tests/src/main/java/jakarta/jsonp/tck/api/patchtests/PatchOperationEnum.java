@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.patchtests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.json.JsonPatch;
 
+import java.util.logging.Logger;
+
 // $Id$
 /**
  * RFC 6902: JavaScript Object Notation (JSON) Patch compatibility tests.<br>
@@ -27,6 +29,8 @@ import jakarta.json.JsonPatch;
  * Test {@link JsonPatch.Operation} enumeration.
  */
 public class PatchOperationEnum {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationEnum.class.getName());
 
   /**
    * Creates an instance of {@link JsonPatch.Operation} enumeration test.
@@ -43,7 +47,7 @@ public class PatchOperationEnum {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonPatch.Operation enumeration test");
-    System.out.println("JsonPatch.Operation enumeration test");
+    LOGGER.info("JsonPatch.Operation enumeration test");
     testOperationName(result);
     testOperationValueOf(result);
     return result;
@@ -57,7 +61,7 @@ public class PatchOperationEnum {
    *          Tests result record.
    */
   private void testOperationName(final TestResult result) {
-    System.out.println(" - fromOperationName(String) and operationName(String)");
+    LOGGER.info(" - fromOperationName(String) and operationName(String)");
     for (final JsonPatch.Operation op : JsonPatch.Operation.values()) {
       final String opName = op.operationName();
       final JsonPatch.Operation opOut = JsonPatch.Operation
@@ -85,7 +89,7 @@ public class PatchOperationEnum {
    *          Tests result record.
    */
   private void testOperationValueOf(final TestResult result) {
-    System.out.println(" - valueOf(String)");
+    LOGGER.info(" - valueOf(String)");
     for (final JsonPatch.Operation op : JsonPatch.Operation.values()) {
       final String opName = op.name();
       final JsonPatch.Operation opOut = JsonPatch.Operation.valueOf(opName);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonPatchBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
 // $Id$
@@ -36,6 +38,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * 4.3. replace</a>} tests.
  */
 public class PatchOperationReplace extends CommonOperation {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationReplace.class.getName());
 
   /** Tested operation name. */
   private final String OPERATION = "REPLACE";
@@ -54,7 +58,7 @@ public class PatchOperationReplace extends CommonOperation {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6902 replace operation");
-    System.out.println("Testing RFC 6902 replace operation:");
+    LOGGER.info("Testing RFC 6902 replace operation:");
     testReplaceStringOnSimpleObject(result);
     testReplaceStringOnSimpleArray(result);
     testReplaceStringOnSimpleArray2(result);
@@ -79,7 +83,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createSimpleObjectReplaceStr();
     simpleOperation(result, in, check, STR_PATH, STR_VALUE2);
@@ -92,7 +96,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 1");
+    LOGGER.info(" - for String on simple JSON array of size 1");
     final JsonArray in = createStringArray1();
     final JsonArray check = createSimpleStringArrayReplaceStr();
     simpleOperation(result, in, check, "/0", STR_VALUE);
@@ -111,7 +115,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 5");
+    LOGGER.info(" - for String on simple JSON array of size 5");
     final JsonArray in = createSimpleStringArray5();
     final JsonArray check = createSimpleStringArray5R();
     complexOperation(result, in, check, new String[] { "/4", "/3", "/1", "/0" },
@@ -127,7 +131,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createSimpleObjectReplaceInt();
     simpleOperation(result, in, check, INT_PATH, INT_VALUE2);
@@ -140,7 +144,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 1");
+    LOGGER.info(" - for int on simple JSON array of size 1");
     final JsonArray in = createIntArray1();
     final JsonArray check = createSimpleIntArrayReplaceInt();
     simpleOperation(result, in, check, "/0", INT_VALUE);
@@ -159,7 +163,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 5");
+    LOGGER.info(" - for int on simple JSON array of size 5");
     final JsonArray in = createSimpleIntArray5();
     final JsonArray check = createSimpleIntArray5R();
     complexOperation(result, in, check, new String[] { "/4", "/3", "/1", "/0" },
@@ -175,7 +179,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createSimpleObjectReplaceBool();
     simpleOperation(result, in, check, BOOL_PATH, BOOL_VALUE2);
@@ -188,7 +192,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 1");
+    LOGGER.info(" - for boolean on simple JSON array of size 1");
     final JsonArray in = createBoolArray1();
     final JsonArray check = createSimpleBoolArrayReplaceBool();
     simpleOperation(result, in, check, "/0", BOOL_FALSE);
@@ -207,7 +211,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceBoolOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 5");
+    LOGGER.info(" - for boolean on simple JSON array of size 5");
     final JsonArray in = createSimpleBoolArray5();
     final JsonArray check = createSimpleBoolArray5R();
     complexOperation(result, in, check, new String[] { "/4", "/3", "/1", "/0" },
@@ -224,7 +228,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceObjectOnCompoundObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createCompoundObjectWithObject();
     final JsonObject check = createCompoundObjectReplaceObject();
     simpleOperation(result, in, check, OBJ_PATH, OBJ_VALUE2);
@@ -237,7 +241,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 1");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 1");
     final JsonArray in = createObjectArray1();
     final JsonArray check = createSimpleObjectArrayReplaceObject();
     simpleOperation(result, in, check, "/0", OBJ_VALUE);
@@ -257,7 +261,7 @@ public class PatchOperationReplace extends CommonOperation {
    *          Tests result record.
    */
   private void testReplaceObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 5");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 5");
     final JsonArray in = createSimpleObjectArray5();
     final JsonArray check = createSimpleObjectArray5R();
     complexOperation(result, in, check, new String[] { "/4", "/3", "/1", "/0" },
@@ -278,7 +282,7 @@ public class PatchOperationReplace extends CommonOperation {
    */
   private void testReplaceOfNonExistingLocationInObject(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonObject");
+    LOGGER.info(" - for non existing location in JsonObject");
     final JsonObject[] objsIn = new JsonObject[] { createEmptyObject(),
         createSimpleObject(), createCompoundObject() };
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
@@ -302,7 +306,7 @@ public class PatchOperationReplace extends CommonOperation {
    */
   private void testReplaceOfNonExistingLocationInArray(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonArray");
+    LOGGER.info(" - for non existing location in JsonArray");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray1(), createIntArray2(), createSimpleBoolArray5(),
         createObjectArray2() };

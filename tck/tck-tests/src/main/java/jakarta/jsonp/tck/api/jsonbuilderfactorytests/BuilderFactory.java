@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,6 +26,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -36,6 +38,7 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 public class BuilderFactory {
 
+  private static final Logger LOGGER = Logger.getLogger(BuilderFactory.class.getName());
 
   /**
    * {@link JsonBuilderFactory} API methods added in JSON-P 1.1.
@@ -45,7 +48,7 @@ public class BuilderFactory {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonBuilderFactory API methods added in JSON-P 1.1.");
-    System.out.println("JsonBuilderFactory API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonBuilderFactory API methods added in JSON-P 1.1.");
     testCreateArrayBuilderString(result);
     testCreateArrayBuilderInt(result);
     testCreateArrayBuilderBool(result);
@@ -67,7 +70,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateArrayBuilderString(final TestResult result) {
-    System.out.println(" - createArrayBuilder(JsonArray) for String");
+    LOGGER.info(" - createArrayBuilder(JsonArray) for String");
     final JsonArray in = createStringArray2();
     final JsonArray check = createStringArray2();
     verifyCreateArrayBuilder(result, check, in);
@@ -81,7 +84,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateArrayBuilderInt(final TestResult result) {
-    System.out.println(" - createArrayBuilder(JsonArray) for int");
+    LOGGER.info(" - createArrayBuilder(JsonArray) for int");
     final JsonArray in = createIntArray2();
     final JsonArray check = createIntArray2();
     verifyCreateArrayBuilder(result, check, in);
@@ -95,7 +98,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateArrayBuilderBool(final TestResult result) {
-    System.out.println(" - createArrayBuilder(JsonArray) for boolean");
+    LOGGER.info(" - createArrayBuilder(JsonArray) for boolean");
     final JsonArray in = createBoolArray2();
     final JsonArray check = createBoolArray2();
     verifyCreateArrayBuilder(result, check, in);
@@ -109,7 +112,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateArrayBuilderObject(final TestResult result) {
-    System.out.println(" - createArrayBuilder(JsonArray) for JsonObject");
+    LOGGER.info(" - createArrayBuilder(JsonArray) for JsonObject");
     final JsonArray in = createObjectArray2();
     final JsonArray check = createObjectArray2();
     verifyCreateArrayBuilder(result, check, in);
@@ -123,7 +126,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateArrayBuilderNull(final TestResult result) {
-    System.out.println(" - createArrayBuilder(JsonArray) for null");
+    LOGGER.info(" - createArrayBuilder(JsonArray) for null");
     final JsonArray in = null;
     final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     try {
@@ -131,7 +134,7 @@ public class BuilderFactory {
       result.fail("createArrayBuilder(JsonArray)",
           "Calling method with null argument shall throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println(
+      LOGGER.info(
           "    - Expected exception for null argument: " + e.getMessage());
     } catch (Throwable t) {
       result.fail("createObjectBuilder(JsonObject)",
@@ -148,7 +151,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateObjectBuilderString(final TestResult result) {
-    System.out.println(" - createObjectBuilder(JsonObject) for String");
+    LOGGER.info(" - createObjectBuilder(JsonObject) for String");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createSimpleObjectStr();
     verifyCreateObjectBuilder(result, check, in);
@@ -162,7 +165,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateObjectBuilderInt(final TestResult result) {
-    System.out.println(" - createObjectBuilder(JsonObject) for int");
+    LOGGER.info(" - createObjectBuilder(JsonObject) for int");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createSimpleObjectInt();
     verifyCreateObjectBuilder(result, check, in);
@@ -176,7 +179,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateObjectBuilderBool(final TestResult result) {
-    System.out.println(" - createObjectBuilder(JsonObject) for boolean");
+    LOGGER.info(" - createObjectBuilder(JsonObject) for boolean");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createSimpleObjectBool();
     verifyCreateObjectBuilder(result, check, in);
@@ -190,7 +193,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateObjectBuilderObject(final TestResult result) {
-    System.out.println(" - createObjectBuilder(JsonObject) for JsonObject");
+    LOGGER.info(" - createObjectBuilder(JsonObject) for JsonObject");
     final JsonObject in = createSimpleObjectObject();
     final JsonObject check = createSimpleObjectObject();
     verifyCreateObjectBuilder(result, check, in);
@@ -232,7 +235,7 @@ public class BuilderFactory {
    */
   private void verifyCreateObjectBuilder(final TestResult result,
       final JsonObject check, final JsonObject in) {
-    System.out.println("    - IN: " + valueToString(in));
+    LOGGER.info("    - IN: " + valueToString(in));
     final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     final JsonObjectBuilder builder = factory.createObjectBuilder(in);
     final JsonObject out = builder.build();
@@ -250,7 +253,7 @@ public class BuilderFactory {
    *          Test suite result.
    */
   private void testCreateObjectBuilderNull(final TestResult result) {
-    System.out.println(" - createObjectBuilder(JsonObject) for null");
+    LOGGER.info(" - createObjectBuilder(JsonObject) for null");
     final JsonObject in = null;
     final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     try {
@@ -258,7 +261,7 @@ public class BuilderFactory {
       result.fail("createObjectBuilder(JsonObject)",
           "Calling method with null argument shall throw NullPointerException");
     } catch (NullPointerException e) {
-      System.out.println(
+      LOGGER.info(
           "    - Expected exception for null argument: " + e.getMessage());
     } catch (Throwable t) {
       result.fail("createObjectBuilder(JsonObject)",

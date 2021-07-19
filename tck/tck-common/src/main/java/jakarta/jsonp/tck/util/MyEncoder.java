@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +21,7 @@
 package jakarta.jsonp.tck.util;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 /*
  * Used to generate an encoded file preceded by N null characters.
@@ -32,13 +33,15 @@ import java.io.*;
  */
 public class MyEncoder {
 
+  private static final Logger LOGGER = Logger.getLogger(MyEncoder.class.getName());
+  
   private static final int NULL = '\0';
 
   private static final String USAGE = "Usage : java MyEncoder #nulls infile outfile";
 
   public static void main(String args[]) {
     if (args.length != 3) {
-      System.err.println(USAGE);
+      LOGGER.warning(USAGE);
       System.exit(1);
     }
 
@@ -50,12 +53,11 @@ public class MyEncoder {
       inputStream = new FileReader(args[1]);
       outputStream = new FileWriter(args[2]);
 
-      System.out.println("Null  chars: " + args[0]);
-      System.out.println("Input  file: " + args[1]);
-      System.out.println("Output file: " + args[2]);
+      LOGGER.info("Null  chars: " + args[0]);
+      LOGGER.info("Input  file: " + args[1]);
+      LOGGER.info("Output file: " + args[2]);
 
-      System.out
-          .println("\nCreating an encoded file with each char preceded by " + n
+      LOGGER.info("\nCreating an encoded file with each char preceded by " + n
               + " null chars.\n");
 
       int c;
