@@ -12,9 +12,10 @@
 [//]: # "  "
 [//]: # " SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0 "
 
-[![Build Status](https://travis-ci.org/eclipse-ee4j/jsonp.svg?branch=master)](https://travis-ci.org/eclipse-ee4j/jsonp)
-
 # Jakarta JSON Processing
+
+[![Build Status](https://github.com/eclipse-ee4j/jsonp/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/eclipse-ee4j/jsonp/actions/workflows/maven.yml?branch=master)
+[![Jakarta Staging (Snapshots)](https://img.shields.io/nexus/s/https/jakarta.oss.sonatype.org/jakarta.json/jakarta.json-api.svg)](https://jakarta.oss.sonatype.org/content/repositories/staging/jakarta/json/jakarta.json-api/)
 
 Jakarta JSON Processing provides portable APIs to parse, generate, transform, and query JSON documents.
 This project contains Jakarta JSON Processing specification, API and TCK.
