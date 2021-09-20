@@ -477,4 +477,16 @@ public abstract class JsonProvider {
     public JsonNumber createValue(BigInteger value) {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Creates a JsonNumber.
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 2.1
+     */
+    public JsonNumber createValue(Number value) {
+        throw new UnsupportedOperationException();
+    }
 }

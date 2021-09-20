@@ -517,4 +517,15 @@ public final class Json {
         return escaped.replace("~1", "/").replace("~0", "~");
     }
 
+    /**
+     * Creates a JsonNumber.
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 2.1
+     */
+    public static JsonNumber createValue(Number value) {
+        return JsonProvider.provider().createValue(value);
+    }
 }
