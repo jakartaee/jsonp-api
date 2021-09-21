@@ -481,12 +481,28 @@ public abstract class JsonProvider {
     /**
      * Creates a JsonNumber.
      *
-     * @param value a JSON number
+     * When it is not implemented it checks the type and delegates
+     * to an existing method that already handles that type. It throws
+     * UnsupportedOperationException in case the type is not known.
+     *
+     * @param number a JSON number
      * @return the JsonNumber for the number
      *
      * @since 2.1
      */
-    public JsonNumber createValue(Number value) {
-        throw new UnsupportedOperationException();
+    public JsonNumber createValue(Number number) {
+        if (number instanceof Integer) {
+            return createValue(number.intValue());
+        } else if (number instanceof Long) {
+            return createValue(number.longValue());
+        } else if (number instanceof Double) {
+            return createValue(number.doubleValue());
+        } else if (number instanceof BigInteger) {
+            return createValue((BigInteger) number);
+        } else if (number instanceof BigDecimal) {
+            return createValue((BigDecimal) number);
+        } else {
+            throw new UnsupportedOperationException(number + " type is not known");
+        }
     }
 }
