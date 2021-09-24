@@ -253,7 +253,7 @@ public abstract class JsonProvider {
      *
      * @since 1.1
      */
-    public JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+    public JsonObjectBuilder createObjectBuilder(Map<String, ?> map) {
         throw new UnsupportedOperationException();
     }
 

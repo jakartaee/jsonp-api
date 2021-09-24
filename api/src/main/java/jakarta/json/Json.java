@@ -299,7 +299,7 @@ public final class Json {
      *
      * @since 1.1
      */
-    public static JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+    public static JsonObjectBuilder createObjectBuilder(Map<String, ?> map) {
         return JsonProvider.provider().createObjectBuilder(map);
     }
 
