@@ -22,6 +22,9 @@ package jakarta.json;
  */
 public class JsonException extends RuntimeException {
 
+    /** for serialization */
+    private static final long serialVersionUID = 359810709545392112L;
+
     /**
      * Constructs a new runtime exception with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a

@@ -28,6 +28,7 @@ import java.util.Set;
  */
 final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonObject, Serializable {
 
+    /** for serialization */
     private static final long serialVersionUID = -1461653546889072583L;
 
     @Override
@@ -95,7 +96,10 @@ final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonOb
         return ValueType.OBJECT;
     }
 
-    // Preserves singleton property
+    /**
+     * Preserves singleton property
+     * @return {@link JsonValue#EMPTY_JSON_OBJECT}
+     */
     private Object readResolve() {
         return JsonValue.EMPTY_JSON_OBJECT;
     }

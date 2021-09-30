@@ -24,6 +24,9 @@ import jakarta.json.JsonException;
  */
 public class JsonParsingException extends JsonException {
 
+    /** for serialization */
+    private static final long serialVersionUID = 9073566598484238797L;
+
     /**
      * The location of the incorrect JSON.
      */

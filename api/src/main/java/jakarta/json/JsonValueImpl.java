@@ -26,8 +26,16 @@ import java.io.Serializable;
  */
 final class JsonValueImpl implements JsonValue, Serializable {
 
+    /** for serialization */
+    private static final long serialVersionUID = 83723433120886104L;
+
+    /** Type of this JsonValue. */
     private final ValueType valueType;
 
+    /**
+     * Default constructor.
+     * @param valueType Type of this JsonValue
+     */
     JsonValueImpl(ValueType valueType) {
         this.valueType = valueType;
     }
