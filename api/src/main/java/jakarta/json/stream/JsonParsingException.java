@@ -24,6 +24,9 @@ import jakarta.json.JsonException;
  */
 public class JsonParsingException extends JsonException {
 
+    /**
+     * The location of the incorrect JSON.
+     */
     private final JsonLocation location;
 
     /**
