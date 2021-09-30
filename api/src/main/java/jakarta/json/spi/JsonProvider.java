@@ -50,6 +50,9 @@ public abstract class JsonProvider {
     private static final String DEFAULT_PROVIDER
             = "org.eclipse.jsonp.JsonProviderImpl";
 
+    /**
+     * Default constructor.
+     */
     protected JsonProvider() {
     }
 
@@ -70,7 +73,7 @@ public abstract class JsonProvider {
         }
         try {
             Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-            return (JsonProvider) clazz.newInstance();
+            return (JsonProvider) clazz.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new JsonException(
                     "Provider " + DEFAULT_PROVIDER + " not found", x);
