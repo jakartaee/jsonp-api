@@ -253,6 +253,17 @@ public interface JsonParser extends /*Auto*/Closeable {
     Event next();
 
     /**
+     * Returns the event for the current parsing state.
+     *
+     * @return the event for the current parsing state
+     *
+     * @since 2.1
+     */
+    default public Event currentEvent() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Returns a {@code String} for the name in a name/value pair,
      * for a string value or a number value. This method should only be called
      * when the parser state is {@link Event#KEY_NAME}, {@link Event#VALUE_STRING},
