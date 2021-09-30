@@ -29,6 +29,7 @@ import java.util.RandomAccess;
  */
 final class EmptyArray extends AbstractList<JsonValue> implements JsonArray, Serializable, RandomAccess {
 
+    /** for serialization */
     private static final long serialVersionUID = 7295439472061642859L;
 
     @Override
@@ -106,7 +107,10 @@ final class EmptyArray extends AbstractList<JsonValue> implements JsonArray, Ser
         return ValueType.ARRAY;
     }
 
-    // Preserves singleton property
+    /**
+     * Preserves singleton property
+     * @return {@link JsonValue#EMPTY_JSON_ARRAY}
+     */
     private Object readResolve() {
         return JsonValue.EMPTY_JSON_ARRAY;
     }
