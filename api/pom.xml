@@ -191,22 +191,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.commonjava.maven.plugins</groupId>
-                <artifactId>directory-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>find-project-root</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>highest-basedir</goal>
-                        </goals>
-                        <configuration>
-                            <property>project.root.location</property>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <!-- e.g. mvn validate glassfish-copyright:repair -->
                 <groupId>org.glassfish.copyright</groupId>
                 <artifactId>glassfish-copyright-maven-plugin</artifactId>
@@ -288,6 +272,7 @@
                     <release>9</release>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
+                        <arg>-Xdoclint:all</arg>
                     </compilerArgs>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
@@ -402,6 +387,8 @@ Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<b
 Copyright &#169; 2019, ${current.year} Eclipse Foundation. All rights reserved.<br>
 Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">license terms</a>.]]>
                     </bottom>
+                    <quiet>true</quiet>
+                    <failOnWarnings>true</failOnWarnings>
                 </configuration>
             </plugin>
             <plugin>
