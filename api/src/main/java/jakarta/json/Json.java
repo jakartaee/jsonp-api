@@ -58,6 +58,9 @@ import jakarta.json.stream.JsonParserFactory;
  */
 public final class Json {
 
+    /**
+     * No instantiation.
+     */
     private Json() {
     }
 

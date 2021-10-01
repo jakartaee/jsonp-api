@@ -85,8 +85,13 @@ public interface JsonPatch {
          */
         TEST("test");
 
+        /** Operation name */
         private final String operationName;
 
+        /**
+         * Create an enum constant with given {@code operationName}.
+         * @param operationName the operation name for the enum constant
+         */
         private Operation(String operationName) {
             this.operationName = operationName;
         }
