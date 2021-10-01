@@ -86,8 +86,9 @@ import java.math.BigInteger;
  * </code>
  * </pre>
  *
- * <p>This class does <em>not</em> allow <code>null</code> to be used as a name or
- * value while building the JSON object
+ * <p>By default, this class does <em>not</em> allow <code>null</code> to be used as a name or
+ * value while building the JSON object. It is possible to change this behavior with configuration
+ * {@link JsonConfig#IGNORE_NULL}
  *
  * @see JsonArrayBuilder
  */
