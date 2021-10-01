@@ -273,6 +273,7 @@
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                         <arg>-Xdoclint:all</arg>
+                        <arg>-Werror</arg>
                     </compilerArgs>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
