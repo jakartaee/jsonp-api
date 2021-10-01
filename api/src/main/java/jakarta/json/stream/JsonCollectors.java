@@ -40,6 +40,9 @@ import jakarta.json.JsonException;
 
 public final class JsonCollectors {
 
+    /**
+     * No instantiation.
+     */
     private JsonCollectors() {
     }
 
