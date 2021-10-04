@@ -518,6 +518,10 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * Closes this generator and frees any resources associated with it.
      * This method closes the underlying output source.
      *
+     * The underlying stream is closed only if complete JSON object is written. In case
+     * of incomplete object JsonGenerationException is thrown and underlying stream is
+     * not closed.
+     *
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if an incomplete JSON is generated
