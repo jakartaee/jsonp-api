@@ -276,6 +276,8 @@ public interface JsonObjectBuilder {
      * on the order in which name/value pairs are added to the object using
      * this builder.
      *
+     * This method clears the builder.
+     *
      * @return JSON object that is being built
      */
     JsonObject build();
