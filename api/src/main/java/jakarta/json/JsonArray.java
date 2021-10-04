@@ -242,7 +242,7 @@ public interface JsonArray extends JsonStructure, List<JsonValue> {
      * @return the boolean value at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
      * @throws ClassCastException if the value at the specified position is not
-     * assignable to {@code JsonValue.TRUE} or {@code JsonValue.FALSE}
+     * {@code JsonValue.TRUE} or {@code JsonValue.FALSE}
      */
     boolean getBoolean(int index);
 
