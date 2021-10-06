@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,14 +19,15 @@
  */
 package jakarta.jsonp.tck.api.jsonparsertests;
 
-import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import static jakarta.jsonp.tck.api.common.JsonAssert.valueToString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -35,8 +36,18 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jakarta.json.*;
-import jakarta.json.stream.*;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonException;
+import jakarta.json.JsonObject;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParser.Event;
+import jakarta.json.stream.JsonParsingException;
+import jakarta.jsonp.tck.api.common.TestResult;
+import jakarta.jsonp.tck.common.JSONP_Data;
+import jakarta.jsonp.tck.common.JSONP_Util;
+import jakarta.jsonp.tck.common.MyBufferedInputStream;
+import jakarta.jsonp.tck.lib.harness.Fault;
 
 @RunWith(Arquillian.class)
 public class ClientTests {
@@ -1905,4 +1916,24 @@ public class ClientTests {
     result.eval();
   }
 
+  /*
+   * @testName: jsonParserCurrentEvent
+   * 
+   * @test_Strategy: Tests JsonParser API methods added in JSON-P 2.1.
+   */
+  @Test
+  public void jsonParserCurrentEvent() {
+      try (JsonParser parser = Json.createParser(new StringReader("{\"a\":\"v\",\"b\":\"w\"}"))) {
+          assertNull(parser.currentEvent());
+          int events = 0;
+          while (parser.hasNext()) {
+              Event next = parser.next();
+              assertNotNull(next);
+              assertEquals(next, parser.currentEvent());
+              assertEquals(parser.currentEvent(), parser.currentEvent());
+              events++;
+          }
+          assertEquals(6, events);
+      }
+  }
 }
