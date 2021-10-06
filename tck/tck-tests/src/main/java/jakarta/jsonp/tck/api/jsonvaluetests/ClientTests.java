@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,11 +19,7 @@
  */
 package jakarta.jsonp.tck.api.jsonvaluetests;
 
-import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
-
-import java.util.*;
+import static org.junit.Assert.assertEquals;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -32,7 +28,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jakarta.json.*;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
+import jakarta.jsonp.tck.api.common.TestResult;
+import jakarta.jsonp.tck.common.JSONP_Util;
+import jakarta.jsonp.tck.lib.harness.Fault;
 
 @RunWith(Arquillian.class)
 public class ClientTests {
@@ -351,4 +351,62 @@ public class ClientTests {
     result.eval();
   }
 
+  /*
+   * @testName: jsonNumber21Test
+   * 
+   * @test_Strategy: Tests Json.createValue(Number) API method added in JSON-P 2.1.
+   */
+  @Test
+  public void jsonNumber21Test() {
+      assertEquals(Json.createValue(1), Json.createValue(Byte.valueOf((byte) 1)));
+      assertEquals(Json.createValue(1).toString(), Json.createValue(Byte.valueOf((byte) 1)).toString());
+      assertEquals(Json.createValue(1), Json.createValue(Short.valueOf((short) 1)));
+      assertEquals(Json.createValue(1).toString(), Json.createValue(Short.valueOf((short) 1)).toString());
+      assertEquals(Json.createValue(1), Json.createValue(Integer.valueOf(1)));
+      assertEquals(Json.createValue(1).toString(), Json.createValue(Integer.valueOf(1)).toString());
+      assertEquals(Json.createValue(1L), Json.createValue(Long.valueOf(1)));
+      assertEquals(Json.createValue(1L).toString(), Json.createValue(Long.valueOf(1)).toString());
+      assertEquals(Json.createValue(1D), Json.createValue(Float.valueOf(1)));
+      assertEquals(Json.createValue(1D).toString(), Json.createValue(Float.valueOf(1)).toString());
+      assertEquals(Json.createValue(1D), Json.createValue(Double.valueOf(1)));
+      assertEquals(Json.createValue(1D).toString(), Json.createValue(Double.valueOf(1)).toString());
+      assertEquals(Json.createValue(1), Json.createValue(new CustomNumber(1)));
+      assertEquals(Json.createValue(1).toString(), Json.createValue(new CustomNumber(1)).toString());
+  }
+  
+  private static class CustomNumber extends Number {
+
+      private static final long serialVersionUID = 1L;
+      private final int num;
+
+      private CustomNumber(int num) {
+          this.num = num;
+      }
+
+      @Override
+      public int intValue() {
+          return num;
+      }
+
+      @Override
+      public long longValue() {
+          return num;
+      }
+
+      @Override
+      public float floatValue() {
+          return num;
+      }
+
+      @Override
+      public double doubleValue() {
+          return num;
+      }
+
+      @Override
+      public String toString() {
+          return Integer.toString(num);
+      }
+
+  }
 }
