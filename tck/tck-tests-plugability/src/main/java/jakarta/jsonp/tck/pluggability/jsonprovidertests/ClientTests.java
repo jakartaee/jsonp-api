@@ -36,18 +36,30 @@ import java.util.logging.Logger;
 import jakarta.jsonp.tck.common.*;
 import jakarta.jsonp.tck.provider.MyJsonProvider;
 import jakarta.jsonp.tck.provider.MyJsonGenerator;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+@ExtendWith(ArquillianExtension.class)
 public class ClientTests {
 
   private static final String MY_JSONPROVIDER_CLASS = "jakarta.jsonp.tck.provider.MyJsonProvider";
   private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
 
   private String providerPath = null;
+
+  @Deployment
+  public static WebArchive createTestArchive() {
+    return ShrinkWrap.create(WebArchive.class)
+        .addPackages(true, ClientTests.class.getPackage().getName());
+  }
   
   @AfterEach
   public void after() {
