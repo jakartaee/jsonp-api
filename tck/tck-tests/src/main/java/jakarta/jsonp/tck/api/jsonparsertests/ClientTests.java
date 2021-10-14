@@ -19,22 +19,11 @@
  */
 package jakarta.jsonp.tck.api.jsonparsertests;
 
-import static jakarta.jsonp.tck.api.common.JsonAssert.valueToString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import java.io.InputStream;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -47,10 +36,9 @@ import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.JSONP_Data;
 import jakarta.jsonp.tck.common.JSONP_Util;
 import jakarta.jsonp.tck.common.MyBufferedInputStream;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientTests {
 

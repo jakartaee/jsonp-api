@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import jakarta.json.*;
 import jakarta.json.stream.*;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -2089,7 +2090,7 @@ public class ClientTests {
    * @testName: jsonGeneratorStreamNotClosedTest
    */
   @Test
-  public void jsonGeneratorStreamNotClosedTest() throws Fault {
+  public void jsonGeneratorStreamNotClosedTest() {
     ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
     JsonGenerator gen = Json.createGenerator(stream);
     try {
@@ -2097,11 +2098,11 @@ public class ClientTests {
           gen.write("foo", "bar");
           // no end object
           gen.close();
-          throw new Fault("It is expected a JsonGenerationException");
+          throw new AssertionFailedError("It is expected a JsonGenerationException");
     } catch (JsonGenerationException e) {
           if (stream.closed) {
               // Stream should not be closed
-              throw new Fault("The underlying stream is closed but it shouldn't because JSON object was not completed");
+              throw new AssertionFailedError("The underlying stream is closed but it shouldn't because JSON object was not completed");
           }
     } 
   }
@@ -2110,7 +2111,7 @@ public class ClientTests {
    * @testName: jsonGeneratorStreamClosedTest
    */
   @Test
-  public void jsonGeneratorStreamClosedTest() throws Fault {
+  public void jsonGeneratorStreamClosedTest() {
     ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
     JsonGenerator gen = Json.createGenerator(stream);
     gen.writeStartObject();
@@ -2119,7 +2120,7 @@ public class ClientTests {
     gen.close();
     if (!stream.closed) {
         // Stream should be closed
-        throw new Fault("The underlying stream has to be closed because JSON object was completed");
+        throw new AssertionFailedError("The underlying stream has to be closed because JSON object was completed");
     }
   }
 
