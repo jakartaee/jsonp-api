@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,16 +19,15 @@
  */
 package jakarta.jsonp.tck.api.jsonobjecttests;
 
-import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import java.io.*;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -37,7 +36,21 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jakarta.json.*;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
+import jakarta.json.JsonWriter;
+import jakarta.jsonp.tck.api.common.ObjectBuilder;
+import jakarta.jsonp.tck.api.common.TestResult;
+import jakarta.jsonp.tck.common.JSONP_Data;
+import jakarta.jsonp.tck.common.JSONP_Util;
+import jakarta.jsonp.tck.lib.harness.Fault;
 
 @RunWith(Arquillian.class)
 public class ClientTests {
@@ -1355,6 +1368,20 @@ public class ClientTests {
     ObjectBuild buildTest = new ObjectBuild();
     final TestResult result = buildTest.test();
     result.eval();
+  }
+
+  /*
+   * @testName: jsonObjectBuilderBuildTest
+   * 
+   * @test_Strategy: Tests JsonObjectBuilder#build clears the builder.
+   */
+  @Test
+  public void jsonObjectBuilderBuildTest() {
+      JsonObjectBuilder builder = Json.createObjectBuilder().add("test", "value");
+      JsonObject jsonObj = builder.build();
+      assertEquals("\"value\"", jsonObj.get("test").toString());
+      jsonObj = builder.build();
+      assertNull(jsonObj.get("test"));
   }
 
 }
