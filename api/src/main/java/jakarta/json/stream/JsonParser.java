@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -251,6 +251,17 @@ public interface JsonParser extends /*Auto*/Closeable {
      * @return the event for the next parsing state
      */
     Event next();
+
+    /**
+     * Returns the event for the current parsing state.
+     *
+     * @return the event for the current parsing state
+     *
+     * @since 2.1
+     */
+    default public Event currentEvent() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns a {@code String} for the name in a name/value pair,

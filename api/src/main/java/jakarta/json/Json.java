@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,6 +58,9 @@ import jakarta.json.stream.JsonParserFactory;
  */
 public final class Json {
 
+    /**
+     * No instantiation.
+     */
     private Json() {
     }
 
@@ -299,7 +302,7 @@ public final class Json {
      *
      * @since 1.1
      */
-    public static JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+    public static JsonObjectBuilder createObjectBuilder(Map<String, ?> map) {
         return JsonProvider.provider().createObjectBuilder(map);
     }
 
@@ -517,4 +520,15 @@ public final class Json {
         return escaped.replace("~1", "/").replace("~0", "~");
     }
 
+    /**
+     * Creates a JsonNumber.
+     *
+     * @param value a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 2.1
+     */
+    public static JsonNumber createValue(Number value) {
+        return JsonProvider.provider().createValue(value);
+    }
 }

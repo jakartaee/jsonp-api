@@ -50,6 +50,9 @@ public abstract class JsonProvider {
     private static final String DEFAULT_PROVIDER
             = "org.eclipse.jsonp.JsonProviderImpl";
 
+    /**
+     * Default constructor.
+     */
     protected JsonProvider() {
     }
 
@@ -70,7 +73,7 @@ public abstract class JsonProvider {
         }
         try {
             Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-            return (JsonProvider) clazz.newInstance();
+            return (JsonProvider) clazz.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new JsonException(
                     "Provider " + DEFAULT_PROVIDER + " not found", x);
@@ -253,7 +256,7 @@ public abstract class JsonProvider {
      *
      * @since 1.1
      */
-    public JsonObjectBuilder createObjectBuilder(Map<String, Object> map) {
+    public JsonObjectBuilder createObjectBuilder(Map<String, ?> map) {
         throw new UnsupportedOperationException();
     }
 
@@ -476,5 +479,33 @@ public abstract class JsonProvider {
      */
     public JsonNumber createValue(BigInteger value) {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Creates a JsonNumber.
+     *
+     * When it is not implemented it checks the type and delegates
+     * to an existing method that already handles that type. It throws
+     * UnsupportedOperationException in case the type is not known.
+     *
+     * @param number a JSON number
+     * @return the JsonNumber for the number
+     *
+     * @since 2.1
+     */
+    public JsonNumber createValue(Number number) {
+        if (number instanceof Integer) {
+            return createValue(number.intValue());
+        } else if (number instanceof Long) {
+            return createValue(number.longValue());
+        } else if (number instanceof Double) {
+            return createValue(number.doubleValue());
+        } else if (number instanceof BigInteger) {
+            return createValue((BigInteger) number);
+        } else if (number instanceof BigDecimal) {
+            return createValue((BigDecimal) number);
+        } else {
+            throw new UnsupportedOperationException(number + " type is not known");
+        }
     }
 }

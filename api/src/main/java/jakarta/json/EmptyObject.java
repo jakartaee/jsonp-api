@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,6 +28,7 @@ import java.util.Set;
  */
 final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonObject, Serializable {
 
+    /** for serialization */
     private static final long serialVersionUID = -1461653546889072583L;
 
     @Override
@@ -95,7 +96,10 @@ final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonOb
         return ValueType.OBJECT;
     }
 
-    // Preserves singleton property
+    /**
+     * Preserves singleton property
+     * @return {@link JsonValue#EMPTY_JSON_OBJECT}
+     */
     private Object readResolve() {
         return JsonValue.EMPTY_JSON_OBJECT;
     }

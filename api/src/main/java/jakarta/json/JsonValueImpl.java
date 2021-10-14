@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,8 +26,16 @@ import java.io.Serializable;
  */
 final class JsonValueImpl implements JsonValue, Serializable {
 
+    /** for serialization */
+    private static final long serialVersionUID = 83723433120886104L;
+
+    /** Type of this JsonValue. */
     private final ValueType valueType;
 
+    /**
+     * Default constructor.
+     * @param valueType Type of this JsonValue
+     */
     JsonValueImpl(ValueType valueType) {
         this.valueType = valueType;
     }

@@ -2085,4 +2085,49 @@ public class ClientTests {
     result.eval();
   }
 
+  /*
+   * @testName: jsonGeneratorStreamNotClosedTest
+   */
+  @Test
+  public void jsonGeneratorStreamNotClosedTest() throws Fault {
+    ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
+    JsonGenerator gen = Json.createGenerator(stream);
+    try {
+          gen.writeStartObject();
+          gen.write("foo", "bar");
+          // no end object
+          gen.close();
+          throw new Fault("It is expected a JsonGenerationException");
+    } catch (JsonGenerationException e) {
+          if (stream.closed) {
+              // Stream should not be closed
+              throw new Fault("The underlying stream is closed but it shouldn't because JSON object was not completed");
+          }
+    } 
+  }
+
+  /*
+   * @testName: jsonGeneratorStreamClosedTest
+   */
+  @Test
+  public void jsonGeneratorStreamClosedTest() throws Fault {
+    ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
+    JsonGenerator gen = Json.createGenerator(stream);
+    gen.writeStartObject();
+    gen.write("foo", "bar");
+    gen.writeEnd();
+    gen.close();
+    if (!stream.closed) {
+        // Stream should be closed
+        throw new Fault("The underlying stream has to be closed because JSON object was completed");
+    }
+  }
+
+  private static class ByteArrayOutputStreamCloseChecker extends ByteArrayOutputStream {
+    private boolean closed = false;
+    @Override
+    public void close() throws IOException {
+        closed = true;
+    }
+  }
 }

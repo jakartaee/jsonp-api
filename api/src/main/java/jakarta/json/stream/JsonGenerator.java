@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -517,6 +517,10 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     /**
      * Closes this generator and frees any resources associated with it.
      * This method closes the underlying output source.
+     *
+     * The underlying stream is closed only if complete JSON object is written. In case
+     * of incomplete object JsonGenerationException is thrown and underlying stream is
+     * not closed.
      *
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)

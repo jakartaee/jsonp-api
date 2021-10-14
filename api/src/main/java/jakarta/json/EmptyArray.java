@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,6 +29,7 @@ import java.util.RandomAccess;
  */
 final class EmptyArray extends AbstractList<JsonValue> implements JsonArray, Serializable, RandomAccess {
 
+    /** for serialization */
     private static final long serialVersionUID = 7295439472061642859L;
 
     @Override
@@ -106,7 +107,10 @@ final class EmptyArray extends AbstractList<JsonValue> implements JsonArray, Ser
         return ValueType.ARRAY;
     }
 
-    // Preserves singleton property
+    /**
+     * Preserves singleton property
+     * @return {@link JsonValue#EMPTY_JSON_ARRAY}
+     */
     private Object readResolve() {
         return JsonValue.EMPTY_JSON_ARRAY;
     }
