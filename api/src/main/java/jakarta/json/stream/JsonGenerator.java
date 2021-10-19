@@ -138,12 +138,6 @@ import java.math.BigInteger;
  * @see JsonGeneratorFactory
  */
 public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
-    /**
-     * Configuration property to generate JSON prettily. All providers
-     * must support this property. The value of the property could be
-     * be anything.
-     */
-    String PRETTY_PRINTING = "jakarta.json.stream.JsonGenerator.prettyPrinting" ;
 
     /**
      * Writes the JSON start object character. It starts a new child object
@@ -336,7 +330,9 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @return this generator
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
-     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity.
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity
+     *      when {@link jakarta.json.JsonConfig#WRITE_NAN_AS_NULLS} and/or
+     *      {@link jakarta.json.JsonConfig#WRITE_NAN_AS_STRINGS} is not set.
      * @throws JsonGenerationException if this method is not called within an
      *      object context
      */
@@ -485,7 +481,9 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
      *      array or root context.
-     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity.
+     * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity
+     *      when {@link jakarta.json.JsonConfig#WRITE_NAN_AS_NULLS} and/or
+     *      {@link jakarta.json.JsonConfig#WRITE_NAN_AS_STRINGS} is not set.
      */
     JsonGenerator write(double value);
 

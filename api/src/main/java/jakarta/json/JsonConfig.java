@@ -24,6 +24,27 @@ package jakarta.json;
 public final class JsonConfig {
 
     /**
+     * Configuration property to generate JSON prettily. All providers
+     * must support this property. The value of the property could be
+     * be anything.
+     */
+    String PRETTY_PRINTING = "jakarta.json.stream.JsonGenerator.prettyPrinting" ;
+
+    /**
+     * Configuration property to generate NaN, +Infinity and -Infinity as nulls.
+     *
+     * @since 2.1
+     */
+    String WRITE_NAN_AS_NULLS = "jakarta.json.stream.JsonGenerator.writeNanAsNulls";
+
+    /**
+     * Configuration property to generate NaN, +Infinity and -Infinity as Strings.
+     *
+     * @since 2.1
+     */
+    String WRITE_NAN_AS_STRINGS = "jakarta.json.stream.JsonGenerator.writeNanAsStrings";
+
+    /**
      * Configuration property to define the strategy for handling duplicate keys.
      *
      * See {@link KeyStrategy}
