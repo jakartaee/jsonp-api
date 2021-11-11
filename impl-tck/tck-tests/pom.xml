@@ -57,6 +57,8 @@
                     <trimStackTrace>false</trimStackTrace>
                     <failIfNoTests>true</failIfNoTests>
                     <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>

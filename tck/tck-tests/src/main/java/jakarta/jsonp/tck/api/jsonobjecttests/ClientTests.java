@@ -20,17 +20,27 @@
 package jakarta.jsonp.tck.api.jsonobjecttests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.common.*;
 
-import java.io.*;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import jakarta.json.*;
-import org.junit.jupiter.api.Test;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
+import jakarta.json.JsonWriter;
+import jakarta.jsonp.tck.common.JSONP_Data;
+import jakarta.jsonp.tck.common.JSONP_Util;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -1336,6 +1346,20 @@ public class ClientTests {
     ObjectBuild buildTest = new ObjectBuild();
     final TestResult result = buildTest.test();
     result.eval();
+  }
+
+  /*
+   * @testName: jsonObjectBuilderBuildTest
+   *
+   * @test_Strategy: Tests JsonObjectBuilder#build clears the builder.
+   */
+  @Test
+  public void jsonObjectBuilderBuildTest() {
+      JsonObjectBuilder builder = Json.createObjectBuilder().add("test", "value");
+      JsonObject jsonObj = builder.build();
+      assertEquals("\"value\"", jsonObj.get("test").toString());
+      jsonObj = builder.build();
+      assertNull(jsonObj.get("test"));
   }
 
 }

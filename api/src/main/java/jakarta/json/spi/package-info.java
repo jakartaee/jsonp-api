@@ -27,6 +27,10 @@
  *
  * <p>The API locates and loads providers using {@link java.util.ServiceLoader}.
  *
+ * Unless otherwise noted, passing a null argument to a constructor or method
+ * in any class or interface in this package will cause a NullPointerException
+ * to be thrown.
+ *
  * @since JSON Processing 1.0
  */
 package jakarta.json.spi;

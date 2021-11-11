@@ -360,9 +360,14 @@ public interface JsonParser extends /*Auto*/Closeable {
      * corresponding {@code END_OBJECT}.
      *
      * @return the {@code JsonObject} at the current parser position
-     *
+     * @throws jakarta.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws IllegalStateException when the parser state is not
      *     {@code START_OBJECT}
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
+     * @throws java.util.NoSuchElementException if there are no more parsing
+     * states.
      *
      * @since 1.1
      */
@@ -379,8 +384,14 @@ public interface JsonParser extends /*Auto*/Closeable {
      * read and returned.
      *
      * @return the {@code JsonValue} at the current parser position.
+     * @throws jakarta.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws IllegalStateException when the parser state is
      *     {@code END_OBJECT} or {@code END_ARRAY}
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
+     * @throws java.util.NoSuchElementException if there are no more parsing
+     * states.
      *
      * @since 1.1
      */
@@ -393,9 +404,14 @@ public interface JsonParser extends /*Auto*/Closeable {
      * the corresponding {@code END_ARRAY}.
      *
      * @return the {@code JsonArray} at the current parser position
-     *
+     * @throws jakarta.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws IllegalStateException when the parser state is not
      *     {@code START_ARRAY}
+     * @throws JsonParsingException if the parser encounters invalid JSON
+     * when advancing to next state.
+     * @throws java.util.NoSuchElementException if there are no more parsing
+     * states.
      *
      * @since 1.1
      */

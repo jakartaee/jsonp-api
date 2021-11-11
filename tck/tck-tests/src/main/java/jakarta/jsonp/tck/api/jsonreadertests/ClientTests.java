@@ -19,6 +19,9 @@ package jakarta.jsonp.tck.api.jsonreadertests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -3162,4 +3165,71 @@ public class ClientTests {
     result.eval();
   }
 
+  /*
+   * @testName: testDuplicateKeysDefault
+   * 
+   * @test_Strategy: Tests key strategy added in JSON-P 2.1.
+   */
+  @Test
+  public void testDuplicateKeysDefault() {
+      Map<String, Object> config = new HashMap<>();
+      JsonReaderFactory factory = Json.createReaderFactory(config);
+      String json = "{\"val1\":\"A\",\"val1\":\"B\"}";
+      JsonReader reader = factory.createReader(new StringReader(json));
+      JsonObject object = reader.readObject();
+      reader.close();
+      assertEquals("B", object.getString("val1"));
+  }
+
+  /*
+   * @testName: testDuplicateKeysNone
+   * 
+   * @test_Strategy: Tests key strategy added in JSON-P 2.1.
+   */
+  @Test
+  public void testDuplicateKeysNone() {
+      Map<String, Object> config = new HashMap<>();
+      config.put(JsonConfig.KEY_STRATEGY, JsonConfig.KeyStrategy.NONE);
+      JsonReaderFactory factory = Json.createReaderFactory(config);
+      String json = "{\"val1\":\"A\",\"val1\":\"B\"}";
+      JsonReader reader = factory.createReader(new StringReader(json));
+      try {
+          reader.readObject();
+          fail("It is expected a JsonException");
+      } catch (JsonException e) {}
+  }
+
+  /*
+   * @testName: testDuplicateKeysFirst
+   * 
+   * @test_Strategy: Tests key strategy added in JSON-P 2.1.
+   */
+  @Test
+  public void testDuplicateKeysFirst() {
+      Map<String, Object> config = new HashMap<>();
+      config.put(JsonConfig.KEY_STRATEGY, JsonConfig.KeyStrategy.FIRST);
+      JsonReaderFactory factory = Json.createReaderFactory(config);
+      String json = "{\"val1\":\"A\",\"val1\":\"B\"}";
+      JsonReader reader = factory.createReader(new StringReader(json));
+      JsonObject object = reader.readObject();
+      reader.close();
+      assertEquals("A", object.getString("val1"));
+  }
+
+  /*
+   * @testName: testDuplicateKeysLast
+   * 
+   * @test_Strategy: Tests key strategy added in JSON-P 2.1.
+   */
+  @Test
+  public void testDuplicateKeysLast() {
+      Map<String, Object> config = new HashMap<>();
+      config.put(JsonConfig.KEY_STRATEGY, JsonConfig.KeyStrategy.LAST);
+      JsonReaderFactory factory = Json.createReaderFactory(config);
+      String json = "{\"val1\":\"A\",\"val1\":\"B\"}";
+      JsonReader reader = factory.createReader(new StringReader(json));
+      JsonObject object = reader.readObject();
+      reader.close();
+      assertEquals("B", object.getString("val1"));
+  }
 }

@@ -16,22 +16,40 @@
 
 package jakarta.json.spi;
 
-import jakarta.json.*;
-import jakarta.json.stream.JsonGenerator;
-import jakarta.json.stream.JsonGeneratorFactory;
-import jakarta.json.stream.JsonParser;
-import jakarta.json.stream.JsonParserFactory;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ServiceLoader;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Optional;
+import java.util.ServiceLoader;
+
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonException;
+import jakarta.json.JsonMergePatch;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonPatchBuilder;
+import jakarta.json.JsonPointer;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonString;
+import jakarta.json.JsonStructure;
+import jakarta.json.JsonValue;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParserFactory;
 
 /**
  * Service provider for JSON processing objects.
@@ -43,6 +61,10 @@ import java.util.Optional;
  */
 public abstract class JsonProvider {
 
+    /**
+     * The name of the property that contains the name of the class capable of creating new JsonProvider objects.
+     */
+    public static final String JSONP_PROVIDER_FACTORY = "jakarta.json.spi.JsonProvider";
     /**
      * A constant representing the name of the default
      * {@code JsonProvider} implementation class.
@@ -57,15 +79,29 @@ public abstract class JsonProvider {
     }
 
     /**
-     * Creates a JSON provider object. The provider is loaded using the
-     * {@link ServiceLoader#load(Class)} method. If there are no available
-     * service providers, this method returns the default service provider.
+     * Creates a JSON provider object.
+     *
+     * Implementation discovery consists of following steps:
+     * <ol>
+     * <li>If the system property {@value #JSONP_PROVIDER_FACTORY} exists,
+     *    then its value is assumed to be the provider factory class.
+     *    This phase of the look up enables per-JVM override of the JsonProvider implementation.</li>
+     * <li>The provider is loaded using the {@link ServiceLoader#load(Class)} method.</li>
+     * <li>If all the steps above fail, then the rest of the look up is unspecified. That said,
+     *    the recommended behavior is to simply look for some hard-coded platform default Jakarta
+     *    JSON Processing implementation. This phase of the look up is so that a platform can have
+     *    its own Jakarta JSON Processing implementation as the last resort.</li>
+     * </ol>
      * Users are recommended to cache the result of this method.
      *
      * @see ServiceLoader
      * @return a JSON provider
      */
     public static JsonProvider provider() {
+        String factory = System.getProperty(JsonProvider.class.getName());
+        if (factory != null) {
+            return newInstance(LazyFactoryLoader.JSON_PROVIDER);
+        }
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
         Iterator<JsonProvider> it = loader.iterator();
         if (it.hasNext()) {
@@ -81,6 +117,35 @@ public abstract class JsonProvider {
             throw new JsonException(
                     "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
                     x);
+        }
+    }
+
+    /**
+     * Creates a new instance from the specified class
+     * @param clazz class to instance
+     * @return the JsonProvider instance
+     * @throws IllegalArgumentException for reflection issues
+     */
+    private static JsonProvider newInstance(Class<JsonProvider> clazz) {
+        checkPackageAccess(clazz.getName());
+        try {
+            return clazz.getConstructor().newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException("Cannot instance " + clazz.getName(), e);
+        }
+    }
+
+    /**
+     * Make sure that the current thread has an access to the package of the given name.
+     * @param className The class name to check.
+     */
+    private static void checkPackageAccess(String className) {
+        SecurityManager s = System.getSecurityManager();
+        if (s != null) {
+            int i = className.lastIndexOf('.');
+            if (i != -1) {
+                s.checkPackageAccess(className.substring(0, i));
+            }
         }
     }
 
@@ -506,6 +571,34 @@ public abstract class JsonProvider {
             return createValue((BigDecimal) number);
         } else {
             throw new UnsupportedOperationException(number + " type is not known");
+        }
+    }
+    
+    /**
+     * Lazy loads the class specified in System property with the key JSONP_PROVIDER_FACTORY.
+     * If no property is set, the value of {@link #JSON_PROVIDER} will be null.
+     * In case of errors an IllegalStateException is thrown.
+     *
+     */
+    @SuppressWarnings("unchecked")
+    private static class LazyFactoryLoader {
+
+        /**
+         * JSON provider class
+         */
+        private static final Class<JsonProvider> JSON_PROVIDER;
+
+        static {
+            String className = System.getProperty(JSONP_PROVIDER_FACTORY);
+            if (className != null) {
+                try {
+                    JSON_PROVIDER = (Class<JsonProvider>) Class.forName(className);
+                } catch (ReflectiveOperationException e) {
+                    throw new IllegalStateException("Cannot instance " + className, e);
+                }
+            } else {
+                JSON_PROVIDER = null;
+            }
         }
     }
 }

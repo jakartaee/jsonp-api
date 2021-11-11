@@ -33,8 +33,8 @@
     </modules>
 
     <properties>
-        <jsonp-api.version>2.0.2-SNAPSHOT</jsonp-api.version>
-        <jsonp-impl.version>2.0.2-SNAPSHOT</jsonp-impl.version>
+        <jsonp-api.version>2.0.1-SNAPSHOT</jsonp-api.version>
+        <jsonp-impl.version>1.0.1-SNAPSHOT</jsonp-impl.version>
         <jsonp-tck.version>2.0.0-SNAPSHOT</jsonp-tck.version>
     </properties>
 
@@ -47,8 +47,8 @@
             <scope>test</scope>
         </dependency>-->
         <dependency>
-            <groupId>org.eclipse.jsonp</groupId>
-            <artifactId>jakarta.json</artifactId>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
             <version>${jsonp-impl.version}</version>
             <scope>test</scope>
         </dependency>

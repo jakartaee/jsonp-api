@@ -397,7 +397,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator write(JsonValue value);
 
@@ -410,7 +410,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator write(String value);
 
@@ -424,7 +424,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      *
      * @see jakarta.json.JsonNumber
      */
@@ -440,7 +440,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      *
      * @see jakarta.json.JsonNumber
      */
@@ -456,7 +456,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator write(int value);
 
@@ -470,7 +470,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator write(long value);
 
@@ -484,7 +484,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      * @throws NumberFormatException if the value is Not-a-Number (NaN) or infinity.
      */
     JsonGenerator write(double value);
@@ -499,7 +499,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator write(boolean value);
 
@@ -510,7 +510,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
      * @throws jakarta.json.JsonException if an i/o error occurs (IOException
      * would be cause of JsonException)
      * @throws JsonGenerationException if this method is not called within an
-     *      array or root context.
+     *      array, root or field context.
      */
     JsonGenerator writeNull();
 
