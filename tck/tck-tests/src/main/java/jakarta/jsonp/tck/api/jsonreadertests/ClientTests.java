@@ -19,9 +19,6 @@ package jakarta.jsonp.tck.api.jsonreadertests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -30,6 +27,7 @@ import jakarta.json.*;
 import jakarta.json.stream.*;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 

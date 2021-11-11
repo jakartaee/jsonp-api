@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -353,8 +354,8 @@ public class ClientTests {
       assertEquals(Json.createValue(1D).toString(), Json.createValue(Float.valueOf(1)).toString());
       assertEquals(Json.createValue(1D), Json.createValue(Double.valueOf(1)));
       assertEquals(Json.createValue(1D).toString(), Json.createValue(Double.valueOf(1)).toString());
-      assertEquals(Json.createValue(1), Json.createValue(new CustomNumber(1)));
-      assertEquals(Json.createValue(1).toString(), Json.createValue(new CustomNumber(1)).toString());
+      assertEquals(Json.createValue(1), Json.createValue(String.valueOf(new CustomNumber(1))));
+      assertEquals(Json.createValue(1).toString(), Json.createValue(String.valueOf(new CustomNumber(1))).toString());
   }
 
   private static class CustomNumber extends Number {
