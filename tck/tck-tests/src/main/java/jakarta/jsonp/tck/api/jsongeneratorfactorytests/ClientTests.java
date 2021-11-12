@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,33 +23,20 @@ import jakarta.json.*;
 import jakarta.json.stream.*;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.List;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -65,62 +52,61 @@ public class ClientTests {
    * generatorFactory.createGenerator(Writer)
    */
   @Test
-  public void jsonGeneratorFactoryTest1() throws Fault {
+  public void jsonGeneratorFactoryTest1() {
     boolean pass = true;
     JsonGenerator generator1 = null;
     JsonGenerator generator2 = null;
     String expString;
     String actString;
     try {
-      System.out.println(
+      LOGGER.info(
           "Create JsonGeneratorFactory with Map<String, ?> with PRETTY_PRINTING config");
       JsonGeneratorFactory generatorFactory = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = generatorFactory.getConfigInUse();
       String[] props = { JsonGenerator.PRETTY_PRINTING, };
       if (!JSONP_Util.doConfigCheck(config, 1, props))
         pass = false;
-      System.out.println("--------------------------------------------------------");
-      System.out.println("TEST CASE [JsonGeneratorFactory.createGenerator(Writer)]");
-      System.out.println("--------------------------------------------------------");
-      System.out.println("Create 1st JsonGenerator using JsonGeneratorFactory");
+      LOGGER.info("--------------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonGeneratorFactory.createGenerator(Writer)]");
+      LOGGER.info("--------------------------------------------------------");
+      LOGGER.info("Create 1st JsonGenerator using JsonGeneratorFactory");
       StringWriter sWriter1 = new StringWriter();
       generator1 = generatorFactory.createGenerator(sWriter1);
       if (generator1 == null) {
-        System.err.println("GeneratorFactory failed to create generator1");
+        LOGGER.warning("GeneratorFactory failed to create generator1");
         pass = false;
       } else {
         generator1.writeStartObject().writeEnd();
         generator1.close();
       }
-      System.out.println("sWriter1=" + sWriter1.toString());
+      LOGGER.info("sWriter1=" + sWriter1.toString());
       expString = "{}";
       actString = JSONP_Util.removeWhitespace(sWriter1.toString());
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
-      System.out.println("Create 2nd JsonGenerator using JsonGeneratorFactory");
+      LOGGER.info("Create 2nd JsonGenerator using JsonGeneratorFactory");
       StringWriter sWriter2 = new StringWriter();
       generator2 = generatorFactory.createGenerator(sWriter2);
       if (generator2 == null) {
-        System.err.println("GeneratorFactory failed to create generator2");
+        LOGGER.warning("GeneratorFactory failed to create generator2");
         pass = false;
       } else {
         generator2.writeStartArray().writeEnd();
         generator2.close();
       }
-      System.out.println("sWriter2=" + sWriter2.toString());
+      LOGGER.info("sWriter2=" + sWriter2.toString());
       expString = "[]";
       actString = JSONP_Util.removeWhitespace(sWriter2.toString());
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorFactoryTest1 Failed: ", e);
+      fail("jsonGeneratorFactoryTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorFactoryTest1 Failed");
+    assertTrue(pass, "jsonGeneratorFactoryTest1 Failed");
   }
 
   /*
@@ -138,67 +124,66 @@ public class ClientTests {
    * Create generator with both UTF-8 and UTF-16BE.
    */
   @Test
-  public void jsonGeneratorFactoryTest2() throws Fault {
+  public void jsonGeneratorFactoryTest2() {
     boolean pass = true;
     JsonGenerator generator1 = null;
     JsonGenerator generator2 = null;
     String expString, actString;
     try {
-      System.out.println(
+      LOGGER.info(
           "Create JsonGeneratorFactory with Map<String, ?> with PRETTY_PRINTING config");
       JsonGeneratorFactory generatorFactory = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = generatorFactory.getConfigInUse();
       String[] props = { JsonGenerator.PRETTY_PRINTING, };
       if (!JSONP_Util.doConfigCheck(config, 1, props))
         pass = false;
 
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [JsonGeneratorFactory.createGenerator(OutputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonGenerator using JsonGeneratorFactory with UTF-8 encoding");
       ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
       generator1 = generatorFactory.createGenerator(baos1, JSONP_Util.UTF_8);
       if (generator1 == null) {
-        System.err.println("GeneratorFactory failed to create generator1");
+        LOGGER.warning("GeneratorFactory failed to create generator1");
         pass = false;
       } else {
         generator1.writeStartObject().writeEnd();
         generator1.close();
       }
-      System.out.println("baos1=" + baos1.toString("UTF-8"));
+      LOGGER.info("baos1=" + baos1.toString("UTF-8"));
       expString = "{}";
       actString = JSONP_Util.removeWhitespace(baos1.toString("UTF-8"));
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonGenerator using JsonGeneratorFactory with UTF-16BE encoding");
       ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
       generator2 = generatorFactory.createGenerator(baos2, JSONP_Util.UTF_16BE);
       if (generator2 == null) {
-        System.err.println("GeneratorFactory failed to create generator2");
+        LOGGER.warning("GeneratorFactory failed to create generator2");
         pass = false;
       } else {
         generator2.writeStartArray().writeEnd();
         generator2.close();
       }
-      System.out.println("baos2=" + baos2.toString("UTF-16BE"));
+      LOGGER.info("baos2=" + baos2.toString("UTF-16BE"));
       expString = "[]";
       actString = JSONP_Util.removeWhitespace(baos2.toString("UTF-16BE"));
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorFactoryTest2 Failed: ", e);
+      fail("jsonGeneratorFactoryTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorFactoryTest2 Failed");
+    assertTrue(pass, "jsonGeneratorFactoryTest2 Failed");
   }
 
   /*
@@ -214,65 +199,64 @@ public class ClientTests {
    * generatorFactory.createGenerator(OutputStream)
    */
   @Test
-  public void jsonGeneratorFactoryTest3() throws Fault {
+  public void jsonGeneratorFactoryTest3() {
     boolean pass = true;
     JsonGenerator generator1 = null;
     JsonGenerator generator2 = null;
     String expString;
     String actString;
     try {
-      System.out.println(
+      LOGGER.info(
           "Create JsonGeneratorFactory with Map<String, ?> with PRETTY_PRINTING config");
       JsonGeneratorFactory generatorFactory = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = generatorFactory.getConfigInUse();
       String[] props = { JsonGenerator.PRETTY_PRINTING, };
       if (!JSONP_Util.doConfigCheck(config, 1, props))
         pass = false;
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [JsonGeneratorFactory.createGenerator(OutputStream os)]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------");
-      System.out.println("Create 1st JsonGenerator using JsonGeneratorFactory");
+      LOGGER.info("Create 1st JsonGenerator using JsonGeneratorFactory");
       ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
       generator1 = generatorFactory.createGenerator(baos1);
       if (generator1 == null) {
-        System.err.println("GeneratorFactory failed to create generator1");
+        LOGGER.warning("GeneratorFactory failed to create generator1");
         pass = false;
       } else {
         generator1.writeStartObject().writeEnd();
         generator1.close();
       }
-      System.out.println("baos1=" + baos1.toString("UTF-8"));
+      LOGGER.info("baos1=" + baos1.toString("UTF-8"));
       expString = "{}";
       actString = JSONP_Util.removeWhitespace(baos1.toString("UTF-8"));
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
-      System.out.println("Create 2nd JsonGenerator using JsonGeneratorFactory");
+      LOGGER.info("Create 2nd JsonGenerator using JsonGeneratorFactory");
       ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
       generator2 = generatorFactory.createGenerator(baos2);
       if (generator2 == null) {
-        System.err.println("GeneratorFactory failed to create generator2");
+        LOGGER.warning("GeneratorFactory failed to create generator2");
         pass = false;
       } else {
         generator2.writeStartArray().writeEnd();
         generator2.close();
       }
-      System.out.println("baos2=" + baos2.toString("UTF-8"));
+      LOGGER.info("baos2=" + baos2.toString("UTF-8"));
       expString = "[]";
       actString = JSONP_Util.removeWhitespace(baos2.toString("UTF-8"));
       if (!JSONP_Util.assertEqualsJsonText(expString, actString))
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorFactoryTest3 Failed: ", e);
+      fail("jsonGeneratorFactoryTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorFactoryTest3 Failed");
+    assertTrue(pass, "jsonGeneratorFactoryTest3 Failed");
   }
 
   /*
@@ -291,15 +275,15 @@ public class ClientTests {
    * supported provider property
    */
   @Test
-  public void jsonGeneratorFactoryTest4() throws Fault {
+  public void jsonGeneratorFactoryTest4() {
     boolean pass = true;
     JsonGeneratorFactory generatorFactory;
     Map<String, ?> config;
     try {
-      System.out.println("----------------------------------------------");
-      System.out.println("Test scenario1: no supported provider property");
-      System.out.println("----------------------------------------------");
-      System.out.println(
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Test scenario1: no supported provider property");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info(
           "Create JsonGeneratorFactory with Map<String, ?> with EMPTY config");
       generatorFactory = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig());
@@ -307,10 +291,10 @@ public class ClientTests {
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-------------------------------------------");
-      System.out.println("Test scenario2: supported provider property");
-      System.out.println("-------------------------------------------");
-      System.out.println(
+      LOGGER.info("-------------------------------------------");
+      LOGGER.info("Test scenario2: supported provider property");
+      LOGGER.info("-------------------------------------------");
+      LOGGER.info(
           "Create JsonGeneratorFactory with Map<String, ?> with PRETTY_PRINTING config");
       generatorFactory = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig());
@@ -319,18 +303,17 @@ public class ClientTests {
       if (!JSONP_Util.doConfigCheck(config, 1, props))
         pass = false;
 
-      System.out.println("-------------------------------------------------------------");
-      System.out.println("Test scenario3: supported and non supported provider property");
-      System.out.println("-------------------------------------------------------------");
-      System.out.println("Create JsonGeneratorFactory with Map<String, ?> with all config");
+      LOGGER.info("-------------------------------------------------------------");
+      LOGGER.info("Test scenario3: supported and non supported provider property");
+      LOGGER.info("-------------------------------------------------------------");
+      LOGGER.info("Create JsonGeneratorFactory with Map<String, ?> with all config");
       generatorFactory = Json.createGeneratorFactory(JSONP_Util.getAllConfig());
       config = generatorFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 1, props))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorFactoryTest4 Failed: ", e);
+      fail("jsonGeneratorFactoryTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorFactoryTest4 Failed");
+    assertTrue(pass, "jsonGeneratorFactoryTest4 Failed");
   }
 }

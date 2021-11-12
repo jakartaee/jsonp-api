@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonPatchBuilder;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
 // $Id$
@@ -36,6 +38,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * 4.6. test</a>} tests.
  */
 public class PatchOperationTest extends CommonOperation {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationTest.class.getName());
 
   /** Tested operation name. */
   private final String OPERATION = "TEST";
@@ -54,7 +58,7 @@ public class PatchOperationTest extends CommonOperation {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6902 test operation");
-    System.out.println("Testing RFC 6902 test operation:");
+    LOGGER.info("Testing RFC 6902 test operation:");
     testOnEmptyObject(result);
     testOnEmptyArray(result);
     testOnSimpleObject(result);
@@ -72,7 +76,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnEmptyObject(final TestResult result) {
-    System.out.println(" - on empty JSON object");
+    LOGGER.info(" - on empty JSON object");
     final JsonObject in = createEmptyObject();
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
         OBJ_PATH };
@@ -97,7 +101,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnEmptyArray(final TestResult result) {
-    System.out.println(" - on empty JSON array");
+    LOGGER.info(" - on empty JSON array");
     final JsonArray in = createEmptyArray();
     final String[] paths = new String[] { "/-1", "/0", "/1", "/2", "/3", "/4",
         "/5", "/-" };
@@ -122,7 +126,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnSimpleObject(final TestResult result) {
-    System.out.println(" - on simple JSON object");
+    LOGGER.info(" - on simple JSON object");
     final JsonObject[] in = new JsonObject[] { createSimpleObjectStr(),
         createSimpleObjectInt(), createSimpleObjectBool(),
         createSimpleObjectObject() };
@@ -157,7 +161,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnSimpleStringArray(final TestResult result) {
-    System.out.println(" - on simple JSON String array of size 5");
+    LOGGER.info(" - on simple JSON String array of size 5");
     final JsonArray in = createSimpleStringArray5();
     final String[] indexes = new String[] { "/-1", "/-", STR_PATH };
     final String[] values = new String[] { STR_VALUE_1, STR_VALUE_2,
@@ -195,7 +199,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnSimpleIntArray(final TestResult result) {
-    System.out.println(" - on simple JSON int array of size 5");
+    LOGGER.info(" - on simple JSON int array of size 5");
     final JsonArray in = createSimpleIntArray5();
     final String[] indexes = new String[] { "/-1", "/-", INT_PATH };
     final int[] values = new int[] { INT_VALUE_1, INT_VALUE_2, INT_VALUE_3,
@@ -233,7 +237,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnSimpleBoolArray(final TestResult result) {
-    System.out.println(" - on simple JSON boolean array of size 2");
+    LOGGER.info(" - on simple JSON boolean array of size 2");
     final JsonArray in = createBoolArray2();
     final String[] indexes = new String[] { "/-1", "/-", BOOL_PATH };
     final boolean[] values = new boolean[] { BOOL_TRUE, BOOL_FALSE };
@@ -270,7 +274,7 @@ public class PatchOperationTest extends CommonOperation {
    *          Tests result record.
    */
   private void testOnSimpleObjectArray(final TestResult result) {
-    System.out.println(" - on simple JSON JsonObject array of size 5");
+    LOGGER.info(" - on simple JSON JsonObject array of size 5");
     final JsonArray in = createSimpleObjectArray5();
     final String[] indexes = new String[] { "/-1", "/-", OBJ_PATH };
     final JsonObject[] values = new JsonObject[] { OBJ_VALUE_1, OBJ_VALUE_2,

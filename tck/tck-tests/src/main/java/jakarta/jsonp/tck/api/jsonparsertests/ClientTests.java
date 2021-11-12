@@ -19,22 +19,11 @@
  */
 package jakarta.jsonp.tck.api.jsonparsertests;
 
-import static jakarta.jsonp.tck.api.common.JsonAssert.valueToString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import java.io.InputStream;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -47,16 +36,14 @@ import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.JSONP_Data;
 import jakarta.jsonp.tck.common.JSONP_Util;
 import jakarta.jsonp.tck.common.MyBufferedInputStream;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /*
    * Utitity method to parse various JsonObjectUTF encoded files
    */
@@ -79,7 +66,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_OBJECT);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -158,7 +145,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_OBJECT);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -187,7 +174,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_OBJECT);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -219,7 +206,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_ARRAY);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -254,7 +241,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_ARRAY);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -298,7 +285,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_ARRAY);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -376,7 +363,7 @@ public class ClientTests {
       JSONP_Util.testEventType(parser, JsonParser.Event.END_ARRAY);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -410,7 +397,7 @@ public class ClientTests {
       JSONP_Util.dumpLocation(parser);
       int parseErrs = JSONP_Util.getParseErrs();
       if (parseErrs != 0) {
-        System.err.println("There were " + parseErrs + " parser errors that occurred.");
+        LOGGER.warning("There were " + parseErrs + " parser errors that occurred.");
         pass = false;
       }
     } catch (Exception e) {
@@ -435,32 +422,29 @@ public class ClientTests {
    * JsonParser parser = Json.createParser(Reader)
    */
   @Test
-  public void jsonParserTest1() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest1() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("-------------------------------------");
-      System.out.println("TEST CASE [Json.createParser(Reader)]");
-      System.out.println("-------------------------------------");
-      System.out.println("Create Reader from (JSONP_Data.jsonObjectWithAllTypesOfData)");
+      LOGGER.info("-------------------------------------");
+      LOGGER.info("TEST CASE [Json.createParser(Reader)]");
+      LOGGER.info("-------------------------------------");
+      LOGGER.info("Create Reader from (JSONP_Data.jsonObjectWithAllTypesOfData)");
       StringReader reader = new StringReader(
           JSONP_Data.jsonObjectWithAllTypesOfData);
-      System.out.println("Create JsonParser from the Reader");
+      LOGGER.info("Create JsonParser from the Reader");
       parser = Json.createParser(reader);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonObjectWithAllTypesOfData)");
-      pass = parseAndVerify_JsonObjectWithAllTypesOfData(parser);
+      assertTrue(parseAndVerify_JsonObjectWithAllTypesOfData(parser), "jsonParserTest1 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest1 Failed: ", e);
+      fail("jsonParserTest1 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest1 Failed");
   }
 
   /*
@@ -478,39 +462,36 @@ public class ClientTests {
    * Json.createParserFactory(Map<String,?>).createParser(JsonObject)
    */
   @Test
-  public void jsonParserTest2() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest2() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(JsonObject)]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create JsonObject from (JSONP_Data.jsonObjectWithAllTypesOfData)");
       JsonObject jsonObj = JSONP_Util
           .createJsonObjectFromString(JSONP_Data.jsonObjectWithAllTypesOfData);
       JSONP_Util.dumpJsonObject(jsonObj);
-      System.out.println("Create JsonParser from the JsonObject");
+      LOGGER.info("Create JsonParser from the JsonObject");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(jsonObj);
-      System.out.println("parser=" + parser);
-      System.out.println(
+      LOGGER.info("parser=" + parser);
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonObjectWithAllTypesOfData)");
-      pass = parseAndVerify_JsonObjectWithAllTypesOfData(parser);
+      assertTrue(parseAndVerify_JsonObjectWithAllTypesOfData(parser), "jsonParserTest2 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest2 Failed: ", e);
+      fail("jsonParserTest2 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest2 Failed");
   }
 
   /*
@@ -526,33 +507,30 @@ public class ClientTests {
    * JsonParser parser = Json.createParser(Reader)
    */
   @Test
-  public void jsonParserTest3() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest3() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("-------------------------------------------");
-      System.out.println("TEST CASE [Json.createParser(Reader) again]");
-      System.out.println("-------------------------------------------");
-      System.out.println(
+      LOGGER.info("-------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createParser(Reader) again]");
+      LOGGER.info("-------------------------------------------");
+      LOGGER.info(
           "Create Reader from (JSONP_Data.jsonObjectWithLotsOfNestedObjectsData)");
       StringReader reader = new StringReader(
           JSONP_Data.jsonObjectWithLotsOfNestedObjectsData);
-      System.out.println("Create JsonParser from the Reader");
+      LOGGER.info("Create JsonParser from the Reader");
       parser = Json.createParser(reader);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonObjectWithLotsOfNestedObjectsData)");
-      pass = parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser);
+      assertTrue(parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser), "jsonParserTest3 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest3 Failed: ", e);
+      fail("jsonParserTest3 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest3 Failed");
   }
 
   /*
@@ -569,38 +547,35 @@ public class ClientTests {
    * Json.createParserFactory(Map<String,?>).createParser(JsonObject)
    */
   @Test
-  public void jsonParserTest4() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest4() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(JsonObject object) again]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create JsonObject from (JSONP_Data.jsonObjectWithLotsOfNestedObjectsData)");
       JsonObject jsonObj = JSONP_Util.createJsonObjectFromString(
           JSONP_Data.jsonObjectWithLotsOfNestedObjectsData);
       JSONP_Util.dumpJsonObject(jsonObj);
-      System.out.println("Create JsonParser from the JsonObject");
+      LOGGER.info("Create JsonParser from the JsonObject");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(jsonObj);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonObjectWithLotsOfNestedObjectsData)");
-      pass = parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser);
+      assertTrue(parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser), "jsonParserTest4 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest4 Failed: ", e);
+      fail("jsonParserTest4 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest4 Failed");
   }
 
   /*
@@ -618,38 +593,35 @@ public class ClientTests {
    * Json.createParserFactory(Map<String,?>).createParser(JsonArray)
    */
   @Test
-  public void jsonParserTest5() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest5() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(JsonArray)]");
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create JsonArray from (JSONP_Data.jsonArrayWithMultipleArraysData)");
       JsonArray jsonArr = JSONP_Util.createJsonArrayFromString(
           JSONP_Data.jsonArrayWithMultipleArraysData);
       JSONP_Util.dumpJsonArray(jsonArr);
-      System.out.println("Create JsonParser from the JsonArray");
+      LOGGER.info("Create JsonParser from the JsonArray");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(jsonArr);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonArrayWithMultipleArraysData)");
-      pass = parseAndVerify_JsonArrayWithMultipleArraysData(parser);
+      assertTrue(parseAndVerify_JsonArrayWithMultipleArraysData(parser), "jsonParserTest5 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest5 Failed: ", e);
+      fail("jsonParserTest5 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest5 Failed");
   }
 
   /*
@@ -667,33 +639,30 @@ public class ClientTests {
    * JsonParser parser = Json.createParser(InputStream)
    */
   @Test
-  public void jsonParserTest6() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest6() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("------------------------------------------");
-      System.out.println("TEST CASE [Json.createParser(InputStream)]");
-      System.out.println("------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createParser(InputStream)]");
+      LOGGER.info("------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonArrayWithAllTypesOfData.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonArrayWithAllTypesOfData.json");
-      System.out.println("Create JsonParser from the InputStream");
+      LOGGER.info("Create JsonParser from the InputStream");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonArrayWithAllTypesOfData.json)");
-      pass = parseAndVerify_JsonArrayWithAllTypesOfData(parser);
+      assertTrue(parseAndVerify_JsonArrayWithAllTypesOfData(parser), "jsonParserTest6 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest6 Failed: ", e);
+      fail("jsonParserTest6 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest6 Failed");
   }
 
   /*
@@ -712,39 +681,35 @@ public class ClientTests {
    * ?>).createParser(Reader)
    */
   @Test
-  public void jsonParserTest7() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest7() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(Reader)]");
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------------");
-      System.out.println("Create a Reader from (JSONP_Data.jsonObjectWithAllTypesOfData)");
+      LOGGER.info("Create a Reader from (JSONP_Data.jsonObjectWithAllTypesOfData)");
       StringReader reader = new StringReader(
           JSONP_Data.jsonObjectWithAllTypesOfData);
-      System.out.println("Create JsonParser using Reader and a configuration");
+      LOGGER.info("Create JsonParser using Reader and a configuration");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(reader);
-      System.out.println("Call JsonParser.toString() to print the JsonObject");
+      LOGGER.info("Call JsonParser.toString() to print the JsonObject");
       parser.toString();
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonObjectWithAllTypesOfData)");
-      if (!parseAndVerify_JsonObjectWithAllTypesOfData(parser))
-        pass = false;
+      assertTrue(parseAndVerify_JsonObjectWithAllTypesOfData(parser), "jsonParserTest7 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest7 Failed: ", e);
+      fail("jsonParserTest7 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest7 Failed");
   }
 
   /*
@@ -762,41 +727,37 @@ public class ClientTests {
    * ?>).createParser(JsonArray)
    */
   @Test
-  public void jsonParserTest8() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest8() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(JsonArray)]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create a JsonArray from (JSONP_Data.jsonArrayWithLotsOfNestedObjectsData)");
       JsonArray jsonArr = JSONP_Util.createJsonArrayFromString(
           JSONP_Data.jsonArrayWithLotsOfNestedObjectsData);
       JSONP_Util.dumpJsonArray(jsonArr);
-      System.out.println("Create JsonParser using JsonArray and a configuration");
+      LOGGER.info("Create JsonParser using JsonArray and a configuration");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(jsonArr);
-      System.out.println("Call JsonParser.toString() to print the JsonObject");
+      LOGGER.info("Call JsonParser.toString() to print the JsonObject");
       parser.toString();
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonArrayWithLotsOfNestedObjectsData)");
-      if (!parseAndVerify_JsonArrayWithLotsOfNestedObjectsData(parser))
-        pass = false;
+      assertTrue(parseAndVerify_JsonArrayWithLotsOfNestedObjectsData(parser), "jsonParserTest8 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest8 Failed: ", e);
+      fail("jsonParserTest8 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest8 Failed");
   }
 
   /*
@@ -815,41 +776,37 @@ public class ClientTests {
    * ?>).createParser(JsonArray)
    */
   @Test
-  public void jsonParserTest9() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest9() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(JsonArray)]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create JsonArray from (JSONP_Data.jsonArrayWithMultipleArraysData)");
       JsonArray jsonArr = JSONP_Util.createJsonArrayFromString(
           JSONP_Data.jsonArrayWithMultipleArraysData);
       JSONP_Util.dumpJsonArray(jsonArr);
-      System.out.println("Create JsonParser using JsonArray and a configuration");
+      LOGGER.info("Create JsonParser using JsonArray and a configuration");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(jsonArr);
-      System.out.println("Call JsonParser.toString() to print the JsonArray");
+      LOGGER.info("Call JsonParser.toString() to print the JsonArray");
       parser.toString();
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (JSONP_Data.jsonArrayWithMultipleArraysData)");
-      if (!parseAndVerify_JsonArrayWithMultipleArraysData(parser))
-        pass = false;
+      assertTrue(parseAndVerify_JsonArrayWithMultipleArraysData(parser), "jsonParserTest9 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest9 Failed: ", e);
+      fail("jsonParserTest9 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest9 Failed");
   }
 
   /*
@@ -867,38 +824,34 @@ public class ClientTests {
    * ?>).createParser(InputStream)
    */
   @Test
-  public void jsonParserTest10() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest10() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(InputStream)]");
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------");
-      System.out.println("Create JsonParser using InputStream and a configuration");
+      LOGGER.info("Create JsonParser using InputStream and a configuration");
       InputStream istream = JSONP_Util.getInputStreamFromResource(
           "jsonObjectWithLotsOfNestedObjectsData.json");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream);
-      System.out.println("Call JsonParser.toString() to print the JsonObject");
+      LOGGER.info("Call JsonParser.toString() to print the JsonObject");
       parser.toString();
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectWithLotsOfNestedObjectsData.json)");
-      if (!parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser))
-        pass = false;
+      assertTrue(parseAndVerify_JsonObjectWithLotsOfNestedObjectsData(parser), "jsonParserTest10 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest10 Failed: ", e);
+      fail("jsonParserTest10 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest10 Failed");
   }
 
   /*
@@ -918,38 +871,35 @@ public class ClientTests {
    * Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset)
    */
   @Test
-  public void jsonParserTest11() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest11() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonArrayWithAllTypesOfDataUTF16BE.json)");
       InputStream istream = JSONP_Util.getInputStreamFromResource(
           "jsonArrayWithAllTypesOfDataUTF16BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-16BE");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_16BE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonArrayWithAllTypesOfDataUTF16BE.json)");
-      pass = parseAndVerify_JsonArrayWithAllTypesOfData(parser);
+      assertTrue(parseAndVerify_JsonArrayWithAllTypesOfData(parser), "jsonParserTest11 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest11 Failed: ", e);
+      fail("jsonParserTest11 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest11 Failed");
   }
 
   /*
@@ -968,39 +918,35 @@ public class ClientTests {
    * ?>).createParser(InputStream, Charset)
    */
   @Test
-  public void jsonParserTest12() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest12() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(InputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonArrayWithLotsOfNestedArraysData.json)");
       InputStream istream = JSONP_Util.getInputStreamFromResource(
           "jsonArrayWithLotsOfNestedArraysData.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-8 and a configuration");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_8);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonArrayWithLotsOfNestedArraysData.json)");
-      if (!parseAndVerify_JsonArrayWithLotsOfNestedArraysData(parser))
-        pass = false;
+      assertTrue(parseAndVerify_JsonArrayWithLotsOfNestedArraysData(parser), "jsonParserTest12 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest12 Failed: ", e);
+      fail("jsonParserTest12 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest12 Failed");
   }
 
   /*
@@ -1020,37 +966,34 @@ public class ClientTests {
    * ?>).createParser(InputStream, Charset)
    */
   @Test
-  public void jsonParserTest13() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest13() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String, ?>).createParser(InputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "---------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectWithAllTypesOfDataUTF16LE.json)");
       InputStream istream = JSONP_Util.getInputStreamFromResource(
           "jsonObjectWithAllTypesOfDataUTF16LE.json");
-      System.out.println("Create JsonParser from the InputStream using UTF-16LE encoding");
+      LOGGER.info("Create JsonParser from the InputStream using UTF-16LE encoding");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_16LE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectWithAllTypesOfDataUTF16LE.json)");
-      pass = parseAndVerify_JsonObjectWithAllTypesOfData(parser);
+      assertTrue(parseAndVerify_JsonObjectWithAllTypesOfData(parser), "jsonParserTest13 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest13 Failed: ", e);
+      fail("jsonParserTest13 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest13 Failed");
   }
 
   /*
@@ -1067,33 +1010,30 @@ public class ClientTests {
    * JsonParser parser = Json.createParser(InputStream)
    */
   @Test
-  public void jsonParserTest14() throws Fault {
-    boolean pass = true;
+  public void jsonParserTest14() {
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println("------------------------------------------");
-      System.out.println("TEST CASE [Json.createParser(InputStream)]");
-      System.out.println("------------------------------------------");
-      System.out.println(
+      LOGGER.info("------------------------------------------");
+      LOGGER.info("TEST CASE [Json.createParser(InputStream)]");
+      LOGGER.info("------------------------------------------");
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonHelloWorld.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonHelloWorld.json");
-      System.out.println("Create JsonParser from the InputStream");
+      LOGGER.info("Create JsonParser from the InputStream");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonHelloWorld.json)");
-      pass = parseAndVerify_JsonHelloWorld(parser);
+      assertTrue(parseAndVerify_JsonHelloWorld(parser), "jsonParserTest14 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonParserTest14 Failed: ", e);
+      fail("jsonParserTest14 Failed: ", e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("jsonParserTest14 Failed");
   }
 
   /*
@@ -1119,32 +1059,32 @@ public class ClientTests {
    * argument for each encoding type tested.
    */
   @Test
-  public void parseUTFEncodedTests() throws Fault {
+  public void parseUTFEncodedTests() {
     boolean pass = true;
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-8]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF8.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF8.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-8");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_8);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF8.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-8 encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1152,27 +1092,27 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-16]");
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-16");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_16);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF16.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-16 encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-16 encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1180,27 +1120,27 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-16LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16LE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-16LE");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_16LE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF16LE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-16LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-16LE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1208,27 +1148,27 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-16BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16BE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-16BE");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_16BE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF16BE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-16BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-16BE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1236,27 +1176,27 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-32LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32LE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-32LE");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_32LE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF32LE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-32LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-32LE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1264,35 +1204,34 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParserFactory(Map<String,?>).createParser(InputStream, Charset) as UTF-32BE]");
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32BE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream with character encoding UTF-32BE");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(istream, JSONP_Util.UTF_32BE);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF32BE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-32BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-32BE encoding: " + e);
     } finally {
       try {
         parser.close();
       } catch (Exception e) {
       }
     }
-    if (!pass)
-      throw new Fault("parseUTFEncodedTests Failed");
+    assertTrue(pass, "parseUTFEncodedTests Failed");
   }
 
   /*
@@ -1317,31 +1256,31 @@ public class ClientTests {
    * auto-detect the encoding and verify we get the expected results.
    */
   @Test
-  public void parseUTFEncodedTests2() throws Fault {
+  public void parseUTFEncodedTests2() {
     boolean pass = true;
     JsonParser parser = null;
     JsonParser.Event event = null;
     try {
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParser(InputStream) and auto-detect as UTF-8]");
-      System.out.println(
+      LOGGER.info(
           "-------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF8.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF8.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream and auto-detect character encoding UTF-8");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF8.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-8 encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1349,26 +1288,26 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParser(InputStream) and auto-detect as UTF-16LE]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16LE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream and auto-detect character encoding UTF-16LE");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF16LE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-16LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-16LE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1376,26 +1315,26 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParser(InputStream) and auto-detect as UTF-16BE]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF16BE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF16BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream and auto-detect character encoding UTF-16BE");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF16BE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-16BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-16BE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1403,26 +1342,26 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParser(InputStream) and auto-detect as UTF-32LE]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32LE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32LE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream and auto-detect character encoding UTF-32LE");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF32LE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-32LE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-32LE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1430,26 +1369,26 @@ public class ClientTests {
       }
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createParser(InputStream) and auto-detect as UTF-32BE]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Get InputStream from data file as resource (jsonObjectEncodingUTF32BE.json)");
       InputStream istream = JSONP_Util
           .getInputStreamFromResource("jsonObjectEncodingUTF32BE.json");
-      System.out.println(
+      LOGGER.info(
           "Create JsonParser from the InputStream and auto-detect character encoding UTF-32BE");
       parser = Json.createParser(istream);
-      System.out.println(
+      LOGGER.info(
           "Verify that JSON Parser Events/Data matches (jsonObjectEncodingUTF32BE.json)");
       if (!parseAndVerify_JsonObjectUTF(parser))
         pass = false;
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing parsing of UTF-32BE encoding: " + e);
+      LOGGER.warning("Exception occurred testing parsing of UTF-32BE encoding: " + e);
     } finally {
       try {
         parser.close();
@@ -1457,8 +1396,7 @@ public class ClientTests {
       }
     }
 
-    if (!pass)
-      throw new Fault("parseUTFEncodedTests2 Failed");
+    assertTrue(pass, "parseUTFEncodedTests2 Failed");
   }
 
   /*
@@ -1470,12 +1408,12 @@ public class ClientTests {
    * @test_Strategy: Test JsonParser.isIntegralNumber() method.
    */
   @Test
-  public void jsonParserIsIntegralNumberTest() throws Fault {
+  public void jsonParserIsIntegralNumberTest() {
     boolean pass = true;
     JsonParser parser = null;
     String jsonTestString = "[123, 12345.45]";
     try {
-      System.out.println("Create JsonParser");
+      LOGGER.info("Create JsonParser");
       parser = Json.createParser(new StringReader(jsonTestString));
       // INTEGRAL NUMBER TEST
       JsonParser.Event event = JSONP_Util.getNextSpecificParserEvent(parser,
@@ -1502,7 +1440,7 @@ public class ClientTests {
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonParserIsIntegralNumberTest Failed: ", e);
+      fail("jsonParserIsIntegralNumberTest Failed: ", e);
     } finally {
       try {
         parser.close();
@@ -1510,8 +1448,7 @@ public class ClientTests {
       }
     }
 
-    if (!pass)
-      throw new Fault("jsonParserIsIntegralNumberTest Failed");
+    assertTrue(pass, "jsonParserIsIntegralNumberTest Failed");
   }
 
   private boolean tripIllegalStateException(JsonParser parser,
@@ -1520,97 +1457,97 @@ public class ClientTests {
 
     // Check in case event is null
     if (event == null) {
-      System.err.println("event is null - unexpected.");
+      LOGGER.warning("event is null - unexpected.");
       return false;
     }
-    System.out.println("Event=" + JSONP_Util.getEventTypeString(event));
-    System.out.println("Testing call to JsonParser.getString()");
+    LOGGER.info("Event=" + JSONP_Util.getEventTypeString(event));
+    LOGGER.info("Testing call to JsonParser.getString()");
     if (event != JsonParser.Event.VALUE_STRING
         && event != JsonParser.Event.VALUE_NUMBER
         && event != JsonParser.Event.KEY_NAME) {
       try {
-        System.out.println("Trip IllegalStateException by calling JsonParser.getString()");
+        LOGGER.info("Trip IllegalStateException by calling JsonParser.getString()");
         String string = parser.getString();
         pass = false;
-        System.err.println("Failed to throw IllegalStateException");
+        LOGGER.warning("Failed to throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("Got expected IllegalStateException");
+        LOGGER.info("Got expected IllegalStateException");
       } catch (Exception e) {
         pass = false;
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
       }
     } else {
-      System.out.println("No testing for IllegalStateException for this scenario.");
+      LOGGER.info("No testing for IllegalStateException for this scenario.");
     }
 
-    System.out.println("Testing call to JsonParser.isIntegralNumber()");
+    LOGGER.info("Testing call to JsonParser.isIntegralNumber()");
     if (event != JsonParser.Event.VALUE_NUMBER) {
       try {
-        System.out.println(
+        LOGGER.info(
             "Trip IllegalStateException by calling JsonParser.isIntegralNumber()");
         boolean numberType = parser.isIntegralNumber();
         pass = false;
-        System.err.println("Failed to throw IllegalStateException");
+        LOGGER.warning("Failed to throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("Got expected IllegalStateException");
+        LOGGER.info("Got expected IllegalStateException");
       } catch (Exception e) {
         pass = false;
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
       }
     } else {
-      System.out.println("No testing for IllegalStateException for this scenario.");
+      LOGGER.info("No testing for IllegalStateException for this scenario.");
     }
 
-    System.out.println("Testing call to JsonParser.getBigDecimal()");
+    LOGGER.info("Testing call to JsonParser.getBigDecimal()");
     if (event != JsonParser.Event.VALUE_NUMBER) {
       try {
-        System.out.println(
+        LOGGER.info(
             "Trip IllegalStateException by calling JsonParser.getBigDecimal()");
         BigDecimal number = parser.getBigDecimal();
         pass = false;
-        System.err.println("Failed to throw IllegalStateException");
+        LOGGER.warning("Failed to throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("Got expected IllegalStateException");
+        LOGGER.info("Got expected IllegalStateException");
       } catch (Exception e) {
         pass = false;
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
       }
     } else {
-      System.out.println("No testing for IllegalStateException for this scenario.");
+      LOGGER.info("No testing for IllegalStateException for this scenario.");
     }
 
-    System.out.println("Testing call to JsonParser.getInt()");
+    LOGGER.info("Testing call to JsonParser.getInt()");
     if (event != JsonParser.Event.VALUE_NUMBER) {
       try {
-        System.out.println("Trip IllegalStateException by calling JsonParser.getInt()");
+        LOGGER.info("Trip IllegalStateException by calling JsonParser.getInt()");
         int number = parser.getInt();
         pass = false;
-        System.err.println("Failed to throw IllegalStateException");
+        LOGGER.warning("Failed to throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("Got expected IllegalStateException");
+        LOGGER.info("Got expected IllegalStateException");
       } catch (Exception e) {
         pass = false;
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
       }
     } else {
-      System.out.println("No testing for IllegalStateException for this scenario.");
+      LOGGER.info("No testing for IllegalStateException for this scenario.");
     }
 
-    System.out.println("Testing call to JsonParser.getLong()");
+    LOGGER.info("Testing call to JsonParser.getLong()");
     if (event != JsonParser.Event.VALUE_NUMBER) {
       try {
-        System.out.println("Trip IllegalStateException by calling JsonParser.getLong()");
+        LOGGER.info("Trip IllegalStateException by calling JsonParser.getLong()");
         long number = parser.getLong();
         pass = false;
-        System.err.println("Failed to throw IllegalStateException");
+        LOGGER.warning("Failed to throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("Got expected IllegalStateException");
+        LOGGER.info("Got expected IllegalStateException");
       } catch (Exception e) {
         pass = false;
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
       }
     } else {
-      System.out.println("No testing for IllegalStateException for this scenario.");
+      LOGGER.info("No testing for IllegalStateException for this scenario.");
     }
     return pass;
   }
@@ -1627,12 +1564,12 @@ public class ClientTests {
    * java.lang.IllegalStateException
    */
   @Test
-  public void jsonParserIllegalExceptionTests() throws Fault {
+  public void jsonParserIllegalExceptionTests() {
     boolean pass = true;
     JsonParser parser = null;
     String jsonTestString = "[\"string\",100,false,null,true,{\"foo\":\"bar\"}]";
     try {
-      System.out.println("Create JsonParser");
+      LOGGER.info("Create JsonParser");
       parser = Json.createParserFactory(JSONP_Util.getEmptyConfig())
           .createParser(new StringReader(jsonTestString));
       JsonParser.Event event = JSONP_Util
@@ -1680,7 +1617,7 @@ public class ClientTests {
       if (!tripIllegalStateException(parser, event))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonParserIllegalExceptionTests Failed: ", e);
+      fail("jsonParserIllegalExceptionTests Failed: ", e);
     } finally {
       try {
         parser.close();
@@ -1688,8 +1625,7 @@ public class ClientTests {
       }
     }
 
-    if (!pass)
-      throw new Fault("jsonParserIllegalExceptionTests Failed");
+    assertTrue(pass, "jsonParserIllegalExceptionTests Failed");
   }
 
   /*
@@ -1702,7 +1638,7 @@ public class ClientTests {
    */
   @SuppressWarnings("ConvertToTryWithResources")
   @Test
-  public void jsonParserIOErrorTests() throws Fault {
+  public void jsonParserIOErrorTests() {
     boolean pass = true;
 
     String jsonText = "{\"name1\":\"value1\",\"name2\":\"value2\"}";
@@ -1710,63 +1646,62 @@ public class ClientTests {
     // Trip JsonException if there is an i/o error on
     // Json.createParser(InputStream)
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on Json.createParser(InputStream).");
-      System.out.println("Parsing " + jsonText);
+      LOGGER.info("Parsing " + jsonText);
       InputStream is = JSONP_Util.getInputStreamFromString(jsonText);
       MyBufferedInputStream mbi = new MyBufferedInputStream(is, true);
-      System.out.println("Calling Json.createParser(InputStream)");
+      LOGGER.info("Calling Json.createParser(InputStream)");
       JsonParser parser = Json.createParser(mbi);
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on JsonParser.next()
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonParser.next().");
-      System.out.println("Parsing " + jsonText);
+      LOGGER.info("Parsing " + jsonText);
       InputStream is = JSONP_Util.getInputStreamFromString(jsonText);
       MyBufferedInputStream mbi = new MyBufferedInputStream(is, true);
       JsonParser parser = Json.createParser(mbi);
-      System.out.println("Calling JsonParser.next()");
+      LOGGER.info("Calling JsonParser.next()");
       parser.next();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on JsonParser.close()
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonParser.close().");
-      System.out.println("Parsing " + jsonText);
+      LOGGER.info("Parsing " + jsonText);
       InputStream is = JSONP_Util.getInputStreamFromString(jsonText);
       MyBufferedInputStream mbi = new MyBufferedInputStream(is);
       JsonParser parser = Json.createParser(mbi);
       mbi.setThrowIOException(true);
-      System.out.println("Calling JsonParser.close()");
+      LOGGER.info("Calling JsonParser.close()");
       parser.close();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonParserIOErrorTests Failed");
+    assertTrue(pass, "jsonParserIOErrorTests Failed");
   }
 
   /*
@@ -1782,47 +1717,46 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonParserExceptionTests() throws Fault {
+  public void jsonParserExceptionTests() {
     boolean pass = true;
 
     // Trip JsonParsingException for JsonParser.next() if incorrect JSON is
     // encountered
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonParser.next() if incorrect JSON is encountered");
       InputStream is = JSONP_Util.getInputStreamFromString("}{");
       JsonParser parser = Json.createParser(is);
       parser.next();
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip NoSuchElementException for JsonParser.next() if no more parsing
     // states
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NoSuchElementException for JsonParser.next() if no more parsing states");
       InputStream is = JSONP_Util.getInputStreamFromString("{}");
       JsonParser parser = Json.createParser(is);
       parser.next(); // Event -> START_OBJECT {
       parser.next(); // Event -> END_OBJECT }
       parser.next(); // Event -> NoSuchElementException should be thrown
-      System.err.println("Did not get expected NoSuchElementException");
+      LOGGER.warning("Did not get expected NoSuchElementException");
       pass = false;
     } catch (NoSuchElementException e) {
-      System.out.println("Caught expected NoSuchElementException");
+      LOGGER.info("Caught expected NoSuchElementException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonParserExceptionTests Failed");
+    assertTrue(pass, "jsonParserExceptionTests Failed");
   }
 
   /*
@@ -1836,65 +1770,64 @@ public class ClientTests {
    *
    */
   @Test
-  public void invalidLiteralNamesTest() throws Fault {
+  public void invalidLiteralNamesTest() {
     boolean pass = true;
 
     // Trip JsonParsingException for JsonParser.next() if invalid liternal TRUE
     // instead of true
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonParser.next() if invalid liternal TRUE instead of true.");
-      System.out.println("Reading " + "[TRUE]");
+      LOGGER.info("Reading " + "[TRUE]");
       JsonParser parser = Json.createParser(new StringReader("[TRUE]"));
       parser.next(); // Event -> START_OBJECT {
       parser.next(); // Event -> JsonParsingException (invalid literal TRUE)
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonParser.next() if invalid liternal FALSE
     // instead of false
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonParser.next() if invalid liternal FALSE instead of false.");
-      System.out.println("Reading " + "[FALSE]");
+      LOGGER.info("Reading " + "[FALSE]");
       JsonParser parser = Json.createParser(new StringReader("[FALSE]"));
       parser.next(); // Event -> START_OBJECT {
       parser.next(); // Event -> JsonParsingException (invalid literal FALSE)
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonParsingException for JsonParser.next() if invalid liternal NULL
     // instead of null
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonParsingException for JsonParser.next() if invalid liternal NULL instead of null.");
-      System.out.println("Reading " + "[NULL]");
+      LOGGER.info("Reading " + "[NULL]");
       JsonParser parser = Json.createParser(new StringReader("[NULL]"));
       parser.next(); // Event -> START_OBJECT {
       parser.next(); // Event -> JsonParsingException (invalid literal NULL)
-      System.err.println("Did not get expected JsonParsingException");
+      LOGGER.warning("Did not get expected JsonParsingException");
       pass = false;
     } catch (JsonParsingException e) {
-      System.out.println("Caught expected JsonParsingException");
+      LOGGER.info("Caught expected JsonParsingException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("invalidLiteralNamesTest Failed");
+    assertTrue(pass, "invalidLiteralNamesTest Failed");
   }
 
   /*
@@ -1910,7 +1843,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonParser API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonParser11Test() throws Fault {
+  public void jsonParser11Test() {
     Parser parserTest = new Parser();
     final TestResult result = parserTest.test();
     result.eval();
@@ -1918,7 +1851,7 @@ public class ClientTests {
 
   /*
    * @testName: jsonParserCurrentEvent
-   * 
+   *
    * @test_Strategy: Tests JsonParser API methods added in JSON-P 2.1.
    */
   @Test

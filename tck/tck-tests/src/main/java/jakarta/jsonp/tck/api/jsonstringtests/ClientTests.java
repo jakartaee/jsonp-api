@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,36 +20,19 @@
 package jakarta.jsonp.tck.api.jsonstringtests;
 
 import jakarta.json.*;
-import jakarta.json.stream.*;
-
-import java.io.*;
-
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
@@ -62,48 +45,47 @@ public class ClientTests {
    * JsonStrings and compare them for equality and expect false.
    */
   @Test
-  public void jsonStringEqualsTest() throws Fault {
+  public void jsonStringEqualsTest() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonString 1 for testing");
+      LOGGER.info("Create sample JsonString 1 for testing");
       JsonString string1 = (JsonString) JSONP_Util
           .createJsonString("Hello World");
-      System.out.println("string1=" + JSONP_Util.toStringJsonString(string1));
+      LOGGER.info("string1=" + JSONP_Util.toStringJsonString(string1));
 
-      System.out.println("Create sample JsonString 2 for testing");
+      LOGGER.info("Create sample JsonString 2 for testing");
       JsonString string2 = JSONP_Util.createJsonString("Hello World");
-      System.out.println("string2=" + JSONP_Util.toStringJsonString(string2));
+      LOGGER.info("string2=" + JSONP_Util.toStringJsonString(string2));
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonString.equals() to compare 2 equal JsonStrings and expect true");
       if (string1.equals(string2)) {
-        System.out.println("JsonStrings are equal - expected.");
+        LOGGER.info("JsonStrings are equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonStrings are not equal - unexpected.");
+        LOGGER.warning("JsonStrings are not equal - unexpected.");
       }
 
-      System.out.println("Create sample JsonString 1 for testing");
+      LOGGER.info("Create sample JsonString 1 for testing");
       string1 = JSONP_Util.createJsonString("Hello World");
-      System.out.println("string1=" + JSONP_Util.toStringJsonString(string1));
+      LOGGER.info("string1=" + JSONP_Util.toStringJsonString(string1));
 
-      System.out.println("Create sample JsonString 2 for testing");
+      LOGGER.info("Create sample JsonString 2 for testing");
       string2 = JSONP_Util.createJsonString("Hello USA");
-      System.out.println("string2=" + JSONP_Util.toStringJsonString(string2));
+      LOGGER.info("string2=" + JSONP_Util.toStringJsonString(string2));
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonString.equals() to compare 2 equal JsonStrings and expect false");
       if (!string1.equals(string2)) {
-        System.out.println("JsonStrings are not equal - expected.");
+        LOGGER.info("JsonStrings are not equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonStrings are equal - unexpected.");
+        LOGGER.warning("JsonStrings are equal - unexpected.");
       }
     } catch (Exception e) {
-      throw new Fault("jsonStringEqualsTest Failed: ", e);
+      fail("jsonStringEqualsTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonStringEqualsTest Failed");
+    assertTrue(pass, "jsonStringEqualsTest Failed");
   }
 
   /*
@@ -116,51 +98,50 @@ public class ClientTests {
    * JsonStrings and compare them for hashcode and expect false.
    */
   @Test
-  public void jsonStringHashCodeTest() throws Fault {
+  public void jsonStringHashCodeTest() {
     boolean pass = true;
     try {
-      System.out.println("Create sample JsonString 1 for testing");
+      LOGGER.info("Create sample JsonString 1 for testing");
       JsonString string1 = JSONP_Util.createJsonString("Hello World");
-      System.out.println("string1=" + JSONP_Util.toStringJsonString(string1));
-      System.out.println("string1.hashCode()=" + string1.hashCode());
+      LOGGER.info("string1=" + JSONP_Util.toStringJsonString(string1));
+      LOGGER.info("string1.hashCode()=" + string1.hashCode());
 
-      System.out.println("Create sample JsonString 2 for testing");
+      LOGGER.info("Create sample JsonString 2 for testing");
       JsonString string2 = JSONP_Util.createJsonString("Hello World");
-      System.out.println("string2=" + JSONP_Util.toStringJsonString(string2));
-      System.out.println("string2.hashCode()=" + string2.hashCode());
+      LOGGER.info("string2=" + JSONP_Util.toStringJsonString(string2));
+      LOGGER.info("string2.hashCode()=" + string2.hashCode());
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonString.hashCode() to compare 2 equal JsonStrings and expect true");
       if (string1.hashCode() == string2.hashCode()) {
-        System.out.println("JsonStrings hashCode are equal - expected.");
+        LOGGER.info("JsonStrings hashCode are equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonStrings hashCode are not equal - unexpected.");
+        LOGGER.warning("JsonStrings hashCode are not equal - unexpected.");
       }
 
-      System.out.println("Create sample JsonString 1 for testing");
+      LOGGER.info("Create sample JsonString 1 for testing");
       string1 = JSONP_Util.createJsonString("Hello World");
-      System.out.println("string1=" + JSONP_Util.toStringJsonString(string1));
-      System.out.println("string1.hashCode()=" + string1.hashCode());
+      LOGGER.info("string1=" + JSONP_Util.toStringJsonString(string1));
+      LOGGER.info("string1.hashCode()=" + string1.hashCode());
 
-      System.out.println("Create sample JsonString 2 for testing");
+      LOGGER.info("Create sample JsonString 2 for testing");
       string2 = JSONP_Util.createJsonString("Hello USA");
-      System.out.println("string2=" + JSONP_Util.toStringJsonString(string2));
-      System.out.println("string2.hashCode()=" + string2.hashCode());
+      LOGGER.info("string2=" + JSONP_Util.toStringJsonString(string2));
+      LOGGER.info("string2.hashCode()=" + string2.hashCode());
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonString.hashCode() to compare 2 equal JsonStrings and expect false");
       if (string1.hashCode() != string2.hashCode()) {
-        System.out.println("JsonStrings hashCode are not equal - expected.");
+        LOGGER.info("JsonStrings hashCode are not equal - expected.");
       } else {
         pass = false;
-        System.err.println("JsonStrings hashCode are equal - unexpected.");
+        LOGGER.warning("JsonStrings hashCode are equal - unexpected.");
       }
     } catch (Exception e) {
-      throw new Fault("jsonStringHashCodeTest Failed: ", e);
+      fail("jsonStringHashCodeTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonStringHashCodeTest Failed");
+    assertTrue(pass, "jsonStringHashCodeTest Failed");
   }
 
   /*
@@ -171,31 +152,30 @@ public class ClientTests {
    * @test_Strategy: Tests JsonString getChars method.
    */
   @Test
-  public void jsonStringGetCharsTest() throws Fault {
+  public void jsonStringGetCharsTest() {
     boolean pass = true;
     String helloWorld = "Hello World";
 
     try {
-      System.out.println("Create sample JsonString for testing");
+      LOGGER.info("Create sample JsonString for testing");
       JsonString string = JSONP_Util.createJsonString(helloWorld);
-      System.out.println("string=" + JSONP_Util.toStringJsonString(string));
+      LOGGER.info("string=" + JSONP_Util.toStringJsonString(string));
 
-      System.out.println(
+      LOGGER.info(
           "Call JsonString.getChars() to return the char sequence for the JSON string");
       CharSequence cs = string.getChars();
-      System.out.println("charSequence=" + cs.toString());
+      LOGGER.info("charSequence=" + cs.toString());
 
-      System.out.println("Checking char sequence for equality to expected string contents");
+      LOGGER.info("Checking char sequence for equality to expected string contents");
       if (!JSONP_Util.assertEquals(helloWorld, cs.toString()))
         pass = false;
 
-      System.out.println("Checking char sequence for expected equality to string length");
+      LOGGER.info("Checking char sequence for expected equality to string length");
       if (!JSONP_Util.assertEquals(helloWorld.length(), cs.length()))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonStringGetCharsTest Failed: ", e);
+      fail("jsonStringGetCharsTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonStringGetCharsTest Failed");
+    assertTrue(pass, "jsonStringGetCharsTest Failed");
   }
 }

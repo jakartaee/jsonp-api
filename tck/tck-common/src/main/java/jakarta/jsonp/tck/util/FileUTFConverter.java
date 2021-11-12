@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,22 +49,24 @@
 package jakarta.jsonp.tck.util;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 public class FileUTFConverter {
+
+  private static final Logger LOGGER = Logger.getLogger(FileUTFConverter.class.getName());
 
   private static final String USAGE = "Usage : java FileUTFConverter [-toUTF|-fromUTF] encoding infile outfile";
 
   public static void main(String args[]) {
     try {
       if (args.length != 4) {
-        System.err.println(USAGE);
+        LOGGER.warning(USAGE);
         System.exit(1);
       }
 
       // Convert UTF-8 input file to specified UTF encoded output file
       if (args[0].equals("-toUTF")) {
-        System.out
-            .println("FileUTFConverter-> convert UTF-8 encoded input file ("
+        LOGGER.info("FileUTFConverter-> convert UTF-8 encoded input file ("
                 + args[2] + "), to encoding (" + args[1]
                 + ") and write to output file (" + args[3] + ")");
         FileInputStream fis = new FileInputStream(args[2]);
@@ -81,7 +83,7 @@ public class FileUTFConverter {
         br.close();
         // Convert specified UTF encoded input file to UTF-8 encoded output file
       } else if (args[0].equals("-fromUTF")) {
-        System.out.println("FileUTFConverter-> convert UTF encoded input file ("
+        LOGGER.info("FileUTFConverter-> convert UTF encoded input file ("
             + args[2] + "), from encoding (" + args[1]
             + ") and write to UTF-8 encoded output file (" + args[3] + ")");
         FileInputStream fis = new FileInputStream(args[2]);
@@ -97,7 +99,7 @@ public class FileUTFConverter {
         bw.close();
         br.close();
       } else {
-        System.err.println(USAGE);
+        LOGGER.warning(USAGE);
         System.exit(1);
       }
 

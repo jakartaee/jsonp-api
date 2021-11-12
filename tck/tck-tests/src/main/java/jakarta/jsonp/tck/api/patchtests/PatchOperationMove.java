@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,6 +26,8 @@ import jakarta.json.JsonPatchBuilder;
 import jakarta.json.JsonPointer;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -39,6 +41,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * 4.4. move</a>} tests.
  */
 public class PatchOperationMove extends CommonOperation {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchOperationMove.class.getName());
 
   /** Tested operation name. */
   private final String OPERATION = "MOVE";
@@ -57,7 +61,7 @@ public class PatchOperationMove extends CommonOperation {
    */
   TestResult test() {
     final TestResult result = new TestResult("RFC 6902 move operation");
-    System.out.println("Testing RFC 6902 move operation:");
+    LOGGER.info("Testing RFC 6902 move operation:");
     testMoveStringOnSimpleObject(result);
     testMoveStringOnSimpleArray(result);
     testMoveStringOnSimpleArray2(result);
@@ -84,7 +88,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createSimpleObjectMoveStr();
     simpleOperation(result, in, check, STR_PATH, DEF_PATH);
@@ -97,7 +101,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 2");
+    LOGGER.info(" - for String on simple JSON array of size 2");
     final JsonArray in = createStringArray2();
     final JsonArray check = createStringArray2R();
     simpleOperation(result, in, in, "/0", "/0");
@@ -113,7 +117,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 5");
+    LOGGER.info(" - for String on simple JSON array of size 5");
     final JsonArray in = createSimpleStringArray5();
     final JsonArray check = createSimpleStringArray5R();
     complexOperation(result, in, check, new String[] { "/3", "/0", "/3", "/4" },
@@ -129,7 +133,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createSimpleObjectMoveInt();
     simpleOperation(result, in, check, INT_PATH, DEF_PATH);
@@ -142,7 +146,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 2");
+    LOGGER.info(" - for int on simple JSON array of size 2");
     final JsonArray in = createIntArray2();
     final JsonArray check = createIntArray2R();
     simpleOperation(result, in, in, "/0", "/0");
@@ -158,7 +162,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 5");
+    LOGGER.info(" - for int on simple JSON array of size 5");
     final JsonArray in = createSimpleIntArray5();
     final JsonArray check = createSimpleIntArray5R();
     complexOperation(result, in, check, new String[] { "/3", "/0", "/3", "/4" },
@@ -174,7 +178,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createSimpleObjectMoveBool();
     simpleOperation(result, in, check, BOOL_PATH, DEF_PATH);
@@ -187,7 +191,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 2");
+    LOGGER.info(" - for boolean on simple JSON array of size 2");
     final JsonArray in = createBoolArray2();
     final JsonArray check = createBoolArray2R();
     simpleOperation(result, in, in, "/0", "/0");
@@ -203,7 +207,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveBoolOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 5");
+    LOGGER.info(" - for boolean on simple JSON array of size 5");
     final JsonArray in = createSimpleBoolArray5();
     final JsonArray check = createSimpleBoolArray5R();
     complexOperation(result, in, check, new String[] { "/3", "/0", "/3", "/4" },
@@ -219,7 +223,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveObjectOnSimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createSimpleObjectObject();
     final JsonObject check = createSimpleObjectMoveObject();
     simpleOperation(result, in, check, OBJ_PATH, DEF_PATH);
@@ -232,7 +236,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 2");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 2");
     final JsonArray in = createObjectArray2();
     final JsonArray check = createObjectArray2R();
     simpleOperation(result, in, in, "/0", "/0");
@@ -248,7 +252,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 5");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 5");
     final JsonArray in = createSimpleObjectArray5();
     final JsonArray check = createSimpleObjectArray5R();
     complexOperation(result, in, check, new String[] { "/3", "/0", "/3", "/4" },
@@ -265,7 +269,7 @@ public class PatchOperationMove extends CommonOperation {
    *          Tests result record.
    */
   private void testMoveStringOnCompoundObject(final TestResult result) {
-    System.out.println(" - for String on compound JSON object");
+    LOGGER.info(" - for String on compound JSON object");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectMoveValue();
     simpleOperation(result, in, check, DEF_PATH, DEF_OBJ_PATH + DEF_PATH);
@@ -280,7 +284,7 @@ public class PatchOperationMove extends CommonOperation {
    * The "from" location MUST exist for the operation to be successful.
    */
   private void testMoveOfNonExistingLocationInObject(final TestResult result) {
-    System.out.println(" - for non existing location in JsonObject");
+    LOGGER.info(" - for non existing location in JsonObject");
     final JsonObject[] objsIn = new JsonObject[] { createEmptyObject(),
         createSimpleObject(), createCompoundObject() };
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
@@ -303,7 +307,7 @@ public class PatchOperationMove extends CommonOperation {
    * The "from" location MUST exist for the operation to be successful.
    */
   private void testMoveOfNonExistingLocationInArray(final TestResult result) {
-    System.out.println(" - for non existing location in JsonArray");
+    LOGGER.info(" - for non existing location in JsonArray");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray1(), createIntArray2(), createSimpleBoolArray5(),
         createObjectArray2() };
@@ -341,7 +345,7 @@ public class PatchOperationMove extends CommonOperation {
    * REMOVE and ADD operations MUST produce the same result.
    */
   private void testMoveVsRemoveAddOnSelfContainedPath(final TestResult result) {
-    System.out.println(" - for moving JsonObject under itself");
+    LOGGER.info(" - for moving JsonObject under itself");
     final JsonObject in = createCompoundObject();
     final String targetPath = DEF_OBJ_PATH + DEF_PATH;
     final JsonPointer ptr = Json.createPointer(DEF_OBJ_PATH);
@@ -357,19 +361,19 @@ public class PatchOperationMove extends CommonOperation {
     try {
 
       remAddOut = remAddPatch.apply(in);
-      System.out.println("   REMOVE and ADD passed");
+      LOGGER.info("   REMOVE and ADD passed");
     } catch (JsonException e) {
       remAddOut = null;
-      System.out.println("   REMOVE and ADD failed: " + e.getMessage());
+      LOGGER.info("   REMOVE and ADD failed: " + e.getMessage());
     }
     // Check MOVE second
     JsonObject moveOut;
     try {
       moveOut = movePatch.apply(in);
-      System.out.println("   MOVE passed");
+      LOGGER.info("   MOVE passed");
     } catch (JsonException e) {
       moveOut = null;
-      System.out.println("   MOVE failed: " + e.getMessage());
+      LOGGER.info("   MOVE failed: " + e.getMessage());
     }
     // Results evaluation
     if (remAddOut != null) {
@@ -420,7 +424,7 @@ public class PatchOperationMove extends CommonOperation {
   protected JsonPatchBuilder createOperationBuilder(final String path,
       final Object value) {
     if (value instanceof String) {
-      // System.out.println(" MOVE "+path+" -> "+(String)value);
+      // LOGGER.info(" MOVE "+path+" -> "+(String)value);
       return Json.createPatchBuilder().move((String) value, path);
     } else {
       throw new IllegalArgumentException(
@@ -444,7 +448,7 @@ public class PatchOperationMove extends CommonOperation {
   protected JsonPatchBuilder updateOperationBuilder(
       final JsonPatchBuilder builder, final String path, final Object value) {
     if (value instanceof String) {
-      // System.out.println(" MOVE "+path+" -> "+(String)value);
+      // LOGGER.info(" MOVE "+path+" -> "+(String)value);
       return builder.move((String) value, path);
     } else {
       throw new IllegalArgumentException(

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,29 +18,22 @@ package jakarta.jsonp.tck.api.jsonwritertests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 
 import java.io.*;
 import java.util.*;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 // $Id$
-@RunWith(Arquillian.class)
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -58,38 +51,35 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest1() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest1() {
     try {
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject1 = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeObject(myJsonObject1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
 
-      System.out.println(
+      LOGGER.info(
           "Read the JsonObject back into 'myJsonObject2' using a JsonReader");
       JsonReader reader = Json.createReader(new StringReader(contents));
       JsonObject myJsonObject2 = (JsonObject) reader.read();
 
-      System.out.println("Compare myJsonObject1 and myJsonObject2 for equality");
-      pass = JSONP_Util.assertEqualsJsonObjects(myJsonObject1, myJsonObject2);
+      LOGGER.info("Compare myJsonObject1 and myJsonObject2 for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonObjects(myJsonObject1, myJsonObject2), "jsonWriterTest1 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest1 Failed: ", e);
+      fail("jsonWriterTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest1 Failed");
   }
 
   /*
@@ -106,36 +96,35 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest2() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest2() {
     try {
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject1 = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriter(baos);
       writer.writeObject(myJsonObject1);
-      System.out.println("Close JsonWriter");
+      LOGGER.info("Close JsonWriter");
       baos.close();
       writer.close();
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonObjectText = baos.toString("UTF-8");
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonObjectText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonObjectText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonObject text with actual JsonObject text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText),
+          "jsonWriterTest2 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest2 Failed: ", e);
+      fail("jsonWriterTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest2 Failed");
   }
 
   /*
@@ -153,40 +142,37 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest3() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest3() {
     try {
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.writeArray(myJsonArray1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
 
-      System.out.println("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
+      LOGGER.info("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
       JsonArray myJsonArray2;
       try (JsonReader reader = Json.createReader(new StringReader(contents))) {
         myJsonArray2 = (JsonArray) reader.read();
-        System.out.println("Close JsonReader");
+        LOGGER.info("Close JsonReader");
       }
 
-      System.out.println("Compare myJsonArray1 and myJsonArray2 for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2);
+      LOGGER.info("Compare myJsonArray1 and myJsonArray2 for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2), "jsonWriterTest3 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest3 Failed: ", e);
+      fail("jsonWriterTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest3 Failed");
   }
 
   /*
@@ -203,36 +189,35 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest4() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest4() {
     try {
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriter(baos);
       writer.writeArray(myJsonArray1);
-      System.out.println("Close JsonWriter");
+      LOGGER.info("Close JsonWriter");
       baos.close();
       writer.close();
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonArrayText = baos.toString("UTF-8");
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonArrayText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonArrayText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonArray text with actual JsonArray text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText),
+          "jsonWriterTest4 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest4 Failed: ", e);
+      fail("jsonWriterTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest4 Failed");
   }
 
   /*
@@ -252,38 +237,37 @@ public class ClientTests {
    * For encoding use UTF-16BE.
    */
   @Test
-  public void jsonWriterTest5() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest5() {
     try {
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject1 = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_16BE);
       writer.writeObject(myJsonObject1);
-      System.out.println("Close JsonWriter");
+      LOGGER.info("Close JsonWriter");
       baos.close();
       writer.close();
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonObjectText = JSONP_Util
           .removeWhitespace(baos.toString("UTF-16BE"));
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonObjectText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonObjectText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonObject text with actual JsonObject text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText),
+          "jsonWriterTest5 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest5 Failed: ", e);
+      fail("jsonWriterTest5 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest5 Failed");
   }
 
   /*
@@ -303,41 +287,40 @@ public class ClientTests {
    * For encoding use UTF-8.
    */
   @Test
-  public void jsonWriterTest6() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest6() {
     try {
 
-      System.out.println("Create a configuration with PRETT_PRINTING enabled.");
+      LOGGER.info("Create a configuration with PRETT_PRINTING enabled.");
       Map<String, ?> config = JSONP_Util.getPrettyPrintingConfig();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(config).createWriter(baos,
           JSONP_Util.UTF_8);
       writer.writeArray(myJsonArray1);
-      System.out.println("Close JsonWriter");
+      LOGGER.info("Close JsonWriter");
       baos.close();
       writer.close();
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonArrayText = JSONP_Util
           .removeWhitespace(baos.toString("UTF-8"));
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonArrayText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonArrayText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonArray text with actual JsonArray text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText),
+          "jsonWriterTest6 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest6 Failed: ", e);
+      fail("jsonWriterTest6 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest6 Failed");
   }
 
   /*
@@ -355,37 +338,34 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest7() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest7() {
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject1 = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.write(myJsonObject1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
 
-      System.out.println(
+      LOGGER.info(
           "Read the JsonObject back into 'myJsonObject2' using a JsonReader");
       JsonReader reader = Json.createReader(new StringReader(contents));
       JsonObject myJsonObject2 = (JsonObject) reader.read();
 
-      System.out.println("Compare myJsonObject1 and myJsonObject2 for equality");
-      pass = JSONP_Util.assertEqualsJsonObjects(myJsonObject1, myJsonObject2);
+      LOGGER.info("Compare myJsonObject1 and myJsonObject2 for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonObjects(myJsonObject1, myJsonObject2), "jsonWriterTest7 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest7 Failed: ", e);
+      fail("jsonWriterTest7 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest7 Failed");
   }
 
   /*
@@ -403,37 +383,34 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterTest8() throws Fault {
-    boolean pass = true;
+  public void jsonWriterTest8() {
     try {
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       StringWriter sWriter = new StringWriter();
       try (JsonWriter writer = Json.createWriter(sWriter)) {
         writer.write(myJsonArray1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String contents = sWriter.toString();
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + contents);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + contents);
 
-      System.out.println("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
+      LOGGER.info("Read the JsonArray back into 'myJsonArray2' using a JsonReader");
       JsonReader reader = Json.createReader(new StringReader(contents));
       JsonArray myJsonArray2 = (JsonArray) reader.read();
 
-      System.out.println("Compare myJsonArray1 and myJsonArray2 for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2);
+      LOGGER.info("Compare myJsonArray1 and myJsonArray2 for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(myJsonArray1, myJsonArray2), "jsonWriterTest8 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonWriterTest8 Failed: ", e);
+      fail("jsonWriterTest8 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterTest8 Failed");
   }
 
   /*
@@ -453,29 +430,29 @@ public class ClientTests {
    * null}, "array":["string", 1, true, false, null] }
    */
   @Test
-  public void jsonWriterUTFEncodedTests() throws Fault {
+  public void jsonWriterUTFEncodedTests() {
     boolean pass = true;
-    System.out.println(
+    LOGGER.info(
         "Create expected JSON text with no whitespace for use in comparsion");
     String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
     try {
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-8]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-8 encoding");
+      LOGGER.info("Create JsonWriter using UTF-8 encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_8);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-8"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-8 encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -483,26 +460,26 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing generation to UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing generation to UTF-8 encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-16]");
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-16 encoding");
+      LOGGER.info("Create JsonWriter using UTF-16 encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_16);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16 encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -510,26 +487,26 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing generation to UTF-16 encoding: " + e);
+      LOGGER.warning("Exception occurred testing generation to UTF-16 encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-16LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-16LE encoding");
+      LOGGER.info("Create JsonWriter using UTF-16LE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_16LE);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16LE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16LE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16LE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16LE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -537,27 +514,27 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-16LE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-16BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-16BE encoding");
+      LOGGER.info("Create JsonWriter using UTF-16BE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_16BE);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16BE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16BE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16BE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -565,27 +542,27 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-16BE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-32LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-32LE encoding");
+      LOGGER.info("Create JsonWriter using UTF-32LE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_32LE);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-32LE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-32LE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-32LE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-32LE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -593,27 +570,27 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-32LE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createWriterFactory(Map<String,?>).createWriter(OutputStream, Charset) as UTF-32BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonWriter using UTF-32BE encoding");
+      LOGGER.info("Create JsonWriter using UTF-32BE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(JSONP_Util.getEmptyConfig())
           .createWriter(baos, JSONP_Util.UTF_32BE);
       JSONP_Util.writeJsonObjectFromString(writer, expJson);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-32BE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-32BE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-32BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-32BE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -621,11 +598,10 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-32BE encoding: " + e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterUTFEncodedTests Failed");
+    assertTrue(pass, "jsonWriterUTFEncodedTests Failed");
   }
 
   /*
@@ -644,40 +620,39 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterWithConfigTest1() throws Fault {
-    boolean pass = true;
+  public void jsonWriterWithConfigTest1() {
     try {
 
-      System.out.println("Create a configuration with PRETT_PRINTING enabled.");
+      LOGGER.info("Create a configuration with PRETT_PRINTING enabled.");
       Map<String, ?> config = JSONP_Util.getPrettyPrintingConfig();
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject1 = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
+      LOGGER.info("Write the JsonObject 'myJsonObject1' out to a JsonWriter");
       StringWriter swriter = new StringWriter();
       try (JsonWriter writer = Json.createWriterFactory(config)
           .createWriter(swriter)) {
         writer.writeObject(myJsonObject1);
-        System.out.println("Close JsonWriter");
+        LOGGER.info("Close JsonWriter");
       }
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonObjectText = JSONP_Util
           .removeWhitespace(swriter.toString());
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonObjectText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonObjectText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonObject text with actual JsonObject text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONOBJECT_TEXT, actJsonObjectText),
+          "jsonWriterWithConfigTest1 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterWithConfigTest1 Failed: ", e);
+      fail("jsonWriterWithConfigTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterWithConfigTest1 Failed");
   }
 
   /*
@@ -695,40 +670,39 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterWithConfigTest2() throws Fault {
-    boolean pass = true;
+  public void jsonWriterWithConfigTest2() {
     try {
 
-      System.out.println("Create a configuration with PRETT_PRINTING enabled.");
+      LOGGER.info("Create a configuration with PRETT_PRINTING enabled.");
       Map<String, ?> config = JSONP_Util.getPrettyPrintingConfig();
 
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray1 = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
+      LOGGER.info("Write the JsonArray 'myJsonArray1' out to a JsonWriter");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonWriter writer = Json.createWriterFactory(config).createWriter(baos);
       writer.writeArray(myJsonArray1);
-      System.out.println("Close JsonWriter");
+      LOGGER.info("Close JsonWriter");
       baos.close();
       writer.close();
 
-      System.out.println("Save contents of the JsonWriter as a String");
+      LOGGER.info("Save contents of the JsonWriter as a String");
       String actJsonArrayText = JSONP_Util
           .removeWhitespace(baos.toString("UTF-8"));
 
-      System.out.println("Dump contents of JsonWriter as a String");
-      System.out.println("JsonWriterContents=" + actJsonArrayText);
+      LOGGER.info("Dump contents of JsonWriter as a String");
+      LOGGER.info("JsonWriterContents=" + actJsonArrayText);
 
-      System.out.println(
+      LOGGER.info(
           "Compare expected JsonArray text with actual JsonArray text for equality");
-      pass = JSONP_Util.assertEqualsJsonText(
-          JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText);
+      assertTrue(
+          JSONP_Util.assertEqualsJsonText(JSONP_Util.EXPECTED_SAMPLEJSONARRAY_TEXT, actJsonArrayText),
+          "jsonWriterWithConfigTest2 Failed"
+      );
     } catch (Exception e) {
-      throw new Fault("jsonWriterWithConfigTest2 Failed: ", e);
+      fail("jsonWriterWithConfigTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonWriterWithConfigTest2 Failed");
   }
 
   /*
@@ -742,55 +716,55 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterExceptionTests() throws Fault {
+  public void jsonWriterExceptionTests() {
     boolean pass = true;
     JsonWriter writer = null;
 
     // IllegalStateException if writer.close() already called before
     // writer.writeArray(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create JsonWriter, write something and close it");
+      LOGGER.info("Create JsonWriter, write something and close it");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeArray(jsonArray);
       writer.close();
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.close() already called before writer.writeArray(JsonArray)");
       writer.writeArray(jsonArray);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if writer.writeArray() called after
     // writer.writeArray(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create JsonWriter and write out array");
+      LOGGER.info("Create JsonWriter and write out array");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeArray(jsonArray);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.writeArray(JsonArray) called after writer.writeArray(JsonArray)");
       writer.writeArray(jsonArray);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
@@ -799,27 +773,27 @@ public class ClientTests {
     // IllegalStateException if writer.writeObject() called after
     // writer.writeArray(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject jsonObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create JsonWriter and write out array");
+      LOGGER.info("Create JsonWriter and write out array");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeArray(jsonArray);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.writeObject(JsonObject) called after writer.writeArray(JsonArray)");
       writer.writeObject(jsonObject);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
@@ -828,48 +802,48 @@ public class ClientTests {
     // IllegalStateException if writer.close() already called before
     // writer.writeObject(JsonArray)
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject jsonObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create JsonWriter, write something and close it");
+      LOGGER.info("Create JsonWriter, write something and close it");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeObject(jsonObject);
       writer.close();
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.close() already called before writer.writeObject(JsonObject)");
       writer.writeObject(jsonObject);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if writer.writeObject() called after
     // writer.writeObject(JsonObject)
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject jsonObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create JsonWriter and write out object");
+      LOGGER.info("Create JsonWriter and write out object");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeObject(jsonObject);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.writeObject(JsonObject) called after writer.writeObject(JsonObject)");
       writer.writeObject(jsonObject);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
@@ -878,27 +852,27 @@ public class ClientTests {
     // IllegalStateException if writer.writeArray() called after
     // writer.writeObject(JsonObject)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject jsonObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create JsonWriter and write out object");
+      LOGGER.info("Create JsonWriter and write out object");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeObject(jsonObject);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.writeArray(JsonArray) called after writer.writeObject(JsonObject)");
       writer.writeArray(jsonArray);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
@@ -907,48 +881,48 @@ public class ClientTests {
     // IllegalStateException if writer.close() already called before
     // writer.write(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create JsonWriter, write something and close it");
+      LOGGER.info("Create JsonWriter, write something and close it");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.write(jsonArray);
       writer.close();
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.close() already called before writer.write(JsonArray)");
       writer.write(jsonArray);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // IllegalStateException if writer.write(JsonArray) called after
     // writer.writeArray(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray jsonArray = JSONP_Util.createSampleJsonArray();
 
-      System.out.println("Create JsonWriter and write out array");
+      LOGGER.info("Create JsonWriter and write out array");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeArray(jsonArray);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.write(JsonArray) called after writer.writeArray(JsonArray)");
       writer.write(jsonArray);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
@@ -957,31 +931,30 @@ public class ClientTests {
     // IllegalStateException if writer.write(JsonObject) called after
     // writer.writeJsonObject(JsonObject)
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject jsonObject = JSONP_Util.createSampleJsonObject();
 
-      System.out.println("Create JsonWriter and write out object");
+      LOGGER.info("Create JsonWriter and write out object");
       StringWriter sWriter = new StringWriter();
       writer = Json.createWriter(sWriter);
       writer.writeObject(jsonObject);
 
-      System.out.println(
+      LOGGER.info(
           "IllegalStateException if writer.write(JsonObject) called after writer.writeObject(JsonObject)");
       writer.write(jsonObject);
       pass = false;
-      System.err.println("Failed to throw IllegalStateException");
+      LOGGER.warning("Failed to throw IllegalStateException");
     } catch (IllegalStateException e) {
-      System.out.println("Got expected IllegalStateException");
+      LOGGER.info("Got expected IllegalStateException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     } finally {
       if (writer != null)
         writer.close();
     }
 
-    if (!pass)
-      throw new Fault("jsonWriterExceptionTests Failed");
+    assertTrue(pass, "jsonWriterExceptionTests Failed");
   }
 
   /*
@@ -994,98 +967,97 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonWriterIOErrorTests() throws Fault {
+  public void jsonWriterIOErrorTests() {
     boolean pass = true;
 
     // Trip JsonException if there is an i/o error on JsonWriter.close()
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject = JSONP_Util.createSampleJsonObject();
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonWriter.close().");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       try (JsonWriter writer = Json.createWriter(mbw)) {
         writer.writeObject(myJsonObject);
         mbw.setThrowIOException(true);
-        System.out.println("Calling JsonWriter.close()");
+        LOGGER.info("Calling JsonWriter.close()");
       }
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on
     // JsonWriter.writeObject(JsonObject)
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject = JSONP_Util.createSampleJsonObject();
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonWriter.writeObject(JsonObject).");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       try (JsonWriter writer = Json.createWriter(mbw)) {
         mbw.setThrowIOException(true);
-        System.out.println("Calling JsonWriter.writeObject(JsonObject)");
+        LOGGER.info("Calling JsonWriter.writeObject(JsonObject)");
         writer.writeObject(myJsonObject);
       }
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on
     // JsonWriter.writeArray(JsonArray)
     try {
-      System.out.println("Create sample JsonArray for testing");
+      LOGGER.info("Create sample JsonArray for testing");
       JsonArray myJsonArray = JSONP_Util.createSampleJsonArray();
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonWriter.writeArray(JsonArray).");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       try (JsonWriter writer = Json.createWriter(mbw)) {
         mbw.setThrowIOException(true);
-        System.out.println("Calling JsonWriter.writeArray(JsonArray)");
+        LOGGER.info("Calling JsonWriter.writeArray(JsonArray)");
         writer.writeArray(myJsonArray);
       }
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on
     // JsonWriter.write(JsonStructure)
     try {
-      System.out.println("Create sample JsonObject for testing");
+      LOGGER.info("Create sample JsonObject for testing");
       JsonObject myJsonObject = JSONP_Util.createSampleJsonObject();
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonWriter.write(JsonStructure).");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       try (JsonWriter writer = Json.createWriter(mbw)) {
         mbw.setThrowIOException(true);
-        System.out.println("Calling JsonWriter.write(JsonStructure)");
+        LOGGER.info("Calling JsonWriter.write(JsonStructure)");
         writer.write(myJsonObject);
       }
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonWriterIOErrorTests Failed");
+    assertTrue(pass, "jsonWriterIOErrorTests Failed");
   }
 
   /*
@@ -1099,7 +1071,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonWriter API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonWriter11Test() throws Fault {
+  public void jsonWriter11Test() {
     Writer writerTest = new Writer();
     final TestResult result = writerTest.test();
     result.eval();

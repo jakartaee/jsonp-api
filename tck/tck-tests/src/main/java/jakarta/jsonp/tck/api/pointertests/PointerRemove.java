@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,6 +23,8 @@ import jakarta.json.JsonException;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonPointer;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -33,6 +35,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * remove operation tests.<br>
  */
 public class PointerRemove {
+
+  private static final Logger LOGGER = Logger.getLogger(PointerRemove.class.getName());
 
   /**
    * Creates an instance of RFC 6901 pointer instance usage for RFC 6902 remove
@@ -51,7 +55,7 @@ public class PointerRemove {
   TestResult test() {
     final TestResult result = new TestResult(
         "RFC 6901 pointer usage for RFC 6902 remove operation");
-    System.out.println("Testing RFC 6901 pointer usage for RFC 6902 remove operation");
+    LOGGER.info("Testing RFC 6901 pointer usage for RFC 6902 remove operation");
     testRemoveStringOnEmptyObject(result);
     testRemoveStringOnEmptyArray(result);
     testRemoveStringOnSimpleObject(result);
@@ -85,7 +89,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveStringOnEmptyObject(final TestResult result) {
-    System.out.println(" - for String to produce empty JSON object");
+    LOGGER.info(" - for String to produce empty JSON object");
     final JsonObject in = createSimpleObjectStr();
     final JsonObject check = createEmptyObject();
     final JsonPointer ptr = Json.createPointer(STR_PATH);
@@ -104,7 +108,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveStringOnEmptyArray(final TestResult result) {
-    System.out.println(" - for String to produce empty JSON array");
+    LOGGER.info(" - for String to produce empty JSON array");
     final JsonArray in = createEmptyArrayWithStr();
     final JsonArray check = createEmptyArray();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -122,7 +126,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObjectWithStr();
     final JsonObject check = createSimpleObject();
     final JsonPointer ptr = Json.createPointer(STR_PATH);
@@ -143,7 +147,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 2");
+    LOGGER.info(" - for String on simple JSON array of size 2");
     final JsonArray inBefore = createSimpleStringArrayWithStrBefore();
     final JsonArray inAfter = createSimpleStringArrayWithStrAfter();
     final JsonArray check = createStringArray1();
@@ -175,7 +179,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 5");
+    LOGGER.info(" - for String on simple JSON array of size 5");
     final JsonArray in = createSimpleStringArray5();
     final JsonArray check = createStringArray2();
     verifyRemoveValues(result, in, check, new String[] { "/4", "/2", "/0" },
@@ -193,7 +197,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveIntOnEmptyObject(final TestResult result) {
-    System.out.println(" - for int to produce empty JSON object");
+    LOGGER.info(" - for int to produce empty JSON object");
     final JsonObject in = createSimpleObjectInt();
     final JsonObject check = createEmptyObject();
     final JsonPointer ptr = Json.createPointer(INT_PATH);
@@ -212,7 +216,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveIntOnEmptyArray(final TestResult result) {
-    System.out.println(" - for int to produce empty JSON array");
+    LOGGER.info(" - for int to produce empty JSON array");
     final JsonArray in = createEmptyArrayWithInt();
     final JsonArray check = createEmptyArray();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -230,7 +234,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObjectWithInt();
     final JsonObject check = createSimpleObject();
     final JsonPointer ptr = Json.createPointer(INT_PATH);
@@ -251,7 +255,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 2");
+    LOGGER.info(" - for int on simple JSON array of size 2");
     final JsonArray inBefore = createSimpleIntArrayWithIntBefore();
     final JsonArray inAfter = createSimpleIntArrayWithIntAfter();
     final JsonArray check = createIntArray1();
@@ -283,7 +287,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 5");
+    LOGGER.info(" - for int on simple JSON array of size 5");
     final JsonArray in = createSimpleIntArray5();
     final JsonArray check = createIntArray2();
     verifyRemoveValues(result, in, check, new String[] { "/4", "/2", "/0" },
@@ -302,7 +306,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveBoolOnEmptyObject(final TestResult result) {
-    System.out.println(" - for boolean to produce empty JSON object");
+    LOGGER.info(" - for boolean to produce empty JSON object");
     final JsonObject in = createSimpleObjectBool();
     final JsonObject check = createEmptyObject();
     final JsonPointer ptr = Json.createPointer(BOOL_PATH);
@@ -321,7 +325,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveBoolOnEmptyArray(final TestResult result) {
-    System.out.println(" - for boolean to produce empty JSON array");
+    LOGGER.info(" - for boolean to produce empty JSON array");
     final JsonArray in = createEmptyArrayWithBool();
     final JsonArray check = createEmptyArray();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -339,7 +343,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObjectWithBool();
     final JsonObject check = createSimpleObject();
     final JsonPointer ptr = Json.createPointer(BOOL_PATH);
@@ -360,7 +364,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 2");
+    LOGGER.info(" - for boolean on simple JSON array of size 2");
     final JsonArray inBefore = createSimpleBoolArrayWithBoolBefore();
     final JsonArray inAfter = createSimpleBoolArrayWithBoolAfter();
     final JsonArray check = createBoolArray1();
@@ -392,7 +396,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveBoolOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 5");
+    LOGGER.info(" - for boolean on simple JSON array of size 5");
     final JsonArray in = createSimpleBoolArray5();
     final JsonArray check = createBoolArray2();
     verifyRemoveValues(result, in, check, new String[] { "/4", "/2", "/0" },
@@ -411,7 +415,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveObjectOnEmptyObject(final TestResult result) {
-    System.out.println(" - for JsonObject to produce empty JSON object");
+    LOGGER.info(" - for JsonObject to produce empty JSON object");
     final JsonObject in = createSimpleObjectObject();
     final JsonObject check = createEmptyObject();
     final JsonPointer ptr = Json.createPointer(OBJ_PATH);
@@ -430,7 +434,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveObjectOnEmptyArray(final TestResult result) {
-    System.out.println(" - for JsonObject to produce empty JSON array");
+    LOGGER.info(" - for JsonObject to produce empty JSON array");
     final JsonArray in = createEmptyArrayWithObject();
     final JsonArray check = createEmptyArray();
     final JsonPointer ptr = Json.createPointer("/0");
@@ -448,7 +452,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveObjectOnSimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createCompoundObjectWithObject();
     final JsonObject check = createCompoundObject();
     final JsonPointer ptr = Json.createPointer(OBJ_PATH);
@@ -469,7 +473,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 2");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 2");
     final JsonArray inBefore = createSimpleObjectArrayWithObjectBefore();
     final JsonArray inAfter = createSimpleObjectArrayWithObjectAfter();
     final JsonArray check = createObjectArray1();
@@ -501,7 +505,7 @@ public class PointerRemove {
    *          Tests result record.
    */
   private void testRemoveObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 5");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 5");
     final JsonArray in = createSimpleObjectArray5();
     final JsonArray check = createObjectArray2();
     verifyRemoveValues(result, in, check, new String[] { "/4", "/2", "/0" },
@@ -522,7 +526,7 @@ public class PointerRemove {
    */
   private void testRemoveFromNonExistingLocationInObject(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonObject");
+    LOGGER.info(" - for non existing location in JsonObject");
     final JsonObject[] objsIn = new JsonObject[] { createEmptyObject(),
         createSimpleObject(), createCompoundObject() };
     final String[] paths = new String[] { STR_PATH, INT_PATH, BOOL_PATH,
@@ -551,7 +555,7 @@ public class PointerRemove {
    */
   private void testRemoveFromNonExistingLocationInArray(
       final TestResult result) {
-    System.out.println(" - for non existing location in JsonArray");
+    LOGGER.info(" - for non existing location in JsonArray");
     final JsonArray[] arraysIn = new JsonArray[] { createEmptyArray(),
         createStringArray1(), createIntArray2(), createSimpleBoolArray5(),
         createObjectArray2()

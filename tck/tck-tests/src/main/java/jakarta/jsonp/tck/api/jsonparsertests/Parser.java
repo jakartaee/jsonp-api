@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -41,6 +42,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 public class Parser {
 
+  private static final Logger LOGGER = Logger.getLogger(Parser.class.getName());
+  
   /** Tests input data with various JsonValue instances. */
   private static final JsonValue[] VALUES = new JsonValue[] {
       toJsonValue(STR_VALUE), // Non JsonObject with String
@@ -153,7 +156,7 @@ public class Parser {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonParser API methods added in JSON-P 1.1.");
-    System.out.println("JsonParser API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonParser API methods added in JSON-P 1.1.");
     testGetObject(result);
     testGetNonObject(result);
     testGetArray(result);
@@ -179,7 +182,7 @@ public class Parser {
   private void testGetObject(final TestResult result) {
     for (JsonObject value : OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getObject() on " + data);
+      LOGGER.info(" - getObject() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -189,7 +192,7 @@ public class Parser {
               + " shall be " + valueToString(value));
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("getObject()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -202,7 +205,7 @@ public class Parser {
   private void testGetNonObject(final TestResult result) {
     for (JsonValue value : NON_OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getObject() on " + data);
+      LOGGER.info(" - getObject() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -210,7 +213,7 @@ public class Parser {
         result.fail("getObject()",
             "Calling method on non object value shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getObject()",
             "Calling method on non object value shall throw IllegalStateException, not "
@@ -225,7 +228,7 @@ public class Parser {
   private void testGetArray(final TestResult result) {
     for (JsonArray value : ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getArray() on " + data);
+      LOGGER.info(" - getArray() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -235,7 +238,7 @@ public class Parser {
               + " shall be " + valueToString(value));
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("getArray()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -248,7 +251,7 @@ public class Parser {
   private void testGetNonArray(final TestResult result) {
     for (JsonValue value : NON_ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getArray() on " + data);
+      LOGGER.info(" - getArray() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -256,7 +259,7 @@ public class Parser {
         result.fail("getArray()",
             "Calling method on non array value shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getArray()",
             "Calling method on non array value shall throw IllegalStateException, not "
@@ -271,7 +274,7 @@ public class Parser {
   private void testGetValue(final TestResult result) {
     for (JsonValue value : VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getValue() on " + data);
+      LOGGER.info(" - getValue() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -281,7 +284,7 @@ public class Parser {
               + " shall be " + valueToString(value));
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("getValue()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -295,7 +298,7 @@ public class Parser {
   private void testGetIllegalValue(final TestResult result) {
     for (JsonValue value : EMPTY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getValue() on 2nd lexical element of " + data);
+      LOGGER.info(" - getValue() on 2nd lexical element of " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next(); // Skip to START ELEMENT
@@ -304,7 +307,7 @@ public class Parser {
         result.fail("getValue()",
             "Calling method on END_OBJECT and END_ARRAY lexical elements shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getValue()",
             "Calling method on END_OBJECT and END_ARRAY lexical elements shall throw IllegalStateException, not "
@@ -319,7 +322,7 @@ public class Parser {
   private void testGetObjectStream(final TestResult result) {
     for (JsonObject value : OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getObjectStream() on " + data);
+      LOGGER.info(" - getObjectStream() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -329,7 +332,7 @@ public class Parser {
               "Output Stream shall contain " + valueToString(value));
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("getObjectStream()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -342,7 +345,7 @@ public class Parser {
   private void testGetNonObjectStream(final TestResult result) {
     for (JsonValue value : NON_OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getObjectStream() on " + data);
+      LOGGER.info(" - getObjectStream() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -350,7 +353,7 @@ public class Parser {
         result.fail("getObjectStream()",
             "Calling method on non object value shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getObjectStream()",
             "Calling method on non object value shall throw IllegalStateException, not "
@@ -365,7 +368,7 @@ public class Parser {
   private void testGetArrayStream(final TestResult result) {
     for (JsonArray value : ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getArrayStream() on " + data);
+      LOGGER.info(" - getArrayStream() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -375,7 +378,7 @@ public class Parser {
               "Output Stream shall contain " + valueToString(value));
         }
       } catch (JsonException ex) {
-        System.out.println("Caught JsonException: " + ex.getLocalizedMessage());
+        LOGGER.info("Caught JsonException: " + ex.getLocalizedMessage());
         result.fail("getArrayStream()",
             "Caught JsonException: " + ex.getLocalizedMessage());
       }
@@ -388,7 +391,7 @@ public class Parser {
   private void testGetNonArrayStream(final TestResult result) {
     for (JsonValue value : NON_ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getArrayStream() on " + data);
+      LOGGER.info(" - getArrayStream() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -396,7 +399,7 @@ public class Parser {
         result.fail("getArrayStream()",
             "Calling method on non array value shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getArrayStream()",
             "Calling method on non array value shall throw IllegalStateException, not "
@@ -412,7 +415,7 @@ public class Parser {
   private void testGetValueStream(final TestResult result) {
     for (final JsonValue value : VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getValueStream() on " + data);
+      LOGGER.info(" - getValueStream() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         final Stream<JsonValue> outStream = parser.getValueStream();
@@ -426,7 +429,7 @@ public class Parser {
           count++;
         }
         if (count != 1) {
-          System.out.println("     Output Stream contains "
+          LOGGER.info("     Output Stream contains "
               + Integer.toString(count) + " values, not 1");
           result.fail("getValueStream()",
               "Output Stream does not contain exactly 1 JSON value");
@@ -442,7 +445,7 @@ public class Parser {
   private void testGetCompoundValueStream(final TestResult result) {
     for (final JsonValue value : COMPOUND_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - getValueStream() inside " + data);
+      LOGGER.info(" - getValueStream() inside " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -450,7 +453,7 @@ public class Parser {
         result.fail("getValueStream()",
             "Calling method on non object value shall throw IllegalStateException");
       } catch (IllegalStateException e) {
-        System.out.println("      Expected exception: " + e.getMessage());
+        LOGGER.info("      Expected exception: " + e.getMessage());
       } catch (Throwable t) {
         result.fail("getValueStream()",
             "Calling method on non object value shall throw IllegalStateException, not "
@@ -467,7 +470,7 @@ public class Parser {
   private void testSkipArray(final TestResult result) {
     for (final JsonArray value : ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - skipArray() on " + data);
+      LOGGER.info(" - skipArray() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -477,7 +480,7 @@ public class Parser {
               "Parser did not davance to the end of the array");
         }
       } catch (Throwable t) {
-        System.out.println(
+        LOGGER.info(
             "     " + t.getClass().getSimpleName() + ": " + t.getMessage());
         result.fail("skipArray()",
             t.getClass().getSimpleName() + ": " + t.getMessage());
@@ -494,7 +497,7 @@ public class Parser {
   private void testSkipNonArray(final TestResult result) {
     for (final JsonValue value : NON_ARRAY_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - skipArray() on " + data);
+      LOGGER.info(" - skipArray() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -506,7 +509,7 @@ public class Parser {
                   + valueToString(value) + " even after skipArray()");
         }
       } catch (Throwable t) {
-        System.out.println(
+        LOGGER.info(
             "     " + t.getClass().getSimpleName() + ": " + t.getMessage());
         result.fail("skipArray()",
             t.getClass().getSimpleName() + ": " + t.getMessage());
@@ -522,7 +525,7 @@ public class Parser {
   private void testSkipObject(final TestResult result) {
     for (final JsonObject value : OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - skipObject() on " + data);
+      LOGGER.info(" - skipObject() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -532,7 +535,7 @@ public class Parser {
               "Parser did not davance to the end of the object");
         }
       } catch (Throwable t) {
-        System.out.println(
+        LOGGER.info(
             "     " + t.getClass().getSimpleName() + ": " + t.getMessage());
         result.fail("skipObject()",
             t.getClass().getSimpleName() + ": " + t.getMessage());
@@ -549,7 +552,7 @@ public class Parser {
   private void testSkipNonObject(final TestResult result) {
     for (final JsonValue value : NON_OBJ_VALUES) {
       final String data = jsonData(value);
-      System.out.println(" - skipObject() on " + data);
+      LOGGER.info(" - skipObject() on " + data);
       final StringReader strReader = new StringReader(data);
       try (final JsonParser parser = Json.createParser(strReader)) {
         parser.next();
@@ -561,7 +564,7 @@ public class Parser {
                   + valueToString(value) + " even after skipObject()");
         }
       } catch (Throwable t) {
-        System.out.println(
+        LOGGER.info(
             "     " + t.getClass().getSimpleName() + ": " + t.getMessage());
         result.fail("skipObject()",
             t.getClass().getSimpleName() + ": " + t.getMessage());
@@ -581,7 +584,7 @@ public class Parser {
    */
   protected boolean operationFailed(final JsonValue check,
       final JsonValue out) {
-    System.out.println("     Checking " + valueToString(out));
+    LOGGER.info("     Checking " + valueToString(out));
     return out == null || !assertEquals(check, out);
   }
 
@@ -599,7 +602,7 @@ public class Parser {
       final Stream<Map.Entry<String, JsonValue>> out) {
     // Operation failed for null.
     if (out == null) {
-      System.out.println("     Output is null");
+      LOGGER.info("     Output is null");
       return true;
     }
     final Set<String> keys = new HashSet<>(check.size());
@@ -611,10 +614,10 @@ public class Parser {
         .hasNext();) {
       final Map.Entry<String, JsonValue> item = i.next();
       final JsonValue checkValue = check.get(item.getKey());
-      System.out.println("     Checking " + valueToString(item.getValue()));
+      LOGGER.info("     Checking " + valueToString(item.getValue()));
       // Operation failed if values with the same key are not equal.
       if (!item.getValue().equals(checkValue)) {
-        System.out.println("       check: " + valueToString(checkValue)
+        LOGGER.info("       check: " + valueToString(checkValue)
             + " stream: " + valueToString(checkValue));
         return true;
       }
@@ -638,7 +641,7 @@ public class Parser {
       final Stream<JsonValue> out) {
     // Operation failed for null.
     if (out == null) {
-      System.out.println("     Output is null");
+      LOGGER.info("     Output is null");
       return true;
     }
     final Iterator<JsonValue> ci = check.iterator();
@@ -647,21 +650,21 @@ public class Parser {
     while (ci.hasNext() && oi.hasNext()) {
       final JsonValue checkValue = ci.next();
       final JsonValue outValue = oi.next();
-      System.out.println("     Checking " + valueToString(outValue));
+      LOGGER.info("     Checking " + valueToString(outValue));
       if (!checkValue.equals(outValue)) {
-        System.out.println("       check: " + valueToString(checkValue)
+        LOGGER.info("       check: " + valueToString(checkValue)
             + " stream: " + valueToString(checkValue));
         return true;
       }
     }
     // Check still has values, something was missing in output.
     if (ci.hasNext()) {
-      System.out.println("     Output contains less values than expected");
+      LOGGER.info("     Output contains less values than expected");
       return true;
     }
     // Output still has values, it contains more than expected.
     if (oi.hasNext()) {
-      System.out.println("     Output contains more values than expected");
+      LOGGER.info("     Output contains more values than expected");
       return true;
     }
     return false;

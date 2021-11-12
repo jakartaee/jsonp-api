@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,13 +16,10 @@
 
 package jakarta.jsonp.tck.api.patchtests;
 
+import jakarta.json.*;
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonPatch;
-import jakarta.json.JsonPatchBuilder;
-import jakarta.json.JsonValue;
+
+import java.util.logging.Logger;
 
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
@@ -33,6 +30,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * factory methods added in JSON-P 1.1.<br>
  */
 public class PatchCreate {
+
+  private static final Logger LOGGER = Logger.getLogger(PatchCreate.class.getName());
 
   /**
    * Creates an instance of {@link JsonPatch} API factory methods added in
@@ -50,7 +49,7 @@ public class PatchCreate {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonPatch API factory methods added in JSON-P 1.1.");
-    System.out.println("JsonPatch API factory methods added in JSON-P 1.1.");
+    LOGGER.info("JsonPatch API factory methods added in JSON-P 1.1.");
     testCreateDiff(result);
     testCreatePatch(result);
     testCreatePatchBuilder(result);
@@ -64,7 +63,7 @@ public class PatchCreate {
    *          Test suite result.
    */
   private void testCreateDiff(final TestResult result) {
-    System.out.println(" - Json#createDiff(JsonStructure,JsonStructure)");
+    LOGGER.info(" - Json#createDiff(JsonStructure,JsonStructure)");
     final JsonObject src = createSimpleObject();
     final JsonObject trg = createSimpleObjectWithStr();
     final JsonPatch patch = Json.createDiff(src, trg);
@@ -82,7 +81,7 @@ public class PatchCreate {
    *          Test suite result.
    */
   private void testCreatePatch(final TestResult result) {
-    System.out.println(" - Json#createPatch(JsonArray)");
+    LOGGER.info(" - Json#createPatch(JsonArray)");
     final JsonObject src = createSimpleObject();
     final JsonObject trg = createSimpleObjectWithStr();
     final JsonArray patchArray = Json.createDiff(src, trg).toJsonArray();
@@ -101,7 +100,7 @@ public class PatchCreate {
    *          Test suite result.
    */
   private void testCreatePatchBuilder(final TestResult result) {
-    System.out.println(" - Json#createPatchBuilder(JsonArray)");
+    LOGGER.info(" - Json#createPatchBuilder(JsonArray)");
     final JsonObject src = createSimpleObject();
     final JsonObject trg = createSimpleObjectWithStr();
     final JsonArray patchArray = Json.createDiff(src, trg).toJsonArray();

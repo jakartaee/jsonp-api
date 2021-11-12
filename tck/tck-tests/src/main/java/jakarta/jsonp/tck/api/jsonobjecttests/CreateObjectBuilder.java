@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.jsonobjecttests;
 import jakarta.jsonp.tck.api.common.TestResult;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -34,6 +36,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  */
 public class CreateObjectBuilder {
 
+  private static final Logger LOGGER = Logger.getLogger(CreateObjectBuilder.class.getName());
+
   /**
    * Test {@link JsonObjectBuilder} factory method added in JSON-P 1.1.
    * 
@@ -42,7 +46,7 @@ public class CreateObjectBuilder {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonObjectBuilder API factory methods added in JSON-P 1.1.");
-    System.out.println("JsonObjectBuilder API factory methods added in JSON-P 1.1.");
+    LOGGER.info("JsonObjectBuilder API factory methods added in JSON-P 1.1.");
     testCreateFromMap(result);
     testCreateFromJsonObject(result);
     return result;
@@ -55,7 +59,7 @@ public class CreateObjectBuilder {
    *          Test suite result.
    */
   private void testCreateFromMap(final TestResult result) {
-    System.out.println(" - Json#createObjectBuilder(Map<String,Object>)");
+    LOGGER.info(" - Json#createObjectBuilder(Map<String,Object>)");
     final JsonObject check = createSimpleObjectWithStr();
     Map<String, Object> values = new HashMap<>(2);
     values.put(DEF_NAME, DEF_VALUE);
@@ -75,7 +79,7 @@ public class CreateObjectBuilder {
    *          Test suite result.
    */
   private void testCreateFromJsonObject(final TestResult result) {
-    System.out.println(" - Json#createObjectBuilder(JsonObject)");
+    LOGGER.info(" - Json#createObjectBuilder(JsonObject)");
     final JsonObject check = createSimpleObjectWithStr();
     final JsonObjectBuilder builder = Json.createObjectBuilder(check);
     final JsonObject out = builder.build();

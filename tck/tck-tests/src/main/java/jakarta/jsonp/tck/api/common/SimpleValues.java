@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package jakarta.jsonp.tck.api.common;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.logging.Logger;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
@@ -37,6 +39,8 @@ import jakarta.json.JsonWriter;
  * Build various simple values for testing.
  */
 public class SimpleValues {
+
+  private static final Logger LOGGER = Logger.getLogger(SimpleValues.class.getName());
 
   /** Name of JSON {@code String} value used in tests. */
   public static final String STR_NAME = "address";
@@ -1104,7 +1108,7 @@ public class SimpleValues {
     try (final JsonWriter writer = Json.createWriter(strWriter)) {
       writer.write(value);
     } catch (JsonException ex) {
-      System.out.println(
+      LOGGER.info(
           "Could not initialize JSON data: " + ex.getLocalizedMessage());
       throw ex;
     }

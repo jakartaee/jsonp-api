@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,33 +17,20 @@
 package jakarta.jsonp.tck.api.collectortests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.lib.harness.Fault;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 // $Id$
 /**
  * JavaScript Object Notation (JSON) Pointer compatibility tests.<br>
  * Test {@link jakarta.json.stream.JsonCollectors} class implementation.
  */
-@RunWith(Arquillian.class)
 public class CollectorTests {
-    
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, CollectorTests.class.getPackage().getName());
-    }
 
   /**
    * Test JSON-P {@link jakarta.json.stream.JsonCollectors} class implementation.
    * 
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonCollectorTest
@@ -52,7 +39,7 @@ public class CollectorTests {
    * @test_Strategy: Test all collectors returned by API.
    */
   @Test
-  public void jsonCollectorTest() throws Fault {
+  public void jsonCollectorTest() {
     Collectors collectorTest = new Collectors();
     final TestResult result = collectorTest.test();
     result.eval();

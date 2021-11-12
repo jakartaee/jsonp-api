@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,44 +24,44 @@ import jakarta.json.spi.JsonProvider;
 import jakarta.json.stream.*;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
-import java.util.Properties;
 import java.util.ServiceLoader;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 import jakarta.jsonp.tck.provider.MyJsonProvider;
 import jakarta.jsonp.tck.provider.MyJsonGenerator;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+@ExtendWith(ArquillianExtension.class)
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
-
   private static final String MY_JSONPROVIDER_CLASS = "jakarta.jsonp.tck.provider.MyJsonProvider";
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
 
   private String providerPath = null;
+
+  @Deployment
+  public static WebArchive createTestArchive() {
+    return ShrinkWrap.create(WebArchive.class)
+        .addPackages(true, ClientTests.class.getPackage().getName());
+  }
   
-  @After
+  @AfterEach
   public void after() {
       MyJsonProvider.clearCalls();
       MyJsonGenerator.clearCalls();
@@ -78,17 +78,17 @@ public class ClientTests {
    * static JsonProvider provider()
    */
   @Test
-  public void jsonProviderTest1() throws Fault {
+  public void jsonProviderTest1() {
     boolean pass = true;
     try {
       // Load my provider
       JsonProvider provider = JsonProvider.provider();
       String providerClass = provider.getClass().getName();
-      System.out.println("provider class=" + providerClass);
+      LOGGER.info("provider class=" + providerClass);
       if (providerClass.equals(MY_JSONPROVIDER_CLASS))
-        System.out.println("Current provider is my provider - expected.");
+        LOGGER.info("Current provider is my provider - expected.");
       else {
-        System.err.println("Current provider is not my provider - unexpected.");
+        LOGGER.warning("Current provider is not my provider - unexpected.");
         pass = false;
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
         Iterator<JsonProvider> it = loader.iterator();
@@ -96,13 +96,12 @@ public class ClientTests {
         while(it.hasNext()) {
             providers.add(it.next());
         }
-        System.out.println("Providers: "+providers);
+        LOGGER.info("Providers: "+providers);
       }
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest1 Failed: ", e);
+      fail("jsonProviderTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest1 Failed");
+    assertTrue(pass, "jsonProviderTest1 Failed");
   }
 
   /*
@@ -114,25 +113,24 @@ public class ClientTests {
    * JsonGenerator createGenerator(Writer)
    */
   @Test
-  public void jsonProviderTest2() throws Fault {
+  public void jsonProviderTest2() {
     boolean pass = true;
     String expString = "public JsonGenerator createGenerator(Writer)";
     String expString2 = "public JsonGenerator writeStartArray()";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonGenerator generator = Json.createGenerator(new StringWriter());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
       pass = JSONP_Util.assertEquals(expString, actString);
       generator.writeStartArray();
       String actString2 = MyJsonGenerator.getCalls();
-      System.out.println("Verify SPI generator method was called: " + expString2);
+      LOGGER.info("Verify SPI generator method was called: " + expString2);
       pass = JSONP_Util.assertEquals(expString2, actString2);
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest2 Failed: ", e);
+      fail("jsonProviderTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest2 Failed");
+    assertTrue(pass, "jsonProviderTest2 Failed");
   }
 
   /*
@@ -144,26 +142,25 @@ public class ClientTests {
    * JsonGenerator createGenerator(OutputStream)
    */
   @Test
-  public void jsonProviderTest3() throws Fault {
+  public void jsonProviderTest3() {
     boolean pass = true;
     String expString = "public JsonGenerator createGenerator(OutputStream)";
     String expString2 = "public JsonGenerator writeStartObject()";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonGenerator generator = Json
           .createGenerator(new ByteArrayOutputStream());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
       pass = JSONP_Util.assertEquals(expString, actString);
       generator.writeStartObject();
       String actString2 = MyJsonGenerator.getCalls();
-      System.out.println("Verify SPI generator method was called: " + expString2);
+      LOGGER.info("Verify SPI generator method was called: " + expString2);
       pass = JSONP_Util.assertEquals(expString2, actString2);
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest3 Failed: ", e);
+      fail("jsonProviderTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest3 Failed");
+    assertTrue(pass, "jsonProviderTest3 Failed");
   }
 
   /*
@@ -175,20 +172,17 @@ public class ClientTests {
    * JsonParser createParser(Reader)
    */
   @Test
-  public void jsonProviderTest4() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest4() {
     String expString = "public JsonParser createParser(Reader)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonParser parser = Json.createParser(new StringReader("{}"));
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest4 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest4 Failed: ", e);
+      fail("jsonProviderTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest4 Failed");
   }
 
   /*
@@ -200,21 +194,18 @@ public class ClientTests {
    * JsonParser createParser(InputStream)
    */
   @Test
-  public void jsonProviderTest5() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest5() {
     String expString = "public JsonParser createParser(InputStream)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonParser parser = Json
           .createParser(JSONP_Util.getInputStreamFromString("{}"));
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest5 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest5 Failed: ", e);
+      fail("jsonProviderTest5 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest5 Failed");
   }
 
   /*
@@ -226,21 +217,18 @@ public class ClientTests {
    * JsonParserFactory createParserFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest6() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest6() {
     String expString = "public JsonParserFactory createParserFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonParserFactory parserFactory = Json
           .createParserFactory(JSONP_Util.getEmptyConfig());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest5 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest6 Failed: ", e);
+      fail("jsonProviderTest6 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest6 Failed");
   }
 
   /*
@@ -252,21 +240,18 @@ public class ClientTests {
    * JsonParserFactory createParserFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest7() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest7() {
     String expString = "public JsonParserFactory createParserFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonParserFactory parserFactory = Json
           .createParserFactory(new HashMap<String, Object>());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest7 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest7 Failed: ", e);
+      fail("jsonProviderTest7 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest7 Failed");
   }
 
   /*
@@ -278,21 +263,18 @@ public class ClientTests {
    * JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest8() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest8() {
     String expString = "public JsonGeneratorFactory createGeneratorFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonGeneratorFactory generatorFactory = Json
           .createGeneratorFactory(new HashMap<String, Object>());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest8 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest8 Failed: ", e);
+      fail("jsonProviderTest8 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest8 Failed");
   }
 
   /*
@@ -304,21 +286,18 @@ public class ClientTests {
    * JsonWriterFactory createWriterFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest9() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest9() {
     String expString = "public JsonWriterFactory createWriterFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonWriterFactory factory = Json
           .createWriterFactory(JSONP_Util.getEmptyConfig());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest9 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest9 Failed: ", e);
+      fail("jsonProviderTest9 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest9 Failed");
   }
 
   /*
@@ -332,21 +311,18 @@ public class ClientTests {
    * JsonException.
    */
   @Test
-  public void jsonProviderTest10() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest10() {
     String expString = "public JsonParser createParser(InputStream)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       InputStream in = null;
       JsonParser parser = Json.createParser(in);
-      pass = false;
+      fail("jsonProviderTest10 Failed");
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException: " + e);
+      LOGGER.info("Caught expected JsonException: " + e);
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest10 Failed: ", e);
+      fail("jsonProviderTest10 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest10 Failed");
   }
 
   /*
@@ -358,20 +334,17 @@ public class ClientTests {
    * JsonArrayBuilder createArrayBuilder()
    */
   @Test
-  public void jsonProviderTest11() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest11() {
     String expString = "public JsonArrayBuilder createArrayBuilder()";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest11 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest11 Failed: ", e);
+      fail("jsonProviderTest11 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest11 Failed");
   }
 
   /*
@@ -383,20 +356,17 @@ public class ClientTests {
    * JsonObjectBuilder createObjectBuilder()
    */
   @Test
-  public void jsonProviderTest12() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest12() {
     String expString = "public JsonObjectBuilder createObjectBuilder()";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest12 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest12 Failed: ", e);
+      fail("jsonProviderTest12 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest12 Failed");
   }
 
   /*
@@ -408,21 +378,18 @@ public class ClientTests {
    * JsonBuilderFactory createBuilderFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest13() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest13() {
     String expString = "public JsonBuilderFactory createBuilderFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonBuilderFactory objectBuilder = Json
           .createBuilderFactory(JSONP_Util.getEmptyConfig());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest13 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest13 Failed: ", e);
+      fail("jsonProviderTest13 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest13 Failed");
   }
 
   /*
@@ -434,20 +401,17 @@ public class ClientTests {
    * JsonReader createReader(Reader)
    */
   @Test
-  public void jsonProviderTest14() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest14() {
     String expString = "public JsonReader createReader(Reader)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonReader reader = Json.createReader(new StringReader("{}"));
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest14 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest14 Failed: ", e);
+      fail("jsonProviderTest14 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest14 Failed");
   }
 
   /*
@@ -459,21 +423,18 @@ public class ClientTests {
    * JsonReader createReader(InputStream)
    */
   @Test
-  public void jsonProviderTest15() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest15() {
     String expString = "public JsonReader createReader(InputStream)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonReader reader = Json
           .createReader(JSONP_Util.getInputStreamFromString("{}"));
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest15 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest15 Failed: ", e);
+      fail("jsonProviderTest15 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest15 Failed");
   }
 
   /*
@@ -485,20 +446,17 @@ public class ClientTests {
    * JsonWriter createWriter(Writer)
    */
   @Test
-  public void jsonProviderTest16() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest16() {
     String expString = "public JsonWriter createWriter(Writer)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonWriter writer = Json.createWriter(new StringWriter());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest16 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest16 Failed: ", e);
+      fail("jsonProviderTest16 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest16 Failed");
   }
 
   /*
@@ -510,20 +468,17 @@ public class ClientTests {
    * JsonWriter createWriter(OutputStream)
    */
   @Test
-  public void jsonProviderTest17() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest17() {
     String expString = "public JsonWriter createWriter(OutputStream)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonWriter writer = Json.createWriter(new ByteArrayOutputStream());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest17 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest17 Failed: ", e);
+      fail("jsonProviderTest17 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest17 Failed");
   }
 
   /*
@@ -535,20 +490,17 @@ public class ClientTests {
    * JsonReaderFactory createReaderFactory(Map<String, ?>)
    */
   @Test
-  public void jsonProviderTest18() throws Fault {
-    boolean pass = true;
+  public void jsonProviderTest18() {
     String expString = "public JsonReaderFactory createReaderFactory(Map<String, ?>)";
     try {
-      System.out.println("Calling SPI provider method: " + expString);
+      LOGGER.info("Calling SPI provider method: " + expString);
       JsonReaderFactory factory = Json
           .createReaderFactory(JSONP_Util.getEmptyConfig());
       String actString = MyJsonProvider.getCalls();
-      System.out.println("Verify SPI provider method was called: " + expString);
-      pass = JSONP_Util.assertEquals(expString, actString);
+      LOGGER.info("Verify SPI provider method was called: " + expString);
+      assertTrue(JSONP_Util.assertEquals(expString, actString), "jsonProviderTest18 Failed");
     } catch (Exception e) {
-      throw new Fault("jsonProviderTest18 Failed: ", e);
+      fail("jsonProviderTest18 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonProviderTest18 Failed");
   }
 }

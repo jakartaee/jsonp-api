@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,7 @@ import jakarta.json.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonReaderFactory is a Json Test ReaderFactory used by the pluggability tests
@@ -31,6 +32,9 @@ import java.util.*;
  * methods are invoked within the parser when Json API methods are called.
  */
 public class MyJsonReaderFactory implements JsonReaderFactory {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonReaderFactory.class.getName());
+
   private InputStream in = null;
 
   private Charset charset = null;
@@ -40,10 +44,10 @@ public class MyJsonReaderFactory implements JsonReaderFactory {
   private Map<String, ?> config = null;
 
   private void dumpInstanceVars() {
-    System.out.println("reader=" + reader);
-    System.out.println("in=" + in);
-    System.out.println("charset=" + charset);
-    System.out.println("config=" + config);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
+    LOGGER.info("charset=" + charset);
+    LOGGER.info("config=" + config);
   }
 
   // call methods
@@ -66,20 +70,20 @@ public class MyJsonReaderFactory implements JsonReaderFactory {
   }
 
   public Map<String, ?> getConfigInUse() {
-    System.out.println("public Map<String, ?> getConfigInUse()");
+    LOGGER.info("public Map<String, ?> getConfigInUse()");
     addCalls("public Map<String, ?> getConfigInUse()");
     return config;
   }
 
   public JsonReader createReader(InputStream in) {
-    System.out.println("public JsonReader createReader(InputStream)");
+    LOGGER.info("public JsonReader createReader(InputStream)");
     addCalls("public JsonReader createReader(InputStream)");
     this.in = in;
     return null;
   }
 
   public JsonReader createReader(InputStream in, Charset charset) {
-    System.out.println("public JsonReader createReader(InputStream, Charset)");
+    LOGGER.info("public JsonReader createReader(InputStream, Charset)");
     addCalls("public JsonReader createReader(InputStream, Charset)");
     this.in = in;
     this.charset = charset;
@@ -87,7 +91,7 @@ public class MyJsonReaderFactory implements JsonReaderFactory {
   }
 
   public JsonReader createReader(Reader reader) {
-    System.out.println("public JsonReader createReader(Reader)");
+    LOGGER.info("public JsonReader createReader(Reader)");
     addCalls("public JsonReader createReader(Reader)");
     this.reader = reader;
     return null;

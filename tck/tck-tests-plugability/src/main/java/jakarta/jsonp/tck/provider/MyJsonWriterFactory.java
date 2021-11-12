@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,6 +25,7 @@ import jakarta.json.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonWriterFactory is a Json Test WriterFactory used by the pluggability tests
@@ -32,6 +33,9 @@ import java.util.*;
  * methods are invoked within the parser when Json API methods are called.
  */
 public class MyJsonWriterFactory implements JsonWriterFactory {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonWriterFactory.class.getName());
+
   private OutputStream out = null;
 
   private Writer writer = null;
@@ -41,10 +45,10 @@ public class MyJsonWriterFactory implements JsonWriterFactory {
   private Map<String, ?> config = null;
 
   private void dumpInstanceVars() {
-    System.out.println("writer=" + writer);
-    System.out.println("out=" + out);
-    System.out.println("charset=" + charset);
-    System.out.println("config=" + config);
+    LOGGER.info("writer=" + writer);
+    LOGGER.info("out=" + out);
+    LOGGER.info("charset=" + charset);
+    LOGGER.info("config=" + config);
   }
 
   // call methods
@@ -67,20 +71,20 @@ public class MyJsonWriterFactory implements JsonWriterFactory {
   }
 
   public Map<String, ?> getConfigInUse() {
-    System.out.println("public Map<String, ?> getConfigInUse()");
+    LOGGER.info("public Map<String, ?> getConfigInUse()");
     addCalls("public Map<String, ?> getConfigInUse()");
     return config;
   }
 
   public JsonWriter createWriter(OutputStream out) {
-    System.out.println("public JsonWriter createWriter(OutputStream)");
+    LOGGER.info("public JsonWriter createWriter(OutputStream)");
     addCalls("public JsonWriter createWriter(OutputStream)");
     this.out = out;
     return null;
   }
 
   public JsonWriter createWriter(OutputStream out, Charset charset) {
-    System.out.println("public JsonWriter createWriter(OutputStream, Charset)");
+    LOGGER.info("public JsonWriter createWriter(OutputStream, Charset)");
     addCalls("public JsonWriter createWriter(OutputStream, Charset)");
     this.out = out;
     this.charset = charset;
@@ -88,7 +92,7 @@ public class MyJsonWriterFactory implements JsonWriterFactory {
   }
 
   public JsonWriter createWriter(Writer writer) {
-    System.out.println("public JsonWriter createWriter(Writer)");
+    LOGGER.info("public JsonWriter createWriter(Writer)");
     addCalls("public JsonWriter createWriter(Writer)");
     this.writer = writer;
     return null;

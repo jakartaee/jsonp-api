@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,13 +29,14 @@ import java.nio.charset.Charset;
 
 import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
 import jakarta.json.stream.*;
-import jakarta.json.stream.JsonParser.Event.*;
-import jakarta.json.JsonValue.ValueType.*;
 
 public final class JSONP_Util {
+
+  private static final Logger LOGGER = Logger.getLogger(JSONP_Util.class.getName());
 
   // Charset CONSTANTS for all the supported UTF encodings
   public static final Charset UTF_8 = Charset.forName("UTF-8");
@@ -68,13 +69,13 @@ public final class JSONP_Util {
    * void dumpContentsOfResource(String resource)
    *********************************************************************************/
   public static void dumpContentsOfResource(String resource) {
-    System.out.println("Dumping contents of Resource file: " + resource);
+    LOGGER.info("Dumping contents of Resource file: " + resource);
     BufferedReader reader = null;
     try {
       InputStream iStream = JSONP_Util.class
           .getResourceAsStream("/" + resource);
       if (iStream == null) {
-        System.err.println(
+        LOGGER.warning(
             "dumpContentsOfResource: no resource found in classpath or archive named "
                 + resource);
         return;
@@ -82,7 +83,7 @@ public final class JSONP_Util {
       reader = new BufferedReader(new InputStreamReader(iStream));
       String thisLine;
       while ((thisLine = reader.readLine()) != null) {
-        System.out.println(thisLine);
+        LOGGER.info(thisLine);
       }
 
     } catch (Exception e) {
@@ -92,7 +93,7 @@ public final class JSONP_Util {
         try {
           reader.close();
         } catch (Exception e) {
-          System.err.println("exception closing stream: " + e);
+          LOGGER.warning("exception closing stream: " + e);
         }
     }
   }
@@ -101,18 +102,18 @@ public final class JSONP_Util {
    * void dumpFile(String file)
    *********************************************************************************/
   public static void dumpFile(String file) {
-    System.out.println("Dumping contents of file: " + file);
+    LOGGER.info("Dumping contents of file: " + file);
     BufferedReader reader = null;
     try {
       FileInputStream fis = new FileInputStream(file);
       if (fis == null) {
-        System.err.println("dumpFile: no file found named " + file);
+        LOGGER.warning("dumpFile: no file found named " + file);
         return;
       }
       reader = new BufferedReader(new InputStreamReader(fis));
       String thisLine;
       while ((thisLine = reader.readLine()) != null) {
-        System.out.println(thisLine);
+        LOGGER.info(thisLine);
       }
 
     } catch (Exception e) {
@@ -122,7 +123,7 @@ public final class JSONP_Util {
         try {
           reader.close();
         } catch (Exception e) {
-          System.err.println("exception closing stream: " + e);
+          LOGGER.warning("exception closing stream: " + e);
         }
     }
   }
@@ -137,7 +138,7 @@ public final class JSONP_Util {
       InputStream iStream = JSONP_Util.class
           .getResourceAsStream("/" + resource);
       if (iStream == null) {
-        System.err.println(
+        LOGGER.warning(
             "dumpContentsOfResource: no resource found in classpath or archive named "
                 + resource);
         return null;
@@ -155,7 +156,7 @@ public final class JSONP_Util {
         try {
           reader.close();
         } catch (Exception e) {
-          System.err.println("exception closing stream: " + e);
+          LOGGER.warning("exception closing stream: " + e);
         }
     }
     return sb.toString();
@@ -170,7 +171,7 @@ public final class JSONP_Util {
       InputStream iStream = JSONP_Util.class
           .getResourceAsStream("/" + resource);
       if (iStream == null)
-        System.err.println(
+        LOGGER.warning(
             "getReaderFromResource: no resource found in classpath or archive named "
                 + resource);
       else
@@ -189,7 +190,7 @@ public final class JSONP_Util {
     try {
       InputStream iStream = new ByteArrayInputStream(contents.getBytes(UTF_8));
       if (iStream == null)
-        System.err.println("getReaderFromString: no input stream");
+        LOGGER.warning("getReaderFromString: no input stream");
       else
         reader = new InputStreamReader(iStream);
     } catch (Exception e) {
@@ -206,7 +207,7 @@ public final class JSONP_Util {
     try {
       iStream = JSONP_Util.class.getResourceAsStream("/" + resource);
       if (iStream == null)
-        System.err.println(
+        LOGGER.warning(
             "getInputStreamFromResource: no resource found in classpath or archive named "
                 + resource);
     } catch (Exception e) {
@@ -223,7 +224,7 @@ public final class JSONP_Util {
     try {
       iStream = new ByteArrayInputStream(contents.getBytes(UTF_8));
       if (iStream == null)
-        System.err.println("getInputStreamFromString: no input stream");
+        LOGGER.warning("getInputStreamFromString: no input stream");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -239,7 +240,7 @@ public final class JSONP_Util {
     try {
       iStream = new ByteArrayInputStream(baos.toByteArray());
       if (iStream == null)
-        System.err.println("getInputStreamFromOutputStream: no input stream");
+        LOGGER.warning("getInputStreamFromOutputStream: no input stream");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -325,35 +326,35 @@ public final class JSONP_Util {
    * void dumpJsonString(JsonString val)
    *********************************************************************************/
   public static void dumpJsonString(JsonString value) {
-    System.out.println("dumpJsonString->" + toStringJsonString(value));
+    LOGGER.info("dumpJsonString->" + toStringJsonString(value));
   }
 
   /*********************************************************************************
    * void dumpJsonArray(JsonArray value)
    *********************************************************************************/
   public static void dumpJsonArray(JsonArray value) {
-    System.out.println("dumpJsonArray->" + toStringJsonArray(value));
+    LOGGER.info("dumpJsonArray->" + toStringJsonArray(value));
   }
 
   /*********************************************************************************
    * void dumpJsonObject(JsonObject value)
    *********************************************************************************/
   public static void dumpJsonObject(JsonObject value) {
-    System.out.println("dumpJsonObject->" + toStringJsonObject(value));
+    LOGGER.info("dumpJsonObject->" + toStringJsonObject(value));
   }
 
   /*********************************************************************************
    * void dumpJsonConstant(JsonValue value)
    *********************************************************************************/
   public static void dumpJsonConstant(JsonValue value) {
-    System.out.println("dumpJsonConstant->" + toStringJsonConstant(value));
+    LOGGER.info("dumpJsonConstant->" + toStringJsonConstant(value));
   }
 
   /*********************************************************************************
    * void dumpJsonNumber(JsonNumber value)
    *********************************************************************************/
   public static void dumpJsonNumber(JsonNumber value) {
-    System.out.println("dumpJsonNumber->" + toStringJsonNumber(value));
+    LOGGER.info("dumpJsonNumber->" + toStringJsonNumber(value));
   }
 
   /*********************************************************************************
@@ -467,16 +468,16 @@ public final class JSONP_Util {
    * void dumpSet(Set<String> set, String msg)
    *********************************************************************************/
   public static void dumpSet(Set<String> set, String msg) {
-    System.out.println("*** Beg: Dumping List contents ***");
+    LOGGER.info("*** Beg: Dumping List contents ***");
     if (msg != null)
-      System.out.println("*** Message: " + msg);
+      LOGGER.info("*** Message: " + msg);
     Iterator iterator = set.iterator();
-    System.out.println("Set: (");
+    LOGGER.info("Set: (");
     while (iterator.hasNext()) {
-      System.out.println((String) iterator.next());
+      LOGGER.info((String) iterator.next());
     }
-    System.out.println(")");
-    System.out.println("*** End: Dumping Set contents ***");
+    LOGGER.info(")");
+    LOGGER.info("*** End: Dumping Set contents ***");
   }
 
   /*********************************************************************************
@@ -508,14 +509,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsSet(Set<String> expSet,
       Set<String> actSet) {
     if (actSet.equals(expSet)) {
-      System.out.println("Sets are equal - match (Success)");
-      System.out.println("Expected: " + toStringSet(expSet));
-      System.out.println("Actual:   " + toStringSet(actSet));
+      LOGGER.info("Sets are equal - match (Success)");
+      LOGGER.info("Expected: " + toStringSet(expSet));
+      LOGGER.info("Actual:   " + toStringSet(actSet));
       return true;
     } else {
-      System.out.println("Sets are not equal - mismatch (Failure)");
-      System.err.println("Expected: " + toStringSet(expSet));
-      System.err.println("Actual:   " + toStringSet(actSet));
+      LOGGER.info("Sets are not equal - mismatch (Failure)");
+      LOGGER.warning("Expected: " + toStringSet(expSet));
+      LOGGER.warning("Actual:   " + toStringSet(actSet));
       return false;
     }
   }
@@ -524,16 +525,16 @@ public final class JSONP_Util {
    * void dumpMap(Map<String,JsonValue> map, String msg)
    *********************************************************************************/
   public static void dumpMap(Map<String, JsonValue> map, String msg) {
-    System.out.println("*** Beg: Dumping Map contents ***");
+    LOGGER.info("*** Beg: Dumping Map contents ***");
     if (msg != null)
-      System.out.println("*** Message: " + msg);
-    System.out.println("Map: {");
+      LOGGER.info("*** Message: " + msg);
+    LOGGER.info("Map: {");
     for (Map.Entry<String, JsonValue> entry : map.entrySet()) {
-      System.out.println(
+      LOGGER.info(
           "\"" + entry.getKey() + "\":" + toStringJsonValue(entry.getValue()));
     }
-    System.out.println("}");
-    System.out.println("*** End: Dumping Map contents ***");
+    LOGGER.info("}");
+    LOGGER.info("*** End: Dumping Map contents ***");
   }
 
   /*********************************************************************************
@@ -567,14 +568,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsMap(Map<String, JsonValue> expMap,
       Map<String, JsonValue> actMap) {
     if (actMap.equals(expMap)) {
-      System.out.println("Maps are equal - match (Success)");
-      System.out.println("Expected: " + toStringMap(expMap));
-      System.out.println("Actual:   " + toStringMap(actMap));
+      LOGGER.info("Maps are equal - match (Success)");
+      LOGGER.info("Expected: " + toStringMap(expMap));
+      LOGGER.info("Actual:   " + toStringMap(actMap));
       return true;
     } else {
-      System.out.println("Maps are not equal - mismatch (Failure)");
-      System.err.println("Expected: " + toStringMap(expMap));
-      System.err.println("Actual:   " + toStringMap(actMap));
+      LOGGER.info("Maps are not equal - mismatch (Failure)");
+      LOGGER.warning("Expected: " + toStringMap(expMap));
+      LOGGER.warning("Actual:   " + toStringMap(actMap));
       return false;
     }
   }
@@ -584,33 +585,33 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEqualsMap2(Map<String, JsonValue> expMap,
       Map<String, JsonValue> actMap) {
-    System.out.println("*** Comparing Map expMap and Map actMap for equality ***");
-    System.out.println("Expected: " + toStringMap(expMap));
-    System.out.println("Actual:   " + toStringMap(actMap));
-    System.out.println("Map expMap size should equal Map actMap size");
+    LOGGER.info("*** Comparing Map expMap and Map actMap for equality ***");
+    LOGGER.info("Expected: " + toStringMap(expMap));
+    LOGGER.info("Actual:   " + toStringMap(actMap));
+    LOGGER.info("Map expMap size should equal Map actMap size");
     if (expMap.size() != actMap.size()) {
-      System.err.println("Map sizes are not equal: expMap size " + expMap.size()
+      LOGGER.warning("Map sizes are not equal: expMap size " + expMap.size()
           + ", actMap size " + actMap.size());
       return false;
     } else {
-      System.out.println("Map sizes are equal with size of " + expMap.size());
+      LOGGER.info("Map sizes are equal with size of " + expMap.size());
     }
     for (Map.Entry<String, ?> entry : expMap.entrySet()) {
       String key = entry.getKey();
       if (actMap.containsKey(key)) {
         if (expMap.get(key) != null && actMap.get(key) != null) {
           if (!expMap.get(key).equals(actMap.get(key))) {
-            System.err.println("key=" + key + ", expMap value " + expMap.get(key)
+            LOGGER.warning("key=" + key + ", expMap value " + expMap.get(key)
                 + " does not equal actMap value " + actMap.get(key));
             return false;
           }
         }
       } else {
-        System.err.println("actMap does not contain key " + key);
+        LOGGER.warning("actMap does not contain key " + key);
         return false;
       }
     }
-    System.out.println("Maps expMap and actMap are equal.");
+    LOGGER.info("Maps expMap and actMap are equal.");
     return true;
   }
 
@@ -618,16 +619,16 @@ public final class JSONP_Util {
    * void dumpList(List<JsonValue> list, String msg)
    *********************************************************************************/
   public static void dumpList(List<JsonValue> list, String msg) {
-    System.out.println("*** Beg: Dumping List contents ***");
+    LOGGER.info("*** Beg: Dumping List contents ***");
     if (msg != null)
-      System.out.println("*** Message: " + msg);
+      LOGGER.info("*** Message: " + msg);
     Iterator<JsonValue> iter = list.iterator();
-    System.out.println("List: [");
+    LOGGER.info("List: [");
     while (iter.hasNext()) {
-      System.out.println("" + toStringJsonValue(iter.next()));
+      LOGGER.info("" + toStringJsonValue(iter.next()));
     }
-    System.out.println("]");
-    System.out.println("*** End: Dumping List contents ***");
+    LOGGER.info("]");
+    LOGGER.info("*** End: Dumping List contents ***");
   }
 
   /*********************************************************************************
@@ -660,14 +661,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsList(List<JsonValue> expList,
       List<JsonValue> actList) {
     if (actList.equals(expList)) {
-      System.out.println("Lists are equal - match (Success)");
-      System.out.println("Expected: " + toStringList(expList));
-      System.out.println("Actual:   " + toStringList(actList));
+      LOGGER.info("Lists are equal - match (Success)");
+      LOGGER.info("Expected: " + toStringList(expList));
+      LOGGER.info("Actual:   " + toStringList(actList));
       return true;
     } else {
-      System.out.println("Lists are not equal - mismatch (Failure)");
-      System.err.println("Expected: " + toStringList(expList));
-      System.err.println("Actual:   " + toStringList(actList));
+      LOGGER.info("Lists are not equal - mismatch (Failure)");
+      LOGGER.warning("Expected: " + toStringList(expList));
+      LOGGER.warning("Actual:   " + toStringList(actList));
       return false;
     }
   }
@@ -677,29 +678,29 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEqualsList2(List<JsonValue> expList,
       List<JsonValue> actList) {
-    System.out.println(
+    LOGGER.info(
         "*** Comparing contents of List expList and List actList for equality ***");
-    System.out.println("Expected: " + toStringList(expList));
-    System.out.println("Actual:   " + toStringList(actList));
-    System.out.println("List expList size should equal List actList size");
+    LOGGER.info("Expected: " + toStringList(expList));
+    LOGGER.info("Actual:   " + toStringList(actList));
+    LOGGER.info("List expList size should equal List actList size");
     if (expList.size() != actList.size()) {
-      System.err.println("List sizes are not equal: expList size " + expList.size()
+      LOGGER.warning("List sizes are not equal: expList size " + expList.size()
           + ", actList size " + actList.size());
       return false;
     }
-    System.out.println("Compare Lists (all elements should MATCH)");
+    LOGGER.info("Compare Lists (all elements should MATCH)");
     for (int i = 0; i < expList.size(); i++) {
       if (expList.get(i).equals(actList.get(i))) {
-        System.out.println("expList element " + i + " matches actList element " + i);
+        LOGGER.info("expList element " + i + " matches actList element " + i);
       } else {
-        System.err.println(
+        LOGGER.warning(
             "expList element " + i + " does not match actList element " + i);
-        System.err.println("expList[" + i + "]=" + expList.get(i));
-        System.err.println("actList[" + i + "]=" + actList.get(i));
+        LOGGER.warning("expList[" + i + "]=" + expList.get(i));
+        LOGGER.warning("actList[" + i + "]=" + actList.get(i));
         return false;
       }
     }
-    System.out.println("Lists are equal (Success)");
+    LOGGER.info("Lists are equal (Success)");
     return true;
   }
 
@@ -707,15 +708,15 @@ public final class JSONP_Util {
    * void dumpIterator(Iterator<JsonValue> iterator, String msg)
    *********************************************************************************/
   public static void dumpIterator(Iterator<JsonValue> iterator, String msg) {
-    System.out.println("*** Beg: Dumping Iterator contents ***");
+    LOGGER.info("*** Beg: Dumping Iterator contents ***");
     if (msg != null)
-      System.out.println("*** Message: " + msg);
-    System.out.println("Iter: [");
+      LOGGER.info("*** Message: " + msg);
+    LOGGER.info("Iter: [");
     while (iterator.hasNext()) {
-      System.out.println("" + toStringJsonValue(iterator.next()));
+      LOGGER.info("" + toStringJsonValue(iterator.next()));
     }
-    System.out.println("]");
-    System.out.println("*** End: Dumping Iterator contents ***");
+    LOGGER.info("]");
+    LOGGER.info("*** End: Dumping Iterator contents ***");
   }
 
   /*********************************************************************************
@@ -748,12 +749,12 @@ public final class JSONP_Util {
       Iterator<JsonValue> actIt) {
     boolean pass = true;
 
-    System.out.println(
+    LOGGER.info(
         "*** Comparing contents of Iterator expIt and Iterator actIt for equality ***");
     int i = 0;
     while (expIt.hasNext()) {
       if (!actIt.hasNext()) {
-        System.err.println(
+        LOGGER.warning(
             "Iterator expIt contains more elements than Iterator actIt");
         return false;
       }
@@ -761,22 +762,22 @@ public final class JSONP_Util {
       JsonValue value1 = expIt.next();
       JsonValue value2 = actIt.next();
       if (assertEqualsJsonValues(value1, value2)) {
-        System.out.println("Iterator expIt element  " + i
+        LOGGER.info("Iterator expIt element  " + i
             + " matches Iterator actIt element " + i);
       } else {
-        System.err.println("Iterator expIt element " + i
+        LOGGER.warning("Iterator expIt element " + i
             + " does not match Iterator actIt element " + i);
         pass = false;
       }
     }
     if (actIt.hasNext()) {
-      System.err.println("Iterator actIt contains more elements than Iterator expIt");
+      LOGGER.warning("Iterator actIt contains more elements than Iterator expIt");
       return false;
     }
     if (pass)
-      System.out.println("Iterators are equal (Success)");
+      LOGGER.info("Iterators are equal (Success)");
     else
-      System.out.println("Iterators are not equal (Failure)");
+      LOGGER.info("Iterators are not equal (Failure)");
     return pass;
   }
 
@@ -785,10 +786,10 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEqualsEmptyArrayList(List<JsonValue> actual) {
     if (actual.isEmpty()) {
-      System.out.println("Array List is empty - expected");
+      LOGGER.info("Array List is empty - expected");
       return true;
     } else {
-      System.err.println("Array List is not empty - unexpected");
+      LOGGER.warning("Array List is not empty - unexpected");
       return false;
     }
   }
@@ -799,10 +800,10 @@ public final class JSONP_Util {
   public static boolean assertEqualsEmptyObjectMap(
       Map<String, JsonValue> actual) {
     if (actual.isEmpty()) {
-      System.out.println("Object Map is empty - expected");
+      LOGGER.info("Object Map is empty - expected");
       return true;
     } else {
-      System.err.println("Object Map is not empty - unexpected");
+      LOGGER.warning("Object Map is not empty - unexpected");
       return false;
     }
   }
@@ -812,10 +813,10 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEqualsEmptyIterator(Iterator<JsonValue> actual) {
     if (!actual.hasNext()) {
-      System.out.println("Iterator is empty - expected");
+      LOGGER.info("Iterator is empty - expected");
       return true;
     } else {
-      System.err.println("Iterator is not empty - unexpected");
+      LOGGER.warning("Iterator is not empty - unexpected");
       return false;
     }
   }
@@ -825,14 +826,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEqualsJsonText(String expected, String actual) {
     if (actual.equals(expected)) {
-      System.out.println("JSON text match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("JSON text match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("JSON text mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("JSON text mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -843,14 +844,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsJsonArrays(JsonArray expected,
       JsonArray actual) {
     if (actual.equals(expected)) {
-      System.out.println("JsonArray match");
-      System.out.println("Expected: " + toStringJsonArray(expected));
-      System.out.println("Actual:   " + toStringJsonArray(actual));
+      LOGGER.info("JsonArray match");
+      LOGGER.info("Expected: " + toStringJsonArray(expected));
+      LOGGER.info("Actual:   " + toStringJsonArray(actual));
       return true;
     } else {
-      System.err.println("JsonArray mismatch");
-      System.err.println("Expected: " + toStringJsonArray(expected));
-      System.err.println("Actual:   " + toStringJsonArray(actual));
+      LOGGER.warning("JsonArray mismatch");
+      LOGGER.warning("Expected: " + toStringJsonArray(expected));
+      LOGGER.warning("Actual:   " + toStringJsonArray(actual));
       return false;
     }
   }
@@ -861,14 +862,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsJsonObjects(JsonObject expected,
       JsonObject actual) {
     if (actual.equals(expected)) {
-      System.out.println("JsonObject match");
-      System.out.println("Expected: " + toStringJsonObject(expected));
-      System.out.println("Actual:   " + toStringJsonObject(actual));
+      LOGGER.info("JsonObject match");
+      LOGGER.info("Expected: " + toStringJsonObject(expected));
+      LOGGER.info("Actual:   " + toStringJsonObject(actual));
       return true;
     } else {
-      System.err.println("JsonObject mismatch");
-      System.err.println("Expected: " + toStringJsonObject(expected));
-      System.err.println("Actual:   " + toStringJsonObject(actual));
+      LOGGER.warning("JsonObject mismatch");
+      LOGGER.warning("Expected: " + toStringJsonObject(expected));
+      LOGGER.warning("Actual:   " + toStringJsonObject(actual));
       return false;
     }
   }
@@ -881,14 +882,14 @@ public final class JSONP_Util {
     boolean pass = true;
 
     if (actual.equals(expected)) {
-      System.out.println("JsonNumber match");
-      System.out.println("Expected: " + toStringJsonNumber(expected));
-      System.out.println("Actual:   " + toStringJsonNumber(actual));
+      LOGGER.info("JsonNumber match");
+      LOGGER.info("Expected: " + toStringJsonNumber(expected));
+      LOGGER.info("Actual:   " + toStringJsonNumber(actual));
       return true;
     } else {
-      System.err.println("JsonNumber mismatch");
-      System.err.println("Expected: " + toStringJsonNumber(expected));
-      System.err.println("Actual:   " + toStringJsonNumber(actual));
+      LOGGER.warning("JsonNumber mismatch");
+      LOGGER.warning("Expected: " + toStringJsonNumber(expected));
+      LOGGER.warning("Actual:   " + toStringJsonNumber(actual));
       return false;
     }
   }
@@ -901,14 +902,14 @@ public final class JSONP_Util {
     boolean pass = true;
 
     if (actual.equals(expected)) {
-      System.out.println("JsonString match");
-      System.out.println("Expected: " + toStringJsonString(expected));
-      System.out.println("Actual:   " + toStringJsonString(actual));
+      LOGGER.info("JsonString match");
+      LOGGER.info("Expected: " + toStringJsonString(expected));
+      LOGGER.info("Actual:   " + toStringJsonString(actual));
       return true;
     } else {
-      System.err.println("JsonString mismatch");
-      System.err.println("Expected: " + toStringJsonString(expected));
-      System.err.println("Actual:   " + toStringJsonString(actual));
+      LOGGER.warning("JsonString mismatch");
+      LOGGER.warning("Expected: " + toStringJsonString(expected));
+      LOGGER.warning("Actual:   " + toStringJsonString(actual));
       return false;
     }
   }
@@ -923,9 +924,9 @@ public final class JSONP_Util {
     // Comparing JsonNumbers
     if (expected instanceof JsonNumber) {
       if (!(actual instanceof JsonNumber)) {
-        System.err.println("expected type does not match actual type");
-        System.err.println("expected=" + toStringJsonValue(expected));
-        System.err.println("actual=  " + toStringJsonValue(actual));
+        LOGGER.warning("expected type does not match actual type");
+        LOGGER.warning("expected=" + toStringJsonValue(expected));
+        LOGGER.warning("actual=  " + toStringJsonValue(actual));
         pass = false;
       } else {
         pass = assertEqualsJsonNumbers((JsonNumber) expected,
@@ -934,9 +935,9 @@ public final class JSONP_Util {
       // Comparing JsonStrings
     } else if (expected instanceof JsonString) {
       if (!(actual instanceof JsonString)) {
-        System.err.println("expected type does not match actual type");
-        System.err.println("expected=" + toStringJsonValue(expected));
-        System.err.println("actual=  " + toStringJsonValue(actual));
+        LOGGER.warning("expected type does not match actual type");
+        LOGGER.warning("expected=" + toStringJsonValue(expected));
+        LOGGER.warning("actual=  " + toStringJsonValue(actual));
         pass = false;
       } else {
         pass = assertEqualsJsonStrings((JsonString) expected,
@@ -945,9 +946,9 @@ public final class JSONP_Util {
       // Comparing JsonArrays
     } else if (expected instanceof JsonArray) {
       if (!(actual instanceof JsonArray)) {
-        System.err.println("expected type does not match actual type");
-        System.err.println("expected=" + toStringJsonValue(expected));
-        System.err.println("actual=  " + toStringJsonValue(actual));
+        LOGGER.warning("expected type does not match actual type");
+        LOGGER.warning("expected=" + toStringJsonValue(expected));
+        LOGGER.warning("actual=  " + toStringJsonValue(actual));
         pass = false;
       } else {
         pass = assertEqualsJsonArrays((JsonArray) expected, (JsonArray) actual);
@@ -955,9 +956,9 @@ public final class JSONP_Util {
       // Comparing JsonObjects
     } else if (expected instanceof JsonObject) {
       if (!(actual instanceof JsonObject)) {
-        System.err.println("expected type does not match actual type");
-        System.err.println("expected=" + toStringJsonValue(expected));
-        System.err.println("actual=  " + toStringJsonValue(actual));
+        LOGGER.warning("expected type does not match actual type");
+        LOGGER.warning("expected=" + toStringJsonValue(expected));
+        LOGGER.warning("actual=  " + toStringJsonValue(actual));
         pass = false;
       } else {
         pass = assertEqualsJsonObjects((JsonObject) expected,
@@ -965,13 +966,13 @@ public final class JSONP_Util {
       }
       // Comparing JsonValues
     } else if (expected.equals(actual)) {
-      System.out.println("expected matches actual");
-      System.out.println("expected=" + toStringJsonValue(expected));
-      System.out.println("actual=  " + toStringJsonValue(actual));
+      LOGGER.info("expected matches actual");
+      LOGGER.info("expected=" + toStringJsonValue(expected));
+      LOGGER.info("actual=  " + toStringJsonValue(actual));
     } else {
-      System.err.println("expected does not match actual");
-      System.err.println("expected=" + toStringJsonValue(expected));
-      System.err.println("actual=  " + toStringJsonValue(actual));
+      LOGGER.warning("expected does not match actual");
+      LOGGER.warning("expected=" + toStringJsonValue(expected));
+      LOGGER.warning("actual=  " + toStringJsonValue(actual));
       pass = false;
     }
     return pass;
@@ -984,14 +985,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsJsonValueType(JsonValue.ValueType expected,
       JsonValue.ValueType actual) {
     if (actual == expected) {
-      System.out.println("JsonValue.ValueType match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("JsonValue.ValueType match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("JsonValue.ValueType mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("JsonValue.ValueType mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1002,14 +1003,14 @@ public final class JSONP_Util {
   public static boolean assertEqualsJsonNumberType(boolean expected,
       boolean actual) {
     if (actual == expected) {
-      System.out.println("Json NumberType match");
-      System.out.println("Expected: " + toStringJsonNumberType(expected));
-      System.out.println("Actual:   " + toStringJsonNumberType(actual));
+      LOGGER.info("Json NumberType match");
+      LOGGER.info("Expected: " + toStringJsonNumberType(expected));
+      LOGGER.info("Actual:   " + toStringJsonNumberType(actual));
       return true;
     } else {
-      System.err.println("Json NumberType mismatch");
-      System.err.println("Expected: " + toStringJsonNumberType(expected));
-      System.err.println("Actual:   " + toStringJsonNumberType(actual));
+      LOGGER.warning("Json NumberType mismatch");
+      LOGGER.warning("Expected: " + toStringJsonNumberType(expected));
+      LOGGER.warning("Actual:   " + toStringJsonNumberType(actual));
       return false;
     }
   }
@@ -1021,15 +1022,15 @@ public final class JSONP_Util {
       boolean actual) {
     for (int i = 0; i < expected.length; i++) {
       if (actual == expected[i]) {
-        System.out.println("Json NumberType match");
-        System.out.println("Expected: " + toStringJsonNumberType(expected[i]));
-        System.out.println("Actual:   " + toStringJsonNumberType(actual));
+        LOGGER.info("Json NumberType match");
+        LOGGER.info("Expected: " + toStringJsonNumberType(expected[i]));
+        LOGGER.info("Actual:   " + toStringJsonNumberType(actual));
         return true;
       }
     }
-    System.err.println("Json NumberType mismatch");
-    System.err.println("Expected: " + toStringJsonNumberTypes(expected));
-    System.err.println("Actual:   " + toStringJsonNumberType(actual));
+    LOGGER.warning("Json NumberType mismatch");
+    LOGGER.warning("Expected: " + toStringJsonNumberTypes(expected));
+    LOGGER.warning("Actual:   " + toStringJsonNumberType(actual));
     return false;
   }
 
@@ -1061,14 +1062,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(Object expected, Object actual) {
     if (actual.equals(expected)) {
-      System.out.println("Object match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("Object match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("Object mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("Object mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1078,14 +1079,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(boolean expected, boolean actual) {
     if (actual == expected) {
-      System.out.println("boolean match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("boolean match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("boolean mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("boolean mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1095,14 +1096,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(short expected, short actual) {
     if (actual == expected) {
-      System.out.println("short match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("short match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("short mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("short mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1112,14 +1113,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(int expected, int actual) {
     if (actual == expected) {
-      System.out.println("int match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("int match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("int mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("int mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1129,14 +1130,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(long expected, long actual) {
     if (actual == expected) {
-      System.out.println("long match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("long match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("long mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("long mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1146,14 +1147,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(float expected, float actual) {
     if (actual == expected) {
-      System.out.println("float match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("float match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("float mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("float mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1163,14 +1164,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(double expected, double actual) {
     if (actual == expected) {
-      System.out.println("double match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("double match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("double mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("double mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1180,14 +1181,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(BigDecimal expected, BigDecimal actual) {
     if (actual.equals(expected)) {
-      System.out.println("BigDecimal match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("BigDecimal match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("BigDecimal mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("BigDecimal mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1197,14 +1198,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(BigInteger expected, BigInteger actual) {
     if (actual.equals(expected)) {
-      System.out.println("BigInteger match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("BigInteger match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("BigInteger mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("BigInteger mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1214,14 +1215,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(String expected, String actual) {
     if (actual.equals(expected)) {
-      System.out.println("String match");
-      System.out.println("Expected: " + expected);
-      System.out.println("Actual:   " + actual);
+      LOGGER.info("String match");
+      LOGGER.info("Expected: " + expected);
+      LOGGER.info("Actual:   " + actual);
       return true;
     } else {
-      System.err.println("String mismatch");
-      System.err.println("Expected: " + expected);
-      System.err.println("Actual:   " + actual);
+      LOGGER.warning("String mismatch");
+      LOGGER.warning("Expected: " + expected);
+      LOGGER.warning("Actual:   " + actual);
       return false;
     }
   }
@@ -1231,14 +1232,14 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean assertEquals(JsonValue expected, JsonValue actual) {
     if (actual.equals(expected)) {
-      System.out.println("JsonValue match");
-      System.out.println("Expected: " + toStringJsonValue(expected));
-      System.out.println("Actual:   " + toStringJsonValue(actual));
+      LOGGER.info("JsonValue match");
+      LOGGER.info("Expected: " + toStringJsonValue(expected));
+      LOGGER.info("Actual:   " + toStringJsonValue(actual));
       return true;
     } else {
-      System.err.println("JsonValue mismatch");
-      System.err.println("Expected: " + toStringJsonValue(expected));
-      System.err.println("Actual:   " + toStringJsonValue(actual));
+      LOGGER.warning("JsonValue mismatch");
+      LOGGER.warning("Expected: " + toStringJsonValue(expected));
+      LOGGER.warning("Actual:   " + toStringJsonValue(actual));
       return false;
     }
   }
@@ -1313,7 +1314,7 @@ public final class JSONP_Util {
    * void dumpEventType(JsonParser.Event eventType)
    *********************************************************************************/
   public static void dumpEventType(JsonParser.Event eventType) {
-    System.out.println("JsonParser.Event=" + eventType);
+    LOGGER.info("JsonParser.Event=" + eventType);
   }
 
   /*********************************************************************************
@@ -1402,13 +1403,13 @@ public final class JSONP_Util {
    * void dumpConfigMap(Map<String,?> map, String msg)
    *********************************************************************************/
   public static void dumpConfigMap(Map<String, ?> map, String msg) {
-    System.out.println("*** Beg: Dumping Config Map contents ***");
+    LOGGER.info("*** Beg: Dumping Config Map contents ***");
     if (msg != null)
-      System.out.println("*** Message: " + msg);
+      LOGGER.info("*** Message: " + msg);
     for (Map.Entry<String, ?> entry : map.entrySet()) {
-      System.out.println("\"" + entry.getKey() + "\":" + entry.getValue());
+      LOGGER.info("\"" + entry.getKey() + "\":" + entry.getValue());
     }
-    System.out.println("*** End: Dumping Config Map contents ***");
+    LOGGER.info("*** End: Dumping Config Map contents ***");
   }
 
   /*********************************************************************************
@@ -1429,25 +1430,25 @@ public final class JSONP_Util {
       String[] expectedProps) {
     boolean pass = true;
     dumpConfigMap(config);
-    System.out.println("Checking factory configuration property size");
+    LOGGER.info("Checking factory configuration property size");
     if (config.size() != expectedSize) {
-      System.err.println("Expecting no of properties=" + expectedSize + ", got="
+      LOGGER.warning("Expecting no of properties=" + expectedSize + ", got="
           + config.size());
       pass = false;
     } else {
-      System.out.println("Expecting no of properties=" + expectedSize + ", got="
+      LOGGER.info("Expecting no of properties=" + expectedSize + ", got="
           + config.size());
     }
     if (expectedSize != 0 && expectedProps != null) {
-      System.out.println("Checking factory configuration property name and value");
+      LOGGER.info("Checking factory configuration property name and value");
       for (int i = 0; i < expectedProps.length; i++) {
         if (config.containsKey(expectedProps[i])) {
-          System.out.println("Does contain key: " + expectedProps[i] + " - expected.");
+          LOGGER.info("Does contain key: " + expectedProps[i] + " - expected.");
           if (!JSONP_Util.assertEquals(true, config.get(expectedProps[i]))) {
             pass = false;
           }
         } else {
-          System.err.println(
+          LOGGER.warning(
               "Does not contain key: " + expectedProps[i] + " - unexpected.");
           pass = false;
         }
@@ -1460,7 +1461,7 @@ public final class JSONP_Util {
    * boolean isEmptyConfig(Map<String, ?> config)
    *********************************************************************************/
   public boolean isEmptyConfig(Map<String, ?> config) {
-    System.out.println("isEmptyConfig");
+    LOGGER.info("isEmptyConfig");
     return config.isEmpty();
   }
 
@@ -1468,7 +1469,7 @@ public final class JSONP_Util {
    * Map<String, ?> getEmptyConfig()
    *********************************************************************************/
   public static Map<String, ?> getEmptyConfig() {
-    System.out.println("getEmptyConfig");
+    LOGGER.info("getEmptyConfig");
     Map<String, Object> config = new HashMap<String, Object>();
     return config;
   }
@@ -1477,9 +1478,9 @@ public final class JSONP_Util {
    * Map<String, ?> getPrettyPrintingConfig()
    *********************************************************************************/
   public static Map<String, ?> getPrettyPrintingConfig() {
-    System.out.println("getPrettyPrintConfig");
+    LOGGER.info("getPrettyPrintConfig");
     Map<String, Object> config = new HashMap<String, Object>();
-    System.out.println("Added property: JsonGenerator.PRETTY_PRINTING");
+    LOGGER.info("Added property: JsonGenerator.PRETTY_PRINTING");
     config.put(JsonGenerator.PRETTY_PRINTING, true);
     return config;
   }
@@ -1488,9 +1489,9 @@ public final class JSONP_Util {
    * Map<String, ?> getFooConfig()
    *********************************************************************************/
   public static Map<String, ?> getFooConfig() {
-    System.out.println("getFooConfig");
+    LOGGER.info("getFooConfig");
     Map<String, Object> config = new HashMap<String, Object>();
-    System.out.println("Added property: JSONP_Util.FOO_CONFIG");
+    LOGGER.info("Added property: JSONP_Util.FOO_CONFIG");
     config.put(JSONP_Util.FOO_CONFIG, true);
     return config;
   }
@@ -1499,11 +1500,11 @@ public final class JSONP_Util {
    * Map<String, ?> getAllConfig()
    *********************************************************************************/
   public static Map<String, ?> getAllConfig() {
-    System.out.println("getAllConfig");
+    LOGGER.info("getAllConfig");
     Map<String, Object> config = new HashMap<String, Object>();
-    System.out.println("Added property: JsonGenerator.PRETTY_PRINTING");
+    LOGGER.info("Added property: JsonGenerator.PRETTY_PRINTING");
     config.put(JsonGenerator.PRETTY_PRINTING, true);
-    System.out.println("Added property: JSONP_Util.FOO_CONFIG");
+    LOGGER.info("Added property: JSONP_Util.FOO_CONFIG");
     config.put(JSONP_Util.FOO_CONFIG, true);
     return config;
   }
@@ -1554,7 +1555,7 @@ public final class JSONP_Util {
       writer.writeObject(jsonObject);
       writer.close();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
     }
   }
 
@@ -1568,7 +1569,7 @@ public final class JSONP_Util {
       writer.writeArray(jsonArray);
       writer.close();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
     }
   }
 
@@ -1582,37 +1583,37 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_STRING) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_STRING)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     }
     String keyvalue = parser.getString();
     if (!keyvalue.equals(value)) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -1626,39 +1627,39 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     int keyvalue = parser.getInt();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -1672,39 +1673,39 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     double keyvalue = parser.getBigDecimal().doubleValue();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -1718,39 +1719,39 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     long keyvalue = parser.getLong();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -1765,39 +1766,39 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     BigDecimal keyvalue = parser.getBigDecimal();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -1810,31 +1811,31 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_TRUE) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_TRUE)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -1847,31 +1848,31 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_FALSE) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_FALSE)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -1884,31 +1885,31 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.VALUE_NULL) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NULL)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -1921,31 +1922,31 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.START_OBJECT) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.START_OBJECT)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -1958,31 +1959,31 @@ public final class JSONP_Util {
     JsonParser.Event e = parser.next();
 
     if (e != JsonParser.Event.KEY_NAME) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.KEY_NAME)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyname = parser.getString();
     if (!name.equals(keyname)) {
-      System.err.println("Expected keyname: " + name + ", got keyname: " + keyname);
+      LOGGER.warning("Expected keyname: " + name + ", got keyname: " + keyname);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyname: " + keyname);
+      LOGGER.info("Got expected keyname: " + keyname);
     }
 
     if (!checkNextParserEvent(parser))
       return;
     e = parser.next();
     if (e != JsonParser.Event.START_ARRAY) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.START_ARRAY)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -1991,7 +1992,7 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static boolean checkNextParserEvent(JsonParser parser) {
     if (!parser.hasNext()) {
-      System.err.println("no next parser event found - unexpected");
+      LOGGER.warning("no next parser event found - unexpected");
       parseErrs++;
       return false;
     } else
@@ -2031,11 +2032,11 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != expEvent) {
-      System.err.println("Expected event: " + getEventTypeString(expEvent)
+      LOGGER.warning("Expected event: " + getEventTypeString(expEvent)
           + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
   }
 
@@ -2047,20 +2048,20 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != JsonParser.Event.VALUE_STRING) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_STRING)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     String keyvalue = parser.getString();
     if (!keyvalue.equals(value)) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -2072,20 +2073,20 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     int keyvalue = parser.getInt();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -2097,20 +2098,20 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     double keyvalue = parser.getBigDecimal().doubleValue();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -2122,20 +2123,20 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     long keyvalue = parser.getLong();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -2147,20 +2148,20 @@ public final class JSONP_Util {
       return;
     JsonParser.Event e = parser.next();
     if (e != JsonParser.Event.VALUE_NUMBER) {
-      System.err.println(
+      LOGGER.warning(
           "Expected event: " + getEventTypeString(JsonParser.Event.VALUE_NUMBER)
               + ", got event: " + getEventTypeString(e));
       parseErrs++;
     } else {
-      System.out.println("Got expected event: " + getEventTypeString(e));
+      LOGGER.info("Got expected event: " + getEventTypeString(e));
     }
     BigDecimal keyvalue = parser.getBigDecimal();
     if (keyvalue != value) {
-      System.err.println(
+      LOGGER.warning(
           "Expected keyvalue: " + value + ", got keyvalue: " + keyvalue);
       parseErrs++;
     } else {
-      System.out.println("Got expected keyvalue: " + keyvalue);
+      LOGGER.info("Got expected keyvalue: " + keyvalue);
     }
   }
 
@@ -2389,11 +2390,11 @@ public final class JSONP_Util {
    *********************************************************************************/
   public static void dumpLocation(JsonLocation location) {
     if (location != null) {
-      System.out.println("JsonLocation info: lineNumber=" + location.getLineNumber()
+      LOGGER.info("JsonLocation info: lineNumber=" + location.getLineNumber()
               + ", columnNumber=" + location.getColumnNumber()
               + ", streamOffset=" + location.getStreamOffset());
     } else {
-      System.out.println("JsonLocation is null - no location info");
+      LOGGER.info("JsonLocation is null - no location info");
     }
   }
 
@@ -2411,23 +2412,23 @@ public final class JSONP_Util {
     if (expLoc.getLineNumber() == actLoc.getLineNumber()
         && expLoc.getColumnNumber() == actLoc.getColumnNumber()
         && expLoc.getStreamOffset() == actLoc.getStreamOffset()) {
-      System.out.println("JsonLocations equal - match (Success)");
-      System.out.println(
+      LOGGER.info("JsonLocations equal - match (Success)");
+      LOGGER.info(
           "Expected: JsonLocation info: lineNumber=" + expLoc.getLineNumber()
               + ", columnNumber=" + expLoc.getColumnNumber() + ", streamOffset="
               + expLoc.getStreamOffset());
-      System.out.println(
+      LOGGER.info(
           "Actual:   JsonLocation info: lineNumber=" + actLoc.getLineNumber()
               + ", columnNumber=" + actLoc.getColumnNumber() + ", streamOffset="
               + actLoc.getStreamOffset());
       return true;
     } else {
-      System.err.println("JsonLocations not equal - mismatch (Failure)");
-      System.err.println(
+      LOGGER.warning("JsonLocations not equal - mismatch (Failure)");
+      LOGGER.warning(
           "Expected: JsonLocation info: lineNumber=" + expLoc.getLineNumber()
               + ", columnNumber=" + expLoc.getColumnNumber() + ", streamOffset="
               + expLoc.getStreamOffset());
-      System.err.println(
+      LOGGER.warning(
           "Actual:   JsonLocation info: lineNumber=" + actLoc.getLineNumber()
               + ", columnNumber=" + actLoc.getColumnNumber() + ", streamOffset="
               + actLoc.getStreamOffset());
@@ -2453,7 +2454,7 @@ public final class JSONP_Util {
    * void addURLToClassPath(URL url)
    *********************************************************************************/
   public static void addURLToClassPath(URL url) throws Exception {
-    System.out.println("addURLToClassPath-> " + url.toString());
+    LOGGER.info("addURLToClassPath-> " + url.toString());
     URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader
         .getSystemClassLoader();
     try {
@@ -2477,7 +2478,7 @@ public final class JSONP_Util {
           .build();
       return jsonArray;
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }
@@ -2493,7 +2494,7 @@ public final class JSONP_Util {
           .build();
       return jsonObject;
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,44 +21,30 @@ package jakarta.jsonp.tck.api.jsonreaderfactorytests;
 
 
 import jakarta.json.*;
-import jakarta.json.stream.*;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.List;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
    * @testName: jsonReaderFactoryTest1
-   * 
+   *
    * @assertion_ids: JSONP:JAVADOC:419; JSONP:JAVADOC:449; JSONP:JAVADOC:185;
    * JSONP:JAVADOC:459;
-   * 
+   *
    * @test_Strategy: Tests the JsonReaderFactory API.
    *
    * JsonReaderFactory readerFactory = Json.createReaderFactory(Map<String, ?>);
@@ -66,27 +52,27 @@ public class ClientTests {
    * = readerFactory.createReader(Reader)
    */
   @Test
-  public void jsonReaderFactoryTest1() throws Fault {
+  public void jsonReaderFactoryTest1() {
     boolean pass = true;
     JsonReader reader1 = null;
     JsonReader reader2 = null;
     JsonObject jsonObject = null;
     String jsonObjectText = "{\"foo\":\"bar\"}";
     try {
-      System.out.println("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
       JsonReaderFactory readerFactory = Json
           .createReaderFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = readerFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
-      System.out.println("--------------------------------------------------");
-      System.out.println("TEST CASE [JsonReaderFactory.createReader(Reader)]");
-      System.out.println("--------------------------------------------------");
-      System.out.println("Create 1st JsonReader using JsonReaderFactory");
+      LOGGER.info("--------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonReaderFactory.createReader(Reader)]");
+      LOGGER.info("--------------------------------------------------");
+      LOGGER.info("Create 1st JsonReader using JsonReaderFactory");
       reader1 = readerFactory.createReader(new StringReader(jsonObjectText));
       if (reader1 == null) {
-        System.err.println("ReaderFactory failed to create reader1");
+        LOGGER.warning("ReaderFactory failed to create reader1");
         pass = false;
       } else {
         jsonObject = reader1.readObject();
@@ -97,10 +83,10 @@ public class ClientTests {
           pass = false;
       }
 
-      System.out.println("Create 2nd JsonReader using JsonReaderFactory");
+      LOGGER.info("Create 2nd JsonReader using JsonReaderFactory");
       reader2 = readerFactory.createReader(new StringReader(jsonObjectText));
       if (reader2 == null) {
-        System.err.println("ReaderFactory failed to create reader2");
+        LOGGER.warning("ReaderFactory failed to create reader2");
         pass = false;
       } else {
         jsonObject = reader2.readObject();
@@ -112,18 +98,17 @@ public class ClientTests {
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonReaderFactoryTest1 Failed: ", e);
+      fail("jsonReaderFactoryTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonReaderFactoryTest1 Failed");
+    assertTrue(pass, "jsonReaderFactoryTest1 Failed");
   }
 
   /*
    * @testName: jsonReaderFactoryTest2
-   * 
+   *
    * @assertion_ids: JSONP:JAVADOC:420; JSONP:JAVADOC:449; JSONP:JAVADOC:185;
    * JSONP:JAVADOC:459;
-   * 
+   *
    * @test_Strategy: Tests the JsonReaderFactory API.
    *
    * JsonReaderFactory readerFactory = Json.createReaderFactory(Map<String,?>);
@@ -133,33 +118,33 @@ public class ClientTests {
    * Create reader with both UTF-8 and UTF-16BE.
    */
   @Test
-  public void jsonReaderFactoryTest2() throws Fault {
+  public void jsonReaderFactoryTest2() {
     boolean pass = true;
     JsonReader reader1 = null;
     JsonReader reader2 = null;
     JsonObject jsonObject = null;
     String jsonObjectText = "{\"foo\":\"bar\"}";
     try {
-      System.out.println("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
       JsonReaderFactory readerFactory = Json
           .createReaderFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = readerFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [JsonReaderFactory.createReader(InputStream, Charset)]");
-      System.out.println(
+      LOGGER.info(
           "----------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "Create 1st JsonReader using JsonReaderFactory with UTF-8 encoding");
       InputStream is1 = JSONP_Util.getInputStreamFromString(jsonObjectText);
       reader1 = readerFactory.createReader(is1, JSONP_Util.UTF_8);
       if (reader1 == null) {
-        System.err.println("ReaderFactory failed to create reader1");
+        LOGGER.warning("ReaderFactory failed to create reader1");
         pass = false;
       } else {
         jsonObject = reader1.readObject();
@@ -170,12 +155,12 @@ public class ClientTests {
           pass = false;
       }
 
-      System.out.println(
+      LOGGER.info(
           "Create 2nd JsonReader using JsonReaderFactory with UTF-8 encoding");
       InputStream is2 = JSONP_Util.getInputStreamFromString(jsonObjectText);
       reader2 = readerFactory.createReader(is2, JSONP_Util.UTF_8);
       if (reader2 == null) {
-        System.err.println("ReaderFactory failed to create reader2");
+        LOGGER.warning("ReaderFactory failed to create reader2");
         pass = false;
       } else {
         jsonObject = reader2.readObject();
@@ -187,18 +172,17 @@ public class ClientTests {
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonReaderFactoryTest2 Failed: ", e);
+      fail("jsonReaderFactoryTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonReaderFactoryTest2 Failed");
+    assertTrue(pass, "jsonReaderFactoryTest2 Failed");
   }
 
   /*
    * @testName: jsonReaderFactoryTest3
-   * 
+   *
    * @assertion_ids: JSONP:JAVADOC:429; JSONP:JAVADOC:449; JSONP:JAVADOC:185;
    * JSONP:JAVADOC:459;
-   * 
+   *
    * @test_Strategy: Tests the JsonReaderFactory API.
    *
    * JsonReaderFactory readerFactory = Json.createReaderFactory(Map<String, ?>);
@@ -206,29 +190,29 @@ public class ClientTests {
    * reader2 = readerFactory.createReader(InputStream)
    */
   @Test
-  public void jsonReaderFactoryTest3() throws Fault {
+  public void jsonReaderFactoryTest3() {
     boolean pass = true;
     JsonReader reader1 = null;
     JsonReader reader2 = null;
     JsonObject jsonObject = null;
     String jsonObjectText = "{\"foo\":\"bar\"}";
     try {
-      System.out.println("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
       JsonReaderFactory readerFactory = Json
           .createReaderFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = readerFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-------------------------------------------------------");
-      System.out.println("TEST CASE [JsonReaderFactory.createReader(InputStream)]");
-      System.out.println("-------------------------------------------------------");
-      System.out.println("Create 1st JsonReader using JsonReaderFactory");
+      LOGGER.info("-------------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonReaderFactory.createReader(InputStream)]");
+      LOGGER.info("-------------------------------------------------------");
+      LOGGER.info("Create 1st JsonReader using JsonReaderFactory");
       InputStream is1 = JSONP_Util.getInputStreamFromString(jsonObjectText);
       reader1 = readerFactory.createReader(is1);
       if (reader1 == null) {
-        System.err.println("ReaderFactory failed to create reader1");
+        LOGGER.warning("ReaderFactory failed to create reader1");
         pass = false;
       } else {
         jsonObject = reader1.readObject();
@@ -239,11 +223,11 @@ public class ClientTests {
           pass = false;
       }
 
-      System.out.println("Create 2nd JsonReader using JsonReaderFactory");
+      LOGGER.info("Create 2nd JsonReader using JsonReaderFactory");
       InputStream is2 = JSONP_Util.getInputStreamFromString(jsonObjectText);
       reader2 = readerFactory.createReader(is2);
       if (reader2 == null) {
-        System.err.println("ReaderFactory failed to create reader2");
+        LOGGER.warning("ReaderFactory failed to create reader2");
         pass = false;
       } else {
         jsonObject = reader2.readObject();
@@ -255,17 +239,16 @@ public class ClientTests {
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonReaderFactoryTest3 Failed: ", e);
+      fail("jsonReaderFactoryTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonReaderFactoryTest3 Failed");
+    assertTrue(pass, "jsonReaderFactoryTest3 Failed");
   }
 
   /*
    * @testName: jsonReaderFactoryTest4
-   * 
+   *
    * @assertion_ids: JSONP:JAVADOC:449; JSONP:JAVADOC:459;
-   * 
+   *
    * @test_Strategy: Tests the JsonReaderFactory API.
    *
    * JsonReaderFactory readerFactory = Json.createReaderFactory(Map<String, ?>);
@@ -275,32 +258,31 @@ public class ClientTests {
    * (empty config) 2) non supported provider property
    */
   @Test
-  public void jsonReaderFactoryTest4() throws Fault {
+  public void jsonReaderFactoryTest4() {
     boolean pass = true;
     JsonReaderFactory readerFactory;
     Map<String, ?> config;
     try {
-      System.out.println("----------------------------------------------");
-      System.out.println("Test scenario1: no supported provider property");
-      System.out.println("----------------------------------------------");
-      System.out.println("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Test scenario1: no supported provider property");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Create JsonReaderFactory with Map<String, ?> with EMPTY config");
       readerFactory = Json.createReaderFactory(JSONP_Util.getEmptyConfig());
       config = readerFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-----------------------------------------------");
-      System.out.println("Test scenario2: non supported provider property");
-      System.out.println("-----------------------------------------------");
-      System.out.println("Create JsonReaderFactory with Map<String, ?> with FOO config");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Test scenario2: non supported provider property");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Create JsonReaderFactory with Map<String, ?> with FOO config");
       readerFactory = Json.createReaderFactory(JSONP_Util.getFooConfig());
       config = readerFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonReaderFactoryTest4 Failed: ", e);
+      fail("jsonReaderFactoryTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonReaderFactoryTest4 Failed");
+    assertTrue(pass, "jsonReaderFactoryTest4 Failed");
   }
 }

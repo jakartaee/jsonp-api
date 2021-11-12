@@ -19,29 +19,22 @@
  */
 package jakarta.jsonp.tck.api.jsonvaluetests;
 
-import static org.junit.Assert.assertEquals;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import jakarta.json.Json;
-import jakarta.json.JsonValue;
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.common.JSONP_Util;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import jakarta.jsonp.tck.common.*;
 
-@RunWith(Arquillian.class)
+import jakarta.json.*;
+import org.junit.jupiter.api.Test;
+
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+
   /* Tests */
 
   /*
@@ -54,80 +47,79 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValueTypesTest() throws Fault {
+  public void jsonValueTypesTest() {
     boolean pass = true;
     try {
 
       JsonValue.ValueType valueType;
 
       // Testing JsonValue.FALSE case
-      System.out.println("Testing getValueType for JsonValue.FALSE value");
+      LOGGER.info("Testing getValueType for JsonValue.FALSE value");
       valueType = JsonValue.FALSE.getValueType();
       if (valueType != JsonValue.ValueType.FALSE) {
-        System.err.println("Expected JSON FALSE value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON FALSE value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON FALSE value");
+        LOGGER.info("Got expected value type for JSON FALSE value");
 
       // Testing JsonValue.TRUE case
-      System.out.println("Testing getValueType for JsonValue.TRUE value");
+      LOGGER.info("Testing getValueType for JsonValue.TRUE value");
       valueType = JsonValue.TRUE.getValueType();
       if (valueType != JsonValue.ValueType.TRUE) {
-        System.err.println("Expected JSON TRUE value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON TRUE value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON TRUE value");
+        LOGGER.info("Got expected value type for JSON TRUE value");
 
       // Testing JsonValue.NULL case
-      System.out.println("Testing getValueType for JsonValue.NULL value");
+      LOGGER.info("Testing getValueType for JsonValue.NULL value");
       valueType = JsonValue.NULL.getValueType();
       if (valueType != JsonValue.ValueType.NULL) {
-        System.err.println("Expected JSON NULL value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON NULL value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON NULL value");
+        LOGGER.info("Got expected value type for JSON NULL value");
 
       // Testing JsonValue.String case
-      System.out.println("Testing getValueType for JsonValue.String value");
+      LOGGER.info("Testing getValueType for JsonValue.String value");
       valueType = JSONP_Util.createJsonString("string").getValueType();
       if (valueType != JsonValue.ValueType.STRING) {
-        System.err.println("Expected JSON STRING value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON STRING value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON STRING value");
+        LOGGER.info("Got expected value type for JSON STRING value");
 
       // Testing JsonValue.Number case
-      System.out.println("Testing getValueType for JsonValue.Number value");
+      LOGGER.info("Testing getValueType for JsonValue.Number value");
       valueType = JSONP_Util.createJsonNumber(Integer.MAX_VALUE).getValueType();
       if (valueType != JsonValue.ValueType.NUMBER) {
-        System.err.println("Expected JSON NUMBER value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON NUMBER value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON NUMBER value");
+        LOGGER.info("Got expected value type for JSON NUMBER value");
 
       // Testing JsonValue.Array case
-      System.out.println("Testing getValueType for JsonValue.Array value");
+      LOGGER.info("Testing getValueType for JsonValue.Array value");
       valueType = JSONP_Util.createJsonArrayFromString("[]").getValueType();
       if (valueType != JsonValue.ValueType.ARRAY) {
-        System.err.println("Expected JSON ARRAY value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON ARRAY value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON ARRAY value");
+        LOGGER.info("Got expected value type for JSON ARRAY value");
 
       // Testing JsonValue.Object case
-      System.out.println("Testing getValueType for JsonValue.Object value");
+      LOGGER.info("Testing getValueType for JsonValue.Object value");
       valueType = JSONP_Util.createJsonObjectFromString("{}").getValueType();
       if (valueType != JsonValue.ValueType.OBJECT) {
-        System.err.println("Expected JSON OBJECT value type but got instead " + valueType);
+        LOGGER.warning("Expected JSON OBJECT value type but got instead " + valueType);
         pass = false;
       } else
-        System.out.println("Got expected value type for JSON OBJECT value");
+        LOGGER.info("Got expected value type for JSON OBJECT value");
 
     } catch (Exception e) {
-      throw new Fault("jsonValueTypesTest Failed: ", e);
+      fail("jsonValueTypesTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonValueTypesTest Failed");
+    assertTrue(pass, "jsonValueTypesTest Failed");
   }
 
   /*
@@ -140,7 +132,7 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValueOfTest() throws Fault {
+  public void jsonValueOfTest() {
     boolean pass = true;
 
     String valueTypeStrings[] = { "ARRAY", "FALSE", "NULL", "NUMBER", "OBJECT",
@@ -149,44 +141,43 @@ public class ClientTests {
     for (String valueTypeString : valueTypeStrings) {
       JsonValue.ValueType valueType;
       try {
-        System.out.println(
+        LOGGER.info(
             "Testing enum value for string constant name " + valueTypeString);
         valueType = JsonValue.ValueType.valueOf(valueTypeString);
-        System.out.println("Got enum type " + valueType + " for enum string constant named "
+        LOGGER.info("Got enum type " + valueType + " for enum string constant named "
             + valueTypeString);
       } catch (Exception e) {
-        System.err.println("Caught unexpected exception: " + e);
+        LOGGER.warning("Caught unexpected exception: " + e);
         pass = false;
       }
 
     }
 
-    System.out.println("Testing negative test case for NullPointerException");
+    LOGGER.info("Testing negative test case for NullPointerException");
     try {
       JsonValue.ValueType.valueOf(null);
-      System.err.println("did not get expected NullPointerException");
+      LOGGER.warning("did not get expected NullPointerException");
       pass = false;
     } catch (NullPointerException e) {
-      System.out.println("Got expected NullPointerException");
+      LOGGER.info("Got expected NullPointerException");
     } catch (Exception e) {
-      System.err.println("Got unexpected exception " + e);
+      LOGGER.warning("Got unexpected exception " + e);
       pass = false;
     }
 
-    System.out.println("Testing negative test case for IllegalArgumentException");
+    LOGGER.info("Testing negative test case for IllegalArgumentException");
     try {
       JsonValue.ValueType.valueOf("INVALID");
-      System.err.println("did not get expected IllegalArgumentException");
+      LOGGER.warning("did not get expected IllegalArgumentException");
       pass = false;
     } catch (IllegalArgumentException e) {
-      System.out.println("Got expected IllegalArgumentException");
+      LOGGER.info("Got expected IllegalArgumentException");
     } catch (Exception e) {
-      System.err.println("Got unexpected exception " + e);
+      LOGGER.warning("Got unexpected exception " + e);
       pass = false;
     }
 
-    if (!pass)
-      throw new Fault("jsonValueOfTest Failed");
+    assertTrue(pass, "jsonValueOfTest Failed");
   }
 
   /*
@@ -199,24 +190,18 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValuesTest() throws Fault {
-    boolean pass = true;
-
-    System.out.println(
+  public void jsonValuesTest() {
+    LOGGER.info(
         "Testing API method JsonValue.ValueType.values() to return array of enums.");
     JsonValue.ValueType[] values = JsonValue.ValueType.values();
 
     for (JsonValue.ValueType valueType : values) {
       String valueString = JSONP_Util.getValueTypeString(valueType);
       if (valueString == null) {
-        System.err.println("Got no value for enum " + valueType);
-        pass = false;
+        fail("jsonValuesTest Failed. Got no value for enum " + valueType);
       } else
-        System.out.println("Got " + valueString + " for enum " + valueType);
+        LOGGER.info("Got " + valueString + " for enum " + valueType);
     }
-
-    if (!pass)
-      throw new Fault("jsonValuesTest Failed");
   }
 
   /*
@@ -229,98 +214,97 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonValueToStringTest() throws Fault {
+  public void jsonValueToStringTest() {
     boolean pass = true;
     try {
       String stringValue;
       JsonValue jsonValue;
 
       // Testing JsonValue.FALSE case
-      System.out.println("Testing JsonValue.toString() for JsonValue.FALSE value");
+      LOGGER.info("Testing JsonValue.toString() for JsonValue.FALSE value");
       stringValue = JsonValue.FALSE.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("false")) {
-        System.err.println("Expected false");
+        LOGGER.warning("Expected false");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonValue.TRUE case
-      System.out.println("Testing JsonValue.toString() for JsonValue.TRUE value");
+      LOGGER.info("Testing JsonValue.toString() for JsonValue.TRUE value");
       stringValue = JsonValue.TRUE.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("true")) {
-        System.err.println("Expected true");
+        LOGGER.warning("Expected true");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonValue.NULL case
-      System.out.println("Testing JsonValue.toString() for JsonValue.NULL value");
+      LOGGER.info("Testing JsonValue.toString() for JsonValue.NULL value");
       stringValue = JsonValue.NULL.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("null")) {
-        System.err.println("Expected null");
+        LOGGER.warning("Expected null");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonString case
-      System.out.println("Testing JsonValue.toString() for JsonString value");
+      LOGGER.info("Testing JsonValue.toString() for JsonString value");
       jsonValue = JSONP_Util.createJsonString("string");
       stringValue = jsonValue.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("\"string\"")) {
-        System.err.println("Expected \"string\"");
+        LOGGER.warning("Expected \"string\"");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonNumber case
-      System.out.println("Testing JsonValue.toString() for JsonNumber value");
+      LOGGER.info("Testing JsonValue.toString() for JsonNumber value");
       jsonValue = JSONP_Util.createJsonNumber(10);
       stringValue = jsonValue.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("10")) {
-        System.err.println("Expected 10");
+        LOGGER.warning("Expected 10");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonArray case
-      System.out.println("Testing JsonValue.toString() for JsonArray value");
+      LOGGER.info("Testing JsonValue.toString() for JsonArray value");
       jsonValue = JSONP_Util.createJsonArrayFromString("[]");
       stringValue = jsonValue.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("[]")) {
-        System.err.println("Expected []");
+        LOGGER.warning("Expected []");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
       // Testing JsonObject case
-      System.out.println("Testing JsonValue.toString() for JsonObject value");
+      LOGGER.info("Testing JsonValue.toString() for JsonObject value");
       jsonValue = JSONP_Util.createJsonObjectFromString("{}");
       stringValue = jsonValue.toString();
-      System.out.println("stringValue=" + stringValue);
+      LOGGER.info("stringValue=" + stringValue);
       if (!stringValue.equals("{}")) {
-        System.err.println("Expected {}");
+        LOGGER.warning("Expected {}");
         pass = false;
       } else {
-        System.out.println("Got " + stringValue);
+        LOGGER.info("Got " + stringValue);
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonValueToStringTest Failed: ", e);
+      fail("jsonValueToStringTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonValueToStringTest Failed");
+    assertTrue(pass, "jsonValueToStringTest Failed");
   }
 
   /*
@@ -331,7 +315,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonValue API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonValue11Test() throws Fault {
+  public void jsonValue11Test() {
     Value valueTest = new Value();
     final TestResult result = valueTest.test();
     result.eval();
@@ -345,7 +329,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonStructure API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonStructure11Test() throws Fault {
+  public void jsonStructure11Test() {
     Structure structTest = new Structure();
     final TestResult result = structTest.test();
     result.eval();
@@ -353,7 +337,7 @@ public class ClientTests {
 
   /*
    * @testName: jsonNumber21Test
-   * 
+   *
    * @test_Strategy: Tests Json.createValue(Number) API method added in JSON-P 2.1.
    */
   @Test
@@ -373,7 +357,7 @@ public class ClientTests {
       assertEquals(Json.createValue(1), Json.createValue(new CustomNumber(1)));
       assertEquals(Json.createValue(1).toString(), Json.createValue(new CustomNumber(1)).toString());
   }
-  
+
   private static class CustomNumber extends Number {
 
       private static final long serialVersionUID = 1L;

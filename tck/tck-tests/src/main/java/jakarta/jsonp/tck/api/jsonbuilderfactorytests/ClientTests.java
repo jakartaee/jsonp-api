@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,28 +21,20 @@ package jakarta.jsonp.tck.api.jsonbuilderfactorytests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 
 import java.util.Map;
-import java.util.Properties;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -58,31 +50,31 @@ public class ClientTests {
    * object = builderFactory.createObjectBuilder()
    */
   @Test
-  public void jsonBuilderFactoryTest1() throws Fault {
+  public void jsonBuilderFactoryTest1() {
     boolean pass = true;
     try {
-      System.out.println("Create JsonBuilderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("Create JsonBuilderFactory with Map<String, ?> with EMPTY config");
       JsonBuilderFactory builderFactory = Json
           .createBuilderFactory(JSONP_Util.getEmptyConfig());
-      System.out.println("Checking factory configuration properties");
+      LOGGER.info("Checking factory configuration properties");
       Map<String, ?> config = builderFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("---------------------------------------------------");
-      System.out.println("TEST CASE [JsonBuilderFactory.createArrayBuilder()]");
-      System.out.println("---------------------------------------------------");
-      System.out.println("Create JsonArrayBuilder using JsonBuilderFactory");
+      LOGGER.info("---------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonBuilderFactory.createArrayBuilder()]");
+      LOGGER.info("---------------------------------------------------");
+      LOGGER.info("Create JsonArrayBuilder using JsonBuilderFactory");
       JsonArray expJsonArray = JSONP_Util.createJsonArrayFromString("[0,2]");
       JsonArray actJsonArray = builderFactory.createArrayBuilder().add(0).add(2)
           .build();
       if (!JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray))
         pass = false;
 
-      System.out.println("----------------------------------------------------");
-      System.out.println("TEST CASE [JsonBuilderFactory.createObjectBuilder()]");
-      System.out.println("----------------------------------------------------");
-      System.out.println("Create JsonObjectBuilder using JsonBuilderFactory");
+      LOGGER.info("----------------------------------------------------");
+      LOGGER.info("TEST CASE [JsonBuilderFactory.createObjectBuilder()]");
+      LOGGER.info("----------------------------------------------------");
+      LOGGER.info("Create JsonObjectBuilder using JsonBuilderFactory");
       JsonObject expJsonObject = JSONP_Util
           .createJsonObjectFromString("{\"foo\":\"bar\"}");
       JsonObject actJsonObject = builderFactory.createObjectBuilder()
@@ -91,10 +83,9 @@ public class ClientTests {
         pass = false;
 
     } catch (Exception e) {
-      throw new Fault("jsonBuilderFactoryTest1 Failed: ", e);
+      fail("jsonBuilderFactoryTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonBuilderFactoryTest1 Failed");
+    assertTrue(pass, "jsonBuilderFactoryTest1 Failed");
   }
 
   /*
@@ -111,33 +102,32 @@ public class ClientTests {
    * (empty config) 2) non supported provider property
    */
   @Test
-  public void jsonBuilderFactoryTest2() throws Fault {
+  public void jsonBuilderFactoryTest2() {
     boolean pass = true;
     JsonBuilderFactory builderFactory;
     Map<String, ?> config;
     try {
-      System.out.println("----------------------------------------------");
-      System.out.println("Test scenario1: no supported provider property");
-      System.out.println("----------------------------------------------");
-      System.out.println("Create JsonBuilderFactory with Map<String, ?> with EMPTY config");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Test scenario1: no supported provider property");
+      LOGGER.info("----------------------------------------------");
+      LOGGER.info("Create JsonBuilderFactory with Map<String, ?> with EMPTY config");
       builderFactory = Json.createBuilderFactory(JSONP_Util.getEmptyConfig());
       config = builderFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
 
-      System.out.println("-----------------------------------------------");
-      System.out.println("Test scenario2: non supported provider property");
-      System.out.println("-----------------------------------------------");
-      System.out.println("Create JsonBuilderFactory with Map<String, ?> with FOO config");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Test scenario2: non supported provider property");
+      LOGGER.info("-----------------------------------------------");
+      LOGGER.info("Create JsonBuilderFactory with Map<String, ?> with FOO config");
       builderFactory = Json.createBuilderFactory(JSONP_Util.getFooConfig());
       config = builderFactory.getConfigInUse();
       if (!JSONP_Util.doConfigCheck(config, 0))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonBuilderFactoryTest2 Failed: ", e);
+      fail("jsonBuilderFactoryTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonBuilderFactoryTest2 Failed");
+    assertTrue(pass, "jsonBuilderFactoryTest2 Failed");
   }
 
   /*
@@ -148,7 +138,7 @@ public class ClientTests {
    * @test_Strategy: Tests JsonBuilderFactory API methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonBuilderFactory11Test() throws Fault {
+  public void jsonBuilderFactory11Test() {
     BuilderFactory factoryTest = new BuilderFactory();
     final TestResult result = factoryTest.test();
     result.eval();

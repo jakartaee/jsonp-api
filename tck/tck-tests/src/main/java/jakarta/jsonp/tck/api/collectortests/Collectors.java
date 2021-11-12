@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.stream.Collector;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -44,6 +45,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * Support JSON queries using JDK's stream operations</a>}.
  */
 public class Collectors {
+
+  private static final Logger LOGGER = Logger.getLogger(Collectors.class.getName());
 
   /** Tests input data with JsonArray instances. */
   private static final JsonArray[] ARRAY_VALUES = new JsonArray[] {
@@ -92,7 +95,7 @@ public class Collectors {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonCollectors class implementation");
-    System.out.println("JsonCollectors class implementation");
+    LOGGER.info("JsonCollectors class implementation");
     testToJsonArrayCollector(result);
     // testSimpleToJsonObjectCollector(result);
     testToJsonObjectCollector(result);
@@ -111,9 +114,9 @@ public class Collectors {
    *          Tests result record.
    */
   private void testToJsonArrayCollector(final TestResult result) {
-    System.out.println(" - Collector returned by toJsonArray()");
+    LOGGER.info(" - Collector returned by toJsonArray()");
     for (final JsonArray in : ARRAY_VALUES) {
-      System.out.println("   - Input: " + valueToString(in));
+      LOGGER.info("   - Input: " + valueToString(in));
       final Collector<JsonValue, JsonArrayBuilder, JsonArray> col = JsonCollectors
           .toJsonArray();
       final JsonArray out = in.getValuesAs(JsonObject.class).stream()
@@ -137,9 +140,9 @@ public class Collectors {
   // * @param result Tests result record.
   // */
   // private void testSimpleToJsonObjectCollector(final TestResult result) {
-  // System.out.println(" - Collector returned by toJsonObject()");
+  // LOGGER.info(" - Collector returned by toJsonObject()");
   // for (final JsonObject in : OBJ_VALUES) {
-  // System.out.println(" - Input: " + valueToString(in));
+  // LOGGER.info(" - Input: " + valueToString(in));
   // final Collector<Map.Entry<String,JsonValue>, JsonObjectBuilder, JsonObject>
   // col = JsonCollectors.toJsonObject();
   // final JsonObject out = (in.entrySet()).stream().collect(col);
@@ -166,7 +169,7 @@ public class Collectors {
    *          Tests result record.
    */
   private void testToJsonObjectCollector(final TestResult result) {
-    System.out.println(" - Collector returned by toJsonObject(Function,Function)");
+    LOGGER.info(" - Collector returned by toJsonObject(Function,Function)");
     final JsonArray in = Json.createArrayBuilder()
         .add(Json.createObjectBuilder().add("key", STR_NAME).add("value",
             STR_VALUE))
@@ -180,7 +183,7 @@ public class Collectors {
     final JsonObject check = Json.createObjectBuilder().add(STR_NAME, STR_VALUE)
         .add(INT_NAME, INT_VALUE).add(BOOL_NAME, BOOL_VALUE)
         .add(OBJ_NAME, OBJ_VALUE).build();
-    System.out.println("     Input: " + valueToString(in));
+    LOGGER.info("     Input: " + valueToString(in));
     final Collector<JsonValue, JsonObjectBuilder, JsonObject> col = JsonCollectors
         .toJsonObject(
             // Build key from stream value.
@@ -215,7 +218,7 @@ public class Collectors {
    *          Tests result record.
    */
   private void testSimpleGroupingByCollector(final TestResult result) {
-    System.out.println(" - Collector returned by groupingBy(Function)");
+    LOGGER.info(" - Collector returned by groupingBy(Function)");
     final JsonObject check = Json.createObjectBuilder().add("Red", Json
         .createArrayBuilder()
         .add(
@@ -242,7 +245,7 @@ public class Collectors {
                     .add("office", "Green"))
                 .build())
         .build();
-    System.out.println("     Input: " + valueToString(OBJ_ARRAY_GROUP));
+    LOGGER.info("     Input: " + valueToString(OBJ_ARRAY_GROUP));
     final Collector<JsonValue, Map<String, JsonArrayBuilder>, JsonObject> col = JsonCollectors
         .groupingBy((JsonValue v) -> {
           if (v.getValueType() == JsonValue.ValueType.OBJECT)
@@ -453,7 +456,7 @@ public class Collectors {
    *          Tests result record.
    */
   private void testSortingGroupingByCollector(final TestResult result) {
-    System.out.println(" - Collector returned by groupingBy(Function,Collector)");
+    LOGGER.info(" - Collector returned by groupingBy(Function,Collector)");
     final JsonObject check = Json.createObjectBuilder().add("Red", Json
         .createArrayBuilder()
         .add(
@@ -483,7 +486,7 @@ public class Collectors {
     Collector<JsonValue, JsonArrayBuilder, JsonArray> toArray = Collector.of(
         ValueBuilder::new, JsonArrayBuilder::add, JsonArrayBuilder::addAll,
         JsonArrayBuilder::build);
-    System.out.println("     Input: " + valueToString(OBJ_ARRAY_GROUP));
+    LOGGER.info("     Input: " + valueToString(OBJ_ARRAY_GROUP));
     final Collector<JsonValue, Map<String, JsonArrayBuilder>, JsonObject> col = JsonCollectors
         .groupingBy((JsonValue v) -> {
           if (v.getValueType() == JsonValue.ValueType.OBJECT)
@@ -510,7 +513,7 @@ public class Collectors {
    */
   protected boolean operationFailed(final JsonValue check,
       final JsonValue out) {
-    System.out.println("     Checking " + valueToString(out));
+    LOGGER.info("     Checking " + valueToString(out));
     return out == null || !assertEquals(check, out);
   }
 

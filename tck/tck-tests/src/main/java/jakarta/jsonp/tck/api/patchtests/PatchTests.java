@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,33 +16,23 @@
 
 package jakarta.jsonp.tck.api.patchtests;
 
+import jakarta.json.JsonPatch;
 import jakarta.jsonp.tck.api.common.TestResult;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 // $Id$
 /*
  * RFC 6902: JavaScript Object Notation (JSON) Patch compatibility tests.<br>
  * {@see <a href="https://tools.ietf.org/html/rfc6902">RFC 6902</a>}.
  */
-@RunWith(Arquillian.class)
 public class PatchTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, PatchTests.class.getPackage().getName());
-    }
   /**
    * Test {@link JsonPatch} factory methods added in JSON-P 1.1.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonCreatePatch11Test
@@ -54,7 +44,7 @@ public class PatchTests {
    * @test_Strategy: Tests JsonPatch API factory methods added in JSON-P 1.1.
    */
   @Test
-  public void jsonCreatePatch11Test() throws Fault {
+  public void jsonCreatePatch11Test() {
     PatchCreate createTest = new PatchCreate();
     final TestResult result = createTest.test();
     result.eval();
@@ -63,7 +53,7 @@ public class PatchTests {
   /**
    * Test {@code JsonPatch.Operation} enumeration added in JSON-P 1.1.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonJsonPatchOperation11Test
@@ -74,7 +64,7 @@ public class PatchTests {
    * @test_Strategy: Tests JsonPatch.Operation enumeration added in JSON-P 1.1.
    */
   @Test
-  public void jsonJsonPatchOperation11Test() throws Fault {
+  public void jsonJsonPatchOperation11Test() {
     PatchOperationEnum enumTest = new PatchOperationEnum();
     final TestResult result = enumTest.test();
     result.eval();
@@ -85,7 +75,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.1">RFC 6902:
    * 4.1. add</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    * 
    * @testName: jsonPatchAddTest
@@ -95,7 +85,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of add operation.
    */
   @Test
-  public void jsonPatchAddTest() throws Fault {
+  public void jsonPatchAddTest() {
     PatchOperationAdd addTest = new PatchOperationAdd();
     final TestResult result = addTest.test();
     result.eval();
@@ -106,7 +96,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.2">RFC 6902:
    * 4.2. remove</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonPatchRemoveTest
@@ -115,7 +105,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of remove operation.
    */
   @Test
-  public void jsonPatchRemoveTest() throws Fault {
+  public void jsonPatchRemoveTest() {
     PatchOperationRemove removeTest = new PatchOperationRemove();
     final TestResult result = removeTest.test();
     result.eval();
@@ -126,7 +116,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.3">RFC 6902:
    * 4.3. replace</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonPatchReplaceTest
@@ -136,7 +126,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of replace operation.
    */
   @Test
-  public void jsonPatchReplaceTest() throws Fault {
+  public void jsonPatchReplaceTest() {
     PatchOperationReplace replaceTest = new PatchOperationReplace();
     final TestResult result = replaceTest.test();
     result.eval();
@@ -147,7 +137,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.4">RFC 6902:
    * 4.4. move</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonPatchMoveTest
@@ -156,7 +146,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of move operation.
    */
   @Test
-  public void jsonPatchMoveTest() throws Fault {
+  public void jsonPatchMoveTest() {
     PatchOperationMove moveTest = new PatchOperationMove();
     final TestResult result = moveTest.test();
     result.eval();
@@ -167,7 +157,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.5">RFC 6902:
    * 4.5. copy</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonPatchCopyTest
@@ -176,7 +166,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of copy operation.
    */
   @Test
-  public void jsonPatchCopyTest() throws Fault {
+  public void jsonPatchCopyTest() {
     PatchOperationCopy copyTest = new PatchOperationCopy();
     final TestResult result = copyTest.test();
     result.eval();
@@ -187,7 +177,7 @@ public class PatchTests {
    * {@see <a href="https://tools.ietf.org/html/rfc6902#section-4.6">RFC 6902:
    * 4.6. test</a>}.
    *
-   * @throws Fault
+   * @throws AssertionFailedError
    *           when this test failed.
    *
    * @testName: jsonPatchTestTest
@@ -197,7 +187,7 @@ public class PatchTests {
    * @test_Strategy: Test API response on various usages of test operation.
    */
   @Test
-  public void jsonPatchTestTest() throws Fault {
+  public void jsonPatchTestTest() {
     PatchOperationTest testTest = new PatchOperationTest();
     final TestResult result = testTest.test();
     result.eval();

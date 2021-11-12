@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +21,8 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -29,6 +31,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * JavaScript Object Notation (JSON) compatibility tests for {@link JsonValue}.
  */
 public class Value {
+
+  private static final Logger LOGGER = Logger.getLogger(Value.class.getName());
 
   /**
    * Creates an instance of JavaScript Object Notation (JSON) compatibility
@@ -46,7 +50,7 @@ public class Value {
   TestResult test() {
     final TestResult result = new TestResult(
         "JsonValue API methods added in JSON-P 1.1.");
-    System.out.println("JsonValue API methods added in JSON-P 1.1.");
+    LOGGER.info("JsonValue API methods added in JSON-P 1.1.");
     testAsJsonObject(result);
     testAsJsonObjectOnNonObject(result);
     testAsJsonArray(result);
@@ -62,7 +66,7 @@ public class Value {
    *          Test suite result.
    */
   private void testAsJsonObject(final TestResult result) {
-    System.out.println(" - asJsonObject() on JsonObject instances");
+    LOGGER.info(" - asJsonObject() on JsonObject instances");
     final JsonObject[] values = { createEmptyObject(), createSimpleObjectStr(),
         createSimpleObjectInt(), createSimpleObjectBool(),
         createSimpleObjectObject(), createCompoundObject() };
@@ -84,7 +88,7 @@ public class Value {
    *          Test suite result.
    */
   private void testAsJsonObjectOnNonObject(final TestResult result) {
-    System.out.println(" - asJsonObject() on non JsonObject instances");
+    LOGGER.info(" - asJsonObject() on non JsonObject instances");
     final JsonValue[] values = { createEmptyArrayWithStr(),
         createEmptyArrayWithInt(), createEmptyArrayWithBool(),
         createEmptyArrayWithObject(), toJsonValue(STR_VALUE),
@@ -97,7 +101,7 @@ public class Value {
         result.fail("asJsonObject()",
             "Call of asJsonObject() on non JsonObject instance shall throw ClassCastException");
       } catch (ClassCastException ex) {
-        System.out.println("    - Expected exception: " + ex.getMessage());
+        LOGGER.info("    - Expected exception: " + ex.getMessage());
       } catch (Throwable t) {
         result.fail("asJsonObject()",
             "Call of asJsonObject() on non JsonObject instance shall throw ClassCastException, not "
@@ -114,7 +118,7 @@ public class Value {
    *          Test suite result.
    */
   private void testAsJsonArray(final TestResult result) {
-    System.out.println(" - asJsonArray() on JsonArray instances");
+    LOGGER.info(" - asJsonArray() on JsonArray instances");
     final JsonArray[] values = { createEmptyArray(), createEmptyArrayWithStr(),
         createEmptyArrayWithInt(), createEmptyArrayWithBool(),
         createEmptyArrayWithObject(), createSimpleStringArray5(),
@@ -138,7 +142,7 @@ public class Value {
    *          Test suite result.
    */
   private void testAsJsonArrayOnNonArray(final TestResult result) {
-    System.out.println(" - asJsonArray() on non JsonArray instances");
+    LOGGER.info(" - asJsonArray() on non JsonArray instances");
     final JsonValue[] values = { createSimpleObjectStr(),
         createSimpleObjectInt(), createSimpleObjectBool(),
         createSimpleObjectObject(), createCompoundObject(),
@@ -151,7 +155,7 @@ public class Value {
         result.fail("asJsonArray()",
             "Call of asJsonArray() on non JsonArray instance shall throw ClassCastException");
       } catch (ClassCastException ex) {
-        System.out.println("    - Expected exception: " + ex.getMessage());
+        LOGGER.info("    - Expected exception: " + ex.getMessage());
       } catch (Throwable t) {
         result.fail("asJsonArray()",
             "Call of asJsonArray() on non JsonArray instance shall throw ClassCastException, not "

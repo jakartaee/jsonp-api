@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,25 +22,17 @@ package jakarta.jsonp.tck.api.exceptiontests;
 import jakarta.json.*;
 import jakarta.json.stream.*;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Arquillian.class)
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ClientTests {
-    
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
 
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* Tests */
 
   /*
@@ -51,29 +43,20 @@ public class ClientTests {
    * @test_Strategy: Test API: JsonException ret = new JsonException(String)
    */
   @Test
-  public void jsonExceptionConstructorTest1() throws Fault {
-    boolean pass = true;
-
+  public void jsonExceptionConstructorTest1() {
     try {
       String message = "This JSON is incorrect.";
 
-      System.out.println("Test JsonException(String)");
+      LOGGER.info("Test JsonException(String)");
       JsonException exception = new JsonException(message);
       try {
         throw exception;
       } catch (JsonException e) {
-        if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
-              + e.getMessage());
-          pass = false;
-        }
+        assertEquals(message, e.getMessage(), "jsonExceptionConstructorTest1 failed");
       }
     } catch (Exception e) {
-      throw new Fault("jsonExceptionConstructorTest1 Failed: ", e);
+      fail("jsonExceptionConstructorTest1 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonExceptionConstructorTest1 Failed:");
   }
 
   /*
@@ -85,37 +68,23 @@ public class ClientTests {
    * Throwable)
    */
   @Test
-  public void jsonExceptionConstructorTest2() throws Fault {
-    boolean pass = true;
-
+  public void jsonExceptionConstructorTest2() {
     try {
       String message = "This JSON is incorrect due to foo.";
       Exception foo = new Exception("This is a foo exception");
 
-      System.out.println("Test JsonException(String, Throwable)");
+      LOGGER.info("Test JsonException(String, Throwable)");
       JsonException exception = new JsonException(message, foo);
 
       try {
         throw exception;
       } catch (JsonException e) {
-        if (!e.getCause().equals(foo)) {
-          System.err.println("Incorrect cause: expected " + foo + ", received "
-              + e.getCause());
-          pass = false;
-        }
-        if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
-              + e.getMessage());
-          pass = false;
-        }
+        assertTrue(isPass(foo, e, message), "jsonExceptionConstructorTest2 failed");
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonExceptionConstructorTest2 Failed: ", e);
+      fail("jsonExceptionConstructorTest2 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonExceptionConstructorTest2 Failed:");
   }
 
   /*
@@ -128,38 +97,36 @@ public class ClientTests {
    * JsonParsingException(String, JsonLocation)
    */
   @Test
-  public void jsonParsingExceptionConstructorTest1() throws Fault {
+  public void jsonParsingExceptionConstructorTest1() {
     boolean pass = true;
 
     try {
       String message = "This JSON is incorrect.";
       MyJsonLocation expLoc = new MyJsonLocation(10, 20, 30);
-      System.out.println("MyJsonLocation");
+      LOGGER.info("MyJsonLocation");
       JSONP_Util.dumpLocation(expLoc);
 
-      System.out.println("Test JsonParsingException(String, JsonLocation)");
+      LOGGER.info("Test JsonParsingException(String, JsonLocation)");
       JsonParsingException exception = new JsonParsingException(message,
           expLoc);
       try {
         throw exception;
       } catch (JsonParsingException e) {
         if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
+          LOGGER.warning("Incorrect message: expected " + message + ", received "
               + e.getMessage());
           pass = false;
         }
       }
       JsonLocation actLoc = exception.getLocation();
-      System.out.println("JsonParsingException.getLocation()");
+      LOGGER.info("JsonParsingException.getLocation()");
       JSONP_Util.dumpLocation(actLoc);
       if (!JSONP_Util.assertEquals(expLoc, actLoc))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonParsingExceptionConstructorTest1 Failed: ", e);
+      fail("jsonParsingExceptionConstructorTest1 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonParsingExceptionConstructorTest1 Failed:");
+    assertTrue(pass, "jsonParsingExceptionConstructorTest1 failed");
   }
 
   /*
@@ -172,45 +139,34 @@ public class ClientTests {
    * JsonParsingException(String, Throwable, JsonLocation)
    */
   @Test
-  public void jsonParsingExceptionConstructorTest2() throws Fault {
+  public void jsonParsingExceptionConstructorTest2() {
     boolean pass = true;
 
     try {
       String message = "This JSON is incorrect due to foo.";
       Exception foo = new Exception("This is a foo exception");
       MyJsonLocation expLoc = new MyJsonLocation(10, 20, 30);
-      System.out.println("MyJsonLocation");
+      LOGGER.info("MyJsonLocation");
       JSONP_Util.dumpLocation(expLoc);
 
-      System.out.println("Test JsonParsingException(String, Throwable)");
+      LOGGER.info("Test JsonParsingException(String, Throwable)");
       JsonParsingException exception = new JsonParsingException(message, foo,
           expLoc);
 
       try {
         throw exception;
       } catch (JsonParsingException e) {
-        if (!e.getCause().equals(foo)) {
-          System.err.println("Incorrect cause: expected " + foo + ", received "
-              + e.getCause());
-          pass = false;
-        }
-        if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
-              + e.getMessage());
-          pass = false;
-        }
+        pass = isPass(foo, e, message);
       }
       JsonLocation actLoc = exception.getLocation();
-      System.out.println("JsonParsingException.getLocation()");
+      LOGGER.info("JsonParsingException.getLocation()");
       JSONP_Util.dumpLocation(actLoc);
       if (!JSONP_Util.assertEquals(expLoc, actLoc))
         pass = false;
     } catch (Exception e) {
-      throw new Fault("jsonParsingExceptionConstructorTest2 Failed: ", e);
+      fail("jsonParsingExceptionConstructorTest2 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonParsingExceptionConstructorTest2 Failed:");
+    assertTrue(pass, "jsonParsingExceptionConstructorTest2 failed");
   }
 
   /*
@@ -222,29 +178,20 @@ public class ClientTests {
    * JsonGenerationException(String)
    */
   @Test
-  public void jsonGenerationExceptionConstructorTest1() throws Fault {
-    boolean pass = true;
-
+  public void jsonGenerationExceptionConstructorTest1() {
     try {
       String message = "This JSON is incorrect.";
 
-      System.out.println("Test JsonGenerationException(String)");
+      LOGGER.info("Test JsonGenerationException(String)");
       JsonGenerationException exception = new JsonGenerationException(message);
       try {
         throw exception;
       } catch (JsonGenerationException e) {
-        if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
-              + e.getMessage());
-          pass = false;
-        }
+        assertEquals(message, e.getMessage(), "jsonGenerationExceptionConstructorTest1 failed: Incorrect message");
       }
     } catch (Exception e) {
-      throw new Fault("jsonGenerationExceptionConstructorTest1 Failed: ", e);
+      fail("jsonGenerationExceptionConstructorTest1 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonGenerationExceptionConstructorTest1 Failed:");
   }
 
   /*
@@ -256,37 +203,39 @@ public class ClientTests {
    * JsonGenerationException(String, Throwable)
    */
   @Test
-  public void jsonGenerationExceptionConstructorTest2() throws Fault {
-    boolean pass = true;
-
+  public void jsonGenerationExceptionConstructorTest2() {
     try {
       String message = "This JSON is incorrect due to foo.";
       Exception foo = new Exception("This is a foo exception");
 
-      System.out.println("Test JsonGenerationException(String, Throwable)");
+      LOGGER.info("Test JsonGenerationException(String, Throwable)");
       JsonGenerationException exception = new JsonGenerationException(message,
           foo);
 
       try {
         throw exception;
       } catch (JsonGenerationException e) {
-        if (!e.getCause().equals(foo)) {
-          System.err.println("Incorrect cause: expected " + foo + ", received "
-              + e.getCause());
-          pass = false;
-        }
-        if (!e.getMessage().equals(message)) {
-          System.err.println("Incorrect message: expected " + message + ", received "
-              + e.getMessage());
-          pass = false;
-        }
+        assertTrue(isPass(foo, e, message), "jsonGenerationExceptionConstructorTest2 failed");
       }
 
     } catch (Exception e) {
-      throw new Fault("jsonGenerationExceptionConstructorTest2 Failed: ", e);
+      fail("jsonGenerationExceptionConstructorTest2 Failed: ", e);
     }
-
-    if (!pass)
-      throw new Fault("jsonGenerationExceptionConstructorTest2 Failed:");
   }
+
+  private boolean isPass(Exception toCompare, Exception actual, String errorMessage) {
+    boolean pass = true;
+    if (!actual.getCause().equals(toCompare)) {
+      LOGGER.warning("Incorrect cause: expected " + toCompare + ", received "
+          + actual.getCause());
+      pass = false;
+    }
+    if (!actual.getMessage().equals(errorMessage)) {
+      LOGGER.warning("Incorrect message: expected " + errorMessage + ", received "
+          + actual.getMessage());
+      pass = false;
+    }
+    return pass;
+  }
+
 }

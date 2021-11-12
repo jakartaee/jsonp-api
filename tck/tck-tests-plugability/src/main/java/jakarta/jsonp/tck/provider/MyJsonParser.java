@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,14 +21,10 @@
 package jakarta.jsonp.tck.provider;
 
 
-import jakarta.json.*;
 import jakarta.json.stream.*;
-import jakarta.json.spi.JsonProvider;
 import java.io.*;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.logging.Logger;
 
 /*
  * MyJsonParser is a Json Test Parser used by the pluggability tests
@@ -37,13 +33,16 @@ import java.util.*;
  */
 
 public class MyJsonParser implements JsonParser {
+
+  private static final Logger LOGGER = Logger.getLogger(MyJsonParser.class.getName());
+
   private InputStream in = null;
 
   private Reader reader = null;
 
   private void dumpInstanceVars() {
-    System.out.println("reader=" + reader);
-    System.out.println("in=" + in);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
   }
 
   // call methods
@@ -70,54 +69,54 @@ public class MyJsonParser implements JsonParser {
   }
 
   public void close() {
-    System.out.println("public void close()");
+    LOGGER.info("public void close()");
     addCalls("public void close()");
   }
 
   public BigDecimal getBigDecimal() {
-    System.out.println("public BigDecimal getBigDecimal()");
+    LOGGER.info("public BigDecimal getBigDecimal()");
     addCalls("public BigDecimal getBigDecimal()");
     return null;
   }
 
   public int getInt() {
-    System.out.println("public int getInt()");
+    LOGGER.info("public int getInt()");
     addCalls("public int getInt()");
     return -1;
   }
 
   public JsonLocation getLocation() {
-    System.out.println("public JsonLocation getLocation()");
+    LOGGER.info("public JsonLocation getLocation()");
     addCalls("public JsonLocation getLocation()");
     return null;
   }
 
   public long getLong() {
-    System.out.println("public long getLong()");
+    LOGGER.info("public long getLong()");
     addCalls("public long getLong()");
     return -1;
   }
 
   public boolean isIntegralNumber() {
-    System.out.println("public boolean isIntegralNumber()");
+    LOGGER.info("public boolean isIntegralNumber()");
     addCalls("public boolean isIntegralNumber()");
     return false;
   }
 
   public String getString() {
-    System.out.println("public String getString()");
+    LOGGER.info("public String getString()");
     addCalls("public String getString()");
     return null;
   }
 
   public boolean hasNext() {
-    System.out.println("public boolean hasNext()");
+    LOGGER.info("public boolean hasNext()");
     addCalls("public boolean hasNext()");
     return false;
   }
 
   public JsonParser.Event next() {
-    System.out.println("public JsonParser.Event next()");
+    LOGGER.info("public JsonParser.Event next()");
     addCalls("public JsonParser.Event next()");
     return null;
   }

@@ -21,31 +21,24 @@ package jakarta.jsonp.tck.api.jsongeneratortests;
 
 import jakarta.jsonp.tck.api.common.TestResult;
 import jakarta.jsonp.tck.common.*;
-import jakarta.jsonp.tck.lib.harness.Fault;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.logging.Logger;
 
 import jakarta.json.*;
 import jakarta.json.stream.*;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
-@RunWith(Arquillian.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class ClientTests {
 
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, ClientTests.class.getPackage().getName());
-    }
+  private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
+  
   /* private Utility methods */
 
   /*********************************************************************************
@@ -61,7 +54,7 @@ public class ClientTests {
           .write(JsonValue.NULL).writeEnd().writeEnd();
       generator.close();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
     }
   }
 
@@ -78,7 +71,7 @@ public class ClientTests {
           .writeEnd().writeEnd();
       generator.close();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
     }
   }
 
@@ -87,7 +80,7 @@ public class ClientTests {
    *********************************************************************************/
   private String generateJsonObject() {
     try {
-      System.out.println("Generate a JsonObject");
+      LOGGER.info("Generate a JsonObject");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("emptyString", "")
@@ -123,7 +116,7 @@ public class ClientTests {
       generator.close();
       return sWriter.toString();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }
@@ -133,7 +126,7 @@ public class ClientTests {
    *********************************************************************************/
   private JsonObject buildJsonObject() {
     try {
-      System.out.println("Build a JsonObject");
+      LOGGER.info("Build a JsonObject");
       JsonObject jsonObject = Json.createObjectBuilder().add("emptyString", "")
           .add("emptyArray", Json.createArrayBuilder())
           .add("emptyObject", Json.createObjectBuilder())
@@ -172,7 +165,7 @@ public class ClientTests {
           .build();
       return jsonObject;
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }
@@ -182,7 +175,7 @@ public class ClientTests {
    *********************************************************************************/
   private String generateJsonArray() {
     try {
-      System.out.println("Generate a JsonArray");
+      LOGGER.info("Generate a JsonArray");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("").writeStartArray().writeEnd()
@@ -215,7 +208,7 @@ public class ClientTests {
       generator.close();
       return sWriter.toString();
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }
@@ -225,7 +218,7 @@ public class ClientTests {
    *********************************************************************************/
   private JsonArray buildJsonArray() {
     try {
-      System.out.println("Build a JsonArray");
+      LOGGER.info("Build a JsonArray");
       JsonArray jsonArray = Json.createArrayBuilder().add("")
           .add(Json.createArrayBuilder()).add(Json.createObjectBuilder())
           .add("string").add(Integer.MIN_VALUE).add(Integer.MAX_VALUE)
@@ -259,7 +252,7 @@ public class ClientTests {
           .build();
       return jsonArray;
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
+      LOGGER.warning("Exception occurred: " + e);
       return null;
     }
   }
@@ -282,25 +275,22 @@ public class ClientTests {
    * null}, "array":["string", 1, true, false, null] }
    */
   @Test
-  public void jsonGeneratorObjectTest1() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectTest1() {
     try {
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generateSimpleJsonObject(generator);
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(sWriter.toString());
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectTest1 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectTest1 Failed: ", e);
+      fail("jsonGeneratorObjectTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectTest1 Failed");
   }
 
   /*
@@ -327,8 +317,7 @@ public class ClientTests {
    * }
    */
   @Test
-  public void jsonGeneratorObjectTest2() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectTest2() {
     try {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json.createGenerator(baos);
@@ -355,10 +344,10 @@ public class ClientTests {
           .writeEnd();
       generator.close();
 
-      System.out.println("Dump of string: " + baos.toString("UTF-8"));
+      LOGGER.info("Dump of string: " + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"emptyString\":\"\",\"emptyArray\":[],\"emptyObject\":{},\"string\":\"string\","
           + "\"intMin\":" + Integer.MIN_VALUE + "," + "\"intMax\":"
           + Integer.MAX_VALUE + "," + "\"longMin\":" + Long.MIN_VALUE + ","
@@ -372,15 +361,13 @@ public class ClientTests {
           + "\"\\\\\\\"\\\\\\\\!@#$%^&*()_+|~1234567890-=`[]{}:;',./<>? qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\""
           + "}";
 
-      System.out.println("Read the JSON text back from OutputStream removing whitespace");
+      LOGGER.info("Read the JSON text back from OutputStream removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectTest2 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectTest2 Failed: ", e);
+      fail("jsonGeneratorObjectTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectTest2 Failed");
   }
 
   /*
@@ -414,8 +401,7 @@ public class ClientTests {
    * }
    */
   @Test
-  public void jsonGeneratorObjectTest3() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectTest3() {
     try {
       JsonObject expJsonObject = buildJsonObject();
       String jsonText = generateJsonObject();
@@ -424,14 +410,14 @@ public class ClientTests {
       JsonObject actJsonObject = (JsonObject) reader.read();
 
       // Do comparison
-      System.out.println("Compare expJsonObject and actJsonObject for equality");
-      pass = JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject);
+      LOGGER.info("Compare expJsonObject and actJsonObject for equality");
+      assertTrue(
+          JSONP_Util.assertEqualsJsonObjects(expJsonObject, actJsonObject),
+          "jsonGeneratorObjectTest3 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectTest3 Failed: ", e);
+      fail("jsonGeneratorObjectTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectTest3 Failed");
   }
 
   /*
@@ -456,10 +442,9 @@ public class ClientTests {
    * Charset);
    */
   @Test
-  public void jsonGeneratorObjectTest4() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectTest4() {
     try {
-      System.out.println("Create generator output in UTF-16BE encoding.");
+      LOGGER.info("Create generator output in UTF-16BE encoding.");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -467,18 +452,16 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back encoding from OutputStream using UTF-16BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16BE"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectTest4 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectTest4 Failed: ", e);
+      fail("jsonGeneratorObjectTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectTest4 Failed");
   }
 
   /*
@@ -497,8 +480,7 @@ public class ClientTests {
    * {"unicodechars":"\u0000\u000f\u001f\u00ff\uff00\uffff"}
    */
   @Test
-  public void jsonGeneratorObjectTest5() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectTest5() {
     JsonReader reader = null;
     String expUnicodeChars = "\u0000\u000f\u001f\u00ff\uff00\uffff";
     try {
@@ -511,21 +493,18 @@ public class ClientTests {
       generator.close();
       sWriter.close();
 
-      System.out.println("Testing read of " + sWriter.toString());
+      LOGGER.info("Testing read of " + sWriter.toString());
       reader = Json.createReader(new StringReader(sWriter.toString()));
       JsonObject jsonObject = reader.readObject();
       String actUnicodeChars = jsonObject.getJsonString("unicodechars")
           .getString();
       reader.close();
-      System.out.println("actUnicodeChars=" + actUnicodeChars);
+      LOGGER.info("actUnicodeChars=" + actUnicodeChars);
 
-      pass = JSONP_Util.assertEquals(expUnicodeChars, actUnicodeChars);
+      assertTrue(JSONP_Util.assertEquals(expUnicodeChars, actUnicodeChars), "jsonGeneratorObjectTest5 Failed");
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
-      pass = false;
+      fail("Exception occurred: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectTest5 Failed");
   }
 
   /*
@@ -544,25 +523,22 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonGeneratorArrayTest1() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorArrayTest1() {
     try {
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generateSimpleJsonArray(generator);
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "[{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},[\"string\",1,true,false,null]]";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(sWriter.toString());
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorArrayTest1 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorArrayTest1 Failed: ", e);
+      fail("jsonGeneratorArrayTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorArrayTest1 Failed");
   }
 
   /*
@@ -587,8 +563,7 @@ public class ClientTests {
    * ]
    */
   @Test
-  public void jsonGeneratorArrayTest2() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorArrayTest2() {
     try {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json.createGenerator(baos);
@@ -613,10 +588,10 @@ public class ClientTests {
           .writeEnd();
       generator.close();
 
-      System.out.println("Dump of string: " + baos.toString("UTF-8"));
+      LOGGER.info("Dump of string: " + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "[\"\",[],{},\"string\"," + Integer.MIN_VALUE + ","
           + Integer.MAX_VALUE + "," + Long.MIN_VALUE + "," + Long.MAX_VALUE
           + "," + "true,false,null,{\"emptyString\":\"\",\"emptyArray\":[],"
@@ -628,15 +603,13 @@ public class ClientTests {
           + "\"\\\\\\\"\\\\\\\\!@#$%^&*()_+|~1234567890-=`[]{}:;',./<>? qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\""
           + "]";
 
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorArrayTest2 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorArrayTest2 Failed: ", e);
+      fail("jsonGeneratorArrayTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorArrayTest2 Failed");
   }
 
   /*
@@ -665,25 +638,22 @@ public class ClientTests {
    * ]
    */
   @Test
-  public void jsonGeneratorArrayTest3() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorArrayTest3() {
     try {
       JsonArray expJsonArray = buildJsonArray();
       String jsonText = generateJsonArray();
-      System.out.println("generator json text: " + jsonText);
+      LOGGER.info("generator json text: " + jsonText);
 
       JsonReader reader = Json.createReader(new StringReader(jsonText));
       JsonArray actJsonArray = (JsonArray) reader.read();
 
       // Do comparison
-      System.out.println("Compare expJsonArray and actJsonArray for equality");
-      pass = JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray);
+      LOGGER.info("Compare expJsonArray and actJsonArray for equality");
+      assertTrue(JSONP_Util.assertEqualsJsonArrays(expJsonArray, actJsonArray), "jsonGeneratorArrayTest3 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorArrayTest3 Failed: ", e);
+      fail("jsonGeneratorArrayTest3 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorArrayTest3 Failed");
   }
 
   /*
@@ -704,10 +674,9 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonGeneratorArrayTest4() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorArrayTest4() {
     try {
-      System.out.println("Create generator output in UTF-16BE encoding.");
+      LOGGER.info("Create generator output in UTF-16BE encoding.");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -715,18 +684,16 @@ public class ClientTests {
       generateSimpleJsonArray(generator);
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "[{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},[\"string\",1,true,false,null]]";
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16BE"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorArrayTest4 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorArrayTest4 Failed: ", e);
+      fail("jsonGeneratorArrayTest4 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorArrayTest4 Failed");
   }
 
   /*
@@ -745,8 +712,7 @@ public class ClientTests {
    * ["\u0000\u000f\u001f\u00ff\uff00\uffff"]
    */
   @Test
-  public void jsonGeneratorArrayTest5() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorArrayTest5() {
     JsonReader reader = null;
     String expUnicodeChars = "\u0000\u000f\u001f\u00ff\uff00\uffff";
     try {
@@ -758,20 +724,17 @@ public class ClientTests {
       generator.close();
       sWriter.close();
 
-      System.out.println("Testing read of " + sWriter.toString());
+      LOGGER.info("Testing read of " + sWriter.toString());
       reader = Json.createReader(new StringReader(sWriter.toString()));
       JsonArray jsonArray = reader.readArray();
       String actUnicodeChars = jsonArray.getJsonString(0).getString();
       reader.close();
-      System.out.println("actUnicodeChars=" + actUnicodeChars);
+      LOGGER.info("actUnicodeChars=" + actUnicodeChars);
 
-      pass = JSONP_Util.assertEquals(expUnicodeChars, actUnicodeChars);
+      assertTrue(JSONP_Util.assertEquals(expUnicodeChars, actUnicodeChars), "jsonGeneratorArrayTest5 Failed");
     } catch (Exception e) {
-      System.err.println("Exception occurred: " + e);
-      pass = false;
+      fail("JsonGeneratorArrayTest5 Failed. Exception occurred:", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorArrayTest5 Failed");
   }
 
   /*
@@ -794,10 +757,9 @@ public class ClientTests {
    * ?>).createGenerator(Writer)
    */
   @Test
-  public void jsonGeneratorObjectConfigTest1() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectConfigTest1() {
     try {
-      System.out.println("Create JsonGenerator using configuration with PRETTY_PRINTING");
+      LOGGER.info("Create JsonGenerator using configuration with PRETTY_PRINTING");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig())
@@ -805,20 +767,18 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output with PRETTY_PRINTING feature
-      System.out.println("PRETTY_PRINTING feature\n" + sWriter.toString());
+      LOGGER.info("PRETTY_PRINTING feature\n" + sWriter.toString());
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(sWriter.toString());
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectConfigTest1 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectConfigTest1 Failed: ", e);
+      fail("jsonGeneratorObjectConfigTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectConfigTest1 Failed");
   }
 
   /*
@@ -841,10 +801,9 @@ public class ClientTests {
    * ?>).createGenerator(OutputStream)
    */
   @Test
-  public void jsonGeneratorObjectConfigTest2() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectConfigTest2() {
     try {
-      System.out.println("Create JsonGenerator using configuration with PRETTY_PRINTING");
+      LOGGER.info("Create JsonGenerator using configuration with PRETTY_PRINTING");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getPrettyPrintingConfig())
@@ -852,20 +811,18 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output with PRETTY_PRINTING feature
-      System.out.println("PRETTY_PRINTING feature\n" + baos.toString("UTF-8"));
+      LOGGER.info("PRETTY_PRINTING feature\n" + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectConfigTest2 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectConfigTest2 Failed: ", e);
+      fail("jsonGeneratorObjectConfigTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectConfigTest2 Failed");
   }
 
   /*
@@ -885,10 +842,9 @@ public class ClientTests {
    * null}, "array":["string", 1, true, false, null] }
    */
   @Test
-  public void jsonGeneratorObjectEncodingTest1() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectEncodingTest1() {
     try {
-      System.out.println("Create JsonGenerator using UTF-8 encoding");
+      LOGGER.info("Create JsonGenerator using UTF-8 encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -896,21 +852,19 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generator Output=" + baos.toString("UTF-8"));
+      LOGGER.info("Generator Output=" + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-8 encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectEncodingTest1 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectEncodingTest1 Failed: ", e);
+      fail("jsonGeneratorObjectEncodingTest1 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectEncodingTest1 Failed");
   }
 
   /*
@@ -935,10 +889,9 @@ public class ClientTests {
    * ?>).createGenerator(OutputStream, Charset);
    */
   @Test
-  public void jsonGeneratorObjectEncodingTest2() throws Fault {
-    boolean pass = true;
+  public void jsonGeneratorObjectEncodingTest2() {
     try {
-      System.out.println(
+      LOGGER.info(
           "Create JsonGenerator using configuration with PRETTY_PRINTING using UTF-16BE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
@@ -947,21 +900,19 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output with PRETTY_PRINTING feature
-      System.out.println("PRETTY_PRINTING feature\n" + baos.toString("UTF-16BE"));
+      LOGGER.info("PRETTY_PRINTING feature\n" + baos.toString("UTF-16BE"));
 
       // Do comparison
-      System.out.println("Create expected JSON text with no whitespace");
+      LOGGER.info("Create expected JSON text with no whitespace");
       String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16BE"));
-      pass = JSONP_Util.assertEqualsJsonText(expJson, actJson);
+      assertTrue(JSONP_Util.assertEqualsJsonText(expJson, actJson), "jsonGeneratorObjectEncodingTest2 Failed");
 
     } catch (Exception e) {
-      throw new Fault("jsonGeneratorObjectEncodingTest2 Failed: ", e);
+      fail("jsonGeneratorObjectEncodingTest2 Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorObjectEncodingTest2 Failed");
   }
 
   /*
@@ -984,19 +935,19 @@ public class ClientTests {
    * null}, "array":["string", 1, true, false, null] }
    */
   @Test
-  public void jsonGeneratorUTFEncodedTests() throws Fault {
+  public void jsonGeneratorUTFEncodedTests() {
     boolean pass = true;
-    System.out.println(
+    LOGGER.info(
         "Create expected JSON text with no whitespace for use with comparison");
     String expJson = "{\"object\":{\"string\":\"string\",\"number\":1,\"true\":true,\"false\":false,\"null\":null},\"array\":[\"string\",1,true,false,null]}";
     try {
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-8]");
-      System.out.println(
+      LOGGER.info(
           "-----------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-8 encoding");
+      LOGGER.info("Create JsonGenerator using UTF-8 encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1004,10 +955,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-8"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-8"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-8 encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-8"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1015,16 +966,16 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing generation to UTF-8 encoding: " + e);
+      LOGGER.warning("Exception occurred testing generation to UTF-8 encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-16]");
-      System.out.println(
+      LOGGER.info(
           "------------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-16 encoding");
+      LOGGER.info("Create JsonGenerator using UTF-16 encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1032,10 +983,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16 encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1043,16 +994,16 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println("Exception occurred testing generation to UTF-16 encoding: " + e);
+      LOGGER.warning("Exception occurred testing generation to UTF-16 encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-16LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-16LE encoding");
+      LOGGER.info("Create JsonGenerator using UTF-16LE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1060,10 +1011,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16LE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16LE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16LE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16LE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1071,17 +1022,17 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-16LE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-16BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-16BE encoding");
+      LOGGER.info("Create JsonGenerator using UTF-16BE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1089,10 +1040,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-16BE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-16BE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-16BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-16BE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1100,17 +1051,17 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-16BE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-32LE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-32LE encoding");
+      LOGGER.info("Create JsonGenerator using UTF-32LE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1118,10 +1069,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-32LE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-32LE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-32LE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-32LE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1129,17 +1080,17 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-32LE encoding: " + e);
     }
     try {
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println(
+      LOGGER.info(
           "TEST CASE [Json.createGeneratorFactory(Map<String,?>).createGenerator(OutputStream, Charset) as UTF-32BE]");
-      System.out.println(
+      LOGGER.info(
           "--------------------------------------------------------------------------------------------------------");
-      System.out.println("Create JsonGenerator using UTF-32BE encoding");
+      LOGGER.info("Create JsonGenerator using UTF-32BE encoding");
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       JsonGenerator generator = Json
           .createGeneratorFactory(JSONP_Util.getEmptyConfig())
@@ -1147,10 +1098,10 @@ public class ClientTests {
       generateSimpleJsonObject(generator);
 
       // Dump JsonText output
-      System.out.println("Generated Output=" + baos.toString("UTF-32BE"));
+      LOGGER.info("Generated Output=" + baos.toString("UTF-32BE"));
 
       // Do comparison
-      System.out.println(
+      LOGGER.info(
           "Read the JSON text back from OutputStream using UTF-32BE encoding removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(baos.toString("UTF-32BE"));
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
@@ -1158,11 +1109,10 @@ public class ClientTests {
 
     } catch (Exception e) {
       pass = false;
-      System.err.println(
+      LOGGER.warning(
           "Exception occurred testing generation to UTF-32BE encoding: " + e);
     }
-    if (!pass)
-      throw new Fault("jsonGeneratorUTFEncodedTests Failed");
+    assertTrue(pass, "jsonGeneratorUTFEncodedTests Failed");
   }
 
   /*
@@ -1185,834 +1135,833 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonGeneratorExceptionTests() throws Fault {
+  public void jsonGeneratorExceptionTests() {
     boolean pass = true;
 
     // Test NumberFormatException for write(double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write(Double.NaN);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test NumberFormatException for write(double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write(Double.NEGATIVE_INFINITY);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test NumberFormatException for write(double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write(Double.POSITIVE_INFINITY);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test NumberFormatException for write(String,double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(String,double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("badnumber", Double.NaN);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test NumberFormatException for write(String,double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(String,double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("badnumber", Double.NEGATIVE_INFINITY);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test NumberFormatException for write(String,double) if value is
     // Not-a-Number(NaN) or infinity
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip NumberFormatException for write(String,double) if value is Not-a-Number(NaN) or infinity");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("badnumber", Double.POSITIVE_INFINITY);
-      System.err.println("Did not get expected NumberFormatException");
+      LOGGER.warning("Did not get expected NumberFormatException");
       pass = false;
     } catch (NumberFormatException e) {
-      System.out.println("Caught expected NumberFormatException");
+      LOGGER.info("Caught expected NumberFormatException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonGenerationExceptipn if an incomplete JSON is generated.
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationExceptipn if an incomplete JSON is generated.");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("name", "value");
       generator.close();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonGenerationExceptipn if an incomplete JSON is generated.
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationExceptipn if an incomplete JSON is generated.");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string");
       generator.close();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(JsonValue) if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(JsonValue) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(JsonValue.TRUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String) if not called within array
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write("name");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(BigInteger) if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(BigInteger) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject()
           .write(new BigInteger(new Integer(Integer.MAX_VALUE).toString()));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(BigDecimal) if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(BigDecimal) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(BigDecimal.valueOf(Integer.MIN_VALUE));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(int) if not called within array
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(int) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(Integer.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(long) if not called within array
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(long) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(Long.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(double) if not called within array
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(double) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(Double.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(boolean) if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(boolean) if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().write(true);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeNull() if not called within array
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeNull() if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeNull();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeStartArray() if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeStartArray() if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeStartArray();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeStartObject() if not called within
     // array context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeStartObject() if not called within array context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeStartObject();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,JsonValue) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,JsonValue) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", JsonValue.TRUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,String) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,String) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", "name");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,BigInteger) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,BigInteger) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string",
           new BigInteger(new Integer(Integer.MAX_VALUE).toString()));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,BigDecimal) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,BigDecimal) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string",
           BigDecimal.valueOf(Integer.MIN_VALUE));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,int) if not called within
     // object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,int) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", Integer.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,long) if not called within
     // object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,long) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", Long.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,double) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,double) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", Double.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,boolean) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,boolean) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().write("string", true);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeNull(String) if not called within
     // object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeNull(String) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeNull("string");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeStartArray(String) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeStartArray(String) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeStartArray("string");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeStartObject(String) if not called
     // within object context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeStartObject(String) if not called within object context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeStartObject("string");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,JsonValue) when invoked
     // after the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,JsonValue) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name", "value");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeEnd() when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeEnd() when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().writeEnd();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,BigInteger) when invoked
     // after the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,BigInteger) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name",
           new BigInteger(new Integer(Integer.MAX_VALUE).toString()));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,BigDecimal) when invoked
     // after the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,BigDecimal) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name",
           BigDecimal.valueOf(Integer.MIN_VALUE));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,int) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,int) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name", Integer.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,long) when invoked after
     // the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,long) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name", Long.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,double) when invoked after
     // the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,double) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name", Double.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String,boolean) when invoked after
     // the writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String,boolean) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().write("name", false);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for writeNull(String) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for writeNull(String) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeEnd().writeNull("name");
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(JsonValue) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(JsonValue) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(JsonValue.TRUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(String) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(String) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(JsonValue.TRUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(BigDecimal) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(BigDecimal) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd()
           .write(BigDecimal.valueOf(Integer.MIN_VALUE));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(BigInteger) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(BigInteger) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd()
           .write(new BigInteger(new Integer(Integer.MAX_VALUE).toString()));
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(int) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(int) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(Integer.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(long) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(long) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(Long.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(double) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(double) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(Double.MAX_VALUE);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for write(boolean) when invoked after the
     // writeEnd method is called
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for write(boolean) when invoked after the writeEnd method is called");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().write(true);
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Test JsonGenerationException for for writeNull() when invoked with no
     // context
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonGenerationException for for writeNull() when invoked with no context");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartArray().writeEnd().writeNull();
-      System.err.println("Did not get expected JsonGenerationException");
+      LOGGER.warning("Did not get expected JsonGenerationException");
       pass = false;
     } catch (JsonGenerationException e) {
-      System.out.println("Caught expected JsonGenerationException");
+      LOGGER.info("Caught expected JsonGenerationException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonGeneratorExceptionTests Failed");
+    assertTrue(pass, "jsonGeneratorExceptionTests Failed");
   }
 
   /*
@@ -2028,29 +1977,29 @@ public class ClientTests {
    * {"object":{},"array":[]}
    */
   @Test
-  public void flushTest() throws Fault {
+  public void flushTest() {
     boolean pass = true;
     try {
-      System.out.println("Generate some partial Json and flush output.");
+      LOGGER.info("Generate some partial Json and flush output.");
       StringWriter sWriter = new StringWriter();
       JsonGenerator generator = Json.createGenerator(sWriter);
       generator.writeStartObject().writeStartObject("object").writeEnd()
           .flush();
 
       // Do comparison 1
-      System.out.println("Create expected partial JSON text with no whitespace");
+      LOGGER.info("Create expected partial JSON text with no whitespace");
       String expJson = "{\"object\":{}";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       String actJson = JSONP_Util.removeWhitespace(sWriter.toString());
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
         pass = false;
 
-      System.out.println("Generate additional Json to complete and flush output.");
+      LOGGER.info("Generate additional Json to complete and flush output.");
       generator.writeStartArray("array").writeEnd().writeEnd().flush();
 
       // Do comparison 2
       expJson = "{\"object\":{},\"array\":[]}";
-      System.out.println("Read the JSON text back from Writer removing whitespace");
+      LOGGER.info("Read the JSON text back from Writer removing whitespace");
       actJson = JSONP_Util.removeWhitespace(sWriter.toString());
       if (!JSONP_Util.assertEqualsJsonText(expJson, actJson))
         pass = false;
@@ -2058,10 +2007,9 @@ public class ClientTests {
       generator.close();
 
     } catch (Exception e) {
-      throw new Fault("flushTest Failed: ", e);
+      fail("flushTest Failed: ", e);
     }
-    if (!pass)
-      throw new Fault("flushTest Failed");
+    assertTrue(pass, "flushTest Failed");
   }
 
   /*
@@ -2073,49 +2021,48 @@ public class ClientTests {
    *
    */
   @Test
-  public void jsonGeneratorIOErrorTests() throws Fault {
+  public void jsonGeneratorIOErrorTests() {
     boolean pass = true;
 
     // Trip JsonException if there is an i/o error on JsonGenerator.close()
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonGenerator.close().");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       JsonGenerator generator = Json.createGenerator(mbw);
       generator.writeStartObject().writeEnd();
       mbw.setThrowIOException(true);
-      System.out.println("Calling JsonGenerator.close()");
+      LOGGER.info("Calling JsonGenerator.close()");
       generator.close();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
     // Trip JsonException if there is an i/o error on JsonGenerator.flush()
     try {
-      System.out.println(
+      LOGGER.info(
           "Trip JsonException if there is an i/o error on JsonGenerator.flush().");
       MyBufferedWriter mbw = new MyBufferedWriter(new StringWriter());
       JsonGenerator generator = Json.createGenerator(mbw);
       generator.writeStartObject().writeEnd();
       mbw.setThrowIOException(true);
-      System.out.println("Calling JsonGenerator.flush()");
+      LOGGER.info("Calling JsonGenerator.flush()");
       generator.flush();
-      System.err.println("Did not get expected JsonException");
+      LOGGER.warning("Did not get expected JsonException");
       pass = false;
     } catch (JsonException e) {
-      System.out.println("Caught expected JsonException");
+      LOGGER.info("Caught expected JsonException");
     } catch (Exception e) {
       pass = false;
-      System.err.println("Caught unexpected exception: " + e);
+      LOGGER.warning("Caught unexpected exception: " + e);
     }
 
-    if (!pass)
-      throw new Fault("jsonGeneratorIOErrorTests Failed");
+    assertTrue(pass, "jsonGeneratorIOErrorTests Failed");
   }
 
   /*
@@ -2133,7 +2080,7 @@ public class ClientTests {
    * "value     = false / null / true / object / array / number / string"}
    */
   @Test
-  public void jsonGeneratorDocumentRootTest() throws Fault {
+  public void jsonGeneratorDocumentRootTest() {
     Generator genTest = new Generator();
     final TestResult result = genTest.test();
     result.eval();
@@ -2143,7 +2090,7 @@ public class ClientTests {
    * @testName: jsonGeneratorStreamNotClosedTest
    */
   @Test
-  public void jsonGeneratorStreamNotClosedTest() throws Fault {
+  public void jsonGeneratorStreamNotClosedTest() {
     ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
     JsonGenerator gen = Json.createGenerator(stream);
     try {
@@ -2151,11 +2098,11 @@ public class ClientTests {
           gen.write("foo", "bar");
           // no end object
           gen.close();
-          throw new Fault("It is expected a JsonGenerationException");
+          throw new AssertionFailedError("It is expected a JsonGenerationException");
     } catch (JsonGenerationException e) {
           if (stream.closed) {
               // Stream should not be closed
-              throw new Fault("The underlying stream is closed but it shouldn't because JSON object was not completed");
+              throw new AssertionFailedError("The underlying stream is closed but it shouldn't because JSON object was not completed");
           }
     } 
   }
@@ -2164,7 +2111,7 @@ public class ClientTests {
    * @testName: jsonGeneratorStreamClosedTest
    */
   @Test
-  public void jsonGeneratorStreamClosedTest() throws Fault {
+  public void jsonGeneratorStreamClosedTest() {
     ByteArrayOutputStreamCloseChecker stream = new ByteArrayOutputStreamCloseChecker();
     JsonGenerator gen = Json.createGenerator(stream);
     gen.writeStartObject();
@@ -2173,7 +2120,7 @@ public class ClientTests {
     gen.close();
     if (!stream.closed) {
         // Stream should be closed
-        throw new Fault("The underlying stream has to be closed because JSON object was completed");
+        throw new AssertionFailedError("The underlying stream has to be closed because JSON object was completed");
     }
   }
 

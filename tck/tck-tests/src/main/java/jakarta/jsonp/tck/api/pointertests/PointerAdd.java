@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonPointer;
 import jakarta.json.JsonStructure;
 
+import java.util.logging.Logger;
+
 import static jakarta.jsonp.tck.api.common.JsonAssert.*;
 import static jakarta.jsonp.tck.api.common.SimpleValues.*;
 
@@ -34,6 +36,8 @@ import static jakarta.jsonp.tck.api.common.SimpleValues.*;
  * add operation tests.<br>
  */
 public class PointerAdd {
+
+  private static final Logger LOGGER = Logger.getLogger(PointerAdd.class.getName());
 
   /**
    * Creates an instance of RFC 6901 pointer instance usage for RFC 6902 add
@@ -52,7 +56,7 @@ public class PointerAdd {
   TestResult test() {
     final TestResult result = new TestResult(
         "RFC 6901 pointer usage for RFC 6902 add operation");
-    System.out.println("Testing RFC 6901 pointer usage for RFC 6902 add operation");
+    LOGGER.info("Testing RFC 6901 pointer usage for RFC 6902 add operation");
     testAddStringOnEmptyObject(result);
     testAddStringOnEmptyArray(result);
     testAddStringOnSimpleObject(result);
@@ -87,7 +91,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddStringOnEmptyObject(final TestResult result) {
-    System.out.println(" - for String on empty JSON object");
+    LOGGER.info(" - for String on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectStr();
     final JsonPointer ptr = Json.createPointer(STR_PATH);
@@ -106,7 +110,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddStringOnEmptyArray(final TestResult result) {
-    System.out.println(" - for String on empty JSON array");
+    LOGGER.info(" - for String on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithStr();
     final JsonPointer[] ptrs = new JsonPointer[] { Json.createPointer("/0"),
@@ -127,7 +131,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddStringOnSimpleObject(final TestResult result) {
-    System.out.println(" - for String on simple JSON object");
+    LOGGER.info(" - for String on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithStr();
     final JsonPointer ptr = Json.createPointer(STR_PATH);
@@ -148,7 +152,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddStringOnSimpleArray(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 1");
+    LOGGER.info(" - for String on simple JSON array of size 1");
     final JsonArray in = createStringArray1();
     final JsonArray checkBefore = createSimpleStringArrayWithStrBefore();
     final JsonArray checkAfter = createSimpleStringArrayWithStrAfter();
@@ -183,7 +187,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddStringOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for String on simple JSON array of size 2");
+    LOGGER.info(" - for String on simple JSON array of size 2");
     final JsonArray in = createStringArray2();
     final JsonArray check = createSimpleStringArray5();
     verifyAddValues(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -203,7 +207,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddIntOnEmptyObject(final TestResult result) {
-    System.out.println(" - for int on empty JSON object");
+    LOGGER.info(" - for int on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectInt();
     final JsonPointer ptr = Json.createPointer(INT_PATH);
@@ -222,7 +226,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddIntOnEmptyArray(final TestResult result) {
-    System.out.println(" - for int on empty JSON array");
+    LOGGER.info(" - for int on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithInt();
     final JsonPointer[] ptrs = new JsonPointer[] { Json.createPointer("/0"),
@@ -243,7 +247,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddIntOnSimpleObject(final TestResult result) {
-    System.out.println(" - for int on simple JSON object");
+    LOGGER.info(" - for int on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithInt();
     final JsonPointer ptr = Json.createPointer(INT_PATH);
@@ -264,7 +268,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddIntOnSimpleArray(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 1");
+    LOGGER.info(" - for int on simple JSON array of size 1");
     final JsonArray in = createIntArray1();
     final JsonArray checkBefore = createSimpleIntArrayWithIntBefore();
     final JsonArray checkAfter = createSimpleIntArrayWithIntAfter();
@@ -299,7 +303,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddIntOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for int on simple JSON array of size 2");
+    LOGGER.info(" - for int on simple JSON array of size 2");
     final JsonArray in = createIntArray2();
     final JsonArray check = createSimpleIntArray5();
     verifyAddValues(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -319,7 +323,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddBoolOnEmptyObject(final TestResult result) {
-    System.out.println(" - for boolean on empty JSON object");
+    LOGGER.info(" - for boolean on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectBool();
     final JsonPointer ptr = Json.createPointer(BOOL_PATH);
@@ -338,7 +342,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddBoolOnEmptyArray(final TestResult result) {
-    System.out.println(" - for boolean on empty JSON array");
+    LOGGER.info(" - for boolean on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithBool();
     final JsonPointer[] ptrs = new JsonPointer[] { Json.createPointer("/0"),
@@ -359,7 +363,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddBoolOnSimpleObject(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON object");
+    LOGGER.info(" - for boolean on simple JSON object");
     final JsonObject in = createSimpleObject();
     final JsonObject check = createSimpleObjectWithBool();
     final JsonPointer ptr = Json.createPointer(BOOL_PATH);
@@ -380,7 +384,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddBoolOnSimpleArray(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 1");
+    LOGGER.info(" - for boolean on simple JSON array of size 1");
     final JsonArray in = createBoolArray1();
     final JsonArray checkBefore = createSimpleBoolArrayWithBoolBefore();
     final JsonArray checkAfter = createSimpleBoolArrayWithBoolAfter();
@@ -415,7 +419,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddBoolOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for boolean on simple JSON array of size 2");
+    LOGGER.info(" - for boolean on simple JSON array of size 2");
     final JsonArray in = createBoolArray2();
     final JsonArray check = createSimpleBoolArray5();
     verifyAddValues(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -435,7 +439,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddObjectOnEmptyObject(final TestResult result) {
-    System.out.println(" - for JsonObject on empty JSON object");
+    LOGGER.info(" - for JsonObject on empty JSON object");
     final JsonObject in = createEmptyObject();
     final JsonObject check = createSimpleObjectObject();
     final JsonPointer ptr = Json.createPointer(OBJ_PATH);
@@ -454,7 +458,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddObjectOnEmptyArray(final TestResult result) {
-    System.out.println(" - for JsonObject on empty JSON array");
+    LOGGER.info(" - for JsonObject on empty JSON array");
     final JsonArray in = createEmptyArray();
     final JsonArray check = createEmptyArrayWithObject();
     final JsonPointer[] ptrs = new JsonPointer[] { Json.createPointer("/0"),
@@ -475,7 +479,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleObject(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON object");
+    LOGGER.info(" - for JsonObject on simple JSON object");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectWithObject();
     final JsonPointer ptr = Json.createPointer(OBJ_PATH);
@@ -496,7 +500,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleArray(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 1");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 1");
     final JsonArray in = createObjectArray1();
     final JsonArray checkBefore = createSimpleObjectArrayWithObjectBefore();
     final JsonArray checkAfter = createSimpleObjectArrayWithObjectAfter();
@@ -531,7 +535,7 @@ public class PointerAdd {
    *          Tests result record.
    */
   private void testAddObjectOnSimpleArray2(final TestResult result) {
-    System.out.println(" - for JsonObject on simple JSON array of size 2");
+    LOGGER.info(" - for JsonObject on simple JSON array of size 2");
     final JsonArray in = createObjectArray2();
     final JsonArray check = createSimpleObjectArray5();
     verifyAddValues(result, in, check, new String[] { "/2", "/1", "/0" },
@@ -560,7 +564,7 @@ public class PointerAdd {
    * </ul>
    */
   private void testAddArrayToReplaceObject(final TestResult result) {
-    System.out.println(" - for JsonArray to replace JsonObject");
+    LOGGER.info(" - for JsonArray to replace JsonObject");
     final JsonObject in = createCompoundObject();
     final JsonObject check = createCompoundObjectWithObjectReplaced();
     final JsonPointer ptr = Json.createPointer(DEF_OBJ_PATH);
@@ -585,7 +589,7 @@ public class PointerAdd {
    * </ul>
    */
   private void testAddArrayToReplaceDocument(final TestResult result) {
-    System.out.println(" - for JsonArray to replace whole document");
+    LOGGER.info(" - for JsonArray to replace whole document");
     final JsonObject in = createCompoundObject();
     final JsonArray check = createSimpleStringArray5();
     final JsonPointer ptr = Json.createPointer("");
@@ -615,7 +619,7 @@ public class PointerAdd {
    * </ul>
    */
   private void testAddStringArrayToStringArray(final TestResult result) {
-    System.out.println(" - for String array to be added to existing String array");
+    LOGGER.info(" - for String array to be added to existing String array");
     final JsonArray in = createStringArray2();
     final JsonArray check = createStringArray2WithStringArrayInTheMiddle();
     final JsonArray arrayToAdd = createStringInnerArray2();
@@ -637,7 +641,7 @@ public class PointerAdd {
    * 
    */
   private void testAddStringToNonExistingObject(final TestResult result) {
-    System.out.println(" - for String to be added to non existing JsonObject");
+    LOGGER.info(" - for String to be added to non existing JsonObject");
     final JsonObject in = createSimpleObject();
     final JsonPointer ptr = Json.createPointer(DEF_OBJ_PATH + STR_PATH);
     boolean exception = false;
@@ -645,7 +649,7 @@ public class PointerAdd {
       ptr.add(in, Json.createValue(STR_VALUE));
     } catch (JsonException e) {
       exception = true;
-      System.out.println("    - Expected exception: " + e.getMessage());
+      LOGGER.info("    - Expected exception: " + e.getMessage());
     }
     if (!exception) {
       result.fail("Pointer ADD operation",
