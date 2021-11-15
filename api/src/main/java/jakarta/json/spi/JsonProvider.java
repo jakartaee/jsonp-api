@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -107,6 +108,15 @@ public abstract class JsonProvider {
         if (it.hasNext()) {
             return it.next();
         }
+
+        // handling OSGi (specific default)
+        if (isOsgi()) {
+            JsonProvider result = lookupUsingOSGiServiceLoader(JsonProvider.class);
+            if (result != null) {
+                return result;
+            }
+        }
+
         try {
             Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
             return (JsonProvider) clazz.getConstructor().newInstance();
@@ -573,7 +583,46 @@ public abstract class JsonProvider {
             throw new UnsupportedOperationException(number + " type is not known");
         }
     }
-    
+
+    /** OSGI aware service loader by HK2 */
+    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader";
+
+    /**
+     * Check availability of HK2 service loader.
+     *
+     * @return true if HK2 service locator is available
+     */
+    private static boolean isOsgi() {
+        try {
+            Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+            return true;
+        } catch (ClassNotFoundException ignored) {
+        }
+        return false;
+    }
+
+    /**
+     * Lookup the service class by the HK2 service locator.
+     *
+     * @param serviceClass service class
+     * @param <T> type of the service
+     * @return a provider
+     */
+    private static <T> T lookupUsingOSGiServiceLoader(Class<? extends T> serviceClass) {
+        try {
+            // Use reflection to avoid having any dependendcy on HK2 ServiceLoader class
+            Class<?>[] args = new Class<?>[]{serviceClass};
+            Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+            Method m = target.getMethod("lookupProviderInstances", Class.class);
+            @SuppressWarnings({"unchecked"})
+            Iterator<? extends T> iter = ((Iterable<? extends T>) m.invoke(null, (Object[]) args)).iterator();
+            return iter.hasNext() ? iter.next() : null;
+        } catch (Exception ignored) {
+            // log and continue
+            return null;
+        }
+    }
+
     /**
      * Lazy loads the class specified in System property with the key JSONP_PROVIDER_FACTORY.
      * If no property is set, the value of {@link #JSON_PROVIDER} will be null.
