@@ -30,7 +30,7 @@
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-api</artifactId>
 
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <name>Jakarta JSON Processing API</name>
     <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
@@ -87,7 +87,7 @@
 
         <non.final>false</non.final>
         <extension.name>jakarta.json</extension.name>
-        <spec.version>2.0</spec.version>
+        <spec.version>2.1</spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
         <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
