@@ -64,7 +64,8 @@ public abstract class JsonProvider {
     /**
      * The name of the property that contains the name of the class capable of creating new JsonProvider objects.
      */
-    public static final String JSONP_PROVIDER_FACTORY = "jakarta.json.spi.JsonProvider";
+    private static final String JSONP_PROVIDER_FACTORY = "jakarta.json.provider";
+
     /**
      * A constant representing the name of the default
      * {@code JsonProvider} implementation class.
@@ -98,8 +99,7 @@ public abstract class JsonProvider {
      * @return a JSON provider
      */
     public static JsonProvider provider() {
-        String factory = System.getProperty(JsonProvider.class.getName());
-        if (factory != null) {
+        if (LazyFactoryLoader.JSON_PROVIDER != null) {
             return newInstance(LazyFactoryLoader.JSON_PROVIDER);
         }
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
@@ -126,12 +126,12 @@ public abstract class JsonProvider {
      * @return the JsonProvider instance
      * @throws IllegalArgumentException for reflection issues
      */
-    private static JsonProvider newInstance(Class<JsonProvider> clazz) {
+    private static JsonProvider newInstance(Class<? extends JsonProvider> clazz) {
         checkPackageAccess(clazz.getName());
         try {
             return clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException("Cannot instance " + clazz.getName(), e);
+            throw new IllegalArgumentException("Unable to create " + clazz.getName(), e);
         }
     }
 
@@ -586,15 +586,15 @@ public abstract class JsonProvider {
         /**
          * JSON provider class
          */
-        private static final Class<JsonProvider> JSON_PROVIDER;
+        private static final Class<? extends JsonProvider> JSON_PROVIDER;
 
         static {
             String className = System.getProperty(JSONP_PROVIDER_FACTORY);
             if (className != null) {
                 try {
-                    JSON_PROVIDER = (Class<JsonProvider>) Class.forName(className);
+                    JSON_PROVIDER = (Class<? extends JsonProvider>) Class.forName(className);
                 } catch (ReflectiveOperationException e) {
-                    throw new IllegalStateException("Cannot instance " + className, e);
+                    throw new IllegalStateException("Unable to create " + className, e);
                 }
             } else {
                 JSON_PROVIDER = null;
