@@ -43,13 +43,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 public class JsonProviderTest {
+
+    private static final String JSONP_PROVIDER_FACTORY = "jakarta.json.provider";
+
     
     /**
      * Verifies it is possible to obtain the JsonProvider implementation from a System property.
      */
     @Test
     public void systemProperty() {
-        System.setProperty(JsonProvider.JSONP_PROVIDER_FACTORY, DummyJsonProvider.class.getName());
+        System.setProperty(JSONP_PROVIDER_FACTORY, DummyJsonProvider.class.getName());
         JsonProvider provider = JsonProvider.provider();
         assertEquals(DummyJsonProvider.class, provider.getClass());
     }

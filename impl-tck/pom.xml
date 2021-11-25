@@ -24,7 +24,7 @@
 
     <groupId>org.eclipse.jsonp</groupId>
     <artifactId>jakarta.json-tck</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -33,9 +33,9 @@
     </modules>
 
     <properties>
-        <jsonp-api.version>2.0.1-SNAPSHOT</jsonp-api.version>
+        <jsonp-api.version>2.1.0-SNAPSHOT</jsonp-api.version>
         <jsonp-impl.version>1.0.1-SNAPSHOT</jsonp-impl.version>
-        <jsonp-tck.version>2.0.0-SNAPSHOT</jsonp-tck.version>
+        <jsonp-tck.version>2.1.0-SNAPSHOT</jsonp-tck.version>
     </properties>
 
     <dependencies>
