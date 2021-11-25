@@ -25,10 +25,14 @@
     <parent>
         <groupId>org.eclipse.jsonp</groupId>
         <artifactId>jakarta.json-tck</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>2.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jakarta.json-tck-tests</artifactId>
+
+    <properties>
+        <jakarta.json.version>2.1.0-SNAPSHOT</jakarta.json.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -43,10 +47,86 @@
             <version>${jsonp-tck.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.tools</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-jsonp-tck-signature-files</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>jakarta.json</groupId>
+                                <artifactId>jakarta.json-tck-tests</artifactId>
+                                <version>${jsonp-tck.version}</version>
+                                <type>jar</type>
+                                <overWrite>true</overWrite>
+                            </artifactItem>
+                      </artifactItems>
+                      <!-- We need the signature file, mapping file and package list file -->
+                      <includes>**/*sig-test*,**/*jakarta.json.sig_*,**/*sig-test-pkg-list.txt</includes>
+                      <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>
+                      </configuration>
+                    </execution>
+                </executions>
+            </plugin> 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                  <execution>
+                    <id>copy</id>
+                    <phase>generate-test-sources</phase>
+                    <goals>
+                        <goal>copy</goal>
+                    </goals>
+                    <configuration>
+                      <artifactItems>
+                           <artifactItem>
+                              <groupId>jakarta.json</groupId>
+                              <artifactId>jakarta.json-api</artifactId>
+                              <version>${jakarta.json.version}</version>
+                              <type>jar</type>
+                              <overWrite>true</overWrite>
+                              <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>
+                              <destFileName>jakarta.json-api.jar</destFileName>
+                          </artifactItem>
+                      </artifactItems>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin> 
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                  <trimStackTrace>false</trimStackTrace>
+                  <failIfNoTests>true</failIfNoTests>
+                    <dependenciesToScan>jakarta.json:jakarta.json-tck-tests</dependenciesToScan>
+                    <systemPropertyVariables>
+                        <jimage.dir>${project.build.directory}/jdk11-bundle</jimage.dir>
+                        <signature.mapfile>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest/sig-test.map</signature.mapfile>
+                        <signature.repositoryDir>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest</signature.repositoryDir>
+                        <signature.packagelist>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest/sig-test-pkg-list.txt</signature.packagelist>
+                        <signature.sigTestClasspath>${project.build.directory}/signaturedirectory/jakarta.json-api.jar:${project.build.directory}/jdk11-bundle/java.base:${project.build.directory}/jdk11-bundle/java.rmi:${project.build.directory}/jdk11-bundle/java.sql:${project.build.directory}/jdk11-bundle/java.naming</signature.sigTestClasspath>
+                    </systemPropertyVariables>
+                  </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
