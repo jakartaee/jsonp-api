@@ -66,7 +66,7 @@ public final class JSONP_Util {
   public static final boolean NON_INTEGRAL = false;
 
   /*********************************************************************************
-   * void dumpContentsOfResource(String resource)
+   * {@code void dumpContentsOfResource(String resource)}
    *********************************************************************************/
   public static void dumpContentsOfResource(String resource) {
     LOGGER.info("Dumping contents of Resource file: " + resource);
@@ -99,7 +99,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpFile(String file)
+   * {@code void dumpFile(String file)}
    *********************************************************************************/
   public static void dumpFile(String file) {
     LOGGER.info("Dumping contents of file: " + file);
@@ -129,7 +129,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String getContentsOfResourceAsString(String resource)
+   * {@code String getContentsOfResourceAsString(String resource)}
    *********************************************************************************/
   public static String getContentsOfResourceAsString(String resource) {
     StringBuilder sb = new StringBuilder();
@@ -163,7 +163,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Reader getReaderFromResource(String resource)
+   * {@code Reader getReaderFromResource(String resource)}
    *********************************************************************************/
   public static Reader getReaderFromResource(String resource) {
     InputStreamReader reader = null;
@@ -183,7 +183,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Reader getReaderFromString(String contents)
+   * {@code Reader getReaderFromString(String contents)}
    *********************************************************************************/
   public static Reader getReaderFromString(String contents) {
     InputStreamReader reader = null;
@@ -200,7 +200,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * InputStream getInputStreamFromResource(String resource)
+   * {@code InputStream getInputStreamFromResource(String resource)}
    *********************************************************************************/
   public static InputStream getInputStreamFromResource(String resource) {
     InputStream iStream = null;
@@ -217,7 +217,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * InputStream getInputStreamFromString(String contents)
+   * {@code InputStream getInputStreamFromString(String contents)}
    *********************************************************************************/
   public static InputStream getInputStreamFromString(String contents) {
     InputStream iStream = null;
@@ -232,7 +232,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * InputStream getInputStreamFromOutputStream(ByteArrayOutputStream baos)
+   * {@code InputStream getInputStreamFromOutputStream(ByteArrayOutputStream baos)}
    *********************************************************************************/
   public static InputStream getInputStreamFromOutputStream(
       ByteArrayOutputStream baos) {
@@ -248,7 +248,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String removeWhitespace(String text)
+   * {@code String removeWhitespace(String text)}
    *
    * NOTE: This does not remove whitespace of Json text if a quoted string which
    * can include whitespace.
@@ -281,7 +281,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonNumber createJsonNumber
+   * {@code JsonNumber createJsonNumber}
    *
    * The following method signatures are available:
    *
@@ -315,7 +315,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonString createJsonString(String val)
+   * {@code JsonString createJsonString(String val)}
    *********************************************************************************/
   public static JsonString createJsonString(String val) {
     JsonArray array = Json.createArrayBuilder().add(val).build();
@@ -323,42 +323,42 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpJsonString(JsonString val)
+   * {@code void dumpJsonString(JsonString val)}
    *********************************************************************************/
   public static void dumpJsonString(JsonString value) {
     LOGGER.info("dumpJsonString->" + toStringJsonString(value));
   }
 
   /*********************************************************************************
-   * void dumpJsonArray(JsonArray value)
+   * {@code void dumpJsonArray(JsonArray value)}
    *********************************************************************************/
   public static void dumpJsonArray(JsonArray value) {
     LOGGER.info("dumpJsonArray->" + toStringJsonArray(value));
   }
 
   /*********************************************************************************
-   * void dumpJsonObject(JsonObject value)
+   * {@code void dumpJsonObject(JsonObject value)}
    *********************************************************************************/
   public static void dumpJsonObject(JsonObject value) {
     LOGGER.info("dumpJsonObject->" + toStringJsonObject(value));
   }
 
   /*********************************************************************************
-   * void dumpJsonConstant(JsonValue value)
+   * {@code void dumpJsonConstant(JsonValue value)}
    *********************************************************************************/
   public static void dumpJsonConstant(JsonValue value) {
     LOGGER.info("dumpJsonConstant->" + toStringJsonConstant(value));
   }
 
   /*********************************************************************************
-   * void dumpJsonNumber(JsonNumber value)
+   * {@code void dumpJsonNumber(JsonNumber value)}
    *********************************************************************************/
   public static void dumpJsonNumber(JsonNumber value) {
     LOGGER.info("dumpJsonNumber->" + toStringJsonNumber(value));
   }
 
   /*********************************************************************************
-   * void dumpJsonValue(JsonValue value)
+   * {@code void dumpJsonValue(JsonValue value)}
    *********************************************************************************/
   public static void dumpJsonValue(JsonValue value) {
     if (value instanceof JsonNumber) {
@@ -374,7 +374,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonString(JsonString value)
+   * {@code String toStringJsonString(JsonString value)}
    *********************************************************************************/
   public static String toStringJsonString(JsonString value) {
     if (value == null)
@@ -383,7 +383,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonArray(JsonArray value)
+   * {@code String toStringJsonArray(JsonArray value)}
    *********************************************************************************/
   public static String toStringJsonArray(JsonArray value) {
     if (value == null)
@@ -402,7 +402,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonObject(JsonObject value)
+   * {@code String toStringJsonObject(JsonObject value)}
    *********************************************************************************/
   public static String toStringJsonObject(JsonObject value) {
     if (value == null)
@@ -421,7 +421,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonConstant(JsonValue value)
+   * {@code String toStringJsonConstant(JsonValue value)}
    *********************************************************************************/
   public static String toStringJsonConstant(JsonValue value) {
     if (value == null)
@@ -437,7 +437,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonNumber(JsonNumber value)
+   * {@code String toStringJsonNumber(JsonNumber value)}
    *********************************************************************************/
   public static String toStringJsonNumber(JsonNumber value) {
     if (value == null)
@@ -449,7 +449,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonValue(JsonValue value)
+   * {@code String toStringJsonValue(JsonValue value)}
    *********************************************************************************/
   public static String toStringJsonValue(JsonValue value) {
     if (value instanceof JsonNumber) {
@@ -465,7 +465,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpSet(Set<String> set, String msg)
+   * {@code void dumpSet(Set<String> set, String msg)}
    *********************************************************************************/
   public static void dumpSet(Set<String> set, String msg) {
     LOGGER.info("*** Beg: Dumping List contents ***");
@@ -481,14 +481,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpSet(Set<String> set)
+   * {@code void dumpSet(Set<String> set)}
    *********************************************************************************/
   public static void dumpSet(Set<String> set) {
     dumpSet(set, null);
   }
 
   /*********************************************************************************
-   * String toStringSet(Set<String> set)
+   * {@code String toStringSet(Set<String> set)}
    *********************************************************************************/
   public static String toStringSet(Set<String> set) {
     Iterator<String> iter = set.iterator();
@@ -504,7 +504,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsSet(Set<String>expSet, Set<String>actSet)
+   * {@code boolean assertEqualsSet(Set<String>expSet, Set<String>actSet)}
    *********************************************************************************/
   public static boolean assertEqualsSet(Set<String> expSet,
       Set<String> actSet) {
@@ -522,7 +522,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpMap(Map<String,JsonValue> map, String msg)
+   * {@code void dumpMap(Map<String,JsonValue> map, String msg)}
    *********************************************************************************/
   public static void dumpMap(Map<String, JsonValue> map, String msg) {
     LOGGER.info("*** Beg: Dumping Map contents ***");
@@ -538,14 +538,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpMap(Map<String,JsonValue> map)
+   * {@code void dumpMap(Map<String,JsonValue> map)}
    *********************************************************************************/
   public static void dumpMap(Map<String, JsonValue> map) {
     dumpMap(map, null);
   }
 
   /*********************************************************************************
-   * String toStringMap(Map<String,JsonValue> map)
+   * {@code String toStringMap(Map<String,JsonValue> map)}
    *********************************************************************************/
   public static String toStringMap(Map<String, JsonValue> map) {
     StringBuilder sb = new StringBuilder();
@@ -562,8 +562,8 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsMap(Map<String,JsonValue>expMap,
-   * Map<String,JsonValue>actMap)
+   * {@code boolean assertEqualsMap(Map<String,JsonValue>expMap,
+   * Map<String,JsonValue>actMap)}
    *********************************************************************************/
   public static boolean assertEqualsMap(Map<String, JsonValue> expMap,
       Map<String, JsonValue> actMap) {
@@ -581,7 +581,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * assertEqualsMap2
+   * {@code assertEqualsMap2}
    *********************************************************************************/
   public static boolean assertEqualsMap2(Map<String, JsonValue> expMap,
       Map<String, JsonValue> actMap) {
@@ -616,7 +616,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpList(List<JsonValue> list, String msg)
+   * {@code void dumpList(List<JsonValue> list, String msg)}
    *********************************************************************************/
   public static void dumpList(List<JsonValue> list, String msg) {
     LOGGER.info("*** Beg: Dumping List contents ***");
@@ -632,14 +632,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpList(List<JsonValue> list)
+   * {@code void dumpList(List<JsonValue> list)}
    *********************************************************************************/
   public static void dumpList(List<JsonValue> list) {
     dumpList(list, null);
   }
 
   /*********************************************************************************
-   * String toStringList(List<JsonValue> list)
+   * {@code String toStringList(List<JsonValue> list)}
    *********************************************************************************/
   public static String toStringList(List<JsonValue> list) {
     Iterator<JsonValue> iter = list.iterator();
@@ -656,7 +656,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsList(List<JsonValue>expList, List<JsonValue>actList)
+   * {@code boolean assertEqualsList(List<JsonValue>expList, List<JsonValue>actList)}
    *********************************************************************************/
   public static boolean assertEqualsList(List<JsonValue> expList,
       List<JsonValue> actList) {
@@ -674,7 +674,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * assertEqualsList2
+   * {@code assertEqualsList2}
    *********************************************************************************/
   public static boolean assertEqualsList2(List<JsonValue> expList,
       List<JsonValue> actList) {
@@ -705,7 +705,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpIterator(Iterator<JsonValue> iterator, String msg)
+   * {@code void dumpIterator(Iterator<JsonValue> iterator, String msg)}
    *********************************************************************************/
   public static void dumpIterator(Iterator<JsonValue> iterator, String msg) {
     LOGGER.info("*** Beg: Dumping Iterator contents ***");
@@ -720,14 +720,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpIterator(Iterator<JsonValue> iterator)
+   * {@code void dumpIterator(Iterator<JsonValue> iterator)}
    *********************************************************************************/
   public static void dumpIterator(Iterator<JsonValue> iterator) {
     dumpIterator(iterator, null);
   }
 
   /*********************************************************************************
-   * String toStringIterator(Iterator<JsonValue> iterator)
+   * {@code String toStringIterator(Iterator<JsonValue> iterator)}
    *********************************************************************************/
   public static String toStringIterator(Iterator<JsonValue> iter) {
     StringBuilder sb = new StringBuilder();
@@ -742,8 +742,8 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsIterator(Iterator<JsonValue>expIt,
-   * Iterator<JsonValue>actIt)
+   * {@code boolean assertEqualsIterator(Iterator<JsonValue>expIt,
+   * Iterator<JsonValue>actIt)}
    *********************************************************************************/
   public static boolean assertEqualsIterator(Iterator<JsonValue> expIt,
       Iterator<JsonValue> actIt) {
@@ -782,7 +782,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsEmptyArrayList(List<JsonValue> actual)
+   * {@code boolean assertEqualsEmptyArrayList(List<JsonValue> actual)}
    *********************************************************************************/
   public static boolean assertEqualsEmptyArrayList(List<JsonValue> actual) {
     if (actual.isEmpty()) {
@@ -795,7 +795,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsEmptyObjectMap(Map<String, JsonValue> actual)
+   * {@code boolean assertEqualsEmptyObjectMap(Map<String, JsonValue> actual)}
    *********************************************************************************/
   public static boolean assertEqualsEmptyObjectMap(
       Map<String, JsonValue> actual) {
@@ -809,7 +809,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsEmptyIterator(Map<String, JsonValue> actual)
+   * {@code boolean assertEqualsEmptyIterator(Map<String, JsonValue> actual)}
    *********************************************************************************/
   public static boolean assertEqualsEmptyIterator(Iterator<JsonValue> actual) {
     if (!actual.hasNext()) {
@@ -822,7 +822,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonText(String expected, String actual)
+   * {@code boolean assertEqualsJsonText(String expected, String actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonText(String expected, String actual) {
     if (actual.equals(expected)) {
@@ -839,7 +839,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonArrays(JsonArray expected, JsonArray actual)
+   * {@code boolean assertEqualsJsonArrays(JsonArray expected, JsonArray actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonArrays(JsonArray expected,
       JsonArray actual) {
@@ -857,7 +857,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonObjects(JsonObject expected, JsonObject actual)
+   * {@code boolean assertEqualsJsonObjects(JsonObject expected, JsonObject actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonObjects(JsonObject expected,
       JsonObject actual) {
@@ -875,7 +875,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonNumbers(JsonNumber expected, JsonNumber actual)
+   * {@code boolean assertEqualsJsonNumbers(JsonNumber expected, JsonNumber actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonNumbers(JsonNumber expected,
       JsonNumber actual) {
@@ -895,7 +895,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonStrings(JsonString expected, JsonString actual)
+   * {@code boolean assertEqualsJsonStrings(JsonString expected, JsonString actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonStrings(JsonString expected,
       JsonString actual) {
@@ -915,7 +915,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonValues(JsonValue expected, JsonValue actual)
+   * {@code boolean assertEqualsJsonValues(JsonValue expected, JsonValue actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonValues(JsonValue expected,
       JsonValue actual) {
@@ -979,8 +979,8 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonValueType(JsonValue.ValueType
-   * expected,JsonValue.ValueType actual)
+   * {@code boolean assertEqualsJsonValueType(JsonValue.ValueType
+   * expected,JsonValue.ValueType actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonValueType(JsonValue.ValueType expected,
       JsonValue.ValueType actual) {
@@ -998,7 +998,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonNumberType(boolean expected,boolean actual)
+   * {@code boolean assertEqualsJsonNumberType(boolean expected,boolean actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonNumberType(boolean expected,
       boolean actual) {
@@ -1016,7 +1016,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEqualsJsonNumberTypes(boolean expected[],boolean actual)
+   * {@code boolean assertEqualsJsonNumberTypes(boolean expected[],boolean actual)}
    *********************************************************************************/
   public static boolean assertEqualsJsonNumberTypes(boolean expected[],
       boolean actual) {
@@ -1035,7 +1035,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonNumberType(boolean numberType)
+   * {@code String toStringJsonNumberType(boolean numberType)}
    *********************************************************************************/
   public static String toStringJsonNumberType(boolean numberType) {
     if (numberType == INTEGRAL)
@@ -1045,7 +1045,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String toStringJsonNumberTypes(boolean expected[])
+   * {@code String toStringJsonNumberTypes(boolean expected[])}
    *********************************************************************************/
   public static String toStringJsonNumberTypes(boolean expected[]) {
     StringBuilder sb = new StringBuilder();
@@ -1058,7 +1058,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(Object, Object)
+   * {@code boolean assertEquals(Object, Object)}
    *********************************************************************************/
   public static boolean assertEquals(Object expected, Object actual) {
     if (actual.equals(expected)) {
@@ -1075,7 +1075,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(boolean, boolean)
+   * {@code boolean assertEquals(boolean, boolean)}
    *********************************************************************************/
   public static boolean assertEquals(boolean expected, boolean actual) {
     if (actual == expected) {
@@ -1092,7 +1092,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(short, short)
+   * {@code boolean assertEquals(short, short)}
    *********************************************************************************/
   public static boolean assertEquals(short expected, short actual) {
     if (actual == expected) {
@@ -1109,7 +1109,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(int, int)
+   * {@code boolean assertEquals(int, int)}
    *********************************************************************************/
   public static boolean assertEquals(int expected, int actual) {
     if (actual == expected) {
@@ -1126,7 +1126,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(long, long)
+   * {@code boolean assertEquals(long, long)}
    *********************************************************************************/
   public static boolean assertEquals(long expected, long actual) {
     if (actual == expected) {
@@ -1143,7 +1143,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(float, float)
+   * {@code boolean assertEquals(float, float)}
    *********************************************************************************/
   public static boolean assertEquals(float expected, float actual) {
     if (actual == expected) {
@@ -1160,7 +1160,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(double, double)
+   * {@code boolean assertEquals(double, double)}
    *********************************************************************************/
   public static boolean assertEquals(double expected, double actual) {
     if (actual == expected) {
@@ -1177,7 +1177,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(BigDecimal, BigDecimal)
+   * {@code boolean assertEquals(BigDecimal, BigDecimal)}
    *********************************************************************************/
   public static boolean assertEquals(BigDecimal expected, BigDecimal actual) {
     if (actual.equals(expected)) {
@@ -1194,7 +1194,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(BigInteger, BigInteger)
+   * {@code boolean assertEquals(BigInteger, BigInteger)}
    *********************************************************************************/
   public static boolean assertEquals(BigInteger expected, BigInteger actual) {
     if (actual.equals(expected)) {
@@ -1211,7 +1211,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(String, String)
+   * {@code boolean assertEquals(String, String)}
    *********************************************************************************/
   public static boolean assertEquals(String expected, String actual) {
     if (actual.equals(expected)) {
@@ -1228,7 +1228,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean assertEquals(JsonValue, JsonValue)
+   * {@code boolean assertEquals(JsonValue, JsonValue)}
    *********************************************************************************/
   public static boolean assertEquals(JsonValue expected, JsonValue actual) {
     if (actual.equals(expected)) {
@@ -1245,7 +1245,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String getNumberTypeString(boolean numberType)
+   * {@code String getNumberTypeString(boolean numberType)}
    *********************************************************************************/
   public static String getNumberTypeString(boolean numberType) {
     if (numberType == INTEGRAL)
@@ -1255,7 +1255,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean getNumberType(String numberType)
+   * {@code boolean getNumberType(String numberType)}
    *********************************************************************************/
   public static boolean getNumberType(String numberType) {
     if (numberType.equals("INTEGRAL"))
@@ -1265,7 +1265,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String getValueTypeString(JsonValue.ValueType valueType)
+   * {@code String getValueTypeString(JsonValue.ValueType valueType)}
    *********************************************************************************/
   public static String getValueTypeString(JsonValue.ValueType valueType) {
     switch (valueType) {
@@ -1289,7 +1289,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonValue.ValueType getValueType(String valueType)
+   * {@code JsonValue.ValueType getValueType(String valueType)}
    *********************************************************************************/
   public static JsonValue.ValueType getValueType(String valueType) {
     if (valueType.equals("ARRAY"))
@@ -1311,14 +1311,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpEventType(JsonParser.Event eventType)
+   * {@code void dumpEventType(JsonParser.Event eventType)}
    *********************************************************************************/
   public static void dumpEventType(JsonParser.Event eventType) {
     LOGGER.info("JsonParser.Event=" + eventType);
   }
 
   /*********************************************************************************
-   * getEventTypeString(JsonParser.Event eventType)
+   * {@code getEventTypeString(JsonParser.Event eventType)}
    *********************************************************************************/
   public static String getEventTypeString(JsonParser.Event eventType) {
     switch (eventType) {
@@ -1348,7 +1348,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonParser.Event getEventType(String eventType)
+   * {@code JsonParser.Event getEventType(String eventType)}
    *********************************************************************************/
   public static JsonParser.Event getEventType(String eventType) {
     if (eventType.equals("START_ARRAY"))
@@ -1376,7 +1376,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String getConfigName(String configValue)
+   * {@code String getConfigName(String configValue)}
    *********************************************************************************/
   public static String getConfigName(String configValue) {
     if (configValue.equals(JsonGenerator.PRETTY_PRINTING))
@@ -1388,7 +1388,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String getConfigValue(String configProp)
+   * {@code String getConfigValue(String configProp)}
    *********************************************************************************/
   public static String getConfigValue(String configProp) {
     if (configProp.equals("JsonGenerator.PRETTY_PRINING"))
@@ -1400,7 +1400,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpConfigMap(Map<String,?> map, String msg)
+   * {@code void dumpConfigMap(Map<String,?> map, String msg)}
    *********************************************************************************/
   public static void dumpConfigMap(Map<String, ?> map, String msg) {
     LOGGER.info("*** Beg: Dumping Config Map contents ***");
@@ -1413,14 +1413,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpConfigMap(Map<String,?> map)
+   * {@code void dumpConfigMap(Map<String,?> map)}
    *********************************************************************************/
   public static void dumpConfigMap(Map<String, ?> map) {
     dumpConfigMap(map, null);
   }
 
   /*********************************************************************************
-   * boolean doConfigCheck(Map<String,?> config, int expectedSize)
+   * {@code boolean doConfigCheck(Map<String,?> config, int expectedSize)}
    *********************************************************************************/
   public static boolean doConfigCheck(Map<String, ?> config, int expectedSize) {
     return doConfigCheck(config, expectedSize, null);
@@ -1458,7 +1458,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean isEmptyConfig(Map<String, ?> config)
+   * {@code boolean isEmptyConfig(Map<String, ?> config)}
    *********************************************************************************/
   public boolean isEmptyConfig(Map<String, ?> config) {
     LOGGER.info("isEmptyConfig");
@@ -1466,7 +1466,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Map<String, ?> getEmptyConfig()
+   * {@code Map<String, ?> getEmptyConfig()}
    *********************************************************************************/
   public static Map<String, ?> getEmptyConfig() {
     LOGGER.info("getEmptyConfig");
@@ -1475,7 +1475,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Map<String, ?> getPrettyPrintingConfig()
+   * {@code Map<String, ?> getPrettyPrintingConfig()}
    *********************************************************************************/
   public static Map<String, ?> getPrettyPrintingConfig() {
     LOGGER.info("getPrettyPrintConfig");
@@ -1486,7 +1486,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Map<String, ?> getFooConfig()
+   * {@code Map<String, ?> getFooConfig()}
    *********************************************************************************/
   public static Map<String, ?> getFooConfig() {
     LOGGER.info("getFooConfig");
@@ -1497,7 +1497,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Map<String, ?> getAllConfig()
+   * {@code Map<String, ?> getAllConfig()}
    *********************************************************************************/
   public static Map<String, ?> getAllConfig() {
     LOGGER.info("getAllConfig");
@@ -1510,7 +1510,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonObject createJsonObjectFromString(String jsonObjData)
+   * {@code JsonObject createJsonObjectFromString(String jsonObjData)}
    *********************************************************************************/
   public static JsonObject createJsonObjectFromString(String jsonObjData) {
     JsonReader reader = null;
@@ -1528,7 +1528,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonArray createJsonArrayFromString(String jsonArrData)
+   * {@code JsonArray createJsonArrayFromString(String jsonArrData)}
    *********************************************************************************/
   public static JsonArray createJsonArrayFromString(String jsonArrData) {
     JsonReader reader = null;
@@ -1546,7 +1546,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeJsonObjectFromString(JsonWriter writer, String jsonObjData)
+   * {@code void writeJsonObjectFromString(JsonWriter writer, String jsonObjData)}
    *********************************************************************************/
   public static void writeJsonObjectFromString(JsonWriter writer,
       String jsonObjData) {
@@ -1560,7 +1560,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeJsonArrayFromString(JsonWriter writer, String jsonArrData)
+   * {@code void writeJsonArrayFromString(JsonWriter writer, String jsonArrData)}
    *********************************************************************************/
   public static void writeJsonArrayFromString(JsonWriter writer,
       String jsonArrData) {
@@ -1574,7 +1574,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyStringValue(JsonParser parser, String name, String value)
+   * {@code void testKeyStringValue(JsonParser parser, String name, String value)}
    *********************************************************************************/
   public static void testKeyStringValue(JsonParser parser, String name,
       String value) {
@@ -1618,7 +1618,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyIntegerValue(JsonParser parser, String name, int value)
+   * {@code void testKeyIntegerValue(JsonParser parser, String name, int value)}
    *********************************************************************************/
   public static void testKeyIntegerValue(JsonParser parser, String name,
       int value) {
@@ -1664,7 +1664,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyDoubleValue(JsonParser parser, String name, double value)
+   * {@code void testKeyDoubleValue(JsonParser parser, String name, double value)}
    *********************************************************************************/
   public static void testKeyDoubleValue(JsonParser parser, String name,
       double value) {
@@ -1710,7 +1710,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyLongValue(JsonParser parser, String name, long value)
+   * {@code void testKeyLongValue(JsonParser parser, String name, long value)}
    *********************************************************************************/
   public static void testKeyLongValue(JsonParser parser, String name,
       long value) {
@@ -1756,8 +1756,8 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyBigDecimalValue(JsonParser parser, String name, BigDecimal
-   * value)
+   * {@code void testKeyBigDecimalValue(JsonParser parser, String name, BigDecimal
+   * value)}
    *********************************************************************************/
   public static void testKeyBigDecimalValue(JsonParser parser, String name,
       BigDecimal value) {
@@ -1803,7 +1803,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyTrueValue(JsonParser parser, String name)
+   * {@code void testKeyTrueValue(JsonParser parser, String name)}
    *********************************************************************************/
   public static void testKeyTrueValue(JsonParser parser, String name) {
     if (!checkNextParserEvent(parser))
@@ -1840,7 +1840,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyFalseValue(JsonParser parser, String name)
+   * {@code void testKeyFalseValue(JsonParser parser, String name)}
    *********************************************************************************/
   public static void testKeyFalseValue(JsonParser parser, String name) {
     if (!checkNextParserEvent(parser))
@@ -1877,7 +1877,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyNullValue(JsonParser parser, String name)
+   * {@code void testKeyNullValue(JsonParser parser, String name)}
    *********************************************************************************/
   public static void testKeyNullValue(JsonParser parser, String name) {
     if (!checkNextParserEvent(parser))
@@ -1914,7 +1914,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyStartObjectValue(JsonParser parser, String name)
+   * {@code void testKeyStartObjectValue(JsonParser parser, String name)}
    *********************************************************************************/
   public static void testKeyStartObjectValue(JsonParser parser, String name) {
     if (!checkNextParserEvent(parser))
@@ -1951,7 +1951,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testKeyStartArrayValue(JsonParser parser, String name)
+   * {@code void testKeyStartArrayValue(JsonParser parser, String name)}
    *********************************************************************************/
   public static void testKeyStartArrayValue(JsonParser parser, String name) {
     if (!checkNextParserEvent(parser))
@@ -1988,7 +1988,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean checkNextParserEvent(JsonParser parser)
+   * {@code boolean checkNextParserEvent(JsonParser parser)}
    *********************************************************************************/
   public static boolean checkNextParserEvent(JsonParser parser) {
     if (!parser.hasNext()) {
@@ -2000,7 +2000,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonParser.Event getNextParserEvent(JsonParser parser)
+   * {@code JsonParser.Event getNextParserEvent(JsonParser parser)}
    *********************************************************************************/
   public static JsonParser.Event getNextParserEvent(JsonParser parser) {
     if (parser.hasNext())
@@ -2010,8 +2010,8 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonParser.Event getNextSpecificParserEvent(JsonParser parser,
-   * JsonParser.Event thisEvent)
+   * {@code JsonParser.Event getNextSpecificParserEvent(JsonParser parser,
+   * JsonParser.Event thisEvent)}
    *********************************************************************************/
   public static JsonParser.Event getNextSpecificParserEvent(JsonParser parser,
       JsonParser.Event thisEvent) {
@@ -2024,7 +2024,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testEventType(JsonParser parser, JsonParser.Event expEvent)
+   * {@code void testEventType(JsonParser parser, JsonParser.Event expEvent)}
    *********************************************************************************/
   public static void testEventType(JsonParser parser,
       JsonParser.Event expEvent) {
@@ -2041,7 +2041,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testStringValue(JsonParser parser, String value)
+   * {@code void testStringValue(JsonParser parser, String value)}
    *********************************************************************************/
   public static void testStringValue(JsonParser parser, String value) {
     if (!checkNextParserEvent(parser))
@@ -2066,7 +2066,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testIntegerValue(JsonParser parser, int value)
+   * {@code void testIntegerValue(JsonParser parser, int value)}
    *********************************************************************************/
   public static void testIntegerValue(JsonParser parser, int value) {
     if (!checkNextParserEvent(parser))
@@ -2091,7 +2091,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testDoubleValue(JsonParser parser, double value)
+   * {@code void testDoubleValue(JsonParser parser, double value)}
    *********************************************************************************/
   public static void testDoubleValue(JsonParser parser, double value) {
     if (!checkNextParserEvent(parser))
@@ -2116,7 +2116,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testLongValue(JsonParser parser, long value)
+   * {@code void testLongValue(JsonParser parser, long value)}
    *********************************************************************************/
   public static void testLongValue(JsonParser parser, long value) {
     if (!checkNextParserEvent(parser))
@@ -2141,7 +2141,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testBigDecimalValue(JsonParser parser, BigDecimal value)
+   * {@code void testBigDecimalValue(JsonParser parser, BigDecimal value)}
    *********************************************************************************/
   public static void testBigDecimalValue(JsonParser parser, BigDecimal value) {
     if (!checkNextParserEvent(parser))
@@ -2166,7 +2166,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testTrueValue(JsonParser parser, JsonParser.Event expEvent)
+   * {@code void testTrueValue(JsonParser parser, JsonParser.Event expEvent)}
    *********************************************************************************/
   public static void testTrueValue(JsonParser parser,
       JsonParser.Event expEvent) {
@@ -2174,7 +2174,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testFalseValue(JsonParser parser, JsonParser.Event expEvent)
+   * {@code void testFalseValue(JsonParser parser, JsonParser.Event expEvent)}
    *********************************************************************************/
   public static void testFalseValue(JsonParser parser,
       JsonParser.Event expEvent) {
@@ -2182,7 +2182,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void testNullValue(JsonParser parser, JsonParser.Event expEvent)
+   * {@code void testNullValue(JsonParser parser, JsonParser.Event expEvent)}
    *********************************************************************************/
   public static void testNullValue(JsonParser parser,
       JsonParser.Event expEvent) {
@@ -2190,21 +2190,21 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * resetParseErrs()
+   * {@code resetParseErrs()}
    *********************************************************************************/
   public static void resetParseErrs() {
     parseErrs = 0;
   }
 
   /*********************************************************************************
-   * int getParseErrs()
+   * {@code int getParseErrs()}
    *********************************************************************************/
   public static int getParseErrs() {
     return parseErrs;
   }
 
   /*********************************************************************************
-   * String convertUnicodeCharToString(Char c)
+   * {@code String convertUnicodeCharToString(Char c)}
    *
    * Convert unicode to string value of form U+NNNN where NNNN are 4 hex digits
    *
@@ -2216,7 +2216,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * boolean isUnicodeControlChar(Char c)
+   * {@code boolean isUnicodeControlChar(Char c)}
    *
    * The following unicode control chars:
    *
@@ -2232,7 +2232,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeStringToFile(String string, String file, String encoding)
+   * {@code void writeStringToFile(String string, String file, String encoding)}
    *********************************************************************************/
   public static void writeStringToFile(String string, String file,
       String encoding) {
@@ -2247,7 +2247,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String readStringFromFile(String file, String encoding)
+   * {@code String readStringFromFile(String file, String encoding)}
    *********************************************************************************/
   public static String readStringFromFile(String file, String encoding) {
     StringBuffer buffer = new StringBuffer();
@@ -2268,7 +2268,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeStringToStream(String string, OutputStream os, String encoding)
+   * {@code void writeStringToStream(String string, OutputStream os, String encoding)}
    *********************************************************************************/
   public static void writeStringToStream(String string, OutputStream os,
       String encoding) {
@@ -2282,7 +2282,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String readStringFromStream(InputStream is, String encoding)
+   * {@code String readStringFromStream(InputStream is, String encoding)}
    *********************************************************************************/
   public static String readStringFromStream(InputStream is, String encoding) {
     StringBuffer buffer = new StringBuffer();
@@ -2302,7 +2302,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeStringToFile(String string, String file, Charset charset)
+   * {@code void writeStringToFile(String string, String file, Charset charset)}
    *********************************************************************************/
   public static void writeStringToFile(String string, String file,
       Charset charset) {
@@ -2317,7 +2317,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String readStringFromFile(String file, Charset charset)
+   * {@code String readStringFromFile(String file, Charset charset)}
    *********************************************************************************/
   public static String readStringFromFile(String file, Charset charset) {
     StringBuffer buffer = new StringBuffer();
@@ -2338,7 +2338,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void writeStringToStream(String string, OutputStream os, Charset charset)
+   * {@code void writeStringToStream(String string, OutputStream os, Charset charset)}
    *********************************************************************************/
   public static void writeStringToStream(String string, OutputStream os,
       Charset charset) {
@@ -2352,7 +2352,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * String readStringFromStream(InputStream is, Charset charset)
+   * {@code String readStringFromStream(InputStream is, Charset charset)}
    *********************************************************************************/
   public static String readStringFromStream(InputStream is, Charset charset) {
     StringBuffer buffer = new StringBuffer();
@@ -2372,7 +2372,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * Charset getCharset(String encoding)
+   * {@code Charset getCharset(String encoding)}
    *********************************************************************************/
   public static Charset getCharset(String encoding) {
     Charset cs = null;
@@ -2386,7 +2386,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpLocation(JsonLocation location)
+   * {@code void dumpLocation(JsonLocation location)}
    *********************************************************************************/
   public static void dumpLocation(JsonLocation location) {
     if (location != null) {
@@ -2399,14 +2399,14 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void dumpLocation(JsonParser parser)
+   * {@code void dumpLocation(JsonParser parser)}
    *********************************************************************************/
   public static void dumpLocation(JsonParser parser) {
     dumpLocation(parser.getLocation());
   }
 
   /*********************************************************************************
-   * boolean assertEquals(JsonLocation, JsonLocation)
+   * {@code boolean assertEquals(JsonLocation, JsonLocation)}
    *********************************************************************************/
   public static boolean assertEquals(JsonLocation expLoc, JsonLocation actLoc) {
     if (expLoc.getLineNumber() == actLoc.getLineNumber()
@@ -2437,21 +2437,21 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * void addFileToClassPath(String s)
+   * {@code void addFileToClassPath(String s)}
    *********************************************************************************/
   public static void addFileToClassPath(String s) throws Exception {
     addFileToClassPath(new File(s));
   }
 
   /*********************************************************************************
-   * void addFileToClassPath(File f)
+   * {@code void addFileToClassPath(File f)}
    *********************************************************************************/
   public static void addFileToClassPath(File f) throws Exception {
     addURLToClassPath((f.toURI()).toURL());
   }
 
   /*********************************************************************************
-   * void addURLToClassPath(URL url)
+   * {@code void addURLToClassPath(URL url)}
    *********************************************************************************/
   public static void addURLToClassPath(URL url) throws Exception {
     LOGGER.info("addURLToClassPath-> " + url.toString());
@@ -2470,7 +2470,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonArray buildJsonArrayFooBar
+   * {@code JsonArray buildJsonArrayFooBar}
    *********************************************************************************/
   public static JsonArray buildJsonArrayFooBar() {
     try {
@@ -2486,7 +2486,7 @@ public final class JSONP_Util {
   public static final String JSONARRAYFOOBAR = "[\"foo\",\"bar\"]";
 
   /*********************************************************************************
-   * JsonObject buildJsonObjectFooBar()
+   * {@code JsonObject buildJsonObjectFooBar()}
    *********************************************************************************/
   public static JsonObject buildJsonObjectFooBar() {
     try {
@@ -2502,7 +2502,7 @@ public final class JSONP_Util {
   public static final String JSONOBJECTFOOBAR = "{\"foo\":\"bar\"}";
 
   /*********************************************************************************
-   * JsonObject createSampleJsonObject()
+   * {@code JsonObject createSampleJsonObject()}
    *
    * Assertion ids covered: 400/401/403/404/406/408/409
    *********************************************************************************/
@@ -2531,7 +2531,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * EXPECTED_SAMPLEJSONOBJECT_TEXT Constant defining expected Json text output
+   * {@code EXPECTED_SAMPLEJSONOBJECT_TEXT} Constant defining expected Json text output
    * of above sample JsonObject
    *********************************************************************************/
   public final static String EXPECTED_SAMPLEJSONOBJECT_TEXT = "{\"firstName\":\"John\",\"lastName\":\"Smith\",\"age\":25,\"elderly\":false,\"patriot\":true,"
@@ -2542,7 +2542,7 @@ public final class JSONP_Util {
       + "[\"foo\",\"bar\"]]}";
 
   /*********************************************************************************
-   * JsonObject createSampleJsonObject2()
+   * {@code JsonObject createSampleJsonObject2()}
    *********************************************************************************/
   public static JsonObject createSampleJsonObject2() throws Exception {
     JsonObject object = Json.createObjectBuilder().add("firstName", "John")
@@ -2563,7 +2563,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * JsonArray createSampleJsonArray()
+   * {@code JsonArray createSampleJsonArray()}
    *
    * Assertion ids covered: 400/401/402/403/404/406/409
    *********************************************************************************/
@@ -2588,7 +2588,7 @@ public final class JSONP_Util {
   }
 
   /*********************************************************************************
-   * EXPECTED_SAMPLEJSONARRAY_TEXT Constant defining expected Json text output
+   * {@code EXPECTED_SAMPLEJSONARRAY_TEXT} Constant defining expected Json text output
    * of above sample JsonArray
    *********************************************************************************/
   public final static String EXPECTED_SAMPLEJSONARRAY_TEXT = "[{\"name1\":\"value1\",\"name2\":\"value2\"},true,false,null,100,200,\"string\",123456789,123456789,"
@@ -2596,7 +2596,7 @@ public final class JSONP_Util {
       + "{\"foo\":\"bar\"},\"arrayFooBar\":[\"foo\",\"bar\"]},[{\"foo\":\"bar\"},[\"foo\",\"bar\"]]]";
 
   /*********************************************************************************
-   * JsonArray createSampleJsonArray2()
+   * {@code JsonArray createSampleJsonArray2()}
    *********************************************************************************/
   public static JsonArray createSampleJsonArray2() throws Exception { // Indices
     JsonArray array = Json.createArrayBuilder().add(Json.createObjectBuilder() // 0

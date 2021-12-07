@@ -140,6 +140,43 @@
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>sigtests</id>
+                        <configuration>
+                            <includes>
+                                <include>**/JSONPSigTest.java</include>
+                            </includes>
+                            <systemPropertyVariables>
+                                <jimage.dir>${project.build.directory}/jdk11-bundle</jimage.dir>
+                                <signature.mapfile>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest/sig-test.map</signature.mapfile>
+                                <signature.repositoryDir>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest</signature.repositoryDir>
+                                <signature.packagelist>${project.build.directory}/signaturedirectory/jakarta/jsonp/tck/signaturetest/sig-test-pkg-list.txt</signature.packagelist>
+                                <signature.sigTestClasspath>${project.build.directory}/signaturedirectory/jakarta.json-api.jar:${project.build.directory}/jdk11-bundle/java.base:${project.build.directory}/jdk11-bundle/java.rmi:${project.build.directory}/jdk11-bundle/java.sql:${project.build.directory}/jdk11-bundle/java.naming</signature.sigTestClasspath>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-test</id>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/JSONPSigTest.java</exclude>
+                                <exclude>**/JsonProviderTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>providertests</id>
+                        <configuration>
+                            <includes>
+                                <include>**/JsonProviderTest.java</include>
+                            </includes>
+                            <systemPropertyVariables>
+                                <jakarta.json.provider>jakarta.jsonp.tck.api.provider.JsonProviderTest.DummyJsonProvider</jakarta.json.provider>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
