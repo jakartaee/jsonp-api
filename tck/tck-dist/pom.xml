@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2021 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-tck</artifactId>
+        <version>2.1.0-SNAPSHOT</version>
+    </parent>
+
+   <groupId>jakarta.json</groupId>
+   <artifactId>jsonp-tck-dist</artifactId>
+   <packaging>pom</packaging>
+   <name>JSONP TCK Distribution</name>
+
+   <dependencies>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck</artifactId>
+         <version>${project.version}</version>
+         <type>pom</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-common</artifactId>
+         <version>${project.version}</version>
+         <type>jar</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-common</artifactId>
+         <version>${project.version}</version>
+         <type>pom</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-common</artifactId>
+         <version>${project.version}</version>
+         <classifier>sources</classifier>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests</artifactId>
+         <version>${project.version}</version>
+         <type>jar</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests</artifactId>
+         <version>${project.version}</version>
+         <type>pom</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests</artifactId>
+         <version>${project.version}</version>
+         <classifier>sources</classifier>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests-plugability</artifactId>
+         <version>${project.version}</version>
+         <type>jar</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests-plugability</artifactId>
+         <version>${project.version}</version>
+         <type>pom</type>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.json</groupId>
+         <artifactId>jakarta.json-tck-tests-plugability</artifactId>
+         <version>${project.version}</version>
+         <classifier>sources</classifier>
+         <optional>true</optional>
+      </dependency>
+   </dependencies>
+
+   <profiles>
+      <profile>
+       <id>EFTL</id>
+         <properties>
+            <license>EFTL</license>
+            <bundle-name>jakarta-jsonp-tck</bundle-name>
+         </properties>
+      </profile>
+      <profile>
+         <id>EPL</id>
+         <properties>
+            <license>EPL</license>
+            <bundle-name>jsonp-tck</bundle-name>
+         </properties>
+         <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+      </profile>
+   </profiles>
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>distribution</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>single</goal>
+                  </goals>
+                  <configuration>
+                     <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                     </descriptors>
+                     <finalName>${bundle-name}-${project.version}</finalName>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
