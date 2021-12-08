@@ -34,6 +34,7 @@
         <module>tck-common</module>
         <module>tck-tests</module>
         <module>tck-tests-plugability</module>
+        <module>tck-dist</module>
     </modules>
 
     <name>JSON-P TCK</name>

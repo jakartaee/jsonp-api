@@ -25,6 +25,7 @@
         <version>2.1.0-SNAPSHOT</version>
     </parent>
 
+
     <artifactId>jakarta.json-tck-tests</artifactId>
     <packaging>jar</packaging>
 
@@ -45,6 +46,18 @@
                 <configuration>
                     <doclint>none</doclint>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+              </executions>
             </plugin>
         </plugins>
     </build>
