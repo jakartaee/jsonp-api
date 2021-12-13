@@ -9,7 +9,7 @@ page, and the body generated from asciidoc content.
 ## Pre requisites
 
 - Maven
-- JDK8+
+- JDK11+
 
 Deploying to Github will require password less authentication.
 

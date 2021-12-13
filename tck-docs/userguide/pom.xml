@@ -27,8 +27,8 @@
     <groupId>org.glassfish</groupId>
     <artifactId>tck_jsonp</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1</version>
-    <name>Eclipse Foundation Technology Compatibility Kit User's Guide for Jakarta JSON Processing for Jakarta EE, Release 2.0</name>
+    <version>2.1.0</version>
+    <name>Eclipse Foundation Technology Compatibility Kit User's Guide for Jakarta JSON Processing for Jakarta EE, Release 2.1</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,7 +48,7 @@
 
     <distributionManagement>
         <site>
-            <url>scm:git:git@github.com:eclipse-ee4j/jakartaee-tck.git</url>
+            <url>scm:git:git@github.com:eclipse-ee4j/jsonp.git</url>
         </site>
     </distributionManagement>
 
@@ -81,8 +81,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[1.8.0,)</version>
-                                    <message>You need JDK8 or newer</message>
+                                    <version>[11,)</version>
+                                    <message>You need JDK11 or newer</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
