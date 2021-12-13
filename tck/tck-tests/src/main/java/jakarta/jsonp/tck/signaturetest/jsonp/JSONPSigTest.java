@@ -31,12 +31,7 @@ import jakarta.jsonp.tck.signaturetest.SignatureTestDriverFactory;
 import jakarta.jsonp.tck.signaturetest.SigTestResult;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.PrintStream;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.Properties;
@@ -72,6 +67,62 @@ public class JSONPSigTest extends SigTestEE {
 
   }
 
+
+  public File writeStreamToTempFile(InputStream inputStream, String tempFilePrefix, String tempFileSuffix) throws IOException {
+    FileOutputStream outputStream = null;
+
+    try {
+        File file = File.createTempFile(tempFilePrefix, tempFileSuffix);
+        outputStream = new FileOutputStream(file);
+        byte[] buffer = new byte[1024];
+        while (true) {
+            int bytesRead = inputStream.read(buffer);
+            if (bytesRead == -1) {
+                break;
+            }
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        return file;
+    }
+
+    finally {
+        if (outputStream != null) {
+            outputStream.close();
+        }
+    }
+  }
+
+  public File writeStreamToSigFile(InputStream inputStream, String packageVersion) throws IOException {
+    FileOutputStream outputStream = null;
+    String tmpdir = System.getProperty("java.io.tmpdir");
+    try {
+        File sigfile = new File(tmpdir+File.separator+"jakarta.json.sig_"+packageVersion);
+        if(sigfile.exists()){
+          sigfile.delete();
+          System.out.println("Existing signature file deleted to create new one");
+        }
+        if(!sigfile.createNewFile()){
+          System.out.println("signature file is not created");
+        }
+        outputStream = new FileOutputStream(sigfile);
+        byte[] buffer = new byte[1024];
+        while (true) {
+            int bytesRead = inputStream.read(buffer);
+            if (bytesRead == -1) {
+                break;
+            }
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        return sigfile;
+    }
+
+    finally {
+        if (outputStream != null) {
+            outputStream.close();
+        }
+    }
+  }
+
   /***** Boilerplate Code *****/
 
 
@@ -96,8 +147,8 @@ public class JSONPSigTest extends SigTestEE {
   /*
    * @testName: signatureTest
    * 
-   * @assertion: A JSONB container must implement the required classes and APIs
-   * specified in the JSONB Specification.
+   * @assertion: A JSONP container must implement the required classes and APIs
+   * specified in the JSONP Specification.
    * 
    * @test_Strategy: Using reflection, gather the implementation specific
    * classes and APIs. Compare these results with the expected (required)
@@ -106,13 +157,40 @@ public class JSONPSigTest extends SigTestEE {
    */
   @Test
   public void signatureTest() throws Fault {
-    System.out.println("$$$ JSONBSigTest.signatureTest() called");
+    System.out.println("$$$ JSONPSigTest.signatureTest() called");
     SigTestResult results = null;
-    String mapFile = System.getProperty("signature.mapfile");
-    String repositoryDir = System.getProperty("signature.repositoryDir");
+    String mapFile = null;
+    String packageFile = null;
+    String repositoryDir = null;
+    Properties mapFileAsProps = null;
+    try {
+
+    InputStream inStreamMapfile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/sig-test.map");
+    File mFile = writeStreamToTempFile(inStreamMapfile, "sig-test", ".map");
+    mapFile = mFile.getCanonicalPath();
+    System.out.println("mapFile location is :"+mapFile);
+
+    InputStream inStreamPackageFile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/sig-test-pkg-list.txt");
+    File pFile = writeStreamToTempFile(inStreamPackageFile, "sig-test-pkg-list", ".txt");
+    packageFile = pFile.getCanonicalPath();
+    System.out.println("packageFile location is :"+packageFile);
+  
+    mapFileAsProps = getSigTestDriver().loadMapFile(mapFile);
+    String packageVersion = mapFileAsProps.getProperty("jakarta.json");
+    System.out.println("Package version from mapfile :"+ packageVersion);
+
+    InputStream inStreamSigFile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/jakarta.json.sig_"+packageVersion);
+    File sigFile = writeStreamToSigFile(inStreamSigFile, packageVersion);
+    System.out.println("signature File location is :"+sigFile.getCanonicalPath());
+    repositoryDir = System.getProperty("java.io.tmpdir");
+
+
+    } catch(IOException ex){
+        System.out.println("Exception while creating temp files :"+ex);
+    }
+
     String[] packages = getPackages(testInfo.getVehicle());
     String[] classes = getClasses(testInfo.getVehicle());
-    String packageFile = System.getProperty("signature.packagelist");
     String testClasspath = System.getProperty("signature.sigTestClasspath");
     String optionalPkgToIgnore = testInfo.getOptionalTechPackagesToIgnore();
 
@@ -168,10 +246,9 @@ public class JSONPSigTest extends SigTestEE {
       // Call verifyJtaJarTest based on some conditions, please check the
       // comment for verifyJtaJarTest.
       if ("standalone".equalsIgnoreCase(testInfo.getVehicle())) {
-        Properties mapFileAsProps = getSigTestDriver().loadMapFile(mapFile);
         if (mapFileAsProps == null || mapFileAsProps.size() == 0) {
           // empty signature file, something unusual
-          System.out.println("JSONBSigTest.signatureTest() returning, " +
+          System.out.println("JSONPSigTest.signatureTest() returning, " +
               "as signature map file is empty.");
           return;
         }
@@ -182,7 +259,7 @@ public class JSONPSigTest extends SigTestEE {
         // jakarta.transaction
         String jtaVersion = mapFileAsProps.getProperty("jakarta.transaction");
         if (jtaVersion == null || "".equals(jtaVersion.trim())) {
-          System.out.println("JSONBSigTest.signatureTest() returning, " +
+          System.out.println("JSONPSigTest.signatureTest() returning, " +
               "as this is neither JTA TCK run, not Java EE CTS run.");
           return;
         }
@@ -198,10 +275,10 @@ public class JSONPSigTest extends SigTestEE {
           verifyJtaJarTest();
         }
       }
-      System.out.println("$$$ JSONBSigTest.signatureTest() returning");
+      System.out.println("$$$ JSONPSigTest.signatureTest() returning");
     } catch (Exception e) {
       if (results != null && !results.passed()) {
-        throw new Fault("JSONBSigTest.signatureTest() failed!, diffs found");
+        throw new Fault("JSONPSigTest.signatureTest() failed!, diffs found");
       } else {
         System.out.println("Unexpected exception " + e.getMessage());
         throw new Fault("signatureTest failed with an unexpected exception", e);
@@ -209,5 +286,9 @@ public class JSONPSigTest extends SigTestEE {
     }
   }
 
+  /*
+   * Call the parent class's cleanup method.
+   */
 
-} // end class JSONBSigTest
+
+} // end class JSONPSigTest
