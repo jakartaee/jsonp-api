@@ -193,6 +193,14 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator writeKey(String name);
 
     /**
+     * Write the JSON name with a colon.
+     *
+     * @param name name of json field
+     * @return this generator
+     */
+    JsonGenerator writeKey(Key name);
+
+    /**
      * Writes the JSON start array character. It starts a new child array
      * context within which JSON values can be written to the array. This
      * method is valid only in an array context, field context or in no context (when a
