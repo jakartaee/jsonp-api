@@ -238,6 +238,17 @@ public abstract class JsonProvider {
     public abstract JsonGeneratorFactory createGeneratorFactory(Map<String, ?> config);
 
     /**
+     * Creates a generator key for the given JSON name.
+     * The {@code JsonGenerator.Key} is immutable and can be held and reused.
+     * This generator key is optimised for use to writing keys via {@code JsonGenerator}
+     * by being escaped and encoded when compared to using {@code String} keys.
+     *
+     * @param key The JSON name
+     * @return The JSON generator key
+     */
+    public abstract JsonGenerator.Key createGeneratorKey(String key);
+
+    /**
      * Creates a JSON reader from a character stream.
      *
      * @param reader a reader from which JSON is to be read

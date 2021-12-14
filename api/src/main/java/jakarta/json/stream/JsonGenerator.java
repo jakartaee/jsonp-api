@@ -540,4 +540,16 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     @Override
     void flush();
 
+    /**
+     * A JSON name that can be optimised for writing by a {@code JsonGenerator}.
+     */
+    interface Key {
+
+        /**
+         * Return the key as escaped character array.
+         *
+         * @return the key in escaped character array.
+         */
+        char[] toCharArray();
+    }
 }
