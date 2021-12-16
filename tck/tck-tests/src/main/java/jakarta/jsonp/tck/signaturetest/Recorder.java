@@ -28,8 +28,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 public abstract class Recorder {
+
+  private static final Logger LOGGER = Logger.getLogger(Recorder.class.getName());
 
   protected Properties signatureMap;
 
@@ -45,9 +49,9 @@ public abstract class Recorder {
 
   public Recorder(String[] args) {
 
-    System.out.println("\nCalling:  Recorder with following args:");
+    LOGGER.info("\nCalling:  Recorder with following args:");
     for (int ii = 0; ii < args.length; ii++) {
-      System.out.println("	  args[" + ii + "] = " + args[ii]);
+      LOGGER.info("	  args[" + ii + "] = " + args[ii]);
     }
 
     Arguments arguments = new Arguments(args);
@@ -78,11 +82,11 @@ public abstract class Recorder {
       try {
 
         // dump command line args passed to Setup()...
-        System.out.println("\n\nDUMPING SIGTEST COMMAND LINE: \n");
+        LOGGER.info("\n\nDUMPING SIGTEST COMMAND LINE: \n");
         for (int ii = 0; ii < commandLine.length; ii++) {
-          System.out.println("commandLine[" + ii + "] = " + commandLine[ii]);
+          LOGGER.info("commandLine[" + ii + "] = " + commandLine[ii]);
         }
-        System.out.println("\nDONE DUMPING SIGTEST COMMAND LINE. \n\n");
+        LOGGER.info("\nDONE DUMPING SIGTEST COMMAND LINE. \n\n");
 
         doRecord(commandLine);
       } catch (Exception e) {
@@ -92,7 +96,7 @@ public abstract class Recorder {
       try {
         writePackageListFile(basePackageName, outputFileName, packageListFile);
       } catch (Exception e) {
-        System.out.println("Unexpected exception: " + e);
+        LOGGER.info("Unexpected exception: " + e);
         e.printStackTrace();
         System.exit(1);
       }
@@ -198,12 +202,11 @@ public abstract class Recorder {
 
       // all 4 arguments must be defined, thus there should be 8 elements
       if (args.length != 8) {
-        System.out
-            .println("Error - incorrect number of args should be 8 but was:  "
+        LOGGER.info("Error - incorrect number of args should be 8 but was:  "
                 + args.length);
-        System.out.println("Args passed in were:  ");
+        LOGGER.info("Args passed in were:  ");
         for (int ii = 0; ii < args.length; ii++) {
-          System.out.println("args[" + ii + "] = " + args[ii]);
+          LOGGER.info("args[" + ii + "] = " + args[ii]);
         }
 
         throw new IllegalArgumentException();

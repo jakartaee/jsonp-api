@@ -27,10 +27,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
+
 
 
 public final class ApiCheckDriver extends SignatureTestDriver
     implements Serializable {
+
+   
+  private static final Logger LOGGER = Logger.getLogger(ApiCheckDriver.class.getName());
+
 
   /* flags for the Diff utility argument list */
   private static final String BASE_FLAG = "-base";
@@ -129,10 +135,10 @@ public final class ApiCheckDriver extends SignatureTestDriver
     }
 
     // dump args for debugging aid
-    System.out.println(
+    LOGGER.fine(
         "\nCalling:  com.sun.tdk.signaturetest.SignatureTest() with following args:");
     for (int ii = 0; ii < testArguments.length; ii++) {
-      System.out.println("	  testArguments[" + ii + "] = " + testArguments[ii]);
+      LOGGER.fine("	  testArguments[" + ii + "] = " + testArguments[ii]);
     }
 
     @SuppressWarnings("unchecked")
@@ -145,9 +151,9 @@ public final class ApiCheckDriver extends SignatureTestDriver
 
     // currently, there is no way to determine if there are error msgs in
     // the rawmessages, so we will always dump this and call it a status.
-    System.out.println(
+    LOGGER.info(
         "********** Status Report '" + packageOrClassName + "' **********\n");
-    System.out.println(rawMessages);
+    LOGGER.info(rawMessages);
     return sigTestInstance.toString().substring(7).startsWith("Passed.");
   }
 

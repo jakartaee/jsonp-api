@@ -25,6 +25,8 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 
 /**
@@ -34,6 +36,9 @@ import java.util.Properties;
  * by the signature test framework within which container.
  */
 public abstract class SigTestEE {
+
+  private static final Logger LOGGER = Logger.getLogger(SigTestEE.class.getName());
+
 
   String[] sVehicles;
 
@@ -213,11 +218,11 @@ public abstract class SigTestEE {
    */
   public void setup() {
     try {
-      System.out.println("$$$ SigTestEE.setup() called");
+      LOGGER.info("$$$ SigTestEE.setup() called");
       this.testInfo = new SigTestData();
-      System.out.println("$$$ SigTestEE.setup() complete");
+      LOGGER.info("$$$ SigTestEE.setup() complete");
     } catch (Exception e) {
-      System.out.println("Unexpected exception " + e.getMessage());
+      LOGGER.info("Unexpected exception " + e.getMessage());
     }
   }
 
@@ -231,7 +236,7 @@ public abstract class SigTestEE {
    *           When an error occurs executing the signature tests.
    */
   public void signatureTest() throws Fault {
-    System.out.println("$$$ SigTestEE.signatureTest() called");
+    LOGGER.info("$$$ SigTestEE.signatureTest() called");
     SigTestResult results = null;
     String mapFile = getMapFile();
     String repositoryDir = getRepositoryDir();
@@ -258,24 +263,24 @@ public abstract class SigTestEE {
       f.mkdirs();
 
       String javaHome = (String) sysProps.get("java.home");
-      System.out.println("Executing JImage");
+      LOGGER.info("Executing JImage");
 
       try {
         ProcessBuilder pb = new ProcessBuilder(javaHome + "/bin/jimage", "extract", "--dir=" + jimageDir, javaHome + "/lib/modules");
-        System.out.println(javaHome + "/bin/jimage extract --dir=" + jimageDir + " " + javaHome + "/lib/modules");
+        LOGGER.info(javaHome + "/bin/jimage extract --dir=" + jimageDir + " " + javaHome + "/lib/modules");
         pb.redirectErrorStream(true);
         Process proc = pb.start();
         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         String line = null;
         while ((line = out.readLine()) != null) {
-          System.out.println(line);
+          LOGGER.info(line);
         }
 
         int rc = proc.waitFor();
-        System.out.println("JImage RC = " + rc);
+        LOGGER.info("JImage RC = " + rc);
         out.close();
       } catch (Exception e) {
-        System.out.println("Exception while executing JImage!  Some tests may fail.");
+        LOGGER.info("Exception while executing JImage!  Some tests may fail.");
         e.printStackTrace();
       }
     }
@@ -284,9 +289,9 @@ public abstract class SigTestEE {
       results = getSigTestDriver().executeSigTest(packageFile, mapFile,
           repositoryDir, packages, classes, testClasspath,
           unlistedTechnologyPkgs, optionalPkgToIgnore);
-      System.out.println(results.toString());
+      LOGGER.info(results.toString());
       if (!results.passed()) {
-        System.out.println("results.passed() returned false");
+        LOGGER.info("results.passed() returned false");
         throw new Exception();
       }
 
@@ -296,7 +301,7 @@ public abstract class SigTestEE {
         Properties mapFileAsProps = getSigTestDriver().loadMapFile(mapFile);
         if (mapFileAsProps == null || mapFileAsProps.size() == 0) {
           // empty signature file, something unusual
-          System.out.println("SigTestEE.signatureTest() returning, " +
+          LOGGER.info("SigTestEE.signatureTest() returning, " +
               "as signature map file is empty.");
           return;
         }
@@ -307,12 +312,12 @@ public abstract class SigTestEE {
         // jakarta.transaction
         String jtaVersion = mapFileAsProps.getProperty("jakarta.transaction");
         if (jtaVersion == null || "".equals(jtaVersion.trim())) {
-          System.out.println("SigTestEE.signatureTest() returning, " +
+          LOGGER.info("SigTestEE.signatureTest() returning, " +
               "as this is neither JTA TCK run, not Java EE CTS run.");
           return;
         }
 
-        System.out.println("jtaVersion " + jtaVersion);  
+        LOGGER.info("jtaVersion " + jtaVersion);  
         // Signature map packaged in JTA TCK will contain a single package 
         // jakarta.transaction
         if (mapFileAsProps.size() == 1) {
@@ -323,12 +328,12 @@ public abstract class SigTestEE {
           verifyJtaJarTest();
         }
       }
-      System.out.println("$$$ SigTestEE.signatureTest() returning");
+      LOGGER.info("$$$ SigTestEE.signatureTest() returning");
     } catch (Exception e) {
       if (results != null && !results.passed()) {
         throw new Fault("SigTestEE.signatureTest() failed!, diffs found");
       } else {
-        System.out.println("Unexpected exception " + e.getMessage());
+        LOGGER.info("Unexpected exception " + e.getMessage());
         throw new Fault("signatureTest failed with an unexpected exception", e);
       }
     }
@@ -355,18 +360,18 @@ public abstract class SigTestEE {
    * @throws Fault When an error occurs executing the signature tests.
    */
   public void verifyJtaJarTest() throws Exception {
-    System.out.println("SigTestEE#verifyJtaJarTest - Starting:");
+    LOGGER.info("SigTestEE#verifyJtaJarTest - Starting:");
     String repositoryDir = getRepositoryDir();
     String jtaJarClasspath = testInfo.getJtaJarClasspath();
     boolean result = getSigTestDriver().verifyJTAJarForNoXA(
                 testInfo.getJtaJarClasspath(), repositoryDir);
     if(result) {
-      System.out.println("PASS: javax.transaction.xa not found in API jar");
+      LOGGER.info("PASS: javax.transaction.xa not found in API jar");
     } else {
-      System.out.println("FAIL: javax.transaction.xa found in API jar");
+      LOGGER.info("FAIL: javax.transaction.xa found in API jar");
       throw new Fault("javax.transaction.xa validation failed");
     }
-    System.out.println("SigTestEE#verifyJtaJarTest returning");
+    LOGGER.info("SigTestEE#verifyJtaJarTest returning");
   }
 
   /**
@@ -378,10 +383,10 @@ public abstract class SigTestEE {
    *           When an error occurs cleaning up the state of this test.
    */
   public void cleanup() throws Fault {
-    System.out.println("$$$ SigTestEE.cleanup() called");
+    LOGGER.info("$$$ SigTestEE.cleanup() called");
     try {
       getSigTestDriver().cleanupImpl();
-      System.out.println("$$$ SigTestEE.cleanup() returning");
+      LOGGER.info("$$$ SigTestEE.cleanup() returning");
     } catch (Exception e) {
       throw new Fault("Cleanup failed!", e);
     }
@@ -398,7 +403,7 @@ public abstract class SigTestEE {
      */
     public Fault(String msg) {
       super(msg);
-      System.out.println(msg);
+      LOGGER.info(msg);
     }
 
     /**
@@ -412,7 +417,7 @@ public abstract class SigTestEE {
     public Fault(String msg, Throwable t) {
       super(msg);
       this.t = t;
-      System.out.println(msg);
+      LOGGER.info(msg);
       t.printStackTrace();
     }
 
