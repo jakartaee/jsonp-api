@@ -1852,6 +1852,8 @@ public class ClientTests {
   /*
    * @testName: jsonParserCurrentEvent
    *
+   * @assertion_ids: JSONP:JAVADOC:683;
+   *
    * @test_Strategy: Tests JsonParser API methods added in JSON-P 2.1.
    */
   @Test

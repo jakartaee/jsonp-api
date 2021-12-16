@@ -3165,7 +3165,9 @@ public class ClientTests {
 
   /*
    * @testName: testDuplicateKeysDefault
-   * 
+   *
+   * @assertion_ids: JSONP:JAVADOC:681;
+   *
    * @test_Strategy: Tests key strategy added in JSON-P 2.1.
    */
   @Test
@@ -3181,7 +3183,9 @@ public class ClientTests {
 
   /*
    * @testName: testDuplicateKeysNone
-   * 
+   *
+   * @assertion_ids: JSONP:JAVADOC:681;
+   *
    * @test_Strategy: Tests key strategy added in JSON-P 2.1.
    */
   @Test
@@ -3199,7 +3203,9 @@ public class ClientTests {
 
   /*
    * @testName: testDuplicateKeysFirst
-   * 
+   *
+   * @assertion_ids: JSONP:JAVADOC:681;
+   *
    * @test_Strategy: Tests key strategy added in JSON-P 2.1.
    */
   @Test
@@ -3216,7 +3222,9 @@ public class ClientTests {
 
   /*
    * @testName: testDuplicateKeysLast
-   * 
+   *
+   * @assertion_ids: JSONP:JAVADOC:681;
+   *
    * @test_Strategy: Tests key strategy added in JSON-P 2.1.
    */
   @Test

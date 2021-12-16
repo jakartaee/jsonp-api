@@ -338,6 +338,8 @@ public class ClientTests {
   /*
    * @testName: jsonNumber21Test
    *
+   * @assertion_ids: JSONP:JAVADOC:682;
+   *
    * @test_Strategy: Tests Json.createValue(Number) API method added in JSON-P 2.1.
    */
   @Test
