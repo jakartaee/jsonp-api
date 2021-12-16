@@ -22,6 +22,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
 
 
 /**
@@ -30,6 +32,9 @@ import java.util.List;
  * </p>
  */
 public class SigTestDriver extends SignatureTestDriver {
+
+  private static final Logger LOGGER = Logger.getLogger(SigTestDriver.class.getName());
+
 
   private static final String CLASSPATH_FLAG = "-Classpath";
 
@@ -108,7 +113,7 @@ public class SigTestDriver extends SignatureTestDriver {
     if (bStaticMode) {
       // static mode allows finer level of constants checking
       // -CheckValue says to check the actual const values
-      System.out.println("Setting static mode flag to allow constant checking.");
+      LOGGER.info("Setting static mode flag to allow constant checking.");
       command.add(STATIC_FLAG);
       command.add(CHECKVALUE_FLAG);
 
@@ -119,7 +124,7 @@ public class SigTestDriver extends SignatureTestDriver {
       // command.add("bin");
       command.add("src");
     } else {
-      System.out.println("Not Setting static mode flag to allow constant checking.");
+      LOGGER.info("Not Setting static mode flag to allow constant checking.");
     }
 
     command.add("-Verbose");
@@ -162,10 +167,10 @@ public class SigTestDriver extends SignatureTestDriver {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
 
     // do some logging to help with troubleshooting
-    System.out.println(
+    LOGGER.info(
         "\nCalling:  com.sun.tdk.signaturetest.SignatureTest() with following args:");
     for (int ii = 0; ii < testArguments.length; ii++) {
-      System.out.println("   testArguments[" + ii + "] = " + testArguments[ii]);
+      LOGGER.info("   testArguments[" + ii + "] = " + testArguments[ii]);
     }
 
     @SuppressWarnings("unchecked")
@@ -178,9 +183,9 @@ public class SigTestDriver extends SignatureTestDriver {
 
     // currently, there is no way to determine if there are error msgs in
     // the rawmessages, so we will always dump this and call it a status.
-    System.out.println(
+    LOGGER.info(
         "********** Status Report '" + packageOrClassName + "' **********\n");
-    System.out.println(rawMessages);
+    LOGGER.info(rawMessages);
 
     return sigTestInstance.toString().substring(7).startsWith("Passed.");
   } // END runSignatureTest
@@ -207,10 +212,10 @@ public class SigTestDriver extends SignatureTestDriver {
     }
 
     // dump args for debugging aid
-    System.out.println(
+    LOGGER.info(
         "\nCalling:  com.sun.tdk.signaturetest.SignatureTest() with following args:");
     for (int ii = 0; ii < testArguments.length; ii++) {
-      System.out.println("	  testArguments[" + ii + "] = " + testArguments[ii]);
+      LOGGER.info("	  testArguments[" + ii + "] = " + testArguments[ii]);
     }
 
     @SuppressWarnings("unchecked")
@@ -223,9 +228,9 @@ public class SigTestDriver extends SignatureTestDriver {
 
     // currently, there is no way to determine if there are error msgs in
     // the rawmessages, so we will always dump this and call it a status.
-    System.out.println(
+    LOGGER.info(
         "********** Status Report '" + packageOrClassName + "' **********\n");
-    System.out.println(rawMessages);
+    LOGGER.info(rawMessages);
 
     return sigTestInstance.toString().substring(7).startsWith("Passed.");
   }
@@ -236,7 +241,7 @@ public class SigTestDriver extends SignatureTestDriver {
    */
   protected boolean verifyJTAJarForNoXA(String classpath, String repositoryDir) throws Exception  {
 
-    System.out.println("SigTestDriver#verifyJTAJarForNoXA - Starting:");
+    LOGGER.info("SigTestDriver#verifyJTAJarForNoXA - Starting:");
     boolean result = false;
     List command = new ArrayList();
 
@@ -252,9 +257,9 @@ public class SigTestDriver extends SignatureTestDriver {
     String testArguments [] = (String[]) command.toArray(new String[command.size()]);
 
     // do some logging to help with troubleshooting
-    System.out.println("\nCalling:  com.sun.tdk.signaturetest.SignatureTest() with following args:");
+    LOGGER.info("\nCalling:  com.sun.tdk.signaturetest.SignatureTest() with following args:");
     for (int ii=0; ii < testArguments.length; ii++) {
-      System.out.println("   testArguments[" +ii+ "] = " + testArguments[ii]);
+      LOGGER.info("   testArguments[" +ii+ "] = " + testArguments[ii]);
     }
 
     Class sigTestClass = Class.forName("com.sun.tdk.signaturetest.SignatureTest");
@@ -274,8 +279,8 @@ public class SigTestDriver extends SignatureTestDriver {
 
     // currently, there is no way to determine if there are error msgs in 
     // the rawmessages, so we will always dump this and call it a status.
-    System.out.println("********** Status Report JTA JAR validation **********\n");
-    System.out.println(rawMessages);
+    LOGGER.info("********** Status Report JTA JAR validation **********\n");
+    LOGGER.info(rawMessages);
     return sigTestInstance.toString().substring(7).startsWith("Passed.");
   }
 }

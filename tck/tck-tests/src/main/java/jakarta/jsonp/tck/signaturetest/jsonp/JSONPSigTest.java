@@ -35,6 +35,8 @@ import java.io.*;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 
 /*
@@ -46,6 +48,9 @@ import java.util.Properties;
  * TCK signature test class.
  */
 public class JSONPSigTest extends SigTestEE {
+
+  private static final Logger LOGGER = Logger.getLogger(JSONPSigTest.class.getName());
+
 
   public JSONPSigTest(){
     setup();
@@ -99,10 +104,10 @@ public class JSONPSigTest extends SigTestEE {
         File sigfile = new File(tmpdir+File.separator+"jakarta.json.sig_"+packageVersion);
         if(sigfile.exists()){
           sigfile.delete();
-          System.out.println("Existing signature file deleted to create new one");
+          LOGGER.info("Existing signature file deleted to create new one");
         }
         if(!sigfile.createNewFile()){
-          System.out.println("signature file is not created");
+          LOGGER.info("signature file is not created");
         }
         outputStream = new FileOutputStream(sigfile);
         byte[] buffer = new byte[1024];
@@ -157,7 +162,7 @@ public class JSONPSigTest extends SigTestEE {
    */
   @Test
   public void signatureTest() throws Fault {
-    System.out.println("$$$ JSONPSigTest.signatureTest() called");
+    LOGGER.info("$$$ JSONPSigTest.signatureTest() called");
     SigTestResult results = null;
     String mapFile = null;
     String packageFile = null;
@@ -168,25 +173,25 @@ public class JSONPSigTest extends SigTestEE {
     InputStream inStreamMapfile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/sig-test.map");
     File mFile = writeStreamToTempFile(inStreamMapfile, "sig-test", ".map");
     mapFile = mFile.getCanonicalPath();
-    System.out.println("mapFile location is :"+mapFile);
+    LOGGER.info("mapFile location is :"+mapFile);
 
     InputStream inStreamPackageFile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/sig-test-pkg-list.txt");
     File pFile = writeStreamToTempFile(inStreamPackageFile, "sig-test-pkg-list", ".txt");
     packageFile = pFile.getCanonicalPath();
-    System.out.println("packageFile location is :"+packageFile);
+    LOGGER.info("packageFile location is :"+packageFile);
   
     mapFileAsProps = getSigTestDriver().loadMapFile(mapFile);
     String packageVersion = mapFileAsProps.getProperty("jakarta.json");
-    System.out.println("Package version from mapfile :"+ packageVersion);
+    LOGGER.info("Package version from mapfile :"+ packageVersion);
 
     InputStream inStreamSigFile = JSONPSigTest.class.getClassLoader().getResourceAsStream("jakarta/jsonp/tck/signaturetest/jakarta.json.sig_"+packageVersion);
     File sigFile = writeStreamToSigFile(inStreamSigFile, packageVersion);
-    System.out.println("signature File location is :"+sigFile.getCanonicalPath());
+    LOGGER.info("signature File location is :"+sigFile.getCanonicalPath());
     repositoryDir = System.getProperty("java.io.tmpdir");
 
 
     } catch(IOException ex){
-        System.out.println("Exception while creating temp files :"+ex);
+        LOGGER.info("Exception while creating temp files :"+ex);
     }
 
     String[] packages = getPackages(testInfo.getVehicle());
@@ -211,24 +216,24 @@ public class JSONPSigTest extends SigTestEE {
       f.mkdirs();
 
       String javaHome = (String) sysProps.get("java.home");
-      System.out.println("Executing JImage");
+      LOGGER.info("Executing JImage");
 
       try {
         ProcessBuilder pb = new ProcessBuilder(javaHome + "/bin/jimage", "extract", "--dir=" + jimageDir, javaHome + "/lib/modules");
-        System.out.println(javaHome + "/bin/jimage extract --dir=" + jimageDir + " " + javaHome + "/lib/modules");
+        LOGGER.info(javaHome + "/bin/jimage extract --dir=" + jimageDir + " " + javaHome + "/lib/modules");
         pb.redirectErrorStream(true);
         Process proc = pb.start();
         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         String line = null;
         while ((line = out.readLine()) != null) {
-          System.out.println(line);
+          LOGGER.info(line);
         }
 
         int rc = proc.waitFor();
-        System.out.println("JImage RC = " + rc);
+        LOGGER.info("JImage RC = " + rc);
         out.close();
       } catch (Exception e) {
-        System.out.println("Exception while executing JImage!  Some tests may fail.");
+        LOGGER.info("Exception while executing JImage!  Some tests may fail.");
         e.printStackTrace();
       }
     }
@@ -237,9 +242,9 @@ public class JSONPSigTest extends SigTestEE {
       results = getSigTestDriver().executeSigTest(packageFile, mapFile,
           repositoryDir, packages, classes, testClasspath,
           unlistedTechnologyPkgs, optionalPkgToIgnore);
-      System.out.println(results.toString());
+      LOGGER.info(results.toString());
       if (!results.passed()) {
-        System.out.println("results.passed() returned false");
+        LOGGER.info("results.passed() returned false");
         throw new Exception();
       }
 
@@ -248,7 +253,7 @@ public class JSONPSigTest extends SigTestEE {
       if ("standalone".equalsIgnoreCase(testInfo.getVehicle())) {
         if (mapFileAsProps == null || mapFileAsProps.size() == 0) {
           // empty signature file, something unusual
-          System.out.println("JSONPSigTest.signatureTest() returning, " +
+          LOGGER.info("JSONPSigTest.signatureTest() returning, " +
               "as signature map file is empty.");
           return;
         }
@@ -259,12 +264,12 @@ public class JSONPSigTest extends SigTestEE {
         // jakarta.transaction
         String jtaVersion = mapFileAsProps.getProperty("jakarta.transaction");
         if (jtaVersion == null || "".equals(jtaVersion.trim())) {
-          System.out.println("JSONPSigTest.signatureTest() returning, " +
+          LOGGER.info("JSONPSigTest.signatureTest() returning, " +
               "as this is neither JTA TCK run, not Java EE CTS run.");
           return;
         }
 
-        System.out.println("jtaVersion " + jtaVersion);  
+        LOGGER.info("jtaVersion " + jtaVersion);  
         // Signature map packaged in JTA TCK will contain a single package 
         // jakarta.transaction
         if (mapFileAsProps.size() == 1) {
@@ -275,12 +280,12 @@ public class JSONPSigTest extends SigTestEE {
           verifyJtaJarTest();
         }
       }
-      System.out.println("$$$ JSONPSigTest.signatureTest() returning");
+      LOGGER.info("$$$ JSONPSigTest.signatureTest() returning");
     } catch (Exception e) {
       if (results != null && !results.passed()) {
         throw new Fault("JSONPSigTest.signatureTest() failed!, diffs found");
       } else {
-        System.out.println("Unexpected exception " + e.getMessage());
+        LOGGER.info("Unexpected exception " + e.getMessage());
         throw new Fault("signatureTest failed with an unexpected exception", e);
       }
     }

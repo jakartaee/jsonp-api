@@ -29,6 +29,8 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 
 /**
@@ -38,6 +40,8 @@ import java.util.Properties;
  * by the signature test framework.
  */
 public abstract class SigTest {
+
+  private static final Logger LOGGER = Logger.getLogger(SigTest.class.getName());
 
   protected SignatureTestDriver driver;
 
@@ -179,11 +183,11 @@ public abstract class SigTest {
    */
   public void setup() {
     try {
-      System.out.println("$$$ SigTest.setup() called");
+      LOGGER.info("$$$ SigTest.setup() called");
       this.testInfo = new SigTestData();
-      System.out.println("$$$ SigTest.setup() complete");
+      LOGGER.info("$$$ SigTest.setup() complete");
     } catch (Exception e) {
-      System.out.println("Unexpected exception " + e.getMessage());
+      LOGGER.info("Unexpected exception " + e.getMessage());
       //throw new Fault("setup failed!", e);
     }
   }
@@ -198,10 +202,10 @@ public abstract class SigTest {
    *           When an error occurs cleaning up the state of this test.
    */
   public void cleanup() throws Fault {
-    System.out.println("$$$ SigTest.cleanup() called");
+    LOGGER.info("$$$ SigTest.cleanup() called");
     try {
       getSigTestDriver().cleanupImpl();
-      System.out.println("$$$ SigTest.cleanup() returning");
+      LOGGER.info("$$$ SigTest.cleanup() returning");
     } catch (Exception e) {
       throw new Fault("Cleanup failed!", e);
     }
@@ -217,7 +221,7 @@ public abstract class SigTest {
      */
     public Fault(String msg) {
       super(msg);
-      System.out.println(msg);
+      LOGGER.info(msg);
     }
 
     /**
@@ -231,7 +235,7 @@ public abstract class SigTest {
     public Fault(String msg, Throwable t) {
       super(msg);
       this.t = t;
-      // System.out.println(msg, t);
+      // LOGGER.info(msg, t);
     }
 
     /**
