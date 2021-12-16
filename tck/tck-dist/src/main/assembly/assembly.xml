@@ -34,7 +34,40 @@
          <source>artifact-install.sh</source>
          <outputDirectory>artifacts</outputDirectory>
       </file>
+      <file>
+         <source>../tck-docs/userguide/target/generated-docs/Jakarta-JSON-Processing-TCK-Users-Guide.pdf</source>
+         <outputDirectory>docs/pdf-usersguide</outputDirectory>
+      </file>
+      <file>
+         <source>../tck-docs/index.html</source>
+         <outputDirectory>docs/</outputDirectory>
+      </file>
+      <file>
+         <source>../tck-docs/JSONP2.1-ReleaseNotes.html</source>
+         <outputDirectory>docs/</outputDirectory>
+      </file>
    </files>
+
+   <fileSets>
+        <fileSet>
+            <directory>../tck-docs/assertions</directory>
+            <outputDirectory>/docs/assertions</outputDirectory>
+            <includes>
+                <include>JSONP*avadocAssertions.html</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../tck-docs/userguide/target/staging</directory>
+            <outputDirectory>docs/html-usersguide</outputDirectory>
+            <excludes>
+               <exclude>*.inc</exclude>
+               <exclude>*.conf</exclude>
+               <exclude>*.yml</exclude>
+               <exclude>*.md</exclude>
+               <exclude>README</exclude>
+            </excludes>
+        </fileSet>
+   </fileSets>
    <dependencySets>
       <dependencySet>
          <includes>
