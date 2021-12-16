@@ -1,0 +1,200 @@
+type=page
+status=published
+title=Setup and Configuration
+next=using.html
+prev=install.html
+~~~~~~
+include::attributes.conf[]
+Setup and Configuration
+=======================
+
+[[GBFVV]]
+
+
+
+[[setup-and-configuration]]
+4 Setup and Configuration
+-------------------------
+
+
+[NOTE]
+====
+The Jakarta EE Specification process provides for any number of compatible implementations.
+As additional implementations become available, refer to project or product documentation from
+those vendors for specific TCK setup and operational guidance.
+
+====
+
+This chapter describes how to set up the {TechnologyShortName} TCK . 
+Before proceeding with the instructions in
+this chapter, be sure to install all required software, as described in
+link:install.html#GBFTP[Chapter 3, "Installation."]
+
+After completing the instructions in this chapter, proceed to
+link:using.html#GBFWO[Chapter 5, "Executing Tests,"] for instructions on
+running the {TechnologyShortName} TCK.
+
+[NOTE]
+====
+The {TechnologyShortName} TCK is not depended on any particular build 
+tool to run the tests. It will be convenient and advisable to create a 
+Apache Maven project to setup and run the TCK.
+This chapter will henceforth use instructions and steps to provide setup 
+with Apache Maven as a build tool. 
+====
+
+///////////////////////////////////////////////////////////////////////
+NOTE TO WRITERS:
+The following sections should be customized for the technology.
+This text was originally from the JAX-RS TCK.  Most references
+to JAX-RS have been parameterized to serve as a simple starting
+point for customization.  There are still many details that will
+need to be changed or removed.  The major sections 4.1, 4.2, and
+4.3 should be preserved.  If their titles are changed, the links
+at the top of config.adoc will need to be changed as well as well
+as toc.adoc.
+///////////////////////////////////////////////////////////////////////
+
+[[GBFVU]][[configuring-your-environment-to-run-the-tck-against-the-reference-implementation]]
+
+4.1 Configuring Your Environment to Run the TCK Against the Compatible Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After configuring your environment as described in this section,
+continue with the instructions in link:#GBFUY[Section 4.6, "Using the
+JavaTest Harness Software."]
+
+
+[NOTE]
+=======================================================================
+
+In these instructions, variables in angle brackets need to be expanded
+for each platform. For example, `<JAVA_HOME>` becomes `$JAVA_HOME` on
+Solaris/Linux and `%JAVA_HOME%` on Windows. In addition, the forward
+slashes (`/`) used in all of the examples need to be replaced with
+backslashes (`\`) for Windows. Finally, be sure to use the appropriate
+separator for your operating system when specifying multiple path
+entries (`;` on Windows, `:` on UNIX/Linux).
+
+On Windows, you must escape any backslashes with an extra backslash in
+path separators used in any of the following properties, or use forward
+slashes as a path separator instead.
+
+=======================================================================
+
+
+1.  Set the following environment variables in your shell environment:
+  a.  `JAVA_HOME` to the directory in which Java SE 8 or 11 is installed
+  b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
+  c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} CI has been installed
+  d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
+  and `M2_HOME/bin`
+2.  Set the following System properties:
+  a. `jakarta.json.provider` property is set to run the {TechnologyShortName} TCK
+  pluggability tests to test the SPI provider interface.
+  This property should only be set when running the pluggability tests. All other tests use the
+  provider supplied with the {TechnologyShortName} {TechnologyVersion} implementation under test.
+  b. `jimage.dir` property is set to extract the JDK9+ modules for running the signature tests.
+
+3. Set the below jars to the classpath 
+  a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
+  `jakarta.json-2.1.0.jar`.
+  c. JUnit 5 jars (5.7.2+)
+  Maven cordinates :
++
+[source,oac_no_warn]
+----
+       <dependency>
+          <groupId>org.junit</groupId>
+          <artifactId>junit-bom</artifactId>
+          <version>5.7.2</version>
+          <type>pom</type>
+          <scope>import</scope>
+       </dependency>
+----
++
+ d. sigtest-maven-plugin (1.4) to run the signature tests.
+  Maven cordinates :
++
+[source,oac_no_warn]
+----
+      <dependency>
+            <groupId>org.netbeans.tools</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <version>1.4</version>
+        </dependency>
+----
++
+
+
+[[GCLHU]][[configuring-your-environment-to-repackage-and-run-the-tck-against-the-vendor-implementation]]
+
+4.2 Configuring Your Environment to Repackage and Run the TCK Against the Vendor Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After configuring your environment as described in this section,
+continue with the instructions in link:#GBFWO[Chapter 5, "Executing Tests."]
+
+
+
+[NOTE]
+=======================================================================
+
+In these instructions, variables in angle brackets need to be expanded
+for each platform. For example, `<JAVA_HOME>` becomes `$JAVA_HOME` on
+Solaris/Linux and `%JAVA_HOME%` on Windows. In addition, the forward
+slashes (`/`) used in all of the examples need to be replaced with
+backslashes (`\`) for Windows. Finally, be sure to use the appropriate
+separator for your operating system when specifying multiple path
+entries (`;` on Windows, `:` on UNIX/Linux).
+
+On Windows, you must escape any backslashes with an extra backslash in
+path separators used in any of the following properties, or use forward
+slashes as a path separator instead.
+
+=======================================================================
+
+
+
+1.  Set the following environment variables in your shell environment:
+  a.  `JAVA_HOME` to the directory in which Java SE 8 or 11 is installed
+  b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
+  c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} CI has been installed
+  d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
+  and `M2_HOME/bin`
+2.  Set the following System properties:
+  a. `jakarta.json.provider` property is set to run the {TechnologyShortName} TCK
+  pluggability tests to test the SPI provider interface.
+  This property should only be set when running the pluggability tests. All other tests use the
+  provider supplied with the {TechnologyShortName} {TechnologyVersion} implementation under test.
+  b. jimage.dir property is set to extract the JDK9+ modules for running the signature tests.
+
+3. Set the below jars to the classpath 
+  a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
+    `jakarta.json-2.1.0.jar`.
+  c. JUnit 5 jars (5.7.2+)
+  Maven cordinates :
++
+[source,oac_no_warn]
+----
+       <dependency>
+          <groupId>org.junit</groupId>
+          <artifactId>junit-bom</artifactId>
+          <version>5.7.2</version>
+          <type>pom</type>
+          <scope>import</scope>
+       </dependency>
+----
++
+
+
+[[GHGDG]][[publishing-the-test-applications]]
+
+4.3 Publishing the Test Applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Not needed for the {TechnologyShortName} TCK.
+
+

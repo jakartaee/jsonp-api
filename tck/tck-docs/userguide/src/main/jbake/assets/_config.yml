@@ -1,0 +1,13 @@
+remote_theme: jakartaee/jekyll-theme-jakarta-ee
+
+title: [tck_jsonp_v2_1]
+description: [Oracle Technology Compatibility Kit User's Guide for Java API for JSON Processing 2.1 for Technology Licensees, Release 2.1]
+
+# sidebar links url
+links:
+  source: https://github.com/eclipse-ee4j/jsonp
+  download: https://github.com/eclipse-ee4j/jsonp/releases/tag/2.1.0-RELEASE
+  #mailinglist: https://javaee.groups.io/g/tck_jsonp_v1_1
+  #javadocs:
+  docs: https://eclipse-ee4j.github.io/jsonp
+  #faq:

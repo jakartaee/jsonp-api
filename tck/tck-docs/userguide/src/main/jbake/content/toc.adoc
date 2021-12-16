@@ -1,0 +1,90 @@
+type=page
+status=published
+title=TCK User's Guide for Technology Implementors
+next=title.html
+~~~~~~
+include::attributes.conf[]
+TCK User's Guide for Technology Implementors
+============================================
+
+[[contents]]
+Contents
+--------
+
+* link:title.html#eclipse-foundation[Eclipse Foundation]
+
+link:preface.html#GBFTI[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:preface.html#GBFUS[Who Should Use This Book]
+** link:preface.html#GBFPO[Before You Read This Book]
+** link:preface.html#GBFWF[Typographic Conventions]
+** link:preface.html#FWBSD[Shell Prompts in Command Examples]
+
+link:intro.html#GBFOW[1 Introduction]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:intro.html#GBFTK[1.1 Compatibility Testing]
+*** link:intro.html#GBFQN[1.1.1 Why Compatibility Testing is Important]
+*** link:intro.html#GBFPR[1.1.2 TCK Compatibility Rules]
+*** link:intro.html#GBFPW[1.1.3 TCK Overview]
+*** link:intro.html#GBFPB[1.1.4 Jakarta EE Specification Process (JESP) Program and Compatibility Testing]
+** link:intro.html#GBFQR[1.2 About the TCK]
+*** link:intro.html#GBFQV[1.2.1 TCK Specifications and Requirements]
+*** link:intro.html#GBFSQ[1.2.2 TCK Components]
+*** link:intro.html#GBFRA[1.2.3 TCK Compatibility Test Suite]
+*** link:intro.html#GBFSH[1.2.4 Exclude Lists]
+*** link:intro.html#GBFRR[1.2.5 TCK Configuration]
+** link:intro.html#GBFQW[1.3 Getting Started With the TCK]
+
+[[procedure-for-certification]]
+link:rules.html#GBFSN[2 Procedure for Certification]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:rules.html#CJAFFDGI[2.1 Certification Overview]
+** link:rules.html#CJAFGIGG[2.2 Compatibility Requirements]
+*** link:rules.html#definitions[2.2.1 Definitions]
+*** link:rules.html#sthref7[2.2.2 Rules for {TechnologyFullName} Products]
+** link:rules.html#CJAIIBDJ[2.3 Test Appeals Process]
+*** link:rules.html#[2.3.1 Valid Challenges]
+*** link:rules.html#[2.3.2 Invalid Challenges]
+*** link:rules.html#CJAJEAEI[2.3.3 TCK Test Appeals Steps]
+** link:rules.html#CJAJECIE[2.4 Specifications for {TechnologyFullName}]
+** link:rules.html#CJABAHGI[2.5 Libraries for {TechnologyFullName}]
+
+link:install.html#GBFTP[3 Installation]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:install.html#GBFUD[3.1 Obtaining a Compatible Implementation]
+** link:install.html#GBFTS[3.2 Installing the Software]
+
+[[setup-and-configuration]]
+link:config.html#GBFVV[4 Setup and Configuration]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:config.html#GBFVU[4.1 Configuring Your Environment to Run the TCK Against the Compatible Implementation]
+** link:config.html#GCLHU[4.2 Configuring Your Environment to Repackage and Run the TCK Against the Vendor Implementation]
+** link:config.html#GHGDG[4.3 Publishing the Test Applications]
+
+[[executing-tests]]
+link:using.html#GBFWO[5 Executing Tests]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:using.html#GBFUZ[5.1 Starting the tests]
+*** link:using.html#GBFVW[5.1.1 To Start JavaTest in Command-Line Mode]
+** link:using.html#GBFWM[5.2 Running a Subset of the Tests]
+*** link:using.html#GBFWK[5.2.1 To Run a Subset of Tests in Command-Line Mode]
+** link:using.html#GCLRR[5.3 Running the TCK Against another CI]
+** link:using.html#GCLRZ[5.4 Running the TCK Against a Vendor's Implementation]
+** link:using.html#GBFVK[5.5 Test Reports]
+
+[[debugging-test-problems]]
+link:debug.html#GBFUV[6 Debugging Test Problems]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** link:debug.html#GBFYP[6.1 Overview]
+** link:debug.html#GBFYF[6.2 Configuration Failures]
+* link:faq.html#GBFYD[A Frequently Asked Questions]
+** link:faq.html#GBFYQ[A.1 Where do I start to debug a test failure?]
+** link:faq.html#GBFYR[A.2 How do I restart a crashed test run?]
+** link:faq.html#GBFWU[A.3 What would cause tests be added to the exclude list?]
