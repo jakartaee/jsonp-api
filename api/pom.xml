@@ -77,7 +77,7 @@
     <properties>
         <copyright.exclude>${project.basedir}/../etc/copyright-exclude</copyright.exclude>
         <copyright.templatefile>${project.basedir}/../etc/copyright.txt</copyright.templatefile>
-        <copyright.ignoreyear>false</copyright.ignoreyear>
+        <copyright.ignoreyear>true</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
         <copyright.update>false</copyright.update>
         <spotbugs.exclude>${project.basedir}/../etc/spotbugs-exclude.xml</spotbugs.exclude>
