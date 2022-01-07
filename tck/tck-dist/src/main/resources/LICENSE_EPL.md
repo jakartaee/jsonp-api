@@ -280,7 +280,7 @@
 
 ##    The GNU General Public License (GPL) Version 2, June 1991
 
-    Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+    Copyright (C) 1989, 2022 Free Software Foundation, Inc.
     51 Franklin Street, Fifth Floor
     Boston, MA 02110-1335
     USA

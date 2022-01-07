@@ -11,7 +11,7 @@ fi
 # Parent pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
 -Dfile=jakarta.json-tck-"$VERSION".pom -DgroupId=jakarta.json \
--DartifactId=jakarta.json-tck -Dversion="$VERSION" -Dpackaging=pom
+-DartifactId=jakarta.json-tck-project -Dversion="$VERSION" -Dpackaging=pom
 
 # pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
@@ -45,15 +45,15 @@ mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
 
 # pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
--Dfile=jakarta.json-tck-tests-plugability-"$VERSION".pom -DgroupId=jakarta.json \
--DartifactId=jakarta.json-tck-tests-plugability -Dversion="$VERSION" -Dpackaging=pom
+-Dfile=jakarta.json-tck-tests-pluggability-"$VERSION".pom -DgroupId=jakarta.json \
+-DartifactId=jakarta.json-tck-tests-pluggability -Dversion="$VERSION" -Dpackaging=pom
 
 # jar
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
--Dfile=jakarta.json-tck-tests-plugability-"$VERSION".jar -DgroupId=jakarta.json \
--DartifactId=jakarta.json-tck-tests-plugability -Dversion="$VERSION" -Dpackaging=jar
+-Dfile=jakarta.json-tck-tests-pluggability-"$VERSION".jar -DgroupId=jakarta.json \
+-DartifactId=jakarta.json-tck-tests-pluggability -Dversion="$VERSION" -Dpackaging=jar
 
 # sources jar
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
--Dfile=jakarta.json-tck-tests-plugability-"$VERSION"-sources.jar -DgroupId=jakarta.json \
--DartifactId=jakarta.json-tck-tests-plugability-sources -Dversion="$VERSION" -Dpackaging=jar
+-Dfile=jakarta.json-tck-tests-pluggability-"$VERSION"-sources.jar -DgroupId=jakarta.json \
+-DartifactId=jakarta.json-tck-tests-pluggability-sources -Dversion="$VERSION" -Dpackaging=jar
