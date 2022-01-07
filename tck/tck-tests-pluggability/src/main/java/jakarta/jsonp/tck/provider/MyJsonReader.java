@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,29 +21,30 @@
 package jakarta.jsonp.tck.provider;
 
 import jakarta.json.*;
+import jakarta.json.stream.*;
+import jakarta.json.spi.JsonProvider;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.*;
 import java.util.logging.Logger;
 
 /*
- * MyJsonWriter is a Json Test Writer used by the pluggability tests
+ * MyJsonReader is a Json Test Reader used by the pluggability tests
  * to test the Json SPI layer. This parser tracks that the proper callback
  * methods are invoked within the parser when Json API methods are called.
  */
-public class MyJsonWriter implements JsonWriter {
 
-  private static final Logger LOGGER = Logger.getLogger(MyJsonWriter.class.getName());
+public class MyJsonReader implements JsonReader {
 
-  private OutputStream out = null;
+  private static final Logger LOGGER = Logger.getLogger(MyJsonReader.class.getName());
+  
+  private InputStream in = null;
 
-  private Writer writer = null;
-
-  private Charset charset = Charset.forName("UTF-8");
+  private Reader reader = null;
 
   private void dumpInstanceVars() {
-    LOGGER.info("writer=" + writer);
-    LOGGER.info("out=" + out);
-    LOGGER.info("charset=" + charset);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
   }
 
   // call methods
@@ -61,15 +62,15 @@ public class MyJsonWriter implements JsonWriter {
     calls.append(s);
   }
 
-  public MyJsonWriter() {
+  public MyJsonReader() {
   }
 
-  public MyJsonWriter(OutputStream out) {
-    this.out = out;
+  public MyJsonReader(InputStream in) {
+    this.in = in;
   }
 
-  public MyJsonWriter(Writer writer) {
-    this.writer = writer;
+  public MyJsonReader(Reader reader) {
+    this.reader = reader;
   }
 
   public void close() {
@@ -77,18 +78,21 @@ public class MyJsonWriter implements JsonWriter {
     addCalls("public void close()");
   }
 
-  public void write(JsonStructure value) {
-    LOGGER.info("public void write(JsonStructure)");
-    addCalls("public void write(JsonStructure)");
+  public JsonStructure read() {
+    LOGGER.info("public void read()");
+    addCalls("public void read()");
+    return null;
   }
 
-  public void writeArray(JsonArray array) {
-    LOGGER.info("public void writeArray(JsonArray)");
-    addCalls("public void writeArray(JsonArray)");
+  public JsonArray readArray() {
+    LOGGER.info("public void readArray()");
+    addCalls("public void readArray()");
+    return null;
   }
 
-  public void writeObject(JsonObject object) {
-    LOGGER.info("public void writeObject(JsonObject)");
-    addCalls("public void writeObject(JsonObject)");
+  public JsonObject readObject() {
+    LOGGER.info("public void readObject()");
+    addCalls("public void readObject()");
+    return null;
   }
 }

@@ -27,14 +27,14 @@
     </parent>
 
     <groupId>jakarta.json</groupId>
-    <artifactId>jakarta.json-tck</artifactId>
+    <artifactId>jakarta.json-tck-project</artifactId>
     <version>2.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>tck-common</module>
         <module>tck-tests</module>
-        <module>tck-tests-plugability</module>
+        <module>tck-tests-pluggability</module>
         <module>tck-docs/userguide</module>
         <module>tck-dist</module>
     </modules>
@@ -134,18 +134,8 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

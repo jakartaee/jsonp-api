@@ -28,22 +28,27 @@
     <files>
         <!-- license -->
         <file>
-            <source>LICENSE_${license}.md</source>
+            <source>${project.basedir}/src/main/resources/LICENSE_${license}.md</source>
             <destName>LICENSE.md</destName>
         </file>
-        <file>
-            <source>artifact-install.sh</source>
-            <outputDirectory>artifacts</outputDirectory>
-        </file>
     </files>
-
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.scriptSourceDirectory}</directory>
+            <outputDirectory>artifacts</outputDirectory>
+            <fileMode>755</fileMode>
+            <includes>
+                <include>**/*.sh</include>
+            </includes>
+        </fileSet>
+    </fileSets>
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>jakarta.json:jakarta.json-tck</include>
+                <include>jakarta.json:jakarta.json-tck-project</include>
                 <include>jakarta.json:jakarta.json-tck-common</include>
                 <include>jakarta.json:jakarta.json-tck-tests</include>
-                <include>jakarta.json:jakarta.json-tck-tests-plugability</include>
+                <include>jakarta.json:jakarta.json-tck-tests-pluggability</include>
             </includes>
             <useTransitiveDependencies>true</useTransitiveDependencies>
             <outputDirectory>artifacts</outputDirectory>

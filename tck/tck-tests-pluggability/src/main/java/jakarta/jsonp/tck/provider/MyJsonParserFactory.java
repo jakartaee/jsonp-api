@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +20,7 @@
 
 package jakarta.jsonp.tck.provider;
 
+import jakarta.json.*;
 import jakarta.json.stream.*;
 import java.io.*;
 import java.nio.charset.Charset;
@@ -27,26 +28,26 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /*
- * MyJsonGeneratorFactory is a Json Test GeneratorFactory used by the pluggability tests
+ * MyJsonParserFactory is a Json Test ParserFactory used by the pluggability tests
  * to test the Json SPI layer. This parser tracks that the proper callback
  * methods are invoked within the parser when Json API methods are called.
  */
 
-public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
+public class MyJsonParserFactory implements JsonParserFactory {
 
-  private static final Logger LOGGER = Logger.getLogger(MyJsonGeneratorFactory.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(MyJsonParserFactory.class.getName());
 
-  private OutputStream out = null;
+  private InputStream in = null;
 
-  private Writer writer = null;
+  private Charset charset = null;
 
-  private Charset charset = Charset.forName("UTF-8");
+  private Reader reader = null;
 
   private Map<String, ?> config = null;
 
   private void dumpInstanceVars() {
-    LOGGER.info("writer=" + writer);
-    LOGGER.info("out=" + out);
+    LOGGER.info("reader=" + reader);
+    LOGGER.info("in=" + in);
     LOGGER.info("charset=" + charset);
     LOGGER.info("config=" + config);
   }
@@ -66,7 +67,7 @@ public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
     calls.append(s);
   }
 
-  public MyJsonGeneratorFactory(Map<String, ?> config) {
+  public MyJsonParserFactory(Map<String, ?> config) {
     this.config = config;
   }
 
@@ -76,26 +77,37 @@ public class MyJsonGeneratorFactory implements JsonGeneratorFactory {
     return config;
   }
 
-  public JsonGenerator createGenerator(OutputStream out) {
-    LOGGER.info("public JsonGenerator createGenerator(OutputStream)");
-    addCalls("public JsonGenerator createGenerator(OutputStream)");
-    this.out = out;
+  public JsonParser createParser(InputStream in) {
+    LOGGER.info("public JsonParser createParser(InputStream)");
+    addCalls("public JsonParser createParser(InputStream)");
+    this.in = in;
     return null;
   }
 
-  public JsonGenerator createGenerator(OutputStream out, Charset charset) {
-    LOGGER.info(
-        "public JsonGenerator createGenerator(OutputStream, Charset)");
-    addCalls("public JsonGenerator createGenerator(OutputStream, Charset)");
-    this.out = out;
+  public JsonParser createParser(InputStream in, Charset charset) {
+    LOGGER.info("public JsonParser createParser(InputStream, Charset)");
+    addCalls("public JsonParser createParser(InputStream, Charset)");
+    this.in = in;
     this.charset = charset;
     return null;
   }
 
-  public JsonGenerator createGenerator(Writer writer) {
-    LOGGER.info("public JsonGenerator createGenerator(Writer)");
-    addCalls("public JsonGenerator createGenerator(Writer)");
-    this.writer = writer;
+  public JsonParser createParser(Reader reader) {
+    LOGGER.info("public JsonParser createParser(Reader)");
+    addCalls("public JsonParser createParser(Reader)");
+    this.reader = reader;
+    return null;
+  }
+
+  public JsonParser createParser(JsonArray jsonArray) {
+    LOGGER.info("public JsonParser createParser(JsonArray)");
+    addCalls("public JsonParser createParser(JsonArray)");
+    return null;
+  }
+
+  public JsonParser createParser(JsonObject jsonObject) {
+    LOGGER.info("public JsonParser createParser(JsonObject)");
+    addCalls("public JsonParser createParser(JsonObject)");
     return null;
   }
 }
