@@ -108,7 +108,7 @@
        <id>EFTL</id>
          <properties>
             <license>EFTL</license>
-            <bundle-name>jakarta-jsonp-tck</bundle-name>
+            <bundle-name>jsonp-tck</bundle-name>
          </properties>
       </profile>
       <profile>

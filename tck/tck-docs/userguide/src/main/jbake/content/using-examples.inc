@@ -22,7 +22,7 @@ following commands:
 
 [source,subs="attributes"]
 ----
-mvn verify -Dit.test=jakarta.jsonp.tck.signaturetest.** 
+mvn verify -Dit.test=jsonp.tck.signaturetest.** 
 ----
 
 [[GCMBV]]

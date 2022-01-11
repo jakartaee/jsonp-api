@@ -138,7 +138,7 @@
                                 <include>**/JsonProviderTest.java</include>
                             </includes>
                             <systemPropertyVariables>
-                                <jakarta.json.provider>jakarta.jsonp.tck.api.provider.JsonProviderTest.DummyJsonProvider</jakarta.json.provider>
+                                <jakarta.json.provider>jsonp.tck.api.provider.JsonProviderTest.DummyJsonProvider</jakarta.json.provider>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
