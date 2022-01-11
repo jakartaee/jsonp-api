@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -337,6 +337,8 @@ public class ClientTests {
 
   /*
    * @testName: jsonNumber21Test
+   *
+   * @assertion_ids: JSONP:JAVADOC:682;
    *
    * @test_Strategy: Tests Json.createValue(Number) API method added in JSON-P 2.1.
    */
