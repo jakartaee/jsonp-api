@@ -110,9 +110,7 @@ compatibility testing against the Vendor and Compatible Implementations.
 1.  Verify that you have followed the configuration instructions in
 link:config.html#GBFVU[Section 4.1, "Configuring Your Environment to Run
 the TCK Against the Compatible Implementation."]
-2.  If required, verify that you have completed the steps in
-link:config.html#GCLIW[Section 4.3.2, "Deploying the Prebuilt Archives."]
-3.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
+2.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
 the tests,"] and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
 of the Tests."]
 
@@ -127,10 +125,7 @@ Vendors must pass.
 1.  Verify that you have followed the configuration instructions in
 link:config.html#GCLHU[Section 4.2, "Configuring Your Environment to
 Repackage and Run the TCK Against the Vendor Implementation."]
-2.  If required, verify that you have completed the steps in
-link:config.html#GCLIL[Section 4.3.3, "Deploying the
-Test Applications Against the Vendor Implementation."]
-3.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
+2.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
 JavaTest,"] and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
 of the Tests."]
 
