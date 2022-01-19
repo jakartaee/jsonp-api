@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import jakarta.jsonp.tck.common.*;
+import jakarta.jsonp.tck.common.JSONP_Util;
 import jakarta.jsonp.tck.provider.MyJsonProvider;
 import jakarta.jsonp.tck.provider.MyJsonGenerator;
 import org.jboss.arquillian.container.test.api.Deployment;

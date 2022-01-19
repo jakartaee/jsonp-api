@@ -84,7 +84,7 @@ slashes as a path separator instead.
 
 
 1.  Set the following environment variables in your shell environment:
-  a.  `JAVA_HOME` to the directory in which Java SE 8 or 11 is installed
+  a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
   c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
   {TechnologyVersion} CI has been installed
@@ -95,12 +95,12 @@ slashes as a path separator instead.
   pluggability tests to test the SPI provider interface.
   This property should only be set when running the pluggability tests. All other tests use the
   provider supplied with the {TechnologyShortName} {TechnologyVersion} implementation under test.
-  b. `jimage.dir` property is set to extract the JDK9+ modules for running the signature tests.
+  b. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
 
 3. Set the below jars to the classpath 
   a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
-  `jakarta.json-2.1.0.jar`.
-  c. JUnit 5 jars (5.7.2+)
+  `jakarta.json-api.jar`.
+  c. JUnit 5 jars ({JunitVersion})
   Maven cordinates :
 +
 [source,oac_no_warn]
@@ -158,7 +158,7 @@ slashes as a path separator instead.
 
 
 1.  Set the following environment variables in your shell environment:
-  a.  `JAVA_HOME` to the directory in which Java SE 8 or 11 is installed
+  a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
   c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
   {TechnologyVersion} CI has been installed
@@ -173,7 +173,7 @@ slashes as a path separator instead.
 
 3. Set the below jars to the classpath 
   a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
-    `jakarta.json-2.1.0.jar`.
+    `jakarta.json-api.jar`.
   c. JUnit 5 jars (5.7.2+)
   Maven cordinates :
 +

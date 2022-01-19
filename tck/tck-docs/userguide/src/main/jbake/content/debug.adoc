@@ -54,12 +54,6 @@ link:#GBFYF[Configuration Failures] to see if a
 configuration issue is the cause of the failures.
 
 
-If a large number of tests failed, you should read
-link:#GBFYF[Configuration Failures] to see if a
-configuration issue is the cause of the failures.
-
-
-
 [[GBFYF]][[configuration-failures]]
 
 6.2 Configuration Failures
