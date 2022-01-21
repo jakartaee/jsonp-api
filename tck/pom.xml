@@ -60,7 +60,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
-        <arquillian.junit5.version>1.7.0.Alpha5</arquillian.junit5.version>
+
+        <jakarta.json-api.version>2.1.0</jakarta.json-api.version>
     </properties>
 
     <dependencyManagement>
@@ -79,12 +80,7 @@
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
-                <version>2.1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.inject</groupId>
-                <artifactId>jakarta.inject-api</artifactId>
-                <version>1.0</version>
+                <version>${jakarta.json-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -96,11 +92,6 @@
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.jupiter.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.junit5</groupId>
-                <artifactId>arquillian-junit5-container</artifactId>
-                <version>${arquillian.junit5.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -111,21 +102,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.inject</groupId>
-            <artifactId>jakarta.inject-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit5</groupId>
-            <artifactId>arquillian-junit5-container</artifactId>
         </dependency>
     </dependencies>
 

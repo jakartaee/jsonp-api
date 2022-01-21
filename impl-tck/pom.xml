@@ -39,31 +39,27 @@
     </properties>
 
     <dependencies>
-        <!-- FIX ME: this API hides the one included in the jakarta.json artifact -->
+        <!-- this API hides the one used by the implementation -->
 <!--        <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
             <version>${jsonp-api.version}</version>
             <scope>test</scope>
         </dependency>-->
+        <!-- this is implementation only -->
         <dependency>
             <groupId>org.eclipse.parsson</groupId>
             <artifactId>parsson</artifactId>
             <version>${jsonp-impl.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-weld-embedded</artifactId>
-            <version>2.1.0.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se</artifactId>
-            <version>2.4.8.Final</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- this is API+Impl bundle -->
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.parsson</groupId>-->
+<!--            <artifactId>jakarta.json</artifactId>-->
+<!--            <version>${jsonp-impl.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
