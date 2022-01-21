@@ -50,35 +50,37 @@ th {  background-color: #eeeeee; padding-left: 2pt; padding-right: 2pt;}
       <li>
         <p><strong>Jakarta EE JSON Processing TCK tests signature, API, and
             pluggability tests:</strong></p>
-      </li>
-      <ul type="square">
-        <li>
-          <p>A <strong>signature test</strong> that checks that all of the
+        <ul type="square">
+          <li>
+            <p>A <strong>signature test</strong> that checks that all of the
             public APIs are supported in the Jakarta EE JSON Processing Version
             2.1 implementation that is being tested</p>
-        </li>
-        <li>
-          <p><strong>API tests</strong> for all of the public APIs under the <code>jakarta.json</code>,
+          </li>
+          <li>
+            <p><strong>API tests</strong> for all of the public APIs under the <code>jakarta.json</code>,
             <code>jakarta.json.spi</code>, <code>jakarta.json.stream</code>
             package</p>
-        </li>
-        <li>
+          </li>
+          <li>
           <p><strong>Pluggability tests</strong> for testing the SPI provider
             interface for supplying your own JsonProvider</p>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </li>
     </ul>
     <hr>
     <h2>Jakarta EE JSON Processing TCK Facts</h2>
     <blockquote>
       <p>The test suite bundle contains the following:</p>
       <ul>
-        <li>187 total tests</li>
+        <li>1 signature test</li>
+        <li>178 API tests</li>
+        <li>18 pluggability tests</li>
       </ul>
     </blockquote>
     <hr>
     <h2><a name="platform">Platform Notes</a></h2>
-    <p>The Jakarta EE JSON Processing TCK tests have been built with JDK 11 
+    <p>The Jakarta EE JSON Processing TCK tests have been built with JDK 11
       and tested with Java<font size="-2"><sup>TM</sup></font> Platform,
       Standard Edition 11+</p>
     <p>The Jakarta EE JSON Processing TCK tests have been run on the following

@@ -19,35 +19,40 @@
  */
 package jakarta.jsonp.tck.pluggability.jsonprovidertests;
 
-import jakarta.json.*;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonException;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonWriter;
+import jakarta.json.JsonWriterFactory;
 import jakarta.json.spi.JsonProvider;
-import jakarta.json.stream.*;
-
-import java.io.*;
-
-import java.util.ServiceLoader;
-
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Logger;
-
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParserFactory;
 import jakarta.jsonp.tck.common.JSONP_Util;
-import jakarta.jsonp.tck.provider.MyJsonProvider;
 import jakarta.jsonp.tck.provider.MyJsonGenerator;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit5.ArquillianExtension;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import jakarta.jsonp.tck.provider.MyJsonProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@ExtendWith(ArquillianExtension.class)
 public class ClientTests {
 
   private static final String MY_JSONPROVIDER_CLASS = "jakarta.jsonp.tck.provider.MyJsonProvider";
@@ -55,12 +60,6 @@ public class ClientTests {
 
   private String providerPath = null;
 
-  @Deployment
-  public static WebArchive createTestArchive() {
-    return ShrinkWrap.create(WebArchive.class)
-        .addPackages(true, ClientTests.class.getPackage().getName());
-  }
-  
   @AfterEach
   public void after() {
       MyJsonProvider.clearCalls();
