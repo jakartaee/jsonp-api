@@ -20,7 +20,7 @@ framework to execute the tests.
 
 This chapter includes the following topics:
 
-* link:#GBFUZ[Starting the tests]
+* link:#GBFUZ[Running All Tests]
 * link:#GBFWM[Running a Subset of the Tests]
 * link:#GCLRR[Running the TCK Against your selected CI]
 * link:#GCLRZ[Running the TCK Against a Vendor's Implementation]
@@ -52,7 +52,7 @@ endif::rebuild[]
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The {TechnologyShortName} TCK can be run from the command line 
-in your shell environment by executing the TCK jar.
+in your shell environment by executing tests from the TCK jar.
 
 
 [NOTE]
@@ -67,10 +67,16 @@ build tool, which will need to be downloaded separately.
 
 [[GBFVW]][[to-start-javatest-in-command-line-mode]]
 
-5.1.1 To Start JavaTest in Command-Line Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5.1.1 To Run All Tests
+^^^^^^^^^^^^^^^^^^^^^^
 
-include::using-examples.inc[]
+To run all tests, enter the following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify
+----
 
 [[GBFWM]][[running-a-subset-of-the-tests]]
 
@@ -79,22 +85,50 @@ include::using-examples.inc[]
 
 Use the following modes to run a subset of the tests:
 
-* link:#GBFWK[Section 5.2.1, "To Run a Subset of Tests in Command-Line Mode"]
+* link:#GBFWK[Section 5.2.1, "To Run a Single Test"]
+* link:#GCMCA[Section 5.2.2, "To Run a Subset of Tests"]
+* link:#GCMCU[Section 5.2.3, "To Run Signature Tests"]
 
 
-[[GBFWK]][[to-run-a-subset-of-tests-in-command-line-mode]]
+[[GBFWK]][[to-run-a-single-test]]
 
-5.2.1 To Run a Subset of Tests in Command-Line Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5.2.1 To Run a Single Test
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Start the test run by executing the following command: +
+To run a single test, enter the following command:
 
 [source,subs="attributes"]
 ----
-mvn verify -Dit.test={subsetTestDirectoryExample}.**
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={singleTestExample}
 ----
 
-The tests in the directory and its subdirectories are run.
+[[GCMCA]][[to-run-a-subset-of-tests]]
+
+5.2.2 To Run a Subset of Tests
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To run a subset of tests, enter the following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={subsetTestDirectoryExample}
+----
+
+[[GCMCU]][[to-run-signature-tests]]
+
+5.2.3 To Run Signature Tests
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To run the {TechnologyShortName} TCK Signature Tests, enter the
+following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={sigTestExample}
+----
 
 
 [[GCLRR]][[running-the-tck-against-the-ri]]
@@ -111,8 +145,15 @@ compatibility testing against the Vendor and Compatible Implementations.
 link:config.html#GBFVU[Section 4.1, "Configuring Your Environment to Run
 the TCK Against the Compatible Implementation."]
 2.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
-the tests,"] and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
+the Tests"], and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
 of the Tests."]
+
+.Example:
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Djsonp-impl.groupId=org.eclipse.parsson -Djsonp-impl.artifactId=parsson -Djsonp-impl.version=1.1.0
+----
 
 [[GCLRZ]][[running-the-tck-against-a-vendors-implementation]]
 
@@ -124,10 +165,17 @@ Vendors must pass.
 
 1.  Verify that you have followed the configuration instructions in
 link:config.html#GCLHU[Section 4.2, "Configuring Your Environment to
-Repackage and Run the TCK Against the Vendor Implementation."]
+Run the TCK Against the Vendor Implementation."]
 2.  Run the tests, as described in link:#GBFUZ[Section 5.1, "Starting
-JavaTest,"] and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
+the Tests"], and, if desired, link:#GBFWM[Section 5.2, "Running a Subset
 of the Tests."]
+
+.Example:
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Djsonp-api.groupId=jakarta.json -Djsonp-api.artifactId=jakarta.json-api -Djsonp-api.version=2.1.0
+----
 
 [[GBFVK]][[test-reports]]
 

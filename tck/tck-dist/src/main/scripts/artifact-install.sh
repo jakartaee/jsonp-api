@@ -26,7 +26,7 @@ fi
 # Parent pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
 -Dfile=jakarta.json-tck-"$VERSION".pom -DgroupId=jakarta.json \
--DartifactId=jakarta.json-tck-project -Dversion="$VERSION" -Dpackaging=pom
+-DartifactId=jakarta.json-tck -Dversion="$VERSION" -Dpackaging=pom
 
 # pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file \
