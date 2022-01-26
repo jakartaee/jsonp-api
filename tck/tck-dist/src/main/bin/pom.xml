@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2022 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>jakarta.json</groupId>
+    <artifactId>jakarta.json-tck-impl</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- Vendor Implementation (VI) -->
+        <jsonp-api.groupId>jakarta.json</jsonp-api.groupId>
+        <jsonp-api.artifactId>jakarta.json-api</jsonp-api.artifactId>
+        <jsonp-api.version>2.1.0</jsonp-api.version>
+
+        <!-- Compatible Implementation (CI) -->
+        <jsonp-impl.groupId>org.eclipse.parsson</jsonp-impl.groupId>
+        <jsonp-impl.artifactId>parsson</jsonp-impl.artifactId>
+        <jsonp-impl.version>1.1.0</jsonp-impl.version>
+
+        <!-- TCK -->
+        <jakarta.json-tck.version>2.1.0-SNAPSHOT</jakarta.json-tck.version>
+
+        <!-- properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jimage.dir>${project.build.directory}/jdk-bundle</jimage.dir>
+
+        <!-- !!! DO NOT EDIT !!! -->
+        <jakarta.json-api.version>2.1.0</jakarta.json-api.version>
+        <impl.alltests>true</impl.alltests>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-tck</artifactId>
+                <version>${jakarta.json-tck.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>tck-tests</module>
+        <module>tck-tests-pluggability</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>${jsonp-api.groupId}</groupId>
+            <artifactId>${jsonp-api.artifactId}</artifactId>
+            <version>${jsonp-api.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${jsonp-impl.groupId}</groupId>
+            <artifactId>${jsonp-impl.artifactId}</artifactId>
+            <version>${jsonp-impl.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>verify</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>jakarta.json</groupId>
+                                <artifactId>jakarta.json-api</artifactId>
+                                <version>${jakarta.json-api.version}</version>
+                                <type>jar</type>
+                                <overWrite>true</overWrite>
+                                <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>
+                                <destFileName>jakarta.json-api.jar</destFileName>
+                            </artifactItem>
+                        </artifactItems>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                    <configuration>
+                        <trimStackTrace>false</trimStackTrace>
+                        <failIfNoTests>${impl.alltests}</failIfNoTests>
+                        <forkCount>1</forkCount>
+                        <reuseForks>false</reuseForks>
+                        <systemPropertyVariables>
+                            <jimage.dir>${jimage.dir}</jimage.dir>
+                            <signature.sigTestClasspath>
+                                ${project.build.directory}/signaturedirectory/jakarta.json-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming
+                            </signature.sigTestClasspath>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>single-test</id>
+            <activation>
+                <property>
+                    <name>test</name>
+                </property>
+            </activation>
+            <properties>
+                <impl.alltests>false</impl.alltests>
+            </properties>
+        </profile>
+    </profiles>
+</project>

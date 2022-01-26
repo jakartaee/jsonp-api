@@ -61,8 +61,7 @@ as toc.adoc.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After configuring your environment as described in this section,
-continue with the instructions in link:#GBFUY[Section 4.6, "Using the
-JavaTest Harness Software."]
+continue with the instructions in link:#GBFWO[Chapter 5, "Executing Tests."]
 
 
 [NOTE]
@@ -86,52 +85,83 @@ slashes as a path separator instead.
 1.  Set the following environment variables in your shell environment:
   a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
-  c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
-  {TechnologyVersion} CI has been installed
+  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} TCK has been installed
   d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
   and `M2_HOME/bin`
 2.  Set the following System properties:
-  a. `jakarta.json.provider` property is set to run the {TechnologyShortName} TCK
-  pluggability tests to test the SPI provider interface.
-  This property should only be set when running the pluggability tests. All other tests use the
-  provider supplied with the {TechnologyShortName} {TechnologyVersion} implementation under test.
-  b. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
+  a. `jsonp-impl.groupId` property is set to the Maven Group Id of the CI to test.
+  b. `jsonp-impl.artifactId` property is set to the Maven Artifact Id of the CI to test.
+  c. `jsonp-impl.version` property is set to the Maven Version of the CI to test.
+  d. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
 
 3. Set the below jars to the classpath 
   a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
   `jakarta.json-api.jar`.
-  c. JUnit 5 jars ({JunitVersion})
-  Maven cordinates :
+  b. JUnit 5 jars ({JunitVersion})
+  c. sigtest-maven-plugin (1.4) to run the signature tests.
+  d. {TechnologyShortName} TCK tests (`jakarta.json:jakarta.json-tck-tests`)
+or {TechnologyShortName} TCK pluggability tests (`jakarta.json:jakarta.json-tck-tests-pluggability`)
+depending on which test suite to run.
+
 +
-[source,oac_no_warn]
+.Example: Maven configuration
+[source,oac_no_warn,xml]
 ----
-       <dependency>
-          <groupId>org.junit</groupId>
-          <artifactId>junit-bom</artifactId>
-          <version>5.7.2</version>
-          <type>pom</type>
-          <scope>import</scope>
-       </dependency>
-----
-+
- d. sigtest-maven-plugin (1.4) to run the signature tests.
-  Maven cordinates :
-+
-[source,oac_no_warn]
-----
-      <dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-tck</artifactId>
+                <version>2.1.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ....
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>1.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.tools</groupId>
             <artifactId>sigtest-maven-plugin</artifactId>
-            <version>1.4</version>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-tck-tests</artifactId> <!-- or jakarta.json-tck-tests-pluggability -->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 ----
 +
 
 
 [[GCLHU]][[configuring-your-environment-to-repackage-and-run-the-tck-against-the-vendor-implementation]]
 
-4.2 Configuring Your Environment to Repackage and Run the TCK Against the Vendor Implementation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4.2 Configuring Your Environment to Run the TCK Against the Vendor Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After configuring your environment as described in this section,
 continue with the instructions in link:#GBFWO[Chapter 5, "Executing Tests."]
@@ -160,32 +190,69 @@ slashes as a path separator instead.
 1.  Set the following environment variables in your shell environment:
   a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
-  c.  +{TechnologyHomeEnv}+ to the directory in which the {TechnologyShortName}
-  {TechnologyVersion} CI has been installed
+  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} TCK has been installed
   d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
   and `M2_HOME/bin`
 2.  Set the following System properties:
-  a. `jakarta.json.provider` property is set to run the {TechnologyShortName} TCK
-  pluggability tests to test the SPI provider interface.
-  This property should only be set when running the pluggability tests. All other tests use the
-  provider supplied with the {TechnologyShortName} {TechnologyVersion} implementation under test.
-  b. jimage.dir property is set to extract the JDK9+ modules for running the signature tests.
+  a. `jsonp-api.groupId` property is set to the Maven Group Id of the VI to test.
+  b. `jsonp-api.artifactId` property is set to the Maven Artifact Id of the VI to test.
+  c. `jsonp-api.version` property is set to the Maven Version of the VI to test.
+  d. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
 
 3. Set the below jars to the classpath 
-  a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
-    `jakarta.json-api.jar`.
-  c. JUnit 5 jars (5.7.2+)
-  Maven cordinates :
+  a. JAR file for the {TechnologyShortName} {TechnologyVersion} CI. +
+    `parsson.jar`.
+  b. JUnit 5 jars ({JunitVersion})
+  c. sigtest-maven-plugin (1.4) to run the signature tests.
+  d. {TechnologyShortName} TCK tests (`jakarta.json:jakarta.json-tck-tests`)
+or {TechnologyShortName} TCK pluggability tests (`jakarta.json:jakarta.json-tck-tests-pluggability`)
+depending on which test suite to run.
+
 +
-[source,oac_no_warn]
+.Example: Maven configuration
+[source,oac_no_warn,xml]
 ----
-       <dependency>
-          <groupId>org.junit</groupId>
-          <artifactId>junit-bom</artifactId>
-          <version>5.7.2</version>
-          <type>pom</type>
-          <scope>import</scope>
-       </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-tck</artifactId>
+                <version>2.1.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ....
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>1.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.tools</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-tck-tests</artifactId> <!-- or jakarta.json-tck-tests-pluggability -->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 ----
 +
 

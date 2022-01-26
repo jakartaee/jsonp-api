@@ -41,11 +41,18 @@
                 <include>**/*.sh</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>**/*.xml</include>
+            </includes>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>jakarta.json:jakarta.json-tck-project</include>
+                <include>jakarta.json:jakarta.json-tck</include>
                 <include>jakarta.json:jakarta.json-tck-common</include>
                 <include>jakarta.json:jakarta.json-tck-tests</include>
                 <include>jakarta.json:jakarta.json-tck-tests-pluggability</include>

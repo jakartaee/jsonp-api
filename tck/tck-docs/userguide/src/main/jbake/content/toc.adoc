@@ -63,7 +63,7 @@ link:config.html#GBFVV[4 Setup and Configuration]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ** link:config.html#GBFVU[4.1 Configuring Your Environment to Run the TCK Against the Compatible Implementation]
-** link:config.html#GCLHU[4.2 Configuring Your Environment to Repackage and Run the TCK Against the Vendor Implementation]
+** link:config.html#GCLHU[4.2 Configuring Your Environment to Run the TCK Against the Vendor Implementation]
 ** link:config.html#GHGDG[4.3 Publishing the Test Applications]
 
 [[executing-tests]]
@@ -71,9 +71,11 @@ link:using.html#GBFWO[5 Executing Tests]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ** link:using.html#GBFUZ[5.1 Starting the tests]
-*** link:using.html#GBFVW[5.1.1 To Start JavaTest in Command-Line Mode]
+*** link:using.html#GBFVW[5.1.1 To Run All Tests]
 ** link:using.html#GBFWM[5.2 Running a Subset of the Tests]
-*** link:using.html#GBFWK[5.2.1 To Run a Subset of Tests in Command-Line Mode]
+*** link:using.html#GBFWK[5.2.1 To Run a Single Test]
+*** link:using.html#GCMCA[5.2.2 To Run a Subset of Tests]
+*** link:using.html#GCMCU[5.2.3 To Run Signature Tests]
 ** link:using.html#GCLRR[5.3 Running the TCK Against another CI]
 ** link:using.html#GCLRZ[5.4 Running the TCK Against a Vendor's Implementation]
 ** link:using.html#GBFVK[5.5 Test Reports]
@@ -84,7 +86,11 @@ link:debug.html#GBFUV[6 Debugging Test Problems]
 
 ** link:debug.html#GBFYP[6.1 Overview]
 ** link:debug.html#GBFYF[6.2 Configuration Failures]
-* link:faq.html#GBFYD[A Frequently Asked Questions]
+
+[[a-frequently-asked-questions]]
+link:faq.html#GBFYD[A Frequently Asked Questions]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ** link:faq.html#GBFYQ[A.1 Where do I start to debug a test failure?]
 ** link:faq.html#GBFYR[A.2 How do I restart a crashed test run?]
 ** link:faq.html#GBFWU[A.3 What would cause tests be added to the exclude list?]

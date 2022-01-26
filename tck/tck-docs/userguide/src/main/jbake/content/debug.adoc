@@ -17,16 +17,10 @@ Debugging Test Problems
 
 There are a number of reasons that tests can fail to execute properly.
 This chapter provides some approaches for dealing with these failures.
-Please note that most of these suggestions are only relevant when
-running the test harness in GUI mode.
 
 This chapter includes the following topics:
 
 * link:#GBFYP[Overview]
-* link:#GBFVF[Test Tree]
-* link:#GBFWI[Folder Information]
-* link:#GBFVP[Test Information]
-* link:#GBFVZ[Report Files]
 * link:#GBFYF[Configuration Failures]
 
 [[GBFYP]][[overview]]
