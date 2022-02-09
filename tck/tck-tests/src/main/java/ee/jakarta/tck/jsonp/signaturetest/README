@@ -1,5 +1,5 @@
 The latest signature files are updated in the jsonp-api repoitory 
-(tck/tck-tests/src/main/java/jakarta/jsonp/tck/signaturetest) 
+(tck/tck-tests/src/main/java/ee/jakarta/tck/jsonp/signaturetest) 
 generated using sigtest-maven-plugin.jar(version 1.4).
 
 The signature tests are run using the sigtest-maven-plugin.jar and the framework avaliable in this folder.
