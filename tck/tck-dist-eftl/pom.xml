@@ -28,9 +28,23 @@
     </parent>
 
     <groupId>jakarta.json</groupId>
-    <artifactId>jakarta.json-tck-dist</artifactId>
+    <artifactId>jakarta.json-tck-dist-eftl</artifactId>
     <packaging>pom</packaging>
-    <name>JSONP TCK Distribution</name>
+    <name>JSONP TCK EFTL Distribution</name>
+
+    <licenses>
+        <license>
+            <name>Eclipse Foundation Technology Compatibility Kit License - v 1.0</name>
+            <distribution>manual</distribution>
+            <url>https://www.eclipse.org/legal/tck.php</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.install.skip>true</maven.install.skip>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -104,26 +118,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>EFTL</id>
-            <properties>
-                <license>EFTL</license>
-                <bundle-name>jakarta-jsonp-tck</bundle-name>
-            </properties>
-        </profile>
-        <profile>
-            <id>EPL</id>
-            <properties>
-                <license>EPL</license>
-                <bundle-name>jsonp-tck</bundle-name>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
@@ -140,7 +134,7 @@
                                 <descriptor>src/main/assembly/assembly.xml</descriptor>
                             </descriptors>
                             <appendAssemblyId>false</appendAssemblyId>
-                            <finalName>${bundle-name}-${project.version}</finalName>
+                            <finalName>jakarta-jsonp-tck-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>

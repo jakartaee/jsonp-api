@@ -17,7 +17,7 @@
 
 -->
 
-<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<assembly xmlns="https://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
     <id>distribution</id>
     <baseDirectory>jsonp-tck</baseDirectory>
@@ -25,18 +25,19 @@
         <format>zip</format>
     </formats>
 
-    <files>
-        <!-- license -->
-        <file>
-            <source>${project.basedir}/src/main/resources/LICENSE_${license}.md</source>
-            <destName>LICENSE.md</destName>
-        </file>
-    </files>
     <fileSets>
+        <fileSet>
+            <!-- license -->
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
         <fileSet>
             <directory>${project.build.scriptSourceDirectory}</directory>
             <outputDirectory>artifacts</outputDirectory>
-            <fileMode>755</fileMode>
+            <fileMode>0755</fileMode>
             <includes>
                 <include>**/*.sh</include>
             </includes>
@@ -57,7 +58,7 @@
                 <include>jakarta.json:jakarta.json-tck-tests</include>
                 <include>jakarta.json:jakarta.json-tck-tests-pluggability</include>
             </includes>
-            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory>artifacts</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>

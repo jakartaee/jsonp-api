@@ -38,7 +38,8 @@
         <module>tck-tests</module>
         <module>tck-tests-pluggability</module>
         <module>tck-docs/userguide</module>
-        <module>tck-dist</module>
+        <module>tck-dist-eftl</module>
+        <module>tck-dist-epl</module>
     </modules>
 
     <licenses>
@@ -128,6 +129,11 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
