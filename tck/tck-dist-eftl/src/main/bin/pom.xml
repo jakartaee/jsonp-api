@@ -82,12 +82,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>\${jsonp-impl.groupId}</groupId>
-            <artifactId>\${jsonp-impl.artifactId}</artifactId>
-            <version>\${jsonp-impl.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>

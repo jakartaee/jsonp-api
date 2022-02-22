@@ -33,6 +33,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>\${jsonp-impl.groupId}</groupId>
+            <artifactId>\${jsonp-impl.artifactId}</artifactId>
+            <version>\${jsonp-impl.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-tck-tests</artifactId>
             <scope>test</scope>

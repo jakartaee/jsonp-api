@@ -55,7 +55,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClientTests {
 
-  private static final String MY_JSONPROVIDER_CLASS = "MyJsonProvider";
+  private static final String MY_JSONPROVIDER_CLASS = "ee.jakarta.tck.jsonp.provider.MyJsonProvider";
   private static final Logger LOGGER = Logger.getLogger(ClientTests.class.getName());
 
   private String providerPath = null;
