@@ -43,7 +43,7 @@
 
         <!-- properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jimage.dir>${project.build.directory}/jdk-bundle</jimage.dir>
+        <jimage.dir>\${project.build.directory}/jdk-bundle</jimage.dir>
 
         <!-- !!! DO NOT EDIT !!! -->
         <jakarta.json-api.version>2.1.0</jakarta.json-api.version>
@@ -55,7 +55,7 @@
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-tck</artifactId>
-                <version>${jakarta.json-tck.version}</version>
+                <version>\${jakarta.json-tck.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -69,15 +69,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>${jsonp-api.groupId}</groupId>
-            <artifactId>${jsonp-api.artifactId}</artifactId>
-            <version>${jsonp-api.version}</version>
+            <groupId>\${jsonp-api.groupId}</groupId>
+            <artifactId>\${jsonp-api.artifactId}</artifactId>
+            <version>\${jsonp-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${jsonp-impl.groupId}</groupId>
-            <artifactId>${jsonp-impl.artifactId}</artifactId>
-            <version>${jsonp-impl.version}</version>
+            <groupId>\${jsonp-impl.groupId}</groupId>
+            <artifactId>\${jsonp-impl.artifactId}</artifactId>
+            <version>\${jsonp-impl.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -105,10 +105,10 @@
                             <artifactItem>
                                 <groupId>jakarta.json</groupId>
                                 <artifactId>jakarta.json-api</artifactId>
-                                <version>${jakarta.json-api.version}</version>
+                                <version>\${jakarta.json-api.version}</version>
                                 <type>jar</type>
                                 <overWrite>true</overWrite>
-                                <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>
+                                <outputDirectory>\${project.build.directory}/signaturedirectory</outputDirectory>
                                 <destFileName>jakarta.json-api.jar</destFileName>
                             </artifactItem>
                         </artifactItems>
@@ -120,13 +120,13 @@
                     <version>3.0.0-M5</version>
                     <configuration>
                         <trimStackTrace>false</trimStackTrace>
-                        <failIfNoTests>${impl.alltests}</failIfNoTests>
+                        <failIfNoTests>\${impl.alltests}</failIfNoTests>
                         <forkCount>1</forkCount>
                         <reuseForks>false</reuseForks>
                         <systemPropertyVariables>
-                            <jimage.dir>${jimage.dir}</jimage.dir>
+                            <jimage.dir>\${jimage.dir}</jimage.dir>
                             <signature.sigTestClasspath>
-                                ${project.build.directory}/signaturedirectory/jakarta.json-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming
+                                \${project.build.directory}/signaturedirectory/jakarta.json-api.jar:\${jimage.dir}/java.base:\${jimage.dir}/java.rmi:\${jimage.dir}/java.sql:\${jimage.dir}/java.naming
                             </signature.sigTestClasspath>
                         </systemPropertyVariables>
                     </configuration>

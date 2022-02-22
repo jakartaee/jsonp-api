@@ -133,6 +133,7 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/assembly.xml</descriptor>
                             </descriptors>
+                            <escapeString>\</escapeString>
                             <appendAssemblyId>false</appendAssemblyId>
                             <finalName>jakarta-jsonp-tck-${project.version}</finalName>
                         </configuration>

@@ -67,7 +67,6 @@
                         <dependency>jakarta.json:jakarta.json-tck-tests</dependency>
                     </dependenciesToScan>
                 </configuration>
-
             </plugin>
         </plugins>
     </build>
