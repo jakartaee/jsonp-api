@@ -22,6 +22,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.7</version>
+        <relativePath/>
+    </parent>
+
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-tck-impl</artifactId>
     <version>${project.version}</version>
