@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -65,14 +65,14 @@ public abstract class JsonProvider {
     /**
      * The name of the property that contains the name of the class capable of creating new JsonProvider objects.
      */
-    private static final String JSONP_PROVIDER_FACTORY = "jakarta.json.provider";
+    public static final String JSONP_PROVIDER_FACTORY = "jakarta.json.provider";
 
     /**
      * A constant representing the name of the default
      * {@code JsonProvider} implementation class.
      */
     private static final String DEFAULT_PROVIDER
-            = "org.eclipse.jsonp.JsonProviderImpl";
+            = "org.eclipse.parsson.JsonProviderImpl";
 
     /**
      * Default constructor.
