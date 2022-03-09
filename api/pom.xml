@@ -334,7 +334,6 @@
                         <DynamicImport-Package>*</DynamicImport-Package>
                         <Import-Package>
                             !org.glassfish.hk2.osgiresourcelocator,
-                            !org.eclipse.jsonp,
 			    !org.eclipse.parsson,
                             *
                         </Import-Package>
