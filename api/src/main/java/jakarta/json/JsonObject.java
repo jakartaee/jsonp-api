@@ -208,6 +208,29 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
     int getInt(String name, int defaultValue);
 
     /**
+     * Returns the long value of the associated {@code JsonNumber} mapping
+     * for the specified name. If {@code JsonNumber} is found, then its
+     * {@link jakarta.json.JsonNumber#longValue()} is returned. Otherwise,
+     * @param name whose associated value is to be returned as long
+     * @return the long value of the associated mapping for the name,
+     * or the default value
+     */
+    long getLong(String name);
+
+    /**
+     * Returns the long value of the associated {@code JsonNumber} mapping
+     * for the specified name. If {@code JsonNumber} is found, then its
+     * {@link jakarta.json.JsonNumber#longValue()} is returned. Otherwise,
+     * the specified default value is returned.
+     *
+     * @param name whose associated value is to be returned as long
+     * @param defaultValue a default value to be returned
+     * @return the long value of the associated mapping for the name,
+     * or the default value
+     */
+    long getLong(String name, long defaultValue);
+
+    /**
      * Returns the boolean value of the associated mapping for the specified
      * name. If the associated mapping is JsonValue.TRUE, then returns true.
      * If the associated mapping is JsonValue.FALSE, then returns false.
@@ -246,4 +269,12 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
      */
     boolean isNull(String name);
 
+    /**
+     * Returns with the specified type is given.
+     * @param name whose associated value is to be returned
+     * @param type the type of the value to be returned
+     * @return true if the specified type is given
+     * @throws NullPointerException if the specified name doesn't have any.
+     */
+    boolean isSpecifiedType(String name, JsonValue type);
 }

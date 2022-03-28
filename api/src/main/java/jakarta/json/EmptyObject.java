@@ -77,6 +77,16 @@ final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonOb
     }
 
     @Override
+    public long getLong(String name) {
+        return getJsonNumber(name).longValue();
+    }
+
+    @Override
+    public long getLong(String name, long defaultValue) {
+        return defaultValue;
+    }
+
+    @Override
     public boolean getBoolean(String name) {
         throw new NullPointerException();
     }
@@ -89,6 +99,15 @@ final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonOb
     @Override
     public boolean isNull(String name) {
         throw new NullPointerException();
+    }
+
+    @Override
+    public boolean isSpecifiedType(String name, JsonValue type) {
+        if(get(name) == null) {
+            return false;
+        } else {
+            return type.getValueType() == get(name).getValueType();
+        }
     }
 
     @Override
