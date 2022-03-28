@@ -102,12 +102,8 @@ final class EmptyObject extends AbstractMap<String, JsonValue> implements JsonOb
     }
 
     @Override
-    public boolean isSpecifiedType(String name, JsonValue type) {
-        if(get(name) == null) {
-            return false;
-        } else {
-            return type.getValueType() == get(name).getValueType();
-        }
+    public boolean isSpecifiedType(String key, JsonValue type) {
+        return type.getValueType() == get(key).getValueType();
     }
 
     @Override

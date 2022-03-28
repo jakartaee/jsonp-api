@@ -271,10 +271,10 @@ public interface JsonObject extends JsonStructure, Map<String, JsonValue> {
 
     /**
      * Returns with the specified type is given.
-     * @param name whose associated value is to be returned
+     * @param key the key of the value to be returned
      * @param type the type of the value to be returned
      * @return true if the specified type is given
      * @throws NullPointerException if the specified name doesn't have any.
      */
-    boolean isSpecifiedType(String name, JsonValue type);
+    boolean isSpecifiedType(String key, JsonValue type);
 }
