@@ -331,7 +331,10 @@
                         <Bundle-Description>Jakarta JSON Processing API ${spec.version}</Bundle-Description>
                         <Specification-Vendor>${vendor.name}</Specification-Vendor>
                         <Implementation-Build-Id>${buildNumber}</Implementation-Build-Id>
-                        <DynamicImport-Package>*</DynamicImport-Package>
+                        <DynamicImport-Package>
+                            !org.eclipse.parsson,
+                            *
+                        </DynamicImport-Package>
                         <Import-Package>
                             !org.glassfish.hk2.osgiresourcelocator,
                             !org.eclipse.parsson,
