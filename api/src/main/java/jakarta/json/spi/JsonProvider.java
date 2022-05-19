@@ -23,6 +23,8 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -638,7 +640,9 @@ public abstract class JsonProvider {
         private static final Class<? extends JsonProvider> JSON_PROVIDER;
 
         static {
-            String className = System.getProperty(JSONP_PROVIDER_FACTORY);
+            final String className = System.getSecurityManager() != null
+                    ? AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(JSONP_PROVIDER_FACTORY))
+                    : System.getProperty(JSONP_PROVIDER_FACTORY);
             if (className != null) {
                 try {
                     JSON_PROVIDER = (Class<? extends JsonProvider>) Class.forName(className);
