@@ -158,10 +158,10 @@ public abstract class JsonProvider {
             return clazz.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new JsonException(
-                    "Provider " + DEFAULT_PROVIDER + " not found", x);
+                    "Provider " + className + " not found", x);
         } catch (Exception x) {
             throw new JsonException(
-                    "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
+                    "Provider " + className + " could not be instantiated: " + x,
                     x);
         }
     }
