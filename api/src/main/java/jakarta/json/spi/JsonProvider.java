@@ -146,9 +146,9 @@ public abstract class JsonProvider {
 
     /**
      * Creates a new instance from the specified class
-     * @param className class to instantiate
+     * @param className name of the class to instantiate
      * @return the JsonProvider instance
-     * @throws IllegalArgumentException for reflection issues
+     * @throws JsonException for issues during creation of an instance of the JsonProvider
      */
     private static JsonProvider newInstance(String className) {
         try {
