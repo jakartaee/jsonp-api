@@ -98,15 +98,47 @@ public abstract class JsonProvider {
      *
      * @see ServiceLoader
      * @return a JSON provider
+     * 
      */
     public static JsonProvider provider() {
+        return provider(null);
+    }
+    
+    /**
+     * Creates a JSON provider object.
+     *
+     * Implementation discovery consists of following steps:
+     * <ol>
+     * <li>If the system property {@value #JSONP_PROVIDER_FACTORY} exists,
+     *    then its value is assumed to be the provider factory class.
+     *    This phase of the look up enables per-JVM override of the JsonProvider implementation.</li>
+     * <li>The provider is loaded using the {@link ServiceLoader#load(Class)} method. When 'providerClassName'
+     *    is not null, it will return the instance having the same class qualified name if exists. This
+     *    is useful when more than one JsonProvider is loaded by the {@link ServiceLoader#load(Class)}.</li>
+     * <li>If all the steps above fail, then the rest of the look up is unspecified. That said,
+     *    the recommended behavior is to simply look for some hard-coded platform default Jakarta
+     *    JSON Processing implementation. This phase of the look up is so that a platform can have
+     *    its own Jakarta JSON Processing implementation as the last resort.</li>
+     * </ol>
+     * Users are recommended to cache the result of this method.
+     *
+     * @see ServiceLoader
+     * @param providerClassName The name of the class to be found from the {@link ServiceLoader#load(Class)}.
+     * @return a JSON provider
+     * 
+     * @since 2.1.1
+     */
+    public static JsonProvider provider(String providerClassName) {
         if (LazyFactoryLoader.JSON_PROVIDER != null) {
             return newInstance(LazyFactoryLoader.JSON_PROVIDER);
         }
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
         Iterator<JsonProvider> it = loader.iterator();
-        if (it.hasNext()) {
-            return it.next();
+        while (it.hasNext()) {
+            JsonProvider provider = it.next();
+            if (providerClassName == null || provider.getClass().getName().equals(providerClassName)) {
+                return provider;
+            }
         }
 
         // handling OSGi (specific default)
