@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -68,9 +69,19 @@ public abstract class JsonProvider {
         if (it.hasNext()) {
             return it.next();
         }
+
+        // handling OSGi (specific default)
+        if (isOsgi()) {
+            JsonProvider result = lookupUsingOSGiServiceLoader(JsonProvider.class);
+            if (result != null) {
+                return result;
+            }
+        }
+
         try {
+            checkPackageAccess(DEFAULT_PROVIDER);
             Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-            return (JsonProvider) clazz.newInstance();
+            return (JsonProvider) clazz.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new JsonException(
                     "Provider " + DEFAULT_PROVIDER + " not found", x);
@@ -476,5 +487,59 @@ public abstract class JsonProvider {
      */
     public JsonNumber createValue(BigInteger value) {
         throw new UnsupportedOperationException();
+    }
+
+    /** OSGI aware service loader by HK2 */
+    private static final String OSGI_SERVICE_LOADER_CLASS_NAME = "org.glassfish.hk2.osgiresourcelocator.ServiceLoader";
+
+    /**
+     * Check availability of HK2 service loader.
+     *
+     * @return true if HK2 service locator is available
+     */
+    private static boolean isOsgi() {
+        checkPackageAccess(OSGI_SERVICE_LOADER_CLASS_NAME);
+        try {
+            Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+            return true;
+        } catch (ClassNotFoundException ignored) {
+        }
+        return false;
+    }
+
+    /**
+     * Lookup the service class by the HK2 service locator.
+     *
+     * @param serviceClass service class
+     * @param <T> type of the service
+     * @return a provider
+     */
+    private static <T> T lookupUsingOSGiServiceLoader(Class<? extends T> serviceClass) {
+        try {
+            // Use reflection to avoid having any dependendcy on HK2 ServiceLoader class
+            Class<?>[] args = new Class<?>[]{serviceClass};
+            Class<?> target = Class.forName(OSGI_SERVICE_LOADER_CLASS_NAME);
+            Method m = target.getMethod("lookupProviderInstances", Class.class);
+            @SuppressWarnings({"unchecked"})
+            Iterator<? extends T> iter = ((Iterable<? extends T>) m.invoke(null, (Object[]) args)).iterator();
+            return iter.hasNext() ? iter.next() : null;
+        } catch (Exception ignored) {
+            // log and continue
+            return null;
+        }
+    }
+
+    /**
+     * Make sure that the current thread has an access to the package of the given name.
+     * @param className The class name to check.
+     */
+    private static void checkPackageAccess(String className) {
+        SecurityManager s = System.getSecurityManager();
+        if (s != null) {
+            int i = className.lastIndexOf('.');
+            if (i != -1) {
+                s.checkPackageAccess(className.substring(0, i));
+            }
+        }
     }
 }
