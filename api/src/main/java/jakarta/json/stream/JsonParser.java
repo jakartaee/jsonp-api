@@ -128,7 +128,7 @@ import jakarta.json.JsonArray;
  * while (parser.hasNext() {
  *     Event event = parser.next();
  *     if (event == JsonParser.Event.KEY_NAME ) {
- *         String key = getString();
+ *         String key = parser.getString();
  *         event = parser.next();
  *         if (key.equals("phoneNumber") {
  *             JsonArray phones = parser.getArray();
