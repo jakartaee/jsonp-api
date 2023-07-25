@@ -254,7 +254,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes a JSON name/number value pair in the current object context.
-     * The specified value is written as a JSON number value. The string
+     * The specified value is written as a JSON string value. The string
      * {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
@@ -272,7 +272,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
 
     /**
      * Writes a JSON name/number value pair in the current object context.
-     * The specified value is written as a JSON number value. The specified
+     * The specified value is written as a JSON string value. The specified
      * value's {@code toString()} is used as the text value for writing.
      *
      * @param name a name in the JSON name/number pair to be written in
@@ -415,7 +415,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator write(String value);
 
     /**
-     * Writes the specified value as a JSON number value within
+     * Writes the specified value as a JSON string value within
      * the current array, field or root context. The specified value's {@code toString()}
      * is used as the the text value for writing.
      *
@@ -431,7 +431,7 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator write(BigDecimal value);
 
     /**
-     * Writes the specified value as a JSON number value within
+     * Writes the specified value as a JSON string value within
      * the current array, field or root context. The string {@code new BigDecimal(value).toString()}
      * is used as the text value for writing.
      *
