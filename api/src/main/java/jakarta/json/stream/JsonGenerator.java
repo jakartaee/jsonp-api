@@ -515,6 +515,16 @@ public interface JsonGenerator extends Flushable, /*Auto*/Closeable {
     JsonGenerator writeNull();
 
     /**
+     * Writes the new line character to the underlying content.
+     * This enables a generator to support {@code x-json-stream} new line delimited content.
+     *
+     * @return this generator
+     * @throws jakarta.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
+     */
+    JsonGenerator writeNewLine();
+
+    /**
      * Closes this generator and frees any resources associated with it.
      * This method closes the underlying output source.
      *
