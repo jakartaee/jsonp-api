@@ -255,7 +255,7 @@ public final class Json {
 
     /**
      * Creates a JSON array builder, initialized with the content of specified {@code collection}.
-     * If the @{code collection} contains {@link Optional}s then resulting JSON array builder
+     * If the {@code collection} contains {@link Optional}s then resulting JSON array builder
      * contains the value from the {@code collection} only if the {@link Optional} is not empty.
      *
      * @param collection the initial data for the builder
