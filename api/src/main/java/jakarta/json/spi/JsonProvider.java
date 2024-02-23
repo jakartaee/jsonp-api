@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -107,6 +107,34 @@ public abstract class JsonProvider {
      * @return a JSON provider
      */
     public static JsonProvider provider() {
+        return provider(null);
+    }
+
+    /**
+     * Creates a JSON provider object.
+     *
+     * Implementation discovery consists of following steps:
+     * <ol>
+     * <li>If the system property {@value #JSONP_PROVIDER_FACTORY} exists,
+     *    then its value is assumed to be the provider factory class.
+     *    This phase of the look up enables per-JVM override of the JsonProvider implementation.</li>
+     * <li>The provider is loaded using the {@link ServiceLoader#load(Class)} method. When 'providerClassName'
+     *    is not null, it will return the instance having the same class qualified name if exists. This
+     *    is useful when more than one JsonProvider is loaded by the {@link ServiceLoader#load(Class)}.</li>
+     * <li>If all the steps above fail, then the rest of the look up is unspecified. That said,
+     *    the recommended behavior is to simply look for some hard-coded platform default Jakarta
+     *    JSON Processing implementation. This phase of the look up is so that a platform can have
+     *    its own Jakarta JSON Processing implementation as the last resort.</li>
+     * </ol>
+     * Users are recommended to cache the result of this method.
+     *
+     * @see ServiceLoader
+     * @param providerClassName The name of the class to be found from the {@link ServiceLoader#load(Class)}.
+     * @return a JSON provider
+     * 
+     * @since 2.2.0
+     */
+    public static JsonProvider provider(String providerClassName) {
         LOG.log(Level.FINE, "Checking system property {0}", JSONP_PROVIDER_FACTORY);
         final String factoryClassName = System.getSecurityManager() != null
                 ? AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(JSONP_PROVIDER_FACTORY))
@@ -121,11 +149,13 @@ public abstract class JsonProvider {
         LOG.log(Level.FINE, "Checking ServiceLoader");
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
         Iterator<JsonProvider> it = loader.iterator();
-        if (it.hasNext()) {
+        while (it.hasNext()) {
             JsonProvider provider = it.next();
-            LOG.log(Level.FINE, "ServiceLoader loading Facility used; returning object [{0}]",
-                    provider.getClass().getName());
-            return provider;
+            if (providerClassName == null || provider.getClass().getName().equals(providerClassName)) {
+                LOG.log(Level.FINE, "ServiceLoader loading Facility used; returning object [{0}]",
+                        provider.getClass().getName());
+                return provider;
+            }
         }
 
         // handling OSGi (specific default)
