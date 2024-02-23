@@ -16,47 +16,36 @@
     SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
         <version>1.0.7</version>
         <relativePath/>
     </parent>
-
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-tck-impl</artifactId>
     <version>${project.version}</version>
     <packaging>pom</packaging>
-
     <properties>
         <!-- Vendor Implementation (VI) -->
         <jsonp-api.groupId>jakarta.json</jsonp-api.groupId>
         <jsonp-api.artifactId>jakarta.json-api</jsonp-api.artifactId>
         <jsonp-api.version>2.1.0</jsonp-api.version>
-
         <!-- Compatible Implementation (CI) -->
         <jsonp-impl.groupId>org.eclipse.parsson</jsonp-impl.groupId>
         <jsonp-impl.artifactId>parsson</jsonp-impl.artifactId>
         <jsonp-impl.version>1.1.0</jsonp-impl.version>
-
         <!-- TCK -->
         <jakarta.json-tck.version>${project.version}</jakarta.json-tck.version>
-
         <!-- properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jimage.dir>\${project.build.directory}/jdk-bundle</jimage.dir>
-
         <!-- !!! DO NOT EDIT !!! -->
         <jakarta.json-api.version>2.1.0</jakarta.json-api.version>
         <impl.alltests>true</impl.alltests>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -68,12 +57,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <modules>
         <module>tck-tests</module>
         <module>tck-tests-pluggability</module>
     </modules>
-
     <dependencies>
         <dependency>
             <groupId>\${jsonp-api.groupId}</groupId>
@@ -92,7 +79,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <defaultGoal>verify</defaultGoal>
         <pluginManagement>
@@ -120,14 +106,14 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M5</version>
                     <configuration>
+                        <useModulePath>false</useModulePath>
                         <trimStackTrace>false</trimStackTrace>
                         <failIfNoTests>\${impl.alltests}</failIfNoTests>
                         <forkCount>1</forkCount>
                         <reuseForks>false</reuseForks>
                         <systemPropertyVariables>
                             <jimage.dir>\${jimage.dir}</jimage.dir>
-                            <signature.sigTestClasspath>
-                                \${project.build.directory}/signaturedirectory/jakarta.json-api.jar:\${jimage.dir}/java.base:\${jimage.dir}/java.rmi:\${jimage.dir}/java.sql:\${jimage.dir}/java.naming
+                            <signature.sigTestClasspath>\${project.build.directory}/signaturedirectory/jakarta.json-api.jar:\${jimage.dir}/java.base:\${jimage.dir}/java.rmi:\${jimage.dir}/java.sql:\${jimage.dir}/java.naming
                             </signature.sigTestClasspath>
                         </systemPropertyVariables>
                     </configuration>
@@ -135,7 +121,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
     <profiles>
         <profile>
             <id>single-test</id>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,11 +23,15 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
@@ -74,6 +78,9 @@ public abstract class JsonProvider {
     private static final String DEFAULT_PROVIDER
             = "org.eclipse.parsson.JsonProviderImpl";
 
+    /** A logger */
+    private static final Logger LOG = Logger.getLogger(JsonProvider.class.getName());
+
     /**
      * Default constructor.
      */
@@ -98,12 +105,11 @@ public abstract class JsonProvider {
      *
      * @see ServiceLoader
      * @return a JSON provider
-     * 
      */
     public static JsonProvider provider() {
         return provider(null);
     }
-    
+
     /**
      * Creates a JSON provider object.
      *
@@ -126,54 +132,67 @@ public abstract class JsonProvider {
      * @param providerClassName The name of the class to be found from the {@link ServiceLoader#load(Class)}.
      * @return a JSON provider
      * 
-     * @since 2.1.1
+     * @since 2.2.0
      */
     public static JsonProvider provider(String providerClassName) {
-        if (LazyFactoryLoader.JSON_PROVIDER != null) {
-            return newInstance(LazyFactoryLoader.JSON_PROVIDER);
+        LOG.log(Level.FINE, "Checking system property {0}", JSONP_PROVIDER_FACTORY);
+        final String factoryClassName = System.getSecurityManager() != null
+                ? AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(JSONP_PROVIDER_FACTORY))
+                : System.getProperty(JSONP_PROVIDER_FACTORY);
+        if (factoryClassName != null) {
+            JsonProvider provider = newInstance(factoryClassName);
+            LOG.log(Level.FINE, "System property used; returning object [{0}]",
+                    provider.getClass().getName());
+            return provider;
         }
+
+        LOG.log(Level.FINE, "Checking ServiceLoader");
         ServiceLoader<JsonProvider> loader = ServiceLoader.load(JsonProvider.class);
         Iterator<JsonProvider> it = loader.iterator();
         while (it.hasNext()) {
             JsonProvider provider = it.next();
             if (providerClassName == null || provider.getClass().getName().equals(providerClassName)) {
+                LOG.log(Level.FINE, "ServiceLoader loading Facility used; returning object [{0}]",
+                        provider.getClass().getName());
                 return provider;
             }
         }
 
         // handling OSGi (specific default)
         if (isOsgi()) {
-            JsonProvider result = lookupUsingOSGiServiceLoader(JsonProvider.class);
-            if (result != null) {
-                return result;
+            LOG.log(Level.FINE, "Checking OSGi");
+            JsonProvider provider = lookupUsingOSGiServiceLoader(JsonProvider.class);
+            if (provider != null) {
+                LOG.log(Level.FINE, "OSGi loading facility used; returning object [{0}].",
+                        provider.getClass().getName());
+                return provider;
             }
         }
 
-        try {
-            Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-            return (JsonProvider) clazz.getConstructor().newInstance();
-        } catch (ClassNotFoundException x) {
-            throw new JsonException(
-                    "Provider " + DEFAULT_PROVIDER + " not found", x);
-        } catch (Exception x) {
-            throw new JsonException(
-                    "Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + x,
-                    x);
-        }
+        // else no provider found
+        LOG.fine("Trying to create the platform default provider");
+        return newInstance(DEFAULT_PROVIDER);
     }
 
     /**
      * Creates a new instance from the specified class
-     * @param clazz class to instance
+     * @param className name of the class to instantiate
      * @return the JsonProvider instance
-     * @throws IllegalArgumentException for reflection issues
+     * @throws JsonException for issues during creation of an instance of the JsonProvider
      */
-    private static JsonProvider newInstance(Class<? extends JsonProvider> clazz) {
-        checkPackageAccess(clazz.getName());
+    private static JsonProvider newInstance(String className) {
         try {
+            checkPackageAccess(className);
+            @SuppressWarnings({"unchecked"})
+            Class<JsonProvider> clazz = (Class<JsonProvider>) Class.forName(className);
             return clazz.getConstructor().newInstance();
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException("Unable to create " + clazz.getName(), e);
+        } catch (ClassNotFoundException x) {
+            throw new JsonException(
+                    "Provider " + className + " not found", x);
+        } catch (Exception x) {
+            throw new JsonException(
+                    "Provider " + className + " could not be instantiated: " + x,
+                    x);
         }
     }
 
@@ -649,37 +668,10 @@ public abstract class JsonProvider {
             @SuppressWarnings({"unchecked"})
             Iterator<? extends T> iter = ((Iterable<? extends T>) m.invoke(null, (Object[]) args)).iterator();
             return iter.hasNext() ? iter.next() : null;
-        } catch (Exception ignored) {
-            // log and continue
+        } catch (Exception ex) {
+            LOG.log(Level.FINE, "Unable to find from OSGi: [" + serviceClass.getName() + "]", ex);
             return null;
         }
     }
 
-    /**
-     * Lazy loads the class specified in System property with the key JSONP_PROVIDER_FACTORY.
-     * If no property is set, the value of {@link #JSON_PROVIDER} will be null.
-     * In case of errors an IllegalStateException is thrown.
-     *
-     */
-    @SuppressWarnings("unchecked")
-    private static class LazyFactoryLoader {
-
-        /**
-         * JSON provider class
-         */
-        private static final Class<? extends JsonProvider> JSON_PROVIDER;
-
-        static {
-            String className = System.getProperty(JSONP_PROVIDER_FACTORY);
-            if (className != null) {
-                try {
-                    JSON_PROVIDER = (Class<? extends JsonProvider>) Class.forName(className);
-                } catch (ReflectiveOperationException e) {
-                    throw new IllegalStateException("Unable to create " + className, e);
-                }
-            } else {
-                JSON_PROVIDER = null;
-            }
-        }
-    }
 }

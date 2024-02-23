@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,14 +23,14 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
         <relativePath/>
     </parent>
 
     <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-api</artifactId>
 
-    <version>2.1.1-SNAPSHOT</version>
+    <version>2.1.4-SNAPSHOT</version>
     <name>Jakarta JSON Processing API</name>
     <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
     <url>https://github.com/eclipse-ee4j/jsonp</url>
@@ -83,7 +83,7 @@
         <spotbugs.exclude>${project.basedir}/../etc/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.3.0</spotbugs.version>
+        <spotbugs.version>4.7.3.5</spotbugs.version>
 
         <non.final>false</non.final>
         <extension.name>jakarta.json</extension.name>
@@ -96,19 +96,14 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.commonjava.maven.plugins</groupId>
-                    <artifactId>directory-maven-plugin</artifactId>
-                    <version>0.3.1</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.4</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
@@ -118,7 +113,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.11.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
@@ -128,7 +123,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.1</version>
+                    <version>5.1.9</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
@@ -138,22 +133,22 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -270,13 +265,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>9</release>
+                    <createMissingPackageInfoClass>false</createMissingPackageInfoClass>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                         <arg>-Xdoclint:all</arg>
-                        <arg>-Werror</arg>
                     </compilerArgs>
                     <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
                 </configuration>
                 <executions>
                     <execution>
@@ -337,6 +331,16 @@
                             !org.eclipse.parsson,
                             *
                         </Import-Package>
+                        <!-- optional to allow usage with hk2 resource locator as a fallback -->
+                        <Require-Capability><![CDATA[
+                          osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)
+                            (version>=1.0.0)(!(version>=2.0.0)))";resolution:=optional,
+                          osgi.serviceloader;
+                            filter:="(osgi.serviceloader=jakarta.json.spi.JsonProvider)";
+                              osgi.serviceloader="jakarta.json.spi.JsonProvider";
+                              cardinality:=multiple;resolution:=optional
+                          ]]>
+                        </Require-Capability>
                     </instructions>
                 </configuration>
                 <executions>
@@ -402,7 +406,6 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                     <fork>true</fork>
                     <excludeFilterFile>${spotbugs.exclude}</excludeFilterFile>
                     <failThreshold>High</failThreshold>

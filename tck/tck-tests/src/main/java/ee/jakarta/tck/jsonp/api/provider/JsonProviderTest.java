@@ -34,6 +34,8 @@ import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.stream.JsonParserFactory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +48,23 @@ public class JsonProviderTest {
 
     private static final String JSONP_PROVIDER_FACTORY = "jakarta.json.provider";
 
-    
+    private String factoryValue;
+
+    @BeforeEach
+    public void setUp() {
+        factoryValue = System.getProperty(JSONP_PROVIDER_FACTORY);
+        System.clearProperty(JSONP_PROVIDER_FACTORY);
+    }
+
+    @AfterEach
+    public void reset() {
+        if (factoryValue != null) {
+            System.setProperty(JSONP_PROVIDER_FACTORY, factoryValue);
+        } else {
+            System.clearProperty(JSONP_PROVIDER_FACTORY);
+        }
+    }
+
     /**
      * Verifies it is possible to obtain the JsonProvider implementation from a System property.
      */
