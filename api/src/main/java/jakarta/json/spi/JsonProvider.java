@@ -23,8 +23,6 @@ import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -108,9 +106,7 @@ public abstract class JsonProvider {
      */
     public static JsonProvider provider() {
         LOG.log(Level.FINE, "Checking system property {0}", JSONP_PROVIDER_FACTORY);
-        final String factoryClassName = System.getSecurityManager() != null
-                ? AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(JSONP_PROVIDER_FACTORY))
-                : System.getProperty(JSONP_PROVIDER_FACTORY);
+        final String factoryClassName = System.getProperty(JSONP_PROVIDER_FACTORY);
         if (factoryClassName != null) {
             JsonProvider provider = newInstance(factoryClassName);
             LOG.log(Level.FINE, "System property used; returning object [{0}]",
@@ -152,7 +148,6 @@ public abstract class JsonProvider {
      */
     private static JsonProvider newInstance(String className) {
         try {
-            checkPackageAccess(className);
             @SuppressWarnings({"unchecked"})
             Class<JsonProvider> clazz = (Class<JsonProvider>) Class.forName(className);
             return clazz.getConstructor().newInstance();
@@ -163,20 +158,6 @@ public abstract class JsonProvider {
             throw new JsonException(
                     "Provider " + className + " could not be instantiated: " + x,
                     x);
-        }
-    }
-
-    /**
-     * Make sure that the current thread has an access to the package of the given name.
-     * @param className The class name to check.
-     */
-    private static void checkPackageAccess(String className) {
-        SecurityManager s = System.getSecurityManager();
-        if (s != null) {
-            int i = className.lastIndexOf('.');
-            if (i != -1) {
-                s.checkPackageAccess(className.substring(0, i));
-            }
         }
     }
 
