@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2022, 2025 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +32,7 @@
         <!-- Vendor Implementation (VI) -->
         <jsonp-api.groupId>jakarta.json</jsonp-api.groupId>
         <jsonp-api.artifactId>jakarta.json-api</jsonp-api.artifactId>
-        <jsonp-api.version>2.1.0</jsonp-api.version>
+        <jsonp-api.version>2.2.0</jsonp-api.version>
         <!-- Compatible Implementation (CI) -->
         <jsonp-impl.groupId>org.eclipse.parsson</jsonp-impl.groupId>
         <jsonp-impl.artifactId>parsson</jsonp-impl.artifactId>
@@ -43,7 +43,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jimage.dir>\${project.build.directory}/jdk-bundle</jimage.dir>
         <!-- !!! DO NOT EDIT !!! -->
-        <jakarta.json-api.version>2.1.0</jakarta.json-api.version>
+        <jakarta.json-api.version>2.2.0</jakarta.json-api.version>
         <impl.alltests>true</impl.alltests>
     </properties>
     <dependencyManagement>
