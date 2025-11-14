@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2025 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2026 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -175,10 +175,10 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[11,)</version>
+                                    <version>[17,)</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>[3.6.0,)</version>
+                                    <version>[3.9.0,)</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
@@ -264,7 +264,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>9</release>
+                    <release>17</release>
                     <createMissingPackageInfoClass>false</createMissingPackageInfoClass>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
@@ -272,20 +272,6 @@
                     </compilerArgs>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>base-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>8</release>
-                            <excludes>
-                                <exclude>module-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.glassfish.build</groupId>

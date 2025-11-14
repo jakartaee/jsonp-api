@@ -1,4 +1,4 @@
-[//]: # " Copyright (c) 2018, 2021 Oracle and/or its affiliates. All rights reserved. "
+[//]: # " Copyright (c) 2018, 2026 Oracle and/or its affiliates. All rights reserved. "
 [//]: # "  "
 [//]: # " This program and the accompanying materials are made available under the "
 [//]: # " terms of the Eclipse Public License v. 2.0, which is available at "
@@ -21,6 +21,10 @@ Jakarta JSON Processing provides portable APIs to parse, generate, transform, an
 This project contains Jakarta JSON Processing specification, API and TCK.
 
 ## Build
+
+Prerequisites:
+* JDK 17+
+* Maven 3.9.0+
 
 Use the following command:
 ```bash
