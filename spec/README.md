@@ -8,8 +8,8 @@ Building
 
 Prerequisites:
 
-* JDK8+
-* Maven 3.0.3+
+* JDK 17+
+* Maven 3.9.0+
 
 Run the full build with DRAFT status:
 

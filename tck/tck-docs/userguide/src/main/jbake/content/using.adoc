@@ -174,7 +174,7 @@ of the Tests."]
 [source,subs="attributes"]
 ----
 cd ${TechnologyTCKHomeEnv}/bin
-mvn verify -Djsonp-api.groupId=jakarta.json -Djsonp-api.artifactId=jakarta.json-api -Djsonp-api.version=2.1.0
+mvn verify -Djsonp-api.groupId=jakarta.json -Djsonp-api.artifactId=jakarta.json-api -Djsonp-api.version=2.2.0
 ----
 
 [[GBFVK]][[test-reports]]
