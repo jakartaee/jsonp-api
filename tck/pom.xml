@@ -62,6 +62,10 @@
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
 
         <jakarta.json-api.version>2.2.0</jakarta.json-api.version>
+        
+        <!-- Plugin versions for signature generation -->
+        <sigtest.version>2.3</sigtest.version>
+        <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -171,4 +175,105 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+                <profile>
+        <!--This profile can be used to (re)generate signatures of th JSON Processing
+                API, note that they differ based on JDK used to build them -->
+            <!--All .sig files should be included in the generated jar files! -->
+            <id>signature-generation</id>
+            <activation>
+                <property>
+                    <name>signature</name>
+                </property>
+            </activation>
+            <properties>
+                <!--Default assumed JDK version, can be overridden via -Djdk.major.version=X -->
+                <jdk.major.version>17</jdk.major.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>jakarta.json</groupId>
+                                            <artifactId>jakarta.json-api</artifactId>
+                                            <version>${jakarta.json-api.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}/json-api</outputDirectory>
+                                            <includes>**/*.class,**/*.xml</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <includes>**/*.java</includes>
+                                    <excludes>**/*.properties</excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                    <!-- Run signature plugin to generate signature file -->
+                    <plugin>
+                        <groupId>jakarta.tck</groupId>
+                        <artifactId>sigtest-maven-plugin</artifactId>
+                        <version>${sigtest.version}</version>
+                        <executions>
+                            <execution>
+                                <id>createSigFile</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <classes>${project.build.directory}/json-api</classes>
+                            <packages>
+                                jakarta.json,
+                                jakarta.json.spi,
+                                jakarta.json.stream,
+                            </packages>
+                            <attach>false</attach>
+                            <sigfile>${project.build.directory}/jakarta.json.sig_${jdk.major.version}</sigfile>
+                        </configuration>
+                    </plugin>
+                    
+                    <!-- Copy signature file to tck resources with major java version -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${maven.antrun.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copySigFile</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.basedir}/tck-tests/src/main/resources/ee/jakarta/tck/jsonp/signaturetest/" />
+                                        <copy todir="${project.basedir}/tck-tests/src/main/resources/ee/jakarta/tck/jsonp/signaturetest/">
+                                            <fileset
+                                                dir="${project.build.directory}"
+                                                includes="jakarta.json.sig_${jdk.major.version}" />
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
