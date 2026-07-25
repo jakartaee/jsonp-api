@@ -62,6 +62,8 @@
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
 
         <jakarta.json-api.version>2.2.0</jakarta.json-api.version>
+        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>2.3.23</asciidoctorj.pdf.version>
     </properties>
 
     <dependencyManagement>
