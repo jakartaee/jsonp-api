@@ -2,7 +2,7 @@
 :TechnologyFullName: Jakarta JSON Processing
 :TechnologyShortName: JSON Processing
 :LegacyAcronym: JSONP
-:ReleaseDate: February 2022
+:ReleaseDate: TODO
 :CopyrightDates: 2017, 2026
 :TechnologyVersion: 2.2
 :TechnologyRI: Eclipse Parsson version TBD
@@ -433,7 +433,7 @@ This chapter contains the following sections:
 [[CJAFFDGI,certification-overview]]
 === Certification Overview
 
-The certification process for {technologyShortName} {TechnologyVersion}
+The certification process for {TechnologyShortName} {TechnologyVersion}
 consists of the following activities:
 
 * Install the appropriate version of the Technology Compatibility Kit
@@ -941,7 +941,7 @@ depending on which test suite to run.
 
 +
 .Example: Maven configuration
-[source,oac_no_warn,xml]
+[source,xml]
 ----
     <dependencyManagement>
         <dependencies>
@@ -1044,7 +1044,7 @@ depending on which test suite to run.
 
 +
 .Example: Maven configuration
-[source,oac_no_warn,xml]
+[source,xml]
 ----
     <dependencyManagement>
         <dependencies>

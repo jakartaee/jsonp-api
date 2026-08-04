@@ -25,10 +25,8 @@
         <version>2.2.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-tck-ug</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.0-SNAPSHOT</version>
     <name>JSONP TCK Docs</name>
 
     <properties>
@@ -36,6 +34,10 @@
         <!-- status: DRAFT, BETA, etc., or blank for final -->
         <status>DRAFT</status>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
+        <technology.version>2.2</technology.version>
+        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
+        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     </properties>
 
     <build>
@@ -44,6 +46,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -82,21 +85,11 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>src/main/asciidoc</sourceDirectory>
-                            <sourceDocumentName>jsonp-tck-users-guide.adoc</sourceDocumentName>
-                            <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
                             <outputFile>jsonp-tck-users-guide-${project.version}.html</outputFile>
                             <backend>html5</backend>
                             <attributes>
-                                <doctype>book</doctype>
-                                <status>${status}</status>
                                 <data-uri/>
-                                <icons>font</icons>
                                 <toc>left</toc>
-                                <sectanchors>true</sectanchors>
-                                <idprefix/>
-                                <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
                             </attributes>
                         </configuration>
                     </execution>
@@ -107,31 +100,30 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>src/main/asciidoc</sourceDirectory>
-                            <sourceDocumentName>jsonp-tck-users-guide.adoc</sourceDocumentName>
-                            <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
                             <outputFile>jsonp-tck-users-guide-${project.version}.pdf</outputFile>
                             <backend>pdf</backend>
                             <attributes>
                                 <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
                                 <pdf-style>jakartaee</pdf-style>
-                                <doctype>book</doctype>
-                                <status>${status}</status>
-                                <data-uri/>
-                                <icons>font</icons>
                                 <pagenums/>
                                 <toc/>
-                                <sectanchors>true</sectanchors>
-                                <idprefix/>
-                                <idseparator>-</idseparator>
-                                <docinfo1>true</docinfo1>
                                 <embedAssets>true</embedAssets>
                             </attributes>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
+                    <sourceDirectory>src/main/asciidoc</sourceDirectory>
+                    <sourceDocumentName>jsonp-tck-users-guide.adoc</sourceDocumentName>
+                    <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
                     <attributes>
+                        <doctype>book</doctype>
+                        <status>${status}</status>
+                        <icons>font</icons>
+                        <sectanchors>true</sectanchors>
+                        <idprefix/>
+                        <idseparator>-</idseparator>
+                        <docinfo1>true</docinfo1>
                         <revnumber>${project.version}</revnumber>
                         <revremark>${status}</revremark>
                         <revdate>${maven.build.timestamp}</revdate>
@@ -142,7 +134,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>${maven-resources-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>filter-index</id>
@@ -163,7 +155,9 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>distribution</id>
@@ -182,19 +176,5 @@
             </plugin>
         </plugins>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>
