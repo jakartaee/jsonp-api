@@ -5,7 +5,7 @@
 :ReleaseDate: TODO
 :CopyrightDates: 2017, 2026
 :TechnologyVersion: 2.2
-:TechnologyRI: Eclipse Parsson version TBD
+:TechnologyRI: Eclipse Parsson version TODO
 :TechnologyRIURL: https://projects.eclipse.org/projects/ee4j.parsson
 :SpecificationURL: https://jakarta.ee/specifications/jsonp/2.2/
 :JSONPDevList: mailto:jsonp-dev@eclipse.org[jsonp-dev@eclipse.org]

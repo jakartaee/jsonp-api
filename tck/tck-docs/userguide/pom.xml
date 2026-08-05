@@ -137,7 +137,7 @@
                 <version>${maven-resources-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>filter-index</id>
+                        <id>filter-resources</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-resources</goal>

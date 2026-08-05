@@ -52,13 +52,13 @@
             <outputDirectory>./</outputDirectory>
             <includes>
                 <include>index.html</include>
+                <include>*ReleaseNotes.html</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../</directory>
             <outputDirectory>./</outputDirectory>
             <includes>
-                <include>*ReleaseNotes.html</include>
                 <include>TCK-Exclude-List.txt</include>
             </includes>
         </fileSet>
