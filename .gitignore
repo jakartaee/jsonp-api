@@ -14,6 +14,7 @@ target/
 .settings/
 .classpath
 .project
+bin/
 
 # NetBeans noise
 nbproject/
@@ -24,3 +25,5 @@ nbproject/
 # Java noise
 *.class
 *err_pid*.log
+
+.envrc
