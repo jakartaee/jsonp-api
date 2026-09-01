@@ -25,5 +25,6 @@ nbproject/
 # Java noise
 *.class
 *err_pid*.log
+dependency-reduced-pom.xml
 
 .envrc
