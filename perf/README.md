@@ -26,5 +26,5 @@ Run examples:
 ```sh
 java -jar perf/target/jsonp-jmh.jar
 java -jar perf/target/jsonp-jmh.jar -i 3 -t 5 -f 3 -prof stack
-java -jar perf/target/jsonp-jmh.jar FactoryTest.createObjectBuilder_viaJson
+java -jar perf/target/jsonp-jmh.jar FactoryBenchmark.createObjectBuilder_viaJson
 ```

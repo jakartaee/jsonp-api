@@ -58,12 +58,12 @@ public class NoopJsonProvider extends JsonProvider {
 
     @Override
     public JsonObjectBuilder createObjectBuilder() {
-        return NoopObjectBuilder.INSTANCE;
+        return new NoopObjectBuilder();
     }
 
     @Override
     public JsonArrayBuilder createArrayBuilder() {
-        return NoopArrayBuilder.INSTANCE;
+        return new NoopArrayBuilder();
     }
 
     @Override
@@ -77,12 +77,12 @@ public class NoopJsonProvider extends JsonProvider {
 
     @Override
     public JsonString createValue(String value) {
-        return NoopJsonString.INSTANCE;
+        return new NoopJsonString();
     }
 
     @Override
     public JsonNumber createValue(int value) {
-        return NoopJsonNumber.INSTANCE;
+        return new NoopJsonNumber();
     }
 
     // -----------------------------------------------------------------------
@@ -153,10 +153,8 @@ public class NoopJsonProvider extends JsonProvider {
     // No-op inner types
     // -----------------------------------------------------------------------
 
-    /** Singleton no-op {@link JsonObjectBuilder}. */
+    /** No-op {@link JsonObjectBuilder}. */
     private static final class NoopObjectBuilder implements JsonObjectBuilder {
-        static final NoopObjectBuilder INSTANCE = new NoopObjectBuilder();
-
         @Override public JsonObjectBuilder add(String name, JsonValue value)   { return this; }
         @Override public JsonObjectBuilder add(String name, String value)      { return this; }
         @Override public JsonObjectBuilder add(String name, BigInteger value)  { return this; }
@@ -171,10 +169,8 @@ public class NoopJsonProvider extends JsonProvider {
         @Override public JsonObject build() { return JsonValue.EMPTY_JSON_OBJECT; }
     }
 
-    /** Singleton no-op {@link JsonArrayBuilder}. */
+    /** No-op {@link JsonArrayBuilder}. */
     private static final class NoopArrayBuilder implements JsonArrayBuilder {
-        static final NoopArrayBuilder INSTANCE = new NoopArrayBuilder();
-
         @Override public JsonArrayBuilder add(JsonValue value)        { return this; }
         @Override public JsonArrayBuilder add(String value)           { return this; }
         @Override public JsonArrayBuilder add(BigInteger value)       { return this; }
@@ -193,15 +189,13 @@ public class NoopJsonProvider extends JsonProvider {
     private static final class NoopBuilderFactory implements JsonBuilderFactory {
         static final NoopBuilderFactory INSTANCE = new NoopBuilderFactory();
 
-        @Override public JsonObjectBuilder createObjectBuilder() { return NoopObjectBuilder.INSTANCE; }
-        @Override public JsonArrayBuilder  createArrayBuilder()  { return NoopArrayBuilder.INSTANCE; }
+        @Override public JsonObjectBuilder createObjectBuilder() { return new NoopObjectBuilder(); }
+        @Override public JsonArrayBuilder  createArrayBuilder()  { return new NoopArrayBuilder(); }
         @Override public Map<String, ?>    getConfigInUse()      { return Map.of(); }
     }
 
     /** Singleton no-op {@link JsonString}. */
     private static final class NoopJsonString implements JsonString {
-        static final NoopJsonString INSTANCE = new NoopJsonString();
-
         @Override public String      getString()      { return ""; }
         @Override public CharSequence getChars()      { return ""; }
         @Override public ValueType   getValueType()   { return ValueType.STRING; }
@@ -209,8 +203,6 @@ public class NoopJsonProvider extends JsonProvider {
 
     /** Singleton no-op {@link JsonNumber}. */
     private static final class NoopJsonNumber implements JsonNumber {
-        static final NoopJsonNumber INSTANCE = new NoopJsonNumber();
-
         @Override public boolean    isIntegral()           { return true; }
         @Override public int        intValue()             { return 0; }
         @Override public int        intValueExact()        { return 0; }

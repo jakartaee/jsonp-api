@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 3, time = 1)
 @Measurement(iterations = 5, time = 1)
 @Fork(1)
-public class FactoryTest {
+public class FactoryBenchmark {
 
     // --- cached instances (the recommended workarounds from issue #154) ---
 
