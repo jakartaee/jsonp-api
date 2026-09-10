@@ -1,0 +1,97 @@
+name: Platform Certification
+description: Jakarta JSON Processing Platform Certification
+title: "[Certification]: "
+labels: ["certification"] #Verified - label exists
+body:
+  - type: markdown
+    attributes: 
+      value: |
+        > Before submitting a Platform Certification to the Jakarta JSON Processing community please read and be familiar with the 
+        > [TCK Process document](https://jakarta.ee/committees/specification/tckprocess) which may be updated occasionally.
+  - type: input
+    id: organization
+    validations:
+      required: true
+    attributes: 
+      label: Organization
+      description: Organization name and URL (if applicable)
+  - type: input
+    id: implementation
+    validations:
+      required: true
+    attributes: 
+      label: Implementation
+      description: Product name, version, and download URL (if applicable)
+  - type: input
+    id: specification
+    validations:
+      required: true
+    attributes: 
+      label: Specification
+      description: Specification name, version, and download URL (if applicable)
+  - type: input
+    id: tck
+    validations:
+      required: true
+    attributes: 
+      label: Technology Compatibility Kit (TCK)
+      description: TCK name, version, and download URL (if applicable)
+  - type: input
+    id: tckSHA
+    validations:
+      required: true
+    attributes: 
+      label: Technology Compatibility Kit (TCK) Validation
+      description: |
+        SHA-256 Checksum
+        This is the checksum of the TCK Distribution zip, not the checksum for the TCK jar artifact.
+        Example: `shasum -a 256 jakarta.jsonb-tck-1.0.0.zip`
+  - type: textarea
+    id: tckResults
+    validations:
+      required: true
+    attributes: 
+      label: Technology Compatibility Kit (TCK) Results
+      description: |
+        Public URL of TCK Results Summary
+        TIP: You can attach TCK Results to this issue by clicking this area to highlight it and then dragging files in.
+  - type: textarea
+    id: additionalRequirements
+    validations:
+      required: true
+    attributes:
+      label: Additional Specification Requirements
+      description: |
+        Specification projects may require additional items for a Certification Request 
+        as defined in their corresponding TCK Documentation under the section labeled "Additional Certification Requirements".
+  - type: textarea
+    id: javaRuntime
+    validations:
+      required: true
+    attributes:
+      label: Java Runtime(s)
+      description: |
+        Java runtime(s) used to run the implementation.
+        Output from `java -version`
+  - type: textarea
+    id: environment
+    validations:
+      required: true
+    attributes:
+      label: Environments
+      description: Summary of the information for the certification environment, operating system, cloud, etc.
+  - type: checkboxes
+    id: ackEFTL
+    attributes:
+      label: Eclipse Foundation Technology Compatibility Kit License (EFTL)
+      description: Do you accept the terms of the (EFTL)?
+      options:
+      - label: By checking this box I acknowledge that the organization I represent accepts the terms of the [EFTL](https://www.eclipse.org/legal/tck.php)
+        required: true
+  - type: checkboxes
+    id: ackRules
+    attributes:
+      label: TCK Requirements and Compatibility
+      options:
+      - label: By checking this box I attest that all TCK requirements have been met, including any compatibility rules.
+        required: true

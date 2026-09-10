@@ -1,0 +1,28 @@
+name: Clarification
+description: Request that some aspect of the specification be clarified. 
+title: "[clarification]: "
+labels: ["question"] #Verified - label exists
+body:
+  - type: markdown
+    attributes: 
+      value: |
+        > Request that some aspect of the specification be clarified.
+  - type: input
+    id: specification
+    validations:
+      required: true
+    attributes: 
+      label: Specification
+      description: What specification / api is the clarification related to? Provide a link to the API class or SPEC document section.
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: I need clarification on ...
+      placeholder: |
+        > Description of the clarification needed.
+  - type: textarea
+    attributes:
+      label: Additional information
+      placeholder: |
+        > Proposed solutions, code examples, ect. 
