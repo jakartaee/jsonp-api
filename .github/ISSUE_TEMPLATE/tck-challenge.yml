@@ -81,7 +81,7 @@ body:
       label: Is there an existing challenge for this?
       description: |
         Please search to see if a challenge already exists, or has been approved, that matches your challenge.
-        https://github.com/jakartaee/jsonb-api/issues?q=sort%3Aupdated-desc%20is%3Aissue%20label%3Achallenge
+        https://github.com/jakartaee/jsonp-api/issues?q=sort%3Aupdated-desc%20is%3Aissue%20label%3Achallenge
       options:
         - label: I have searched the existing issues
           required: true
