@@ -41,22 +41,21 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../assertions</directory>
+            <directory>resources/assertions</directory>
             <outputDirectory>assertions/</outputDirectory>
             <includes>
-                <include>*Assertions.html</include>
+                <include>JavadocAssertions.md</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/target/filtered-resources</directory>
+            <directory>resources</directory>
             <outputDirectory>./</outputDirectory>
             <includes>
-                <include>index.html</include>
-                <include>*ReleaseNotes.html</include>
+                <include>README.md</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../</directory>
+            <directory>./</directory>
             <outputDirectory>./</outputDirectory>
             <includes>
                 <include>TCK-Exclude-List.txt</include>
