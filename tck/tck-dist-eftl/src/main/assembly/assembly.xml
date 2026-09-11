@@ -68,7 +68,7 @@
                 <include>jakarta.json:jakarta.json-tck-ug</include>
             </includes>
             <unpack>true</unpack>
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>docs/</outputDirectory>
         </dependencySet>
     </dependencySets>
 

@@ -1,1 +1,0 @@
-* CentOS Linux 7

@@ -1,0 +1,1335 @@
+= Eclipse Foundation Technology Compatibility Kit User's Guide: Jakarta JSON Processing, Release {TechnologyVersion}
+:TechnologyFullName: Jakarta JSON Processing
+:TechnologyShortName: JSON Processing
+:LegacyAcronym: JSONP
+:ReleaseDate: TODO
+:CopyrightDates: 2017, 2026
+:TechnologyVersion: 2.2
+:TechnologyRI: Eclipse Parsson version TODO
+:TechnologyRIURL: https://projects.eclipse.org/projects/ee4j.parsson
+:SpecificationURL: https://jakarta.ee/specifications/jsonp/2.2/
+:JSONPDevList: mailto:jsonp-dev@eclipse.org[jsonp-dev@eclipse.org]
+:techID: JSONP
+:TechnologyTCKHomeEnv: JSONPTCK_HOME
+:SEversion: 17+
+:JakartaEEVersion: 12.0
+:MavenVersion: 3.6.3+
+:JunitVersion: 5.7.2+
+:excludeListFileName: tck-docs/TCK-Exclude-List.txt
+:TCKPackageName: jakarta-jsonp-tck-2.2.0.zip
+:sigTestExample: ee/jakarta/tck/jsonp/signaturetest/jsonp/**
+:singleTestExample: ee/jakarta/tck/jsonp/api/jsoncoding/ClientTests
+:subsetTestDirectoryExample: ee/jakarta/tck/jsonp/api/**
+:toc:
+:toclevels: 4
+:sectnumlevels: 4
+:sectanchors:
+:icons: font
+ifdef::backend-pdf[]
+:title-logo-image: image:images/jakarta_ee_logo_schooner_color_stacked_default.png[pdfwidth=4.25in,align=right]
+endif::[]
+
+:sectnums!:
+
+[#preface]
+== Preface
+
+This guide describes how to install, configure, and run the Technology
+Compatibility Kit (TCK) that is used to test the {TechnologyFullName}
+({TechnologyShortName} {TechnologyVersion}) technology.
+
+The {TechnologyShortName} TCK is a portable, configurable automated
+test suite for verifying the compatibility of a vendor's
+implementation of the {TechnologyShortName} {TechnologyVersion}
+Specification (hereafter referred to as the vendor implementation or VI).
+The {TechnologyShortName} TCK uses the Junit framework to run the test suite
+
+
+[NOTE]
+=======================================================================
+
+Note All references to specific Web URLs are given for the sake of your
+convenience in locating the resources quickly. These references are
+always subject to changes that are in many cases beyond the control of
+the authors of this guide.
+
+=======================================================================
+
+Jakarta EE is a community sponsored and community run program. 
+Organizations contribute, along side individual contributors who use, evolve 
+and assist others.
+Commercial support is not available through the Eclipse Foundation resources.
+Please refer to the Eclipse EE4J project site
+(https://projects.eclipse.org/projects/ee4j).
+There, you will find additional details as well as a list of all the associated sub-projects 
+(Implementations and APIs), that make up Jakarta EE and define these specifications. 
+If you have questions about this Specification or TCK you may
+send inquiries to {JSONPDevList}.
+
+[#who-should-use-this-book]
+=== Who Should Use This Book
+
+This guide is for vendors that implement the {TechnologyShortName}
+{TechnologyVersion} technology to assist them in running the test suite
+that verifies compatibility of their implementation of the
+{TechnologyShortName} {TechnologyVersion} Specification.
+
+
+[#before-you-read-this-book]
+=== Before You Read This Book
+
+You should be familiar with the {TechnologyShortName}
+{TechnologyVersion}, version {TechnologyVersion} Specification, 
+which can be found at {SpecificationURL}.
+
+[#typographic-conventions]
+=== Typographic Conventions
+
+The following table describes the typographic conventions that are used
+in this book.
+
+[width="100%",cols="15%,40%,45%",options="header",]
+|=======================================================================
+|Convention |Meaning |Example
+|*Boldface* |Boldface type indicates graphical user interface elements
+associated with an action, terms defined in text, or what you type,
+contrasted with onscreen computer output. a|
+From the *File* menu, select *Open Project*.
+
+A *cache* is a copy that is stored locally.
+
+`machine_name% *su*` +
+`Password:`
+
+|`Monospace` |Monospace type indicates the names of files and
+directories, commands within a paragraph, URLs, code in examples, text
+that appears on the screen, or text that you enter. a|
+Edit your `.login` file.
+
+Use `ls` `-a` to list all files.
+
+`machine_name% you have mail.`
+
+|_Italic_ |Italic type indicates book titles, emphasis, or placeholder
+variables for which you supply particular values. a|
+Read Chapter 6 in the _User's Guide_.
+
+Do _not_ save the file.
+
+The command to remove a file is `rm` _filename_.
+
+|=======================================================================
+
+
+[#shell-prompts-in-command-examples]
+=== Shell Prompts in Command Examples
+
+The following table shows the default UNIX system prompt and superuser
+prompt for the C shell, Bourne shell, and Korn shell.
+
+[width="100%",cols="50%,50%",options="header",]
+|=====================================================
+|Shell |Prompt
+|C shell |`machine_name%`
+|C shell for superuser |`machine_name#`
+|Bourne shell and Korn shell |`$` +
+|Bourne shell and Korn shell for superuser |`#` +
+|Bash shell |`shell_name-shell_version$`
+|Bash shell for superuser |`shell_name-shell_version#`
+|=====================================================
+
+:sectnums:
+:numbered:
+
+[#introduction]
+== Introduction
+
+This chapter provides an overview of the principles that apply
+generally to all Technology Compatibility Kits (TCKs) and describes the
+{TechnologyFullName} TCK ({TechnologyShortName} {TechnologyVersion} TCK). 
+It also includes a high level listing
+of what is needed to get up and running with the {TechnologyShortName}
+TCK.
+
+This chapter includes the following topics:
+
+* <<GBFTK,Compatibility Testing>>
+* <<GBFQR,About the TCK>>
+* <<GBFQW,Getting Started With the TCK>>
+
+[[GBFTK,compatibility-testing]]
+=== Compatibility Testing
+
+Compatibility testing differs from traditional product testing in a
+number of ways. The focus of compatibility testing is to test those
+features and areas of an implementation that are likely to differ across
+other implementations, such as those features that:
+
+* Rely on hardware or operating system-specific behavior
+* Are difficult to port
+* Mask or abstract hardware or operating system behavior
+
+Compatibility test development for a given feature relies on a complete
+specification and compatible implementation (CI) for that feature.
+Compatibility testing is not primarily concerned with robustness,
+performance, nor ease of use.
+[[why-compatibility-testing-is-important]]
+
+==== Why Compatibility Testing is Important
+
+Jakarta platform compatibility is important to different groups involved
+with Jakarta technologies for different reasons:
+
+* Compatibility testing ensures that the Jakarta platform does not become
+fragmented as it is ported to different operating systems and hardware
+environments.
+* Compatibility testing benefits developers working in the Jakarta
+programming language, allowing them to write applications once and then
+to deploy them across heterogeneous computing environments without
+porting.
+* Compatibility testing allows application users to obtain applications
+from disparate sources and deploy them with confidence.
+* Conformance testing benefits Jakarta platform implementors by ensuring a
+level playing field for all Jakarta platform ports.
+
+[[tck-compatibility-rules]]
+==== TCK Compatibility Rules
+
+Compatibility criteria for all technology implementations are embodied
+in the TCK Compatibility Rules that apply to a specified technology.
+Each TCK tests for adherence to these Rules as described in
+<<GBFSN,Chapter 2, "Procedure for Certification.">>.
+
+[[tck-overview]]
+==== TCK Overview
+
+A TCK is a set of tools and tests used to verify that a vendor's compatible
+implementation of a Jakarta EE technology conforms to the applicable
+specification. All tests in the TCK are based on the written
+specifications for the Jakarta EE platform. A TCK tests compatibility of a
+vendor's compatible implementation of the technology to the applicable
+specification of the technology. Compatibility testing is a means of
+ensuring correctness, completeness, and consistency across all
+implementations developed by technology licensees.
+
+The set of tests included with each TCK is called the test suite. Most
+tests in a TCK's test suite are self-checking, but some tests may
+require tester interaction. Most tests return either a Pass or Fail
+status. For a given platform to be certified, all of the required tests
+must pass. The definition of required tests may change from platform to
+platform.
+
+The definition of required tests will change over time. Before your
+final certification test pass, be sure to download the latest version
+of this TCK.
+
+[[java-community-process-jcp-program-and-compatibility-testing]]
+==== Jakarta EE Specification Process (JESP) Program and Compatibility Testing
+
+The Jakarta EE Specification Process (JESP) program is the formalization of the
+open process that has been used since 2019 to develop and revise Jakarta EE
+technology specifications in cooperation with the international Jakarta EE
+community. The JESP program specifies that the following three major
+components must be included as deliverables in a final Jakarta EE technology
+release under the direction of the responsible Expert Group:
+
+* Technology Specification
+* Compatible Implementation (CI)
+* Technology Compatibility Kit (TCK)
+
+For further information about the JESP program, go to Jakarta EE Specification
+Process community page https://jakarta.ee/specifications.
+
+[[GBFQR,about-the-tck]]
+=== About the TCK
+
+The {TechnologyShortName} TCK {TechnologyVersion} is designed as a
+portable, configurable, automated test suite for verifying the
+compatibility of a vendor's implementation of the
+{TechnologyShortName} {TechnologyVersion} Specification.
+
+[[tck-specifications-and-requirements]]
+==== TCK Specifications and Requirements
+
+This section lists the applicable requirements and specifications.
+
+* Specification Requirements: Software requirements for a
+{TechnologyShortName} implementation are described in detail in the
+{TechnologyShortName} {TechnologyVersion} Specification.  Links to the
+{TechnologyShortName} specification and other product information can
+be found at {SpecificationURL}.
+* {TechnologyShortName} Version: The {TechnologyShortName} {TechnologyVersion} TCK
+is based on the {TechnologyShortName}
+Specification, Version {TechnologyVersion}.
+* Compatible Implementation: One {TechnologyShortName}
+{TechnologyVersion} Compatible Implementation, {TechnologyRI} is
+available from the Eclipse EE4J project
+(https://projects.eclipse.org/projects/ee4j). See the CI documentation page at
+{TechnologyRIURL} for more information.
+
+See the {TechnologyShortName} TCK Release Notes for more specific
+information about Java SE version requirements, supported platforms,
+restrictions, and so on.
+
+[[tck-components]]
+==== TCK Components
+
+The {TechnologyShortName} TCK {TechnologyVersion} includes the
+following components:
+
+* {TechnologyShortName} TCK signature tests; check that all public APIs
+are supported and/or defined as specified in the {TechnologyShortName}
+Version {TechnologyVersion} implementation under test.
+* If applicable, an exclude list, which provides a list of tests that your
+implementation is not required to pass.
+ifndef::no-api-tests[]
+* API tests for all of the {TechnologyShortName} API in all related packages:
+** `jakarta.json`
+
+** `jakarta.json.spi`
+
+** `jakarta.json.stream`
+endif::no-api-tests[]
+ifdef::end-to-end-tests[]
+* End-to-end tests that demonstrate compliance with the {TechnologyFullName}
+Specification.
+endif::end-to-end-tests[]
+
+
+[[tck-compatibility-test-suite]]
+==== TCK Compatibility Test Suite
+
+The test suite is the collection of tests used by the JavaTest harness
+to test a particular technology implementation. In this case, it is the
+collection of tests used by the {TechnologyShortName} TCK
+{TechnologyVersion} to test a {TechnologyShortName} {TechnologyVersion}
+implementation. The tests are designed to verify that a vendor's
+runtime implementation of the technology complies with the appropriate
+specification. The individual tests correspond to assertions of the
+specification.
+
+The tests that make up the TCK compatibility test suite are precompiled
+and indexed within the TCK test directory structure. When a test run is
+started, the JavaTest harness scans through the set of tests that are
+located under the directories that have been selected. While scanning,
+the JavaTest harness selects the appropriate tests according to any
+matches with the filters you are using and queues them up for execution.
+
+[[exclude-lists]]
+==== Exclude Lists
+
+Each version of a TCK includes an Exclude List contained in a `TCK-Exclude-List.txt`
+file. 
+This is a list of test file URLs that identify tests which do not
+have to be run for the specific version of the TCK being used. 
+Whenever tests are run, the Junit framework automatically excludes
+these tests from being executed as those are disabled using '@Disabled' tag in JUnit.
+
+A vendor's compatible implementation is not required to pass or run any test on the Exclude List.
+The Exclude List file, +{excludeListFileName}+, is documented in the
+{TechnologyShortName} TCK. Please note this file is not parsed to exclude any test and is only
+for documentation purpose.
+
+
+[NOTE]
+=======================================================================
+
+From time to time, updates to the Exclude List are made available.
+The exclude list is included in the TCK ZIP archive.
+Each time an update is approved and released, the version number 
+will be incremented.
+You should always make sure you are using an up-to-date copy of the
+Exclude List before running the {TechnologyShortName} TCK to verify your
+implementation.
+
+=======================================================================
+
+
+A test might be in the Exclude List for reasons such as:
+
+* An error in an underlying implementation API has been discovered which
+does not allow the test to execute properly.
+* An error in the specification that was used as the basis of the test
+has been discovered.
+* An error in the test itself has been discovered.
+* The test fails due to a bug in the tools used to run the test.
+
+In addition, all tests are run against the compatible implementations.
+Any tests that fail when run on a compatible Jakarta platform are put on the
+Exclude List. Any test that is not specification-based, or for which the
+specification is vague, may be excluded. Any test that is found to be
+implementation dependent (based on a particular thread scheduling model,
+based on a particular file system behavior, and so on) may be excluded.
+
+
+[NOTE]
+=======================================================================
+
+Vendors are not permitted to alter or modify Exclude Lists. Changes to
+an Exclude List can only be made by using the procedure described in
+<<CJAJEAEI,Section 2.3.1, "TCK Test Appeals Steps.">>.
+
+=======================================================================
+
+
+[[tck-configuration]]
+==== TCK Configuration
+
+You need to set several variables in your test environment, 
+and run the {TechnologyShortName} tests, as described in
+<<GBFVV,Chapter 4, "Setup and Configuration.">>.
+
+[[GBFQW,getting-started-with-the-tck]]
+[NOTE]
+====
+The Jakarta EE Specification Process support multiple compatible implementations. 
+These instructions explain how to get started with the {TechnologyRI} CI.
+If you are using another compatible implementation, refer to material provided
+by that implementation for specific instructions and procedures.
+
+====
+
+=== Getting Started With the TCK
+
+This section provides an general overview of what needs to be done to
+install, set up, test, and use the {TechnologyShortName} TCK. These
+steps are explained in more detail in subsequent chapters of this
+guide.
+
+1.  Make sure that the following software has been correctly installed
+on the system:
++
+--
+* Java SE {SEversion}
+* A CI for {TechnologyShortName} {TechnologyVersion}. One example is {TechnologyRI}.
+* The {TechnologyShortName} {TechnologyVersion} Vendor Implementation (VI) +
+* Any Jupiter API compatible test runner
+--
+See the documentation for each of these software applications for
+installation instructions. See <<GBFTP,Chapter 3,
+"Installation,">> for instructions on installing the {TechnologyShortName} TCK.
+2.  Set up the {TechnologyShortName} TCK software. +
+See <<GBFVV,Chapter 4, "Setup and Configuration,">> for
+details about the following steps.
+  a.  Set up your shell environment.
+  b.  Set the required System properties.
+3.  Test the {TechnologyShortName} {TechnologyVersion} implementation. +
+Test the {TechnologyShortName} implementation installation by running
+the test suite.  See <<GBFWO,Chapter 5, "Executing Tests.">>.
+
+[[GBFSN,procedure-for-certification]]
+== Procedure for Certification
+
+This chapter describes the compatibility testing procedure and
+compatibility requirements for {TechnologyFullName}.
+This chapter contains the following sections:
+
+* <<CJAFFDGI,Certification Overview>>
+* <<CJAFGIGG,Compatibility Requirements>>
+* <<CJAIIBDJ,Test Appeals Process>>
+* <<CJAJECIE,Specifications for {TechnologyFullName}>>
+* <<CJABAHGI,Libraries for {TechnologyFullName}>>
+
+[[CJAFFDGI,certification-overview]]
+=== Certification Overview
+
+The certification process for {TechnologyShortName} {TechnologyVersion}
+consists of the following activities:
+
+* Install the appropriate version of the Technology Compatibility Kit
+(TCK) and execute it in accordance with the instructions in this User's
+Guide.
+* Ensure that you meet the requirements outlined in
+<<CJAFGIGG,Compatibility Requirements>> below.
+* Certify to the Eclipse Foundation that you have finished
+testing and that you meet all of the compatibility requirements,
+as required by the Eclipse Foundation TCK License.
+
+[[CJAFGIGG,compatibility-requirements]]
+=== Compatibility Requirements
+
+The compatibility requirements for {TechnologyShortName}
+{TechnologyVersion} consist of meeting the requirements set forth by
+the rules and associated definitions contained in this section.
+
+[[sthref4,definitions]]
+==== Definitions
+
+These definitions are for use only with these compatibility requirements
+and are not intended for any other purpose.
+
+[[sthref5,sthref6]]
+Table 2-1 Definitions 
+
+[width="100%",cols="25%,75%",options="header",]
+|=======================================================================
+|Term |Definition
+|API Definition Product |A Product for which the only Java class files
+contained in the product are those corresponding to the application
+programming interfaces defined by the Specifications, and which is
+intended only as a means for formally specifying the application
+programming interfaces defined by the Specifications.
+
+|Computational Resource a|
+A piece of hardware or software that may vary in quantity, existence, or
+version, which may be required to exist in a minimum quantity and/or at
+a specific or minimum revision level so as to satisfy the requirements
+of the Test Suite.
+
+Examples of computational resources that may vary in quantity are RAM
+and file descriptors.
+
+Examples of computational resources that may vary in existence (that is,
+may or may not exist) are graphics cards and device drivers.
+
+Examples of computational resources that may vary in version are
+operating systems and device drivers.
+
+|Configuration Descriptor |Any file whose format is well defined by a
+specification and which contains configuration information for a set of
+Java classes, archive, or other feature defined in the specification.
+
+|Conformance Tests |All tests in the Test Suite for an indicated
+Technology Under Test, as released and distributed by the 
+Eclipse Foundation, excluding those tests on the 
+published Exclude List for the Technology Under Test.
+
+|Container |An implementation of the associated Libraries, as specified
+in the Specifications, and a version of a Java Platform, Standard
+Edition Runtime Product, as specified in the Specifications, or a later
+version of a Java Platform, Standard Edition Runtime Product that also
+meets these compatibility requirements.
+
+|Documented |Made technically accessible and made known to users,
+typically by means such as marketing materials, product documentation,
+usage messages, or developer support programs.
+
+|Exclude List |The most current list of tests, released and distributed by the
+Eclipse Foundation, that are not required to be passed to certify
+conformance. The Jakarta EE Specification Committee may add to the Exclude List for that
+Test Suite as needed at any time, in which case the updated TCK version
+supplants any previous Exclude Lists for that Test Suite.
+
+|Libraries a|
+The class libraries, as specified through the Jakarta EE Specification Process
+(JESP), for the Technology Under Test.
+
+The Libraries for {TechnologyFullName} are listed at the end of this chapter.
+
+|Location Resource a|
+A location of classes or native libraries that are components of the
+test tools or tests, such that these classes or libraries may be
+required to exist in a certain location in order to satisfy the
+requirements of the test suite.
+
+For example, classes may be required to exist in directories named in a
+CLASSPATH variable, or native libraries may be required to exist in
+directories named in a PATH variable.
+
+|Maintenance Lead |The corresponding Jakarta EE Specification Project
+is responsible for maintaining the Specification, and the TCK for the
+Technology.  The Specification Project Team will propose revisions and
+updates to the Jakarta EE Specification Committee which will approve
+and release new versions of the specification and TCK.
+
+|Operating Mode a|
+Any Documented option of a Product that can be changed by a user in
+order to modify the behavior of the Product.
+
+For example, an Operating Mode can be binary (enable/disable
+optimization), an enumeration (select from a list of protocols), or a
+range (set the maximum number of active threads).
+
+Note that an Operating Mode may be selected by a command line switch, an
+environment variable, a GUI user interface element, a configuration or
+control file, etc.
+
+|Product |A vendor's product in which the Technology Under Test is
+implemented or incorporated, and that is subject to compatibility
+testing.
+
+|Product Configuration a|
+A specific setting or instantiation of an Operating Mode.
+
+For example, a Product supporting an Operating Mode that permits user
+selection of an external encryption package may have a Product
+Configuration that links the Product to that encryption package.
+
+|Rebuildable Tests |Tests that must be built using an
+implementation-specific mechanism. This mechanism must produce
+specification-defined artifacts. Rebuilding and running these tests
+against a known compatible implementation verifies that the mechanism generates
+compatible artifacts.
+
+|Resource |A Computational Resource, a Location Resource, or a Security
+Resource.
+
+|Rules |These definitions and rules in this Compatibility Requirements
+section of this User's Guide.
+
+|Runtime |The Containers specified in the Specifications.
+
+|Security Resource a|
+A security privilege or policy necessary for the proper execution of the
+Test Suite.
+
+For example, the user executing the Test Suite will need the privilege
+to access the files and network resources necessary for use of the
+Product.
+
+|Specifications a|
+The documents produced through the Jakarta EE Specification Process (JESP)
+that define a particular Version of a Technology.
+
+The Specifications for the Technology Under Test are referenced later in
+this chapter.
+
+|Technology |Specifications and one or more compatible implementations produced
+through the Jakarta EE Specification Process (JESP).
+
+|Technology Under Test |Specifications and a compatible implementation
+for {TechnologyFullName} Version {TechnologyVersion}.
+
+|Test Suite |The requirements, tests, and testing tools distributed by
+the Maintenance Lead as applicable to a given Version of the Technology.
+
+|Version |A release of the Technology, as produced through the
+Jakarta EE Specification Process (JESP).
+
+|=======================================================================
+
+
+[[sthref7,rules-for-products]]
+==== Rules for {TechnologyFullName} Products
+
+The following rules apply for each version of an operating system,
+software component, and hardware platform Documented as supporting the
+Product:
+
+*{techID}1* The Product must be able to satisfy all applicable compatibility
+requirements, including passing all Conformance Tests, in every Product
+Configuration and in every combination of Product Configurations, except
+only as specifically exempted by these Rules.
+
+For example, if a Product provides distinct Operating Modes to optimize
+performance, then that Product must satisfy all applicable compatibility
+requirements for a Product in each Product Configuration, and
+combination of Product Configurations, of those Operating Modes.
+
+*{techID}1.1* If an Operating Mode controls a Resource necessary for the
+basic execution of the Test Suite, testing may always use a Product
+Configuration of that Operating Mode providing that Resource, even if
+other Product Configurations do not provide that Resource.
+Notwithstanding such exceptions, each Product must have at least one set
+of Product Configurations of such Operating Modes that is able to pass
+all the Conformance Tests.
+
+For example, a Product with an Operating Mode that controls a security
+policy (i.e., Security Resource) which has one or more Product
+Configurations that cause Conformance Tests to fail may be tested using
+a Product Configuration that allows all Conformance Tests to pass.
+
+*{techID}1.2* A Product Configuration of an Operating Mode that causes the
+Product to report only version, usage, or diagnostic information is
+exempted from these compatibility rules.
+
+*{techID}1.3* An API Definition Product is exempt from all functional
+testing requirements defined here, except the signature tests.
+
+*{techID}2* Some Conformance Tests may have properties that may be changed.
+Properties that can be changed are identified in the configuration
+interview. Properties that can be changed are identified in the JavaTest
+Environment (.jte) files in the Test Suite
+installation. Apart from changing such properties and other allowed
+modifications described in this User's Guide (if any), no source or
+binary code for a Conformance Test may be altered in any way without
+prior written permission. Any such allowed alterations to the
+Conformance Tests will be provided via the Jakarta EE Specification Project 
+website and apply to all vendor compatible implementations.
+
+*{techID}3* The testing tools supplied as part of the Test Suite or as
+updated by the Maintenance Lead must be used to certify compliance.
+
+*{techID}4* The Exclude List associated with the Test Suite cannot be
+modified.
+
+*{techID}5* The Maintenance Lead can define exceptions to these Rules. Such
+exceptions would be made available as above, and will apply to all vendor implementations.
+
+*{techID}6* All hardware and software component additions, deletions, and
+modifications to a Documented supporting hardware/software platform,
+that are not part of the Product but required for the Product to satisfy
+the compatibility requirements, must be Documented and available to
+users of the Product.
+
+For example, if a patch to a particular version of a supporting
+operating system is required for the Product to pass the Conformance
+Tests, that patch must be Documented and available to users of the
+Product.
+
+*{techID}7* The Product must contain the full set of public and protected
+classes and interfaces for all the Libraries. Those classes and
+interfaces must contain exactly the set of public and protected methods,
+constructors, and fields defined by the Specifications for those
+Libraries. No subsetting, supersetting, or modifications of the public
+and protected API of the Libraries are allowed except only as
+specifically exempted by these Rules.
+
+*{techID}7.1* If a Product includes Technologies in addition to the
+Technology Under Test, then it must contain the full set of combined
+public and protected classes and interfaces. The API of the Product
+must contain the union of the included Technologies. No further
+modifications to the APIs of the included Technologies are allowed.
+
+ifdef::subset-allowed[]
+*{techID}7.2* The Product may contain a subset of the classes and
+interfaces for the Libraries.
+endif::subset-allowed[]
+
+*{techID}8* Except for tests specifically required by this TCK to be rebuilt
+(if any), the binary Conformance Tests supplied as part of the Test
+Suite or as updated by the Maintenance Lead must be used to certify
+compliance.
+
+*{techID}9* The functional programmatic behavior of any binary class or
+interface must be that defined by the Specifications.
+
+[[CJAIIBDJ,test-appeals-process]]
+=== Test Appeals Process
+
+Jakarta has a well established process for managing challenges to its
+TCKs. Any implementor may submit a challenge to one or more tests in the
+{TechnologyShortName} TCK as it relates to their implementation.  Implementor
+means the entity as a whole in charge of producing the final certified release.
+*Challenges filed should represent the consensus of that entity*.
+
+==== Valid Challenges
+
+Any test case (e.g., test class, @Test method), test case configuration (e.g., deployment descriptor), test beans, annotations, and other resources considered part of the TCK may be challenged.
+
+The following scenarios are considered in scope for test challenges:
+
+* Claims that a test assertion conflicts with the specification.
+* Claims that a test asserts requirements over and above that of the specification.
+* Claims that an assertion of the specification is not sufficiently implementable.
+* Claims that a test is not portable or depends on a particular implementation.
+
+==== Invalid Challenges
+
+The following scenarios are considered out of scope for test challenges and will be immediately closed if filed:
+
+* Challenging an implementation's claim of passing a test.  Certification is an honor system and these issues must be raised directly with the implementation.
+* Challenging the usefulness of a specification requirement.  The challenge process cannot be used to bypass the specification process and raise in question the need or relevance of a specification requirement.
+* Claims the TCK is inadequate or missing assertions required by the specification.  See the Improvement section, which is outside the scope of test challenges.
+* Challenges that do not represent a consensus of the implementing community will be closed until such time that the community does agree or agreement cannot be made.  The test challenge process is not the place for implementations to initiate their own internal discussions.
+* Challenges to tests that are already excluded for any reason.
+* Challenges that an excluded test should not have been excluded and should be re-added should be opened as a new enhancement request
+
+Test challenges must be made in writing via the {TechnologyShortName} specification project issue tracker
+as described in <<CJAJEAEI,Section 2.3.3, "TCK Test Appeals Steps.">>.
+
+All tests found to be invalid will be placed on the Exclude List
+for that version of the {TechnologyShortName} TCK.
+
+
+[[CJAJEAEI,tck-test-appeals-steps]]
+==== TCK Test Appeals Steps
+
+1. Challenges should be filed via the {TechnologyFullName} specification project's issue tracker using the label `challenge` and include the following information:
+* The relevant specification version and section number(s)
+* The coordinates of the challenged test(s)
+* The exact TCK and exclude list versions
+* The implementation being tested, including name and company
+* The full test name
+* A full description of why the test is invalid and what the correct behavior is believed to be
+* Any supporting material; debug logs, test output, test logs, run scripts, etc.
+
+
+
+2. Specification project evaluates the challenge. +
+Challenges can be resolved by a specification project lead, or a project challenge triage team, after a consensus of the specification project committers is reached or attempts to gain consensus fails.
+Specification projects may exercise lazy consensus, voting or any practice that follows the principles of Eclipse Foundation Development Process.
+The expected timeframe for a response is two weeks or less.
+If consensus cannot be reached by the specification project for a prolonged period of time, the default recommendation is to exclude the tests and address the dispute in a future revision of the specification.
+
+3.  Accepted Challenges. +
+A consensus that a test produces invalid results will result in the exclusion of that test from certification requirements, and an immediate update and release of an official distribution of the TCK including the new exclude list. The associated `challenge` issue must be closed with an `accepted` label to indicate it has been resolved.
+
+4.  Rejected Challenges and Remedy. +
+When a`challenge` issue is rejected, it must be closed with a label of `invalid` to indicate it has been rejected.
+There appeal process for challenges rejected on technical terms is outlined in Escalation Appeal.
+If, however, an implementer feels the TCK challenge process was not followed, an appeal issue should be filed with specification project's TCK issue tracker using the label `challenge-appeal`.
+A project lead should escalate the issue with the Jakarta EE Specification Committee via email (jakarta.ee-spec@eclipse.org).
+The committee will evaluate the matter purely in terms of due process.
+If the appeal is accepted, the original TCK challenge issue will be reopened and a label of `appealed-challenge` added, along with a discussion of the appeal decision, and the `challenge-appeal` issue with be closed.
+If the appeal is rejected, the `challenge-appeal` issue should closed with a label of `invalid`.
+
+5. Escalation Appeal. +
+If there is a concern that a TCK process issue has not been resolved satisfactorily, the
+https://www.eclipse.org/projects/dev_process/#6_5_Grievance_Handling[Eclipse Development Process Grievance Handling] procedure should be followed to escalate the resolution. Note that this is not a mechanism to attempt to handle implementation specific issues.
+
+
+[[CJAJECIE,specifications-for-technology]]
+=== Specifications for {TechnologyFullName}
+
+The {TechnologyFullName} specification is available from the specification
+project web-site: {SpecificationURL}.
+
+[[CJABAHGI,libraries-for-technology]]
+=== Libraries for {TechnologyFullName}
+
+The following is a list of the packages comprising the required class
+libraries for {TechnologyShortName} {TechnologyVersion}:
+
+** `jakarta.json`
+
+** `jakarta.json.spi`
+
+** `jakarta.json.stream`
+
+For the latest list of packages, also see:
+
+{SpecificationURL}
+
+[[GBFTP,installation]]
+== Installation
+
+This chapter explains how to install the {TechnologyFullName} TCK software.
+
+After installing the software according to the instructions in this
+chapter, proceed to <<GBFVV,Chapter 4, "Setup and
+Configuration,">> for instructions on configuring your test environment.
+
+[NOTE]
+=======================================================================
+
+Although the {TechnologyShortName} {TechnologyVersion} TCK is not 
+depended on any particular build tool, it is convenient to install 
+Apache Maven {MavenVersion} for setup and execution of tests. 
+Any other build tools like Gradle and JUnit 5 Console Runner can also 
+be used that is Jupiter API compatible.
+
+=======================================================================
+
+[[obtaining-the-reference-implementation]]
+=== Obtaining a Compatible Implementation
+
+Each compatible implementation (CI) will provide instructions for obtaining
+their implementation.
+{TechnologyRI} is a compatible implementation which may be obtained
+from {TechnologyRIURL}
+
+[[installing-the-software]]
+=== Installing the Software
+
+Before you can run the {TechnologyShortName} TCK tests, you must
+install and set up the following software components:
+
+* Java SE {SEversion}
+* A CI for {TechnologyShortName} {TechnologyVersion}, one example is {TechnologyRI}
+* The {TechnologyShortName} {TechnologyVersion} Vendor Implementation (VI)
+* Any Jupiter API compatible test runner (eg. Apache Maven {MavenVersion})
+
+Follow these steps:
+
+.  Install the Java SE {SEversion} software, if it is not already installed. +
+Download and install the Java SE {SEversion} software from
+https://adoptium.net/temurin/releases.
+Refer to the installation instructions that accompany the software for
+additional information.
+
+.  Install the build tool that will be used to run the TCK, if it is not already installed. +
+It will be convenient to use Apache Maven {MavenVersion} for running the tests. The test kit 
+is not depended on Maven, any build tool compatible with Jupiter API is suffitient.
+
+.  Install the {TechnologyShortName} TCK {TechnologyVersion} software.
+  a.  Copy or download the {TechnologyShortName} TCK software to your
+      local system. +
+      You can obtain the {TechnologyShortName} TCK software from the
+      Jakarta EE site {SpecificationURL}.
+  b.  Use the `unzip` command to extract the bundle in the directory of
+      your choice: +
+      +unzip {TCKPackageName}+ +
+
+.  Install a {TechnologyShortName} {TechnologyVersion} Compatible
+Implementation. +
+A Compatible Implementation is used to validate your initial
+configuration and setup of the {TechnologyShortName} TCK
+{TechnologyVersion} tests, which are explained further in
+<<GBFVV,Chapter 4, "Setup and Configuration.">> +
+The Compatible Implementations for {TechnologyShortName} are listed on
+the Jakarta EE Specifications web site: {SpecificationURL}.
+.  Install the {TechnologyShortName} VI to be tested. +
+Follow the installation instructions for the particular VI under test.
+
+[[GBFVV,setup-and-configuration]]
+== Setup and Configuration
+
+
+[NOTE]
+====
+The Jakarta EE Specification process provides for any number of compatible implementations.
+As additional implementations become available, refer to project or product documentation from
+those vendors for specific TCK setup and operational guidance.
+
+====
+
+This chapter describes how to set up the {TechnologyShortName} TCK . 
+Before proceeding with the instructions in
+this chapter, be sure to install all required software, as described in
+<<GBFTP,Chapter 3, "Installation.">>.
+
+After completing the instructions in this chapter, proceed to
+<<GBFWO,Chapter 5, "Executing Tests,">> for instructions on
+running the {TechnologyShortName} TCK.
+
+[NOTE]
+====
+The {TechnologyShortName} TCK is not depended on any particular build 
+tool to run the tests. It will be convenient and advisable to create a 
+Apache Maven project to setup and run the TCK.
+This chapter will henceforth use instructions and steps to provide setup 
+with Apache Maven as a build tool. 
+====
+
+[[GBFVU,configuring-your-environment-to-run-the-tck-against-the-reference-implementation]]
+=== Configuring Your Environment to Run the TCK Against the Compatible Implementation
+
+After configuring your environment as described in this section,
+continue with the instructions in <<GBFWO,Chapter 5, "Executing Tests.">>.
+
+
+[NOTE]
+=======================================================================
+
+In these instructions, variables in angle brackets need to be expanded
+for each platform. For example, `<JAVA_HOME>` becomes `$JAVA_HOME` on
+Solaris/Linux and `%JAVA_HOME%` on Windows. In addition, the forward
+slashes (`/`) used in all of the examples need to be replaced with
+backslashes (`\`) for Windows. Finally, be sure to use the appropriate
+separator for your operating system when specifying multiple path
+entries (`;` on Windows, `:` on UNIX/Linux).
+
+On Windows, you must escape any backslashes with an extra backslash in
+path separators used in any of the following properties, or use forward
+slashes as a path separator instead.
+
+=======================================================================
+
+
+1.  Set the following environment variables in your shell environment:
+  a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
+  b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
+  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} TCK has been installed
+  d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
+  and `M2_HOME/bin`
+2.  Set the following System properties:
+  a. `jsonp-impl.groupId` property is set to the Maven Group Id of the CI to test.
+  b. `jsonp-impl.artifactId` property is set to the Maven Artifact Id of the CI to test.
+  c. `jsonp-impl.version` property is set to the Maven Version of the CI to test.
+  d. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
+
+3. Set the below jars to the classpath
+  a. JAR file for the {TechnologyShortName} {TechnologyVersion} API. +
+  `jakarta.json-api.jar`.
+  b. JUnit 5 jars ({JunitVersion})
+  c. sigtest-maven-plugin (1.4) to run the signature tests.
+  d. {TechnologyShortName} TCK tests (`jakarta.json:jakarta.json-tck-tests`)
+or {TechnologyShortName} TCK pluggability tests (`jakarta.json:jakarta.json-tck-tests-pluggability`)
+depending on which test suite to run.
+
++
+.Example: Maven configuration
+[source,xml]
+----
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-tck</artifactId>
+                <version>2.2.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ....
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>1.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>2.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.tools</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-tck-tests</artifactId> <!-- or jakarta.json-tck-tests-pluggability -->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+----
++
+
+
+[[GCLHU,configuring-your-environment-to-repackage-and-run-the-tck-against-the-vendor-implementation]]
+=== Configuring Your Environment to Run the TCK Against the Vendor Implementation
+
+After configuring your environment as described in this section,
+continue with the instructions in <<GBFWO,Chapter 5, "Executing Tests.">>.
+
+
+
+[NOTE]
+=======================================================================
+
+In these instructions, variables in angle brackets need to be expanded
+for each platform. For example, `<JAVA_HOME>` becomes `$JAVA_HOME` on
+Solaris/Linux and `%JAVA_HOME%` on Windows. In addition, the forward
+slashes (`/`) used in all of the examples need to be replaced with
+backslashes (`\`) for Windows. Finally, be sure to use the appropriate
+separator for your operating system when specifying multiple path
+entries (`;` on Windows, `:` on UNIX/Linux).
+
+On Windows, you must escape any backslashes with an extra backslash in
+path separators used in any of the following properties, or use forward
+slashes as a path separator instead.
+
+=======================================================================
+
+
+
+1.  Set the following environment variables in your shell environment:
+  a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
+  b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
+  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  {TechnologyVersion} TCK has been installed
+  d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
+  and `M2_HOME/bin`
+2.  Set the following System properties:
+  a. `jsonp-api.groupId` property is set to the Maven Group Id of the VI to test.
+  b. `jsonp-api.artifactId` property is set to the Maven Artifact Id of the VI to test.
+  c. `jsonp-api.version` property is set to the Maven Version of the VI to test.
+  d. `jimage.dir` property is set to extract the Java SE {SEversion} modules for running the signature tests.
+
+3. Set the below jars to the classpath
+  a. JAR file for the {TechnologyShortName} {TechnologyVersion} CI. +
+    `parsson.jar`.
+  b. JUnit 5 jars ({JunitVersion})
+  c. sigtest-maven-plugin (1.4) to run the signature tests.
+  d. {TechnologyShortName} TCK tests (`jakarta.json:jakarta.json-tck-tests`)
+or {TechnologyShortName} TCK pluggability tests (`jakarta.json:jakarta.json-tck-tests-pluggability`)
+depending on which test suite to run.
+
++
+.Example: Maven configuration
+[source,xml]
+----
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-tck</artifactId>
+                <version>2.2.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    ....
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>1.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.tools</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-tck-tests</artifactId> <!-- or jakarta.json-tck-tests-pluggability -->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+----
++
+
+
+
+[[GBFWO,executing-tests]]
+== Executing Tests
+
+The {TechnologyShortName} TCK uses the Junit 
+framework to execute the tests.
+
+This chapter includes the following topics:
+
+* <<GBFUZ,Running All Tests>>
+* <<GBFWM,Running a Subset of the Tests>>
+* <<GCLRR,Running the TCK Against your selected CI>>
+* <<GCLRZ,Running the TCK Against a Vendor's Implementation>>
+* <<GBFVK,Test Reports>>
+
+
+[NOTE]
+=======================================================================
+
+The instructions in this chapter assume that you have installed and
+configured your test environment as described in
+<<GBFTP,Chapter 3, "Installation,">> and
+<<GBFVV,Chapter 4, "Setup and Configuration,">>,
+respectively.
+
+=======================================================================
+
+ifdef::rebuild[]
+As explained in link:rebuild.html#GCLIZ[Appendix B, "Packaging the
+Test Applications in Servlet-Compliant WAR
+Files With VI-Specific Information,"] the {TechnologyShortName} TCK
+introduces the concept of repackaging the TCK tests.
+endif::rebuild[]
+
+
+[[GBFUZ,starting-javatest]]
+=== Starting the tests
+
+The {TechnologyShortName} TCK can be run from the command line 
+in your shell environment by executing tests from the TCK jar.
+
+
+[NOTE]
+=======================================================================
+
+The `mvn` command referenced in the following
+two procedures and elsewhere in this guide is the Apache Maven
+build tool, which will need to be downloaded separately.
+
+=======================================================================
+
+
+[[to-start-javatest-in-command-line-mode]]
+==== To Run All Tests
+
+To run all tests, enter the following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify
+----
+
+[[GBFWM,running-a-subset-of-the-tests]]
+=== Running a Subset of the Tests
+
+Use the following modes to run a subset of the tests:
+
+* <<GBFWK,Section 5.2.1, "To Run a Single Test">>
+* <<GCMCA,Section 5.2.2, "To Run a Subset of Tests">>
+* <<GCMCU,Section 5.2.3, "To Run Signature Tests">>
+
+
+[[GBFWK,to-run-a-single-test]]
+==== To Run a Single Test
+
+To run a single test, enter the following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={singleTestExample}
+----
+
+[[GCMCA,to-run-a-subset-of-tests]]
+==== To Run a Subset of Tests
+
+To run a subset of tests, enter the following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={subsetTestDirectoryExample}
+----
+
+[[GCMCU,to-run-signature-tests]]
+==== To Run Signature Tests
+
+To run the {TechnologyShortName} TCK Signature Tests, enter the
+following command:
+
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Dtest={sigTestExample}
+----
+
+
+[[GCLRR,running-the-tck-against-the-ri]]
+=== Running the TCK Against another CI
+
+Some test scenarios are designed to ensure that the configuration and deployment of
+all the prebuilt {TechnologyShortName} TCK tests against one Compatible
+Implementation are successful operating with other compatible implementations, and that the TCK is ready for
+compatibility testing against the Vendor and Compatible Implementations.
+
+1.  Verify that you have followed the configuration instructions in
+<<GBFVU,Section 4.1, "Configuring Your Environment to Run
+the TCK Against the Compatible Implementation.">>.
+2.  Run the tests, as described in <<GBFUZ,Section 5.1, "Starting
+the Tests">>, and, if desired, <<GBFWM,Section 5.2, "Running a Subset
+of the Tests.">>.
+
+.Example:
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Djsonp-impl.groupId=org.eclipse.parsson -Djsonp-impl.artifactId=parsson -Djsonp-impl.version=1.1.0
+----
+
+[[GCLRZ,running-the-tck-against-a-vendors-implementation]]
+=== Running the TCK Against a Vendor's Implementation
+
+This test scenario is one of the compatibility test phases that all
+Vendors must pass.
+
+1.  Verify that you have followed the configuration instructions in
+<<GCLHU,Section 4.2, "Configuring Your Environment to
+Run the TCK Against the Vendor Implementation.">>.
+2.  Run the tests, as described in <<GBFUZ,Section 5.1, "Starting
+the Tests">>, and, if desired, <<GBFWM,Section 5.2, "Running a Subset
+of the Tests.">>.
+
+.Example:
+[source,subs="attributes"]
+----
+cd ${TechnologyTCKHomeEnv}/bin
+mvn verify -Djsonp-api.groupId=jakarta.json -Djsonp-api.artifactId=jakarta.json-api -Djsonp-api.version=2.2.0
+----
+
+[[GBFVK,test-reports]]
+=== Test Reports
+
+A set of report files is created for every test run. These report files
+can be found in the target directory that the test is run. After a test run is
+completed, the Junit framework writes  reports for the test run.
+
+
+[[GBFUV,debugging-test-problems]]
+== Debugging Test Problems
+
+There are a number of reasons that tests can fail to execute properly.
+This chapter provides some approaches for dealing with these failures.
+
+This chapter includes the following topics:
+
+* <<GBFYP,Overview>>
+* <<GBFYF,Configuration Failures>>
+
+[[GBFYP,overview]]
+=== Overview
+
+The goal of a test run is for all tests in the test suite that are not
+filtered out to have passing results. If the root test suite folder
+contains tests with errors or failing results, you must troubleshoot and
+correct the cause to satisfactorily complete the test run.
+
+* Errors: Tests with errors could not be executed by the Junit
+framework. These errors usually occur because the test environment is not
+properly configured.
+* Failures: Tests that fail were executed but had failing results.
+
+
+For every test run, the Junit framework creates a set of report files
+in the target directory.
+
+
+If a large number of tests failed, you should read
+<<GBFYF,Configuration Failures>> to see if a
+configuration issue is the cause of the failures.
+
+
+[[GBFYF,configuration-failures]]
+=== Configuration Failures
+
+Configuration failures are easily recognized because many tests fail the
+same way. When all your tests begin to fail, you may want to stop the
+run immediately and start viewing individual test output.
+
+[#a-frequently-asked-questions]
+== Frequently Asked Questions
+
+This appendix contains the following questions.
+
+* <<GBFYQ,Where do I start to debug a test failure?>>
+* <<GBFYR,How do I restart a crashed test run?>>
+* <<GBFWU,What would cause tests be added to the exclude list?>>
+
+[[GBFYQ,a.1-where-do-i-start-to-debug-a-test-failure]]
+=== Where do I start to debug a test failure?
+
+From the JavaTest GUI, you can view recently run tests using the Test
+Results Summary, by selecting the red Failed tab or the blue Error tab.
+See <<GBFUV,Chapter 6, "Debugging Test Problems,">> for more
+information.
+
+[[GBFYR,a.2-how-do-i-restart-a-crashed-test-run]]
+=== How do I restart a crashed test run?
+
+If you need to restart a test run, you can figure out which test crashed
+the test suite by looking at the `harness.trace` file. The
+`harness.trace` file is in the report directory that you supplied to the
+JavaTest GUI or parameter file. Examine this trace file, then change the
+JavaTest GUI initial files to that location or to a directory location
+below that file, and restart. This will overwrite only `.jtr` files that
+you rerun. As long as you do not change the value of the GUI work
+directory, you can continue testing and then later compile a complete
+report to include results from all such partial runs.
+
+[[GBFWU,a.3-what-would-cause-tests-be-added-to-the-exclude-list]]
+=== What would cause tests be added to the exclude list?
+
+The JavaTest exclude file (+{excludeListFileName}+) contains all tests that are not
+required to be run. The following is a list of reasons for a test to be
+included in the Exclude List:
+
+* An error in a Compatible Implementation that does not allow the test to
+execute properly has been discovered.
+* An error in the specification that was used as the basis of the test
+has been discovered.
+* An error in the test has been discovered.
+
+References in this document to {LegacyAcronym} refer to the {TechnologyFullName} unless otherwise noted.
