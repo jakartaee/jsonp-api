@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.9</version>
+        <version>2.0.5</version>
         <relativePath/>
     </parent>
 
@@ -57,6 +57,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+               <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
+        <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
         <maven.compiler.release>17</maven.compiler.release>
         <junit.jupiter.version>5.14.4</junit.jupiter.version>
 
