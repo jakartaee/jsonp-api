@@ -83,7 +83,7 @@
         <spotbugs.exclude>${project.basedir}/../etc/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.7.3.5</spotbugs.version>
+        <spotbugs.version>4.10.4.1</spotbugs.version>
 
         <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
         <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
