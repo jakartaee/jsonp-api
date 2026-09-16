@@ -34,7 +34,7 @@
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
         <asciidoctor.maven.plugin.version>2.0.0</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
+        <asciidoctorj.pdf.version>2.3.23</asciidoctorj.pdf.version>
                <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
         <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
         <!-- status: DRAFT, BETA, etc., or blank for final -->
