@@ -1,5 +1,6 @@
 # Maven noise
 target/
+.flattened-pom.xml
 
 # OSX noise
 .DS_Store

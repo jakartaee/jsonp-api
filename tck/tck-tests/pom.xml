@@ -60,4 +60,69 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>tck-tests-ci</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.eclipse.parsson</groupId>
+                    <artifactId>parsson</artifactId>
+                    <version>1.1.8</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.netbeans.tools</groupId>
+                    <artifactId>sigtest-maven-plugin</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <!-- Copy the API jar so the sig test can find it on sigTestClasspath -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-api-jar</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>jakarta.json</groupId>
+                                            <artifactId>jakarta.json-api</artifactId>
+                                            <version>${jakarta.json-api.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>
+                                            <destFileName>jakarta.json-api.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <useModulePath>false</useModulePath>
+                            <trimStackTrace>false</trimStackTrace>
+                            <forkCount>1</forkCount>
+                            <reuseForks>false</reuseForks>
+                            <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
+                            <systemPropertyVariables>
+                                <jimage.dir>${project.build.directory}/jdk-bundle</jimage.dir>
+                                <signature.sigTestClasspath>${project.build.directory}/signaturedirectory/jakarta.json-api.jar:${project.build.directory}/jdk-bundle/java.base:${project.build.directory}/jdk-bundle/java.rmi:${project.build.directory}/jdk-bundle/java.sql:${project.build.directory}/jdk-bundle/java.naming</signature.sigTestClasspath>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
