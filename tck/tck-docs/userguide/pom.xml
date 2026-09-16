@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <asciidoctorj.version>2.4.2</asciidoctorj.version>
-        <asciidoctorj.diagram.version>2.1.0</asciidoctorj.diagram.version>
+        <asciidoctorj.diagram.version>3.2.1</asciidoctorj.diagram.version>
         <asciidoctorj.maven.plugin.version>2.1.0</asciidoctorj.maven.plugin.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <jbake.maven.plugin.version>0.3.3</jbake.maven.plugin.version>
