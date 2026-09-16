@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2017, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2017, 2026 Contributors to the Eclipse Foundation
 //
 
 = Jakarta JSON Processing
@@ -7,7 +7,7 @@
 :email: https://dev.eclipse.org/mailman/listinfo/jsonp-dev
 :version-label!:
 :doctype: book
-:license: Eclipse Foundation Specification License v1.0
+:license: Eclipse Foundation Specification License v2.0
 :source-highlighter: coderay
 :toc: left
 :toclevels: 4

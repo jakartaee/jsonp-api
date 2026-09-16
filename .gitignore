@@ -1,5 +1,6 @@
 # Maven noise
 target/
+.flattened-pom.xml
 
 # OSX noise
 .DS_Store
@@ -14,6 +15,7 @@ target/
 .settings/
 .classpath
 .project
+bin/
 
 # NetBeans noise
 nbproject/
@@ -24,3 +26,6 @@ nbproject/
 # Java noise
 *.class
 *err_pid*.log
+dependency-reduced-pom.xml
+
+.envrc
