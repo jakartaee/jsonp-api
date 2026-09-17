@@ -1,0 +1,87 @@
+name: TCK Challenge
+description: Jakarta JSON Processing TCK Challenge
+title: "[TCK Challenge]: "
+labels: ["challenge"] #Verified - label exists
+body:
+  - type: markdown
+    attributes:
+      value: "> Before submitting a TCK Challenge to the Jakarta JSON Processing community please read and be familiar with the \n> [TCK Process document](https://jakarta.ee/committees/specification/tckprocess) which may be updated occasionally.\n"
+  - type: input
+    id: specification
+    validations:
+      required: true
+    attributes:
+      label: Specification
+      description: What specification is the challenge related to? Provide a link to the specification class or document section.
+  - type: input
+    id: assertion
+    validations:
+      required: true
+    attributes:
+      label: Assertion
+      description: What assertion is the challenge related to? Provide a link to the assertion description
+  - type: dropdown
+    id: version
+    validations:
+      required: true
+    attributes:
+      label: TCK Version
+      description: What version of the TCK are you running against?
+      options:
+        - 2.1.3
+        - 2.1.2
+        - 2.1.1
+        - 2.1.0
+        - 2.0.2
+        - 2.0.1
+        - 2.0.0
+        - 1.1.6
+        - 1.1.5
+        - SNAPSHOT (Locally built)
+  - type: input
+    id: implementation
+    validations:
+      required: true
+    attributes:
+      label: Implementation being tested
+      description: What implementation is being tested? Include name of company/organization
+      placeholder: |
+        ex. Open Liberty / IBM
+  - type: dropdown
+    id: challengeType
+    validations:
+      required: true
+    attributes:
+      label: Challenge Scenario
+      description: Which of the following scenarios best match this challenge?
+      options:
+        - Claims that a test assertion conflicts with the specification.
+        - Claims that a test asserts requirements over and above that of the specification.
+        - Claims that an assertion of the specification is not sufficiently implementable.
+        - Claims that a test is not portable or depends on a particular implementation.
+        - Something else
+  - type: textarea
+    id: fullDescription
+    validations:
+      required: true
+    attributes:
+      label: Full Description
+      description: |
+        Describe the challenge in full detail including logs.
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+      placeholder: |
+        > Description of issue using markdown syntax
+  - type: textarea
+    id: additionalContext
+    attributes:
+      label: Additional Context
+      description: Additional context about the problem, possible solutions, alternative interpretations, etc.
+  - type: checkboxes
+    attributes:
+      label: Is there an existing challenge for this?
+      description: |
+        Please search to see if a challenge already exists, or has been approved, that matches your challenge.
+        https://github.com/jakartaee/jsonp-api/issues?q=sort%3Aupdated-desc%20is%3Aissue%20label%3Achallenge
+      options:
+        - label: I have searched the existing issues
+          required: true

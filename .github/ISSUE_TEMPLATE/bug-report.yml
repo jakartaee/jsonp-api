@@ -1,0 +1,39 @@
+name: Bug Report
+description: Report a mistake or inconsistency in the specification code or documentation text.
+title: "[Bug]: "
+labels: ["bug"] #Verified - label exists
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > Report a mistake or inconsistency in the specification code, TCK tests, or documentation text.
+        > If error is related to a TCK test after release, then use the TCK Challenge template instead.
+  - type: dropdown
+    id: version
+    validations:
+      required: true
+    attributes:
+      label: Specification Version
+      description: What version of the JSON Processing Spec are you running using?
+      options:
+        - 2.1.3
+        - 2.1.2
+        - 2.1.1
+        - 2.1.0
+        - 2.0.2
+        - 2.0.1
+        - 2.0.0
+        - 1.1.6
+        - 1.1.5
+        - SNAPSHOT (Locally built)
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: Bug report
+      placeholder: |
+        > Description of the bug found.
+  - type: textarea
+    attributes:
+      label: Additional information
+      placeholder: "> Proposed solutions, code examples, ect. \n"

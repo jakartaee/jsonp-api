@@ -1,0 +1,36 @@
+name: Use Case
+description: Describe a new use case for the specification. 
+title: "[Use Case]: "
+labels: ["enhancement"] #Verified - label exists
+body:
+  - type: markdown
+    attributes: 
+      value: |
+        > Describe a new use case for the specification.
+  - type: checkboxes
+    attributes:
+      label: As a ...
+      options:
+      - label: Application user/user of the configuration itself
+      - label: API user (application developer)
+      - label: SPI user (container or runtime developer)
+      - label: Specification implementer
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: I need to be able to ...
+      placeholder: |
+        > Description of the new or different use case
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: Which enables me to ...
+      placeholder: |
+        > Description of the added value of this use case
+  - type: textarea
+    attributes:
+      label: Additional information
+      placeholder: |
+        > Proposed solutions, code examples, ect. 
