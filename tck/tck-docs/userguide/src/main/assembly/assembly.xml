@@ -28,34 +28,37 @@
     <fileSets>
         <fileSet>
             <directory>${project.build.directory}/generated-docs</directory>
-            <outputDirectory>docs/pdf-usersguide</outputDirectory>
+            <outputDirectory>html-usersguide/</outputDirectory>
             <includes>
-                <include>**/*.pdf</include>
+                <include>jsonp-tck-users-guide-*.html</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.build.directory}/staging</directory>
-            <outputDirectory>docs/html-usersguide</outputDirectory>
-            <excludes>
-                <exclude>*.inc</exclude>
-                <exclude>*.conf</exclude>
-                <exclude>*.yml</exclude>
-                <exclude>*.md</exclude>
-                <exclude>README</exclude>
-            </excludes>
-        </fileSet>
-        <fileSet>
-            <directory>../assertions</directory>
-            <outputDirectory>docs/assertions</outputDirectory>
+            <directory>${project.build.directory}/generated-docs</directory>
+            <outputDirectory>pdf-usersguide/</outputDirectory>
             <includes>
-                <include>*Assertions.html</include>
+                <include>jsonp-tck-users-guide-*.pdf</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../</directory>
-            <outputDirectory>docs/</outputDirectory>
+            <directory>resources/assertions</directory>
+            <outputDirectory>assertions/</outputDirectory>
             <includes>
-                <include>*.*</include>
+                <include>JavadocAssertions.md</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>resources</directory>
+            <outputDirectory>./</outputDirectory>
+            <includes>
+                <include>README.md</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>./</directory>
+            <outputDirectory>./</outputDirectory>
+            <includes>
+                <include>TCK-Exclude-List.txt</include>
             </includes>
         </fileSet>
     </fileSets>
