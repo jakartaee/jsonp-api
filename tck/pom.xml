@@ -60,7 +60,7 @@
                <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
         <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
         <maven.compiler.release>17</maven.compiler.release>
-        <junit.jupiter.version>5.14.4</junit.jupiter.version>
+        <junit.jupiter.version>6.1.3</junit.jupiter.version>
 
         <jakarta.json-api.version>2.2.0</jakarta.json-api.version>
         <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
