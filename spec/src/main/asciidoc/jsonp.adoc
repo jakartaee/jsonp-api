@@ -1,7 +1,13 @@
 //
-// Copyright (c) 2018, 2020 Contributors to the Eclipse Foundation
+// Copyright (c) 2018, 2026 Contributors to the Eclipse Foundation
 //
 
 == Introduction
 
 Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.
+
+== Documentation
+
+Since Jakarta JSON Processing is a small and concise specification relying enitrely on API and SPI and has no dependencies on
+other Jakarta EE specifications, the documentation for this specification is only available via Javadoc:
+https://jakarta.ee/specifications/jsonp/{revnumber}/apidocs/
