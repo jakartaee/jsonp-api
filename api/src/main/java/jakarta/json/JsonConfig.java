@@ -24,6 +24,12 @@ package jakarta.json;
 public final class JsonConfig {
 
     /**
+     * Configuration property to ignore null values. All providers
+     * must support this property. The value of the property is boolean.
+     */
+    public static final String IGNORE_NULL = "jakarta.json.JsonConfig.ignoreNull";
+
+    /**
      * Configuration property to define the strategy for handling duplicate keys.
      *
      * See {@link KeyStrategy}
