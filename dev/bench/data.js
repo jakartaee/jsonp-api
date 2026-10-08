@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790830257648,
+  "lastUpdate": 1791435175281,
   "repoUrl": "https://github.com/jakartaee/jsonp-api",
   "entries": {
     "Java JMH Benchmark": [
@@ -244,6 +244,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaProvider",
             "value": 704600.4427982518,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Swatosh",
+            "username": "mswatosh",
+            "email": "mark.swatosh@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "8b36b4e5d352ab6eb40100decbbeb63d202a669f",
+          "message": "Merge pull request #442 from jakartaee/dependabot/maven/tck/org.eclipse.parsson-parsson-1.1.9\n\nBump org.eclipse.parsson:parsson from 1.1.8 to 1.1.9 in /tck",
+          "timestamp": "2026-09-30T13:47:35Z",
+          "url": "https://github.com/jakartaee/jsonp-api/commit/8b36b4e5d352ab6eb40100decbbeb63d202a669f"
+        },
+        "date": 1791435174556,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaFactory",
+            "value": 696057.9502135268,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaJson",
+            "value": 61.98379509141383,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaProvider",
+            "value": 695180.7398586215,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaFactory",
+            "value": 689112.7907231788,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaJson",
+            "value": 62.03990353135473,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaProvider",
+            "value": 689602.4184108509,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueInt_viaJson",
+            "value": 62.123336405769905,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueInt_viaProvider",
+            "value": 693791.1335602195,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaJson",
+            "value": 62.23848360439548,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaProvider",
+            "value": 698588.9036218291,
             "unit": "ops/ms",
             "extra": "iterations: 5\nforks: 1\nthreads: 1"
           }
