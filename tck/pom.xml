@@ -67,7 +67,7 @@
         <asciidoctorj.pdf.version>2.3.23</asciidoctorj.pdf.version>
         
         <!-- Plugin versions for signature generation -->
-        <sigtest.version>2.3</sigtest.version>
+        <sigtest.version>2.7</sigtest.version>
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
     </properties>
 
