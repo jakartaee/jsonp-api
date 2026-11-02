@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,9 +25,14 @@ import ee.jakarta.tck.jsonp.common.JSONP_Util;
 import jakarta.json.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -358,6 +363,32 @@ public class ClientTests {
       assertEquals(Json.createValue(1D).toString(), Json.createValue(Double.valueOf(1)).toString());
       assertEquals(Json.createValue(1), Json.createValue(new CustomNumber(1)));
       assertEquals(Json.createValue(1).toString(), Json.createValue(new CustomNumber(1)).toString());
+  }
+
+  /*
+   * @testName: jsonValueConstantsSerializationTest
+   *
+   * @test_Strategy: Tests that JsonValue.NULL, JsonValue.TRUE, JsonValue.FALSE,
+   * JsonValue.EMPTY_JSON_OBJECT and JsonValue.EMPTY_JSON_ARRAY keep their
+   * identity after Java serialization and deserialization.
+   */
+  @Test
+  public void jsonValueConstantsSerializationTest() throws Exception {
+      assertSame(JsonValue.NULL, serializeAndDeserialize(JsonValue.NULL));
+      assertSame(JsonValue.TRUE, serializeAndDeserialize(JsonValue.TRUE));
+      assertSame(JsonValue.FALSE, serializeAndDeserialize(JsonValue.FALSE));
+      assertSame(JsonValue.EMPTY_JSON_OBJECT, serializeAndDeserialize(JsonValue.EMPTY_JSON_OBJECT));
+      assertSame(JsonValue.EMPTY_JSON_ARRAY, serializeAndDeserialize(JsonValue.EMPTY_JSON_ARRAY));
+  }
+
+  private static Object serializeAndDeserialize(Object value) throws Exception {
+      ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+      try (ObjectOutputStream out = new ObjectOutputStream(bytes)) {
+          out.writeObject(value);
+      }
+      try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()))) {
+          return in.readObject();
+      }
   }
 
   private static class CustomNumber extends Number {

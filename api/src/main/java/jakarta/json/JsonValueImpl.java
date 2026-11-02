@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2026 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -86,6 +86,23 @@ final class JsonValueImpl implements JsonValue, Serializable {
     @Override
     public String toString() {
         return valueType.name().toLowerCase();
+    }
+
+    /**
+     * Preserves singleton property
+     * @return {@link JsonValue#NULL}, {@link JsonValue#TRUE} or {@link JsonValue#FALSE}
+     */
+    private Object readResolve() {
+        switch (valueType) {
+            case NULL:
+                return JsonValue.NULL;
+            case TRUE:
+                return JsonValue.TRUE;
+            case FALSE:
+                return JsonValue.FALSE;
+            default:
+                return this;
+        }
     }
 
 }
