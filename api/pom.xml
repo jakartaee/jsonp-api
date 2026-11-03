@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2011, 2026 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,60 +22,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.eclipse.ee4j</groupId>
-        <artifactId>project</artifactId>
-        <version>2.0.6</version>
-        <relativePath/>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-parent</artifactId>
+        <version>2.2.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-api</artifactId>
 
-    <version>2.2.0-SNAPSHOT</version>
     <name>Jakarta JSON Processing API</name>
-    <description>Jakarta JSON Processing defines a Java(R) based framework for parsing, generating, transforming, and querying JSON documents.</description>
-    <url>https://github.com/eclipse-ee4j/jsonp</url>
-
-    <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/jsonp.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/jsonp.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/jsonp</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>Eclipse Public License 2.0</name>
-            <url>https://projects.eclipse.org/license/epl-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
-            <name>GNU General Public License, version 2 with the GNU Classpath Exception</name>
-            <url>https://projects.eclipse.org/license/secondary-gpl-2.0-cp</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>m0mus</id>
-            <name>Dmitry Kornilov</name>
-            <organization>Oracle</organization>
-            <roles>
-                <role>project lead</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>lukasj</id>
-            <name>Lukas Jungmann</name>
-            <organization>Oracle</organization>
-            <roles>
-                <role>dev lead</role>
-            </roles>
-        </developer>
-    </developers>
+    <description>
+        Jakarta JSON Processing defines a Java(R) based framework 
+        for parsing, generating, transforming, and querying JSON documents.
+    </description>
 
     <properties>
+        <non.final>false</non.final>
+        <spec.version>2.2</spec.version>
+        <vendor.name>Eclipse Foundation</vendor.name>
         <copyright.exclude>${project.basedir}/../etc/copyright-exclude</copyright.exclude>
         <copyright.templatefile>${project.basedir}/../etc/copyright.txt</copyright.templatefile>
         <copyright.ignoreyear>true</copyright.ignoreyear>
@@ -83,92 +48,10 @@
         <spotbugs.exclude>${project.basedir}/../etc/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.7.3.5</spotbugs.version>
-
-        <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
-        <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
-        <non.final>false</non.final>
-        <extension.name>jakarta.json</extension.name>
-        <spec.version>2.2</spec.version>
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
-        <vendor.name>Eclipse Foundation</vendor.name>
     </properties>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.glassfish.copyright</groupId>
-                    <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.glassfish.build</groupId>
-                    <artifactId>spec-version-maven-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.9</version>
-                    <configuration>
-                        <instructions>
-                            <_noextraheaders>true</_noextraheaders>
-                        </instructions>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.7.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${spotbugs.version}</version>
-                    <configuration>
-                        <skip>${spotbugs.skip}</skip>
-                        <threshold>${spotbugs.threshold}</threshold>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>flatten-maven-plugin</artifactId>
-                    <version>1.8.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -289,7 +172,7 @@
                         <jarType>api</jarType>
                         <specVersion>${spec.version}</specVersion>
                         <specImplVersion>${project.version}</specImplVersion>
-                        <apiPackage>${extension.name}</apiPackage>
+                        <apiPackage>${project.groupId}</apiPackage>
                     </spec>
                 </configuration>
                 <executions>
@@ -400,30 +283,6 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                     <failThreshold>High</failThreshold>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                        <configuration>
-                            <flattenMode>ossrh</flattenMode>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-    
 </project>
