@@ -37,9 +37,6 @@
         <module>tck-common</module>
         <module>tck-tests</module>
         <module>tck-tests-pluggability</module>
-        <module>tck-docs</module>
-        <module>tck-dist-eftl</module>
-        <module>tck-dist-epl</module>
     </modules>
 
     <licenses>
@@ -86,11 +83,6 @@
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-tck-tests-pluggability</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-tck-ug</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2021, 2025 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,43 +16,22 @@
     SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>jakarta.json</groupId>
-        <artifactId>jakarta.json-tck</artifactId>
+        <artifactId>jakarta.json-parent</artifactId>
         <version>2.2.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>jakarta.json</groupId>
-    <artifactId>jakarta.json-tck-dist-eftl</artifactId>
+    <artifactId>jakarta.json-tck-dist</artifactId>
     <packaging>pom</packaging>
-    <name>JSONP TCK EFTL Distribution</name>
-
-    <licenses>
-        <license>
-            <name>Eclipse Foundation Technology Compatibility Kit License - v 1.0</name>
-            <distribution>manual</distribution>
-            <url>https://www.eclipse.org/legal/tck.php</url>
-        </license>
-    </licenses>
-
-    <properties>
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <maven.install.skip>true</maven.install.skip>
-    </properties>
+    
+    <name>Jakarta JSON Processing TCK Distribution</name>
+    <description>Jakarta JSON Processing TCK distribution bundle</description>
 
     <dependencies>
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-tck-ug</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-tck</artifactId>
@@ -118,9 +97,88 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>EFTL</id>
+            <properties>
+                <license>EFTL</license>
+                <bundle-name>jakarta-jsonp-tck</bundle-name>
+            </properties>
+        </profile>
+        <profile>
+            <id>EPL</id>
+            <properties>
+                <license>EPL</license>
+                <bundle-name>jsonp-tck</bundle-name>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
     <build>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>asciidoc-to-html</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>jsonp-tck-users-guide-${project.version}.html</outputFile>
+                            <backend>html5</backend>
+                            <attributes>
+                                <data-uri/>
+                                <toc>left</toc>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>asciidoc-to-pdf</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>jsonp-tck-users-guide-${project.version}.pdf</outputFile>
+                            <backend>pdf</backend>
+                            <attributes>
+                                <pdf-stylesdir>${project.basedir}/src/main/theme</pdf-stylesdir>
+                                <pdf-style>jakartaee</pdf-style>
+                                <pagenums/>
+                                <toc/>
+                                <embedAssets>true</embedAssets>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceDirectory>src/main/asciidoc</sourceDirectory>
+                    <sourceDocumentName>jsonp-tck-users-guide.adoc</sourceDocumentName>
+                    <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+                    <attributes>
+                        <doctype>book</doctype>
+                        <status>${status}</status>
+                        <icons>font</icons>
+                        <sectanchors>true</sectanchors>
+                        <idprefix/>
+                        <idseparator>-</idseparator>
+                        <docinfo1>true</docinfo1>
+                        <revnumber>${project.version}</revnumber>
+                        <revremark>${status}</revremark>
+                        <revdate>${maven.build.timestamp}</revdate>
+                        <source-highlighter>coderay</source-highlighter>
+                    </attributes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
@@ -135,7 +193,7 @@
                             </descriptors>
                             <escapeString>\</escapeString>
                             <appendAssemblyId>false</appendAssemblyId>
-                            <finalName>jakarta-jsonp-tck-${project.version}</finalName>
+                            <finalName>${bundle-name}-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>
