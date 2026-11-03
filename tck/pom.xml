@@ -105,6 +105,14 @@
                 <!--Default assumed JDK version, can be overridden via -Djdk.major.version=X -->
                 <jdk.major.version>${maven.compiler.release}</jdk.major.version>
             </properties>
+            <dependencies>
+                <!-- API classes are picked up by sigtest-maven-plugin from the project classpath -->
+                <dependency>
+                    <groupId>jakarta.json</groupId>
+                    <artifactId>jakarta.json-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <!-- Unpacks the API jar into target/json-api for use by sigtest-maven-plugin -->
@@ -183,6 +191,7 @@
                                 jakarta.json.spi,
                                 jakarta.json.stream
                             </packages>
+                            <version>${project.version}</version>
                             <attach>false</attach>
                             <sigfile>${project.build.directory}/jakarta.json.sig_${jdk.major.version}</sigfile>
                         </configuration>

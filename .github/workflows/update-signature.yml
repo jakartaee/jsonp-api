@@ -1,0 +1,87 @@
+#
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+# Re-generates the TCK signature file(s) whenever the API module is updated.
+# If the generated signature differs from the committed one, a pull request is opened.
+# Can also be run manually using workflow_dispatch.
+
+name: Update signature files
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'api/src/**'
+  workflow_dispatch: # For manual testing
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-signature-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Update signature file for JDK ${{ matrix.java_version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 1
+      matrix:
+        java_version: [ 17 ] # Add other Java versions if multiple signature files are supported.
+
+    env:
+      SIGNATURE_DIR: tck/tck-tests/src/main/resources/ee/jakarta/tck/jsonp/signaturetest
+      UPDATE_BRANCH: update-signature-files-${{ github.sha }}
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+    - name: Set up JDK ${{ matrix.java_version }}
+      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad  # v6.1.0
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java_version }}
+        cache: 'maven'
+    - name: Generate signature file
+      run: |
+        mvn -B -V -U -C install -N -DskipTests
+        mvn -B -V -U -C install -f api/pom.xml -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip=true
+        mvn -B -V -U -C package -N -f tck/pom.xml -Psignature-generation -Djdk.major.version=${{ matrix.java_version }}
+    - name: Check for changes
+      id: changes
+      run: |
+        git add --intent-to-add "${SIGNATURE_DIR}"
+        if git diff --quiet -- "${SIGNATURE_DIR}"; then
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Create pull request
+      if: steps.changes.outputs.changed == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "github-actions[bot]"
+        git checkout -b "${UPDATE_BRANCH}"
+        git add "${SIGNATURE_DIR}"
+        git commit -s -m "Update signature file for JDK ${{ matrix.java_version }}"
+        git push origin "${UPDATE_BRANCH}"
+        gh pr create \
+          --base "${{ github.ref_name }}" \
+          --head "${UPDATE_BRANCH}" \
+          --title "Update signature file for JDK ${{ matrix.java_version }}" \
+          --body "Generated from ${{ github.sha }} after a change to the API module."

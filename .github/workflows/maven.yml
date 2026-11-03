@@ -38,5 +38,5 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java_version }}
         cache: 'maven'
-    - name: Verify
-      run: cd api && mvn -B -V -U -C -Poss-release -Pstaging clean verify -Dgpg.skip=true
+    - name: Package
+      run: mvn -B -V -U -C clean package
