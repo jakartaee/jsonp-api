@@ -48,7 +48,7 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
-                            <outputFile>${project.build.directory}/generated-docs/jsonp-spec-${project.version}.html</outputFile>
+                            <outputFile>${project.build.directory}/generated-docs/jakarta-json-processing.html</outputFile>
                             <attributes>
                                 <doctype>book</doctype>
                                 <status>${status}</status>
@@ -71,7 +71,7 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
-                            <outputFile>${project.build.directory}/generated-docs/jsonp-spec-${project.version}.pdf</outputFile>
+                            <outputFile>${project.build.directory}/generated-docs/jakarta-json-processing.pdf</outputFile>
                             <attributes>
                                 <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
                                 <pdf-style>jakartaee</pdf-style>
