@@ -105,7 +105,7 @@
                                         <artifactItem>
                                             <groupId>jakarta.json</groupId>
                                             <artifactId>jakarta.json-api</artifactId>
-                                            <version>${jakarta.json-api.version}</version>
+                                            <version>${project.version}</version>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.build.directory}/signaturedirectory</outputDirectory>

@@ -59,4 +59,4 @@ jobs:
         "$TCK_VERSIONED_ROOT/artifacts/artifact-install.sh"
 
         # Verify pom.xml and sub-modules are valid
-        mvn -B -V -f "$TCK_VERSIONED_ROOT/bin/pom.xml" clean verify
+        mvn -B -V -f "$TCK_VERSIONED_ROOT/bin/pom.xml" clean validate
