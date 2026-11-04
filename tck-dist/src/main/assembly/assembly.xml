@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2021, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,21 +18,51 @@
 
 -->
 
-<assembly xmlns="https://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<assembly xmlns="https://maven.apache.org/ASSEMBLY/2.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
     <id>distribution</id>
-    <baseDirectory>jsonp-tck</baseDirectory>
+    
     <formats>
         <format>zip</format>
     </formats>
 
+    <files>
+        <!-- license -->
+        <file>
+            <source>${project.basedir}/src/main/resources/LICENSE_${license}.md</source>
+            <destName>LICENSE.md</destName>
+        </file>
+        <!-- README.md -->
+        <file>
+            <source>${project.basedir}/src/main/resources/README.md</source>
+            <outputDirectory>docs</outputDirectory>
+        </file>
+        <!-- excludes -->
+        <file>
+            <source>${project.basedir}/src/main/resources/TCK_Excludes.md</source>
+            <outputDirectory>docs</outputDirectory>
+        </file>
+    </files>
+
     <fileSets>
         <fileSet>
-            <!-- license -->
-            <directory>${project.basedir}/src/main/resources</directory>
-            <outputDirectory>.</outputDirectory>
+            <directory>${project.basedir}/src/main/resources/assertions</directory>
+            <outputDirectory>docs/assertions</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/generated-docs</directory>
+            <outputDirectory>docs/html-usersguide</outputDirectory>
             <includes>
-                <include>*</include>
+                <include>jsonp-tck-users-guide-*.html</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/generated-docs</directory>
+            <outputDirectory>docs/pdf-usersguide</outputDirectory>
+            <includes>
+                <include>jsonp-tck-users-guide-*.pdf</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -43,7 +74,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/src/main/bin</directory>
+            <directory>${project.basedir}/src/main/tck-run</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
                 <include>**/*.xml</include>
@@ -54,6 +85,8 @@
     <dependencySets>
         <dependencySet>
             <includes>
+                <include>jakarta.json:jakarta.json-parent</include>
+                <include>jakarta.json:jakarta.json-api</include>
                 <include>jakarta.json:jakarta.json-tck</include>
                 <include>jakarta.json:jakarta.json-tck-common</include>
                 <include>jakarta.json:jakarta.json-tck-tests</include>
@@ -62,13 +95,6 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <outputDirectory>artifacts</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-        <dependencySet>
-            <includes>
-                <include>jakarta.json:jakarta.json-tck-ug</include>
-            </includes>
-            <unpack>true</unpack>
-            <outputDirectory>docs/</outputDirectory>
         </dependencySet>
     </dependencySets>
 

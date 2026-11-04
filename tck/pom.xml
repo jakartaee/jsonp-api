@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2020, 2026 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,63 +17,36 @@
     SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.eclipse.ee4j</groupId>
-        <artifactId>project</artifactId>
-        <version>2.0.5</version>
-        <relativePath/>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-parent</artifactId>
+        <version>2.2.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>jakarta.json</groupId>
     <artifactId>jakarta.json-tck</artifactId>
-    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Jakarta JSON Processing TCK</name>
-    <description>Jakarta JSON Processing TCK</description>
+
+    <name>Jakarta JSON Processing TCK Parent</name>
+    <description>Jakarta JSON Processing TCK Parent</description>
 
     <modules>
         <module>tck-common</module>
         <module>tck-tests</module>
         <module>tck-tests-pluggability</module>
-        <module>tck-docs</module>
-        <module>tck-dist-eftl</module>
-        <module>tck-dist-epl</module>
     </modules>
-
-    <licenses>
-        <license>
-            <name>Eclipse Public License 2.0</name>
-            <url>https://projects.eclipse.org/license/epl-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
-            <name>GNU General Public License, version 2 with the GNU Classpath Exception</name>
-            <url>https://projects.eclipse.org/license/secondary-gpl-2.0-cp</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-               <!-- Required by org.eclipse.ee4j:project parent POM for Nexus staging deployment -->
-        <nexus.staging.repository>jsonp-maven2-staging</nexus.staging.repository>
-        <maven.compiler.release>17</maven.compiler.release>
-        <junit.jupiter.version>5.14.4</junit.jupiter.version>
-
-        <jakarta.json-api.version>2.2.0</jakarta.json-api.version>
-        <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>2.3.23</asciidoctorj.pdf.version>
-        
-        <!-- Plugin versions for signature generation -->
-        <sigtest.version>2.3</sigtest.version>
-        <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-tck-common</artifactId>
@@ -89,21 +63,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-tck-ug</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.netbeans.tools</groupId>
                 <artifactId>sigtest-maven-plugin</artifactId>
                 <version>1.6</version>
             </dependency>
 
-            <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-api</artifactId>
-                <version>${jakarta.json-api.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -114,77 +78,23 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.8.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.7.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.7.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[17,)</version>
-                                </requireJavaVersion>
-                                <requireMavenVersion>
-                                    <version>[3.9.0,)</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
     <profiles>
-                <profile>
-        <!--This profile can be used to (re)generate signatures of th JSON Processing
-                API, note that they differ based on JDK used to build them -->
-            <!--All .sig files should be included in the generated jar files! -->
+        <profile>
+            <!--
+            ~ This profile can be used to (re)generate signatures of Jakarta JSON Processing API.
+            ~ Note that they differ based on JDK used to build them
+            ~ All .sig files should be included in the generated jar files!
+            -->
             <id>signature-generation</id>
             <activation>
                 <property>
@@ -193,37 +103,42 @@
             </activation>
             <properties>
                 <!--Default assumed JDK version, can be overridden via -Djdk.major.version=X -->
-                <jdk.major.version>17</jdk.major.version>
+                <jdk.major.version>${maven.compiler.release}</jdk.major.version>
             </properties>
+            <dependencies>
+                <!-- API classes are picked up by sigtest-maven-plugin from the project classpath -->
+                <dependency>
+                    <groupId>jakarta.json</groupId>
+                    <artifactId>jakarta.json-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
+                    <!-- Extract JDK modules into output directory for use by signature plugin -->
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec.maven.plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>unpack</id>
+                                <id>extractModules</id>
                                 <phase>generate-sources</phase>
                                 <goals>
-                                    <goal>unpack</goal>
+                                    <goal>exec</goal>
                                 </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>jakarta.json</groupId>
-                                            <artifactId>jakarta.json-api</artifactId>
-                                            <version>${jakarta.json-api.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}/json-api</outputDirectory>
-                                            <includes>**/*.class,**/*.xml</includes>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <executable>jimage</executable>
+                            <arguments>
+                                <argument>extract</argument>
+                                <argument>--dir=${project.build.directory}/jimage</argument>
+                                <argument>${java.home}/lib/modules</argument>
+                            </arguments>
+                        </configuration>
                     </plugin>
-                    
+
                     <!-- Run signature plugin to generate signature file -->
                     <plugin>
                         <groupId>jakarta.tck</groupId>
@@ -239,17 +154,19 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <classes>${project.build.directory}/json-api</classes>
+                            <!-- Only a single directory is supported; the API jar is added via the provided dependency -->
+                            <classes>${project.build.directory}/jimage/java.base</classes>
                             <packages>
                                 jakarta.json,
                                 jakarta.json.spi,
-                                jakarta.json.stream,
+                                jakarta.json.stream
                             </packages>
+                            <version>${project.version}</version>
                             <attach>false</attach>
                             <sigfile>${project.build.directory}/jakarta.json.sig_${jdk.major.version}</sigfile>
                         </configuration>
                     </plugin>
-                    
+
                     <!-- Copy signature file to tck resources with major java version -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

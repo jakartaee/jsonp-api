@@ -9,7 +9,7 @@ updates:
       - "bot"
 
   - package-ecosystem: "maven"
-    directory: "/api"
+    directory: "/"
     schedule:
       interval: "daily"
     labels:
@@ -17,17 +17,9 @@ updates:
       - "bot"
       
   - package-ecosystem: "maven"
-    directory: "/spec"
+    directory: "/perf"
     schedule:
-      interval: "daily"
-    labels:
-      - "dependencies"
-      - "bot"
-
-  - package-ecosystem: "maven"
-    directory: "/tck"
-    schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "dependencies"
       - "bot"
