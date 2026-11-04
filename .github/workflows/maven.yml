@@ -10,11 +10,17 @@
 # SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 #
 
-name: JSON-P API
+name: Java CI with Maven
 
 on:
-  pull_request:
   push:
+    branches:
+      - 'main'
+      - '*-BRANCH'
+  pull_request:
+    branches:
+      - 'main'
+      - '*-BRANCH'
 
 concurrency:
   group: ${{ github.ref }}
@@ -22,21 +28,35 @@ concurrency:
 
 jobs:
   build:
-    name: Test on JDK ${{ matrix.java_version }}
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        java_version: [ 17, 21, 25 ]
+        java-version: [ '17', '21', '25' ]
+
+    name: Test on JDK ${{ matrix.java-version }}
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout for build
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-    - name: Set up JDK
-      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad  # v6.1.0
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
       with:
+        java-version: ${{ matrix.java-version }}
         distribution: 'temurin'
-        java-version: ${{ matrix.java_version }}
-        cache: 'maven'
-    - name: Package
+        cache: maven
+    - name: Build project
       run: mvn -B -V -U -C clean package
+    - name: Verify TCK Distribution
+      run: |
+        # Unzip tck-dist zip
+        TCK_UNZIP=tck-dist/target/tck-unzipped
+        mkdir -p "$TCK_UNZIP"
+        unzip -q "$(ls tck-dist/target/*.zip)" -d "$TCK_UNZIP"
+
+        # Find TCK directory
+        TCK_VERSIONED_ROOT=$(find "$TCK_UNZIP" -mindepth 1 -maxdepth 1 -type d)
+
+        # Run artifact-install 
+        "$TCK_VERSIONED_ROOT/artifacts/artifact-install.sh"
+
+        # Verify pom.xml and sub-modules are valid
+        mvn -B -V -f "$TCK_VERSIONED_ROOT/bin/pom.xml" clean verify

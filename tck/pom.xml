@@ -115,36 +115,6 @@
             </dependencies>
             <build>
                 <plugins>
-                    <!-- Unpacks the API jar into target/json-api for use by sigtest-maven-plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>jakarta.json</groupId>
-                                            <artifactId>jakarta.json-api</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}/json-api</outputDirectory>
-                                            <!-- Include only compiled classes; exclude source and property files -->
-                                            <includes>**/*.class,**/*.xml</includes>
-                                            <excludes>**/*.properties</excludes>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
                     <!-- Extract JDK modules into output directory for use by signature plugin -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
@@ -184,7 +154,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <classes>${project.build.directory}/json-api</classes>
+                            <!-- Only a single directory is supported; the API jar is added via the provided dependency -->
                             <classes>${project.build.directory}/jimage/java.base</classes>
                             <packages>
                                 jakarta.json,
