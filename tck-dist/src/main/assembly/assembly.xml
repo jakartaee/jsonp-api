@@ -74,7 +74,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/src/main/bin</directory>
+            <directory>${project.basedir}/src/main/tck-run</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
                 <include>**/*.xml</include>
@@ -85,6 +85,8 @@
     <dependencySets>
         <dependencySet>
             <includes>
+                <include>jakarta.json:jakarta.json-parent</include>
+                <include>jakarta.json:jakarta.json-api</include>
                 <include>jakarta.json:jakarta.json-tck</include>
                 <include>jakarta.json:jakarta.json-tck-common</include>
                 <include>jakarta.json:jakarta.json-tck-tests</include>

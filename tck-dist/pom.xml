@@ -34,6 +34,18 @@
     <dependencies>
         <dependency>
             <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-parent</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-tck</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
