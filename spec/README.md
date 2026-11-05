@@ -20,7 +20,7 @@ Run the full build with custom status (ex. "Final Release"):
 `mvn install -Dstatus=“Final Release”` 
 
 Locate the html files:
-- `target/generated-docs/jsonp-spec-<version>.html`
+- `target/generated-docs/jakarta-json-processing.html`
 
 Locate the PDF files:
-- `target/generated-docs/jsonp-spec-<version>.pdf`
+- `target/generated-docs/jakarta-json-processing.pdf`

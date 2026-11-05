@@ -251,6 +251,14 @@ Use is subject to <a href="{@docRoot}/doc-files/speclicense.html" target="_top">
                     <quiet>true</quiet>
                     <failOnWarnings>true</failOnWarnings>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>

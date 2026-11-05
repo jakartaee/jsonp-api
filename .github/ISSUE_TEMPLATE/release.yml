@@ -1,0 +1,53 @@
+name: Release
+description: Propose a new major/minor/milestone release
+title: "[Release]: "
+labels: ["release"] #Verified - label exists
+body:
+  - type: markdown
+    attributes: 
+      value: |
+        This issue is to help the committers to the Jakarta JSON Processing project to propose
+        and complete the release process.
+  - type: textarea
+    attributes:
+      label: Proposal
+      description: |
+        Why is a release needed?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Outstanding work
+      description: |
+        Issues / pulls to finish before this release can become generally available.
+      value: |
+        - [ ] 
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Check List
+      description: |
+        This is a checklist of what needs to be completed during the release process.
+        This checklist typically does not need to be edited prior to submitting this form.
+      value: |
+          #### Prepare
+            - [X] Open this issue.
+            - [ ] Complete outstanding work
+          #### Stage release
+            - [ ] [Build and stage artifacts to staging repository](https://ci.eclipse.org/jsonp/view/EE12+/job/stage/)
+            - [ ] Update this issue with a comment that links to the staged artifacts and the generated GitHub branch and tag
+            - [ ] [Create a `draft` release on GitHub](https://github.com/jakartaee/jsonp-api/releases/new)
+          #### Verify and modify
+            - [ ] Ask for feedback from the community to verify the staged artifact has all the expected changes.
+            - [ ] If anything needs to be added before publishing do that now and repeat the `Stage Release` section
+          #### Publish release
+            - [ ] [Publish staged artifacts to the public repository](https://ci.eclipse.org/jsonp/view/EE12+/job/release/)
+            - [ ] Update this issue with a comment that links to the published artifacts and the generated GitHub branch and tag
+            - [ ] [Modify the `draft` release on GitHub to be `pre-release` or `latest`](https://github.com/jakartaee/jsonb-api/releases)
+          #### Follow up
+            - [ ] [Create pull request to https://github.com/jakartaee/specifications](https://github.com/jakartaee/specifications/blob/master/.github/PULL_REQUEST_TEMPLATE/pull_request_template.md)
+              - notify reviewer that TCK Distribution needs to be promoted (specification committer cannot promote)
+              - upload [generated specification documentation](https://github.com/jakartaee/jsonb-api/actions/workflows/specification.yml)
+    validations:
+      required: true
