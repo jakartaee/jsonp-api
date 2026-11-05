@@ -94,8 +94,6 @@
         <site.output.dir>${project.build.directory}/staging</site.output.dir>
         <maven.site.skip>true</maven.site.skip>
         
-        <!-- status: DRAFT, BETA, etc., or blank for final -->
-        <status>DRAFT</status>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
 
@@ -275,6 +273,79 @@
                                     <version>[3.9.0,)</version>
                                 </requireMavenVersion>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Parse the version number to determine the spec version, minor version, and document mark (DRAFT/FINAL) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <!-- 1. Parse spec.version (Takes the first two parts, e.g., 3.0 from 3.0.0-SNAPSHOT) -->
+                    <execution>
+                        <id>parse-spec-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>spec.version</name>
+                            <value>${project.version}</value>
+                            <!-- Matches major.minor and captures it -->
+                            <regex>^([0-9]+\.[0-9]+)\..*</regex>
+                            <replacement>$1</replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                        </configuration>
+                    </execution>
+
+                    <!-- 2. Parse bundle.version (Takes the first three parts, e.g., 3.0.1 from 3.0.1-M1) -->
+                    <execution>
+                        <id>parse-bundle-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>bundle.version</name>
+                            <value>${project.version}</value>
+                            <!-- Matches major.minor.micro and captures it -->
+                            <regex>^([0-9]+\.[0-9]+\.[0-9]+).*</regex>
+                            <replacement>$1</replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                        </configuration>
+                    </execution>
+
+                    <!-- 3. Parse doc.mark for DRAFT versions (-SNAPSHOT, -M*, -RC*) -->
+                    <execution>
+                        <id>parse-doc-mark-draft</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>doc.mark</name>
+                            <value>${project.version}</value>
+                            <!-- Matches if version contains -SNAPSHOT, -M, or -RC -->
+                            <regex>.*-(SNAPSHOT|M[0-9]+|RC[0-9]+).*</regex>
+                            <replacement>DRAFT</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+
+                    <!-- 4. Parse doc.mark for FINAL versions (Fallback if no DRAFT suffix matches) -->
+                    <execution>
+                        <id>parse-doc-mark-final</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>doc.mark</name>
+                            <value>${doc.mark}</value>
+                            <regex>^(?!DRAFT$).*$</regex>
+                            <replacement>FINAL</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
                     </execution>
                 </executions>

@@ -176,14 +176,14 @@
                     <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
                     <attributes>
                         <doctype>book</doctype>
-                        <status>${status}</status>
+                        <status>${doc.mark}</status>
                         <icons>font</icons>
                         <sectanchors>true</sectanchors>
                         <idprefix/>
                         <idseparator>-</idseparator>
                         <docinfo1>true</docinfo1>
                         <revnumber>${project.version}</revnumber>
-                        <revremark>${status}</revremark>
+                        <revremark>${doc.mark}</revremark>
                         <revdate>${maven.build.timestamp}</revdate>
                         <source-highlighter>coderay</source-highlighter>
                     </attributes>

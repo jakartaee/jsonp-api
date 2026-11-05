@@ -51,7 +51,7 @@
                             <outputFile>${project.build.directory}/generated-docs/jakarta-json-processing.html</outputFile>
                             <attributes>
                                 <doctype>book</doctype>
-                                <status>${status}</status>
+                                <status>${doc.mark}</status>
                                 <data-uri />
                                 <icons>font</icons>
                                 <toc>left</toc>
@@ -76,7 +76,7 @@
                                 <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
                                 <pdf-style>jakartaee</pdf-style>
                                 <doctype>book</doctype>
-                                <status>${status}</status>
+                                <status>${doc.mark}</status>
                                 <data-uri />
                                 <icons>font</icons>
                                 <pagenums />
@@ -95,7 +95,7 @@
                     <sourceDocumentName>jsonp-spec.adoc</sourceDocumentName>
                     <attributes>
                         <revnumber>${project.version}</revnumber>
-                        <revremark>${status}</revremark>
+                        <revremark>${doc.mark}</revremark>
                         <revdate>${revisiondate}</revdate>
                         <source-highlighter>coderay</source-highlighter>
                     </attributes>
