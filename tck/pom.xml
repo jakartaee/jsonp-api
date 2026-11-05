@@ -63,9 +63,9 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.netbeans.tools</groupId>
+                <groupId>jakarta.tck</groupId>
                 <artifactId>sigtest-maven-plugin</artifactId>
-                <version>1.6</version>
+                <version>${sigtest.version}</version>
             </dependency>
 
             <dependency>
