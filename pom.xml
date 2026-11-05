@@ -97,6 +97,8 @@
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
 
+        <!-- Compatible Implementation (CI) used by the TCK run poms and referenced in the TCK guide -->
+        <jsonp-impl.version>1.1.9</jsonp-impl.version>
 
         <!-- Dependency versions -->
         <junit.jupiter.version>5.14.4</junit.jupiter.version>

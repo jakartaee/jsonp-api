@@ -133,6 +133,24 @@
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>currentyear-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>current.year</name>
+                            <locale>en,US</locale>
+                            <pattern>yyyy</pattern>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <executions>
@@ -182,6 +200,12 @@
                         <idprefix/>
                         <idseparator>-</idseparator>
                         <docinfo1>true</docinfo1>
+                        <TechnologyVersion>${spec.version}</TechnologyVersion>
+                        <BundleVersion>${bundle.version}</BundleVersion>
+                        <InceptionYear>${project.inceptionYear}</InceptionYear>
+                        <CurrentYear>${current.year}</CurrentYear>
+                        <RIVersion>${jsonp-impl.version}</RIVersion>
+                        <JavaVersion>${maven.compiler.release}</JavaVersion>
                         <revnumber>${project.version}</revnumber>
                         <revremark>${doc.mark}</revremark>
                         <revdate>${maven.build.timestamp}</revdate>

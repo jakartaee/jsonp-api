@@ -78,7 +78,7 @@
                 <dependency>
                     <groupId>org.eclipse.parsson</groupId>
                     <artifactId>parsson</artifactId>
-                    <version>1.1.9</version>
+                    <version>${jsonp-impl.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
