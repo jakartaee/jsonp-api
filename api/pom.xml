@@ -38,17 +38,18 @@
     </description>
 
     <properties>
-        <non.final>false</non.final>
-        <spec.version>2.2</spec.version>
-        <vendor.name>Eclipse Foundation</vendor.name>
+        <!-- glassfish-copyright-maven-plugin settings -->
         <copyright.exclude>${project.basedir}/../etc/copyright-exclude</copyright.exclude>
         <copyright.templatefile>${project.basedir}/../etc/copyright.txt</copyright.templatefile>
         <copyright.ignoreyear>true</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
         <copyright.update>false</copyright.update>
+
+        <!--spotbugs-maven-plugin settings-->
         <spotbugs.exclude>${project.basedir}/../etc/spotbugs-exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
+        
         <legal.doc.source>${project.basedir}/..</legal.doc.source>
     </properties>
 
@@ -142,40 +143,25 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.glassfish.build</groupId>
-                <artifactId>spec-version-maven-plugin</artifactId>
-                <configuration>
-                    <spec>
-                        <nonFinal>${non.final}</nonFinal>
-                        <jarType>api</jarType>
-                        <specVersion>${spec.version}</specVersion>
-                        <specImplVersion>${project.version}</specImplVersion>
-                        <apiPackage>${project.groupId}</apiPackage>
-                    </spec>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>set-spec-properties</goal>
-                            <goal>check-module</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Bundle-Version>${spec.bundle.version}</Bundle-Version>
-                        <Bundle-SymbolicName>${spec.bundle.symbolic-name}</Bundle-SymbolicName>
-                        <Extension-Name>${spec.extension.name}</Extension-Name>
-                        <Implementation-Version>${spec.implementation.version}</Implementation-Version>
-                        <Specification-Version>${spec.specification.version}</Specification-Version>
-                        <Bundle-Description>Jakarta JSON Processing API ${spec.version}</Bundle-Description>
-                        <Specification-Vendor>${vendor.name}</Specification-Vendor>
-                        <Implementation-Build-Id>${buildNumber}</Implementation-Build-Id>
+                        <Build-Id>${buildNumber}</Build-Id>
+                        <Bundle-Description>
+                            Jakarta JSON Processing ${spec.version} API jar
+                        </Bundle-Description>
+                        <Bundle-Name>Jakarta JSON Processing API jar</Bundle-Name>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${bundle.version}</Bundle-Version>
+                        <Extension-Name>${project.groupId}</Extension-Name>
+                        <Implementation-Version>${bundle.version}</Implementation-Version>
+                        <Specification-Vendor>Eclipse Foundation</Specification-Vendor>
+                        <Specification-Version>${spec.version}</Specification-Version>
                         <DynamicImport-Package>*</DynamicImport-Package>
+                        <Export-Package>
+                            jakarta.json.*; version=${bundle.version}
+                        </Export-Package>
                         <Import-Package>
                             !org.glassfish.hk2.osgiresourcelocator,
                             !org.eclipse.parsson,
@@ -242,7 +228,7 @@
                     <description>JSON Processing API documentation</description>
                     <doctitle>JSON Processing API documentation</doctitle>
                     <windowtitle>JSON Processing API documentation</windowtitle>
-                    <header><![CDATA[<br>JSON Processing API v${project.version}]]></header>
+                    <header><![CDATA[<br>JSON Processing API v${spec.version}]]></header>
                     <bottom><![CDATA[
 Comments to: <a href="mailto:jsonp-dev@eclipse.org">jsonp-dev@eclipse.org</a>.<br>
 Copyright &#169; 2019, ${current.year} Eclipse Foundation. All rights reserved.<br>
