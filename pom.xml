@@ -117,7 +117,7 @@
         <maven.enforcer.plugin.version>3.7.0</maven.enforcer.plugin.version>
         <spotbugs.version>4.7.3.5</spotbugs.version>
         <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>2.3.23</asciidoctorj.pdf.version>
+        <asciidoctorj.pdf.version>2.3.27</asciidoctorj.pdf.version>
         <maven.release.plugin.version>2.5.2</maven.release.plugin.version>
         <maven.scm.provider.gitexe.version>2.2.1</maven.scm.provider.gitexe.version>
         <maven.assembly.plugin.version>3.8.0</maven.assembly.plugin.version>
