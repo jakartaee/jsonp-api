@@ -1,30 +1,42 @@
 = Jakarta JSON Processing TCK Reference Guide
-:TechnologyFullName: Jakarta JSON Processing
-:TechnologyShortName: JSON Processing
-:LegacyAcronym: JSONP
-:ReleaseDate: TODO
-:CopyrightDates: 2017, 2026
-:TechnologyVersion: 2.2
-:TechnologyRI: Eclipse Parsson version TODO
-:TechnologyRIURL: https://projects.eclipse.org/projects/ee4j.parsson
-:SpecificationURL: https://jakarta.ee/specifications/jsonp/2.2/
-:JSONPDevList: mailto:jsonp-dev@eclipse.org[jsonp-dev@eclipse.org]
-:techID: JSONP
-:TechnologyTCKHomeEnv: JSONPTCK_HOME
-:SEversion: 17+
-:JakartaEEVersion: 12.0
-:MavenVersion: 3.6.3+
-:JunitVersion: 5.7.2+
-:excludeListFileName: docs/TCK_Excludes.md
-:TCKPackageName: jakarta-jsonp-tck-2.2.0.zip
-:sigTestExample: ee/jakarta/tck/jsonp/signaturetest/jsonp/**
-:singleTestExample: ee/jakarta/tck/jsonp/api/jsoncoding/ClientTests
-:subsetTestDirectoryExample: ee/jakarta/tck/jsonp/api/**
+:author: JSON Processing Development Team
+:email: jsonp-dev@eclipse.org
+
 :toc:
 :toclevels: 4
 :sectnumlevels: 4
 :sectanchors:
 :icons: font
+
+:TechnologyFullName: Jakarta JSON Processing
+:TechnologyShortName: JSON Processing
+:LegacyAcronym: JSONP
+:techID: JSONP
+
+:ReleaseDate: {revdate}
+:CopyrightDates: {InceptionYear}, {CurrentYear}
+
+:TechnologyRIURL: https://projects.eclipse.org/projects/ee4j.parsson
+:SpecificationURL: https://jakarta.ee/specifications/jsonp/{BundleVersion}/
+
+:TCKPackageName: jakarta-jsonp-tck-{BundleVersion}.zip
+:TechnologyTCKHomeEnv: JSONPTCK_HOME
+
+:JSONPDevList: mailto:jsonp-dev@eclipse.org[jsonp-dev@eclipse.org]
+
+:TechnologyVersion: {BundleVersion}
+:SEversion: {JavaVersion}+
+:MavenVersion: 3.6.3+
+:JunitVersion: 5.7.2+
+:JakartaEEVersion: 12
+:TechnologyRI: Eclipse Parsson {RIVersion}
+
+:excludeListFileName: docs/TCK_Excludes.md
+
+:sigTestExample: ee/jakarta/tck/jsonp/signaturetest/jsonp/**
+:singleTestExample: ee/jakarta/tck/jsonp/api/jsoncoding/ClientTests
+:subsetTestDirectoryExample: ee/jakarta/tck/jsonp/api/**
+
 ifdef::backend-pdf[]
 :title-logo-image: image:images/jakarta_ee_logo_schooner_color_stacked_default.png[pdfwidth=4.25in,align=right]
 endif::[]
@@ -326,7 +338,7 @@ Whenever tests are run, the JUnit framework automatically excludes
 these tests from being executed because they are disabled using the `@Disabled` annotation in JUnit.
 
 A vendor's compatible implementation is not required to pass or run any test on the Exclude List.
-The Exclude List file, +{excludeListFileName}+, is documented in the
+The Exclude List file, {excludeListFileName}, is documented in the
 {TechnologyShortName} TCK. Please note this file is not parsed to exclude any test and is only
 for documentation purposes.
 
@@ -849,7 +861,7 @@ does not depend on Maven; any build tool compatible with the Jupiter API is suff
       Jakarta EE site {SpecificationURL}.
   b.  Use the `unzip` command to extract the bundle in the directory of
       your choice: +
-      +unzip {TCKPackageName}+ +
+      `unzip {TCKPackageName}` +
 
 .  Install a {TechnologyShortName} {TechnologyVersion} Compatible
 Implementation. +
@@ -920,7 +932,7 @@ slashes as a path separator instead.
 1.  Set the following environment variables in your shell environment:
   a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
-  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  c.  {TechnologyTCKHomeEnv} to the directory in which the {TechnologyShortName}
   {TechnologyVersion} TCK has been installed
   d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
   and `M2_HOME/bin`
@@ -1023,7 +1035,7 @@ slashes as a path separator instead.
 1.  Set the following environment variables in your shell environment:
   a.  `JAVA_HOME` to the directory in which Java SE {SEversion} is installed
   b.  `M2_HOME` to the directory in which the Apache Maven build tool is installed.
-  c.  +{TechnologyTCKHomeEnv}+ to the directory in which the {TechnologyShortName}
+  c.  {TechnologyTCKHomeEnv} to the directory in which the {TechnologyShortName}
   {TechnologyVersion} TCK has been installed
   d.  `PATH` to include the following directories: `JAVA_HOME/bin`,
   and `M2_HOME/bin`
@@ -1322,7 +1334,7 @@ report to include results from all such partial runs.
 [[GBFWU,a.3-what-would-cause-tests-be-added-to-the-exclude-list]]
 === What would cause tests to be added to the exclude list?
 
-The JavaTest exclude file (+{excludeListFileName}+) contains all tests that are not
+The JavaTest exclude file ({excludeListFileName}) contains all tests that are not
 required to be run. The following is a list of reasons for a test to be
 included in the Exclude List:
 
