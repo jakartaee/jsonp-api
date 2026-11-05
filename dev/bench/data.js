@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793248906660,
+  "lastUpdate": 1793853670520,
   "repoUrl": "https://github.com/jakartaee/jsonp-api",
   "entries": {
     "Java JMH Benchmark": [
@@ -572,6 +572,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaProvider",
             "value": 685289.4817305475,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Kyle Aure",
+            "username": "KyleAure",
+            "email": "KyleJAure@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "d650db9501f4101f34d6dd76d8feb5d94d3b9049",
+          "message": "Merge pull request #458 from jakartaee/dependabot/maven/org.apache.maven.scm-maven-scm-provider-gitexe-2.2.1\n\nBump org.apache.maven.scm:maven-scm-provider-gitexe from 1.9.4 to 2.2.1",
+          "timestamp": "2026-11-04T20:56:42Z",
+          "url": "https://github.com/jakartaee/jsonp-api/commit/d650db9501f4101f34d6dd76d8feb5d94d3b9049"
+        },
+        "date": 1793853670233,
+        "tool": "jmh",
+        "benches": [
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaFactory",
+            "value": 686850.0587758999,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaJson",
+            "value": 62.88312248194562,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createArrayBuilder_viaProvider",
+            "value": 694184.7842181058,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaFactory",
+            "value": 693336.0675568625,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaJson",
+            "value": 63.778408257106875,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createObjectBuilder_viaProvider",
+            "value": 691928.3083935499,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueInt_viaJson",
+            "value": 64.08171040415439,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueInt_viaProvider",
+            "value": 692481.8393222737,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaJson",
+            "value": 62.80920381527879,
+            "unit": "ops/ms",
+            "extra": "iterations: 5\nforks: 1\nthreads: 1"
+          },
+          {
+            "name": "jakarta.json.jmh.FactoryBenchmark.createValueString_viaProvider",
+            "value": 694137.540424688,
             "unit": "ops/ms",
             "extra": "iterations: 5\nforks: 1\nthreads: 1"
           }
