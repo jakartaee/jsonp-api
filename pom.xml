@@ -109,7 +109,7 @@
         <build.helper.maven.plugin.version>3.7.0</build.helper.maven.plugin.version>
         <glassfish.copyright.maven.plugin.version>2.4</glassfish.copyright.maven.plugin.version>
         <maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
-        <maven.bundle.plugin.version>5.1.9</maven.bundle.plugin.version>
+        <maven.bundle.plugin.version>6.2.0</maven.bundle.plugin.version>
         <maven.jar.plugin.version>3.5.1</maven.jar.plugin.version>
         <maven.source.plugin.version>3.4.0</maven.source.plugin.version>
         <maven.javadoc.plugin.version>3.12.0</maven.javadoc.plugin.version>
