@@ -122,7 +122,7 @@
         <maven.assembly.plugin.version>3.8.0</maven.assembly.plugin.version>
         <maven.antrun.plugin.version>3.2.0</maven.antrun.plugin.version>
         <exec.maven.plugin.version>3.6.4</exec.maven.plugin.version>
-        <maven.dependency.plugin.version>3.2.0</maven.dependency.plugin.version>
+        <maven.dependency.plugin.version>3.11.0</maven.dependency.plugin.version>
         <maven.surefire.plugin.version>3.6.1</maven.surefire.plugin.version>
 
     </properties>
