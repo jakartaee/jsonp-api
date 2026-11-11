@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016, 2026 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Eclipse Foundation and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,6 +17,8 @@
 
 package jakarta.json;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
@@ -91,18 +94,13 @@ final class JsonValueImpl implements JsonValue, Serializable {
     /**
      * Preserves singleton property
      * @return {@link JsonValue#NULL}, {@link JsonValue#TRUE} or {@link JsonValue#FALSE}
+     * @throws ObjectStreamException if the deserialized value type is not NULL, TRUE or FALSE
      */
-    private Object readResolve() {
-        switch (valueType) {
-            case NULL:
-                return JsonValue.NULL;
-            case TRUE:
-                return JsonValue.TRUE;
-            case FALSE:
-                return JsonValue.FALSE;
-            default:
-                return this;
-        }
+    private Object readResolve() throws ObjectStreamException {
+        if (valueType == ValueType.NULL)  return JsonValue.NULL;
+        if (valueType == ValueType.TRUE)  return JsonValue.TRUE;
+        if (valueType == ValueType.FALSE) return JsonValue.FALSE;
+        throw new InvalidObjectException("Unexpected valueType: " + valueType);
     }
 
 }
