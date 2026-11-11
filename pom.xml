@@ -117,7 +117,7 @@
         <spotbugs.version>4.10.5.0</spotbugs.version>
         <asciidoctor.maven.plugin.version>3.2.0</asciidoctor.maven.plugin.version>
         <asciidoctorj.pdf.version>2.3.27</asciidoctorj.pdf.version>
-        <maven.release.plugin.version>2.5.2</maven.release.plugin.version>
+        <maven.release.plugin.version>3.3.1</maven.release.plugin.version>
         <maven.scm.provider.gitexe.version>2.2.1</maven.scm.provider.gitexe.version>
         <maven.assembly.plugin.version>3.8.0</maven.assembly.plugin.version>
         <maven.antrun.plugin.version>3.2.0</maven.antrun.plugin.version>
