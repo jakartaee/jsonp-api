@@ -105,7 +105,7 @@
         <sigtest.version>2.7</sigtest.version>
         
         <!-- Plugin versions -->
-        <buildnumber.maven.plugin.version>3.3.1</buildnumber.maven.plugin.version>
+        <buildnumber.maven.plugin.version>3.4.0</buildnumber.maven.plugin.version>
         <build.helper.maven.plugin.version>3.7.0</build.helper.maven.plugin.version>
         <glassfish.copyright.maven.plugin.version>2.4</glassfish.copyright.maven.plugin.version>
         <maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
